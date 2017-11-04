@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="board-svg"
+	 [ngClass]="{rotate:rotate}" [attr.viewBox]="viewport" preserveAspectRatio="xMidYMid meet" (window:resize)="onResize($event)">
+	<rect class="background" x="-6000px" y="-6000px" width="12000px" height="12000px" (mousedown)="onClick();"></rect>
+	<g class="stage">
+		<rect *ngFor="let draw of draw_cells" stroke="black" stroke-width="1"
+			  [attr.fill]="onCellColor(draw)" [attr.x]="draw.pos.x" [attr.y]="draw.pos.y"
+			  width="37.5px" height="50px" (click)="onCellClick(draw);"></rect>
+	</g>
+	<g class="stage" [attr.transform]="translate">
+		<g *ngFor="let draw of draw_stones" class="draw"
+		   [ngClass]="{selected:draw.source.selected,hidden:draw.source.picked,hinted:draw.source.hinted,removable:draw.source.removable}"
+		   [attr.transform]="draw.pos.translate" (mousedown)="onClick(draw);">
+			<g>
+				<rect class="shadow" x="3" y="3" width="75px" height="100px" rx="10" ry="10"></rect>
+				<rect class="stone" x="0" y="0" width="75px" height="100px" rx="10" ry="10"></rect>
+				<image xlink:href="" [attr.xlink:href]="draw.url" x="6" y="6" height="88px" width="63px"></image>
+			</g>
+		</g>
+	</g>
+</svg>

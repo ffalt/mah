@@ -1,0 +1,11 @@
+<ul class="layout-list">
+	<li class="link" app-layout-list-item *ngFor="let layout of layouts.items"
+		[layout]="layout"
+		tabindex="{{layout.index+1}}"
+		[ngClass]="{selected:layout==current}"
+		(click)="setCurrent(layout);"
+		(dblclick)="setSelected(layout)"
+		(keydown)="onKeydown($event)">
+		<span>{{layout.index+1}}</span> <span>{{layout.name}}</span>
+	</li>
+</ul>

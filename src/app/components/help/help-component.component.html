@@ -1,0 +1,37 @@
+<h1>🀄️MahJong v1.0</h1>
+<div class="keyboard">
+	<p>{{'SHORTCUTS'|translate}}</p>
+	<div><span>T</span> <span>{{'HINT'|translate}}</span> <span>{{'HINT_LONG'|translate}}</span></div>
+	<div><span>U</span> <span>{{'UNDO'|translate}}</span> <span>{{'UNDO_LONG'|translate}}</span></div>
+	<div><span>N</span> <span>{{'RESTART'|translate}}</span> <span>{{'RESTART_LONG'|translate}}</span></div>
+	<div><span>P</span> <span>{{'PAUSE'|translate}}</span> <span>{{'PAUSE_LONG'|translate}}</span></div>
+</div>
+<div class="settings">
+	<p>{{'LANG'|translate}}</p>
+	<div class="buttons">
+		<!--[(ngModel)]="game.settings.lang"-->
+		<ul class="radio">
+			<li><input type="radio" name="lang" id="lang0" value="auto"/><label for="lang0">{{'LANG_AUTO'|translate}}</label></li>
+			<li><input type="radio" name="lang" id="lang1" value="en"/><label for="lang1">{{'LANG_EN'|translate}}</label></li>
+			<li><input type="radio" name="lang" id="lang2" value="de"/><label for="lang2">{{'LANG_DE'|translate}}</label></li>
+		</ul>
+	</div>
+</div>
+<div class="license">
+	<p>{{'LICENSE'|translate}}</p>
+	<div>
+		<div><span>Game</span> <a target="_blank" href="https://github.com/ffalt/mah/LICENSE">MIT</a></div>
+		<div><span>Tile Images</span> <a target="_blank" href="https://github.com/gleitz/mahjong/blob/master/LICENSE">MIT</a></div>
+		<div><span>Sounds</span> <a href="https://github.com/ffalt/mah/src/assets/sounds/LICENSE">CC0/CC-BY3.0</a></div>
+		<div><span>Font Icons</span> <a target="_blank" href="https://github.com/ffalt/mah/src/fonts/fontello/LICENSE">SIL</a></div>
+		<div><span>Font Josefine</span> <a target="_blank" href="https://github.com/ffalt/mah/src/fonts/josefine/SIL Open Font License.txt">SIL</a></div>
+		<div><span>Music</span> <a target="_blank" href="http://freemusicarchive.org/music/Chris_Zabriskie/2014010103336111">CC-BY</a></div>
+	</div>
+</div>
+<div class="score">
+	<p>{{'STATS'|translate}}</p>
+	<div>
+		<span class="label">{{'STATS_GAMES'|translate}}</span> <span>{{game.stats.games}}</span><br/>
+		<span class="label">{{'STATS_BEST'|translate}}</span> <span>{{game.stats.bestTime | duration}}</span>
+	</div>
+</div>

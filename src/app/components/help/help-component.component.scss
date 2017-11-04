@@ -1,0 +1,77 @@
+@import "../../style/globals";
+
+:host {
+  display: block;
+  margin-bottom: 8px;
+
+  > div {
+    vertical-align: top;
+    display: inline-block;
+    margin-right: 20px;
+
+    > div {
+      font-size: 0.9em;
+    }
+  }
+
+  h1 {
+    text-align: center;
+    color: $text-color;
+    margin-top: 0;
+    margin-bottom: 10px
+  }
+
+  p {
+    margin: 0;
+    margin-top: 10px;
+    margin-bottom: 4px;
+    font-weight: bold;
+  }
+
+  .radio {
+    text-align: left;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    label {
+      margin-left: 2px;
+    }
+  }
+
+  .score {
+    span.label {
+      min-width: 100px;
+      display: inline-block;
+    }
+  }
+
+  .keyboard {
+    span {
+      margin-right: 0;
+      min-width: 50px;
+      display: inline-block;
+    }
+    span:first-of-type {
+      min-width: 18px;
+      font-weight: bold;
+    }
+  }
+
+  .license {
+    span:first-of-type {
+      min-width: 80px;
+      display: inline-block;
+    }
+  }
+  .close {
+    margin-top: 0;
+  }
+}
+
+@media (max-width: $width-medium) {
+  :host {
+    font-size: 0.9em;
+  }
+}
+

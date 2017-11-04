@@ -1,0 +1,18 @@
+<app-layout-list class="newgame-left" [layouts]="layouts" [index]="focusIndex" [select]="onSelectCallback" [start]="onStartCallback"></app-layout-list>
+<div class="newgame-right">
+	<div class="start" *ngIf="current">
+		<div>{{current.name}}</div>
+		<div class="preview" (click)="onStart(current);">
+			<app-board class="svg-board" [layout]="current"></app-board>
+		</div>
+	</div>
+</div>
+<div class="choose-buttons">
+	<span class="link random" (click)="randomGame()">Random</span>
+	<div class="generator">
+		<label>Board Generator:</label>
+		<select [(ngModel)]="mode">
+			<option *ngFor="let m of builder.modes" value="{{m.id}}">{{m.name}}</option>
+		</select>
+	</div>
+</div>

@@ -1,0 +1,87 @@
+@mixin fontdef($OpenSansPath, $OpenSansVersion, $FontType:"Regular") {
+  src: url('#{$OpenSansPath}/#{$FontType}/OpenSans-#{$FontType}.eot?v=#{$OpenSansVersion}');
+  src: url('#{$OpenSansPath}/#{$FontType}/OpenSans-#{$FontType}.eot?#iefix&v=#{$OpenSansVersion}') format('embedded-opentype'),
+  url('#{$OpenSansPath}/#{$FontType}/OpenSans-#{$FontType}.woff2?v=#{$OpenSansVersion}') format('woff2'),
+  url('#{$OpenSansPath}/#{$FontType}/OpenSans-#{$FontType}.woff?v=#{$OpenSansVersion}') format('woff'),
+  url('#{$OpenSansPath}/#{$FontType}/OpenSans-#{$FontType}.ttf?v=#{$OpenSansVersion}') format('truetype'),
+  url('#{$OpenSansPath}/#{$FontType}/OpenSans-#{$FontType}.svg?v=#{$OpenSansVersion}##{$FontType}') format('svg');
+}
+
+@mixin scale($amount) {
+  -webkit-transform: scale($amount); // Safari and Chrome(Engine:-Webkit)
+  -moz-transform: scale($amount); // Mozilla(Engine:-Gecko)
+  -ms-transform: scale($amount); // IE(Engine:-Trident)
+  -o-transform: scale($amount); // Opera(Engine:-Presto)
+  transform: scale($amount);
+}
+
+@mixin box-shadow($top, $left, $blur, $color, $inset: false) {
+  @if $inset {
+    -webkit-box-shadow: inset $top $left $blur $color;
+    -moz-box-shadow: inset $top $left $blur $color;
+    box-shadow: inset $top $left $blur $color;
+  } @else {
+    -webkit-box-shadow: $top $left $blur $color;
+    -moz-box-shadow: $top $left $blur $color;
+    box-shadow: $top $left $blur $color;
+  }
+}
+
+@mixin rounded($radius: 0.5em) {
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  border-radius: $radius;
+}
+
+@mixin no-select() {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  user-select: none;
+}
+
+@mixin box($box) {
+  -webkit-box-sizing: $box;
+  -moz-box-sizing: $box;
+  box-sizing: $box;
+}
+
+@mixin blur($blur) {
+  -webkit-filter: blur($blur);
+  -moz-filter: blur($blur);
+  -ms-filter: blur($blur);
+  -o-filter: blur($blur);
+  filter: blur($blur);
+}
+
+@mixin textshadow-gradient($text-color) {
+  text-shadow: darken($text-color, 1%) 1px 0 0, darken($text-color,16%) -1px 0 0, darken($text-color, 32%) 0 1px 0, darken($text-color, 50%) 0 -1px 0, darken($text-color, 70%) 3px 3px 5px, darken($text-color, 99%) 5px 5px 15px;
+}
+
+@mixin background-linear-gradient($back, $start: #000, $stop: #FFF) {
+  background-color: $back;
+  background: -webkit-linear-gradient(top, $start, $stop);
+  background: linear-gradient(to bottom, $start, $stop);
+}
+
+@mixin text-shadow($x: 2px, $y: 2px, $blur: 5px, $color: rgba(0,0,0,.4)) {
+  text-shadow: $x $y $blur $color;
+}
+
+@mixin text-shadow-white-gradient() {
+  text-shadow: #eee 1px 0 0, #eee -1px 0 0, #eee 0 1px 0, #eee 0 -1px 0, #bbb 3px 3px 5px, #b1ae97 5px 5px 15px;
+}
+
+@mixin opacity($opacity) {
+  opacity: $opacity;
+  $opacity-ie: $opacity * 100;
+  filter: alpha(opacity=$opacity-ie); //IE8
+}
+
+@mixin transition($args...) {
+  -webkit-transition: $args;
+  -moz-transition: $args;
+  -ms-transition: $args;
+  -o-transition: $args;
+  transition: $args;
+}

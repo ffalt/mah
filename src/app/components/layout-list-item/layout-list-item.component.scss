@@ -1,0 +1,26 @@
+@import "../../style/globals";
+
+.layout-list {
+  padding: 2px;
+  margin-left: 1px;
+  cursor: pointer;
+  outline: 0;
+  @include no-select();
+  &.selected {
+    background-color: darken($popup-background-color, 4%);
+  }
+
+  &:hover {
+    background-color: lighten($popup-background-color, 3%);
+  }
+
+  span {
+    @include no-select();
+  }
+
+  span:first-of-type {
+    display: inline-block;
+    min-width: 20px;
+    font-size: 0.9em;
+  }
+}

@@ -1,0 +1,69 @@
+@import "../../style/globals";
+
+:host {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-top: 1px solid #afafaf;
+  border-bottom: 1px solid #afafaf;
+  width: 100%;
+  height: 100%;
+  display: block;
+
+  .newgame-left {
+    width: 30%;
+    height: 100%;
+    display: inline-block;
+  }
+
+  .newgame-right {
+    width: 68%;
+    height: 100%;
+    vertical-align: top;
+    display: inline-block;
+
+    .start {
+      padding-top: 4px;
+      padding-bottom: 4px;
+      padding-left: 10px;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      @include no-select();
+
+      p {
+        text-align: center;
+      }
+
+      .preview {
+        width: 100%;
+        height: 200px;
+        min-height: 80%;
+        display: block;
+        flex-grow: 1;
+        background-color: $popup-background-color;
+        margin-bottom: 8px;
+        &:hover {
+          background-color: darken($popup-background-color, 5%);
+        }
+      }
+    }
+
+  }
+
+  .choose-buttons {
+    .link {
+      color: black;
+      font-size: 0.9em;
+      margin-top: 2px;
+      text-decoration: none;
+    }
+    .link.random {
+      float: left;
+    }
+    .generator {
+      float: right;
+    }
+  }
+}
