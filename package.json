@@ -1,12 +1,15 @@
 {
   "name": "mah",
   "version": "0.0.1",
+  "author": "ffalt",
   "license": "MIT",
+  "description": "a html5 mahjong solitaire game",
+  "repository": "https://github.com/ffalt/mah.git",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "build:deploy": "ng build -prod --base-href \"/\" --extract-licenses=false",
+    "build:deploy": "ng build -prod --base-href \"/\" --extract-licenses=false --build-optimizer=true",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
