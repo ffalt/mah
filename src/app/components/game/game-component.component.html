@@ -9,7 +9,7 @@
 		<span class="link button" (click)="game.toggle()" title="{{'PAUSE_LONG' | translate}}">
 			<i class="icon-pause"></i> <span class="label">{{'PAUSE' | translate}}</span>
 		</span>
-		<span class="link button" (click)="game.back()" title="{{'UNDO_LONG' | translate}}" [attr.disabled]="undo.length==0 ? true : null">
+		<span class="link button" (click)="game.back()" title="{{'UNDO_LONG' | translate}}" [attr.disabled]="game.undo.length==0 ? true : null">
 			<i class="icon-undo"></i> <span class="label">{{'UNDO' | translate}}</span>
 		</span>
 		<span class="link button" (click)="game.hint()" title="{{'HINT_LONG' | translate}}">
