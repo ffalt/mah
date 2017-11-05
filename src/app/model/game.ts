@@ -49,6 +49,12 @@ export class Game implements OnInit {
 		this.onClick = this.click.bind(this);
 	}
 
+	private delayedSave(): void {
+		setTimeout(() => {
+			this.save();
+		}, 1000);
+	}
+
 	private resolveMatchingStone(stone: Stone): void {
 		const sel = this.board.selected;
 		this.board.clearSelection();
@@ -65,29 +71,21 @@ export class Game implements OnInit {
 			} else {
 				message = 'MSG_GOOD';
 			}
-			if (this.settings.sounds) {
-				this.sound.play(SOUNDS.OVER);
-			}
 		} else if (this.board.free.length < 1) {
 			message = 'MSG_FAIL';
-			if (this.settings.sounds) {
-				this.sound.play(SOUNDS.OVER);
-			}
 		} else {
 			if (this.settings.sounds) {
 				this.sound.play(SOUNDS.MATCH);
 			}
-			window.setTimeout(() => {
-				this.save();
-			}, 1000);
-			return;
+			return this.delayedSave();
+		}
+		if (this.settings.sounds) {
+			this.sound.play(SOUNDS.OVER);
 		}
 		this.state = STATES.idle;
 		this.clock.reset();
 		this.message = message;
-		window.setTimeout(() => {
-			this.save();
-		}, 1000);
+		this.delayedSave();
 	}
 
 	public click(stone: Stone) {
@@ -208,17 +206,9 @@ export class Game implements OnInit {
 			const n1 = this.undo.pop();
 			const n2 = this.undo.pop();
 			this.board.stones.forEach((stone) => {
-				if (
-					(stone.z === n1[0]) &&
-					(stone.x === n1[1]) &&
-					(stone.y === n1[2])
-				) {
+				if ((stone.z === n1[0]) && (stone.x === n1[1]) && (stone.y === n1[2])) {
 					stone.picked = false;
-				} else if (
-					(stone.z === n2[0]) &&
-					(stone.x === n2[1]) &&
-					(stone.y === n2[2])
-				) {
+				} else if ((stone.z === n2[0]) && (stone.x === n2[1]) && (stone.y === n2[2])) {
 					stone.picked = false;
 				}
 			});
