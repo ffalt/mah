@@ -80,7 +80,7 @@ export class Game implements OnInit {
 			window.setTimeout(() => {
 				this.save();
 			}, 1000);
-			return true;
+			return;
 		}
 		this.state = STATES.idle;
 		this.clock.reset();
