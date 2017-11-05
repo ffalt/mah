@@ -55,6 +55,12 @@ export class Game implements OnInit {
 		}, 1000);
 	}
 
+	private playSound(sound: string): void {
+		if (this.settings.sounds) {
+			this.sound.play(sound);
+		}
+	}
+
 	private resolveMatchingStone(stone: Stone): void {
 		const sel = this.board.selected;
 		this.board.clearSelection();
@@ -65,26 +71,20 @@ export class Game implements OnInit {
 		this.board.update();
 		let message: string = null;
 		if (this.board.count < 2) {
+			message = 'MSG_GOOD';
 			if (this.stats.bestTime === 0 || this.clock.elapsed < this.stats.bestTime) {
 				this.stats.bestTime = this.clock.elapsed;
 				message = 'MSG_BEST';
-			} else {
-				message = 'MSG_GOOD';
 			}
 		} else if (this.board.free.length < 1) {
 			message = 'MSG_FAIL';
 		} else {
-			if (this.settings.sounds) {
-				this.sound.play(SOUNDS.MATCH);
-			}
+			this.playSound(SOUNDS.MATCH);
 			return this.delayedSave();
 		}
-		if (this.settings.sounds) {
-			this.sound.play(SOUNDS.OVER);
-		}
-		this.state = STATES.idle;
+		this.playSound(SOUNDS.OVER);
+		this.setState(STATES.idle, message);
 		this.clock.reset();
-		this.message = message;
 		this.delayedSave();
 	}
 
@@ -94,9 +94,7 @@ export class Game implements OnInit {
 			return;
 		}
 		if (!this.isRunning() || stone.state.blocked) {
-			if (this.settings.sounds) {
-				this.sound.play(SOUNDS.NOPE);
-			}
+			this.playSound(SOUNDS.NOPE);
 			return true;
 		}
 		if (this.clock.elapsed === 0) {
@@ -136,27 +134,27 @@ export class Game implements OnInit {
 		}
 	}
 
-	//
 	// public freeze() {
-	// 	this.message = null;
-	// 	this.state = STATES.freeze;
+	// 	this.setState(STATES.freeze);
 	// 	this.clock.pause();
 	// }
-	//
 	// public unfreeze() {
-	// 	this.message = null;
-	// 	this.state = STATES.run;
+	//  this.setState(STATES.run);
 	// 	this.clock.run();
 	// 	if (this.settings.music) {
 	// 		this.music.play();
 	// 	}
 	// }
 
+	private setState(state: number, message?: string) {
+		this.message = message;
+		this.state = state;
+	}
+
 	public run() {
-		this.message = null;
 		this.board.clearHints();
 		this.board.update();
-		this.state = STATES.run;
+		this.setState(STATES.run);
 	}
 
 	public hint() {
@@ -173,8 +171,7 @@ export class Game implements OnInit {
 
 	public pause() {
 		this.clock.pause();
-		this.state = STATES.pause;
-		this.message = 'MSG_CONTINUE_PAUSE';
+		this.setState(STATES.pause, 'MSG_CONTINUE_PAUSE');
 		this.save();
 		if (this.settings.music) {
 			this.music.pause();
@@ -183,8 +180,7 @@ export class Game implements OnInit {
 
 	public reset() {
 		this.clock.reset();
-		this.state = STATES.idle;
-		this.message = null;
+		this.setState(STATES.idle);
 		this.board.reset();
 		this.undo = [];
 		this.stats.games += 1;
