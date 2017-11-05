@@ -49,3 +49,12 @@ export class Stone {
 	// }
 
 }
+
+
+export const safeGetStone = (stones: Array<Stone>, z: number, x: number, y: number): Stone => {
+	for (let i = 0, il = stones.length; i < il; i++) {
+		if (stones[i].z === z && stones[i].x === x && stones[i].y === y) {
+			return stones[i];
+		}
+	}
+};

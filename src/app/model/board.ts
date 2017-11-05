@@ -1,6 +1,6 @@
 import {Builder} from './builder';
 import {Layout, Mapping} from './layouts';
-import {Stone} from './stone';
+import {safeGetStone, Stone} from './stone';
 
 interface StoneGroup {
 	group: number;
@@ -145,15 +145,8 @@ export class Board {
 		const layout = new Layout();
 		layout.mapping = mapping;
 		const stones = this.builder.build('load', layout);
-		const getStone = (z: number, x: number, y: number): Stone => {
-			for (let i = 0, il = stones.length; i < il; i++) {
-				if (stones[i].z === z && stones[i].x === x && stones[i].y === y) {
-					return stones[i];
-				}
-			}
-		};
 		undos.forEach((undo: Array<number>) => {
-			const stone: Stone = getStone(undo[0], undo[1], undo[2]);
+			const stone: Stone = safeGetStone(stones, undo[0], undo[1], undo[2]);
 			if (stone) {
 				stone.picked = true;
 			}

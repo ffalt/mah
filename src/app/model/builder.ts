@@ -1,5 +1,5 @@
 import {Tiles, Tile} from './tiles';
-import {Stone} from './stone';
+import {safeGetStone, Stone} from './stone';
 import {Layout, Place} from './layouts';
 
 interface BuilderType {
@@ -14,14 +14,6 @@ function randomExtract<T>(array: Array<T>): T {
 	const i = random(array);
 	return array.splice(i, 1)[0];
 }
-
-const safeGetStone = (stones: Array<Stone>, z: number, x: number, y: number): Stone => {
-	for (let i = 0, il = stones.length; i < il; i++) {
-		if (stones[i].z === z && stones[i].x === x && stones[i].y === y) {
-			return stones[i];
-		}
-	}
-};
 
 function collectNodes(stones: Array<Stone>, stone: Stone) {
 	const nodes: {
