@@ -10,6 +10,8 @@ build with html5, svg, angular5
 
 [![known vulnerabilities](https://snyk.io/test/github/ffalt/mah/badge.svg)](https://snyk.io/test/github/ffalt/mah)
 
+[![codebeat badge](https://codebeat.co/badges/48c0b6bd-9bca-413a-a84b-7330deb4328e)](https://codebeat.co/projects/github-com-ffalt-mah-master)
+
 ## Development server
 
 Run `npm run start` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
