@@ -8,7 +8,7 @@
 	</g>
 	<g class="stage" [attr.transform]="translate">
 		<g *ngFor="let draw of draw_stones" class="draw"
-		   [ngClass]="{selected:draw.source.selected,hidden:draw.source.picked,hinted:draw.source.hinted,removable:draw.source.state.removable}"
+		   [ngClass]="{selected:draw.source.selected,hidden:draw.source.picked,hinted:draw.source.hinted,removable:draw.source.state&&draw.source.state.removable}"
 		   [attr.transform]="draw.pos.translate" (mousedown)="onClick(draw);">
 			<g>
 				<rect class="shadow" x="3" y="3" width="75px" height="100px" rx="10" ry="10"></rect>
