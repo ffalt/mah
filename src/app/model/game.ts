@@ -49,6 +49,47 @@ export class Game implements OnInit {
 		this.onClick = this.click.bind(this);
 	}
 
+	private resolveMatchingStone(stone: Stone): void {
+		const sel = this.board.selected;
+		this.board.clearSelection();
+		this.undo.push([sel.z, sel.x, sel.y], [stone.z, stone.x, stone.y]);
+		this.board.clearHints();
+		sel.picked = true;
+		stone.picked = true;
+		this.board.update();
+		let message: string = null;
+		if (this.board.count < 2) {
+			if (this.stats.bestTime === 0 || this.clock.elapsed < this.stats.bestTime) {
+				this.stats.bestTime = this.clock.elapsed;
+				message = 'MSG_BEST';
+			} else {
+				message = 'MSG_GOOD';
+			}
+			if (this.settings.sounds) {
+				this.sound.play(SOUNDS.OVER);
+			}
+		} else if (this.board.free.length < 1) {
+			message = 'MSG_FAIL';
+			if (this.settings.sounds) {
+				this.sound.play(SOUNDS.OVER);
+			}
+		} else {
+			if (this.settings.sounds) {
+				this.sound.play(SOUNDS.MATCH);
+			}
+			window.setTimeout(() => {
+				this.save();
+			}, 1000);
+			return true;
+		}
+		this.state = STATES.idle;
+		this.clock.reset();
+		this.message = message;
+		window.setTimeout(() => {
+			this.save();
+		}, 1000);
+	}
+
 	public click(stone: Stone) {
 		if (!stone) {
 			this.board.clearSelection();
@@ -64,44 +105,7 @@ export class Game implements OnInit {
 			this.clock.run();
 		}
 		if (this.board.selected && stone && stone !== this.board.selected && stone.groupnr === this.board.selected.groupnr) {
-			const sel = this.board.selected;
-			this.board.clearSelection();
-			this.undo.push([sel.z, sel.x, sel.y], [stone.z, stone.x, stone.y]);
-			this.board.clearHints();
-			sel.picked = true;
-			stone.picked = true;
-			this.board.update();
-			let message: string = null;
-			if (this.board.count < 2) {
-				if (this.stats.bestTime === 0 || this.clock.elapsed < this.stats.bestTime) {
-					this.stats.bestTime = this.clock.elapsed;
-					message = 'MSG_BEST';
-				} else {
-					message = 'MSG_GOOD';
-				}
-				if (this.settings.sounds) {
-					this.sound.play(SOUNDS.OVER);
-				}
-			} else if (this.board.free.length < 1) {
-				message = 'MSG_FAIL';
-				if (this.settings.sounds) {
-					this.sound.play(SOUNDS.OVER);
-				}
-			} else {
-				if (this.settings.sounds) {
-					this.sound.play(SOUNDS.MATCH);
-				}
-				window.setTimeout(() => {
-					this.save();
-				}, 1000);
-				return true;
-			}
-			this.state = STATES.idle;
-			this.clock.reset();
-			this.message = message;
-			window.setTimeout(() => {
-				this.save();
-			}, 1000);
+			this.resolveMatchingStone(stone);
 			return true;
 		} else {
 			this.board.setStoneSelected(this.board.selected !== stone ? stone : null);
@@ -113,9 +117,10 @@ export class Game implements OnInit {
 		return this.state === STATES.run;
 	}
 
-	public isFreezed() {
-		return this.state === STATES.freeze;
-	}
+	//
+	// public isFreezed() {
+	// 	return this.state === STATES.freeze;
+	// }
 
 	public isPaused() {
 		return this.state === STATES.pause;
@@ -133,20 +138,21 @@ export class Game implements OnInit {
 		}
 	}
 
-	public freeze() {
-		this.message = null;
-		this.state = STATES.freeze;
-		this.clock.pause();
-	}
-
-	public unfreeze() {
-		this.message = null;
-		this.state = STATES.run;
-		this.clock.run();
-		if (this.settings.music) {
-			this.music.play();
-		}
-	}
+	//
+	// public freeze() {
+	// 	this.message = null;
+	// 	this.state = STATES.freeze;
+	// 	this.clock.pause();
+	// }
+	//
+	// public unfreeze() {
+	// 	this.message = null;
+	// 	this.state = STATES.run;
+	// 	this.clock.run();
+	// 	if (this.settings.music) {
+	// 		this.music.play();
+	// 	}
+	// }
 
 	public run() {
 		this.message = null;
@@ -260,15 +266,16 @@ export class Game implements OnInit {
 		this.saveSettings();
 	}
 
-	public toggleMusic() {
-		this.settings.music = !this.settings.music;
-		if (!this.settings.music) {
-			this.music.stop();
-		} else {
-			this.music.play();
-		}
-		this.saveSettings();
-	}
+	//
+	// public toggleMusic() {
+	// 	this.settings.music = !this.settings.music;
+	// 	if (!this.settings.music) {
+	// 		this.music.stop();
+	// 	} else {
+	// 		this.music.play();
+	// 	}
+	// 	this.saveSettings();
+	// }
 
 	public loadSettings() {
 		if (!localStorage) {
