@@ -86,7 +86,6 @@ export class GameComponent implements OnInit, OnChanges {
 
 	public ngOnChanges(changes: SimpleChanges) {
 		if (changes['game']) {
-			console.log(this.game);
 			if (this.game.isIdle()) {
 				this.newGameVisible = true;
 			}

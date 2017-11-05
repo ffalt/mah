@@ -28,7 +28,7 @@
       margin-left: auto;
       margin-right: auto;
       //max-height: 100%;
-      overflow: auto;
+      overflow: hidden;
       border: 1px solid $popup-border-color;
       background-color: $popup-background-color;
       padding: 40px;
@@ -45,6 +45,7 @@
 
     .close {
       right: 20px;
+      margin-top: -20px;
       position: absolute;
       color: darkgray;
       cursor: pointer;
@@ -82,6 +83,10 @@
       padding-bottom: 14px;
       width: 500px;
       max-width: 90%;
+    }
+
+    .close {
+      margin-top: 0;
     }
   }
 
