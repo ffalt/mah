@@ -15,14 +15,46 @@ function randomExtract<T>(array: Array<T>): T {
 	return array.splice(i, 1)[0];
 }
 
-const fillStones = function(stones: Array<Stone>, tiles: Tiles) {
-	const safeGet = (z: number, x: number, y: number): Stone => {
-		for (let i = 0, il = stones.length; i < il; i++) {
-			if (stones[i].z === z && stones[i].x === x && stones[i].y === y) {
-				return stones[i];
+const safeGetStone = (stones: Array<Stone>, z: number, x: number, y: number): Stone => {
+	for (let i = 0, il = stones.length; i < il; i++) {
+		if (stones[i].z === z && stones[i].x === x && stones[i].y === y) {
+			return stones[i];
+		}
+	}
+};
+
+function collectNodes(stones: Array<Stone>, stone: Stone) {
+	const nodes: {
+		top: Array<Stone>;
+		left: Array<Stone>;
+		right: Array<Stone>;
+		bottom: Array<Stone>;
+	} = {left: [], right: [], top: [], bottom: []};
+	let s: Stone;
+	for (let y = stone.y - 1; y <= stone.y + 1; y++) {
+		s = safeGetStone(stones, stone.z, stone.x - 2, y);
+		if (s) {
+			nodes.left.push(s);
+		}
+		s = safeGetStone(stones, stone.z, stone.x + 2, y);
+		if (s) {
+			nodes.right.push(s);
+		}
+		for (let x = stone.x - 1; x <= stone.x + 1; x++) {
+			s = safeGetStone(stones, stone.z + 1, x, y);
+			if (s) {
+				nodes.top.push(s);
+			}
+			s = safeGetStone(stones, stone.z - 1, x, y);
+			if (s) {
+				nodes.bottom.push(s);
 			}
 		}
-	};
+	}
+	return nodes;
+}
+
+const fillStones = function(stones: Array<Stone>, tiles: Tiles) {
 	const groups: { [index: number]: Array<Stone> } = {};
 	stones.forEach((stone: Stone) => {
 		const tile = tiles.list[stone.v];
@@ -33,41 +65,8 @@ const fillStones = function(stones: Array<Stone>, tiles: Tiles) {
 		}
 		groups[stone.groupnr] = groups[stone.groupnr] || [];
 		groups[stone.groupnr].push(stone);
-		const nodes: {
-			top: Array<Stone>;
-			left: Array<Stone>;
-			right: Array<Stone>;
-			bottom: Array<Stone>;
-		} = {
-			left: [],
-			right: [],
-			top: [],
-			bottom: []
-		};
-		let s: Stone;
-		for (let y = stone.y - 1; y <= stone.y + 1; y++) {
-			s = safeGet(stone.z, stone.x - 2, y);
-			if (s) {
-				nodes.left.push(s);
-			}
-			s = safeGet(stone.z, stone.x + 2, y);
-			if (s) {
-				nodes.right.push(s);
-			}
-			for (let x = stone.x - 1; x <= stone.x + 1; x++) {
-				s = safeGet(stone.z + 1, x, y);
-				if (s) {
-					nodes.top.push(s);
-				}
-				s = safeGet(stone.z - 1, x, y);
-				if (s) {
-					nodes.bottom.push(s);
-				}
-			}
-		}
-		stone.nodes = nodes;
+		stone.nodes = collectNodes(stones, stone);
 	});
-
 	Object.keys(groups).forEach((key) => {
 		const group: Array<Stone> = groups[parseInt(key, 10)];
 		group.forEach((stone: Stone) => {

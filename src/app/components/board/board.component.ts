@@ -46,10 +46,10 @@ export class BoardComponent implements OnInit, OnChanges {
 	constructor() {
 	}
 
-	ngOnInit() {
+	ngOnInit(): void {
 	}
 
-	private setViewPort() {
+	private setViewPort(): void {
 		const bounds = this.calcBounds();
 		let b: Array<number>;
 		if (this.rotate) {
@@ -78,69 +78,79 @@ export class BoardComponent implements OnInit, OnChanges {
 		return bounds;
 	}
 
-	public ngOnChanges(changes: SimpleChanges) {
-		if (changes['tiles']) {
-			const stones: Array<Stone> = changes['tiles'].currentValue;
-			if (stones) {
-				this.setSort(stones.filter((stone: Stone) => {
-					return (stone != null);
-				}).map((stone: Stone): Draw => {
-					return {
-						z: stone.z,
-						x: stone.x,
-						y: stone.y,
-						v: stone.v,
-						visible: true,
-						url: 'assets/img/tiles/' + stone.img.id + '.png',
-						pos: BoardComponent.calcPos(stone.z, stone.x, stone.y),
-						source: stone
-					};
-				}));
-				this.setViewPort();
-			}
-		} else if (changes['layout']) {
-			const layout = changes['layout'].currentValue;
-			this.setSort(layout.mapping.map((row: Array<number>): Draw => {
-				return {
-					z: row[0],
-					x: row[1],
-					y: row[2],
-					v: 0,
+	private updateTiles(stones: Array<Stone>): void {
+		if (!stones) {
+			return;
+		}
+		this.setSort(stones.filter((stone: Stone) => {
+			return (stone != null);
+		}).map((stone: Stone): Draw => {
+			return {
+				z: stone.z,
+				x: stone.x,
+				y: stone.y,
+				v: stone.v,
+				visible: true,
+				url: 'assets/img/tiles/' + stone.img.id + '.png',
+				pos: BoardComponent.calcPos(stone.z, stone.x, stone.y),
+				source: stone
+			};
+		}));
+		this.setViewPort();
+	}
+
+	private updateLevel(level: Level): void {
+		this.draw_cells = [];
+		if (!level || !level.rows) {
+			return;
+		}
+		const stones: Array<Draw> = [];
+		level.rows.forEach((row: Array<number>, x: number) => {
+			row.forEach((value: number, y: number) => {
+				const draw = {
+					x: x,
+					y: y,
+					z: level.z,
+					v: value,
 					visible: true,
-					pos: BoardComponent.calcPos(row[0], row[1], row[2]),
+					pos: BoardComponent.calcPos(level.z, x, y),
 					source: this.emptySource
 				};
-			}));
-			this.setViewPort();
-		} else if (changes['level']) {
-			this.draw_cells = [];
-			const level: Level = changes['level'].currentValue;
-			if (!level || !level.rows) {
-				return;
-			}
-			const stones: Array<Draw> = [];
-			level.rows.forEach((row: Array<number>, x: number) => {
-				row.forEach((value: number, y: number) => {
-					const draw = {
-						x: x,
-						y: y,
-						z: level.z,
-						v: value,
-						visible: true,
-						pos: BoardComponent.calcPos(level.z, x, y),
-						source: this.emptySource
-					};
-					this.draw_cells.push(draw);
-					if (draw.v > 0) {
-						stones.push(draw);
-					}
-				});
+				this.draw_cells.push(draw);
+				if (draw.v > 0) {
+					stones.push(draw);
+				}
 			});
-			if (level.showTiles) {
-				this.setSort(stones);
-			} else {
-				this.draw_stones = [];
-			}
+		});
+		if (level.showTiles) {
+			this.setSort(stones);
+		} else {
+			this.draw_stones = [];
+		}
+	}
+
+	private updateLayout(layout: Layout): void {
+		this.setSort(layout.mapping.map((row: Array<number>): Draw => {
+			return {
+				z: row[0],
+				x: row[1],
+				y: row[2],
+				v: 0,
+				visible: true,
+				pos: BoardComponent.calcPos(row[0], row[1], row[2]),
+				source: this.emptySource
+			};
+		}));
+		this.setViewPort();
+	}
+
+	public ngOnChanges(changes: SimpleChanges): void {
+		if (changes['tiles']) {
+			this.updateTiles(changes['tiles'].currentValue);
+		} else if (changes['layout']) {
+			this.updateLayout(changes['layout'].currentValue);
+		} else if (changes['level']) {
+			this.updateLevel(changes['level'].currentValue);
 		}
 	}
 
@@ -151,13 +161,13 @@ export class BoardComponent implements OnInit, OnChanges {
 		return '#fff';
 	}
 
-	public onCellClick(draw: Draw) {
+	public onCellClick(draw: Draw): void {
 		if (this.cellclick) {
 			this.cellclick(draw);
 		}
 	}
 
-	public setSort(draw_stones: Array<Draw>) {
+	public setSort(draw_stones: Array<Draw>): void {
 		const sortToDraw = (draw: Draw) => {
 			if (!draw.source) {
 				return draw.pos.z;
@@ -177,7 +187,7 @@ export class BoardComponent implements OnInit, OnChanges {
 		});
 	}
 
-	public onClick(draw?: Draw) {
+	public onClick(draw?: Draw): void {
 		if (this.click && draw) {
 			this.click(draw.source);
 			this.setSort(this.draw_stones); // trigger a resort for z-ordering in svg
@@ -185,7 +195,7 @@ export class BoardComponent implements OnInit, OnChanges {
 		}
 	}
 
-	public onResize(event: { target: { innerHeight: number, innerWidth: number } }) {
+	public onResize(event: { target: { innerHeight: number, innerWidth: number } }): void {
 		if (this.cellcolor) {
 			return;
 		}
