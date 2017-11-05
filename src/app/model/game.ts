@@ -17,7 +17,7 @@ export class Game implements OnInit {
 	public settings = {
 		lang: 'auto',
 		sounds: true,
-		music: true
+		music: false
 	};
 	public stats = {
 		games: 0,
