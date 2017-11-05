@@ -197,23 +197,21 @@ export class Game implements OnInit {
 	}
 
 	public back() {
-		if (!this.isRunning()) {
+		if (!this.isRunning() || (this.undo.length < 2)) {
 			return;
 		}
-		if (this.undo.length >= 2) {
-			this.board.clearSelection();
-			this.board.clearHints();
-			const n1 = this.undo.pop();
-			const n2 = this.undo.pop();
-			this.board.stones.forEach((stone) => {
-				if ((stone.z === n1[0]) && (stone.x === n1[1]) && (stone.y === n1[2])) {
-					stone.picked = false;
-				} else if ((stone.z === n2[0]) && (stone.x === n2[1]) && (stone.y === n2[2])) {
-					stone.picked = false;
-				}
-			});
-			this.board.update();
-		}
+		this.board.clearSelection();
+		this.board.clearHints();
+		const n1 = this.undo.pop();
+		const n2 = this.undo.pop();
+		this.board.stones.forEach((stone) => {
+			if ((stone.z === n1[0]) && (stone.x === n1[1]) && (stone.y === n1[2])) {
+				stone.picked = false;
+			} else if ((stone.z === n2[0]) && (stone.x === n2[1]) && (stone.y === n2[2])) {
+				stone.picked = false;
+			}
+		});
+		this.board.update();
 	}
 
 	public load() {
