@@ -9,12 +9,13 @@
 <div class="settings">
 	<p>{{'LANG'|translate}}</p>
 	<div class="buttons">
-		<!--[(ngModel)]="game.settings.lang"-->
-		<ul class="radio">
-			<li><input type="radio" name="lang" id="lang0" value="auto"/><label for="lang0">{{'LANG_AUTO'|translate}}</label></li>
-			<li><input type="radio" name="lang" id="lang1" value="en"/><label for="lang1">{{'LANG_EN'|translate}}</label></li>
-			<li><input type="radio" name="lang" id="lang2" value="de"/><label for="lang2">{{'LANG_DE'|translate}}</label></li>
-		</ul>
+		<form>
+			<ul class="radio">
+				<li><input type="radio" name="lang" id="lang0" value="auto" [(ngModel)]="game.settings.lang" /><label for="lang0">{{'LANG_AUTO'|translate}}</label></li>
+				<li><input type="radio" name="lang" id="lang1" value="en" [(ngModel)]="game.settings.lang" /><label for="lang1">{{'LANG_EN'|translate}}</label></li>
+				<li><input type="radio" name="lang" id="lang2" value="de" [(ngModel)]="game.settings.lang" /><label for="lang2">{{'LANG_DE'|translate}}</label></li>
+			</ul>
+		</form>
 	</div>
 </div>
 <div class="license">
