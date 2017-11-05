@@ -11,6 +11,11 @@ const ResourceState = {
 	TIMEOUT: 4
 };
 
+
+interface HTMLImageElementExt extends HTMLImageElement {
+	readyState: string;
+}
+
 class HTMLImagePreLoader {
 	public loader: ImagePreloader = null;
 	public img: HTMLImageElementExt = <HTMLImageElementExt>(new Image());
@@ -124,14 +129,14 @@ export class ImagePreloader {
 		}
 	}
 
-	public isBusy() {
-		for (let i = 0, len = this.entries.length; i < len; i++) {
-			if (this.entries[i].status === ResourceState.QUEUED || this.entries[i].status === ResourceState.WAITING) {
-				return true;
-			}
-		}
-		return false;
-	}
+	// public isBusy() {
+	// 	for (let i = 0, len = this.entries.length; i < len; i++) {
+	// 		if (this.entries[i].status === ResourceState.QUEUED || this.entries[i].status === ResourceState.WAITING) {
+	// 			return true;
+	// 		}
+	// 	}
+	// 	return false;
+	// }
 
 	public onProgress(resource: HTMLImagePreLoader, statusType: number) {
 		let entry: HTMLImagePreLoader = null;

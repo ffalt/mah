@@ -63,7 +63,7 @@ export class BoardComponent implements OnInit, OnChanges {
 	private calcBounds(): Array<number> {
 		const m = Math.max(this.w, this.h);
 		const bounds = [m, m, 0, 0];
-		const draws = this.draw_stones.concat(this.draw_cells)
+		const draws = this.draw_stones.concat(this.draw_cells);
 		draws.forEach((draw) => {
 			bounds[0] = Math.min(bounds[0], draw.pos.x);
 			bounds[1] = Math.min(bounds[1], draw.pos.y);

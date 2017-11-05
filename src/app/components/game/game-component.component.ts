@@ -4,6 +4,23 @@ import {Layout, Layouts} from '../../model/layouts';
 import {TranslateService} from 'ng2-translate';
 import {Stone} from '../../model/stone';
 
+
+interface DocEx extends Document {
+	exitFullscreen: () => void;
+	mozCancelFullScreen: () => void;
+	webkitExitFullscreen: () => void;
+	fullScreen: boolean;
+	fullscreen: boolean;
+	mozFullScreen: boolean;
+	webkitIsFullScreen: boolean;
+}
+
+interface ElemEx extends HTMLElement {
+	requestFullscreen: () => void;
+	webkitRequestFullScreen: () => void;
+	mozRequestFullScreen: () => void;
+}
+
 @Component({
 	selector: 'app-game-component',
 	templateUrl: 'game-component.component.html',
