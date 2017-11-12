@@ -1,20 +1,22 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {LayoutListItemComponent} from './layout-list-item.component';
+import {Layout} from '../../model/layouts';
+import {Component} from '@angular/core';
 
 describe('LayoutListItemComponent', () => {
-	let component: LayoutListItemComponent;
-	let fixture: ComponentFixture<LayoutListItemComponent>;
+	let component: TestLayoutListItemHostComponent;
+	let fixture: ComponentFixture<TestLayoutListItemHostComponent>;
 
 	beforeEach(async(() => {
 		TestBed.configureTestingModule({
-			declarations: [LayoutListItemComponent]
+			declarations: [TestLayoutListItemHostComponent, LayoutListItemComponent]
 		})
 			.compileComponents();
 	}));
 
 	beforeEach(() => {
-		fixture = TestBed.createComponent(LayoutListItemComponent);
+		fixture = TestBed.createComponent(TestLayoutListItemHostComponent);
 		component = fixture.componentInstance;
 		fixture.detectChanges();
 	});
@@ -22,4 +24,12 @@ describe('LayoutListItemComponent', () => {
 	it('should create', () => {
 		expect(component).toBeTruthy();
 	});
+
+	@Component({
+		selector: 'app-layout-list-item-host-component',
+		template: '<li app-layout-list-item [layout]="mockLayout"></li>'
+	})
+	class TestLayoutListItemHostComponent {
+		mockLayout = new Layout();
+	}
 });

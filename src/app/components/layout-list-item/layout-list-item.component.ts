@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, OnInit} from '@angular/core';
+import {Component, ElementRef, Input} from '@angular/core';
 import {Layout} from '../../model/layouts';
 
 @Component({
@@ -6,18 +6,15 @@ import {Layout} from '../../model/layouts';
 	templateUrl: './layout-list-item.component.html',
 	styleUrls: ['./layout-list-item.component.scss']
 })
-export class LayoutListItemComponent implements OnInit {
+export class LayoutListItemComponent {
 
 	@Input() public layout: Layout;
 
-	constructor(public el: ElementRef) {
+	constructor(private el: ElementRef) {
 	}
 
 	public scrollIntoView() {
 		this.el.nativeElement.scrollIntoView();
-	}
-
-	ngOnInit() {
 	}
 
 }
