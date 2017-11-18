@@ -101,6 +101,24 @@
       "css": "resize-full-alt",
       "code": 59405,
       "src": "iconic"
+    },
+    {
+      "uid": "12f4ece88e46abd864e40b35e05b11cd",
+      "css": "ok",
+      "code": 59408,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "d73eceadda1f594cec0536087539afbf",
+      "css": "heart",
+      "code": 59409,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "5d3ef4b7c90d2931e641b840ee42f694",
+      "css": "loop",
+      "code": 59410,
+      "src": "iconic"
     }
   ]
 }
