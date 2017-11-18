@@ -33,7 +33,10 @@ export const LANG_EN = {
 	LANG_EN: 'English',
 	LANG_DE: 'German',
 	LANG_AUTO: '[Default]',
-	OPEN_SETTINGS: 'Click here to open the settings'
+	OPEN_SETTINGS: 'Click here to open the settings',
+	READ_MORE_WIKIPEDIA: 'Read more on wikipedia',
+	READ_MORE_WIKIPEDIA_URL: 'https://en.wikipedia.org/wiki/Mahjong_tiles',
+	TILES_INFO: 'Tiles Information'
 };
 
 export const LANG_DE = {
@@ -71,5 +74,8 @@ export const LANG_DE = {
 	LANG_AUTO: '[Standard]',
 	LANG_EN: 'Englisch',
 	LANG_DE: 'Deutsch',
-	OPEN_SETTINGS: 'Klick hier um die Einstellungen zu öffnen'
+	OPEN_SETTINGS: 'Klick hier um die Einstellungen zu öffnen',
+	READ_MORE_WIKIPEDIA: 'Mehr bei Wikipedia lesen',
+	READ_MORE_WIKIPEDIA_URL: 'https://de.wikipedia.org/wiki/Mah-Jongg',
+	TILES_INFO: 'Steinverzeichnis'
 };

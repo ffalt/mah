@@ -1,7 +1,7 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {HelpComponent} from './help-component.component';
-import {TranslateModule} from 'ng2-translate';
+import {TranslateModule} from '@ngx-translate/core';
 import {FormsModule} from '@angular/forms';
 import {DurationPipe} from '../../pipes/duration.pipe';
 import {Game} from '../../model/game';

@@ -1,7 +1,7 @@
 import {Component, ElementRef, HostListener, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {Game} from '../../model/game';
 import {Layout, Layouts} from '../../model/layouts';
-import {TranslateService} from 'ng2-translate';
+import {TranslateService} from '@ngx-translate/core';
 import {Stone} from '../../model/stone';
 
 
@@ -31,6 +31,7 @@ export class GameComponent implements OnInit, OnChanges {
 	@Input() public layouts: Layouts;
 	public onClickCallback: Event;
 	public onGameStartCallback: Event;
+	public tilesInfoVisible = false;
 	public helpVisible = false;
 	public newGameVisible = false;
 
@@ -51,9 +52,18 @@ export class GameComponent implements OnInit, OnChanges {
 			}
 			return;
 		}
+		if (this.tilesInfoVisible) {
+			if (event.keyCode === 27) {
+				this.tilesInfoVisible = !this.tilesInfoVisible;
+			}
+			return;
+		}
 		switch (event.which) {
 			case 72: // h
 				this.helpVisible = !this.helpVisible;
+				break;
+			case 73: // i
+				this.tilesInfoVisible = !this.tilesInfoVisible;
 				break;
 			case 84: // t
 				this.game.hint();
@@ -133,6 +143,10 @@ export class GameComponent implements OnInit, OnChanges {
 		if (!this.game.isIdle()) {
 			this.newGameVisible = !this.newGameVisible;
 		}
+	}
+
+	public toggleTilesInfo() {
+		this.tilesInfoVisible = !this.tilesInfoVisible;
 	}
 
 	public toggleHelp() {

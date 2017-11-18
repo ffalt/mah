@@ -1,0 +1,25 @@
+<div class="tiles-wrapper">
+	<div class="tiles-section" *ngFor="let suit of info.suits">
+		<div class="tiles-title">{{suit.name}}</div>
+		<div class="tiles-set-9">
+			<div class="tile" *ngFor="let tile of suit.tiles">
+				<img title="{{tile.char}}" src="/assets/img/tiles/{{tile.img}}.png">
+				<div [innerHtml]="tile.name"></div>
+			</div>
+		</div>
+	</div>
+	<div class="tiles-section-half" *ngFor="let group of [info.bonus, info.honors] ">
+		<div class="tiles-section-4" *ngFor="let suit of group">
+			<div class="tiles-title">{{suit.name}}</div>
+			<div class="tiles-set-4">
+				<div class="tile" *ngFor="let tile of suit.tiles">
+					<img title="{{tile.char}}" src="/assets/img/tiles/{{tile.img}}.png">
+					<div [innerHtml]="tile.name"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tiles-reference">
+		<a rel="noopener" target="_blank" href="{{'READ_MORE_WIKIPEDIA_URL' | translate}}">{{'READ_MORE_WIKIPEDIA' | translate}}</a>
+	</div>
+</div>

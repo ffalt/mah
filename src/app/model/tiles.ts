@@ -1,4 +1,4 @@
-const TILES = [
+export const TILES = [
 	['ball_1', 'ball_1', 'ball_1', 'ball_1'],
 	['ball_2', 'ball_2', 'ball_2', 'ball_2'],
 	['ball_3', 'ball_3', 'ball_3', 'ball_3'],
@@ -37,10 +37,82 @@ const TILES = [
 	['dragon_red', 'dragon_red', 'dragon_red', 'dragon_red']
 ];
 
+export const TILES_INFO = {
+	suits: [
+		{
+			name: 'Circles', tiles: [
+			{name: 'Pearl', char: 'Chu', img: 'ball_1'},
+			{name: 'Pine tree', char: 'Sung', img: 'ball_2'},
+			{name: 'Phoenix', char: 'Feng', img: 'ball_3'},
+			{name: 'Jade', char: 'Yü', img: 'ball_4'},
+			{name: 'Dragon', char: 'Lung', img: 'ball_5'},
+			{name: 'Peach', char: 'Tao', img: 'ball_6'},
+			{name: 'Insect', char: 'Ch\'ung', img: 'ball_7'},
+			{name: 'White Tiger', char: 'Hu', img: 'ball_8'},
+			{name: 'Unicorn', char: 'Ch\'i', img: 'ball_9'}
+		]
+		}, {
+			name: 'Bamboo', tiles: [
+				{name: 'Peacock', char: 'K\'ung', img: 'bamboo_1'},
+				{name: 'Duck', char: 'Ya', img: 'bamboo_2'},
+				{name: 'Toad', char: 'Min', img: 'bamboo_3'},
+				{name: 'Carp', char: 'Li', img: 'bamboo_4'},
+				{name: 'Lotus flower', char: 'Lien', img: 'bamboo_5'},
+				{name: 'Water', char: 'Shui', img: 'bamboo_6'},
+				{name: 'Tortoise', char: 'Kuei', img: 'bamboo_7'},
+				{name: 'Mushroom', char: 'Chün', img: 'bamboo_8'},
+				{name: 'Willow tree', char: 'Liu', img: 'bamboo_9'}
+			]
+		}, {
+			name: 'Characters', tiles: [
+				{name: 'Bar of door', char: 'Ju', img: 'character_1'},
+				{name: 'Sword', char: 'Chien', img: 'character_2'},
+				{name: 'Earth', char: 'Ti', img: 'character_3'},
+				{name: 'Lute', char: 'Ch\'in', img: 'character_4'},
+				{name: 'House', char: 'Fang', img: 'character_5'},
+				{name: 'Fire', char: 'Huo', img: 'character_6'},
+				{name: 'Seven stars', char: 'Tuo', img: 'character_7'},
+				{name: 'Knot', char: 'Chieh', img: 'character_8'},
+				{name: 'Heaven', char: 'Tien', img: 'character_9'}
+			]
+		}
+	],
+
+	bonus: [
+		{
+			name: 'Seasons', tiles: [{name: 'Spring', char: 'Yu', img: 'season_spring'},
+			{name: 'Summer', char: 'Ch\'iao', img: 'season_summer'},
+			{name: 'Fall', char: 'Keng', img: 'season_fall'},
+			{name: 'Winter', char: 'Tu', img: 'season_winter'},
+		]
+		},
+		{
+			name: 'Flowers', tiles: [{name: 'Bamboo', char: 'Chu', img: 'flower_bamboo'},
+			{name: 'Orchid', char: 'Lan', img: 'flower_orchid'},
+			{name: 'Plum Blossom', char: 'Li', img: 'flower_plum'},
+			{name: 'Chrysan&shy;themum', char: 'Chü', img: 'flower_chrysanthemum'}]
+		}
+	],
+
+	honors: [
+		{
+			name: 'Winds', tiles: [{name: 'East', char: 'Tung', img: 'wind_east'},
+			{name: 'South', char: 'Nan', img: 'wind_south'},
+			{name: 'West', char: 'Hsi', img: 'wind_west'},
+			{name: 'North', char: 'Pei', img: 'wind_north'}]
+		},
+		{
+			name: 'Dragons', tiles: [{name: 'Red', char: 'Chung', img: 'dragon_red'},
+			{name: 'Green', char: 'Fa', img: 'dragon_green'},
+			{name: 'White', char: 'Pai', img: 'dragon_white'}]
+		}
+	]
+};
+
 export interface Tile {
 	v: number;
 	groupnr: number;
-	img: {id: string};
+	img: { id: string };
 }
 
 export interface TileGroup {

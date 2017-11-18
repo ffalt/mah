@@ -16,7 +16,7 @@
 			<i class="icon-lightbulb"></i> <span class="label">{{'HINT' | translate}}</span>
 		</span>
 		<span class="link button" (click)="newGame()" title="{{'RESTART_LONG' | translate}}">
-			<i class="icon-calendar"></i> <span class="label">{{'RESTART' | translate}}</span>
+			<i class="icon-loop"></i> <span class="label">{{'RESTART' | translate}}</span>
 		</span>
 	</div>
 </div>
@@ -27,6 +27,9 @@
 	<div class="ctrl ctrl-stats">
 		<span class="link button" (click)="toggleHelp()" title="{{'OPEN_SETTINGS' | translate}}">
 			<i class="icon-info"></i>
+		</span>
+		<span class="link button" (click)="toggleTilesInfo()" title="{{'TILES_INFO' | translate}}">
+			<i class="icon-calendar"></i>
 		</span>
 		<span class="link button" [ngClass]="{'inactive':!game.settings.sounds}" (click)="game.toggleSound()" title="{{'AUDIO_SOUNDS'|translate}}">
 			<i class="icon-volume-low"></i>
@@ -53,6 +56,12 @@
 <div [hidden]="!game.message" class="overlay message" (click)="clickMessage();">
 	<div class="overlay-popup">
 		<div>{{game.message | translate}}</div>
+	</div>
+</div>
+<div *ngIf="tilesInfoVisible" class="overlay tiles-info" (click)="toggleTilesInfo();">
+	<div class="overlay-popup" (click)="$event.stopPropagation();">
+		<span class="close" (click)="toggleTilesInfo()"><i class="icon-cancel-circled2 pull-right"></i></span>
+		<app-tiles-info></app-tiles-info>
 	</div>
 </div>
 <div *ngIf="layouts && newGameVisible" (click)="toggleNewGame();" class="overlay newgame">

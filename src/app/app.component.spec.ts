@@ -10,8 +10,9 @@ import {DurationPipe} from './pipes/duration.pipe';
 import {BrowserModule} from '@angular/platform-browser';
 import {FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
-import {TranslateModule} from 'ng2-translate';
+import {TranslateModule} from '@ngx-translate/core';
 import {LayoutService} from './service/layout.service';
+import {TilesInfoComponent} from './components/tiles-info/tiles-info.component';
 
 describe('AppComponent', () => {
 	beforeEach(async(() => {
@@ -24,6 +25,7 @@ describe('AppComponent', () => {
 				LayoutListComponent,
 				LayoutListItemComponent,
 				BoardComponent,
+				TilesInfoComponent,
 				DurationPipe
 			],
 			imports: [

@@ -3,7 +3,7 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {GameComponent} from './game-component.component';
 import {Game} from '../../model/game';
 import {Component} from '@angular/core';
-import {TranslateModule} from 'ng2-translate';
+import {TranslateModule} from '@ngx-translate/core';
 import {Layouts} from '../../model/layouts';
 import {BoardComponent} from '../board/board.component';
 import {DurationPipe} from '../../pipes/duration.pipe';
@@ -12,6 +12,7 @@ import {ChooseBoardComponent} from '../choose-board/choose-board-component.compo
 import {FormsModule} from '@angular/forms';
 import {LayoutListItemComponent} from '../layout-list-item/layout-list-item.component';
 import {LayoutListComponent} from '../layout-list/layout-list.component';
+import {TilesInfoComponent} from '../tiles-info/tiles-info.component';
 
 describe('GameComponent', () => {
 	let component: TestGameComponentHostComponent;
@@ -20,7 +21,7 @@ describe('GameComponent', () => {
 	beforeEach(async(() => {
 		TestBed.configureTestingModule({
 			declarations: [TestGameComponentHostComponent, GameComponent, BoardComponent, HelpComponent, ChooseBoardComponent,
-				LayoutListComponent, LayoutListItemComponent, DurationPipe],
+				TilesInfoComponent, LayoutListComponent, LayoutListItemComponent, DurationPipe],
 			imports: [FormsModule, TranslateModule.forRoot()]
 		})
 			.compileComponents();

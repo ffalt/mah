@@ -4,7 +4,7 @@ import {Tiles} from './model/tiles';
 import {Game} from './model/game';
 import {LayoutService} from './service/layout.service';
 import {Layouts} from './model/layouts';
-import {TranslateService} from 'ng2-translate';
+import {TranslateService} from '@ngx-translate/core';
 import {LANG_DE, LANG_EN} from './model/i18n';
 
 @Component({

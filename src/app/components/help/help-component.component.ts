@@ -1,5 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {Game} from '../../model/game';
+import {environment} from '../../../environments/environment';
 
 @Component({
 	selector: 'app-help-component',
@@ -9,6 +10,7 @@ import {Game} from '../../model/game';
 export class HelpComponent {
 
 	@Input() public game: Game;
+	public version = environment.version;
 
 	constructor() {
 	}
