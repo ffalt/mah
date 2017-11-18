@@ -8,7 +8,7 @@ export class DurationPipe implements PipeTransform {
 		if (isNaN(value) || (value === 0)) {
 			return '-';
 		}
-		const sec_num = Math.round(value / 1000);
+		const sec_num = Math.floor(value / 1000);
 		const hours = Math.floor(sec_num / 3600);
 		const minutes = Math.floor((sec_num - (hours * 3600)) / 60);
 		const seconds = sec_num - (hours * 3600) - (minutes * 60);
