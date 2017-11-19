@@ -1,13 +1,14 @@
 @import "../../style/globals";
 
 :host {
-  margin-bottom: 0;
-  padding-bottom: 0;
+  padding: 0;
+  margin: 0;
   border-top: 1px solid #afafaf;
   border-bottom: 1px solid #afafaf;
   width: 100%;
   height: 100%;
   display: block;
+
 
   .newgame-left {
     width: 30%;
@@ -58,12 +59,12 @@
       font-size: 0.9em;
       margin-top: 2px;
       text-decoration: none;
-    }
-    .link.random {
-      float: left;
-    }
-    .generator {
       float: right;
     }
+    .generator {
+      float: left;
+    }
   }
+
 }
+

@@ -185,9 +185,9 @@ class LoadBoardBuilder implements BuilderType {
 }
 
 export const BuilderModes = [
-	{id: 'solvable', builder: SolvableBoardBuilder, name: 'Solvable'},
-	{id: 'linear', builder: LinearBoardBuilder, name: 'Linear'},
-	{id: 'random', builder: RandomBoardBuilder, name: 'Random'}
+	{id: 'MODE_SOLVABLE', builder: SolvableBoardBuilder},
+	{id: 'MODE_LINEAR', builder: LinearBoardBuilder},
+	{id: 'MODE_RANDOM', builder: RandomBoardBuilder}
 ];
 
 export class Builder {

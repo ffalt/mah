@@ -7,12 +7,22 @@
 		</div>
 	</div>
 </div>
+<ng-template #generatorTooltip>
+	<div style="padding: 5px">
+		<b>{{'MODE_SOLVABLE' | translate}}</b><br/>{{'MODE_SOLVABLE_DESC' | translate}}<br/>
+		<b>{{'MODE_LINEAR' | translate}}</b><br/>{{'MODE_LINEAR_DESC' | translate}}<br/>
+		<b>{{'MODE_RANDOM' | translate}}</b><br/>{{'MODE_RANDOM_DESC' | translate}}<br/>
+	</div>
+</ng-template>
+
 <div class="choose-buttons">
-	<span class="link random" (click)="randomGame()">Random</span>
-	<div class="generator">
-		<label>Board Generator:</label>
+	<div class="generator" tooltip [tooltipTemplate]="generatorTooltip">
+		<label>{{'BOARD_GENERATOR' | translate}}:</label><br/>
 		<select [(ngModel)]="mode">
-			<option *ngFor="let m of builder.modes" value="{{m.id}}">{{m.name}}</option>
+			<option *ngFor="let m of builder.modes" value="{{m.id}}">{{m.id | translate}}</option>
 		</select>
 	</div>
+	<button class="link" [disabled]="!current" (click)="onStart(current)">{{'START_SELECTED' | translate}}</button>
+	<button class="link" (click)="randomGame()">{{'START_RANDOM' | translate}}</button>
 </div>
+

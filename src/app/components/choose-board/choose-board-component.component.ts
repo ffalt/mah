@@ -14,7 +14,7 @@ export class ChooseBoardComponent implements OnInit {
 	public onStartCallback: Event;
 	public focusIndex = 0;
 	public current: Layout = null;
-	public mode = 'solvable';
+	public mode = 'MODE_SOLVABLE';
 	public builder: Builder = new Builder();
 
 	constructor() {
@@ -26,7 +26,9 @@ export class ChooseBoardComponent implements OnInit {
 	}
 
 	public onStart(layout: Layout) {
-		this.start(layout, this.mode);
+		if (layout) {
+			this.start(layout, this.mode);
+		}
 	}
 
 	public onSelect(layout: Layout) {
@@ -35,5 +37,6 @@ export class ChooseBoardComponent implements OnInit {
 
 	public randomGame() {
 		this.focusIndex = Math.floor(Math.random() * this.layouts.items.length);
+		this.start(this.layouts.items[this.focusIndex], this.mode);
 	}
 }

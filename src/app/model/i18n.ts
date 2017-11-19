@@ -26,6 +26,7 @@ export const LANG_EN = {
 	MODE: 'Board Fill Algorithm',
 	MODE_SOLVABLE: 'Solvable',
 	MODE_LINEAR: 'Linear',
+	MODE_RANDOM: 'Random',
 	AUDIO: 'Audio',
 	AUDIO_SOUNDS: 'Sounds',
 	AUDIO_MUSIC: 'Music',
@@ -36,7 +37,13 @@ export const LANG_EN = {
 	OPEN_SETTINGS: 'Click here to open the settings',
 	READ_MORE_WIKIPEDIA: 'Read more on wikipedia',
 	READ_MORE_WIKIPEDIA_URL: 'https://en.wikipedia.org/wiki/Mahjong_tiles',
-	TILES_INFO: 'Tiles Information'
+	TILES_INFO: 'Tiles Information',
+	MODE_SOLVABLE_DESC: 'A random fill with at least one solving possibility',
+	MODE_RANDOM_DESC: 'A total random fill, maybe unsolvable',
+	MODE_LINEAR_DESC: 'A backwards fill, always solvable, maybe boring to experienced players',
+	BOARD_GENERATOR: 'Board Generator',
+	START_SELECTED: 'Start Selected',
+	START_RANDOM: 'Start Random',
 };
 
 export const LANG_DE = {
@@ -67,6 +74,7 @@ export const LANG_DE = {
 	MODE: 'Spielbrett-Algorithmus',
 	MODE_SOLVABLE: 'Lösbar',
 	MODE_LINEAR: 'Linear',
+	MODE_RANDOM: 'Zufällig',
 	AUDIO: 'Audio',
 	AUDIO_SOUNDS: 'Töne',
 	AUDIO_MUSIC: 'Musik',
@@ -77,5 +85,11 @@ export const LANG_DE = {
 	OPEN_SETTINGS: 'Klick hier um die Einstellungen zu öffnen',
 	READ_MORE_WIKIPEDIA: 'Mehr bei Wikipedia lesen',
 	READ_MORE_WIKIPEDIA_URL: 'https://de.wikipedia.org/wiki/Mah-Jongg',
-	TILES_INFO: 'Steinverzeichnis'
+	TILES_INFO: 'Steinverzeichnis',
+	MODE_SOLVABLE_DESC: 'Fast zufälliger Aufbau mit mindestens einer Lösung',
+	MODE_RANDOM_DESC: 'Zufälliger Aufbau, vielleicht unlösbar',
+	MODE_LINEAR_DESC: 'Umgekehrter linearer Aufbau, immer lösbar, möglicherweise zu langweilig für erfahrene Spieler*innen',
+	BOARD_GENERATOR: 'Spielgenerator',
+	START_SELECTED: 'Auswahl starten',
+	START_RANDOM: 'Zufälliges starten'
 };

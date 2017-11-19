@@ -5,6 +5,7 @@
   margin-left: 1px;
   cursor: pointer;
   outline: 0;
+  white-space: nowrap;
   @include no-select();
   &.selected {
     background-color: darken($popup-background-color, 4%);
