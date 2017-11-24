@@ -3,7 +3,7 @@
 		<div class="tiles-title">{{suit.name}}</div>
 		<div class="tiles-set-9">
 			<div class="tile" *ngFor="let tile of suit.tiles">
-				<img title="{{tile.char}}" src="assets/img/tiles/{{tile.img}}.png">
+				<app-tile [tile]="tile.img" [imageSet]="imageSet"></app-tile>
 				<div [innerHtml]="tile.name"></div>
 			</div>
 		</div>
@@ -13,7 +13,7 @@
 			<div class="tiles-title">{{suit.name}}</div>
 			<div class="tiles-set-4">
 				<div class="tile" *ngFor="let tile of suit.tiles">
-					<img title="{{tile.char}}" src="assets/img/tiles/{{tile.img}}.png">
+					<app-tile [tile]="tile.img" [imageSet]="imageSet"></app-tile>
 					<div [innerHtml]="tile.name"></div>
 				</div>
 			</div>

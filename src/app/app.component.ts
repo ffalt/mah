@@ -1,5 +1,4 @@
 import {Component} from '@angular/core';
-import {ImagePreloader} from './model/preloader';
 import {Tiles} from './model/tiles';
 import {Game} from './model/game';
 import {LayoutService} from './service/layout.service';
@@ -16,24 +15,14 @@ export class AppComponent {
 	public game: Game = new Game();
 	public layouts: Layouts;
 	public loading = true;
-	public loaded = '';
 
 	constructor(layouts: LayoutService, translate: TranslateService) {
 		translate.setTranslation('en', LANG_EN);
 		translate.setTranslation('de', LANG_DE);
 		translate.setDefaultLang('en');
-		const loader = new ImagePreloader();
-		const tiles = new Tiles();
-		tiles.list.forEach((tile) => {
-			loader.add('assets/img/tiles/' + tile.img.id + '.png');
-		});
-		loader.start(() => {
-			this.loading = false;
-		}, (progress: number) => {
-			this.loaded = (progress * 100).toFixed(2) + '%';
-		});
 		layouts.get((res: Layouts) => {
 			this.layouts = res;
+			this.loading = false;
 		});
 		this.game.init();
 

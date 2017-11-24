@@ -15,6 +15,9 @@ import {BoardComponent} from './components/board/board.component';
 import {DurationPipe} from './pipes/duration.pipe';
 import {LayoutService} from './service/layout.service';
 import {TilesInfoComponent} from './components/tiles-info/tiles-info.component';
+import {TileComponent} from './components/tile/tile.component';
+import {SvgdefService} from './service/svgdef.service';
+import {ImageSetLoaderComponent} from './components/image-set-loader/image-set-loader.component';
 
 @NgModule({
 	declarations: [
@@ -26,7 +29,9 @@ import {TilesInfoComponent} from './components/tiles-info/tiles-info.component';
 		LayoutListItemComponent,
 		BoardComponent,
 		DurationPipe,
-		TilesInfoComponent
+		TilesInfoComponent,
+		TileComponent,
+		ImageSetLoaderComponent
 	],
 	imports: [
 		BrowserModule,
@@ -36,7 +41,8 @@ import {TilesInfoComponent} from './components/tiles-info/tiles-info.component';
 		TranslateModule.forRoot()
 	],
 	providers: [
-		LayoutService
+		LayoutService,
+		SvgdefService
 	],
 	bootstrap: [AppComponent]
 })

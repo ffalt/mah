@@ -17,6 +17,7 @@ interface Level {
 })
 export class BoardComponent implements OnInit, OnChanges {
 
+	@Input() public imageSet: string;
 	@Input() public level: Level;
 	@Input() public tiles: Array<Stone>;
 	@Input() public layout: Layout;
@@ -86,7 +87,8 @@ export class BoardComponent implements OnInit, OnChanges {
 				y: stone.y,
 				v: stone.v,
 				visible: true,
-				url: 'assets/img/tiles/' + stone.img.id + '.png',
+				url: stone.img.id,
+				// url: 'assets/img/tiles/' + stone.img.id + '.png',
 				pos: BoardComponent.calcPos(stone.z, stone.x, stone.y),
 				source: stone
 			};

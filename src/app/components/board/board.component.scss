@@ -12,56 +12,8 @@
 
     @include no-select();
 
-    g.stage {
-      transition: opacity 500ms;
-    }
-
     rect.background {
       fill: $background-color;
-    }
-
-    g g {
-      //transition: transform 200ms ease-out;
-      transform-origin: 50px 32.5px;
-      opacity: 1;
-    }
-
-    g.hinted g {
-      @include scale(1.12);
-      rect {
-        stroke: #9f0000;
-        stroke-width: 2px;
-      }
-    }
-
-    g.selected g {
-      @include scale(1.08);
-      rect {
-        stroke: black;
-      }
-    }
-    g.selected.hinted g {
-      @include scale(1.14);
-      rect {
-        stroke: #9f0000;
-        stroke-width: 2px;
-      }
-    }
-
-    g.draw rect.shadow {
-      fill: black;
-      opacity: 0.5;
-      stroke-width: 1;
-      stroke: black;
-    }
-    g.draw rect.stone {
-      fill: #FFF9E5;
-      stroke-width: 1;
-      stroke: black;
-    }
-
-    g.hidden {
-      opacity: 0;
     }
 
   }

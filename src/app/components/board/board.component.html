@@ -1,19 +1,122 @@
-<svg xmlns="http://www.w3.org/2000/svg" class="board-svg"
-	 [ngClass]="{rotate:rotate}" [attr.viewBox]="viewport" preserveAspectRatio="xMidYMid meet" (window:resize)="onResize($event)">
+<svg xmlns="http://www.w3.org/2000/svg" class="board-svg" [ngClass]="{rotate:rotate}" [attr.viewBox]="viewport" preserveAspectRatio="xMidYMid meet" (window:resize)="onResize($event)">
+	<defs>
+		<style type="text/css">
+
+			g.stage {
+				transition: opacity 500ms;
+			}
+
+			g.tile {
+				/*transition: transform 200ms ease-out;*/
+				transform-origin: 50px 32.5px;
+				opacity: 1;
+			}
+
+			g.hinted g.tile {
+				transform: scale(1.12);
+			}
+
+			g.hinted g.tile rect {
+				stroke: #9f0000;
+				stroke-width: 3px;
+			}
+
+			g.selected g.tile {
+				transform: scale(1.08);
+			}
+
+			g.selected g.tile rect {
+				stroke: black;
+			}
+
+			g.selected.hinted g.tile {
+				transform: scale(1.14);
+			}
+
+			g.selected.hinted g.tile rect {
+				stroke: #9f0000;
+				stroke-width: 3px;
+			}
+
+			g.draw rect.shadow {
+				fill: black;
+				opacity: 0.6;
+				stroke-width: 1;
+				stroke: black;
+			}
+
+			g.draw rect.stone {
+				fill: #FFF9E5;
+				stroke-width: 1;
+				stroke: black;
+			}
+
+			g.hidden {
+				opacity: 0;
+			}
+
+		</style>
+		<filter id="filter4198-8" style="color-interpolation-filters:sRGB">
+			<feGaussianBlur stdDeviation="2.51 2.51" result="blur"/>
+		</filter>
+		<mask id="mask4216-0" maskUnits="userSpaceOnUse">
+			<rect
+					ry="40"
+					y="-1325.6035"
+					x="-451.93805"
+					height="400.77808"
+					width="300.05896"
+					style="opacity:1;fill:#ff3737;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:10;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+					transform="scale(-1,-1)"/>
+		</mask>
+		<mask id="mask4222-0" maskUnits="userSpaceOnUse">
+			<rect
+					ry="40"
+					y="652.28351"
+					x="0"
+					height="400.77808"
+					width="300.05896"
+					style="opacity:1;fill:#ff3737;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:10;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"/>
+		</mask>
+
+		<svg id="front" width="300" height="400" viewBox="0 0 300 400">
+			<g transform="translate(0,-652.36216)">
+				<!--<rect-->
+				<!--style="opacity:1;fill:#f5f0eb;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:10;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"-->
+				<!--id="rect4164"-->
+				<!--width="300.05896"-->
+				<!--height="400.77808"-->
+				<!--x="0"-->
+				<!--y="652.28351"-->
+				<!--ry="40"/>-->
+				<path
+						transform="translate(-1.3432789e-7,-1.3368765e-6)"
+						style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter4198-8)"
+						d="M -4.7687833,775.07096 C -9.6501835,741.99485 -16.84552,674.23676 -1.2788716,652.0641 18.998297,625.94378 233.50094,631.63117 263.31435,653.90999 276.21398,662.64856 70.349579,663.12124 47.099353,691.74479 24.390958,719.11242 0.65060847,818.18718 -4.7687833,775.07096 Z"
+						id="path4166"
+						mask="url(#mask4222-0)"
+				/>
+				<path
+						id="path4221"
+						d="m 151.73588,1025.0177 c -3.32683,-9.3138 -10.24843,-68.45389 5.31821,-90.62655 20.27717,-26.12032 219.43558,-16.45796 231.55506,-9.93184 11.07433,5.31702 -178.60366,0.0589 -204.85126,34.86646 -21.59349,30.0006 -26.50086,82.17843 -32.02201,65.69193 z"
+						style="fill:#000000;fill-opacity:0.19607843;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter4198-8)"
+						transform="matrix(-1,0,0,-1,451.93806,1977.887)"
+						mask="url(#mask4216-0)"/>
+			</g>
+		</svg>
+	</defs>
+	<defs app-image-set-loader [imageSet]="imageSet"></defs>
 	<rect class="background" x="-6000px" y="-6000px" width="12000px" height="12000px" (mousedown)="onClick();"></rect>
 	<g class="stage">
-		<rect *ngFor="let draw of draw_cells" stroke="black" stroke-width="1"
-			  [attr.fill]="onCellColor(draw)" [attr.x]="draw.pos.x" [attr.y]="draw.pos.y"
-			  width="37.5px" height="50px" (click)="onCellClick(draw);"></rect>
+		<rect *ngFor="let draw of draw_cells" stroke="black" stroke-width="1" [attr.fill]="onCellColor(draw)" [attr.x]="draw.pos.x" [attr.y]="draw.pos.y" width="37.5px" height="50px" (click)="onCellClick(draw);"></rect>
 	</g>
 	<g class="stage" [attr.transform]="translate">
-		<g *ngFor="let draw of draw_stones" class="draw"
-		   [ngClass]="{selected:draw.source.selected,hidden:draw.source.picked,hinted:draw.source.hinted,removable:draw.source.state&&draw.source.state.removable}"
-		   [attr.transform]="draw.pos.translate" (mousedown)="onClick(draw);">
-			<g>
+		<g *ngFor="let draw of draw_stones" class="draw" [ngClass]="{selected:draw.source.selected,hidden:draw.source.picked,hinted:draw.source.hinted,removable:draw.source.state&&draw.source.state.removable}" [attr.transform]="draw.pos.translate" (mousedown)="onClick(draw);">
+			<g class="tile">
 				<rect class="shadow" x="3" y="3" width="75px" height="100px" rx="10" ry="10"></rect>
-				<rect class="stone" x="0" y="0" width="75px" height="100px" rx="10" ry="10"></rect>
-				<image xlink:href="" [attr.xlink:href]="draw.url" x="6" y="6" height="88px" width="63px"></image>
+				<rect class="stone" x="0" y="0" width="75" height="100" rx="10" ry="10"></rect>
+				<use [attr.xlink:href]="'#'+draw.url" x="6" y="6" width="63" height="88"/>
+				<use xlink:href="#front" x="0" y="0" width="75" height="100"/>
 			</g>
 		</g>
 	</g>

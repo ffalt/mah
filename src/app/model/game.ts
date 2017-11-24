@@ -17,7 +17,8 @@ export class Game implements OnInit {
 	public settings = {
 		lang: 'auto',
 		sounds: true,
-		music: false
+		music: false,
+		tileset: 'riichi'
 	};
 	public stats = {
 		games: 0,
@@ -272,6 +273,7 @@ export class Game implements OnInit {
 		try {
 			const store = JSON.parse(stored);
 			this.settings.lang = store.lang || 'auto';
+			this.settings.tileset = store.tileset || 'riichi';
 			this.settings.music = store.music || false;
 			this.settings.sounds = store.sounds || false;
 			this.stats.games = store.games || 0;
@@ -290,6 +292,7 @@ export class Game implements OnInit {
 				lang: this.settings.lang,
 				sounds: this.settings.sounds,
 				music: this.settings.music,
+				tileset: this.settings.tileset,
 				games: this.stats.games,
 				bestTime: this.stats.bestTime
 			}));

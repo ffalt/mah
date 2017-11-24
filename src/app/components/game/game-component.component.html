@@ -21,7 +21,7 @@
 	</div>
 </div>
 <div class="board">
-	<app-board class="svg-board" [tiles]="game.board.stones" [click]="onClickCallback"></app-board>
+	<app-board class="svg-board" [tiles]="game.board.stones" [imageSet]="game.settings.tileset" [click]="onClickCallback"></app-board>
 </div>
 <div class="controls-bottom">
 	<div class="ctrl ctrl-stats">

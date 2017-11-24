@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="675" height="500">
+    <defs>
+        <image id="image" xlink:href="./recri/recri.png" x="0" y="0" width="7128" height="216"/>
+        <svg id="ball_1" viewBox="0 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="ball_2" viewBox="170 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="ball_3" viewBox="340 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="ball_4" viewBox="510 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="ball_5" viewBox="680 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="ball_6" viewBox="850 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="ball_7" viewBox="1020 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="ball_8" viewBox="1190 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="ball_9" viewBox="1360 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="wind_north" viewBox="1530 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="wind_west" viewBox="1700 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="wind_south" viewBox="1870 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="wind_east" viewBox="2040 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="dragon_red" viewBox="2210 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="dragon_green" viewBox="2380 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="character_1" viewBox="2550 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="character_2" viewBox="2720 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="character_3" viewBox="2890 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="character_4" viewBox="3060 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="character_5" viewBox="3230 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="character_6" viewBox="3400 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="character_7" viewBox="3570 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="character_8" viewBox="3740 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="character_9" viewBox="3910 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="bamboo_1" viewBox="4070 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="bamboo_2" viewBox="4240 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="bamboo_3" viewBox="4410 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="bamboo_4" viewBox="4580 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="bamboo_5" viewBox="4750 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="bamboo_6" viewBox="4920 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="bamboo_7" viewBox="5090 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="bamboo_8" viewBox="5260 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="bamboo_9" viewBox="5430 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="season_spring" viewBox="5600 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="season_summer" viewBox="5770 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="season_fall" viewBox="5940 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="season_winter" viewBox="6110 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="dragon_white" viewBox="6280 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="flower_bamboo" viewBox="6450 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="flower_chrysanthemum" viewBox="6620 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="flower_orchid" viewBox="6790 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="flower_plum" viewBox="6960 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+    </defs>
+    <g id="preview">
+        <use x="0" y="0" height="100" width="75" xlink:href="#ball_1"/>
+        <use x="75" y="0" height="100" width="75" xlink:href="#ball_2"/>
+        <use x="150" y="0" height="100" width="75" xlink:href="#ball_3"/>
+        <use x="225" y="0" height="100" width="75" xlink:href="#ball_4"/>
+        <use x="300" y="0" height="100" width="75" xlink:href="#ball_5"/>
+        <use x="375" y="0" height="100" width="75" xlink:href="#ball_6"/>
+        <use x="450" y="0" height="100" width="75" xlink:href="#ball_7"/>
+        <use x="525" y="0" height="100" width="75" xlink:href="#ball_8"/>
+        <use x="600" y="0" height="100" width="75" xlink:href="#ball_9"/>
+        <use x="0" y="100" height="100" width="75" xlink:href="#character_1"/>
+        <use x="75" y="100" height="100" width="75" xlink:href="#character_2"/>
+        <use x="150" y="100" height="100" width="75" xlink:href="#character_3"/>
+        <use x="225" y="100" height="100" width="75" xlink:href="#character_4"/>
+        <use x="300" y="100" height="100" width="75" xlink:href="#character_5"/>
+        <use x="375" y="100" height="100" width="75" xlink:href="#character_6"/>
+        <use x="450" y="100" height="100" width="75" xlink:href="#character_7"/>
+        <use x="525" y="100" height="100" width="75" xlink:href="#character_8"/>
+        <use x="600" y="100" height="100" width="75" xlink:href="#character_9"/>
+        <use x="0" y="200" height="100" width="75" xlink:href="#bamboo_1"/>
+        <use x="75" y="200" height="100" width="75" xlink:href="#bamboo_2"/>
+        <use x="150" y="200" height="100" width="75" xlink:href="#bamboo_3"/>
+        <use x="225" y="200" height="100" width="75" xlink:href="#bamboo_4"/>
+        <use x="300" y="200" height="100" width="75" xlink:href="#bamboo_5"/>
+        <use x="375" y="200" height="100" width="75" xlink:href="#bamboo_6"/>
+        <use x="450" y="200" height="100" width="75" xlink:href="#bamboo_7"/>
+        <use x="525" y="200" height="100" width="75" xlink:href="#bamboo_8"/>
+        <use x="600" y="200" height="100" width="75" xlink:href="#bamboo_9"/>
+        <use x="0" y="300" height="100" width="75" xlink:href="#wind_north"/>
+        <use x="75" y="300" height="100" width="75" xlink:href="#wind_west"/>
+        <use x="150" y="300" height="100" width="75" xlink:href="#wind_south"/>
+        <use x="225" y="300" height="100" width="75" xlink:href="#wind_east"/>
+        <use x="375" y="300" height="100" width="75" xlink:href="#flower_plum"/>
+        <use x="450" y="300" height="100" width="75" xlink:href="#flower_orchid"/>
+        <use x="525" y="300" height="100" width="75" xlink:href="#flower_chrysanthemum"/>
+        <use x="600" y="300" height="100" width="75" xlink:href="#flower_bamboo"/>
+        <use x="0" y="400" height="100" width="75" xlink:href="#season_spring"/>
+        <use x="75" y="400" height="100" width="75" xlink:href="#season_summer"/>
+        <use x="150" y="400" height="100" width="75" xlink:href="#season_fall"/>
+        <use x="225" y="400" height="100" width="75" xlink:href="#season_winter"/>
+        <use x="450" y="400" height="100" width="75" xlink:href="#dragon_red"/>
+        <use x="525" y="400" height="100" width="75" xlink:href="#dragon_green"/>
+        <use x="600" y="400" height="100" width="75" xlink:href="#dragon_white"/>
+    </g>
+</svg>

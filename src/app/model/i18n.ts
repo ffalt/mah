@@ -44,6 +44,7 @@ export const LANG_EN = {
 	BOARD_GENERATOR: 'Board Generator',
 	START_SELECTED: 'Start Selected',
 	START_RANDOM: 'Start Random',
+	TILESET: 'Tileset Art'
 };
 
 export const LANG_DE = {
@@ -91,5 +92,6 @@ export const LANG_DE = {
 	MODE_LINEAR_DESC: 'Umgekehrter linearer Aufbau, immer lösbar, möglicherweise zu langweilig für erfahrene Spieler*innen',
 	BOARD_GENERATOR: 'Spielgenerator',
 	START_SELECTED: 'Auswahl starten',
-	START_RANDOM: 'Zufälliges starten'
+	START_RANDOM: 'Zufälliges starten',
+	TILESET: 'Steine-Art'
 };

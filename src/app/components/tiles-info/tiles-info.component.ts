@@ -8,6 +8,7 @@ import {TILES_INFO} from '../../model/tiles';
 })
 export class TilesInfoComponent {
 	public info = TILES_INFO;
+	public imageSet = 'bzhmaddog';
 
 	constructor() {
 	}

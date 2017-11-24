@@ -28,6 +28,16 @@
 		<div><span>Font Josefine</span> <a rel="noopener" target="_blank" href="https://github.com/ffalt/mah/blob/master/src/fonts/josefine/SIL%20Open%20Font%20License.txt">SIL</a></div>
 	</div>
 </div>
+<div class="settings">
+	<p>{{'TILESET'|translate}}</p>
+	<div class="buttons">
+		<form>
+			<ul class="radio">
+				<li *ngFor="let imageset of sets; let i=index;"><input type="radio" name="imageset" id="imageset{{i}}" [value]="imageset.id" [(ngModel)]="game.settings.tileset"/><label for="imageset{{i}}">{{imageset.name}}</label></li>
+			</ul>
+		</form>
+	</div>
+</div>
 <div class="score">
 	<p>{{'STATS'|translate}}</p>
 	<div>
