@@ -162,7 +162,7 @@ export class GameComponent implements OnInit, OnChanges {
 	public toggleSettings() {
 		this.settingsVisible = !this.settingsVisible;
 		if (!this.settingsVisible) {
-			this.game.saveSettings();
+			this.game.settings.save();
 			this.setLang();
 		}
 	}

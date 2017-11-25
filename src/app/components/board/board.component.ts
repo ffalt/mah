@@ -3,7 +3,7 @@ import {Consts} from '../../model/consts';
 import {Layout} from '../../model/layouts';
 import {Stone} from '../../model/stone';
 import {Draw, DrawPos} from '../../model/draw';
-import {Backgrounds} from '../../model/tilesets';
+import {Backgrounds} from '../../model/consts';
 
 interface Level {
 	z: number;

@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {Game} from '../../model/game';
-import {Backgrounds, ImageSets} from '../../model/tilesets';
+import {Backgrounds, ImageSets} from '../../model/consts';
 
 @Component({
 	selector: 'app-settings',

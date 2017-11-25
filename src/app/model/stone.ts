@@ -43,13 +43,11 @@ export class Stone {
 	public isBlocked(): boolean {
 		return Stone.hasStone(this.nodes.top) || (Stone.hasStone(this.nodes.left) && Stone.hasStone(this.nodes.right));
 	}
-	//
-	// public isLoose(): boolean {
-	// 	return !Stone.hasStone(this.nodes.left) && !Stone.hasStone(this.nodes.right) && !Stone.hasStone(this.nodes.bottom);
-	// }
 
+	public isLoose(): boolean {
+		return !Stone.hasStone(this.nodes.left) && !Stone.hasStone(this.nodes.right) && !Stone.hasStone(this.nodes.bottom);
+	}
 }
-
 
 export const safeGetStone = (stones: Array<Stone>, z: number, x: number, y: number): Stone => {
 	for (let i = 0, il = stones.length; i < il; i++) {

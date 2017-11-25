@@ -5,27 +5,11 @@ import {Sound, SOUNDS} from './sound';
 import {Layout} from './layouts';
 import {Stone} from './stone';
 import {OnInit} from '@angular/core';
-import {ImageSetDefault} from './tilesets';
-
-const STATES = {
-	idle: 0,
-	run: 1,
-	pause: 2,
-	freeze: 3
-};
+import {Settings} from './settings';
+import {STATES} from './consts';
 
 export class Game implements OnInit {
-	public settings = {
-		lang: 'auto',
-		sounds: true,
-		music: false,
-		tileset: ImageSetDefault,
-		background: ''
-	};
-	public stats = {
-		games: 0,
-		bestTime: 0
-	};
+	public settings = new Settings();
 	public clock: Clock = new Clock();
 	public board: Board = new Board();
 	public sound: Sound = new Sound();
@@ -39,7 +23,7 @@ export class Game implements OnInit {
 	}
 
 	public init() {
-		this.loadSettings();
+		this.settings.load();
 		this.load();
 		this.board.update();
 		if (this.state === STATES.run) {
@@ -53,9 +37,7 @@ export class Game implements OnInit {
 	}
 
 	private delayedSave(): void {
-		setTimeout(() => {
-			this.save();
-		}, 1000);
+		setTimeout(() => this.save(), 1000);
 	}
 
 	private playSound(sound: string): void {
@@ -72,19 +54,22 @@ export class Game implements OnInit {
 		sel.picked = true;
 		stone.picked = true;
 		this.board.update();
-		let message: string = null;
 		if (this.board.count < 2) {
-			message = 'MSG_GOOD';
-			if (this.stats.bestTime === 0 || this.clock.elapsed < this.stats.bestTime) {
-				this.stats.bestTime = this.clock.elapsed;
-				message = 'MSG_BEST';
+			if (this.settings.stats.bestTime === 0 || this.clock.elapsed < this.settings.stats.bestTime) {
+				this.settings.stats.bestTime = this.clock.elapsed;
+				this.gameOver('MSG_BEST');
+			} else {
+				this.gameOver('MSG_GOOD');
 			}
 		} else if (this.board.free.length < 1) {
-			message = 'MSG_FAIL';
+			this.gameOver('MSG_FAIL');
 		} else {
 			this.playSound(SOUNDS.MATCH);
-			return this.delayedSave();
+			this.delayedSave();
 		}
+	}
+
+	private gameOver(message: string) {
 		this.playSound(SOUNDS.OVER);
 		this.setState(STATES.idle, message);
 		this.clock.reset();
@@ -116,10 +101,9 @@ export class Game implements OnInit {
 		return this.state === STATES.run;
 	}
 
-	//
-	// public isFreezed() {
-	// 	return this.state === STATES.freeze;
-	// }
+	public isFreezed() {
+		return this.state === STATES.freeze;
+	}
 
 	public isPaused() {
 		return this.state === STATES.pause;
@@ -137,17 +121,18 @@ export class Game implements OnInit {
 		}
 	}
 
-	// public freeze() {
-	// 	this.setState(STATES.freeze);
-	// 	this.clock.pause();
-	// }
-	// public unfreeze() {
-	//  this.setState(STATES.run);
-	// 	this.clock.run();
-	// 	if (this.settings.music) {
-	// 		this.music.play();
-	// 	}
-	// }
+	public freeze() {
+		this.setState(STATES.freeze);
+		this.clock.pause();
+	}
+
+	public unfreeze() {
+		this.setState(STATES.run);
+		this.clock.run();
+		if (this.settings.music) {
+			this.music.play();
+		}
+	}
 
 	private setState(state: number, message?: string) {
 		this.message = message;
@@ -186,7 +171,7 @@ export class Game implements OnInit {
 		this.setState(STATES.idle);
 		this.board.reset();
 		this.undo = [];
-		this.stats.games += 1;
+		this.settings.stats.games += 1;
 	}
 
 	public start(layout: Layout, mode: string) {
@@ -250,58 +235,17 @@ export class Game implements OnInit {
 
 	public toggleSound() {
 		this.settings.sounds = !this.settings.sounds;
-		this.saveSettings();
+		this.settings.save();
 	}
 
-	//
-	// public toggleMusic() {
-	// 	this.settings.music = !this.settings.music;
-	// 	if (!this.settings.music) {
-	// 		this.music.stop();
-	// 	} else {
-	// 		this.music.play();
-	// 	}
-	// 	this.saveSettings();
-	// }
-
-	public loadSettings() {
-		if (!localStorage) {
-			return false;
+	public toggleMusic() {
+		this.settings.music = !this.settings.music;
+		if (!this.settings.music) {
+			this.music.stop();
+		} else {
+			this.music.play();
 		}
-		const stored = localStorage.getItem('settings');
-		if (!stored) {
-			return false;
-		}
-		try {
-			const store = JSON.parse(stored);
-			this.settings.lang = store.lang || 'auto';
-			this.settings.tileset = store.tileset || ImageSetDefault;
-			this.settings.background = store.background;
-			this.settings.music = store.music || false;
-			this.settings.sounds = store.sounds || false;
-			this.stats.games = store.games || 0;
-			this.stats.bestTime = store.bestTime || 0;
-		} catch (e) {
-			console.error('local storage load failed', e);
-		}
+		this.settings.save();
 	}
 
-	public saveSettings() {
-		if (!localStorage) {
-			return false;
-		}
-		try {
-			localStorage.setItem('settings', JSON.stringify({
-				lang: this.settings.lang,
-				sounds: this.settings.sounds,
-				music: this.settings.music,
-				background: this.settings.background,
-				tileset: this.settings.tileset,
-				games: this.stats.games,
-				bestTime: this.stats.bestTime
-			}));
-		} catch (e) {
-			console.error('local storage save failed', e);
-		}
-	}
 }
