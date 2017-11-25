@@ -1,7 +1,6 @@
 `bzhmaddog.svg`
 svg tiles build on https://github.com/bzhmaddog/html5-mahjong-solitaire/tree/master/res/skins/default/tiles
 by https://github.com/bzhmaddog
-![bzhmaddog](https://raw.githubusercontent.com/ffalt/mah/master/src/assets/svg/bzhmaddog.svg)
 
 `cheshire137.svg`
 svg tiles build on https://github.com/cheshire137/Mahjong/tree/master/app/assets/images/tiles
