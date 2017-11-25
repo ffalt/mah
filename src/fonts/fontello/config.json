@@ -119,6 +119,12 @@
       "css": "loop",
       "code": 59410,
       "src": "iconic"
+    },
+    {
+      "uid": "e99461abfef3923546da8d745372c995",
+      "css": "cog",
+      "code": 59411,
+      "src": "fontawesome"
     }
   ]
 }

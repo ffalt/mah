@@ -2,7 +2,7 @@ import {TestBed, async} from '@angular/core/testing';
 import {AppComponent} from './app.component';
 import {ChooseBoardComponent} from './components/choose-board/choose-board-component.component';
 import {GameComponent} from './components/game/game-component.component';
-import {HelpComponent} from './components/help/help-component.component';
+import {HelpComponent} from './components/help/help.component';
 import {LayoutListComponent} from './components/layout-list/layout-list.component';
 import {LayoutListItemComponent} from './components/layout-list-item/layout-list-item.component';
 import {BoardComponent} from './components/board/board.component';

@@ -1,8 +1,9 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, ElementRef, Input, OnChanges, OnInit, Renderer2, SimpleChanges} from '@angular/core';
 import {Consts} from '../../model/consts';
 import {Layout} from '../../model/layouts';
 import {Stone} from '../../model/stone';
 import {Draw, DrawPos} from '../../model/draw';
+import {Backgrounds} from '../../model/tilesets';
 
 interface Level {
 	z: number;
@@ -16,7 +17,7 @@ interface Level {
 	styleUrls: ['./board.component.scss']
 })
 export class BoardComponent implements OnInit, OnChanges {
-
+	@Input() public background: string;
 	@Input() public imageSet: string;
 	@Input() public level: Level;
 	@Input() public tiles: Array<Stone>;
@@ -44,7 +45,7 @@ export class BoardComponent implements OnInit, OnChanges {
 		return pos;
 	}
 
-	constructor() {
+	constructor(private elementRef: ElementRef, public renderer: Renderer2) {
 	}
 
 	ngOnInit(): void {
@@ -141,13 +142,28 @@ export class BoardComponent implements OnInit, OnChanges {
 		this.setViewPort();
 	}
 
+	private updateBackground(background: string): void {
+		const back = Backgrounds.find(b => b.img === background);
+		if (back && back.img) {
+			this.renderer.setStyle(this.elementRef.nativeElement, 'background-size', back.small ? 'auto, auto' : '100%, 100%');
+			this.renderer.setStyle(this.elementRef.nativeElement, 'background-image', 'url("assets/img/' + back.img + '")');
+		} else {
+			this.renderer.setStyle(this.elementRef.nativeElement, 'background-image', null);
+		}
+	}
+
 	public ngOnChanges(changes: SimpleChanges): void {
 		if (changes['tiles']) {
 			this.updateTiles(changes['tiles'].currentValue);
-		} else if (changes['layout']) {
+		}
+		if (changes['layout']) {
 			this.updateLayout(changes['layout'].currentValue);
-		} else if (changes['level']) {
+		}
+		if (changes['level']) {
 			this.updateLevel(changes['level'].currentValue);
+		}
+		if (changes['background']) {
+			this.updateBackground(changes['background'].currentValue);
 		}
 	}
 
@@ -185,10 +201,14 @@ export class BoardComponent implements OnInit, OnChanges {
 	}
 
 	public onClick(draw?: Draw): void {
-		if (this.click && draw) {
-			this.click(draw.source);
-			this.setSort(this.draw_stones); // trigger a resort for z-ordering in svg
-			// this.draw_stones = this.draw_stones.slice();
+		if (this.click) {
+			if (draw) {
+				this.click(draw.source);
+				this.setSort(this.draw_stones); // trigger a resort for z-ordering in svg
+			} else {
+				this.click(null);
+				this.setSort(this.draw_stones); // trigger a resort for z-ordering in svg
+			}
 		}
 	}
 

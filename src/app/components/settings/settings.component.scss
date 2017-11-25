@@ -1,0 +1,50 @@
+@import "../../style/globals";
+
+:host {
+  display: block;
+  margin-bottom: 8px;
+
+  > div {
+    vertical-align: top;
+    display: inline-block;
+    margin-right: 20px;
+
+    > div {
+      font-size: 0.9em;
+    }
+  }
+
+  h1 {
+    text-align: center;
+    color: $text-color;
+    margin-top: 0;
+    margin-bottom: 10px
+  }
+
+  p {
+    margin: 10px 0 4px;
+    font-weight: bold;
+  }
+
+  .radio {
+    text-align: left;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    label {
+      margin-left: 2px;
+    }
+  }
+
+  .close {
+    margin-top: 0;
+  }
+}
+
+@media (max-width: $width-medium) {
+  :host {
+    font-size: 0.9em;
+  }
+}
+

@@ -4,6 +4,7 @@
   width: 100%;
   height: 100%;
   display: block;
+  background-repeat: repeat;
 
   .board-svg {
     width: 100%;
@@ -14,6 +15,7 @@
 
     rect.background {
       fill: $background-color;
+      opacity: 0;
     }
 
   }

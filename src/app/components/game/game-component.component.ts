@@ -33,6 +33,7 @@ export class GameComponent implements OnInit, OnChanges {
 	public onGameStartCallback: Event;
 	public tilesInfoVisible = false;
 	public helpVisible = false;
+	public settingsVisible = false;
 	public newGameVisible = false;
 
 	constructor(private translate: TranslateService, private el: ElementRef) {
@@ -42,7 +43,7 @@ export class GameComponent implements OnInit, OnChanges {
 	public handleKeyDownEvent(event: KeyboardEvent) {
 		if (this.helpVisible) {
 			if (event.keyCode === 27) {
-				this.helpVisible = !this.helpVisible;
+				this.toggleHelp();
 			}
 			return;
 		}
@@ -54,16 +55,25 @@ export class GameComponent implements OnInit, OnChanges {
 		}
 		if (this.tilesInfoVisible) {
 			if (event.keyCode === 27) {
-				this.tilesInfoVisible = !this.tilesInfoVisible;
+				this.toggleTilesInfo();
+			}
+			return;
+		}
+		if (this.settingsVisible) {
+			if (event.keyCode === 27) {
+				this.toggleSettings();
 			}
 			return;
 		}
 		switch (event.which) {
 			case 72: // h
-				this.helpVisible = !this.helpVisible;
+				this.toggleHelp();
 				break;
 			case 73: // i
-				this.tilesInfoVisible = !this.tilesInfoVisible;
+				this.toggleTilesInfo();
+				break;
+			case 83: // s
+				this.toggleSettings();
 				break;
 			case 84: // t
 				this.game.hint();
@@ -149,12 +159,15 @@ export class GameComponent implements OnInit, OnChanges {
 		this.tilesInfoVisible = !this.tilesInfoVisible;
 	}
 
-	public toggleHelp() {
-		this.helpVisible = !this.helpVisible;
-		if (!this.helpVisible) {
+	public toggleSettings() {
+		this.settingsVisible = !this.settingsVisible;
+		if (!this.settingsVisible) {
 			this.game.saveSettings();
 			this.setLang();
 		}
+	}
+	public toggleHelp() {
+		this.helpVisible = !this.helpVisible;
 	}
 
 	public clickMessage() {

@@ -8,7 +8,7 @@ import {TooltipModule} from './modules/tooltip/tooltip.module';
 import {AppComponent} from './app.component';
 import {ChooseBoardComponent} from './components/choose-board/choose-board-component.component';
 import {GameComponent} from './components/game/game-component.component';
-import {HelpComponent} from './components/help/help-component.component';
+import {HelpComponent} from './components/help/help.component';
 import {LayoutListComponent} from './components/layout-list/layout-list.component';
 import {LayoutListItemComponent} from './components/layout-list-item/layout-list-item.component';
 import {BoardComponent} from './components/board/board.component';
@@ -18,6 +18,7 @@ import {TilesInfoComponent} from './components/tiles-info/tiles-info.component';
 import {TileComponent} from './components/tile/tile.component';
 import {SvgdefService} from './service/svgdef.service';
 import {ImageSetLoaderComponent} from './components/image-set-loader/image-set-loader.component';
+import {SettingsComponent} from './components/settings/settings.component';
 
 @NgModule({
 	declarations: [
@@ -31,7 +32,8 @@ import {ImageSetLoaderComponent} from './components/image-set-loader/image-set-l
 		DurationPipe,
 		TilesInfoComponent,
 		TileComponent,
-		ImageSetLoaderComponent
+		ImageSetLoaderComponent,
+		SettingsComponent
 	],
 	imports: [
 		BrowserModule,

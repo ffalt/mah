@@ -21,7 +21,7 @@ export const LANG_EN = {
 	STATS_BEST: 'Best time',
 	LICENSE: 'License',
 	SHORTCUTS: 'Shortcuts',
-	SETTINGS: 'Info',
+	SETTINGS: 'Settings',
 	STATS: 'Stats',
 	MODE: 'Board Fill Algorithm',
 	MODE_SOLVABLE: 'Solvable',
@@ -35,6 +35,7 @@ export const LANG_EN = {
 	LANG_DE: 'German',
 	LANG_AUTO: '[Default]',
 	OPEN_SETTINGS: 'Click here to open the settings',
+	OPEN_HELP: 'Click here to open the help dialog',
 	READ_MORE_WIKIPEDIA: 'Read more on wikipedia',
 	READ_MORE_WIKIPEDIA_URL: 'https://en.wikipedia.org/wiki/Mahjong_tiles',
 	TILES_INFO: 'Tiles Information',
@@ -44,7 +45,8 @@ export const LANG_EN = {
 	BOARD_GENERATOR: 'Board Generator',
 	START_SELECTED: 'Start Selected',
 	START_RANDOM: 'Start Random',
-	TILESET: 'Tileset Art'
+	TILESET: 'Tileset Art',
+	BACKGROUND: 'Background'
 };
 
 export const LANG_DE = {
@@ -55,7 +57,7 @@ export const LANG_DE = {
 	STONES: 'Steine',
 	FREE: 'Frei',
 	FULLSCREEN: 'Vollbild',
-	SETTINGS: 'Info',
+	SETTINGS: 'Einstellungen',
 	HINT_LONG: 'Mögliche Züge anzeigen',
 	UNDO_LONG: 'Letzten Zug rückgängig machen',
 	RESTART_LONG: 'Neues Spiel beginnen',
@@ -84,6 +86,7 @@ export const LANG_DE = {
 	LANG_EN: 'Englisch',
 	LANG_DE: 'Deutsch',
 	OPEN_SETTINGS: 'Klick hier um die Einstellungen zu öffnen',
+	OPEN_HELP: 'Klick hier um die Hilfe zu öffnen',
 	READ_MORE_WIKIPEDIA: 'Mehr bei Wikipedia lesen',
 	READ_MORE_WIKIPEDIA_URL: 'https://de.wikipedia.org/wiki/Mah-Jongg',
 	TILES_INFO: 'Steinverzeichnis',
@@ -93,5 +96,6 @@ export const LANG_DE = {
 	BOARD_GENERATOR: 'Spielgenerator',
 	START_SELECTED: 'Auswahl starten',
 	START_RANDOM: 'Zufälliges starten',
-	TILESET: 'Steine-Art'
+	TILESET: 'Steine-Art',
+	BACKGROUND: 'Hintergrund'
 };

@@ -1,6 +1,6 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {HelpComponent} from './help-component.component';
+import {HelpComponent} from './help.component';
 import {TranslateModule} from '@ngx-translate/core';
 import {FormsModule} from '@angular/forms';
 import {DurationPipe} from '../../pipes/duration.pipe';

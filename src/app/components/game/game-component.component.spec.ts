@@ -7,7 +7,7 @@ import {TranslateModule} from '@ngx-translate/core';
 import {Layouts} from '../../model/layouts';
 import {BoardComponent} from '../board/board.component';
 import {DurationPipe} from '../../pipes/duration.pipe';
-import {HelpComponent} from '../help/help-component.component';
+import {HelpComponent} from '../help/help.component';
 import {ChooseBoardComponent} from '../choose-board/choose-board-component.component';
 import {FormsModule} from '@angular/forms';
 import {LayoutListItemComponent} from '../layout-list-item/layout-list-item.component';

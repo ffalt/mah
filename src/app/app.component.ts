@@ -1,5 +1,4 @@
 import {Component} from '@angular/core';
-import {Tiles} from './model/tiles';
 import {Game} from './model/game';
 import {LayoutService} from './service/layout.service';
 import {Layouts} from './model/layouts';
