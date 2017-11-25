@@ -5,6 +5,7 @@ import {Sound, SOUNDS} from './sound';
 import {Layout} from './layouts';
 import {Stone} from './stone';
 import {OnInit} from '@angular/core';
+import {imageSetDefault} from './tilesets';
 
 const STATES = {
 	idle: 0,
@@ -18,7 +19,7 @@ export class Game implements OnInit {
 		lang: 'auto',
 		sounds: true,
 		music: false,
-		tileset: 'riichi'
+		tileset: imageSetDefault
 	};
 	public stats = {
 		games: 0,
@@ -273,7 +274,7 @@ export class Game implements OnInit {
 		try {
 			const store = JSON.parse(stored);
 			this.settings.lang = store.lang || 'auto';
-			this.settings.tileset = store.tileset || 'riichi';
+			this.settings.tileset = store.tileset || imageSetDefault;
 			this.settings.music = store.music || false;
 			this.settings.sounds = store.sounds || false;
 			this.stats.games = store.games || 0;

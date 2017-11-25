@@ -1,7 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {Game} from '../../model/game';
 import {environment} from '../../../environments/environment';
-import {imageSets} from '../image-set-loader/image-set-loader.component';
+import {imageSets} from '../../model/tilesets';
 
 @Component({
 	selector: 'app-help-component',
