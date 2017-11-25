@@ -1,6 +1,6 @@
 {
   "name": "mah",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "author": "ffalt",
   "license": "MIT",
   "description": "a html5 mahjong solitaire game",
@@ -54,6 +54,6 @@
     "protractor": "~5.2.0",
     "ts-node": "~3.3.0",
     "tslint": "~5.8.0",
-    "typescript": "=2.4.2"
+    "typescript": "2.6.1"
   }
 }
