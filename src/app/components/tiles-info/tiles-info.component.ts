@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {TILES_INFO} from '../../model/tiles';
+import {TILES_INFO} from '../../model/consts';
 
 @Component({
 	selector: 'app-tiles-info',
