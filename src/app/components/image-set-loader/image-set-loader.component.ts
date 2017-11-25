@@ -17,7 +17,6 @@ export class ImageSetLoaderComponent implements OnChanges {
 	}
 
 	public ngOnChanges(changes: SimpleChanges): void {
-		console.log(changes);
 		this.getImageSet();
 	}
 
