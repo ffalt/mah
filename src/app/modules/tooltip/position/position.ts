@@ -3,26 +3,21 @@ import {PlacementTypes} from './placement.type';
 const caretOffset = 7;
 
 function verticalPosition(elDimensions, popoverDimensions, alignment) {
-	let result;
 
 	if (alignment === 'top') {
-		result = elDimensions.top - caretOffset;
+		return elDimensions.top - caretOffset;
 	}
 
 	if (alignment === 'bottom') {
-		result = elDimensions.top + elDimensions.height - popoverDimensions.height + caretOffset;
+		return elDimensions.top + elDimensions.height - popoverDimensions.height + caretOffset;
 	}
 
-	if (alignment === 'center') {
-		result = elDimensions.top + elDimensions.height / 2 - popoverDimensions.height / 2;
-	}
-
-	return result;
+	// if (alignment === 'center') {
+	return elDimensions.top + elDimensions.height / 2 - popoverDimensions.height / 2;
+	// }
 }
 
 function horizontalPosition(elDimensions, popoverDimensions, alignment) {
-	let result;
-
 	if (alignment === 'left') {
 		return elDimensions.left - caretOffset;
 	}
@@ -31,11 +26,9 @@ function horizontalPosition(elDimensions, popoverDimensions, alignment) {
 		return elDimensions.left + elDimensions.width - popoverDimensions.width + caretOffset;
 	}
 
-	if (alignment === 'center') {
-		return elDimensions.left + elDimensions.width / 2 - popoverDimensions.width / 2;
-	}
-
-	return result;
+	// if (alignment === 'center') {
+	return elDimensions.left + elDimensions.width / 2 - popoverDimensions.width / 2;
+	// }
 }
 
 /**
@@ -94,7 +87,7 @@ export class PositionHelper {
 			result = popoverDimensions.height / 2 - caretDimensions.height / 2;
 		}
 
-		let popoverPosition = verticalPosition(elDimensions, popoverDimensions, alignment);
+		const popoverPosition = verticalPosition(elDimensions, popoverDimensions, alignment);
 		if (popoverPosition + popoverDimensions.height > window.innerHeight) {
 			result += (popoverPosition + popoverDimensions.height - window.innerHeight);
 		}
@@ -150,7 +143,7 @@ export class PositionHelper {
 			result = popoverDimensions.width / 2 - caretDimensions.width / 2;
 		}
 
-		let popoverPosition = horizontalPosition(elDimensions, popoverDimensions, alignment);
+		const popoverPosition = horizontalPosition(elDimensions, popoverDimensions, alignment);
 		if (popoverPosition + popoverDimensions.width > window.innerWidth) {
 			result += (popoverPosition + popoverDimensions.width - window.innerWidth);
 		}
@@ -175,14 +168,14 @@ export class PositionHelper {
 		let flip = false;
 
 		if (placement === 'right') {
-			let popoverPosition = horizontalPosition(elDimensions, popoverDimensions, alignment);
+			const popoverPosition = horizontalPosition(elDimensions, popoverDimensions, alignment);
 			if (popoverPosition + popoverDimensions.width + spacing > window.innerWidth) {
 				flip = true;
 			}
 		}
 
 		if (placement === 'left') {
-			let popoverPosition = horizontalPosition(elDimensions, popoverDimensions, alignment);
+			const popoverPosition = horizontalPosition(elDimensions, popoverDimensions, alignment);
 			if (popoverPosition - spacing < 0) {
 				flip = true;
 			}
@@ -195,7 +188,7 @@ export class PositionHelper {
 		}
 
 		if (placement === 'bottom') {
-			let popoverPosition = verticalPosition(elDimensions, popoverDimensions, alignment);
+			const popoverPosition = verticalPosition(elDimensions, popoverDimensions, alignment);
 			if (popoverPosition + popoverDimensions.height + spacing > window.innerHeight) {
 				flip = true;
 			}

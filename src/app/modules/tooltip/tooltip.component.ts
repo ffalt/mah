@@ -8,7 +8,7 @@ import {StyleTypes} from './style.type';
 import {AlignmentTypes} from './alignment.type';
 
 @Component({
-	selector: 'tooltip-content',
+	selector: 'app-tooltip-content',
 	template: `
 		<span *ngIf="!title"><ng-template [ngTemplateOutlet]="template" [ngTemplateOutletContext]="{ model: context }"></ng-template></span>
 		<div>
@@ -24,6 +24,7 @@ import {AlignmentTypes} from './alignment.type';
 export class TooltipContentComponent implements AfterViewInit {
 
 	@Input() host: any;
+	@Input() template: any;
 	@Input() showCaret: boolean;
 	@Input() type: StyleTypes;
 	@Input() placement: PlacementTypes;

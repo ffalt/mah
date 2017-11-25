@@ -5,6 +5,15 @@ import {Layout} from '../../model/layouts';
 import {Component} from '@angular/core';
 
 describe('LayoutListItemComponent', () => {
+
+	@Component({
+		selector: 'app-layout-list-item-host-component',
+		template: '<li app-layout-list-item [layout]="mockLayout"></li>'
+	})
+	class TestLayoutListItemHostComponent {
+		mockLayout = new Layout();
+	}
+
 	let component: TestLayoutListItemHostComponent;
 	let fixture: ComponentFixture<TestLayoutListItemHostComponent>;
 
@@ -25,11 +34,4 @@ describe('LayoutListItemComponent', () => {
 		expect(component).toBeTruthy();
 	});
 
-	@Component({
-		selector: 'app-layout-list-item-host-component',
-		template: '<li app-layout-list-item [layout]="mockLayout"></li>'
-	})
-	class TestLayoutListItemHostComponent {
-		mockLayout = new Layout();
-	}
 });

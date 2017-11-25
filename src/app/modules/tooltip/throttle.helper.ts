@@ -22,13 +22,13 @@ export function throttle(func: any, wait: number, options?: any) {
 	}
 
 	return function() {
-		let now = +new Date();
+		const now = +new Date();
 
 		if (!previous && options.leading === false) {
 			previous = now;
 		}
 
-		let remaining = wait - (now - previous);
+		const remaining = wait - (now - previous);
 		context = this;
 		args = arguments;
 

@@ -6,6 +6,15 @@ import {Component} from '@angular/core';
 import {Layouts} from '../../model/layouts';
 
 describe('LayoutListComponent', () => {
+
+	@Component({
+		selector: 'app-layout-list-host-component',
+		template: '<app-layout-list [layouts]="mockLayouts"></app-layout-list>'
+	})
+	class TestLayoutListHostComponent {
+		mockLayouts = new Layouts();
+	}
+
 	let component: TestLayoutListHostComponent;
 	let fixture: ComponentFixture<TestLayoutListHostComponent>;
 
@@ -26,11 +35,4 @@ describe('LayoutListComponent', () => {
 		expect(component).toBeTruthy();
 	});
 
-	@Component({
-		selector: 'app-layout-list-host-component',
-		template: '<app-layout-list [layouts]="mockLayouts"></app-layout-list>'
-	})
-	class TestLayoutListHostComponent {
-		mockLayouts = new Layouts();
-	}
 });

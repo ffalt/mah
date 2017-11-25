@@ -15,6 +15,16 @@ import {LayoutListComponent} from '../layout-list/layout-list.component';
 import {TilesInfoComponent} from '../tiles-info/tiles-info.component';
 
 describe('GameComponent', () => {
+
+	@Component({
+		selector: 'app-game-component-host-component',
+		template: '<app-game-component [game]="mockGame" [layouts]="mocklayouts"></app-game-component>'
+	})
+	class TestGameComponentHostComponent {
+		mockGame = new Game();
+		mocklayouts = new Layouts();
+	}
+
 	let component: TestGameComponentHostComponent;
 	let fixture: ComponentFixture<TestGameComponentHostComponent>;
 
@@ -37,12 +47,4 @@ describe('GameComponent', () => {
 		expect(component).toBeTruthy();
 	});
 
-	@Component({
-		selector: 'app-game-component-host-component',
-		template: '<app-game-component [game]="mockGame" [layouts]="mocklayouts"></app-game-component>'
-	})
-	class TestGameComponentHostComponent {
-		mockGame = new Game();
-		mocklayouts = new Layouts();
-	}
 });

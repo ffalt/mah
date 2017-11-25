@@ -8,6 +8,15 @@ import {Game} from '../../model/game';
 import {Component} from '@angular/core';
 
 describe('HelpComponent', () => {
+
+	@Component({
+		selector: 'app-help-host-component',
+		template: '<app-help-component [game]="mockGame"></app-help-component>'
+	})
+	class TestHelpHostComponent {
+		mockGame = new Game();
+	}
+
 	let component: TestHelpHostComponent;
 	let fixture: ComponentFixture<TestHelpHostComponent>;
 	beforeEach(async(() => {
@@ -28,12 +37,4 @@ describe('HelpComponent', () => {
 		expect(component).toBeTruthy();
 	});
 
-
-	@Component({
-		selector: 'app-help-host-component',
-		template: '<app-help-component [game]="mockGame"></app-help-component>'
-	})
-	class TestHelpHostComponent {
-		mockGame = new Game();
-	}
 });

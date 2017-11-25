@@ -13,7 +13,7 @@ export const imageSets = [
 
 @Component({
 	selector: '[app-image-set-loader]',
-	template: ' '
+	template: '<svg:defs></svg:defs>'
 })
 export class ImageSetLoaderComponent implements OnInit, OnChanges {
 

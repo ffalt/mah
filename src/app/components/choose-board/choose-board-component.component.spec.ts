@@ -9,6 +9,16 @@ import {BoardComponent} from '../board/board.component';
 import {FormsModule} from '@angular/forms';
 
 describe('ChooseBoardComponent', () => {
+
+
+	@Component({
+		selector: 'app-choose-board-host-component',
+		template: '<app-choose-board-component [layouts]="mockLayouts"></app-choose-board-component>'
+	})
+	class TestChooseBoardHostComponent {
+		mockLayouts = new Layouts();
+	}
+
 	let component: TestChooseBoardHostComponent;
 	let fixture: ComponentFixture<TestChooseBoardHostComponent>;
 
@@ -31,11 +41,4 @@ describe('ChooseBoardComponent', () => {
 	});
 
 
-	@Component({
-		selector: 'app-choose-board-host-component',
-		template: '<app-choose-board-component [layouts]="mockLayouts"></app-choose-board-component>'
-	})
-	class TestChooseBoardHostComponent {
-		mockLayouts = new Layouts();
-	}
 });
