@@ -68,7 +68,7 @@
 					d="M -4.7687833,775.07096 C -9.6501835,741.99485 -16.84552,674.23676 -1.2788716,652.0641 18.998297,625.94378 233.50094,631.63117 263.31435,653.90999 276.21398,662.64856 70.349579,663.12124 47.099353,691.74479 24.390958,719.11242 0.65060847,818.18718 -4.7687833,775.07096 Z"/>
 		</svg>
 	</defs>
-	<defs app-image-set-loader [imageSet]="imageSet" prefix="b"></defs>
+	<defs app-image-set-loader [imageSet]="imageSet" [prefix]="'b_'+imageSet+'_'"></defs>
 	<rect class="background" x="-6000px" y="-6000px" width="12000px" height="12000px" (mousedown)="onClick();"></rect>
 	<g class="stage">
 		<rect *ngFor="let draw of draw_cells" stroke="black" stroke-width="1" [attr.fill]="onCellColor(draw)" [attr.x]="draw.pos.x" [attr.y]="draw.pos.y" width="37.5px" height="50px" (click)="onCellClick(draw);"></rect>
@@ -78,7 +78,7 @@
 			<g class="tile">
 				<rect class="shadow" x="3" y="3" width="75px" height="100px" rx="10" ry="10"></rect>
 				<rect class="stone" x="0" y="0" width="75" height="100" rx="10" ry="10"></rect>
-				<use [attr.xlink:href]="'#b'+draw.url" x="6" y="6" width="63" height="88"/>
+				<use [attr.xlink:href]="'#b_'+imageSet+'_'+draw.url" x="6" y="6" width="63" height="88"/>
 				<use xlink:href="#front" x="0" y="0" width="75" height="100"/>
 			</g>
 		</g>
