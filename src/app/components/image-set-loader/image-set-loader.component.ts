@@ -28,7 +28,16 @@ export class ImageSetLoaderComponent implements OnChanges {
 			let s = def.split('<defs>')[1].split('</defs>')[0];
 			s = s.replace(/xlink:href="\./g, 'xlink:href="assets/svg').replace(/ id="t_/g, ' id="' + this.prefix + 't_');
 			setTimeout(() => {
+				while (this.elementRef.nativeElement.firstChild) {
+					this.elementRef.nativeElement.removeChild(this.elementRef.nativeElement.firstChild);
+				}
 				this.elementRef.nativeElement.innerHTML = s;
+				if (!this.elementRef.nativeElement.firstChild) {
+					const doc = new DOMParser().parseFromString(
+						'<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">' + s + '</svg>', 'application/xml');
+					const node = this.elementRef.nativeElement.ownerDocument.importNode(doc.documentElement, true);
+					this.elementRef.nativeElement.appendChild(node);
+				}
 			}, 0);
 		});
 
