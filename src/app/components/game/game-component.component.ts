@@ -128,7 +128,7 @@ export class GameComponent implements OnInit, OnChanges {
 			}
 			return;
 		}
-		const elem = <ElemEx>this.el.nativeElement;
+		const elem = <ElemEx>document.body; // this.el.nativeElement;
 		if (elem.requestFullscreen) {
 			elem.requestFullscreen();
 		} else if (elem.webkitRequestFullScreen) {
