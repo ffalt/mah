@@ -30,7 +30,8 @@ export const ImageSets = [
 	{id: 'recri2', name: 'SVG Recri'},
 	{id: 'unib', name: 'SVG Black'},
 	{id: 'gleitz', name: 'PNG Gleitz'},
-	{id: 'recri', name: 'PNG Recri'}
+	{id: 'recri', name: 'PNG Recri'},
+	{id: 'open-fruits', name: 'PNG Open Fruits'},
 ];
 
 export const ImageSetDefault = 'riichi';
