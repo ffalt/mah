@@ -36,8 +36,8 @@ export class BoardComponent implements OnInit, OnChanges {
 
 	private static calcPos(z: number, x: number, y: number): DrawPos {
 		const pos = {
-			x: ((Consts.tile_width) * x / 2 - (5 * z)) + (Consts.tile_width / 2),
-			y: ((Consts.tile_height) * y / 2 - (8 * z)) + (Consts.tile_height / 2),
+			x: ((Consts.tile_width + 2) * x / 2 - (8 * z)) + (Consts.tile_width / 2),
+			y: ((Consts.tile_height + 2) * y / 2 - (8 * z)) + (Consts.tile_height / 2),
 			z: y + Consts.mY * (x + Consts.mX * z),
 			translate: ''
 		};
