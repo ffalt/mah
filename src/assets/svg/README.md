@@ -35,5 +35,5 @@ Public Domain. https://en.wikipedia.org/wiki/en:public_domain
 by https://commons.wikimedia.org/wiki/User:Shizhao
 
 `open-fruits.svg`
-images used from https://github.com/xunkar/open-mahjong/tree/master/resources/tiles/fruits
+based on images from https://github.com/xunkar/open-mahjong/tree/master/resources/tiles/fruits
 by https://github.com/xunkar
