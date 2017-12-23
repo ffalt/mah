@@ -34,5 +34,6 @@ svg tiles build on https://commons.wikimedia.org/wiki/Category:Unicode_1F000-1F0
 Public Domain. https://en.wikipedia.org/wiki/en:public_domain
 by https://commons.wikimedia.org/wiki/User:Shizhao
 
-
-
+`open-fruits.svg`
+based on images from https://github.com/xunkar/open-mahjong/tree/master/resources/tiles/fruits
+by https://github.com/xunkar
