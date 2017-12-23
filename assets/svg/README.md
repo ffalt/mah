@@ -37,3 +37,11 @@ by https://commons.wikimedia.org/wiki/User:Shizhao
 `open-fruits.svg`
 based on images from https://github.com/xunkar/open-mahjong/tree/master/resources/tiles/fruits
 by https://github.com/xunkar
+
+`picasso.svg`
+`classic.svg`
+`modern.svg`
+based on images from http://star.physics.yale.edu/~ullrich/software/SolitaireMahjong/
+GNU General Public License 3 http://www.gnu.org/licenses/
+by Thomas S. Ullrich
+
