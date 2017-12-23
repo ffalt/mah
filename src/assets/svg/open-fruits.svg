@@ -27,18 +27,18 @@
         <image id="t_ba7" xlink:href="./open-fruits/BAMBOO_7.png" x="0" y="0" height="88px" width="63px"/>
         <image id="t_ba8" xlink:href="./open-fruits/BAMBOO_8.png" x="0" y="0" height="88px" width="63px"/>
         <image id="t_ba9" xlink:href="./open-fruits/BAMBOO_9.png" x="0" y="0" height="88px" width="63px"/>
-        <image id="t_se_spring" xlink:href="./open-fruits/SEASON_1.png" x="0" y="0" height="88px" width="63px"/>
-        <image id="t_se_summer" xlink:href="./open-fruits/SEASON_2.png" x="0" y="0" height="88px" width="63px"/>
-        <image id="t_se_fall" xlink:href="./open-fruits/SEASON_3.png" x="0" y="0" height="88px" width="63px"/>
-        <image id="t_se_winter" xlink:href="./open-fruits/SEASON_4.png" x="0" y="0" height="88px" width="63px"/>
+        <image id="t_se_spring" xlink:href="./open-fruits/SEASON.png" x="0" y="0" height="88px" width="63px"/>
+        <image id="t_se_summer" xlink:href="./open-fruits/SEASON.png" x="0" y="0" height="88px" width="63px"/>
+        <image id="t_se_fall" xlink:href="./open-fruits/SEASON.png" x="0" y="0" height="88px" width="63px"/>
+        <image id="t_se_winter" xlink:href="./open-fruits/SEASON.png" x="0" y="0" height="88px" width="63px"/>
         <image id="t_wi_north" xlink:href="./open-fruits/WIND_N.png" x="0" y="0" height="88px" width="63px"/>
         <image id="t_wi_south" xlink:href="./open-fruits/WIND_S.png" x="0" y="0" height="88px" width="63px"/>
         <image id="t_wi_east" xlink:href="./open-fruits/WIND_E.png" x="0" y="0" height="88px" width="63px"/>
         <image id="t_wi_west" xlink:href="./open-fruits/WIND_W.png" x="0" y="0" height="88px" width="63px"/>
-        <image id="t_fl_bamboo" xlink:href="./open-fruits/FLOWER_4.png" x="0" y="0" height="88px" width="63px"/>
-        <image id="t_fl_chrysanthemum" xlink:href="./open-fruits/FLOWER_3.png" x="0" y="0" height="88px" width="63px"/>
-        <image id="t_fl_orchid" xlink:href="./open-fruits/FLOWER_2.png" x="0" y="0" height="88px" width="63px"/>
-        <image id="t_fl_plum" xlink:href="./open-fruits/FLOWER_1.png" x="0" y="0" height="88px" width="63px"/>
+        <image id="t_fl_bamboo" xlink:href="./open-fruits/FLOWER.png" x="0" y="0" height="88px" width="63px"/>
+        <image id="t_fl_chrysanthemum" xlink:href="./open-fruits/FLOWER.png" x="0" y="0" height="88px" width="63px"/>
+        <image id="t_fl_orchid" xlink:href="./open-fruits/FLOWER.png" x="0" y="0" height="88px" width="63px"/>
+        <image id="t_fl_plum" xlink:href="./open-fruits/FLOWER.png" x="0" y="0" height="88px" width="63px"/>
         <image id="t_dr_green" xlink:href="./open-fruits/DRAGON_G.png" x="0" y="0" height="88px" width="63px"/>
         <image id="t_dr_white" xlink:href="./open-fruits/DRAGON_W.png" x="0" y="0" height="88px" width="63px"/>
         <image id="t_dr_red" xlink:href="./open-fruits/DRAGON_R.png" x="0" y="0" height="88px" width="63px"/>
