@@ -67,7 +67,7 @@
 <div *ngIf="tilesInfoVisible" class="overlay tiles-info" (click)="toggleTilesInfo();">
 	<div class="overlay-popup" (click)="$event.stopPropagation();">
 		<span class="close" (click)="toggleTilesInfo()"><i class="icon-cancel-circled2 pull-right"></i></span>
-		<app-tiles-info></app-tiles-info>
+		<app-tiles-info [imageSet]="game.settings.tileset"></app-tiles-info>
 	</div>
 </div>
 <div *ngIf="layouts && newGameVisible" (click)="toggleNewGame();" class="overlay newgame">
