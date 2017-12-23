@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {TILES_INFO} from '../../model/consts';
 
 @Component({
@@ -8,7 +8,8 @@ import {TILES_INFO} from '../../model/consts';
 })
 export class TilesInfoComponent {
 	public info = TILES_INFO;
-	public imageSet = 'bzhmaddog';
+	@Input()
+	public imageSet;
 
 	constructor() {
 	}
