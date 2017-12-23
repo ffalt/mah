@@ -2,6 +2,8 @@
 
 :host {
 
+  background-color: #2b424f;
+
   &.paused {
     .board {
       @include blur(8px);
