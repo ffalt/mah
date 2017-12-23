@@ -175,6 +175,7 @@ export class GameComponent implements OnInit, OnChanges {
 			this.game.resume();
 		} else {
 			this.game.reset();
+			this.newGameVisible = true;
 		}
 	}
 
