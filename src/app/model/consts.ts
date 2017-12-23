@@ -13,10 +13,13 @@ export const STATES = {
 
 export const Backgrounds: Array<{ img: string, name: string, small?: boolean }> = [
 	{img: null, name: 'None'},
+	{img: 'bamboo.jpg', name: 'Bamboo'},
+	{img: 'blueclouds.jpg', name: 'Blue Clouds'},
+	{img: 'grayclouds.jpg', name: 'Gray Clouds'},
 	{img: 'grass-1.jpg', name: 'Grass'},
 	{img: 'stones-1.jpg', name: 'Stones'},
-	{img: 'wood.jpg', name: 'Wood 1'},
-	{img: 'wood-grain-1.jpg', name: 'Wood 2'}
+	{img: 'wood.jpg', name: 'Wood'},
+	{img: 'wood-grain-1.jpg', name: 'Wood Grain'}
 ];
 
 export const ImageSets = [
