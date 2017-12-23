@@ -4,6 +4,10 @@
   box-sizing: border-box;
 }
 
+html {
+  background-color: $background-color;
+}
+
 body {
   font-family: $text-font;
   font-size: 16px;
