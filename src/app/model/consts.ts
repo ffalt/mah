@@ -33,6 +33,8 @@ export const ImageSets = [
 	{id: 'recri', name: 'PNG Recri'},
 	{id: 'open-fruits', name: 'PNG Open Fruits'},
 	{id: 'picasso', name: 'PNG Picasso'},
+	{id: 'modern', name: 'PNG Modern'},
+	{id: 'classic', name: 'PNG Classic'}
 ];
 
 export const ImageSetDefault = 'riichi';

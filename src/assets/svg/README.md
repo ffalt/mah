@@ -39,6 +39,8 @@ based on images from https://github.com/xunkar/open-mahjong/tree/master/resource
 by https://github.com/xunkar
 
 `picasso.svg`
+`classic.svg`
+`modern.svg`
 based on images from http://star.physics.yale.edu/~ullrich/software/SolitaireMahjong/
 GNU General Public License 3 http://www.gnu.org/licenses/
 by Thomas S. Ullrich
