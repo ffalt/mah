@@ -2,7 +2,7 @@
 
 :host {
 
-  background-color: #2b424f;
+  background-color: $background-color;
 
   &.paused {
     .board {
