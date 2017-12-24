@@ -89,7 +89,6 @@ export class BoardComponent implements OnInit, OnChanges {
 				v: stone.v,
 				visible: true,
 				url: stone.img.id,
-				// url: 'assets/img/tiles/' + stone.img.id + '.png',
 				pos: BoardComponent.calcPos(stone.z, stone.x, stone.y),
 				source: stone
 			};
@@ -182,10 +181,10 @@ export class BoardComponent implements OnInit, OnChanges {
 
 	public setSort(draw_stones: Array<Draw>): void {
 		const sortToDraw = (draw: Draw) => {
-			if (!draw.source) {
+			// if (!draw.source) {
 				return draw.pos.z;
-			}
-			return (draw.source.hinted ? 100000 : 0) + (draw.source.selected ? 100000 : 0) + draw.pos.z;
+			// }
+			// return (draw.source.hinted ? 100000 : 0) + (draw.source.selected ? 100000 : 0) + draw.pos.z;
 		};
 		this.draw_stones = draw_stones.sort((ad: Draw, bd: Draw) => {
 			const a = sortToDraw(ad);
@@ -204,10 +203,10 @@ export class BoardComponent implements OnInit, OnChanges {
 		if (this.click) {
 			if (draw) {
 				this.click(draw.source);
-				this.setSort(this.draw_stones); // trigger a resort for z-ordering in svg
+				// this.setSort(this.draw_stones); // trigger a resort for z-ordering in svg
 			} else {
 				this.click(null);
-				this.setSort(this.draw_stones); // trigger a resort for z-ordering in svg
+				// this.setSort(this.draw_stones); // trigger a resort for z-ordering in svg
 			}
 		}
 	}
