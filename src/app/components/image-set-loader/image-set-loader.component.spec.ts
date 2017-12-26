@@ -1,6 +1,8 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {ImageSetLoaderComponent} from './image-set-loader.component';
+import {SvgdefService} from '../../service/svgdef.service';
+import {HttpClientModule} from '@angular/common/http';
 
 describe('ImageSetSvgLoaderComponent', () => {
 	let component: ImageSetLoaderComponent;
@@ -8,7 +10,9 @@ describe('ImageSetSvgLoaderComponent', () => {
 
 	beforeEach(async(() => {
 		TestBed.configureTestingModule({
-			declarations: [ImageSetLoaderComponent]
+			declarations: [ImageSetLoaderComponent],
+			imports: [HttpClientModule],
+			providers: [SvgdefService]
 		})
 			.compileComponents();
 	}));

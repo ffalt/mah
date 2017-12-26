@@ -13,6 +13,11 @@ import {HttpClientModule} from '@angular/common/http';
 import {TranslateModule} from '@ngx-translate/core';
 import {LayoutService} from './service/layout.service';
 import {TilesInfoComponent} from './components/tiles-info/tiles-info.component';
+import {TooltipModule} from './modules/tooltip/tooltip.module';
+import {SettingsComponent} from './components/settings/settings.component';
+import {ImageSetLoaderComponent} from './components/image-set-loader/image-set-loader.component';
+import {TileComponent} from './components/tile/tile.component';
+import {SvgdefService} from './service/svgdef.service';
 
 describe('AppComponent', () => {
 	beforeEach(async(() => {
@@ -26,15 +31,20 @@ describe('AppComponent', () => {
 				LayoutListItemComponent,
 				BoardComponent,
 				TilesInfoComponent,
+				TileComponent,
+				SettingsComponent,
+				ImageSetLoaderComponent,
 				DurationPipe
 			],
 			imports: [
 				BrowserModule,
 				FormsModule,
+				TooltipModule,
 				HttpClientModule,
 				TranslateModule.forRoot()
 			],
 			providers: [
+				SvgdefService,
 				LayoutService
 			]
 		}).compileComponents();

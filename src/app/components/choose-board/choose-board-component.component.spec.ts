@@ -7,6 +7,9 @@ import {LayoutListComponent} from '../layout-list/layout-list.component';
 import {LayoutListItemComponent} from '../layout-list-item/layout-list-item.component';
 import {BoardComponent} from '../board/board.component';
 import {FormsModule} from '@angular/forms';
+import {TranslateModule} from '@ngx-translate/core';
+import {TooltipModule} from '../../modules/tooltip/tooltip.module';
+import {ImageSetLoaderComponent} from '../image-set-loader/image-set-loader.component';
 
 describe('ChooseBoardComponent', () => {
 
@@ -24,8 +27,8 @@ describe('ChooseBoardComponent', () => {
 
 	beforeEach(async(() => {
 		TestBed.configureTestingModule({
-			declarations: [TestChooseBoardHostComponent, ChooseBoardComponent, LayoutListComponent, LayoutListItemComponent, BoardComponent],
-			imports: [FormsModule]
+			declarations: [TestChooseBoardHostComponent, ImageSetLoaderComponent, ChooseBoardComponent, LayoutListComponent, LayoutListItemComponent, BoardComponent],
+			imports: [TooltipModule, FormsModule, TranslateModule.forRoot()]
 		})
 			.compileComponents();
 	}));
