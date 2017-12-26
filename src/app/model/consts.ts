@@ -23,18 +23,18 @@ export const Backgrounds: Array<{ img: string, name: string, small?: boolean }> 
 ];
 
 export const ImageSets = [
-	{id: 'riichi', name: 'SVG Riichi'},
-	{id: 'uni', name: 'SVG Uni'},
-	{id: 'bzhmaddog', name: 'SVG Bzhmaddog'},
-	{id: 'cheshire137', name: 'SVG Cheshire137'},
-	{id: 'recri2', name: 'SVG Recri'},
-	{id: 'unib', name: 'SVG Black'},
-	{id: 'gleitz', name: 'PNG Gleitz'},
-	{id: 'recri', name: 'PNG Recri'},
-	{id: 'open-fruits', name: 'PNG Open Fruits'},
-	{id: 'picasso', name: 'PNG Picasso'},
-	{id: 'modern', name: 'PNG Modern'},
-	{id: 'classic', name: 'PNG Classic'}
+	{id: 'riichi', type: 'SVG', name: 'Riichi', url: 'https://github.com/FluffyStuff/riichi-mahjong-tiles'},
+	{id: 'uni', type: 'SVG', name: 'Uni', url: 'https://commons.wikimedia.org/wiki/Category:Unicode_1F000-1F02F_Mahjong_Tiles_(color)'},
+	{id: 'bzhmaddog', type: 'SVG', name: 'Bzhmaddog', url: 'https://github.com/bzhmaddog/html5-mahjong-solitaire/tree/master/res/skins/default/tiles'},
+	{id: 'cheshire137', type: 'SVG', name: 'Cheshire', url: 'https://github.com/cheshire137/Mahjong/tree/master/app/assets/images/tiles'},
+	{id: 'recri2', type: 'SVG', name: 'Recri', url: 'https://github.com/recri/mahjong'},
+	{id: 'unib', type: 'SVG', name: 'Black', url: 'https://commons.wikimedia.org/wiki/Category:Unicode_1F000-1F02F_Mahjong_Tiles'},
+	{id: 'gleitz', type: 'PNG', name: 'Gleitz', url: 'https://github.com/gleitz/mahjong/tree/master/public/img/tiles'},
+	{id: 'recri', type: 'PNG', name: 'Recri', url: 'https://github.com/recri/mahjong'},
+	{id: 'open-fruits', type: 'PNG', name: 'Fruits', url: 'https://github.com/xunkar/open-mahjong/tree/master/resources/tiles/fruits'},
+	{id: 'picasso', type: 'PNG', name: 'Picasso', url: 'http://star.physics.yale.edu/~ullrich/software/SolitaireMahjong/'},
+	{id: 'modern', type: 'PNG', name: 'Modern', url: 'http://star.physics.yale.edu/~ullrich/software/SolitaireMahjong/'},
+	{id: 'classic', type: 'PNG', name: 'Classic', url: 'http://star.physics.yale.edu/~ullrich/software/SolitaireMahjong/'}
 ];
 
 export const ImageSetDefault = 'riichi';
@@ -82,16 +82,16 @@ export const TILES_INFO = {
 	suits: [
 		{
 			name: 'Circles', tiles: [
-			{name: 'Pearl', char: 'Chu', img: 't_do1'},
-			{name: 'Pine tree', char: 'Sung', img: 't_do2'},
-			{name: 'Phoenix', char: 'Feng', img: 't_do3'},
-			{name: 'Jade', char: 'Yü', img: 't_do4'},
-			{name: 'Dragon', char: 'Lung', img: 't_do5'},
-			{name: 'Peach', char: 'Tao', img: 't_do6'},
-			{name: 'Insect', char: 'Ch\'ung', img: 't_do7'},
-			{name: 'White Tiger', char: 'Hu', img: 't_do8'},
-			{name: 'Unicorn', char: 'Ch\'i', img: 't_do9'}
-		]
+				{name: 'Pearl', char: 'Chu', img: 't_do1'},
+				{name: 'Pine tree', char: 'Sung', img: 't_do2'},
+				{name: 'Phoenix', char: 'Feng', img: 't_do3'},
+				{name: 'Jade', char: 'Yü', img: 't_do4'},
+				{name: 'Dragon', char: 'Lung', img: 't_do5'},
+				{name: 'Peach', char: 'Tao', img: 't_do6'},
+				{name: 'Insect', char: 'Ch\'ung', img: 't_do7'},
+				{name: 'White Tiger', char: 'Hu', img: 't_do8'},
+				{name: 'Unicorn', char: 'Ch\'i', img: 't_do9'}
+			]
 		}, {
 			name: 'Bamboo', tiles: [
 				{name: 'Peacock', char: 'K\'ung', img: 't_ba1'},
@@ -122,30 +122,30 @@ export const TILES_INFO = {
 	bonus: [
 		{
 			name: 'Seasons', tiles: [{name: 'Spring', char: 'Yu', img: 't_se_spring'},
-			{name: 'Summer', char: 'Ch\'iao', img: 't_se_summer'},
-			{name: 'Fall', char: 'Keng', img: 't_se_fall'},
-			{name: 'Winter', char: 'Tu', img: 't_se_winter'},
-		]
+				{name: 'Summer', char: 'Ch\'iao', img: 't_se_summer'},
+				{name: 'Fall', char: 'Keng', img: 't_se_fall'},
+				{name: 'Winter', char: 'Tu', img: 't_se_winter'},
+			]
 		},
 		{
 			name: 'Flowers', tiles: [{name: 'Bamboo', char: 'Chu', img: 't_fl_bamboo'},
-			{name: 'Orchid', char: 'Lan', img: 't_fl_orchid'},
-			{name: 'Plum Blossom', char: 'Li', img: 't_fl_plum'},
-			{name: 'Chrysan&shy;themum', char: 'Chü', img: 't_fl_chrysanthemum'}]
+				{name: 'Orchid', char: 'Lan', img: 't_fl_orchid'},
+				{name: 'Plum Blossom', char: 'Li', img: 't_fl_plum'},
+				{name: 'Chrysan&shy;themum', char: 'Chü', img: 't_fl_chrysanthemum'}]
 		}
 	],
 
 	honors: [
 		{
 			name: 'Winds', tiles: [{name: 'East', char: 'Tung', img: 't_wi_east'},
-			{name: 'South', char: 'Nan', img: 't_wi_south'},
-			{name: 'West', char: 'Hsi', img: 't_wi_west'},
-			{name: 'North', char: 'Pei', img: 't_wi_north'}]
+				{name: 'South', char: 'Nan', img: 't_wi_south'},
+				{name: 'West', char: 'Hsi', img: 't_wi_west'},
+				{name: 'North', char: 'Pei', img: 't_wi_north'}]
 		},
 		{
 			name: 'Dragons', tiles: [{name: 'Red', char: 'Chung', img: 't_dr_red'},
-			{name: 'Green', char: 'Fa', img: 't_dr_green'},
-			{name: 'White', char: 'Pai', img: 't_dr_white'}]
+				{name: 'Green', char: 'Fa', img: 't_dr_green'},
+				{name: 'White', char: 'Pai', img: 't_dr_white'}]
 		}
 	]
 };
