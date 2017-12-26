@@ -11,7 +11,7 @@ describe('HelpComponent', () => {
 
 	@Component({
 		selector: 'app-help-host-component',
-		template: '<app-help-component [game]="mockGame"></app-help-component>'
+		template: '<app-help [game]="mockGame"></app-help>'
 	})
 	class TestHelpHostComponent {
 		mockGame = new Game();

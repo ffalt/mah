@@ -13,6 +13,12 @@ import {FormsModule} from '@angular/forms';
 import {LayoutListItemComponent} from '../layout-list-item/layout-list-item.component';
 import {LayoutListComponent} from '../layout-list/layout-list.component';
 import {TilesInfoComponent} from '../tiles-info/tiles-info.component';
+import {SettingsComponent} from '../settings/settings.component';
+import {ImageSetLoaderComponent} from '../image-set-loader/image-set-loader.component';
+import {TooltipModule} from '../../modules/tooltip/tooltip.module';
+import {TileComponent} from '../tile/tile.component';
+import {SvgdefService} from '../../service/svgdef.service';
+import {HttpClientModule} from '@angular/common/http';
 
 describe('GameComponent', () => {
 
@@ -31,8 +37,9 @@ describe('GameComponent', () => {
 	beforeEach(async(() => {
 		TestBed.configureTestingModule({
 			declarations: [TestGameComponentHostComponent, GameComponent, BoardComponent, HelpComponent, ChooseBoardComponent,
-				TilesInfoComponent, LayoutListComponent, LayoutListItemComponent, DurationPipe],
-			imports: [FormsModule, TranslateModule.forRoot()]
+				TileComponent, ImageSetLoaderComponent, SettingsComponent, TilesInfoComponent, LayoutListComponent, LayoutListItemComponent, DurationPipe],
+			imports: [HttpClientModule, TooltipModule, FormsModule, TranslateModule.forRoot()],
+			providers: [SvgdefService]
 		})
 			.compileComponents();
 	}));
