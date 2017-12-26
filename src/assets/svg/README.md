@@ -7,7 +7,7 @@ svg tiles build on https://github.com/cheshire137/Mahjong/tree/master/app/assets
 by https://github.com/cheshire137
 
 `gleitz.svg`
-images used from https://github.com/gleitz/mahjong/tree/master/public/img/tiles
+based on images from https://github.com/gleitz/mahjong/tree/master/public/img/tiles
 MIT https://github.com/gleitz/mahjong/blob/master/LICENSE
 by https://github.com/gleitz
 
