@@ -16,7 +16,7 @@
   <div class="buttons">
     <form>
       <ul class="radio">
-        <li *ngFor="let imageset of sets; let i=index;"><input type="radio" name="imageset" id="imageset{{i}}" [value]="imageset.id" [(ngModel)]="game.settings.tileset"/><label for="imageset{{i}}">{{imageset.name}}</label></li>
+        <li *ngFor="let imageset of sets; let i=index;"><input type="radio" name="imageset" id="imageset{{i}}" [value]="imageset.id" [(ngModel)]="game.settings.tileset"/><label for="imageset{{i}}">{{imageset.name}} <a target="_blank" rel="noopener"  href="{{imageset.url}}">Source</a></label></li>
       </ul>
     </form>
   </div>

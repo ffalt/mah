@@ -46,7 +46,8 @@ export const LANG_EN = {
 	START_SELECTED: 'Start Selected',
 	START_RANDOM: 'Start Random',
 	TILESET: 'Tileset Art',
-	BACKGROUND: 'Background'
+	BACKGROUND: 'Background',
+	INFO: 'Info'
 };
 
 export const LANG_DE = {
@@ -96,6 +97,7 @@ export const LANG_DE = {
 	BOARD_GENERATOR: 'Spielgenerator',
 	START_SELECTED: 'Auswahl starten',
 	START_RANDOM: 'Zufälliges starten',
-	TILESET: 'Steine-Art',
-	BACKGROUND: 'Hintergrund'
+	TILESET: 'Stein-Motive',
+	BACKGROUND: 'Hintergrund',
+	INFO: 'Info'
 };
