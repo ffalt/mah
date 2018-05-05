@@ -14,7 +14,7 @@ export class TooltipDirective implements OnDestroy {
 	@Input() tooltipTitle = '';
 	@Input() tooltipAppendToBody = true;
 	@Input() tooltipSpacing = 10;
-	@Input() tooltipDisabled= false;
+	@Input() tooltipDisabled = false;
 	@Input() tooltipShowCaret = true;
 	@Input() tooltipPlacement: PlacementTypes = PlacementTypes.top;
 	@Input() tooltipAlignment: AlignmentTypes = AlignmentTypes.center;
@@ -22,7 +22,7 @@ export class TooltipDirective implements OnDestroy {
 	@Input() tooltipCloseOnClickOutside = true;
 	@Input() tooltipCloseOnMouseLeave = true;
 	@Input() tooltipHideTimeout = 300;
-	@Input() tooltipShowTimeout= 100;
+	@Input() tooltipShowTimeout = 100;
 	@Input() tooltipTemplate: any;
 	@Input() tooltipShowEvent: ShowTypes = ShowTypes.all;
 	@Input() tooltipContext: any;
