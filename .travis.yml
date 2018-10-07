@@ -8,3 +8,5 @@ notifications:
 email: true
 os:
   - linux
+addons:
+  chrome: stable
