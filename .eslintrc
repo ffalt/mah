@@ -90,7 +90,7 @@
     "no-new-object": 2,
     "no-trailing-spaces": [2, { "skipBlankLines": true }],
     "object-curly-spacing": [2, "never"],
-    "quotes": [2, "single", "avoid-escape"],
+    "quotes": [2, "double", "avoid-escape"],
     "sort-vars": 2,
     "keyword-spacing": 2,
 
@@ -99,6 +99,7 @@
     "space-infix-ops": 2,
     "space-unary-ops": [1, { "words": true, "nonwords": false }],
 
+    "object-shorthand": 2,
     "arrow-spacing": 2,
     "constructor-super": 2,
     "generator-star-spacing": [2, "after"],
@@ -110,6 +111,7 @@
     "prefer-arrow-callback": "warn",
     "prefer-spread": 2,
     "require-yield": 2,
+    "no-console": 0,
 
     "max-params": [2, 10],
 
