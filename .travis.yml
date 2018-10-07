@@ -6,3 +6,5 @@ cache:
     - node_modules
 notifications:
 email: true
+os:
+  - linux
