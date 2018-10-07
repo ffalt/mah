@@ -11,7 +11,7 @@ gulp.task("sounds:mp3", () => {
 		return cmd
 		.audioBitrate("128k")
 		.audioChannels(2)
-		.audioCodec("libmp3lame")
+		.audioCodec("libmp3lame");
 	}))
 	.pipe(gulp.dest(dest + "/sounds"));
 });
