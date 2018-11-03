@@ -22,7 +22,7 @@ import 'core-js/es6/object';
 import 'core-js/es6/string';
 import 'core-js/es6/array';
 import 'core-js/es6/reflect';
-import 'core-js/es7/reflect';
+
 
 /** IE9, IE10 and IE11 requires all of the following polyfills. **/
 import 'core-js/es6/symbol';

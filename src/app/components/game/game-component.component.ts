@@ -6,7 +6,6 @@ import {Stone} from '../../model/stone';
 
 
 interface DocEx extends Document {
-	exitFullscreen: () => void;
 	mozCancelFullScreen: () => void;
 	webkitExitFullscreen: () => void;
 	fullScreen: boolean;
@@ -16,7 +15,6 @@ interface DocEx extends Document {
 }
 
 interface ElemEx extends HTMLElement {
-	requestFullscreen: () => void;
 	webkitRequestFullScreen: () => void;
 	mozRequestFullScreen: () => void;
 }
