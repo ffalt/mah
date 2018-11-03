@@ -16,7 +16,7 @@
 </ng-template>
 
 <div class="choose-buttons">
-	<div class="generator" tooltip [tooltipTemplate]="generatorTooltip">
+	<div class="generator" appTooltip [tooltipTemplate]="generatorTooltip">
 		<label>{{'BOARD_GENERATOR' | translate}}:</label><br/>
 		<select [(ngModel)]="mode">
 			<option *ngFor="let m of builder.modes" value="{{m.id}}">{{m.id | translate}}</option>

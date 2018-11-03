@@ -7,7 +7,7 @@ import {ShowTypes} from './show.type';
 import {TooltipService} from './tooltip.service';
 import {PlacementTypes} from './position/placement.type';
 
-@Directive({selector: '[tooltip]'})
+@Directive({selector: '[appTooltip]'})
 export class TooltipDirective implements OnDestroy {
 
 	@Input() tooltipCssClass = '';
