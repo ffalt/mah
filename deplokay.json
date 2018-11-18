@@ -1,0 +1,26 @@
+{
+	"id": "mah-deploy",
+	"mode": "npm",
+	"source": {
+		"local": {
+			"path": "."
+		}
+	},
+	"publish": {
+		"archive": {
+			"path": "./local/archives"
+		},
+		"branch": {
+			"branch": "gh-pages"
+		}
+	},
+	"build": {
+    "npm": {
+      "cmd_name": "build:deploy-ghpages",
+      "folder_names": ["dist"]
+    }
+	},
+	"env": {
+		"NODE_ENV": "development"
+	}
+}
