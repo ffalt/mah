@@ -1,5 +1,6 @@
 {
-	"id": "mah-deploy",
+  "$schema": "node_modules/deplokay/config-schema.json",
+  "id": "mah-deploy",
 	"mode": "npm",
 	"source": {
 		"local": {
