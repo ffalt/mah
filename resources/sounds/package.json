@@ -1,13 +1,12 @@
 {
-  "name": "Mah-Sounds-Assets-Builder",
+  "name": "mah-sounds-assets-builder",
   "version": "1.0.0",
   "description": "Builds Sound Assets",
   "scripts": {
-    "build": "gulp sounds:all"
+    "build": "node build.js"
   },
   "devDependencies": {},
   "dependencies": {
-    "gulp": "^3.9.1",
-    "gulp-fluent-ffmpeg": "^1.0.2"
+    "fluent-ffmpeg": "^2.1.2"
   }
 }
