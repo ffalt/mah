@@ -5,65 +5,59 @@ const path = require("path");
 const fs = require("fs");
 const ffmpeg = require("fluent-ffmpeg");
 
-function convertMP3(source, dest, cb) {
-  console.log("convert to mp3 " + source);
-  ffmpeg(source)
-  .format("mp3")
-  .audioBitrate("128k")
-  .audioChannels(2)
-  .audioCodec("libmp3lame")
-  .on("end", () => {
-    cb();
-  })
-  .on("error", (err) => {
-    cb(err);
-  })
-  .save(dest);
-}
-
-function convertOgg(source, dest, cb) {
-  console.log("convert to ogg " + source);
-  ffmpeg(source)
-  .format("ogg")
-  .audioBitrate("128k")
-  .audioChannels(2)
-  .on("end", () => {
-    cb();
-  })
-  .on("error", (err) => {
-    cb(err);
-  })
-  .save(dest);
-}
-
-function convert(entry, cb) {
-  const source = path.resolve(sourceFolder, entry);
-  const dest = path.resolve(destFolder, path.basename(entry, path.extname(entry)));
-  convertMP3(source, dest + ".mp3", (e1) => {
-    if (e1) {
-      console.log("an error happened: " + e1.message);
-    }
-    convertOgg(source, dest + ".ogg", (e2) => {
-      if (e2) {
-        console.log("an error happened: " + e2.message);
-      }
-      cb();
-    });
+async function convertMP3(source, dest) {
+  return new Promise((resolve, reject) => {
+    console.log("convert to mp3 " + source);
+    ffmpeg(source)
+    .format("mp3")
+    .audioBitrate("128k")
+    .audioChannels(2)
+    .audioCodec("libmp3lame")
+    .on("end", () => {
+      resolve();
+    })
+    .on("error", (err) => {
+      reject(err);
+    })
+    .save(dest);
   });
 }
 
-const list = fs.readdirSync(sourceFolder).filter(entry => {
-  return (path.extname(entry) === ".wav");
-});
+async function convertOgg(source, dest) {
+  return new Promise((resolve, reject) => {
+    console.log("convert to ogg " + source);
+    ffmpeg(source)
+    .format("ogg")
+    .audioBitrate("128k")
+    .audioChannels(2)
+    .on("end", () => {
+      resolve();
+    })
+    .on("error", (err) => {
+      reject(err);
+    })
+    .save(dest);
+  });
+}
 
-function run(index) {
-  if (index >= list.length) {
-    console.log("done");
-  } else {
-    convert(list[index], () => {
-      run(index + 1);
-    });
+async function convert(entry) {
+  const source = path.resolve(sourceFolder, entry);
+  const dest = path.resolve(destFolder, path.basename(entry, path.extname(entry)));
+  await convertMP3(source, dest + ".mp3");
+  await convertOgg(source, dest + ".ogg");
+}
+
+async function run() {
+  const list = fs.readdirSync(sourceFolder).filter(entry => {
+    return (path.extname(entry) === ".wav");
+  });
+  for (const entry of list) {
+    await convert(entry);
   }
 }
 
-run(0);
+run().then(() => {
+  console.log("done");
+}).catch(e => {
+  console.log("an error happened: " + e.message);
+});
