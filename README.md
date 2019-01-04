@@ -7,7 +7,7 @@ build with html5, svg, angular
 [![license](https://img.shields.io/github/license/ffalt/mah.svg)](http://opensource.org/licenses/MIT)
 [![developer](https://img.shields.io/badge/developer-awesome-brightgreen.svg)](https://github.com/ffalt/mah)
 [![known vulnerabilities](https://snyk.io/test/github/ffalt/mah/badge.svg)](https://snyk.io/test/github/ffalt/mah)
-[![codebeat badge](https://codebeat.co/badges/48c0b6bd-9bca-413a-a84b-7330deb4328e)](https://codebeat.co/projects/github-com-ffalt-mah-master) [![Greenkeeper badge](https://badges.greenkeeper.io/ffalt/mah.svg)](https://greenkeeper.io/)
+[![codebeat badge](https://codebeat.co/badges/48c0b6bd-9bca-413a-a84b-7330deb4328e)](https://codebeat.co/projects/github-com-ffalt-mah-master) 
 
 ## Release
 
