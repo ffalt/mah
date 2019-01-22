@@ -30,7 +30,7 @@
     "@angular/platform-server": "7.2.0",
     "@ngx-translate/core": "11.0.1",
     "classlist.js": "1.1.20150312",
-    "core-js": "2.6.2",
+    "core-js": "2.6.3",
     "rxjs": "6.3.3",
     "zone.js": "0.8.28"
   },
