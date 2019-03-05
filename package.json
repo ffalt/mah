@@ -55,7 +55,7 @@
     "karma-mocha-reporter": "2.2.5",
     "node-sass": "4.11.0",
     "protractor": "5.4.2",
-    "puppeteer": "1.12.2",
+    "puppeteer": "1.13.0",
     "tslint": "5.13.1",
     "typescript": "3.3.3333"
   }
