@@ -2,44 +2,61 @@
 
 :host {
   display: block;
-  margin-bottom: 8px;
-
-  > div {
-    vertical-align: top;
-    display: inline-block;
-    margin-right: 20px;
-
-    > div {
-      font-size: 0.9em;
-    }
-  }
 
   h1 {
     text-align: center;
     color: $text-color;
     margin-top: 0;
-    margin-bottom: 10px
-  }
+    margin-bottom: 0.2em;
+	}
 
   p {
     margin: 10px 0 4px;
     font-weight: bold;
-  }
+		border-bottom: 1px solid lighten($background-color, 5%);
+	}
 
+	.settings-content {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+
+		> div {
+			width: 30%;
+			margin-right: 10px;
+
+			@include respond-to(tiny-down) {
+				width: 100%;
+			}
+			> div {
+				width: 100%;
+				> div {
+					display: flex;
+					flex-direction: row;
+					> div {
+						flex: 1;
+					}
+					.name {
+						max-width: 40%;
+					}
+				}
+			}
+		}
+	}
   .radio {
     text-align: left;
     list-style: none;
     padding: 0;
     margin: 0;
-
-    label {
-      margin-left: 2px;
+		vertical-align: middle;
+		label {
+			vertical-align: middle;
+			margin-left: 2px;
     }
 
-    a {
+		a {
       float: right;
       margin-left: 3px;
-      font-size: 0.9em;
     }
   }
 
@@ -47,10 +64,3 @@
     margin-top: 0;
   }
 }
-
-@media (max-width: $width-medium) {
-  :host {
-    font-size: 0.9em;
-  }
-}
-

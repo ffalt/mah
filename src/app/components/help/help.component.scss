@@ -1,64 +1,82 @@
 @import "../../style/globals";
 
 :host {
-  display: block;
-  margin-bottom: 8px;
+	display: block;
+	margin-bottom: 8px;
+	height: 100%;
+	width: 100%;
 
-  > div {
-    vertical-align: top;
-    display: inline-block;
-    margin-right: 20px;
+	h1 {
+		text-align: center;
+		color: $text-color;
+		margin-top: 0;
+		margin-bottom: 10px;
+		line-height: 1.3em;
+	}
 
-    > div {
-      font-size: 0.9em;
-    }
-  }
+	p {
+		margin: 10px 0 4px;
+		font-weight: bold;
+		border-bottom: 1px solid lighten($background-color, 5%);
+	}
 
-  h1 {
-    text-align: center;
-    color: $text-color;
-    margin-top: 0;
-    margin-bottom: 10px
-  }
+	.help-content {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
 
-  p {
-    margin: 10px 0 4px;
-    font-weight: bold;
-  }
+		> div {
+			width: 45%;
+			margin-right: 10px;
 
-  .score {
-    span.label {
-      min-width: 100px;
-      display: inline-block;
-    }
-  }
+			@include respond-to(small-down) {
+				width: 100%;
+			}
+			> div {
+				width: 100%;
+				> div {
+					display: flex;
+					flex-direction: row;
+					> div {
+						flex: 1;
+					}
+					.name {
+						max-width: 40%;
+					}
+				}
+			}
+		}
+	}
 
-  .keyboard {
-    span {
-      margin-right: 0;
-      min-width: 50px;
-      display: inline-block;
-    }
-    span:first-of-type {
-      min-width: 18px;
-      font-weight: bold;
-    }
-  }
+	.score {
+		.score-list {
+		}
+	}
 
-  .license {
-    span:first-of-type {
-      min-width: 80px;
-      display: inline-block;
-    }
-  }
-  .close {
-    margin-top: 0;
-  }
-}
+	.keyboard {
+		.keyboard-list {
+			.key {
+				font-weight: bold;
+				text-transform: uppercase;
+				padding-left: 10px;
+				padding-right: 10px;
+				border: 2px solid #f5f5f5;
+				border-radius: 6px;
+				min-width: 40px;
+				display: inline-block;
+				letter-spacing: 1px;
+				background: black;
+				color: #f5f5f5;
+				box-shadow: 0px 5px 0px 0px rgba(0, 0, 0, 1);
+				text-align: center;
+				margin-right: 0.3em;
+			}
+		}
+	}
 
-@media (max-width: $width-medium) {
-  :host {
-    font-size: 0.9em;
-  }
+	.license {
+		.license-list {
+		}
+	}
 }
 

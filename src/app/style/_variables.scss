@@ -6,10 +6,21 @@ $popup-border-color:#707070;
 $text-color: #47b00a;
 $text-font: 'josefin_sansregular', 'Tahoma', sans-serif;
 
-$width-tiny: 280px;
-$width-small: 400px;
-$width-medium: 500px;
-$width-large: 700px;
+// Font-Size
+$base-font-size: 1em;
 
-$height-tiny: 280px;
-$height-small: 400px;
+// Line-Height
+$base-line-height: 1.5;
+$header-line-height: 1.25;
+
+// Breakpoints
+$bp-pico: 280px;
+$bp-tiny: 400px;
+$bp-small: 500px;
+$bp-medium: 700px;
+$bp-large: 1000px;
+$bp-huge: 1900px;
+$bp-jumbo: 2200px;
+$bp-ludicrous: 3000px;
+
+$mq-retina: "(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)";

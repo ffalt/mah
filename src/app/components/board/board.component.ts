@@ -49,13 +49,14 @@ export class BoardComponent implements OnInit, OnChanges {
 	}
 
 	ngOnInit(): void {
+		this.onResize({target: window});
 	}
 
 	private setViewPort(): void {
 		const bounds = this.calcBounds();
 		let b: Array<number>;
 		if (this.rotate) {
-			b = [-bounds[3] - Consts.tile_height, -bounds[0], bounds[3] + Consts.tile_height, bounds[2] + bounds[0] + Consts.tile_width + 40];
+			b = [-bounds[3] - Consts.tile_height - 10, -bounds[0] - 30, bounds[3] + Consts.tile_height - 10, bounds[2] + bounds[0] + Consts.tile_width + 40];
 		} else {
 			b = [bounds[0] - 40, bounds[1] - 20, bounds[2] + Consts.tile_height + 40, bounds[3] + Consts.tile_height + 20];
 		}
@@ -182,7 +183,7 @@ export class BoardComponent implements OnInit, OnChanges {
 	public setSort(draw_stones: Array<Draw>): void {
 		const sortToDraw = (draw: Draw) => {
 			// if (!draw.source) {
-				return draw.pos.z;
+			return draw.pos.z;
 			// }
 			// return (draw.source.hinted ? 100000 : 0) + (draw.source.selected ? 100000 : 0) + draw.pos.z;
 		};

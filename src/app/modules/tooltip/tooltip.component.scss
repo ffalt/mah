@@ -31,7 +31,6 @@ $shadow: 0 1px 3px 0 rgba(0, 0, 0, $shadow-key-umbra-opacity),
     color: $popover-color;
     border: 1px solid $popover-border;
     box-shadow: $shadow;
-    font-size: 13px;
     padding: 4px;
 
     .tooltip-caret {
@@ -69,7 +68,6 @@ $shadow: 0 1px 3px 0 rgba(0, 0, 0, $shadow-key-umbra-opacity),
   &.type-tooltip {
     color: $tooltip-color;
     background: $tooltip-bg;
-    font-size: 12px;
     padding: 0 10px;
     text-align: center;
     pointer-events: auto;
@@ -105,12 +103,12 @@ $shadow: 0 1px 3px 0 rgba(0, 0, 0, $shadow-key-umbra-opacity),
     display: block;
     line-height: 1em;
     padding: 8px 5px 5px 5px;
-    font-size: 1em;
+		//fzz font-size: 1em;
   }
 
   .tooltip-val {
     display: block;
-    font-size: 1.3em;
+		//fzz font-size: 1.3em;
     line-height: 1em;
     padding: 0 5px 8px 5px;
   }

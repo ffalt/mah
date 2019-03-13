@@ -4,8 +4,8 @@ import {Backgrounds, ImageSets} from '../../model/consts';
 
 @Component({
 	selector: 'app-settings',
-	templateUrl: './settings.component.html',
-	styleUrls: ['./settings.component.scss']
+	templateUrl: 'settings.component.html',
+	styleUrls: ['settings.component.scss']
 })
 export class SettingsComponent {
 

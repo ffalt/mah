@@ -1,70 +1,95 @@
 @import "../../style/globals";
 
 :host {
-  padding: 0;
-  margin: 0;
-  border-top: 1px solid #afafaf;
-  border-bottom: 1px solid #afafaf;
-  width: 100%;
-  height: 100%;
-  display: block;
+	padding: 0;
+	margin: 0;
+	border-top: 1px solid #afafaf;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
 
+	.newgame-content {
+		overflow: hidden;
+		height: 100%;
 
-  .newgame-left {
-    width: 30%;
-    height: 100%;
-    display: inline-block;
-  }
+		.newgame-left {
+			width: 30%;
+			height: 100%;
+			display: inline-block;
+		}
 
-  .newgame-right {
-    width: 68%;
-    height: 100%;
-    vertical-align: top;
-    display: inline-block;
+		.newgame-right {
+			width: 68%;
+			height: 100%;
+			vertical-align: top;
+			display: inline-block;
 
-    .start {
-      padding-top: 4px;
-      padding-bottom: 4px;
-      padding-left: 10px;
-      width: 100%;
-      height: 100%;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      @include no-select();
+			.start {
+				padding-top: 4px;
+				padding-bottom: 4px;
+				padding-left: 10px;
+				width: 100%;
+				height: 100%;
+				cursor: pointer;
+				display: flex;
+				flex-direction: column;
+				@include no-select();
 
-      p {
-        text-align: center;
-      }
+				div {
+					text-align: center;
+				}
 
-      .preview {
-        width: 100%;
-        height: 200px;
-        min-height: 80%;
-        display: block;
-        flex-grow: 1;
-        background-color: $popup-background-color;
-        margin-bottom: 8px;
-        &:hover {
-          background-color: darken($popup-background-color, 5%);
-        }
-      }
-    }
+				.preview {
+					width: 100%;
+					height: 200px;
+					min-height: 80%;
+					display: block;
+					flex-grow: 1;
+					background-color: $popup-background-color;
+					margin-bottom: 8px;
 
-  }
+					&:hover {
+						background-color: darken($popup-background-color, 5%);
+					}
+				}
+			}
 
-  .choose-buttons {
-    .link {
-      color: black;
-      font-size: 0.9em;
-      margin-top: 2px;
-      text-decoration: none;
-      float: right;
-    }
-    .generator {
-      float: left;
-    }
-  }
+		}
+	}
+
+	.choose-buttons {
+		border-top: 1px solid #afafaf;
+		padding-top: 10px;
+
+		.start-links {
+			text-align: right;
+			display: inline-block;
+			width: 70%;
+
+			.link {
+				color: black;
+				//fzz font-size: 0.9em;
+				margin-left: 8px;
+				margin-bottom: 8px;
+				text-decoration: none;
+			}
+		}
+
+		.generator {
+			display: inline-block;
+			width: 30%;
+
+			label {
+				display: block;
+				margin-bottom: 2px;
+			}
+
+			select {
+				padding-left: 8px;
+			}
+		}
+	}
 
 }
 

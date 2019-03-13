@@ -269,6 +269,7 @@ export class PositionHelper {
 			left = PositionHelper.calculateHorizontalAlignment(
 				hostDim, elmDim, alignment);
 		}
+		left = Math.max(0, left);
 
 		return {top, left};
 	}

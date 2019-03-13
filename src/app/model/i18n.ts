@@ -1,3 +1,4 @@
+
 export const LANG_EN = {
 	RESTART: 'Restart',
 	UNDO: 'Undo',
@@ -39,6 +40,7 @@ export const LANG_EN = {
 	READ_MORE_WIKIPEDIA: 'Read more on wikipedia',
 	READ_MORE_WIKIPEDIA_URL: 'https://en.wikipedia.org/wiki/Mahjong_tiles',
 	TILES_INFO: 'Tiles Information',
+	TILES: 'Tiles',
 	MODE_SOLVABLE_DESC: 'A random fill with at least one solving possibility',
 	MODE_RANDOM_DESC: 'A total random fill, maybe unsolvable',
 	MODE_LINEAR_DESC: 'A backwards fill, always solvable, maybe boring to experienced players',
@@ -91,6 +93,7 @@ export const LANG_DE = {
 	READ_MORE_WIKIPEDIA: 'Mehr bei Wikipedia lesen',
 	READ_MORE_WIKIPEDIA_URL: 'https://de.wikipedia.org/wiki/Mah-Jongg',
 	TILES_INFO: 'Steinverzeichnis',
+	TILES: 'Steine',
 	MODE_SOLVABLE_DESC: 'Fast zufälliger Aufbau mit mindestens einer Lösung',
 	MODE_RANDOM_DESC: 'Zufälliger Aufbau, vielleicht unlösbar',
 	MODE_LINEAR_DESC: 'Umgekehrter linearer Aufbau, immer lösbar, möglicherweise zu langweilig für erfahrene Spieler*innen',
