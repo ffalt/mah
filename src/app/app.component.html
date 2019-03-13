@@ -1,3 +1,1 @@
-<div [hidden]="loading" [ngClass]="{hidden:!game,paused:game.isPaused()}">
-  <app-game-component [game]="game" [layouts]="layouts"></app-game-component>
-</div>
+<app-game-component [hidden]="loading" [ngClass]="{hidden:!game,paused:game.isPaused()}" [game]="game" [layouts]="layouts"></app-game-component>

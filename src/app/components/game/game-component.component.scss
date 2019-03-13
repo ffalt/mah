@@ -1,291 +1,228 @@
 @import "../../style/globals";
 
 :host {
+	display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	height: 100%;
+	width: 100%;
+	min-height: 100vh;
 
-  background-color: $background-color;
+	//&.paused {
+	//	.board {
+			//@include blur(1px);
+		//}
+	//}
 
-  &.paused {
-    .board {
-      @include blur(8px);
-    }
-  }
+	.controls {
+		min-width: 170px;
+		padding: 0 0.8em 0 0.8em;
 
-  .overlay {
-    height: 100%;
-    width: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 10000;
-    background-color: rgba(0, 0, 0, 0.2);
-    max-height: 100%;
+		.ctrl {
+			display: inline-block;
+			color: $text-color;
+			@include no-select();
 
-    .overlay-popup {
-      max-height: calc(100% - 50px);
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+			.link {
+				text-decoration: none;
+				font-weight: normal;
+				color: $text-color;
+				margin-left: 4px;
 
-      margin-left: auto;
-      margin-right: auto;
-      //max-height: 100%;
-      overflow: hidden;
-      border: 1px solid $popup-border-color;
-      background-color: $popup-background-color;
-      padding: 40px;
-      @include rounded (12px);
-      @include box-shadow (12px, 14px, 16px, rgba(0, 0, 0, 0.5));
+				&:hover {
+					color: lighten($text-color, 5%);
+				}
 
-      @media (max-width: $width-medium) {
-        padding: 20px;
-      }
-      @media (max-height: $height-small) {
-        padding: 20px;
-      }
-    }
+				&[disabled] {
+					color: darken($text-color, 10%);
+				}
 
-    .close {
-      right: 20px;
-      margin-top: -20px;
-      position: absolute;
-      color: darkgray;
-      cursor: pointer;
-    }
-  }
+				@include respond-to(tiny-up) {
+					margin-left: 10px;
+				}
+			}
 
-  .controls-top {
-    position: fixed;
-    left: 0;
-    right: 0;
-    top: 0;
-    height: 40px;
-    z-index: 10;
-    padding: 0 20px 0 20px;
-    border-bottom: 1px solid lighten($background-color, 5%);
-  }
 
-  .board {
-    position: fixed;
-    left: 0;
-    right: 0;
-    top: 40px;
-    bottom: 40px;
+			&.ctrl-name {
+				font-weight: 600;
+				cursor: pointer;
+			}
 
-    .board-svg {
-    }
+			.inactive {
+				color: darken($text-color, 10%);
+			}
 
-  }
+			.off {
+				display: none;
+			}
 
-  .help {
-    z-index: 10010;
+			&.ctrl-game {
+				float: right;
+			}
 
-    .overlay-popup {
-      padding-top: 14px;
-      padding-bottom: 14px;
-      width: 500px;
-      max-width: 90%;
-    }
+			&.ctrl-time {
+				cursor: default;
+				float: right;
+			}
 
-    .close {
-      margin-top: 0;
-    }
-  }
+			&.ctrl-stats {
+				cursor: default;
 
-  .message {
-    .overlay-popup {
-      max-width: 400px;
-      cursor: pointer;
-      font-weight: 600;
-      font-size: 30px;
-      text-align: center;
-      color: $text-color;
-      @include no-select();
-      @media (max-height: $height-small) {
-        font-size: 20px;
-      }
-    }
-  }
+				.label {
+					margin-left: 10px;
+				}
+			}
 
-  .newgame {
-    .overlay-popup {
-      width: 100%;
-      height: 100%;
-      max-width: 600px;
-      max-height: 440px;
-      padding-bottom: 65px;
-    }
-    @media (max-width: $width-medium) {
-      .overlay-popup {
-        padding: 30px;
-        padding-bottom: 55px;
-      }
-    }
-  }
+		}
 
-  .tiles-info {
-    .overlay-popup {
-      width: 100%;
-      height: 100%;
-      max-width: 660px;
-      max-height: 600px;
-    }
-    @media (max-width: $width-medium) {
-      .overlay-popup {
-        padding: 30px;
-      }
-    }
-    @media (max-height: $height-small) {
-      .overlay-popup {
-        padding-bottom: 30px;
-      }
-    }
-  }
+		//@include respond-to(small-up) {
+		//}
 
-  .controls-bottom {
-    border-top: 1px solid lighten($background-color, 5%);
-    position: fixed;
-    left: 0;
-    right: 0;
-    z-index: 10;
-    bottom: 0;
-    height: 40px;
-    padding: 0 20px 0 20px;
-  }
+		@include respond-to(medium-up) {
+			font-size: $base-font-size*1.2;
+		}
 
-  .ctrl {
-    display: inline-block;
-    color: $text-color;
-    font-size: 1.4em;
-    line-height: 40px;
-    @include no-select();
-    .link {
-      text-decoration: none;
-      font-weight: normal;
-      color: $text-color;
-      margin-left: 10px;
-      &:hover {
-        color: lighten($text-color, 5%);
-      }
-      &[disabled] {
-        color: darken($text-color, 10%);
-      }
-    }
+		@include respond-to(large-up) {
+			font-size: $base-font-size*1.3;
+		}
 
-    &.ctrl-name {
-      font-weight: 600;
-      cursor: pointer;
-      font-size: 1.5em;
-    }
+		@include respond-to(huge-up) {
+			font-size: $base-font-size*1.6;
+		}
 
-    .inactive {
-      color: darken($text-color, 10%);
-    }
+		@include respond-to(jumbo-up) {
+			font-size: $base-font-size*2.3;
+		}
 
-    .off {
-      display: none;
-    }
+		@include respond-to(ludicrous-up) {
+			font-size: $base-font-size*4;
+		}
 
-    &.ctrl-game {
-      float: right;
-    }
-    &.ctrl-time {
-      cursor: default;
-      float: right;
-    }
-    &.ctrl-stats {
-      cursor: default;
-      .label {
-        margin-left: 10px;
-      }
-    }
+		@include respond-to(small-down) {
+			padding: 0 6px 0 6px;
+			span.label {
+				display: none;
+			}
+		}
+		@include respond-to(tiny-down) {
+			span.name {
+				display: none;
+			}
+		}
+	}
 
-  }
+	.controls-top {
+		border-bottom: 1px solid lighten($background-color, 5%);
+		padding-top: 3px;
+	}
 
-  @media (max-width: $width-large) {
-    .controls-top {
-      span.label {
-        display: none;
-      }
-    }
-    .controls-bottom {
-      font-size: 10px;
-    }
-  }
+	.controls-bottom {
+		border-top: 1px solid lighten($background-color, 5%);
+	}
 
-  @media (max-width: $width-medium) {
-    .controls-top {
-      font-size: 0.8em;
-      span.label {
-        display: none;
-      }
-    }
-    .controls-bottom {
-      font-size: 10px;
-    }
-  }
+	.board {
+		display: flex;
+		flex-direction: row;
+		flex: 1;
+		overflow: hidden;
+	}
 
-  @media (max-width: $width-small) {
-    .ctrl .link {
-      margin-left: 4px;
-    }
-  }
+	.overlay {
+		height: 100%;
+		width: 100%;
+		position: fixed;
+		top: 0;
+		left: 0;
+		z-index: 10000;
+		background-color: rgba(0, 0, 0, 0.2);
+		max-height: 100%;
+		font-size: $base-font-size*0.9;
 
-  @media (max-height: $height-small) {
-    .board {
-      top: 0;
-      bottom: 20px;
-      right: 50px;
-    }
+		@include respond-to(medium-up) {
+			font-size: $base-font-size*1.1;
+		}
 
-    .controls-top {
-      top: 0;
-      bottom: 0;
-      left: auto;
-      right: 0;
-      padding: 0;
-      width: 50px;
-      max-width: 50px;
-      border-bottom: none;
-      border-left: 1px solid lighten($background-color, 5%);
-      height: 100%;
+		@include respond-to(large-up) {
+			font-size: $base-font-size*1.2;
+		}
 
-      span.label {
-        display: none;
-      }
+		@include respond-to(huge-up) {
+			font-size: $base-font-size*1.2;
+		}
 
-      .ctrl .link {
-        margin-right: 0;
-      }
+		@include respond-to(jumbo-up) {
+			font-size: $base-font-size*2.5;
+		}
 
-      .ctrl-name {
-        display: none;
-      }
-    }
+		@include respond-to(ludicrous-up) {
+			font-size: $base-font-size*3.5;
+		}
 
-    .controls-bottom {
-      padding-right: 0;
-      height: 30px;
-      font-size: 10px;
-      .ctrl {
-        line-height: 30px;
-      }
-      .ctrl-time {
-        text-align: center;
-        width: 50px;
-        max-width: 50px;
-      }
-    }
-  }
+		@include respond-to-height(small-down) {
+			font-size: $base-font-size*0.9;
+		}
 
-  @media (max-height: $height-tiny) {
-    .controls-bottom {
-      height: 26px;
-      font-size: 9px;
-      .ctrl {
-        line-height: 26px;
-      }
-    }
-  }
+		.overlay-popup {
+			position: fixed;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			max-height: 90%;
+			max-width: 90%;
+			margin-left: auto;
+			margin-right: auto;
+			border: 1px solid $popup-border-color;
+			background-color: $popup-background-color;
+			padding: 1em;
+			line-height: 1.2em;
+			@include rounded (12px);
+			@include box-shadow (12px, 14px, 16px, rgba(0, 0, 0, 0.5));
+
+			@include respond-to(jumbo-up) {
+				@include rounded(30px);
+			}
+
+			@include respond-to(large-up) {
+				max-height: 80%;
+				max-width: 80%;
+			}
+		}
+
+		.close {
+			right: 4px;
+			top: 4px;
+			position: absolute;
+			color: darkgray;
+			cursor: pointer;
+		}
+	}
+
+	.overlay-help, .overlay-settings, .overlay-tiles-info {
+		z-index: 10010;
+
+		.overlay-popup {
+			width: 90%;
+			overflow-y: auto;
+		}
+	}
+
+	.overlay-message {
+		.overlay-popup {
+			cursor: pointer;
+			font-weight: 600;
+			text-align: center;
+			color: $text-color;
+			padding: 1.5em 2em;
+			@include no-select();
+		}
+	}
+
+	.overlay-newgame {
+		.overlay-popup {
+			width: 90%;
+			height: 90%;
+			padding: 1.5em 1em 1em;
+		}
+	}
 
 }

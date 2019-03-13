@@ -1,6 +1,6 @@
-<div class="controls-top">
+<div class="controls controls-top">
 	<div class="ctrl ctrl-name">
-		<span class="link button" (click)="toggleHelp()" title="{{'OPEN_HELP' | translate}}">🀄️Mah</span>
+		<span class="link button" (click)="toggleHelp()" title="{{'OPEN_HELP' | translate}}">🀄️<span class="name">Mah</span></span>
 	</div>
 	<div class="ctrl ctrl-game">
 		<span class="link button" (click)="enterFullScreen()" title="{{'FULLSCREEN' | translate}}">
@@ -20,10 +20,8 @@
 		</span>
 	</div>
 </div>
-<div class="board">
-	<app-board class="svg-board" [tiles]="game.board.stones" [imageSet]="game.settings.tileset" [background]="game.settings.background" [click]="onClickCallback"></app-board>
-</div>
-<div class="controls-bottom">
+<app-board class="board" [tiles]="game.board.stones" [imageSet]="game.settings.tileset" [background]="game.settings.background" [click]="onClickCallback"></app-board>
+<div class="controls controls-bottom">
 	<div class="ctrl ctrl-stats">
 		<span class="link button" (click)="toggleSettings()" title="{{'OPEN_SETTINGS' | translate}}">
 			<i class="icon-cog"></i>
@@ -35,7 +33,7 @@
 			<i class="icon-calendar"></i>
 		</span>
 		<!--<span class="link button" [ngClass]="{'inactive':!game.settings.music}" (click)="game.toggleMusic()" title="{{'AUDIO_MUSIC'|translate}}">-->
-			<!--<i class="icon-note-beamed"></i>-->
+		<!--<i class="icon-note-beamed"></i>-->
 		<!--</span>-->
 		<span class="label button"><small>{{'STONES' | translate}}</small>: <span>{{game.board.count}}</span></span>
 		<span class="label button"><small>{{'FREE' | translate}}</small>: <span>{{game.board.free.length}}</span></span>
@@ -47,30 +45,31 @@
 		<span>{{game.clock.elapsed | duration}}</span>
 	</div>
 </div>
-<div *ngIf="helpVisible" class="overlay help" (click)="toggleHelp();">
+
+<div *ngIf="helpVisible" class="overlay overlay-help" (click)="toggleHelp();">
 	<div class="overlay-popup" (click)="$event.stopPropagation();">
 		<span class="close" (click)="toggleHelp()"><i class="icon-cancel-circled2 pull-right"></i></span>
 		<app-help [game]="game"></app-help>
 	</div>
 </div>
-<div *ngIf="settingsVisible" class="overlay help" (click)="toggleSettings();">
+<div *ngIf="settingsVisible" class="overlay overlay-settings" (click)="toggleSettings();">
 	<div class="overlay-popup" (click)="$event.stopPropagation();">
 		<span class="close" (click)="toggleSettings()"><i class="icon-cancel-circled2 pull-right"></i></span>
 		<app-settings [game]="game"></app-settings>
 	</div>
 </div>
-<div [hidden]="!game.message" class="overlay message" (click)="clickMessage();">
+<div [hidden]="!game.message" class="overlay overlay-message" (click)="clickMessage();">
 	<div class="overlay-popup">
 		<div>{{game.message | translate}}</div>
 	</div>
 </div>
-<div *ngIf="tilesInfoVisible" class="overlay tiles-info" (click)="toggleTilesInfo();">
+<div *ngIf="tilesInfoVisible" class="overlay overlay-tiles-info" (click)="toggleTilesInfo();">
 	<div class="overlay-popup" (click)="$event.stopPropagation();">
 		<span class="close" (click)="toggleTilesInfo()"><i class="icon-cancel-circled2 pull-right"></i></span>
 		<app-tiles-info [imageSet]="game.settings.tileset"></app-tiles-info>
 	</div>
 </div>
-<div *ngIf="layouts && newGameVisible" (click)="toggleNewGame();" class="overlay newgame">
+<div *ngIf="layouts && newGameVisible" (click)="toggleNewGame();" class="overlay overlay-newgame">
 	<div class="overlay-popup" (click)="$event.stopPropagation();">
 		<span class="close" (click)="toggleNewGame();"><i class="icon-cancel-circled2 pull-right"></i></span>
 		<app-choose-board-component class="choose" [layouts]="layouts" [start]="onGameStartCallback"></app-choose-board-component>

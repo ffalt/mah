@@ -1,9 +1,11 @@
-<app-layout-list class="newgame-left" [layouts]="layouts" [index]="focusIndex" [select]="onSelectCallback" [start]="onStartCallback"></app-layout-list>
-<div class="newgame-right">
-	<div class="start" *ngIf="current">
-		<div>{{current.name}}</div>
-		<div class="preview" (click)="onStart(current);">
-			<app-board class="svg-board" [layout]="current"></app-board>
+<div class="newgame-content">
+	<app-layout-list class="newgame-left" [layouts]="layouts" [index]="focusIndex" [select]="onSelectCallback" [start]="onStartCallback"></app-layout-list>
+	<div class="newgame-right">
+		<div class="start" *ngIf="current">
+			<div>{{current.name}}</div>
+			<div class="preview" (click)="onStart(current);">
+				<app-board class="svg-board" [layout]="current"></app-board>
+			</div>
 		</div>
 	</div>
 </div>
@@ -17,12 +19,14 @@
 
 <div class="choose-buttons">
 	<div class="generator" appTooltip [tooltipTemplate]="generatorTooltip">
-		<label>{{'BOARD_GENERATOR' | translate}}:</label><br/>
+		<label>{{'BOARD_GENERATOR' | translate}}:</label>
 		<select [(ngModel)]="mode">
 			<option *ngFor="let m of builder.modes" value="{{m.id}}">{{m.id | translate}}</option>
 		</select>
 	</div>
-	<button class="link" [disabled]="!current" (click)="onStart(current)">{{'START_SELECTED' | translate}}</button>
-	<button class="link" (click)="randomGame()">{{'START_RANDOM' | translate}}</button>
+	<div class="start-links">
+		<button class="link" (click)="randomGame()">{{'START_RANDOM' | translate}}</button>
+		<button class="link" [disabled]="!current" (click)="onStart(current)">{{'START_SELECTED' | translate}}</button>
+	</div>
 </div>
 

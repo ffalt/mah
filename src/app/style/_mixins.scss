@@ -85,3 +85,147 @@
   -o-transition: $args;
   transition: $args;
 }
+
+
+@mixin respond-to-height($media) {
+	@if $media == pico-down {
+		@media only screen and (max-height: $bp-pico) {
+			@content;
+		}
+	} @else if $media == pico-up {
+		@media only screen and (min-height: $bp-pico) {
+			@content;
+		}
+	} @else if $media == tiny-down {
+		@media only screen and (max-height: $bp-tiny) {
+			@content;
+		}
+	} @else if $media == tiny-up {
+		@media only screen and (min-height: $bp-tiny) {
+			@content;
+		}
+	} @else if $media == small-up {
+		@media only screen and (min-height: $bp-small) {
+			@content;
+		}
+	} @else if $media == small-down {
+		@media only screen and (max-height: $bp-small) {
+			@content;
+		}
+	} @else if $media == medium-up {
+		@media only screen and (min-height: $bp-medium) {
+			@content;
+		}
+	} @else if $media == medium-down {
+		@media only screen and (max-height: $bp-medium) {
+			@content;
+		}
+	} @else if $media == large-up {
+		@media only screen and (min-height: $bp-large) {
+			@content;
+		}
+	} @else if $media == large-down {
+		@media only screen and (max-height: $bp-large) {
+			@content;
+		}
+	} @else if $media == huge-down {
+		@media only screen and (max-height: $bp-huge) {
+			@content;
+		}
+	} @else if $media == huge-up {
+		@media only screen and (min-height: $bp-huge) {
+			@content;
+		}
+	} @else if $media == huge-down {
+		@media only screen and (max-height: $bp-huge) {
+			@content;
+		}
+	} @else if $media == jumbo-up {
+		@media only screen and (min-height: $bp-jumbo) {
+			@content;
+		}
+	} @else if $media == jumbo-down {
+		@media only screen and (max-height: $bp-jumbo) {
+			@content;
+		}
+	} @else if $media == ludicrous-up {
+		@media only screen and (min-height: $bp-ludicrous) {
+			@content;
+		}
+	} @else if $media == jumbo-up {
+		@media only screen and (max-height: $bp-ludicrous) {
+			@content;
+		}
+	}
+}
+@mixin respond-to($media) {
+	@if $media == pico-down {
+		@media only screen and (max-width: $bp-pico) {
+			@content;
+		}
+	} @else if $media == pico-up {
+		@media only screen and (min-width: $bp-pico) {
+			@content;
+		}
+	} @else if $media == tiny-down {
+		@media only screen and (max-width: $bp-tiny) {
+			@content;
+		}
+	} @else if $media == tiny-up {
+		@media only screen and (min-width: $bp-tiny) {
+			@content;
+		}
+	} @else if $media == small-up {
+		@media only screen and (min-width: $bp-small) {
+			@content;
+		}
+	} @else if $media == small-down {
+		@media only screen and (max-width: $bp-small) {
+			@content;
+		}
+	} @else if $media == medium-up {
+		@media only screen and (min-width: $bp-medium) {
+			@content;
+		}
+	} @else if $media == medium-down {
+		@media only screen and (max-width: $bp-medium) {
+			@content;
+		}
+	} @else if $media == large-up {
+		@media only screen and (min-width: $bp-large) {
+			@content;
+		}
+	} @else if $media == large-down {
+		@media only screen and (max-width: $bp-large) {
+			@content;
+		}
+	} @else if $media == huge-down {
+		@media only screen and (max-width: $bp-huge) {
+			@content;
+		}
+	} @else if $media == huge-up {
+		@media only screen and (min-width: $bp-huge) {
+			@content;
+		}
+	} @else if $media == huge-down {
+		@media only screen and (max-width: $bp-huge) {
+			@content;
+		}
+	} @else if $media == jumbo-up {
+		@media only screen and (min-width: $bp-jumbo) {
+			@content;
+		}
+	} @else if $media == jumbo-down {
+		@media only screen and (max-width: $bp-jumbo) {
+			@content;
+		}
+	} @else if $media == ludicrous-up {
+		@media only screen and (min-width: $bp-ludicrous) {
+			@content;
+		}
+	} @else if $media == jumbo-up {
+		@media only screen and (max-width: $bp-ludicrous) {
+			@content;
+		}
+	}
+}

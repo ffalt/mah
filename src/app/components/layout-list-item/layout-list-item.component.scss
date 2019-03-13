@@ -12,7 +12,7 @@
   }
 
   &:hover {
-    background-color: lighten($popup-background-color, 3%);
+    background-color: lighten($popup-background-color, 10%);
   }
 
   span {
@@ -21,7 +21,15 @@
 
   span:first-of-type {
     display: inline-block;
-    min-width: 20px;
-    font-size: 0.9em;
+    min-width: 1.8em;
+		@include respond-to(small-down) {
+			display: none;
+		}
+		@include respond-to(large-up) {
+			line-height: 1.4em;
+		}
+		@include respond-to-height(small-down) {
+			line-height: 1.1em;
+		}
   }
 }
