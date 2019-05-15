@@ -1,6 +1,8 @@
 # Mah
 
-Just another Mahjong Solitaire
+A Mahjong Solitaire Game
+
+Play it [here](https://ffalt.github.io/mah/)  
 
 build with html5, svg, angular
 
@@ -8,10 +10,6 @@ build with html5, svg, angular
 [![developer](https://img.shields.io/badge/developer-awesome-brightgreen.svg)](https://github.com/ffalt/mah)
 [![known vulnerabilities](https://snyk.io/test/github/ffalt/mah/badge.svg)](https://snyk.io/test/github/ffalt/mah)
 [![codebeat badge](https://codebeat.co/badges/48c0b6bd-9bca-413a-a84b-7330deb4328e)](https://codebeat.co/projects/github-com-ffalt-mah-master) 
-
-## Release
-
-Play it [here](https://ffalt.github.io/mah/)  
 
 ## Development server
 
