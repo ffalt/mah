@@ -1,4 +1,3 @@
-import {OnInit} from '@angular/core';
 import {Board} from './board';
 import {Clock} from './clock';
 import {STATES} from './consts';
@@ -8,7 +7,7 @@ import {Settings} from './settings';
 import {Sound, SOUNDS} from './sound';
 import {Stone} from './stone';
 
-export class Game implements OnInit {
+export class Game {
 	settings = new Settings();
 	clock: Clock = new Clock();
 	board: Board = new Board();
@@ -17,7 +16,6 @@ export class Game implements OnInit {
 	state: number = STATES.idle;
 	message: string = undefined;
 	undo: Array<Array<number>> = [];
-	onClick: Event;
 
 	init(): void {
 		this.settings.load();
@@ -27,10 +25,6 @@ export class Game implements OnInit {
 			this.pause();
 		}
 		this.message = this.isPaused() ? 'MSG_CONTINUE_SAVE' : 'MSG_START';
-	}
-
-	ngOnInit(): void {
-		this.onClick = this.click.bind(this);
 	}
 
 	click(stone: Stone): boolean {
