@@ -1,22 +1,24 @@
-import {Component, ElementRef, HostListener, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, HostListener, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {TranslateService} from '@ngx-translate/core';
 import {Game} from '../../model/game';
 import {Layout, Layouts} from '../../model/layouts';
-import {TranslateService} from '@ngx-translate/core';
 import {Stone} from '../../model/stone';
 
-
 interface DocEx extends Document {
-	mozCancelFullScreen: () => void;
-	webkitExitFullscreen: () => void;
 	fullScreen: boolean;
 	fullscreen: boolean;
 	mozFullScreen: boolean;
 	webkitIsFullScreen: boolean;
+
+	mozCancelFullScreen(): void;
+
+	webkitExitFullscreen(): void;
 }
 
 interface ElemEx extends HTMLElement {
-	webkitRequestFullScreen: () => void;
-	mozRequestFullScreen: () => void;
+	webkitRequestFullScreen(): void;
+
+	mozRequestFullScreen(): void;
 }
 
 @Component({
@@ -25,20 +27,18 @@ interface ElemEx extends HTMLElement {
 	styleUrls: ['game-component.component.scss']
 })
 export class GameComponent implements OnInit, OnChanges {
-	@Input() public game: Game;
-	@Input() public layouts: Layouts;
-	public onClickCallback: Event;
-	public onGameStartCallback: Event;
-	public tilesInfoVisible = false;
-	public helpVisible = false;
-	public settingsVisible = false;
-	public newGameVisible = false;
+	@Input() game: Game;
+	@Input() layouts: Layouts;
+	tilesInfoVisible: boolean = false;
+	helpVisible: boolean = false;
+	settingsVisible: boolean = false;
+	newGameVisible: boolean = false;
 
-	constructor(private translate: TranslateService, private el: ElementRef) {
+	constructor(private translate: TranslateService) {
 	}
 
 	@HostListener('document:keydown', ['$event'])
-	public handleKeyDownEvent(event: KeyboardEvent) {
+	handleKeyDownEvent(event: KeyboardEvent): void {
 		if (this.helpVisible) {
 			if (event.keyCode === 27) {
 				this.toggleHelp();
@@ -76,14 +76,15 @@ export class GameComponent implements OnInit, OnChanges {
 			case 84: // t
 				this.game.hint();
 				break;
-			case 68: // d
-				// this.game.debug = !this.game.debug;
-				break;
+			// case 68: // d
+			// this.game.debug = !this.game.debug;
+			// break;
 			case 85: // u
 				this.game.back();
 				break;
 			case 78: // n
-				this.game.reset();
+				this.game.pause();
+				this.newGameVisible = true;
 				break;
 			case 32: // space
 			case 80: // p
@@ -93,32 +94,35 @@ export class GameComponent implements OnInit, OnChanges {
 					this.game.resume();
 				}
 				break;
+			default:
+				break;
 		}
 	}
 
-	public ngOnInit() {
-		this.onClickCallback = this.stoneClick.bind(this);
-		this.onGameStartCallback = this.startGame.bind(this);
+	ngOnInit(): void {
 		this.setLang();
 	}
 
-	public ngOnChanges(changes: SimpleChanges) {
-		if (changes['game']) {
+	ngOnChanges(changes: SimpleChanges): void {
+		if (changes.game) {
 			if (this.game.isIdle()) {
 				this.newGameVisible = true;
 			}
 		}
 	}
 
-	public stoneClick(stone: Stone) {
+	stoneClick(stone: Stone): void {
 		this.game.click(stone);
 	}
 
-	public enterFullScreen() {
-		const doc = <DocEx>window.document;
+	enterFullScreen(): void {
+		const doc = window.document as DocEx;
 		if (doc.fullScreen || doc.fullscreen || doc.mozFullScreen || doc.webkitIsFullScreen) {
 			if (doc.exitFullscreen) {
-				doc.exitFullscreen();
+				doc.exitFullscreen()
+					.catch(e => {
+						console.error(e);
+					});
 			} else if (doc.mozCancelFullScreen) {
 				doc.mozCancelFullScreen();
 			} else if (doc.webkitExitFullscreen) {
@@ -126,9 +130,12 @@ export class GameComponent implements OnInit, OnChanges {
 			}
 			return;
 		}
-		const elem = <ElemEx>document.body; // this.el.nativeElement;
+		const elem = document.body as ElemEx; // this.el.nativeElement;
 		if (elem.requestFullscreen) {
-			elem.requestFullscreen();
+			elem.requestFullscreen()
+				.catch(e => {
+					console.error(e);
+				});
 		} else if (elem.webkitRequestFullScreen) {
 			elem.webkitRequestFullScreen();
 		} else if (elem.mozRequestFullScreen) {
@@ -136,39 +143,40 @@ export class GameComponent implements OnInit, OnChanges {
 		}
 	}
 
-	public newGame() {
+	newGame(): void {
 		this.game.pause();
 		this.newGameVisible = true;
 	}
 
-	public startGame(layout: Layout, mode: string) {
+	startGame(data: { layout: Layout, mode: string }): void {
 		this.newGameVisible = false;
 		this.game.reset();
-		this.game.start(layout, mode);
+		this.game.start(data.layout, data.mode);
 	}
 
-	public toggleNewGame() {
+	toggleNewGame(): void {
 		if (!this.game.isIdle()) {
 			this.newGameVisible = !this.newGameVisible;
 		}
 	}
 
-	public toggleTilesInfo() {
+	toggleTilesInfo(): void {
 		this.tilesInfoVisible = !this.tilesInfoVisible;
 	}
 
-	public toggleSettings() {
+	toggleSettings(): void {
 		this.settingsVisible = !this.settingsVisible;
 		if (!this.settingsVisible) {
 			this.game.settings.save();
 			this.setLang();
 		}
 	}
-	public toggleHelp() {
+
+	toggleHelp(): void {
 		this.helpVisible = !this.helpVisible;
 	}
 
-	public clickMessage() {
+	clickMessage(): void {
 		if (this.game.isPaused()) {
 			this.game.resume();
 		} else {
@@ -177,7 +185,7 @@ export class GameComponent implements OnInit, OnChanges {
 		}
 	}
 
-	public setLang() {
+	setLang(): void {
 		let userLang = 'en';
 		if (!this.game.settings.lang || this.game.settings.lang === 'auto') {
 			userLang = navigator.language.split('-')[0]; // use navigator lang if available

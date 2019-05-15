@@ -13,24 +13,21 @@ interface Hints {
 }
 
 export class Board {
-	public builder: Builder = new Builder();
-	public free: Array<Stone> = [];
-	public stones: Array<Stone> = [];
-	public count = 0;
-	public hints: Hints = {groups: [], current: null};
-	public selected: Stone = null;
+	builder: Builder = new Builder();
+	free: Array<Stone> = [];
+	stones: Array<Stone> = [];
+	count = 0;
+	hints: Hints = {groups: [], current: undefined};
+	selected: Stone = undefined;
 
-	constructor() {
-	}
-
-	public clearSelection() {
+	clearSelection(): void {
 		if (this.selected) {
 			this.selected.selected = false;
 		}
-		this.selected = null;
+		this.selected = undefined;
 	}
 
-	public setStoneSelected(stone: Stone) {
+	setStoneSelected(stone: Stone): void {
 		this.clearSelection();
 		if (stone) {
 			stone.selected = true;
@@ -38,7 +35,7 @@ export class Board {
 		}
 	}
 
-	public clearHints() {
+	clearHints(): void {
 		if (this.hints.current) {
 			this.hints.current.stones.forEach((stone: Stone) => {
 				stone.hinted = false;
@@ -46,47 +43,11 @@ export class Board {
 		}
 		this.hints = {
 			groups: [],
-			current: null
+			current: undefined
 		};
 	}
 
-	private hintNext(): boolean {
-		if (!this.hints.current) {
-			return false;
-		}
-		this.hints.current.stones.forEach((stone: Stone) => {
-			stone.hinted = false;
-		});
-		let i = this.hints.groups.indexOf(this.hints.current);
-		if (i >= 0) {
-			i++;
-			if (i >= this.hints.groups.length) {
-				i = 0;
-			}
-			if (i < this.hints.groups.length) {
-				this.hints.current = this.hints.groups[i];
-				this.hints.current.stones.forEach((stone) => {
-					stone.hinted = true;
-				});
-				return true;
-			}
-		}
-		return false;
-	}
-
-	private collectHints(): Array<StoneGroup> {
-		const hash: { [index: string]: Array<Stone> } = {};
-		this.free.forEach((stone: Stone) => {
-			const gn = stone.groupnr.toString();
-			hash[gn] = hash[gn] || [];
-			hash[gn].push(stone);
-		});
-		return Object.keys(hash).map((key: string) => {
-			return {group: hash[key][0].groupnr, stones: hash[key]};
-		});
-	}
-
-	public hint() {
+	hint(): void {
 		if (this.hintNext()) {
 			return;
 		}
@@ -108,7 +69,7 @@ export class Board {
 			});
 		}
 		this.hints = {
-			groups: groups,
+			groups,
 			current: groups[0]
 		};
 		this.hints.current.stones.forEach((stone: Stone) => {
@@ -116,7 +77,7 @@ export class Board {
 		});
 	}
 
-	public reset() {
+	reset(): void {
 		this.clearSelection();
 		this.clearHints();
 		this.free = [];
@@ -124,12 +85,10 @@ export class Board {
 		this.stones = [];
 	}
 
-	public update() {
-		const canRemove = (stone: Stone): boolean => {
-			return stone.group.filter((_stone: Stone) => {
-				return !_stone.picked && !_stone.isBlocked();
-			}).length > 0;
-		};
+	update(): void {
+		const canRemove = (stone: Stone): boolean =>
+			stone.group.filter((_stone: Stone) =>
+				!_stone.picked && !_stone.isBlocked()).length > 0;
 
 		const free: Array<Stone> = [];
 		let count = 0;
@@ -140,7 +99,7 @@ export class Board {
 			};
 			count += stone.picked ? 0 : 1;
 		});
-		this.stones.forEach((stone) => {
+		this.stones.forEach(stone => {
 			stone.state.removable = !stone.picked && !stone.state.blocked && canRemove(stone);
 			if (stone.state.removable) {
 				free.push(stone);
@@ -150,7 +109,7 @@ export class Board {
 		this.count = count;
 	}
 
-	public load(mapping: Mapping, undos: Array<Array<number>>) {
+	load(mapping: Mapping, undos: Array<Array<number>>): void {
 		if (!mapping) {
 			return;
 		}
@@ -166,13 +125,47 @@ export class Board {
 		this.stones = stones;
 	}
 
-	public save(): Array<Array<number>> {
-		return this.stones.map((stone: Stone) => {
-			return [stone.z, stone.x, stone.y, stone.v];
-		});
+	save(): Array<Array<number>> {
+		return this.stones.map((stone: Stone) =>
+			[stone.z, stone.x, stone.y, stone.v]);
 	}
 
-	public applyLayout(layout: Layout, mode: string) {
+	applyLayout(layout: Layout, mode: string): void {
 		this.stones = this.builder.build(mode, layout);
+	}
+
+	private hintNext(): boolean {
+		if (!this.hints.current) {
+			return false;
+		}
+		this.hints.current.stones.forEach((stone: Stone) => {
+			stone.hinted = false;
+		});
+		let i = this.hints.groups.indexOf(this.hints.current);
+		if (i >= 0) {
+			i++;
+			if (i >= this.hints.groups.length) {
+				i = 0;
+			}
+			if (i < this.hints.groups.length) {
+				this.hints.current = this.hints.groups[i];
+				this.hints.current.stones.forEach(stone => {
+					stone.hinted = true;
+				});
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private collectHints(): Array<StoneGroup> {
+		const hash: { [index: string]: Array<Stone> } = {};
+		this.free.forEach((stone: Stone) => {
+			const gn = stone.groupnr.toString();
+			hash[gn] = hash[gn] || [];
+			hash[gn].push(stone);
+		});
+		return Object.keys(hash).map((key: string) =>
+			({group: hash[key][0].groupnr, stones: hash[key]}));
 	}
 }

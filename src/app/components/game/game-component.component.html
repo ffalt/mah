@@ -20,7 +20,7 @@
 		</span>
 	</div>
 </div>
-<app-board class="board" [tiles]="game.board.stones" [imageSet]="game.settings.tileset" [background]="game.settings.background" [click]="onClickCallback"></app-board>
+<app-board class="board" [tiles]="game.board.stones" [imageSet]="game.settings.tileset" [background]="game.settings.background" (clickEvent)="stoneClick($event)"></app-board>
 <div class="controls controls-bottom">
 	<div class="ctrl ctrl-stats">
 		<span class="link button" (click)="toggleSettings()" title="{{'OPEN_SETTINGS' | translate}}">
@@ -37,9 +37,9 @@
 		<!--</span>-->
 		<span class="label button"><small>{{'STONES' | translate}}</small>: <span>{{game.board.count}}</span></span>
 		<span class="label button"><small>{{'FREE' | translate}}</small>: <span>{{game.board.free.length}}</span></span>
-		<span class="link button" [ngClass]="{'off':!game.settings.music}">
-				<small>{{'TRACK' | translate}}</small>: <span (click)="game.music.next()">{{game.music.current()}}</span>
-			</span>
+		<!--		<span class="link button" [ngClass]="{'off':!game.settings.music}">-->
+		<!--				<small>{{'TRACK' | translate}}</small>: <span (click)="game.music.next()">{{game.music.current()}}</span>-->
+		<!--			</span>-->
 	</div>
 	<div class="ctrl ctrl-time">
 		<span>{{game.clock.elapsed | duration}}</span>
@@ -72,6 +72,6 @@
 <div *ngIf="layouts && newGameVisible" (click)="toggleNewGame();" class="overlay overlay-newgame">
 	<div class="overlay-popup" (click)="$event.stopPropagation();">
 		<span class="close" (click)="toggleNewGame();"><i class="icon-cancel-circled2 pull-right"></i></span>
-		<app-choose-board-component class="choose" [layouts]="layouts" [start]="onGameStartCallback"></app-choose-board-component>
+		<app-choose-board-component class="choose" [layouts]="layouts" (startEvent)="startGame($event)"></app-choose-board-component>
 	</div>
 </div>

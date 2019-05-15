@@ -8,12 +8,6 @@
 	width: 100%;
 	min-height: 100vh;
 
-	//&.paused {
-	//	.board {
-			//@include blur(1px);
-		//}
-	//}
-
 	.controls {
 		min-width: 170px;
 		padding: 0 0.8em 0 0.8em;
@@ -203,6 +197,7 @@
 		.overlay-popup {
 			width: 90%;
 			overflow-y: auto;
+			padding: 1.5em 2em;
 		}
 	}
 
@@ -221,7 +216,7 @@
 		.overlay-popup {
 			width: 90%;
 			height: 90%;
-			padding: 1.5em 1em 1em;
+			padding: 1.5em 2em;
 		}
 	}
 

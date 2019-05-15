@@ -1,22 +1,20 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-
-import {BoardComponent} from './board.component';
-import {ImageSetLoaderComponent} from '../image-set-loader/image-set-loader.component';
-import {SvgdefService} from '../../service/svgdef.service';
 import {HttpClientModule} from '@angular/common/http';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {SvgdefService} from '../../service/svgdef.service';
+import {ImageSetLoaderComponent} from '../image-set-loader/image-set-loader.component';
+import {BoardComponent} from './board.component';
 
 describe('BoardComponent', () => {
 	let component: BoardComponent;
 	let fixture: ComponentFixture<BoardComponent>;
 
-	beforeEach(async(() => {
+	beforeEach(async () =>
 		TestBed.configureTestingModule({
 			declarations: [ImageSetLoaderComponent, BoardComponent],
 			imports: [HttpClientModule],
 			providers: [SvgdefService]
 		})
-			.compileComponents();
-	}));
+			.compileComponents());
 
 	beforeEach(() => {
 		fixture = TestBed.createComponent(BoardComponent);
@@ -24,7 +22,6 @@ describe('BoardComponent', () => {
 		fixture.detectChanges();
 	});
 
-	it('should create', () => {
-		expect(component).toBeTruthy();
-	});
+	it('should create', async () =>
+		expect(component).toBeTruthy());
 });

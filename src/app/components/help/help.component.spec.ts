@@ -1,14 +1,14 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-
-import {HelpComponent} from './help.component';
-import {TranslateModule} from '@ngx-translate/core';
-import {FormsModule} from '@angular/forms';
-import {DurationPipe} from '../../pipes/duration.pipe';
-import {Game} from '../../model/game';
 import {Component} from '@angular/core';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {FormsModule} from '@angular/forms';
+import {TranslateModule} from '@ngx-translate/core';
+import {Game} from '../../model/game';
+import {DurationPipe} from '../../pipes/duration.pipe';
+import {HelpComponent} from './help.component';
 
 describe('HelpComponent', () => {
 
+	// noinspection AngularMissingOrInvalidDeclarationInModule
 	@Component({
 		selector: 'app-help-host-component',
 		template: '<app-help [game]="mockGame"></app-help>'
@@ -19,13 +19,12 @@ describe('HelpComponent', () => {
 
 	let component: TestHelpHostComponent;
 	let fixture: ComponentFixture<TestHelpHostComponent>;
-	beforeEach(async(() => {
+	beforeEach(async () =>
 		TestBed.configureTestingModule({
 			declarations: [TestHelpHostComponent, HelpComponent, DurationPipe],
 			imports: [FormsModule, TranslateModule.forRoot()]
 		})
-			.compileComponents();
-	}));
+			.compileComponents());
 
 	beforeEach(() => {
 		fixture = TestBed.createComponent(TestHelpHostComponent);
@@ -33,8 +32,7 @@ describe('HelpComponent', () => {
 		fixture.detectChanges();
 	});
 
-	it('should create', () => {
-		expect(component).toBeTruthy();
-	});
+	it('should create', async () =>
+		expect(component).toBeTruthy());
 
 });

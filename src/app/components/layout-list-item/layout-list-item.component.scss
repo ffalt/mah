@@ -6,6 +6,7 @@
   cursor: pointer;
   outline: 0;
   white-space: nowrap;
+	display: block;
   @include no-select();
   &.selected {
     background-color: darken($popup-background-color, 4%);
@@ -19,7 +20,7 @@
     @include no-select();
   }
 
-  span:first-of-type {
+  span {
     display: inline-block;
     min-width: 1.8em;
 		@include respond-to(small-down) {

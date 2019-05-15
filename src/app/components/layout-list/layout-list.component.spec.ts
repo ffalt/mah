@@ -1,12 +1,12 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-
-import {LayoutListComponent} from './layout-list.component';
-import {LayoutListItemComponent} from '../layout-list-item/layout-list-item.component';
 import {Component} from '@angular/core';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {Layouts} from '../../model/layouts';
+import {LayoutListItemComponent} from '../layout-list-item/layout-list-item.component';
+import {LayoutListComponent} from './layout-list.component';
 
 describe('LayoutListComponent', () => {
 
+	// noinspection AngularMissingOrInvalidDeclarationInModule
 	@Component({
 		selector: 'app-layout-list-host-component',
 		template: '<app-layout-list [layouts]="mockLayouts"></app-layout-list>'
@@ -18,12 +18,11 @@ describe('LayoutListComponent', () => {
 	let component: TestLayoutListHostComponent;
 	let fixture: ComponentFixture<TestLayoutListHostComponent>;
 
-	beforeEach(async(() => {
+	beforeEach(async () =>
 		TestBed.configureTestingModule({
 			declarations: [TestLayoutListHostComponent, LayoutListItemComponent, LayoutListComponent]
 		})
-			.compileComponents();
-	}));
+			.compileComponents());
 
 	beforeEach(() => {
 		fixture = TestBed.createComponent(TestLayoutListHostComponent);
@@ -31,8 +30,7 @@ describe('LayoutListComponent', () => {
 		fixture.detectChanges();
 	});
 
-	it('should create', () => {
-		expect(component).toBeTruthy();
-	});
+	it('should create', async () =>
+		expect(component).toBeTruthy());
 
 });

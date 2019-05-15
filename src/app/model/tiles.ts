@@ -12,31 +12,20 @@ export interface TileGroup {
 }
 
 export class Tiles {
-	public list: Array<Tile> = [];
-	public groups: Array<TileGroup> = [];
+	list: Array<Tile> = [];
+	groups: Array<TileGroup> = [];
 
 	constructor() {
-		let n = 0;
-		const tiles_mapping = TILES.map(row => {
-			return row.map(id => {
-				return {id: id};
-			});
-		});
-		tiles_mapping.forEach((group, group_nr) => {
-			const g: TileGroup = {
-				v: group_nr,
-				tiles: []
-			};
+		let v = 0;
+		const tilesMapping = TILES.map(row => row.map(id => ({id})));
+		tilesMapping.forEach((group, groupnr) => {
+			const g: TileGroup = {v: groupnr, tiles: []};
 			this.groups.push(g);
-			group.forEach((img) => {
-				n++;
-				const tile = {
-					groupnr: group_nr,
-					v: n,
-					img: img
-				};
+			group.forEach(img => {
+				v++;
+				const tile = {groupnr, v, img};
 				g.tiles.push(tile);
-				this.list[n] = tile;
+				this.list[v] = tile;
 			});
 		});
 	}
