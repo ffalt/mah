@@ -61,6 +61,6 @@
     "rxjs-tslint": "0.1.7",
     "tslint": "5.16.0",
     "typescript": "3.4.5",
-    "webpack": "4.30.0"
+    "webpack": "4.31.0"
   }
 }
