@@ -1,19 +1,21 @@
 import {Pipe, PipeTransform} from '@angular/core';
 
+function pad(num: number): string {
+	return (num < 10 ? '0' : '') + num.toString();
+}
+
 @Pipe({
 	name: 'duration'
 })
 export class DurationPipe implements PipeTransform {
-	public transform(value: number): string {
+	transform(value: number): string {
 		if (isNaN(value) || (value === 0)) {
 			return '-';
 		}
-		const sec_num = Math.floor(value / 1000);
-		const hours = Math.floor(sec_num / 3600);
-		const minutes = Math.floor((sec_num - (hours * 3600)) / 60);
-		const seconds = sec_num - (hours * 3600) - (minutes * 60);
-		return ((hours > 0) ? (hours < 10 ? '0' : '') + hours + ':' : '') +
-			(minutes < 10 ? '0' : '') + minutes + ':' +
-			(seconds < 10 ? '0' : '') + seconds;
+		const secNum = Math.floor(value / 1000);
+		const hours = Math.floor(secNum / 3600);
+		const minutes = Math.floor((secNum - (hours * 3600)) / 60);
+		const seconds = secNum - (hours * 3600) - (minutes * 60);
+		return `${(hours > 0) ? pad(hours) + ':' : ''}${pad(minutes)}:${pad(seconds)}`;
 	}
 }

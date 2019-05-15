@@ -1,6 +1,7 @@
-import {Tiles, Tile} from './tiles';
-import {safeGetStone, Stone} from './stone';
+/* tslint:disable:max-classes-per-file */
 import {Layout, Place} from './layouts';
+import {safeGetStone, Stone} from './stone';
+import {Tile, Tiles} from './tiles';
 
 interface BuilderType {
 	build(layout: Layout, tiles: Tiles): Array<Stone>;
@@ -15,7 +16,12 @@ function randomExtract<T>(array: Array<T>): T {
 	return array.splice(i, 1)[0];
 }
 
-function collectNodes(stones: Array<Stone>, stone: Stone) {
+function collectNodes(stones: Array<Stone>, stone: Stone): {
+	top: Array<Stone>;
+	left: Array<Stone>;
+	right: Array<Stone>;
+	bottom: Array<Stone>;
+} {
 	const nodes: {
 		top: Array<Stone>;
 		left: Array<Stone>;
@@ -46,56 +52,50 @@ function collectNodes(stones: Array<Stone>, stone: Stone) {
 	return nodes;
 }
 
-const fillStones = function(stones: Array<Stone>, tiles: Tiles) {
+function fillStones(stones: Array<Stone>, tiles: Tiles): Array<Stone> {
 	const groups: { [index: number]: Array<Stone> } = {};
 	stones.forEach((stone: Stone) => {
 		const tile = tiles.list[stone.v];
-		if (tile) {
-			stone.img = tile.img;
-		} else {
-			stone.img = {id: null};
-		}
+		stone.img = tile ? tile.img : {id: undefined};
 		groups[stone.groupnr] = groups[stone.groupnr] || [];
 		groups[stone.groupnr].push(stone);
 		stone.nodes = collectNodes(stones, stone);
 	});
-	Object.keys(groups).forEach((key) => {
+	Object.keys(groups).forEach(key => {
 		const group: Array<Stone> = groups[parseInt(key, 10)];
 		group.forEach((stone: Stone) => {
-			stone.group = group.filter((s: Stone) => {
-				return s !== stone;
-			});
+			stone.group = group.filter((s: Stone) =>
+				s !== stone);
 		});
 	});
 	return stones;
-};
+}
 
 class LinearBoardBuilder implements BuilderType {
-	public build(layout: Layout, tiles: Tiles) {
-		const remaining_tiles: Array<Tile> = tiles.list.filter((tile: Tile): boolean => {
-			return tile != null;
-		});
+
+	build(layout: Layout, tiles: Tiles): Array<Stone> {
+		const remainingTiles: Array<Tile> = tiles.list.filter((tile: Tile): boolean => tile !== undefined);
 		const stones: Array<Stone> = [];
 		layout.mapping.forEach((place: Place) => {
-			const tile = randomExtract(remaining_tiles);
+			const tile = randomExtract(remainingTiles);
 			const stone = new Stone(place[0], place[1], place[2], tile.v, tile.groupnr);
 			stones.push(stone);
 		});
 		fillStones(stones, tiles);
 		return stones;
 	}
+
 }
 
 class RandomBoardBuilder implements BuilderType {
-	public build(layout: Layout, tiles: Tiles) {
-		const remaining_tiles = tiles.list.filter((tile: Tile) => {
-			return tile != null;
-		});
+
+	build(layout: Layout, tiles: Tiles): Array<Stone> {
+		const remainingTiles = tiles.list.filter((tile: Tile) => tile !== undefined);
 		const stones: Array<Stone> = [];
-		const remaining_places = layout.mapping.slice(0);
-		while (remaining_tiles.length > 0) {
-			const tile = randomExtract(remaining_tiles);
-			const place = randomExtract(remaining_places);
+		const remainingPlaces = layout.mapping.slice(0);
+		while (remainingTiles.length > 0) {
+			const tile = randomExtract(remainingTiles);
+			const place = randomExtract(remainingPlaces);
 			stones.push(new Stone(place[0], place[1], place[2], tile.v, tile.groupnr));
 		}
 		fillStones(stones, tiles);
@@ -104,7 +104,8 @@ class RandomBoardBuilder implements BuilderType {
 }
 
 class SolvableBoardBuilder implements BuilderType {
-	public build(layout: Layout, tiles: Tiles) {
+
+	build(layout: Layout, tiles: Tiles): Array<Stone> {
 		const stones: Array<Stone> = [];
 		layout.mapping.forEach((st: Place) => {
 			stones.push(new Stone(st[0], st[1], st[2], 0, 0));
@@ -125,16 +126,15 @@ class SolvableBoardBuilder implements BuilderType {
 			stone.picked = false;
 		});
 		fillStones(stones, tiles); // repair grouping & images, etc
-		stones.sort((a: Stone, b: Stone) => {
-			return a.v - b.v;
-		});
+		stones.sort((a: Stone, b: Stone) =>
+			a.v - b.v);
 		return stones;
 	}
 
-	private solve(stones: Array<Stone>, tiles: Tiles) {
+	solve(stones: Array<Stone>, tiles: Tiles): Array<Array<Tile>> {
 		const pairs: Array<Array<Tile>> = [];
 		const allpairs: Array<Array<Tile>> = [];
-		tiles.groups.forEach((group) => {
+		tiles.groups.forEach(group => {
 			const g: Array<Tile> = group.tiles.slice();
 			const tile1 = randomExtract(g);
 			const tile2 = randomExtract(g);
@@ -145,9 +145,8 @@ class SolvableBoardBuilder implements BuilderType {
 		});
 		while (allpairs.length > 0) {
 			const pair: Array<Tile> = randomExtract(allpairs);
-			const freestones: Array<Stone> = stones.filter((stone: Stone) => {
-				return !stone.picked && !stone.isBlocked();
-			});
+			const freestones: Array<Stone> = stones.filter((stone: Stone) =>
+				!stone.picked && !stone.isBlocked());
 			if (freestones.length < 2) {
 				// not enough free places
 				// this may happen if the last stones are directly on each other
@@ -167,10 +166,12 @@ class SolvableBoardBuilder implements BuilderType {
 		}
 		return pairs;
 	}
+
 }
 
 class LoadBoardBuilder implements BuilderType {
-	public build(layout: Layout, tiles: Tiles) {
+
+	build(layout: Layout, tiles: Tiles): Array<Stone> {
 		const stones: Array<Stone> = [];
 		layout.mapping.forEach((st: Array<number>) => {
 			const tile: Tile = tiles.list[st[3]];
@@ -182,6 +183,7 @@ class LoadBoardBuilder implements BuilderType {
 		fillStones(stones, tiles);
 		return stones;
 	}
+
 }
 
 export const BuilderModes = [
@@ -191,20 +193,16 @@ export const BuilderModes = [
 ];
 
 export class Builder {
-	public tiles = new Tiles();
-	public modes = BuilderModes;
+	tiles = new Tiles();
+	modes = BuilderModes;
 
-	constructor() {
-	}
-
-	public build(mode: string, layout: Layout): Array<Stone> {
+	build(mode: string, layout: Layout): Array<Stone> {
 		let builder: BuilderType;
 		if (mode === 'load') {
 			builder = new LoadBoardBuilder();
 		} else {
-			const buildermode = BuilderModes.filter((m) => {
-				return m.id === mode;
-			})[0];
+			const buildermode = BuilderModes.filter(m =>
+				m.id === mode)[0];
 			builder = new buildermode.builder();
 		}
 		if (builder) {

@@ -1,19 +1,17 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-
-import {ChooseBoardComponent} from './choose-board-component.component';
-import {Layouts} from '../../model/layouts';
 import {Component} from '@angular/core';
-import {LayoutListComponent} from '../layout-list/layout-list.component';
-import {LayoutListItemComponent} from '../layout-list-item/layout-list-item.component';
-import {BoardComponent} from '../board/board.component';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {FormsModule} from '@angular/forms';
 import {TranslateModule} from '@ngx-translate/core';
-import {TooltipModule} from '../../modules/tooltip/tooltip.module';
+import {Layouts} from '../../model/layouts';
+import {BoardComponent} from '../board/board.component';
 import {ImageSetLoaderComponent} from '../image-set-loader/image-set-loader.component';
+import {LayoutListItemComponent} from '../layout-list-item/layout-list-item.component';
+import {LayoutListComponent} from '../layout-list/layout-list.component';
+import {ChooseBoardComponent} from './choose-board-component.component';
 
 describe('ChooseBoardComponent', () => {
 
-
+	// noinspection AngularMissingOrInvalidDeclarationInModule
 	@Component({
 		selector: 'app-choose-board-host-component',
 		template: '<app-choose-board-component [layouts]="mockLayouts"></app-choose-board-component>'
@@ -25,13 +23,12 @@ describe('ChooseBoardComponent', () => {
 	let component: TestChooseBoardHostComponent;
 	let fixture: ComponentFixture<TestChooseBoardHostComponent>;
 
-	beforeEach(async(() => {
+	beforeEach(async () =>
 		TestBed.configureTestingModule({
 			declarations: [TestChooseBoardHostComponent, ImageSetLoaderComponent, ChooseBoardComponent, LayoutListComponent, LayoutListItemComponent, BoardComponent],
-			imports: [TooltipModule, FormsModule, TranslateModule.forRoot()]
+			imports: [FormsModule, TranslateModule.forRoot()]
 		})
-			.compileComponents();
-	}));
+			.compileComponents());
 
 	beforeEach(() => {
 		fixture = TestBed.createComponent(TestChooseBoardHostComponent);
@@ -39,9 +36,7 @@ describe('ChooseBoardComponent', () => {
 		fixture.detectChanges();
 	});
 
-	it('should create', () => {
-		expect(component).toBeTruthy();
-	});
-
+	it('should create', async () =>
+		expect(component).toBeTruthy());
 
 });

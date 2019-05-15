@@ -7,16 +7,14 @@ export interface Mapping extends Array<Place> {
 }
 
 export class Layout {
-	public index: number;
-	public name: string;
-	public mapping: Mapping;
+	index: number;
+	name: string;
+	mapping: Mapping;
 }
 
 export class Layouts {
-	public items: Array<Layout> = [];
+	items: Array<Layout> = [];
 
-	constructor() {
-	}
 	/*
 	public sortMapping(mapping: Mapping) {
 		mapping.sort((a: Place, b: Place): number => {
@@ -70,20 +68,19 @@ export class Layouts {
 	}
 	*/
 
-	public load(list: Array<{ name: string; mapping: Mapping }>) {
-		this.items = list.map((o, i) => {
-			return {
+	load(list: Array<{ name: string; mapping: Mapping }>): void {
+		this.items = list.map((o, i) =>
+			({
 				index: i,
 				name: o.name,
 				mapping: this.expandMapping(o.mapping)
-			};
-		});
+			}));
 	}
 
-	public expandMapping(mapping: Mapping): Mapping {
+	expandMapping(mapping: Mapping): Mapping {
 		const result: Mapping = [];
 		if (mapping) {
-			mapping.forEach((m) => {
+			mapping.forEach(m => {
 				for (let i = 0; i < (m[3] || 1); i++) {
 					result.push([m[0], m[1] + (i * 2), m[2]]);
 				}

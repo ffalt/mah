@@ -1,40 +1,31 @@
-import {Component, Input, OnChanges, OnInit, QueryList, SimpleChanges, ViewChildren} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, Output, QueryList, SimpleChanges, ViewChildren} from '@angular/core';
 import {Layout, Layouts} from '../../model/layouts';
 import {LayoutListItemComponent} from '../layout-list-item/layout-list-item.component';
 
 @Component({
 	selector: 'app-layout-list',
-	templateUrl: './layout-list.component.html',
-	styleUrls: ['./layout-list.component.scss']
+	templateUrl: 'layout-list.component.html',
+	styleUrls: ['layout-list.component.scss']
 })
-export class LayoutListComponent implements OnInit, OnChanges {
-	@Input() public layouts: Layouts;
-	@Input() public index = 0;
-	@Input() public select: (layout: Layout) => void;
-	@Input() public start: (layout: Layout) => void;
-	@ViewChildren(LayoutListItemComponent) public children: QueryList<LayoutListItemComponent>;
+export class LayoutListComponent implements OnChanges {
+	@Input() layouts: Layouts;
+	@Input() index = 0;
+	@Output() readonly selectEvent = new EventEmitter<Layout>();
+	@Output() readonly startEvent = new EventEmitter<Layout>();
+	@ViewChildren(LayoutListItemComponent) children: QueryList<LayoutListItemComponent>;
+	current: Layout = undefined;
 
-	public current: Layout = null;
-
-	constructor() {
-	}
-
-	public ngOnChanges(changes: SimpleChanges) {
-		if (changes['index'] && this.layouts) {
-			this.setCurrent(this.layouts.items[this.index], true);
-		}
-		if (changes['layouts'] && this.layouts) {
+	ngOnChanges(changes: SimpleChanges): void {
+		if ((changes.layouts || changes.index) && this.layouts) {
 			this.setCurrent(this.layouts.items[this.index], true);
 		}
 	}
 
-	public setSelected(layout: Layout) {
-		if (this.start) {
-			this.start(layout);
-		}
+	setSelected(layout: Layout): void {
+		this.startEvent.emit(layout);
 	}
 
-	public setCurrent(layout: Layout, scrollIntoView: boolean) {
+	setCurrent(layout: Layout, scrollIntoView?: boolean): void {
 		if (!layout) {
 			return;
 		}
@@ -47,18 +38,16 @@ export class LayoutListComponent implements OnInit, OnChanges {
 				}
 			});
 		}
-		if (this.select) {
-			this.select(layout);
-		}
+		this.selectEvent.emit(layout);
 	}
 
-	public onKeydown(event: KeyboardEvent) {
+	onKeydown(event: KeyboardEvent): void {
 		switch (event.keyCode) {
 			case 13:
 			case 32:
-				this.select(this.current);
+				this.selectEvent.emit(this.current);
 				event.stopPropagation();
-				return false;
+				return;
 			case 38:
 				if (this.index === 0) {
 					this.index = this.layouts.items.length - 1;
@@ -67,7 +56,7 @@ export class LayoutListComponent implements OnInit, OnChanges {
 				}
 				this.setCurrent(this.layouts.items[this.index], true);
 				event.stopPropagation();
-				return false;
+				return;
 			case 40:
 				if (this.index + 1 === this.layouts.items.length) {
 					this.index = 0;
@@ -76,12 +65,10 @@ export class LayoutListComponent implements OnInit, OnChanges {
 				}
 				this.setCurrent(this.layouts.items[this.index], true);
 				event.stopPropagation();
-				return false;
+				return;
+			default:
+				return;
 		}
-		return true;
-	}
-
-	ngOnInit() {
 	}
 
 }

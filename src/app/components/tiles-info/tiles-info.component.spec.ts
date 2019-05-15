@@ -1,26 +1,25 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-
-import {TilesInfoComponent} from './tiles-info.component';
-import {TranslateModule} from '@ngx-translate/core';
-import {TileComponent} from '../tile/tile.component';
 import {HttpClientModule} from '@angular/common/http';
-import {ImageSetLoaderComponent} from '../image-set-loader/image-set-loader.component';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {TranslateModule} from '@ngx-translate/core';
 import {SvgdefService} from '../../service/svgdef.service';
+import {ImageSetLoaderComponent} from '../image-set-loader/image-set-loader.component';
+import {TileComponent} from '../tile/tile.component';
+import {TilesInfoComponent} from './tiles-info.component';
 
 describe('TilesInfoComponent', () => {
 	let component: TilesInfoComponent;
 	let fixture: ComponentFixture<TilesInfoComponent>;
 
-	beforeEach(async(() => {
+	beforeEach(async () =>
 		TestBed.configureTestingModule({
 			declarations: [TileComponent, TilesInfoComponent, ImageSetLoaderComponent],
 			providers: [SvgdefService],
-			imports: [HttpClientModule,
+			imports: [
+				HttpClientModule,
 				TranslateModule.forRoot()
 			]
 		})
-			.compileComponents();
-	}));
+			.compileComponents());
 
 	beforeEach(() => {
 		fixture = TestBed.createComponent(TilesInfoComponent);
@@ -28,7 +27,6 @@ describe('TilesInfoComponent', () => {
 		fixture.detectChanges();
 	});
 
-	it('should create', () => {
-		expect(component).toBeTruthy();
-	});
+	it('should create', async () =>
+		expect(component).toBeTruthy());
 });

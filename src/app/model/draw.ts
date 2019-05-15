@@ -15,5 +15,6 @@ export interface Draw {
 	pos: DrawPos;
 	visible: boolean;
 	url?: string;
+	color?: string;
 	source: Stone;
 }

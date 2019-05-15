@@ -1,5 +1,6 @@
+/*
 const TRACKS = [
-	{'id': 'filename', 'name': 'name'},
+	{id: 'filename', name: 'name'}
 ];
 
 interface Track {
@@ -8,10 +9,10 @@ interface Track {
 }
 
 interface AudioAdapter {
-	play: () => void;
-	load: () => void;
-	pause: () => void;
 	src: string;
+	play(): void;
+	load(): void;
+	pause(): void;
 }
 
 export class Music {
@@ -27,30 +28,30 @@ export class Music {
 		// src="http://youtube.googleapis.com/v/VIDEO_ID&autoplay=1&loop=1" />
 	}
 
-	public play() {
+	play() {
 		// console.log('playmusic');
 		// let filename = 'https://youtube.googleapis.com/v/mk2SNcpTNbs&autoplay=1&loop=1';
 		// this.embed.setAttribute('src', filename);
 		// this.embed.setAttribute('href', filename);
 	}
 
-	public next() {
+	next() {
 		// console.log('music.next');
 	}
 
-	public pause() {
+	pause() {
 		// console.log('music.pause');
 	}
 
-	public stop() {
+	stop() {
 		// console.log('music.stop');
 	}
 
-	public isPaused() {
+	isPaused() {
 		return false;
 	}
 
-	public current() {
+	current() {
 		return 'hi';
 	}
 }
@@ -65,7 +66,7 @@ export class MusicMP3 {
 	constructor() {
 	}
 
-	public play() {
+	play() {
 		if (this._paused && this._audio) {
 			this._paused = false;
 			return this._audio.play();
@@ -85,16 +86,15 @@ export class MusicMP3 {
 		this._audio = audio;
 	}
 
-	public next() {
+	next() {
 		if (this._audio) {
 			this._audio.pause();
 			this._played.push(this._current);
 			this._paused = false;
 			this._audio = null;
 		}
-		let available = this._tracks.filter((track) => {
-			return this._played.indexOf(track) < 0;
-		});
+		let available = this._tracks.filter(track =>
+			this._played.indexOf(track) < 0);
 		if (available.length === 0) {
 			this._played = [];
 			available = this._tracks;
@@ -103,25 +103,26 @@ export class MusicMP3 {
 		this.play();
 	}
 
-	public pause() {
+	pause() {
 		if (this._audio) {
 			this._audio.pause();
 			this._paused = true;
 		}
 	}
 
-	public stop() {
+	stop() {
 		if (this._audio) {
 			this._audio.pause();
 		}
 		this._audio = null;
 	}
 
-	public isPaused() {
+	isPaused() {
 		return this._paused;
 	}
 
-	public current() {
+	current() {
 		return this._current;
 	}
 }
+*/

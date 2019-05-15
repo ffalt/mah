@@ -20,7 +20,7 @@
 		}
 
 		.newgame-right {
-			width: 68%;
+			width: 70%;
 			height: 100%;
 			vertical-align: top;
 			display: inline-block;
@@ -38,6 +38,8 @@
 
 				div {
 					text-align: center;
+					padding-top: 14px;
+					padding-bottom: 14px;
 				}
 
 				.preview {
@@ -87,6 +89,8 @@
 
 			select {
 				padding-left: 8px;
+				width: 100%;
+				text-overflow: ellipsis;
 			}
 		}
 	}

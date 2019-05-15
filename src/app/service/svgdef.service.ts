@@ -1,32 +1,43 @@
-import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+
+interface CacheItem {
+	data?: string;
+	request?: Promise<string>;
+}
 
 @Injectable()
 export class SvgdefService {
 
-	private cache = {};
+	private cache: { [name: string]: CacheItem } = {};
 
 	constructor(private http: HttpClient) {
 	}
 
-	public get(name: string, callback: (def: string) => void) {
-		this.cache[name] = this.cache[name] || {data: false, listeners: []};
-		const request = this.cache[name];
-		if (request.data) {
-			return callback(request.data);
-		} else {
-			request.listeners.push(callback);
+	async get(name: string): Promise<string> {
+		let item = this.cache[name];
+		if (item) {
+			if (item.data) {
+				return item.data;
+			}
+			if (item.request) {
+				return item.request;
+			}
 		}
-		if (request.listeners.length === 1) {
-			this.http.get('assets/svg/' + name + '.svg', {responseType: 'text'})
+		item = {};
+		const request = new Promise<string>((resolve, reject) => {
+			this.http.get(`assets/svg/${name}.svg`, {responseType: 'text'})
 				.subscribe(res => {
-					request.data = res;
-					request.listeners.forEach(listen => {
-						listen(res);
-					});
-					request.listeners = undefined;
+					item.data = res;
+					item.request = undefined;
+					resolve(res);
+				}, err => {
+					reject(err);
 				});
-		}
+		});
+		item.request = request;
+		this.cache[name] = item;
+		return request;
 	}
 
 }

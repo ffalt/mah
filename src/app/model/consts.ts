@@ -12,7 +12,7 @@ export const STATES = {
 };
 
 export const Backgrounds: Array<{ img: string, name: string, small?: boolean }> = [
-	{img: null, name: 'None'},
+	{img: undefined, name: 'None'},
 	{img: 'bamboo.jpg', name: 'Bamboo'},
 	{img: 'blueclouds.jpg', name: 'Blue Clouds'},
 	{img: 'grayclouds.jpg', name: 'Gray Clouds'},
@@ -92,7 +92,8 @@ export const TILES_INFO = {
 				{name: 'White Tiger', char: 'Hu', img: 't_do8'},
 				{name: 'Unicorn', char: 'Ch\'i', img: 't_do9'}
 			]
-		}, {
+		},
+		{
 			name: 'Bamboo', tiles: [
 				{name: 'Peacock', char: 'K\'ung', img: 't_ba1'},
 				{name: 'Duck', char: 'Ya', img: 't_ba2'},
@@ -104,7 +105,8 @@ export const TILES_INFO = {
 				{name: 'Mushroom', char: 'Chün', img: 't_ba8'},
 				{name: 'Willow tree', char: 'Liu', img: 't_ba9'}
 			]
-		}, {
+		},
+		{
 			name: 'Characters', tiles: [
 				{name: 'Bar of door', char: 'Ju', img: 't_ch1'},
 				{name: 'Sword', char: 'Chien', img: 't_ch2'},
@@ -121,31 +123,38 @@ export const TILES_INFO = {
 
 	bonus: [
 		{
-			name: 'Seasons', tiles: [{name: 'Spring', char: 'Yu', img: 't_se_spring'},
+			name: 'Seasons', tiles: [
+				{name: 'Spring', char: 'Yu', img: 't_se_spring'},
 				{name: 'Summer', char: 'Ch\'iao', img: 't_se_summer'},
 				{name: 'Fall', char: 'Keng', img: 't_se_fall'},
-				{name: 'Winter', char: 'Tu', img: 't_se_winter'},
+				{name: 'Winter', char: 'Tu', img: 't_se_winter'}
 			]
 		},
 		{
-			name: 'Flowers', tiles: [{name: 'Bamboo', char: 'Chu', img: 't_fl_bamboo'},
+			name: 'Flowers', tiles: [
+				{name: 'Bamboo', char: 'Chu', img: 't_fl_bamboo'},
 				{name: 'Orchid', char: 'Lan', img: 't_fl_orchid'},
 				{name: 'Plum Blossom', char: 'Li', img: 't_fl_plum'},
-				{name: 'Chrysan&shy;themum', char: 'Chü', img: 't_fl_chrysanthemum'}]
+				{name: 'Chrysan&shy;themum', char: 'Chü', img: 't_fl_chrysanthemum'}
+			]
 		}
 	],
 
 	honors: [
 		{
-			name: 'Winds', tiles: [{name: 'East', char: 'Tung', img: 't_wi_east'},
+			name: 'Winds', tiles: [
+				{name: 'East', char: 'Tung', img: 't_wi_east'},
 				{name: 'South', char: 'Nan', img: 't_wi_south'},
 				{name: 'West', char: 'Hsi', img: 't_wi_west'},
-				{name: 'North', char: 'Pei', img: 't_wi_north'}]
+				{name: 'North', char: 'Pei', img: 't_wi_north'}
+			]
 		},
 		{
-			name: 'Dragons', tiles: [{name: 'Red', char: 'Chung', img: 't_dr_red'},
+			name: 'Dragons', tiles: [
+				{name: 'Red', char: 'Chung', img: 't_dr_red'},
 				{name: 'Green', char: 'Fa', img: 't_dr_green'},
-				{name: 'White', char: 'Pai', img: 't_dr_white'}]
+				{name: 'White', char: 'Pai', img: 't_dr_white'}
+			]
 		}
 	]
 };
