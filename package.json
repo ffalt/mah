@@ -38,8 +38,8 @@
     "zone.js": "0.9.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "0.800.0-rc.4",
-    "@angular/cli": "8.0.0-rc.4",
+    "@angular-devkit/build-angular": "0.800.0",
+    "@angular/cli": "8.0.0",
     "@angular/compiler-cli": "8.0.0",
     "@angular/language-service": "8.0.0",
     "@types/jasmine": "3.3.12",
