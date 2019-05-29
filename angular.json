@@ -78,8 +78,8 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-						"codeCoverage": true,
-						"main": "src/test.ts",
+            "codeCoverage": true,
+            "main": "src/test.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
@@ -88,11 +88,11 @@
               "src/assets"
             ],
             "styles": [
-							"src/styles.scss",
-							"src/fonts/fontello/css/fontello.css",
-							"src/fonts/fontello/css/animation.css",
-							"src/fonts/josefine/css/josefine.css"
-						],
+              "src/styles.scss",
+              "src/fonts/fontello/css/fontello.css",
+              "src/fonts/fontello/css/animation.css",
+              "src/fonts/josefine/css/josefine.css"
+            ],
             "scripts": []
           }
         },
@@ -124,5 +124,8 @@
       }
     }
   },
-  "defaultProject": "mah"
+  "defaultProject": "mah",
+  "cli": {
+    "analytics": false
+  }
 }
