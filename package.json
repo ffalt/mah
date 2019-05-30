@@ -60,7 +60,7 @@
     "protractor": "5.4.2",
     "puppeteer": "1.17.0",
     "rxjs-tslint": "0.1.7",
-    "tslint": "5.16.0",
+    "tslint": "5.17.0",
     "typescript": "3.5.1",
     "webpack": "4.32.2"
   }
