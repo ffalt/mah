@@ -47,7 +47,7 @@
     "@types/jasminewd2": "2.0.6",
     "@types/node": "12.0.12",
     "codelyzer": "5.1.0",
-    "deplokay": "0.0.6",
+    "deplokay": "0.0.7",
     "jasmine-core": "3.4.0",
     "jasmine-spec-reporter": "4.2.1",
     "karma": "4.1.0",
