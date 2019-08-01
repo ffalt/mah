@@ -1,7 +1,7 @@
 <ul class="layout-list">
 	<app-layout-list-item class="link" *ngFor="let layout of layouts.items"
 		[layout]="layout"
-		tabindex="{{layout.index+1}}"
+		[tabindex]="layout.index+1"
 		[ngClass]="{selected:layout==current}"
 		(click)="setCurrent(layout)"
 		(dblclick)="setSelected(layout)"
