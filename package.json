@@ -10,7 +10,6 @@
     "start": "ng serve --aot --open",
     "build": "ng build",
     "build:prod": "ng build --prod --base-href \".\"",
-    "postinstall": "ivy-ngcc",
     "build:prebuild": "node ./build-pre.js",
     "build:deploy-root": "npm run build:prebuild && ng build --prod --aot --base-href \"/\"",
     "build:deploy-ghpages": "npm run build:prebuild && ng build --prod --aot --base-href \"https://ffalt.github.io/mah/\"",
@@ -40,7 +39,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "0.801.0",
-    "@angular/cli": "8.1.0",
+    "@angular/cli": "8.2.0",
     "@angular/compiler-cli": "8.1.0",
     "@angular/language-service": "8.1.0",
     "@types/jasmine": "3.3.13",
