@@ -4,11 +4,15 @@
   "newProjectRoot": "projects",
   "projects": {
     "mah": {
-      "root": "",
-      "sourceRoot": "src",
       "projectType": "application",
+			"schematics": {
+				"@schematics/angular:component": {
+					"style": "scss"
+				}
+			},
+			"root": "",
+      "sourceRoot": "src",
       "prefix": "app",
-      "schematics": {},
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -53,7 +57,12 @@
                   "type": "initial",
                   "maximumWarning": "2mb",
                   "maximumError": "5mb"
-                }
+                },
+								{
+									"type": "anyComponentStyle",
+									"maximumWarning": "6kb",
+									"maximumError": "10kb"
+								}
               ]
             }
           }
