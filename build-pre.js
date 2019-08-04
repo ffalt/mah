@@ -9,7 +9,7 @@ const versionFilePath = path.join(__dirname + "/src/environments/version.ts");
 const src = `export const version = '${appVersion}';\n`;
 
 // ensure version module pulls value from package.json
-fs.writeFile(versionFilePath, src, {flat: "w"}, (err) => {
+fs.writeFile(versionFilePath, src, {flag: "w"}, (err) => {
   if (err) {
     return console.log(err);
   }

@@ -3,7 +3,7 @@
 process.env.CHROME_BIN = require("puppeteer").executablePath();
 
 console.log("testing with " + process.env.CHROME_BIN);
-module.exports = function (config) {
+module.exports = function(config) {
   config.set({
     basePath: "",
     frameworks: ["jasmine", "@angular-devkit/build-angular"],
