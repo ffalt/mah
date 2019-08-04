@@ -11,8 +11,8 @@
 </div>
 <div class="choose-buttons">
 	<div class="generator">
-		<label>{{'BOARD_GENERATOR' | translate}}:</label>
-		<select [(ngModel)]="mode">
+		<label for="board-generator-select">{{'BOARD_GENERATOR' | translate}}:</label>
+		<select id="board-generator-select" [(ngModel)]="mode">
 			<option *ngFor="let m of builder.modes" value="{{m.id}}">{{m.id | translate}} - {{m.id+'_DESC' | translate}}</option>
 		</select>
 	</div>
