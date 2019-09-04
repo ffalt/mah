@@ -18,8 +18,11 @@
 	"build": {
     "npm": {
       "cmd_name": "build:deploy-ghpages",
-      "folder_names": ["dist"]
-    }
+      "folder_names": ["dist"],
+			"component_names": [
+				".nojekyll"
+			]
+		}
 	},
 	"env": {
 		"NODE_ENV": "development"
