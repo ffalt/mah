@@ -61,7 +61,7 @@
     "puppeteer": "1.19.0",
     "rxjs-tslint": "0.1.7",
     "tslint": "5.20.0",
-    "typescript": "3.5.3",
+    "typescript": "3.6.4",
     "webpack": "4.41.2"
   }
 }
