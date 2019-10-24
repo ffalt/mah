@@ -56,7 +56,7 @@
     "karma-jasmine": "2.0.1",
     "karma-jasmine-html-reporter": "1.4.2",
     "karma-mocha-reporter": "2.2.5",
-    "node-sass": "4.12.0",
+    "node-sass": "4.13.0",
     "protractor": "5.4.2",
     "puppeteer": "1.19.0",
     "rxjs-tslint": "0.1.7",
