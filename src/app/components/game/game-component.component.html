@@ -26,18 +26,18 @@
 		<span class="link button" (click)="toggleSettings()" title="{{'OPEN_SETTINGS' | translate}}">
 			<i class="icon-cog"></i>
 		</span>
-		<span class="link button" [ngClass]="{'inactive':!game.settings.sounds}" (click)="game.toggleSound()" title="{{'AUDIO_SOUNDS'|translate}}">
+		<span class="link button" [class.inactive]="!game.settings.sounds" (click)="game.toggleSound()" title="{{'AUDIO_SOUNDS'|translate}}">
 			<i class="icon-volume-low"></i>
 		</span>
 		<span class="link button" (click)="toggleTilesInfo()" title="{{'TILES_INFO' | translate}}">
 			<i class="icon-calendar"></i>
 		</span>
-		<!--<span class="link button" [ngClass]="{'inactive':!game.settings.music}" (click)="game.toggleMusic()" title="{{'AUDIO_MUSIC'|translate}}">-->
+		<!--<span class="link button" [class.inactive]="!game.settings.music" (click)="game.toggleMusic()" title="{{'AUDIO_MUSIC'|translate}}">-->
 		<!--<i class="icon-note-beamed"></i>-->
 		<!--</span>-->
 		<span class="label button"><small>{{'STONES' | translate}}</small>: <span>{{game.board.count}}</span></span>
 		<span class="label button"><small>{{'FREE' | translate}}</small>: <span>{{game.board.free.length}}</span></span>
-		<!--		<span class="link button" [ngClass]="{'off':!game.settings.music}">-->
+		<!--		<span class="link button" [class.off]="!game.settings.music">-->
 		<!--				<small>{{'TRACK' | translate}}</small>: <span (click)="game.music.next()">{{game.music.current()}}</span>-->
 		<!--			</span>-->
 	</div>

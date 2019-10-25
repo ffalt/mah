@@ -23,8 +23,8 @@ interface ElemEx extends HTMLElement {
 
 @Component({
 	selector: 'app-game-component',
-	templateUrl: 'game-component.component.html',
-	styleUrls: ['game-component.component.scss']
+	templateUrl: './game-component.component.html',
+	styleUrls: ['./game-component.component.scss']
 })
 export class GameComponent implements OnInit, OnChanges {
 	@Input() game: Game;

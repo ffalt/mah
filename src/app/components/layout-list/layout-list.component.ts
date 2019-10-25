@@ -4,8 +4,8 @@ import {LayoutListItemComponent} from '../layout-list-item/layout-list-item.comp
 
 @Component({
 	selector: 'app-layout-list',
-	templateUrl: 'layout-list.component.html',
-	styleUrls: ['layout-list.component.scss']
+	templateUrl: './layout-list.component.html',
+	styleUrls: ['./layout-list.component.scss']
 })
 export class LayoutListComponent implements OnChanges {
 	@Input() layouts: Layouts;

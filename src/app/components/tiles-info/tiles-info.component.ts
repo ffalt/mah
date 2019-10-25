@@ -3,8 +3,8 @@ import {TILES_INFO} from '../../model/consts';
 
 @Component({
 	selector: 'app-tiles-info',
-	templateUrl: 'tiles-info.component.html',
-	styleUrls: ['tiles-info.component.scss']
+	templateUrl: './tiles-info.component.html',
+	styleUrls: ['./tiles-info.component.scss']
 })
 export class TilesInfoComponent {
 	info = TILES_INFO;

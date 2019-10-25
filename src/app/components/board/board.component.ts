@@ -6,8 +6,8 @@ import {Stone} from '../../model/stone';
 
 @Component({
 	selector: 'app-board',
-	templateUrl: 'board.component.html',
-	styleUrls: ['board.component.scss']
+	templateUrl: './board.component.html',
+	styleUrls: ['./board.component.scss']
 })
 export class BoardComponent implements OnInit, OnChanges {
 	@Input() background: string;
@@ -25,17 +25,6 @@ export class BoardComponent implements OnInit, OnChanges {
 	prefix: string;
 	urlPrefix: string;
 	emptySource: Stone = new Stone(0, 0, 0, 0, 0);
-
-	private static calcPos(z: number, x: number, y: number): DrawPos {
-		const pos = {
-			x: ((Consts.tile_width + 2) * x / 2 - (z * 8)) + (Consts.tile_width / 2),
-			y: ((Consts.tile_height + 2) * y / 2 - (z * 8)) + (Consts.tile_height / 2),
-			z: y + Consts.mY * (x + Consts.mX * z),
-			translate: ''
-		};
-		pos.translate = `translate(${pos.x},${pos.y})`;
-		return pos;
-	}
 
 	ngOnInit(): void {
 		this.onResize({target: window});
@@ -88,6 +77,17 @@ export class BoardComponent implements OnInit, OnChanges {
 			this.translate = this.rotate ? 'rotate(90)' : '';
 			this.setViewPort();
 		}
+	}
+
+	private static calcPos(z: number, x: number, y: number): DrawPos {
+		const pos = {
+			x: ((Consts.tile_width + 2) * x / 2 - (z * 8)) + (Consts.tile_width / 2),
+			y: ((Consts.tile_height + 2) * y / 2 - (z * 8)) + (Consts.tile_height / 2),
+			z: y + Consts.mY * (x + Consts.mX * z),
+			translate: ''
+		};
+		pos.translate = `translate(${pos.x},${pos.y})`;
+		return pos;
 	}
 
 	private setViewPort(): void {
