@@ -4,8 +4,8 @@ import {Layout, Layouts} from '../../model/layouts';
 
 @Component({
 	selector: 'app-choose-board-component',
-	templateUrl: 'choose-board-component.component.html',
-	styleUrls: ['choose-board-component.component.scss']
+	templateUrl: './choose-board-component.component.html',
+	styleUrls: ['./choose-board-component.component.scss']
 })
 export class ChooseBoardComponent {
 	@Input() layouts: Layouts;
