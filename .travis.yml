@@ -8,8 +8,6 @@ notifications:
   email: true
 os:
   - linux
-addons:
-  chrome: stable
 before_install:
   - export NG_CLI_ANALYTICS=ci
   - npm install -g @angular/cli
