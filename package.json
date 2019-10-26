@@ -31,7 +31,7 @@
     "@angular/platform-server": "9.0.0-next.13",
     "@ngx-translate/core": "11.0.1",
     "classlist.js": "1.1.20150312",
-    "core-js": "3.3.3",
+    "core-js": "3.3.4",
     "rxjs": "6.5.3",
     "tslib": "1.10.0",
     "zone.js": "~0.10.2"
