@@ -50,7 +50,7 @@
     "rxjs-tslint": "0.1.7",
     "rxjs-tslint-rules": "4.25.0",
     "tslint": "5.20.0",
-    "tslint-etc": "1.7.0",
+    "tslint-etc": "1.7.1",
     "typescript": "3.6.4"
   }
 }
