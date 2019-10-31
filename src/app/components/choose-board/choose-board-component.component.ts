@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Builder} from '../../model/builder';
+import {cleanImportLayout, convertKyodai} from '../../model/import';
 import {Layout, Layouts} from '../../model/layouts';
 
 @Component({
@@ -12,7 +13,6 @@ export class ChooseBoardComponent {
 	@Output() readonly startEvent = new EventEmitter<{ layout: Layout, mode: string }>();
 	focusIndex: number = 0;
 	loadedSVG: { [index: number]: boolean } = {};
-	current: Layout = undefined;
 	mode: string = 'MODE_SOLVABLE';
 	builder: Builder = new Builder();
 
@@ -28,10 +28,6 @@ export class ChooseBoardComponent {
 		}
 	}
 
-	onSelect(layout: Layout): void {
-		this.current = layout;
-	}
-
 	randomGame(): void {
 		this.focusIndex = Math.floor(Math.random() * this.layouts.items.length);
 		this.startEvent.emit({layout: this.layouts.items[this.focusIndex], mode: this.mode});
@@ -40,6 +36,33 @@ export class ChooseBoardComponent {
 	loadSVG(i: number): void {
 		setTimeout(() => {
 			this.loadedSVG[i] = true;
+		});
+	}
+
+	async readFile(file: File): Promise<string> {
+		const reader = new FileReader();
+		return new Promise<string>((resolve, reject) => {
+			reader.onload = () => {
+				resolve(reader.result as string);
+			};
+			reader.onerror = e => {
+				reject(e);
+			};
+			reader.readAsBinaryString(file);
+		});
+	}
+
+	async importFile(file: File): Promise<void> {
+		const s = await this.readFile(file);
+		let layout = await convertKyodai(s);
+		layout = await cleanImportLayout(layout);
+		// TODO: generate preview for imported layout
+		this.layouts.items.push({...layout, index: this.layouts.items.length});
+	}
+
+	onDrop(files: Array<File>): void {
+		this.importFile(files[0]).catch(e => {
+			alert(e);
 		});
 	}
 }

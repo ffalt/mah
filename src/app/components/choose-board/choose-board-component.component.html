@@ -1,7 +1,7 @@
 <div class="headline">
 	Select Board
 </div>
-<div class="newgame-content" appDeferLoadScrollHost>
+<div class="newgame-content" appDeferLoadScrollHost (appDropZone)="onDrop($event)">
 	<div class="preview" *ngFor="let layout of layouts.items; let i=index" (click)="onStart(layout)" (appDeferLoad)="loadSVG(i)">
 		<app-layout-preview *ngIf="loadedSVG[i]" class="svg-board" [layout]="layout"></app-layout-preview>
 		<div class="preview-name">{{layout.name}}</div>
@@ -16,7 +16,7 @@
 	</div>
 	<div class="start-links">
 		<button class="link" (click)="randomGame()">{{'START_RANDOM' | translate}}</button>
-		<button class="link" [disabled]="!current" (click)="onStart(current)">{{'START_SELECTED' | translate}}</button>
+<!--		<button class="link" [disabled]="!current" (click)="onStart(current)">{{'START_SELECTED' | translate}}</button>-->
 	</div>
 </div>
 
