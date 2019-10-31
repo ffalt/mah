@@ -60,10 +60,10 @@ export function generateStaticLayoutSVG(mapping: Mapping): string {
 	const bounds = calcBounds(elements);
 	const viewport = [bounds[0] - 40, bounds[1] - 20, bounds[2] + Consts.tile_height + 40, bounds[3] + Consts.tile_height + 20].join(' ');
 	const sl: Array<string> = [];
-	sl.push(`<svg xmlns="http://www.w3.org/2000/svg" class="board-svg" viewBox="${viewport}" preserveAspectRatio="xMidYMid meet" height="80%" width="80%">`);
+	sl.push(`<svg xmlns="http://www.w3.org/2000/svg" class="board-svg" viewBox="${viewport}" preserveAspectRatio="xMidYMid meet" height="100%" width="100%">`);
 	for (const draw of elements) {
-		sl.push(`<g transform="${draw.pos.translate}"}><rect class="stone" fill="#FFF9E5" stroke-width="2" stroke="black" x="0" y="0" width="75" height="100" rx="10" ry="10"></rect></g>`);
+		sl.push(`<g transform="${draw.pos.translate}"><rect class="stone" fill="#FFF9E5" stroke-width="2" stroke="black" x="0" y="0" width="75" height="100" rx="10" ry="10"></rect></g>`);
 	}
 	sl.push('</svg>');
-	return sl.join('');
+	return 'data:image/svg+xml;base64,' + window.btoa(sl.join(''));
 }

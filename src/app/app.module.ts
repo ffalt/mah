@@ -27,7 +27,7 @@ import {SvgdefService} from './service/svgdef.service';
 		BrowserModule,
 		FormsModule,
 		HttpClientModule,
-		DeferLoadModule,
+		DeferLoadModule.forRoot(),
 		TranslateModule.forRoot()
 	],
 	declarations: [

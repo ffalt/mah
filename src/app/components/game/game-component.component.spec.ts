@@ -18,6 +18,7 @@ import {SettingsComponent} from '../settings/settings.component';
 import {TileComponent} from '../tile/tile.component';
 import {TilesInfoComponent} from '../tiles-info/tiles-info.component';
 import {GameComponent} from './game-component.component';
+import {LayoutPreviewComponent} from '../layout-preview/layout-preview.component';
 
 describe('GameComponent', () => {
 
@@ -37,7 +38,7 @@ describe('GameComponent', () => {
 	beforeEach(async () =>
 		TestBed.configureTestingModule({
 			declarations: [
-				TestGameComponentHostComponent, GameComponent, BoardComponent, HelpComponent, ChooseBoardComponent,
+				TestGameComponentHostComponent, GameComponent, BoardComponent, HelpComponent, ChooseBoardComponent, LayoutPreviewComponent,
 				TileComponent, ImageSetLoaderComponent, SettingsComponent, TilesInfoComponent, LayoutListComponent, LayoutListItemComponent, DurationPipe
 			],
 			imports: [HttpClientModule, FormsModule, TranslateModule.forRoot()],
