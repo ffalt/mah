@@ -14,7 +14,7 @@ build with html5, svg, angular
 
 ## Build Config
 
-The default name is "Mah Jong", to change it 
+The default game name is "Mah Jong", to change it 
 * copy file `custom-build-config.json.dist` to `custom-build-config.json`
 * edit the name in `custom-build-config.json` to your desired app name
 
