@@ -4,6 +4,7 @@ import {FormsModule} from '@angular/forms';
 import {TranslateModule} from '@ngx-translate/core';
 import {Game} from '../../model/game';
 import {DurationPipe} from '../../pipes/duration.pipe';
+import {AppService} from '../../service/app.service';
 import {HelpComponent} from './help.component';
 
 describe('HelpComponent', () => {
@@ -22,7 +23,8 @@ describe('HelpComponent', () => {
 	beforeEach(async () =>
 		TestBed.configureTestingModule({
 			declarations: [TestHelpHostComponent, HelpComponent, DurationPipe],
-			imports: [FormsModule, TranslateModule.forRoot()]
+			imports: [FormsModule, TranslateModule.forRoot()],
+			providers: [AppService]
 		})
 			.compileComponents());
 

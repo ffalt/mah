@@ -6,6 +6,7 @@ import {TranslateModule} from '@ngx-translate/core';
 import {Game} from '../../model/game';
 import {Layouts} from '../../model/layouts';
 import {DurationPipe} from '../../pipes/duration.pipe';
+import {AppService} from '../../service/app.service';
 import {SvgdefService} from '../../service/svgdef.service';
 import {BoardComponent} from '../board/board.component';
 import {ChooseBoardComponent} from '../choose-board/choose-board-component.component';
@@ -40,7 +41,7 @@ describe('GameComponent', () => {
 				TileComponent, ImageSetLoaderComponent, SettingsComponent, TilesInfoComponent, LayoutListComponent, LayoutListItemComponent, DurationPipe
 			],
 			imports: [HttpClientModule, FormsModule, TranslateModule.forRoot()],
-			providers: [SvgdefService]
+			providers: [SvgdefService, AppService]
 		})
 			.compileComponents());
 
