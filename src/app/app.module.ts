@@ -21,6 +21,7 @@ import {DurationPipe} from './pipes/duration.pipe';
 import {AppService} from './service/app.service';
 import {LayoutService} from './service/layout.service';
 import {SvgdefService} from './service/svgdef.service';
+import {DropZoneDirective} from './directives/drop-zone.directive';
 
 @NgModule({
 	imports: [
@@ -43,7 +44,8 @@ import {SvgdefService} from './service/svgdef.service';
 		TilesInfoComponent,
 		TileComponent,
 		ImageSetLoaderComponent,
-		SettingsComponent
+		SettingsComponent,
+		DropZoneDirective
 	],
 	providers: [
 		AppService,
