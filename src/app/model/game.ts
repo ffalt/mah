@@ -43,6 +43,9 @@ export class Game {
 			this.resolveMatchingStone(stone);
 			return true;
 		}
+		if (this.board.selected !== stone) {
+			this.playSound(SOUNDS.SELECT);
+		}
 		this.board.setStoneSelected(this.board.selected !== stone ? stone : undefined);
 		return true;
 	}

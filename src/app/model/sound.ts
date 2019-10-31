@@ -1,7 +1,8 @@
 export const SOUNDS = {
-	NOPE: '245764__unclesigmund__small-stones_4.656',
-	MATCH: '245764__unclesigmund__small-stones_4.822',
-	OVER: '329678__manuts__sound-logo-trademark-12'
+	NOPE: 'invalid',
+	SELECT: 'select',
+	MATCH: 'match',
+	OVER: 'over'
 };
 
 export class Sound {

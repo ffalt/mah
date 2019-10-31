@@ -40,20 +40,24 @@ async function convertOgg(source, dest) {
   });
 }
 
-async function convert(entry) {
+async function convert(entry, destName) {
   const source = path.resolve(sourceFolder, entry);
-  const dest = path.resolve(destFolder, path.basename(entry, path.extname(entry)));
+  const dest = path.resolve(destFolder, path.basename(destName, path.extname(destName)));
   await convertMP3(source, dest + ".mp3");
   await convertOgg(source, dest + ".ogg");
 }
 
+const files = {
+	"245764__unclesigmund__small-stones_4.822.wav": "invalid.wav",
+	"click-high.mp3": "match.wav",
+	"329678__manuts__sound-logo-trademark-12.wav": "over.wav",
+	"click-low.mp3": "select.mp3",
+};
+
 async function run() {
-  const list = fs.readdirSync(sourceFolder).filter(entry => {
-    return (path.extname(entry) === ".wav");
-  });
-  for (const entry of list) {
-    await convert(entry);
-  }
+	for (const key of Object.keys(files)) {
+		await convert(key, files[key]);
+	}
 }
 
 run().then(() => {
