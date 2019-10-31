@@ -32,7 +32,8 @@ describe('HelpComponent', () => {
 		fixture.detectChanges();
 	});
 
-	it('should create', async () =>
-		expect(component).toBeTruthy());
+	it('should create', async () => {
+		expect(component).toBeTruthy();
+	});
 
 });
