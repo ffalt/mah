@@ -10,6 +10,7 @@ export class Layout {
 	index: number;
 	name: string;
 	mapping: Mapping;
+	previewSVG?: any;
 }
 
 export class Layouts {
@@ -69,12 +70,14 @@ export class Layouts {
 	*/
 
 	load(list: Array<{ name: string; mapping: Mapping }>): void {
-		this.items = list.map((o, i) =>
-			({
+		this.items = list.map((o, i) => {
+			const mapping = this.expandMapping(o.mapping);
+			return {
 				index: i,
 				name: o.name,
-				mapping: this.expandMapping(o.mapping)
-			}));
+				mapping
+			};
+		});
 	}
 
 	expandMapping(mapping: Mapping): Mapping {

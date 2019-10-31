@@ -1,0 +1,28 @@
+import {ChangeDetectionStrategy, Component, HostBinding, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {DomSanitizer} from '@angular/platform-browser';
+import {Layout} from '../../model/layouts';
+
+@Component({
+	selector: 'app-layout-preview',
+	templateUrl: './layout-preview.component.html',
+	styleUrls: ['./layout-preview.component.scss'],
+	changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class LayoutPreviewComponent implements OnChanges {
+	@Input() layout: Layout;
+	@HostBinding('innerHTML') svg: any;
+
+	constructor(private sanitizer: DomSanitizer) {
+	}
+
+	ngOnChanges(changes: SimpleChanges): void {
+		if (changes.layout) {
+			this.updateLayout(changes.layout.currentValue);
+		}
+	}
+
+	private updateLayout(layout: Layout): void {
+		this.svg = layout.previewSVG;
+	}
+
+}

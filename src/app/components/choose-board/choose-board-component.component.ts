@@ -11,9 +11,16 @@ export class ChooseBoardComponent {
 	@Input() layouts: Layouts;
 	@Output() readonly startEvent = new EventEmitter<{ layout: Layout, mode: string }>();
 	focusIndex: number = 0;
+	loadedSVG: { [index: number]: boolean } = {};
 	current: Layout = undefined;
 	mode: string = 'MODE_SOLVABLE';
 	builder: Builder = new Builder();
+
+	constructor() {
+		for (let i = 0; i < 20; i++) {
+			this.loadedSVG[i] = true;
+		}
+	}
 
 	onStart(layout: Layout): void {
 		if (layout) {
@@ -28,5 +35,11 @@ export class ChooseBoardComponent {
 	randomGame(): void {
 		this.focusIndex = Math.floor(Math.random() * this.layouts.items.length);
 		this.startEvent.emit({layout: this.layouts.items[this.focusIndex], mode: this.mode});
+	}
+
+	loadSVG(i: number): void {
+		setTimeout(() => {
+			this.loadedSVG[i] = true;
+		});
 	}
 }

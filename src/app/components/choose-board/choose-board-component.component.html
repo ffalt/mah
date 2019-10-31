@@ -1,19 +1,17 @@
-<div class="newgame-content">
-	<app-layout-list class="newgame-left" [layouts]="layouts" [index]="focusIndex" (selectEvent)="onSelect($event)" (startEvent)="onStart($event)"></app-layout-list>
-	<div class="newgame-right">
-		<div class="start" *ngIf="current">
-			<div>{{current.name}}</div>
-			<div class="preview" (click)="onStart(current);">
-				<app-board class="svg-board" [layout]="current"></app-board>
-			</div>
-		</div>
+<div class="headline">
+	Select Board
+</div>
+<div class="newgame-content" appDeferLoadScrollHost>
+	<div class="preview" *ngFor="let layout of layouts.items; let i=index" (click)="onStart(layout)" (appDeferLoad)="loadSVG(i)">
+		<app-layout-preview *ngIf="loadedSVG[i]" class="svg-board" [layout]="layout"></app-layout-preview>
+		<div class="preview-name">{{layout.name}}</div>
 	</div>
 </div>
 <div class="choose-buttons">
 	<div class="generator">
 		<label for="board-generator-select">{{'BOARD_GENERATOR' | translate}}:</label>
 		<select id="board-generator-select" [(ngModel)]="mode">
-			<option *ngFor="let m of builder.modes" value="{{m.id}}">{{m.id | translate}} - {{m.id+'_DESC' | translate}}</option>
+			<option *ngFor="let m of builder.modes" value="{{m.id}}">{{m.id | translate}} - {{m.id + '_DESC' | translate}}</option>
 		</select>
 	</div>
 	<div class="start-links">
