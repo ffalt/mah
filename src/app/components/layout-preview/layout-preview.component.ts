@@ -1,5 +1,4 @@
-import {ChangeDetectionStrategy, Component, HostBinding, Input, OnChanges, SimpleChanges} from '@angular/core';
-import {DomSanitizer} from '@angular/platform-browser';
+import {ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {Layout} from '../../model/layouts';
 
 @Component({
@@ -10,10 +9,7 @@ import {Layout} from '../../model/layouts';
 })
 export class LayoutPreviewComponent implements OnChanges {
 	@Input() layout: Layout;
-	@HostBinding('innerHTML') svg: any;
-
-	constructor(private sanitizer: DomSanitizer) {
-	}
+	svg: any;
 
 	ngOnChanges(changes: SimpleChanges): void {
 		if (changes.layout) {

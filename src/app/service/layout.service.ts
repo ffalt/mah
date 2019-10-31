@@ -19,7 +19,7 @@ export class LayoutService {
 		const layouts = new Layouts();
 		layouts.load(result);
 		layouts.items.forEach(layout => {
-			layout.previewSVG = this.sanitizer.bypassSecurityTrustHtml(generateStaticLayoutSVG(layout.mapping));
+			layout.previewSVG = this.sanitizer.bypassSecurityTrustUrl(generateStaticLayoutSVG(layout.mapping));
 		});
 		this.layouts = layouts;
 		return this.layouts;

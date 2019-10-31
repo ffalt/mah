@@ -3,11 +3,8 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {FormsModule} from '@angular/forms';
 import {TranslateModule} from '@ngx-translate/core';
 import {Layouts} from '../../model/layouts';
-import {BoardComponent} from '../board/board.component';
-import {ImageSetLoaderComponent} from '../image-set-loader/image-set-loader.component';
-import {LayoutListItemComponent} from '../layout-list-item/layout-list-item.component';
-import {LayoutListComponent} from '../layout-list/layout-list.component';
 import {ChooseBoardComponent} from './choose-board-component.component';
+import {LayoutPreviewComponent} from '../layout-preview/layout-preview.component';
 
 describe('ChooseBoardComponent', () => {
 
@@ -25,7 +22,7 @@ describe('ChooseBoardComponent', () => {
 
 	beforeEach(async () =>
 		TestBed.configureTestingModule({
-			declarations: [TestChooseBoardHostComponent, ImageSetLoaderComponent, ChooseBoardComponent, LayoutListComponent, LayoutListItemComponent, BoardComponent],
+			declarations: [TestChooseBoardHostComponent, ChooseBoardComponent, LayoutPreviewComponent],
 			imports: [FormsModule, TranslateModule.forRoot()]
 		})
 			.compileComponents());

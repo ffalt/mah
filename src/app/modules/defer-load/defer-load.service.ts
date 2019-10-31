@@ -25,6 +25,8 @@ export class DeferLoadService {
 	private scrollObservable: Observable<ScrollNotifyEvent>;
 
 	constructor(@Inject(PLATFORM_ID) private platformId: object) {
+		this.isBrowser = isPlatformBrowser(this.platformId);
+		this.hasIntersectionObserver = DeferLoadService.checkIntersectionObserver();
 		const observable = this.scrollSubject.asObservable();
 		this.scrollObservable =
 			merge(
@@ -35,12 +37,13 @@ export class DeferLoadService {
 			.subscribe(x => {
 				this.notify.emit(x);
 			});
-		this.isBrowser = isPlatformBrowser(this.platformId);
-		this.hasIntersectionObserver = DeferLoadService.checkIntersectionObserver();
 		this.currentViewport = Rect.fromWindow(window);
 	}
 
 	notifyScroll(event: ScrollEvent): void {
+		if (this.hasIntersectionObserver) {
+			return;
+		}
 		const rect = event.element ? Rect.fromElement(event.element) : Rect.fromWindow(window);
 		const height = (rect.bottom - rect.top);
 		rect.bottom += height;

@@ -14,7 +14,7 @@ export class DeferLoadDirective implements AfterViewInit, OnDestroy {
 	private intersectionObserver?: IntersectionObserver;
 	private scrollSubscription?: Subscription;
 	private timeoutId?: number;
-	private timeoutLoadMS: number = 50;
+	private timeoutLoadMS: number = 20;
 
 	constructor(private _element: ElementRef, private deferLoadService: DeferLoadService) {
 	}
