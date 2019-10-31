@@ -1,8 +1,10 @@
 import {Component} from '@angular/core';
+import {Meta} from '@angular/platform-browser';
 import {TranslateService} from '@ngx-translate/core';
 import {Game} from './model/game';
 import {LANG_DE, LANG_EN} from './model/i18n';
 import {Layouts} from './model/layouts';
+import {AppService} from './service/app.service';
 import {LayoutService} from './service/layout.service';
 
 @Component({
@@ -15,7 +17,9 @@ export class AppComponent {
 	layouts: Layouts;
 	loading = true;
 
-	constructor(layouts: LayoutService, translate: TranslateService) {
+	constructor(layouts: LayoutService, translate: TranslateService, private meta: Meta, public app: AppService) {
+		const tag = meta.getTag('name=application-name');
+		app.name = tag ? tag.content : app.name;
 		translate.setTranslation('en', LANG_EN);
 		translate.setTranslation('de', LANG_DE);
 		translate.setDefaultLang('en');

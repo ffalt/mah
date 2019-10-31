@@ -3,6 +3,7 @@ import {TranslateService} from '@ngx-translate/core';
 import {Game} from '../../model/game';
 import {Layout, Layouts} from '../../model/layouts';
 import {Stone} from '../../model/stone';
+import {AppService} from '../../service/app.service';
 
 interface DocEx extends Document {
 	fullScreen: boolean;
@@ -34,7 +35,7 @@ export class GameComponent implements OnInit, OnChanges {
 	settingsVisible: boolean = false;
 	newGameVisible: boolean = false;
 
-	constructor(private translate: TranslateService) {
+	constructor(private translate: TranslateService, public app: AppService) {
 	}
 
 	@HostListener('document:keydown', ['$event'])

@@ -16,6 +16,7 @@ import {SettingsComponent} from './components/settings/settings.component';
 import {TileComponent} from './components/tile/tile.component';
 import {TilesInfoComponent} from './components/tiles-info/tiles-info.component';
 import {DurationPipe} from './pipes/duration.pipe';
+import {AppService} from './service/app.service';
 import {LayoutService} from './service/layout.service';
 import {SvgdefService} from './service/svgdef.service';
 
@@ -41,6 +42,7 @@ import {SvgdefService} from './service/svgdef.service';
 		TranslateModule.forRoot()
 	],
 	providers: [
+		AppService,
 		LayoutService,
 		SvgdefService
 	],
