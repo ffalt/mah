@@ -6,7 +6,7 @@ import {TranslateModule} from '@ngx-translate/core';
 
 import {AppComponent} from './app.component';
 import {BoardComponent} from './components/board/board.component';
-import {ChooseBoardComponent} from './components/choose-board/choose-board-component.component';
+import {ChooseLayoutComponent} from './components/choose-layout/choose-layout.component';
 import {GameComponent} from './components/game/game-component.component';
 import {HelpComponent} from './components/help/help.component';
 import {ImageSetLoaderComponent} from './components/image-set-loader/image-set-loader.component';
@@ -31,7 +31,7 @@ import {DropZoneDirective} from './directives/drop-zone.directive';
 	],
 	declarations: [
 		AppComponent,
-		ChooseBoardComponent,
+		ChooseLayoutComponent,
 		GameComponent,
 		HelpComponent,
 		LayoutPreviewComponent,
