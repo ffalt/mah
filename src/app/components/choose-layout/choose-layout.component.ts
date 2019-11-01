@@ -15,11 +15,11 @@ export interface LayoutGroup {
 }
 
 @Component({
-	selector: 'app-choose-board-component',
-	templateUrl: './choose-board-component.component.html',
-	styleUrls: ['./choose-board-component.component.scss']
+	selector: 'app-choose-layout',
+	templateUrl: './choose-layout.component.html',
+	styleUrls: ['./choose-layout.component.scss']
 })
-export class ChooseBoardComponent implements OnChanges {
+export class ChooseLayoutComponent implements OnChanges {
 	@Input() layouts: Layouts;
 	@Output() readonly startEvent = new EventEmitter<{ layout: Layout, mode: string }>();
 	groups: Array<LayoutGroup> = [];

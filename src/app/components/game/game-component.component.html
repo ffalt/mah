@@ -72,6 +72,6 @@
 <div *ngIf="layouts && newGameVisible" (click)="toggleNewGame();" class="overlay overlay-newgame">
 	<div class="overlay-popup" (click)="$event.stopPropagation();">
 		<span class="close" (click)="toggleNewGame();"><i class="icon-cancel-circled2 pull-right"></i></span>
-		<app-choose-board-component class="choose" [layouts]="layouts" (startEvent)="startGame($event)"></app-choose-board-component>
+		<app-choose-layout class="choose" [layouts]="layouts" (startEvent)="startGame($event)"></app-choose-layout>
 	</div>
 </div>
