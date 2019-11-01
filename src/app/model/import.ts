@@ -3,8 +3,8 @@ import {Mapping, Place} from './layouts';
 export interface ImportLayout {
 	name: string;
 	by?: string;
+	cat: string;
 	mapping: Mapping;
-	stones: number;
 }
 
 function sortMapping(mapping: Mapping): Mapping {
@@ -39,14 +39,13 @@ async function convertMatrix(
 	if (board.length !== totalLength) {
 		return Promise.reject('Invalid Matrix Pattern length');
 	}
-	const layout: ImportLayout = {name, stones: 0, mapping: []};
+	const layout: ImportLayout = {name, cat: 'Import', mapping: []};
 	for (let z = 0; z < matrixCount; z++) {
 		const matrix = board.slice(z * matrixLength, (z + 1) * matrixLength);
 		for (let y = 0; y < rowCount; y++) {
 			const row = matrix.slice(y * cellCount, (y + 1) * cellCount);
 			row.split('').forEach((cell, x) => {
 				if (cell === '1') {
-					layout.stones++;
 					layout.mapping.push([z, x, y]);
 				}
 			});
@@ -59,8 +58,8 @@ export async function convert3400Matrix(name: string, board: string): Promise<Im
 	return convertMatrix(5, 20, 34, name, board);
 }
 
-export async function convert2805Matrix(filename: string, name: string, board: string): Promise<ImportLayout> {
-	return convertMatrix(5, 18, 33, name, board);
+export async function convert2805Matrix(name: string, board: string): Promise<ImportLayout> {
+	return convertMatrix(5, 17, 33, name, board);
 }
 
 export async function convertKyodai(data: string): Promise<ImportLayout> {

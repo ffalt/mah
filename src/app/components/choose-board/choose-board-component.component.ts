@@ -1,24 +1,37 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
 import {Builder} from '../../model/builder';
-import {cleanImportLayout, convertKyodai} from '../../model/import';
 import {Layout, Layouts} from '../../model/layouts';
+import {LayoutService} from '../../service/layout.service';
+
+export interface LayoutItem {
+	layout: Layout;
+	visible: boolean;
+}
+
+export interface LayoutGroup {
+	name: string;
+	layouts: Array<LayoutItem>;
+	visible: boolean;
+}
 
 @Component({
 	selector: 'app-choose-board-component',
 	templateUrl: './choose-board-component.component.html',
 	styleUrls: ['./choose-board-component.component.scss']
 })
-export class ChooseBoardComponent {
+export class ChooseBoardComponent implements OnChanges {
 	@Input() layouts: Layouts;
 	@Output() readonly startEvent = new EventEmitter<{ layout: Layout, mode: string }>();
-	focusIndex: number = 0;
-	loadedSVG: { [index: number]: boolean } = {};
+	groups: Array<LayoutGroup> = [];
 	mode: string = 'MODE_SOLVABLE';
 	builder: Builder = new Builder();
 
-	constructor() {
-		for (let i = 0; i < 20; i++) {
-			this.loadedSVG[i] = true;
+	constructor(private layoutService: LayoutService) {
+	}
+
+	ngOnChanges(changes: SimpleChanges): void {
+		if (this.layouts) {
+			this.buildGroups();
 		}
 	}
 
@@ -28,41 +41,37 @@ export class ChooseBoardComponent {
 		}
 	}
 
+	buildGroups(): void {
+		const groups: Array<LayoutGroup> = [];
+		const g: { [name: string]: LayoutGroup } = {};
+		for (const layout of this.layouts.items) {
+			if (!g[layout.category]) {
+				g[layout.category] = {name: layout.category, layouts: [], visible: false};
+				groups.push(g[layout.category]);
+			}
+			g[layout.category].layouts.push({layout, visible: false});
+		}
+		this.groups = groups;
+	}
+
 	randomGame(): void {
-		this.focusIndex = Math.floor(Math.random() * this.layouts.items.length);
-		this.startEvent.emit({layout: this.layouts.items[this.focusIndex], mode: this.mode});
-	}
-
-	loadSVG(i: number): void {
-		setTimeout(() => {
-			this.loadedSVG[i] = true;
-		});
-	}
-
-	async readFile(file: File): Promise<string> {
-		const reader = new FileReader();
-		return new Promise<string>((resolve, reject) => {
-			reader.onload = () => {
-				resolve(reader.result as string);
-			};
-			reader.onerror = e => {
-				reject(e);
-			};
-			reader.readAsBinaryString(file);
-		});
-	}
-
-	async importFile(file: File): Promise<void> {
-		const s = await this.readFile(file);
-		let layout = await convertKyodai(s);
-		layout = await cleanImportLayout(layout);
-		// TODO: generate preview for imported layout
-		this.layouts.items.push({...layout, index: this.layouts.items.length});
+		const index = Math.floor(Math.random() * this.layouts.items.length);
+		this.startEvent.emit({layout: this.layouts.items[index], mode: this.mode});
 	}
 
 	onDrop(files: Array<File>): void {
-		this.importFile(files[0]).catch(e => {
-			alert(e);
-		});
+		this.layoutService.importFile(files[0])
+			.then(layout => {
+				this.layouts.items.push(layout);
+				this.buildGroups();
+			})
+			.catch(e => {
+				alert(e);
+			});
+	}
+
+	scrollToGroup(index: number): void {
+		const elements = document.getElementById(`group-${index}`);
+		elements.scrollIntoView();
 	}
 }
