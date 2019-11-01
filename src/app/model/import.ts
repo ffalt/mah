@@ -64,21 +64,16 @@ export async function convert2805Matrix(name: string, board: string): Promise<Im
 
 export async function convertKyodai(data: string): Promise<ImportLayout> {
 	// unify line endings
-	const s = data.replace(/\r\n/g, '\n').split('\n');
-	const version = s[0];
-	const name = s[1];
-	const board = s[2];
-	if ((s[3] || '') !== '') {
-		return Promise.reject('Missing empty line');
-	}
-	// if (s.length > 4) {
-	// 	return Promise.reject('Too many lines');
-	// }
-	if (version === 'Kyodai 3.0') {
-		return convert3400Matrix(name, board);
-	}
-	if (version === 'Kyodai 6.0') {
-		return convert3400Matrix(name, board);
+	const lines = data.replace(/\r\n/g, '\n').split('\n');
+	const version = lines[0] || '';
+	if (['Kyodai 3.0', 'Kyodai 6.0'].includes(version)) {
+		const nameCat = (lines[1] || '').split('::');
+		const name = nameCat[0] || '';
+		const cat = nameCat[1];
+		const board = lines[2] || '';
+		const layout = await convert3400Matrix(name, board);
+		layout.cat = cat || layout.cat;
+		return layout;
 	}
 	return Promise.reject('Unknown .lay format ' + JSON.stringify((version || '').slice(0, 50)));
 }
