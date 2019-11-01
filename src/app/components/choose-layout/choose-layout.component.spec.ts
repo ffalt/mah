@@ -3,15 +3,18 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {FormsModule} from '@angular/forms';
 import {TranslateModule} from '@ngx-translate/core';
 import {Layouts} from '../../model/layouts';
-import {ChooseBoardComponent} from './choose-board-component.component';
 import {LayoutPreviewComponent} from '../layout-preview/layout-preview.component';
+import {ChooseLayoutComponent} from './choose-layout.component';
+import {LayoutService} from '../../service/layout.service';
+import {MockComponent} from 'ng-mocks';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
 
-describe('ChooseBoardComponent', () => {
+describe('ChooseLayoutComponent', () => {
 
 	// noinspection AngularMissingOrInvalidDeclarationInModule
 	@Component({
-		selector: 'app-choose-board-host-component',
-		template: '<app-choose-board-component [layouts]="mockLayouts"></app-choose-board-component>'
+		selector: 'app-choose-layout-host-component',
+		template: '<app-choose-layout [layouts]="mockLayouts"></app-choose-layout>'
 	})
 	class TestChooseBoardHostComponent {
 		mockLayouts = new Layouts();
@@ -22,8 +25,9 @@ describe('ChooseBoardComponent', () => {
 
 	beforeEach(async () =>
 		TestBed.configureTestingModule({
-			declarations: [TestChooseBoardHostComponent, ChooseBoardComponent, LayoutPreviewComponent],
-			imports: [FormsModule, TranslateModule.forRoot()]
+			declarations: [TestChooseBoardHostComponent, ChooseLayoutComponent, MockComponent(LayoutPreviewComponent)],
+			imports: [FormsModule, HttpClientTestingModule, TranslateModule.forRoot()],
+			providers: [LayoutService]
 		})
 			.compileComponents());
 
