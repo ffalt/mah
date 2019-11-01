@@ -10,8 +10,6 @@ import {ChooseBoardComponent} from './components/choose-board/choose-board-compo
 import {GameComponent} from './components/game/game-component.component';
 import {HelpComponent} from './components/help/help.component';
 import {ImageSetLoaderComponent} from './components/image-set-loader/image-set-loader.component';
-import {LayoutListItemComponent} from './components/layout-list-item/layout-list-item.component';
-import {LayoutListComponent} from './components/layout-list/layout-list.component';
 import {LayoutPreviewComponent} from './components/layout-preview/layout-preview.component';
 import {SettingsComponent} from './components/settings/settings.component';
 import {TileComponent} from './components/tile/tile.component';
@@ -36,8 +34,6 @@ import {DropZoneDirective} from './directives/drop-zone.directive';
 		ChooseBoardComponent,
 		GameComponent,
 		HelpComponent,
-		LayoutListComponent,
-		LayoutListItemComponent,
 		LayoutPreviewComponent,
 		BoardComponent,
 		DurationPipe,
