@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" class="board-svg" [class.rotate]="rotate" [attr.viewBox]="viewport" preserveAspectRatio="xMidYMid meet" (window:resize)="onResize($event)">
+<svg xmlns="http://www.w3.org/2000/svg" class="board-svg" [class.rotate]="rotate" [attr.viewBox]="viewport" preserveAspectRatio="xMidYMid meet" (window:resize)="onResize($event)" (mousedown)="onClick($event)">
 	<defs>
 		<filter id="filter4198-8" style="color-interpolation-filters:sRGB">
 			<feGaussianBlur in="SourceGraphic" stdDeviation="8"/>
@@ -13,14 +13,13 @@
 		</svg>
 	</defs>
 	<defs app-image-set-loader [imageSet]="imageSet" [prefix]="prefix"></defs>
-	<rect class="background" x="-6000px" y="-6000px" width="12000px" height="12000px" (mousedown)="onClick()"></rect>
 	<g class="stage" [attr.transform]="translate">
 		<g *ngFor="let draw of drawStones; trackBy:trackByDrawStone" class="draw"
 			 [class.selected]="draw.source.selected"
 			 [class.hidden]="draw.source.picked"
 			 [class.hinted]="draw.source.hinted"
 			 [class.removable]="draw.source.state&&draw.source.state.removable"
-			 [attr.transform]="draw.pos.translate" (mousedown)="onClick(draw)">
+			 [attr.transform]="draw.pos.translate" (mousedown)="onClick($event, draw)">
 			<g class="tile">
 				<rect class="shadow" x="3" y="3" width="75px" height="100px" rx="10" ry="10"></rect>
 				<rect class="stone" x="0" y="0" width="75" height="100" rx="10" ry="10"></rect>

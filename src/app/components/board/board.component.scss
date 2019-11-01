@@ -14,11 +14,6 @@
 
     @include no-select();
 
-    rect.background {
-      fill: $background-color;
-      opacity: 0;
-    }
-
 		g.stage {
 			transition: opacity 500ms;
 		}
