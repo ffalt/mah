@@ -3,22 +3,18 @@ import {Component} from '@angular/core';
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {FormsModule} from '@angular/forms';
 import {TranslateModule} from '@ngx-translate/core';
+import {MockComponent, MockPipe} from 'ng-mocks';
 import {Game} from '../../model/game';
 import {Layouts} from '../../model/layouts';
 import {DurationPipe} from '../../pipes/duration.pipe';
 import {AppService} from '../../service/app.service';
 import {SvgdefService} from '../../service/svgdef.service';
 import {BoardComponent} from '../board/board.component';
-import {ChooseBoardComponent} from '../choose-board/choose-board-component.component';
+import {ChooseLayoutComponent} from '../choose-layout/choose-layout.component';
 import {HelpComponent} from '../help/help.component';
-import {ImageSetLoaderComponent} from '../image-set-loader/image-set-loader.component';
-import {LayoutListItemComponent} from '../layout-list-item/layout-list-item.component';
-import {LayoutListComponent} from '../layout-list/layout-list.component';
 import {SettingsComponent} from '../settings/settings.component';
-import {TileComponent} from '../tile/tile.component';
 import {TilesInfoComponent} from '../tiles-info/tiles-info.component';
 import {GameComponent} from './game-component.component';
-import {LayoutPreviewComponent} from '../layout-preview/layout-preview.component';
 
 describe('GameComponent', () => {
 
@@ -38,8 +34,13 @@ describe('GameComponent', () => {
 	beforeEach(async () =>
 		TestBed.configureTestingModule({
 			declarations: [
-				TestGameComponentHostComponent, GameComponent, BoardComponent, HelpComponent, ChooseBoardComponent, LayoutPreviewComponent,
-				TileComponent, ImageSetLoaderComponent, SettingsComponent, TilesInfoComponent, LayoutListComponent, LayoutListItemComponent, DurationPipe
+				TestGameComponentHostComponent, GameComponent,
+				MockComponent(BoardComponent),
+				MockComponent(HelpComponent),
+				MockComponent(SettingsComponent),
+				MockComponent(TilesInfoComponent),
+				MockComponent(ChooseLayoutComponent),
+				MockPipe(DurationPipe)
 			],
 			imports: [HttpClientModule, FormsModule, TranslateModule.forRoot()],
 			providers: [SvgdefService, AppService]
