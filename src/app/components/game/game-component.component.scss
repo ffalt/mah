@@ -36,7 +36,6 @@
 				}
 			}
 
-
 			&.ctrl-name {
 				font-weight: 600;
 				cursor: pointer;
@@ -93,12 +92,20 @@
 		}
 
 		@include respond-to(small-down) {
+			font-size: $base-font-size*1.3;
 			padding: 0 6px 0 6px;
 			span.label {
 				display: none;
 			}
 		}
 		@include respond-to(tiny-down) {
+			font-size: $base-font-size*1.5;
+			span.name {
+				display: none;
+			}
+		}
+		@include respond-to(pico-down) {
+			font-size: $base-font-size*1.2;
 			span.name {
 				display: none;
 			}
