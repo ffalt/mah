@@ -15,7 +15,9 @@
 				</div>
 			</ng-container>
 			<ng-container *ngIf="!group.visible">
-				<div class="preview" *ngFor="let layout of group.layouts"></div>
+				<div class="preview" *ngFor="let item of group.layouts">
+					<div class="preview-name">{{item.layout.name}}</div>
+				</div>
 			</ng-container>
 		</div>
 	</div>
