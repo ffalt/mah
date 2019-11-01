@@ -1,3 +1,5 @@
+import {LoadLayout} from '../service/layout.service';
+
 export interface Place extends Array<number> {
 	dummy?: boolean;
 }
@@ -7,8 +9,8 @@ export interface Mapping extends Array<Place> {
 }
 
 export class Layout {
-	index: number;
 	name: string;
+	category: string;
 	mapping: Mapping;
 	previewSVG?: any;
 }
@@ -16,12 +18,12 @@ export class Layout {
 export class Layouts {
 	items: Array<Layout> = [];
 
-	load(list: Array<{ name: string; mapping: Mapping }>): void {
+	load(list: Array<LoadLayout>): void {
 		this.items = list.map((o, i) => {
 			const mapping = this.expandMapping(o.mapping);
 			return {
-				index: i,
 				name: o.name,
+				category: o.cat || 'Classic',
 				mapping
 			};
 		});

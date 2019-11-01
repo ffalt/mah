@@ -1,10 +1,23 @@
 <div class="headline">
-	Select Board
+	<div>Select Board</div>
 </div>
-<div class="newgame-content" appDeferLoadScrollHost (appDropZone)="onDrop($event)">
-	<div class="preview" *ngFor="let layout of layouts.items; let i=index" (click)="onStart(layout)" (appDeferLoad)="loadSVG(i)">
-		<app-layout-preview *ngIf="loadedSVG[i]" class="svg-board" [layout]="layout"></app-layout-preview>
-		<div class="preview-name">{{layout.name}}</div>
+<div class="headline-anchors" *ngIf="groups.length>1">
+	<a *ngFor="let group of groups; let i=index" (click)="scrollToGroup(i)">{{group.name}}</a>
+</div>
+<div class="groups" appDeferLoadScrollHost (appDropZone)="onDrop($event)">
+	<div class="group" *ngFor="let group of groups; let i=index" id="group-{{i}}" (appDeferLoad)="group.visible=true">
+		<div class="group-name" *ngIf="groups.length>1">{{group.name}}</div>
+		<div class="previews">
+			<ng-container *ngIf="group.visible">
+				<div class="preview" *ngFor="let item of group.layouts" (click)="onStart(item.layout)" (appDeferLoad)="item.visible=true">
+					<app-layout-preview *ngIf="item.visible" class="svg-board" [layout]="item.layout"></app-layout-preview>
+					<div class="preview-name">{{item.layout.name}}</div>
+				</div>
+			</ng-container>
+			<ng-container *ngIf="!group.visible">
+				<div class="preview" *ngFor="let layout of group.layouts"></div>
+			</ng-container>
+		</div>
 	</div>
 </div>
 <div class="choose-buttons">
@@ -16,7 +29,7 @@
 	</div>
 	<div class="start-links">
 		<button class="link" (click)="randomGame()">{{'START_RANDOM' | translate}}</button>
-<!--		<button class="link" [disabled]="!current" (click)="onStart(current)">{{'START_SELECTED' | translate}}</button>-->
+		<!--		<button class="link" [disabled]="!current" (click)="onStart(current)">{{'START_SELECTED' | translate}}</button>-->
 	</div>
 </div>
 
