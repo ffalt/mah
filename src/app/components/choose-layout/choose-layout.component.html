@@ -1,5 +1,5 @@
 <div class="headline">
-	<div>Select Board</div>
+	<div>{{'SELECT_BOARD' | translate}}</div>
 </div>
 <div class="headline-anchors" *ngIf="groups.length>1">
 	<a *ngFor="let group of groups; let i=index" (click)="scrollToGroup(i)">{{group.name}}</a>

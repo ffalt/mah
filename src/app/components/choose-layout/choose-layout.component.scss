@@ -20,6 +20,7 @@
 		display: flex;
 		flex-direction: row;
 		flex-wrap: wrap;
+
 		a {
 			flex-grow: 1;
 			flex-basis: 0;
@@ -28,11 +29,13 @@
 			font-size: 0.9em;
 			cursor: pointer;
 			text-align: center;
+
 			&:hover {
 				color: lighten($text-color, 5%);
 			}
 		}
 	}
+
 	.groups {
 		overflow-x: hidden;
 		overflow-y: auto;
@@ -92,6 +95,16 @@
 
 				&:hover {
 					background-color: darken(#8b877a, 15%);
+				}
+
+				@include respond-to(medium-down) {
+					width: 50%;
+					app-layout-preview {
+						width: 100%;
+					}
+				}
+				@include respond-to(tiny-down) {
+					width: 100%;
 				}
 			}
 		}
