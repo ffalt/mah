@@ -13,6 +13,7 @@ export class DeferLoadDirective implements AfterViewInit, OnDestroy {
 
 	private intersectionObserver?: IntersectionObserver;
 	private scrollSubscription?: Subscription;
+	private onbserveSubscription?: Subscription;
 	private timeoutId?: number;
 	private timeoutLoadMS: number = 20;
 
@@ -43,9 +44,8 @@ export class DeferLoadDirective implements AfterViewInit, OnDestroy {
 
 	private loadAndUnobserve(): void {
 		this.load();
-		if (this.intersectionObserver && this._element.nativeElement) {
-			this.intersectionObserver.unobserve(this._element.nativeElement as Element);
-		}
+		this.unobserve();
+		this.removeListeners();
 	}
 
 	private cancelDelayLoad(): void {
@@ -78,17 +78,19 @@ export class DeferLoadDirective implements AfterViewInit, OnDestroy {
 		if (!!this.intersectionObserver) {
 			return;
 		}
-		this.intersectionObserver = new IntersectionObserver(entries => {
-			this.checkForIntersection(entries);
-		}, {threshold: 0});
+		this.intersectionObserver = this.deferLoadService.getObserver();
 		if (this.intersectionObserver && this._element.nativeElement) {
 			this.intersectionObserver.observe(this._element.nativeElement as Element);
+			this.onbserveSubscription = this.deferLoadService.observeNotify
+				.subscribe(entries => this.checkForIntersection(entries));
 		}
 	}
 
 	private checkForIntersection = (entries: Array<IntersectionObserverEntry>) => {
 		entries.forEach((entry: IntersectionObserverEntry) => {
-			this.manageIntersection(entry);
+			if (entry.target === this._element.nativeElement) {
+				this.manageIntersection(entry);
+			}
 		});
 	};
 
@@ -96,7 +98,7 @@ export class DeferLoadDirective implements AfterViewInit, OnDestroy {
 		// For Samsung native browser, IO has been partially implemented where by the
 		// callback fires, but entry object is empty. We will check manually.
 		if (entry && entry.time) {
-			return (entry as any).isIntersecting && entry.target === this._element.nativeElement;
+			return entry.isIntersecting;
 		}
 		return this.isVisible();
 	}
@@ -113,7 +115,7 @@ export class DeferLoadDirective implements AfterViewInit, OnDestroy {
 	}
 
 	private addScrollListeners(): void {
-		this.scrollSubscription = this.deferLoadService.notify
+		this.scrollSubscription = this.deferLoadService.scrollNotify
 			.subscribe(event => {
 				if (this.checkInView(event.rect)) {
 					this.loadFromScroll();
@@ -126,13 +128,22 @@ export class DeferLoadDirective implements AfterViewInit, OnDestroy {
 		});
 	}
 
+	private unobserve(): void {
+		if (this.intersectionObserver && this._element.nativeElement) {
+			this.intersectionObserver.unobserve(this._element.nativeElement as Element);
+			this.intersectionObserver = undefined;
+		}
+	}
+
 	private removeListeners(): void {
 		if (this.scrollSubscription) {
 			this.scrollSubscription.unsubscribe();
+			this.scrollSubscription = undefined;
 		}
-
-		if (this.intersectionObserver) {
-			this.intersectionObserver.disconnect();
+		this.unobserve();
+		if (this.onbserveSubscription) {
+			this.onbserveSubscription.unsubscribe();
+			this.onbserveSubscription = undefined;
 		}
 	}
 
