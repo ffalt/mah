@@ -7,7 +7,7 @@ export interface ImportLayout {
 	mapping: Mapping;
 }
 
-function sortMapping(mapping: Mapping): Mapping {
+export function sortMapping(mapping: Mapping): Mapping {
 	return mapping.sort((a: Place, b: Place): number => {
 		if (a[0] < b[0]) {
 			return -1;
@@ -78,7 +78,8 @@ export async function convertKyodai(data: string): Promise<ImportLayout> {
 	return Promise.reject('Unknown .lay format ' + JSON.stringify((version || '').slice(0, 50)));
 }
 
-export function compactMapping(mapping: Mapping): Mapping {
+/*
+export function compactMappingDeprecated(mapping: Mapping): Mapping {
 	let maplist: Mapping = [];
 	mapping.forEach(o => {
 		const place: Array<number> = [];
@@ -102,6 +103,92 @@ export function compactMapping(mapping: Mapping): Mapping {
 	}
 	const first = maplist[0];
 	result.unshift([first[0], first[1], first[2]]);
+	return result;
+}
+*/
+
+// [x, [x, amount (with 2 steps each) ]]
+export interface CompactMappingX extends Array<number | Array<number>> {
+}
+
+// [y, [SuperCompactMappingX]]
+export interface CompactMappingY extends Array<number | CompactMappingX> {
+}
+
+// [z, [SuperCompactMappingY]]
+export interface CompactMappingZ extends Array<number | Array<CompactMappingY>> {
+}
+
+// [SuperCompactMappingZ]
+export interface CompactMapping extends Array<CompactMappingZ> {
+}
+
+export function expandMapping(map: CompactMapping): Mapping {
+	const result: Mapping = [];
+	map.forEach(matrix => {
+		const z = matrix[0] as number;
+		const rows = matrix[1] as Array<CompactMappingY>;
+		rows.forEach(row => {
+			const y = row[0] as number;
+			const cells = row[1] as CompactMappingX;
+			if (!Array.isArray(cells)) {
+				result.push([z, cells, y]);
+			} else {
+				cells.forEach(cell => {
+					if (Array.isArray(cell)) {
+						let x = cell[0] as number;
+						const count = cell[1];
+						for (let i = 0; i < count; i++) {
+							result.push([z, x, y]);
+							x += 2;
+						}
+					} else {
+						result.push([z, cell as number, y]);
+					}
+				});
+			}
+		});
+	});
+	return result;
+}
+
+export function compactMapping(mapping: Mapping): CompactMapping {
+	const board: any = {};
+	sortMapping(mapping).forEach(m => {
+		board[m[0]] = board[m[0]] || {};
+		board[m[0]][m[2]] = board[m[0]][m[2]] || [];
+		board[m[0]][m[2]].push(m[1]);
+	});
+	const result: CompactMapping = [];
+	for (const z of Object.keys(board)) {
+		const rows: Array<CompactMappingY> = [];
+		for (const y of Object.keys(board[z])) {
+			const a: Array<number> = board[z][y];
+			const entries: Array<{ start: number, current: number, count: number }> = [];
+			let entry = {start: -1, current: -1, count: 0};
+			a.forEach(x => {
+				if (x !== entry.current) {
+					entry = {start: x, current: x + 2, count: 1};
+					entries.push(entry);
+				} else {
+					entry.current += 2;
+					entry.count++;
+				}
+			});
+			const cells: CompactMappingX = entries.map(e => {
+				if (e.count === 1) {
+					return e.start;
+				}
+				return [e.start, e.count];
+			});
+			if (cells.length === 1 && !Array.isArray(cells[0])) {
+				rows.push([Number(y), cells[0]]);
+			} else {
+				rows.push([Number(y), cells]);
+			}
+		}
+		result.push([Number(z), rows]);
+	}
 	return result;
 }
 
@@ -133,4 +220,16 @@ export function cleanImportLayout(layout: ImportLayout): ImportLayout {
 		p[2] = p[2] - (minY || 0);
 	});
 	return layout;
+}
+
+export function expandMappingDeprecated(mapping: Mapping): Mapping {
+	const result: Mapping = [];
+	if (mapping) {
+		mapping.forEach(m => {
+			for (let i = 0; i < (m[3] || 1); i++) {
+				result.push([m[0], m[1] + (i * 2), m[2]]);
+			}
+		});
+	}
+	return result;
 }

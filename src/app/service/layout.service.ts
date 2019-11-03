@@ -1,14 +1,15 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {DomSanitizer} from '@angular/platform-browser';
-import {cleanImportLayout, convertKyodai} from '../model/import';
+import {cleanImportLayout, CompactMapping, convertKyodai, expandMappingDeprecated, expandMapping} from '../model/import';
 import {generateStaticLayoutSVG} from '../model/layout-svg';
 import {Layout, Layouts, Mapping} from '../model/layouts';
 
 export interface LoadLayout {
 	name: string;
 	cat?: string;
-	mapping: Mapping;
+	mapping?: Mapping;
+	map?: CompactMapping;
 }
 
 @Injectable()
@@ -23,12 +24,20 @@ export class LayoutService {
 			return this.layouts;
 		}
 		const result: Array<LoadLayout> = await this.http.get<Array<LoadLayout>>('assets/data/boards.json').toPromise();
-		const layouts = new Layouts();
-		layouts.load(result);
-		layouts.items.forEach(layout => {
-			layout.previewSVG = this.sanitizer.bypassSecurityTrustUrl(generateStaticLayoutSVG(layout.mapping));
-		});
-		this.layouts = layouts;
+		this.layouts = {
+			items: result.map(o => {
+				const name = o.name;
+				const category = o.cat || 'Classic';
+				let mapping: Mapping = [];
+				if (o.map) {
+					mapping = expandMapping(o.map);
+				}
+				if (o.mapping) {
+					mapping = expandMappingDeprecated(o.mapping);
+				}
+				return {name, category, mapping, previewSVG: this.sanitizer.bypassSecurityTrustUrl(generateStaticLayoutSVG(mapping))};
+			}).filter(layout => layout.mapping.length > 0)
+		};
 		return this.layouts;
 	}
 
