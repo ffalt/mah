@@ -1,7 +1,6 @@
 {
   "$schema": "node_modules/deplokay/config-schema.json",
-  "id": "mah-deploy",
-	"mode": "npm",
+  "id": "mah-deploy-ghpages",
 	"source": {
 		"local": {
 			"path": "."
@@ -9,10 +8,11 @@
 	},
 	"publish": {
 		"archive": {
-			"path": "./local/archives"
+			"path": "./local/archives/mah"
 		},
 		"branch": {
-			"branch": "gh-pages"
+			"branch": "gh-pages",
+			"disableTag": true
 		}
 	},
 	"build": {
