@@ -1,0 +1,35 @@
+{
+	"$schema": "node_modules/deplokay/config-schema.json",
+	"id": "mah-deploy-release",
+	"source": {
+		"remote": {
+			"repository": ".",
+			"branch": "master",
+			"checkout_path": "./local/.release-clone"
+		}
+	},
+	"publish": {
+		"archive": {
+			"path": "./local/archives/release"
+		},
+		"branch_disabled": {
+			"branch": "releases",
+			"disableTag": true
+		},
+		"folder": {
+			"path": "./local/preview"
+		}
+	},
+	"build": {
+		"npm": {
+			"cmd_name": "build:deploy-release",
+			"folder_names": [
+				"dist"
+			],
+			"component_names": []
+		}
+	},
+	"env": {
+		"NODE_ENV": "development"
+	}
+}
