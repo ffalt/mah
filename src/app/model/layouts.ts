@@ -1,11 +1,10 @@
 import {LoadLayout} from '../service/layout.service';
 
+// [z, x, y, nr-of-items-in-x-direction or 1-if-undefined]
 export interface Place extends Array<number> {
-	dummy?: boolean;
 }
 
 export interface Mapping extends Array<Place> {
-	dummy?: boolean;
 }
 
 export class Layout {
@@ -18,18 +17,7 @@ export class Layout {
 export class Layouts {
 	items: Array<Layout> = [];
 
-	load(list: Array<LoadLayout>): void {
-		this.items = list.map((o, i) => {
-			const mapping = this.expandMapping(o.mapping);
-			return {
-				name: o.name,
-				category: o.cat || 'Classic',
-				mapping
-			};
-		});
-	}
-
-	expandMapping(mapping: Mapping): Mapping {
+	static expandMapping(mapping: Mapping): Mapping {
 		const result: Mapping = [];
 		if (mapping) {
 			mapping.forEach(m => {
@@ -39,6 +27,17 @@ export class Layouts {
 			});
 		}
 		return result;
+	}
+
+	load(list: Array<LoadLayout>): void {
+		this.items = list.map((o, i) => {
+			const mapping = Layouts.expandMapping(o.mapping);
+			return {
+				name: o.name,
+				category: o.cat || 'Classic',
+				mapping
+			};
+		});
 	}
 
 }
