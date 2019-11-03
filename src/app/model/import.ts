@@ -118,14 +118,17 @@ export function cleanImportLayout(layout: ImportLayout): ImportLayout {
 	// Capitalize
 	layout.name = layout.name.split(' ').map(s => s[0].toUpperCase() + s.slice(1)).join(' ');
 
-	// move board to left/top
+	// move board to left/top/min z-index
+	let minZ: number = layout.mapping[0][0];
 	let minX: number = layout.mapping[0][1];
 	let minY: number = layout.mapping[0][2];
 	layout.mapping.forEach(p => {
+		minZ = Math.min(p[0], minZ);
 		minX = Math.min(p[1], minX);
 		minY = Math.min(p[2], minY);
 	});
 	layout.mapping.forEach(p => {
+		p[0] = p[0] - (minZ || 0);
 		p[1] = p[1] - (minX || 0);
 		p[2] = p[2] - (minY || 0);
 	});
