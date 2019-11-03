@@ -12,12 +12,9 @@
 		"archive": {
 			"path": "./local/archives/release"
 		},
-		"branch_disabled": {
+		"branch": {
 			"branch": "releases",
-			"disableTag": true
-		},
-		"folder": {
-			"path": "./local/preview"
+			"disableTag": false
 		}
 	},
 	"build": {
