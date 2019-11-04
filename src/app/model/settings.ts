@@ -1,13 +1,5 @@
 import {ImageSetDefault} from './consts';
-import {StorageProvider} from './types';
-
-export class SettingsStore {
-	lang: string;
-	sounds: boolean;
-	// music:boolean;
-	tileset: string;
-	background: string;
-}
+import {SettingsStore, StorageProvider} from './types';
 
 export class Settings {
 	lang = 'auto';
@@ -25,7 +17,7 @@ export class Settings {
 
 	load(): boolean {
 		try {
-			const store: SettingsStore = this.storageProvider.get<SettingsStore>('settings');
+			const store: SettingsStore = this.storageProvider.getSettings();
 			if (store) {
 				this.lang = store.lang || 'auto';
 				this.tileset = store.tileset || ImageSetDefault;
@@ -43,7 +35,7 @@ export class Settings {
 
 	save(): boolean {
 		try {
-			this.storageProvider.set<SettingsStore>('settings', {
+			this.storageProvider.storeSettings({
 				lang: this.lang,
 				sounds: this.sounds,
 				// music: this.music,

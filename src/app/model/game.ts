@@ -3,7 +3,7 @@ import {Clock} from './clock';
 import {STATES} from './consts';
 import {Sound, SOUNDS} from './sound';
 import {Stone} from './stone';
-import {GameStateStore, Layout, LayoutBestTime, StorageProvider} from './types';
+import {GameStateStore, Layout, StorageProvider} from './types';
 
 export class Game {
 	clock: Clock = new Clock();
@@ -11,7 +11,7 @@ export class Game {
 	sound: Sound = new Sound();
 // music: Music = new Music();
 	state: number = STATES.idle;
-	message: string = undefined;
+	message?: { msgID?: string, playTime?: number };
 	layoutID: string = undefined;
 	undo: Array<Array<number>> = [];
 
@@ -24,7 +24,7 @@ export class Game {
 		if (this.state === STATES.run) {
 			this.pause();
 		}
-		this.message = this.isPaused() ? 'MSG_CONTINUE_SAVE' : 'MSG_START';
+		this.message = {msgID: this.isPaused() ? 'MSG_CONTINUE_SAVE' : 'MSG_START'};
 	}
 
 	click(stone: Stone): boolean {
@@ -33,7 +33,7 @@ export class Game {
 			return false;
 		}
 		if (!this.isRunning() || stone.state.blocked) {
-			this.playSound(SOUNDS.NOPE);
+			this.sound.play(SOUNDS.NOPE);
 			return true;
 		}
 		if (this.clock.elapsed === 0) {
@@ -44,7 +44,7 @@ export class Game {
 			return true;
 		}
 		if (this.board.selected !== stone) {
-			this.playSound(SOUNDS.SELECT);
+			this.sound.play(SOUNDS.SELECT);
 		}
 		this.board.setStoneSelected(this.board.selected !== stone ? stone : undefined);
 		return true;
@@ -148,7 +148,7 @@ export class Game {
 
 	load(): boolean {
 		try {
-			const store: GameStateStore = this.storage.get<GameStateStore>('state');
+			const store: GameStateStore = this.storage.getState();
 			if (store) {
 				this.clock.elapsed = store.elapsed || 0;
 				this.undo = store.undo || [];
@@ -164,7 +164,7 @@ export class Game {
 
 	save(): void {
 		try {
-			this.storage.set('state', {
+			this.storage.storeState({
 				elapsed: this.clock.elapsed,
 				state: this.state,
 				layout: this.layoutID,
@@ -180,23 +180,23 @@ export class Game {
 		if (this.board.count < 2) {
 			const id = this.layoutID || 'unknown';
 			const playTime = this.clock.elapsed;
-			const score = this.storage.get<LayoutBestTime>(`highscore:${id}`) || {};
+			const score = this.storage.getScore(id) || {};
 			score.playCount = (score.playCount || 0) + 1;
 			if (!score.bestTime || score.bestTime > playTime) {
 				score.bestTime = playTime;
-				this.gameOver('MSG_BEST');
+				this.gameOver('MSG_BEST', playTime);
 			} else {
-				this.gameOver('MSG_GOOD');
+				this.gameOver('MSG_GOOD', playTime);
 			}
-			this.storage.set<LayoutBestTime>(`highscore:${id}`, score);
+			this.storage.storeScore(id, score);
 		} else if (this.board.free.length < 1) {
 			const id = this.layoutID || 'unknown';
-			const score = this.storage.get<LayoutBestTime>(`highscore:${id}`) || {};
+			const score = this.storage.getScore(id) || {};
 			score.playCount = (score.playCount || 0) + 1;
-			this.storage.set<LayoutBestTime>(`highscore:${id}`, score);
+			this.storage.storeScore(id, score);
 			this.gameOver('MSG_FAIL');
 		} else {
-			this.playSound(SOUNDS.MATCH);
+			this.sound.play(SOUNDS.MATCH);
 			this.delayedSave();
 		}
 	}
@@ -215,10 +215,6 @@ export class Game {
 		}, 500);
 	}
 
-	private playSound(sound: string): void {
-		this.sound.play(sound);
-	}
-
 	private resolveMatchingStone(stone: Stone): void {
 		const sel = this.board.selected;
 		this.board.clearSelection();
@@ -230,15 +226,15 @@ export class Game {
 		this.checkPlayEnd();
 	}
 
-	private gameOver(message: string): void {
-		this.playSound(SOUNDS.OVER);
-		this.setState(STATES.idle, message);
+	private gameOver(message: string, playTime?: number): void {
+		this.sound.play(SOUNDS.OVER);
+		this.setState(STATES.idle, message, playTime);
 		this.clock.reset();
 		this.delayedSave();
 	}
 
-	private setState(state: number, message?: string): void {
-		this.message = message;
+	private setState(state: number, msgID?: string, playTime?: number): void {
+		this.message = msgID ? {msgID, playTime} : undefined;
 		this.state = state;
 	}
 
