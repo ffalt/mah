@@ -1,6 +1,6 @@
 {
   "name": "mah",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "author": "ffalt",
   "license": "MIT",
   "description": "a html5 mahjong solitaire game",
@@ -37,7 +37,7 @@
     "rxjs": "6.5.3",
     "tslib": "1.10.0",
     "tsutils": "3.17.1",
-    "zone.js": "0.10.2"
+    "zone.js": "0.9.1"
   },
   "devDependencies": {
     "@angular-builders/custom-webpack": "8.2.0",
@@ -55,7 +55,7 @@
     "rxjs-tslint": "0.1.7",
     "rxjs-tslint-rules": "4.26.1",
     "tslint": "5.20.0",
-    "tslint-etc": "1.7.1",
+    "tslint-etc": "1.8.0",
     "typescript": "3.5.3"
   }
 }
