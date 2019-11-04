@@ -37,7 +37,7 @@ async function convertMatrix(
 	const matrixLength: number = rowCount * cellCount;
 	const totalLength: number = matrixLength * matrixCount;
 	if (board.length !== totalLength) {
-		return Promise.reject('Invalid Matrix Pattern length');
+		return Promise.reject(Error('Invalid Matrix Pattern length'));
 	}
 	const layout: ImportLayout = {name, cat: 'Import', mapping: []};
 	for (let z = 0; z < matrixCount; z++) {
@@ -75,7 +75,7 @@ export async function convertKyodai(data: string): Promise<ImportLayout> {
 		layout.cat = cat || layout.cat;
 		return layout;
 	}
-	return Promise.reject('Unknown .lay format ' + JSON.stringify((version || '').slice(0, 50)));
+	return Promise.reject(Error('Unknown .lay format ' + JSON.stringify((version || '').slice(0, 50))));
 }
 
 /*
@@ -136,14 +136,14 @@ export function expandMapping(map: CompactMapping): Mapping {
 			} else {
 				cells.forEach(cell => {
 					if (Array.isArray(cell)) {
-						let x = cell[0] as number;
+						let x = cell[0];
 						const count = cell[1];
 						for (let i = 0; i < count; i++) {
 							result.push([z, x, y]);
 							x += 2;
 						}
 					} else {
-						result.push([z, cell as number, y]);
+						result.push([z, cell, y]);
 					}
 				});
 			}

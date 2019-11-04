@@ -1,7 +1,7 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {DomSanitizer} from '@angular/platform-browser';
-import {cleanImportLayout, CompactMapping, convertKyodai, expandMappingDeprecated, expandMapping} from '../model/import';
+import {cleanImportLayout, CompactMapping, convertKyodai, expandMapping, expandMappingDeprecated} from '../model/import';
 import {generateStaticLayoutSVG} from '../model/layout-svg';
 import {Layout, Layouts, Mapping} from '../model/layouts';
 
@@ -42,21 +42,21 @@ export class LayoutService {
 	}
 
 	async importFile(file: File): Promise<Layout> {
-		const s = await this.readFile(file);
+		const s = await LayoutService.readFile(file);
 		let layout = await convertKyodai(s);
-		layout = await cleanImportLayout(layout);
+		layout = cleanImportLayout(layout);
 		const previewSVG = this.sanitizer.bypassSecurityTrustUrl(generateStaticLayoutSVG(layout.mapping));
 		return {...layout, category: 'Import', previewSVG};
 	}
 
-	private async readFile(file: File): Promise<string> {
+	private static async readFile(file: File): Promise<string> {
 		const reader = new FileReader();
 		return new Promise<string>((resolve, reject) => {
 			reader.onload = () => {
 				resolve(reader.result as string);
 			};
-			reader.onerror = e => {
-				reject(e);
+			reader.onerror = () => {
+				reject(Error(`Reading File failed: ${reader.error}`));
 			};
 			reader.readAsBinaryString(file);
 		});

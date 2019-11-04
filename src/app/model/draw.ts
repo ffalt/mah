@@ -1,6 +1,6 @@
 import {Consts} from './consts';
+import { Mapping} from './layouts';
 import {Stone} from './stone';
-import {Layout, Mapping} from './layouts';
 
 export interface DrawPos {
 	x: number;

@@ -82,7 +82,9 @@ export class DeferLoadDirective implements AfterViewInit, OnDestroy {
 		if (this.intersectionObserver && this._element.nativeElement) {
 			this.intersectionObserver.observe(this._element.nativeElement as Element);
 			this.onbserveSubscription = this.deferLoadService.observeNotify
-				.subscribe(entries => this.checkForIntersection(entries));
+				.subscribe(entries => {
+					this.checkForIntersection(entries);
+				});
 		}
 	}
 
