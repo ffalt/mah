@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
 import {Builder} from '../../model/builder';
-import {Layout, LayoutBestTime, Layouts} from '../../model/types';
+import {Layout, Layouts} from '../../model/types';
 import {LayoutService} from '../../service/layout.service';
 import {LocalstorageService} from '../../service/localstorage.service';
 
@@ -52,7 +52,7 @@ export class ChooseLayoutComponent implements OnChanges {
 				g[layout.category] = {name: layout.category, layouts: [], visible: false};
 				groups.push(g[layout.category]);
 			}
-			const score = this.storage.get<LayoutBestTime>(`highscore:${layout.id}`) || {};
+			const score = this.storage.getScore(layout.id) || {};
 			g[layout.category].layouts.push({layout, playCount: score.playCount, bestTime: score.bestTime, visible: false});
 		}
 		this.groups = groups;

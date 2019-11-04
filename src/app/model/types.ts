@@ -1,4 +1,3 @@
-
 // [x, [x, amount (with 2 steps each) ]]
 export interface CompactMappingX extends Array<number | Array<number>> {
 }
@@ -34,7 +33,7 @@ export interface Layouts {
 	items: Array<Layout>;
 }
 
-export interface LayoutBestTime {
+export interface LayoutScoreStore {
 	playCount?: number;
 	bestTime?: number;
 }
@@ -55,9 +54,18 @@ export interface ImportLayout {
 }
 
 export interface StorageProvider {
-	get<T>(name: string): T | undefined;
 
-	set<T>(key: string, data: T): void;
+	getScore(id: string): LayoutScoreStore | undefined;
+
+	getSettings(): SettingsStore | undefined;
+
+	getState(): GameStateStore | undefined;
+
+	storeScore(id: string, store?: LayoutScoreStore): void;
+
+	storeSettings(store?: SettingsStore): void;
+
+	storeState(store?: GameStateStore): void;
 }
 
 export class GameStateStore {
@@ -66,4 +74,11 @@ export class GameStateStore {
 	layout: string;
 	undo?: Array<Array<number>>;
 	stones?: Array<Array<number>>;
+}
+
+export class SettingsStore {
+	lang: string;
+	sounds: boolean;
+	tileset: string;
+	background: string;
 }

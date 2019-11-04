@@ -1,13 +1,42 @@
 import {Injectable} from '@angular/core';
-import {StorageProvider} from '../model/types';
+import {GameStateStore, LayoutScoreStore, SettingsStore, StorageProvider} from '../model/types';
 
 @Injectable({
 	providedIn: 'root'
 })
 export class LocalstorageService implements StorageProvider {
-	private readonly prefix = '';
 
-	get<T>(key: string): T | undefined {
+	private readonly prefix = 'mah.';
+
+	constructor() {
+		this.updateData();
+	}
+
+	getScore(id: string): LayoutScoreStore | undefined {
+		return this.get<LayoutScoreStore>(`score.${id}`);
+	}
+
+	getSettings(): SettingsStore | undefined {
+		return this.get<SettingsStore>('settings');
+	}
+
+	getState(): GameStateStore | undefined {
+		return this.get<GameStateStore>('state');
+	}
+
+	storeScore(id: string, store?: LayoutScoreStore): void {
+		return this.set<LayoutScoreStore>(`score.${id}`, store);
+	}
+
+	storeSettings(store?: SettingsStore): void {
+		return this.set<SettingsStore>('settings', store);
+	}
+
+	storeState(store?: GameStateStore): void {
+		return this.set<GameStateStore>('state', store);
+	}
+
+	private get<T>(key: string): T | undefined {
 		if (!localStorage) {
 			return;
 		}
@@ -18,7 +47,7 @@ export class LocalstorageService implements StorageProvider {
 		}
 	}
 
-	set<T>(key: string, data: T): void {
+	private set<T>(key: string, data: T): void {
 		if (!localStorage) {
 			return;
 		}
@@ -26,6 +55,26 @@ export class LocalstorageService implements StorageProvider {
 			localStorage.removeItem(`${this.prefix}${key}`);
 		} else {
 			localStorage.setItem(this.prefix + key, JSON.stringify(data));
+		}
+	}
+
+	private updateData(): void {
+		if (!localStorage) {
+			return;
+		}
+		try {
+			let old = localStorage.getItem('state');
+			if (old) {
+				localStorage.removeItem('state');
+				this.set<any>('state', JSON.parse(old));
+			}
+			old = localStorage.getItem('settings');
+			if (old) {
+				localStorage.removeItem('settings');
+				this.set<any>('settings', JSON.parse(old));
+			}
+		} catch (e) {
+			console.error(e);
 		}
 	}
 
