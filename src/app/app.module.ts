@@ -14,12 +14,12 @@ import {LayoutPreviewComponent} from './components/layout-preview/layout-preview
 import {SettingsComponent} from './components/settings/settings.component';
 import {TileComponent} from './components/tile/tile.component';
 import {TilesInfoComponent} from './components/tiles-info/tiles-info.component';
+import {DropZoneDirective} from './directives/drop-zone.directive';
 import {DeferLoadModule} from './modules/defer-load';
 import {DurationPipe} from './pipes/duration.pipe';
 import {AppService} from './service/app.service';
 import {LayoutService} from './service/layout.service';
 import {SvgdefService} from './service/svgdef.service';
-import {DropZoneDirective} from './directives/drop-zone.directive';
 
 @NgModule({
 	imports: [
