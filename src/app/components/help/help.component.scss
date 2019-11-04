@@ -12,6 +12,9 @@
 		margin-top: 0;
 		margin-bottom: 10px;
 		line-height: 1.3em;
+		@include respond-to(tiny-down) {
+			font-size: 1.2em;
+		}
 	}
 
 	p {
@@ -28,28 +31,41 @@
 		> div {
 			width: 45%;
 			margin-right: 10px;
-
-			@include respond-to(small-down) {
+			@include respond-to(medium-down) {
 				width: 100%;
 			}
+
 			> div {
 				width: 100%;
+
 				> div {
 					display: flex;
 					flex-direction: row;
+
 					> div {
 						flex: 1;
 					}
+
 					.name {
-						max-width: 40%;
+						min-width: 50%;
+						max-width: 50%;
+					}
+
+					@include respond-to(tiny-down) {
+						flex-direction: column;
+						.name {
+							min-width: inherit;
+							max-width: inherit;
+							width: 100%;
+						}
+						.info {
+							padding-bottom: 4px;
+						}
 					}
 				}
 			}
-		}
-	}
 
-	.score {
-		.score-list {
+
 		}
 	}
 
@@ -70,13 +86,15 @@
 				box-shadow: 0 5px 0 0 rgba(0, 0, 0, 1);
 				text-align: center;
 				margin-right: 0.3em;
+				@include respond-to(tiny-down) {
+					padding-left: 5px;
+					padding-right: 5px;
+					min-width: 20px;
+					margin-bottom: 6px;
+				}
 			}
 		}
 	}
 
-	.license {
-		.license-list {
-		}
-	}
 }
 

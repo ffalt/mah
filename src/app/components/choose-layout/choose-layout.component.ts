@@ -1,11 +1,14 @@
 import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
 import {Builder} from '../../model/builder';
-import {Layout, Layouts} from '../../model/layouts';
+import {Layout, LayoutBestTime, Layouts} from '../../model/types';
 import {LayoutService} from '../../service/layout.service';
+import {LocalstorageService} from '../../service/localstorage.service';
 
 export interface LayoutItem {
 	layout: Layout;
 	visible: boolean;
+	playCount?: number;
+	bestTime?: number;
 }
 
 export interface LayoutGroup {
@@ -26,7 +29,7 @@ export class ChooseLayoutComponent implements OnChanges {
 	mode: string = 'MODE_SOLVABLE';
 	builder: Builder = new Builder();
 
-	constructor(private layoutService: LayoutService) {
+	constructor(private layoutService: LayoutService, private storage: LocalstorageService) {
 	}
 
 	ngOnChanges(changes: SimpleChanges): void {
@@ -49,7 +52,8 @@ export class ChooseLayoutComponent implements OnChanges {
 				g[layout.category] = {name: layout.category, layouts: [], visible: false};
 				groups.push(g[layout.category]);
 			}
-			g[layout.category].layouts.push({layout, visible: false});
+			const score = this.storage.get<LayoutBestTime>(`highscore:${layout.id}`) || {};
+			g[layout.category].layouts.push({layout, playCount: score.playCount, bestTime: score.bestTime, visible: false});
 		}
 		this.groups = groups;
 	}

@@ -1,6 +1,6 @@
 import {Builder} from './builder';
-import {Layout, Mapping} from './layouts';
 import {safeGetStone, Stone} from './stone';
+import {Mapping} from './types';
 
 interface StoneGroup {
 	group: number;
@@ -113,9 +113,7 @@ export class Board {
 		if (!mapping) {
 			return;
 		}
-		const layout = new Layout();
-		layout.mapping = mapping;
-		const stones = this.builder.build('load', layout);
+		const stones = this.builder.build('load', mapping);
 		undos.forEach((undo: Array<number>) => {
 			const stone: Stone = safeGetStone(stones, undo[0], undo[1], undo[2]);
 			if (stone) {
@@ -130,8 +128,8 @@ export class Board {
 			[stone.z, stone.x, stone.y, stone.v]);
 	}
 
-	applyLayout(layout: Layout, mode: string): void {
-		this.stones = this.builder.build(mode, layout);
+	applyMapping(mapping: Mapping, mode: string): void {
+		this.stones = this.builder.build(mode, mapping);
 	}
 
 	private hintNext(): boolean {

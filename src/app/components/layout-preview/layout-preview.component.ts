@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges} from '@angular/core';
-import {Layout} from '../../model/layouts';
+import {Layout} from '../../model/types';
 
 @Component({
 	selector: 'app-layout-preview',

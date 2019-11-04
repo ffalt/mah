@@ -1,10 +1,10 @@
 /* tslint:disable:max-classes-per-file */
-import {Layout, Place} from './layouts';
 import {safeGetStone, Stone} from './stone';
 import {Tile, Tiles} from './tiles';
+import {Mapping, Place} from './types';
 
 interface BuilderType {
-	build(layout: Layout, tiles: Tiles): Array<Stone>;
+	build(mapping: Mapping, tiles: Tiles): Array<Stone>;
 }
 
 function random<T>(array: Array<T>): number {
@@ -73,10 +73,10 @@ function fillStones(stones: Array<Stone>, tiles: Tiles): Array<Stone> {
 
 class LinearBoardBuilder implements BuilderType {
 
-	build(layout: Layout, tiles: Tiles): Array<Stone> {
+	build(mapping: Mapping, tiles: Tiles): Array<Stone> {
 		const remainingTiles: Array<Tile> = tiles.list.filter((tile: Tile): boolean => tile !== undefined);
 		const stones: Array<Stone> = [];
-		layout.mapping.forEach((place: Place) => {
+		mapping.forEach((place: Place) => {
 			const tile = randomExtract(remainingTiles);
 			const stone = new Stone(place[0], place[1], place[2], tile.v, tile.groupnr);
 			stones.push(stone);
@@ -89,10 +89,10 @@ class LinearBoardBuilder implements BuilderType {
 
 class RandomBoardBuilder implements BuilderType {
 
-	build(layout: Layout, tiles: Tiles): Array<Stone> {
+	build(mapping: Mapping, tiles: Tiles): Array<Stone> {
 		const remainingTiles = tiles.list.filter((tile: Tile) => tile !== undefined);
 		const stones: Array<Stone> = [];
-		const remainingPlaces = layout.mapping.slice(0);
+		const remainingPlaces = mapping.slice(0);
 		while (remainingTiles.length > 0) {
 			const tile = randomExtract(remainingTiles);
 			const place = randomExtract(remainingPlaces);
@@ -105,9 +105,9 @@ class RandomBoardBuilder implements BuilderType {
 
 class SolvableBoardBuilder implements BuilderType {
 
-	build(layout: Layout, tiles: Tiles): Array<Stone> {
+	build(mapping: Mapping, tiles: Tiles): Array<Stone> {
 		const stones: Array<Stone> = [];
-		layout.mapping.forEach((st: Place) => {
+		mapping.forEach((st: Place) => {
 			stones.push(new Stone(st[0], st[1], st[2], 0, 0));
 		});
 		fillStones(stones, tiles); // grouping will be repaired later
@@ -171,9 +171,9 @@ class SolvableBoardBuilder implements BuilderType {
 
 class LoadBoardBuilder implements BuilderType {
 
-	build(layout: Layout, tiles: Tiles): Array<Stone> {
+	build(mapping: Mapping, tiles: Tiles): Array<Stone> {
 		const stones: Array<Stone> = [];
-		layout.mapping.forEach((st: Array<number>) => {
+		mapping.forEach((st: Array<number>) => {
 			const tile: Tile = tiles.list[st[3]];
 			if (tile) {
 				const stone = new Stone(st[0], st[1], st[2], st[3], tile.groupnr);
@@ -196,17 +196,16 @@ export class Builder {
 	tiles = new Tiles();
 	modes = BuilderModes;
 
-	build(mode: string, layout: Layout): Array<Stone> {
+	build(mode: string, mapping: Mapping): Array<Stone> {
 		let builder: BuilderType;
 		if (mode === 'load') {
 			builder = new LoadBoardBuilder();
 		} else {
-			const buildermode = BuilderModes.filter(m =>
-				m.id === mode)[0];
+			const buildermode = BuilderModes.find(m => m.id === mode);
 			builder = new buildermode.builder();
 		}
 		if (builder) {
-			return builder.build(layout, this.tiles);
+			return builder.build(mapping, this.tiles);
 		}
 	}
 }

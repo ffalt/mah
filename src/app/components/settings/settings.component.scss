@@ -8,6 +8,9 @@
     color: $text-color;
     margin-top: 0;
     margin-bottom: 0.2em;
+		@include respond-to(tiny-down) {
+			font-size: 1.2em;
+		}
 	}
 
   p {
@@ -25,7 +28,7 @@
 			width: 30%;
 			margin-right: 10px;
 
-			@include respond-to(tiny-down) {
+			@include respond-to(small-down) {
 				width: 100%;
 			}
 			> div {

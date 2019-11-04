@@ -1,11 +1,4 @@
-import {Mapping, Place} from './layouts';
-
-export interface ImportLayout {
-	name: string;
-	by?: string;
-	cat: string;
-	mapping: Mapping;
-}
+import {CompactMapping, CompactMappingX, CompactMappingY, ImportLayout, Mapping, Place} from './types';
 
 export function sortMapping(mapping: Mapping): Mapping {
 	return mapping.sort((a: Place, b: Place): number => {
@@ -106,22 +99,6 @@ export function compactMappingDeprecated(mapping: Mapping): Mapping {
 	return result;
 }
 */
-
-// [x, [x, amount (with 2 steps each) ]]
-export interface CompactMappingX extends Array<number | Array<number>> {
-}
-
-// [y, [SuperCompactMappingX]]
-export interface CompactMappingY extends Array<number | CompactMappingX> {
-}
-
-// [z, [SuperCompactMappingY]]
-export interface CompactMappingZ extends Array<number | Array<CompactMappingY>> {
-}
-
-// [SuperCompactMappingZ]
-export interface CompactMapping extends Array<CompactMappingZ> {
-}
 
 export function expandMapping(map: CompactMapping): Mapping {
 	const result: Mapping = [];
@@ -232,4 +209,25 @@ export function expandMappingDeprecated(mapping: Mapping): Mapping {
 		});
 	}
 	return result;
+}
+
+function hashString(s: string): number {
+	let hash = 0;
+	let i: number;
+	let chr: number;
+	if (s.length === 0) {
+		return hash;
+	}
+	for (i = 0; i < s.length; i++) {
+		chr = s.charCodeAt(i);
+		// tslint:disable-next-line:no-bitwise
+		hash = ((hash << 5) - hash) + chr;
+		// tslint:disable-next-line:no-bitwise
+		hash |= 0; // Convert to 32bit integer
+	}
+	return hash + 2147483647;
+}
+
+export function mappingToID(mapping: Mapping): string {
+	return hashString(JSON.stringify(mapping)).toString();
 }

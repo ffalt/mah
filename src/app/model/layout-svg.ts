@@ -1,5 +1,5 @@
 import {getDrawViewPort, mappingToDrawItems} from './draw';
-import {Mapping} from './layouts';
+import {Mapping} from './types';
 
 export function generateStaticLayoutSVG(mapping: Mapping): string {
 	const items = mappingToDrawItems(mapping);

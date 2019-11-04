@@ -1,6 +1,6 @@
 
 export const LANG_EN = {
-	RESTART: 'Restart',
+	RESTART: 'New Game',
 	UNDO: 'Undo',
 	PAUSE: 'Pause',
 	HINT: 'Hint',
@@ -54,7 +54,7 @@ export const LANG_EN = {
 };
 
 export const LANG_DE = {
-	RESTART: 'Neustart',
+	RESTART: 'Neues Spiel',
 	UNDO: 'Zurück',
 	PAUSE: 'Pause',
 	HINT: 'Tip',

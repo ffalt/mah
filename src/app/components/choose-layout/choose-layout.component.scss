@@ -84,6 +84,17 @@
 					padding-bottom: 1.5em;
 				}
 
+				.preview-best-time {
+					position: absolute;
+					top: 0;
+					right: 0;
+					background-color: rgba(24, 24, 24, .8);
+					color: white;
+					border-bottom-left-radius: 3px;
+					padding: 3px;
+					text-shadow: 1px 1px black;
+				}
+
 				.preview-name {
 					position: absolute;
 					width: 100%;

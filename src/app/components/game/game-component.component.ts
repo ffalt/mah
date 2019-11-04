@@ -1,8 +1,8 @@
-import {Component, HostListener, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, HostListener, Input, OnInit} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import {Game} from '../../model/game';
-import {Layout, Layouts} from '../../model/layouts';
 import {Stone} from '../../model/stone';
+import {Layout, Layouts} from '../../model/types';
 import {AppService} from '../../service/app.service';
 
 interface DocEx extends Document {
@@ -27,15 +27,19 @@ interface ElemEx extends HTMLElement {
 	templateUrl: './game-component.component.html',
 	styleUrls: ['./game-component.component.scss']
 })
-export class GameComponent implements OnInit, OnChanges {
-	@Input() game: Game;
+export class GameComponent implements OnInit {
 	@Input() layouts: Layouts;
+	game: Game;
 	tilesInfoVisible: boolean = false;
 	helpVisible: boolean = false;
 	settingsVisible: boolean = false;
 	newGameVisible: boolean = false;
 
 	constructor(private translate: TranslateService, public app: AppService) {
+		this.game = app.game;
+		if (this.game.isIdle()) {
+			this.newGameVisible = true;
+		}
 	}
 
 	@HostListener('document:keydown', ['$event'])
@@ -77,9 +81,6 @@ export class GameComponent implements OnInit, OnChanges {
 			case 84: // t
 				this.game.hint();
 				break;
-			// case 68: // d
-			// this.game.debug = !this.game.debug;
-			// break;
 			case 85: // u
 				this.game.back();
 				break;
@@ -102,14 +103,6 @@ export class GameComponent implements OnInit, OnChanges {
 
 	ngOnInit(): void {
 		this.setLang();
-	}
-
-	ngOnChanges(changes: SimpleChanges): void {
-		if (changes.game) {
-			if (this.game.isIdle()) {
-				this.newGameVisible = true;
-			}
-		}
 	}
 
 	stoneClick(stone: Stone): void {
@@ -168,7 +161,8 @@ export class GameComponent implements OnInit, OnChanges {
 	toggleSettings(): void {
 		this.settingsVisible = !this.settingsVisible;
 		if (!this.settingsVisible) {
-			this.game.settings.save();
+			this.app.settings.save();
+			this.game.sound.enabled = this.app.settings.sounds;
 			this.setLang();
 		}
 	}
@@ -187,16 +181,26 @@ export class GameComponent implements OnInit, OnChanges {
 	}
 
 	setLang(): void {
-		let userLang = 'en';
-		if (!this.game.settings.lang || this.game.settings.lang === 'auto') {
+		let userLang: string;
+		if (!this.app.settings.lang || this.app.settings.lang === 'auto') {
 			userLang = navigator.language.split('-')[0]; // use navigator lang if available
 			userLang = /(de|en)/gi.test(userLang) ? userLang : 'en';
 		} else {
-			userLang = this.game.settings.lang;
+			userLang = this.app.settings.lang;
 		}
 		if (['de', 'en'].indexOf(userLang) >= 0) {
 			this.translate.use(userLang);
 		}
 	}
 
+	toggleSound(): void {
+		this.app.settings.sounds = !this.app.settings.sounds;
+		this.game.sound.enabled = this.app.settings.sounds;
+		this.app.settings.save();
+	}
+
+	cheat(): void {
+		this.game.board.reset();
+		this.game.checkPlayEnd();
+	}
 }
