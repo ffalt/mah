@@ -1,24 +1,24 @@
 import {Board} from './board';
 import {Clock} from './clock';
 import {STATES} from './consts';
-import {Layout} from './layouts';
-// import {Music} from './music';
-import {Settings} from './settings';
 import {Sound, SOUNDS} from './sound';
 import {Stone} from './stone';
+import {GameStateStore, Layout, LayoutBestTime, StorageProvider} from './types';
 
 export class Game {
-	settings = new Settings();
 	clock: Clock = new Clock();
 	board: Board = new Board();
 	sound: Sound = new Sound();
 // music: Music = new Music();
 	state: number = STATES.idle;
 	message: string = undefined;
+	layoutID: string = undefined;
 	undo: Array<Array<number>> = [];
 
+	constructor(private storage: StorageProvider) {
+	}
+
 	init(): void {
-		this.settings.load();
 		this.load();
 		this.board.update();
 		if (this.state === STATES.run) {
@@ -119,11 +119,11 @@ export class Game {
 		this.setState(STATES.idle);
 		this.board.reset();
 		this.undo = [];
-		this.settings.stats.games += 1;
 	}
 
 	start(layout: Layout, mode: string): void {
-		this.board.applyLayout(layout, mode);
+		this.layoutID = layout.id;
+		this.board.applyMapping(layout.mapping, mode);
 		this.board.update();
 		this.run();
 	}
@@ -147,64 +147,76 @@ export class Game {
 	}
 
 	load(): boolean {
-		if (!localStorage) {
-			return false;
-		}
-		const stored = localStorage.getItem('state');
-		if (!stored) {
-			return false;
-		}
 		try {
-			const store = JSON.parse(stored);
-			this.clock.elapsed = store.elapsed || 0;
-			this.undo = store.undo || [];
-			this.state = store.state || STATES.idle;
-			this.board.load(store.stones, this.undo);
-			return true;
+			const store: GameStateStore = this.storage.get<GameStateStore>('state');
+			if (store) {
+				this.clock.elapsed = store.elapsed || 0;
+				this.undo = store.undo || [];
+				this.layoutID = store.layout;
+				this.state = store.state || STATES.idle;
+				this.board.load(store.stones, this.undo);
+				return true;
+			}
 		} catch (e) {
-			console.error('local storage load failed', e);
+			console.error('load state failed', e);
 		}
 	}
 
-	save(): boolean {
-		if (!localStorage) {
-			return false;
-		}
+	save(): void {
 		try {
-			localStorage.setItem('state', JSON.stringify({
+			this.storage.set('state', {
 				elapsed: this.clock.elapsed,
 				state: this.state,
+				layout: this.layoutID,
 				undo: this.undo,
 				stones: this.board.save()
-			}));
+			});
 		} catch (e) {
-			console.error('local storage save failed', e);
+			console.error('storing state failed', e);
 		}
 	}
 
-	toggleSound(): void {
-		this.settings.sounds = !this.settings.sounds;
-		this.settings.save();
+	checkPlayEnd(): void {
+		if (this.board.count < 2) {
+			const id = this.layoutID || 'unknown';
+			const playTime = this.clock.elapsed;
+			const score = this.storage.get<LayoutBestTime>(`highscore:${id}`) || {};
+			score.playCount = (score.playCount || 0) + 1;
+			if (!score.bestTime || score.bestTime > playTime) {
+				score.bestTime = playTime;
+				this.gameOver('MSG_BEST');
+			} else {
+				this.gameOver('MSG_GOOD');
+			}
+			this.storage.set<LayoutBestTime>(`highscore:${id}`, score);
+		} else if (this.board.free.length < 1) {
+			const id = this.layoutID || 'unknown';
+			const score = this.storage.get<LayoutBestTime>(`highscore:${id}`) || {};
+			score.playCount = (score.playCount || 0) + 1;
+			this.storage.set<LayoutBestTime>(`highscore:${id}`, score);
+			this.gameOver('MSG_FAIL');
+		} else {
+			this.playSound(SOUNDS.MATCH);
+			this.delayedSave();
+		}
 	}
 
 	// toggleMusic(): void {
-	// 	this.settings.music = !this.settings.music;
 	// if (!this.settings.music) {
 	// 	this.music.stop();
 	// } else {
 	// 	this.music.play();
 	// }
-	// this.settings.save();
 	// }
 
 	private delayedSave(): void {
-		setTimeout(() => this.save(), 1000);
+		setTimeout(() => {
+			this.save();
+		}, 500);
 	}
 
 	private playSound(sound: string): void {
-		if (this.settings.sounds) {
-			this.sound.play(sound);
-		}
+		this.sound.play(sound);
 	}
 
 	private resolveMatchingStone(stone: Stone): void {
@@ -215,19 +227,7 @@ export class Game {
 		sel.picked = true;
 		stone.picked = true;
 		this.board.update();
-		if (this.board.count < 2) {
-			if (this.settings.stats.bestTime === 0 || this.clock.elapsed < this.settings.stats.bestTime) {
-				this.settings.stats.bestTime = this.clock.elapsed;
-				this.gameOver('MSG_BEST');
-			} else {
-				this.gameOver('MSG_GOOD');
-			}
-		} else if (this.board.free.length < 1) {
-			this.gameOver('MSG_FAIL');
-		} else {
-			this.playSound(SOUNDS.MATCH);
-			this.delayedSave();
-		}
+		this.checkPlayEnd();
 	}
 
 	private gameOver(message: string): void {

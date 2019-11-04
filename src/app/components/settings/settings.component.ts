@@ -1,6 +1,6 @@
-import {Component, Input} from '@angular/core';
+import {Component} from '@angular/core';
 import {Backgrounds, ImageSets} from '../../model/consts';
-import {Game} from '../../model/game';
+import {AppService} from '../../service/app.service';
 
 @Component({
 	selector: 'app-settings',
@@ -8,7 +8,9 @@ import {Game} from '../../model/game';
 	styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent {
-	@Input() game: Game;
 	sets = ImageSets;
 	backs = Backgrounds;
+
+	constructor(public app: AppService) {
+	}
 }

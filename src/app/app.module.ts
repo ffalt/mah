@@ -17,6 +17,7 @@ import {TilesInfoComponent} from './components/tiles-info/tiles-info.component';
 import {DropZoneDirective} from './directives/drop-zone.directive';
 import {DeferLoadModule} from './modules/defer-load';
 import {DurationPipe} from './pipes/duration.pipe';
+import {PrefixPipe} from './pipes/prefix.pipe';
 import {AppService} from './service/app.service';
 import {LayoutService} from './service/layout.service';
 import {SvgdefService} from './service/svgdef.service';
@@ -37,6 +38,7 @@ import {SvgdefService} from './service/svgdef.service';
 		LayoutPreviewComponent,
 		BoardComponent,
 		DurationPipe,
+		PrefixPipe,
 		TilesInfoComponent,
 		TileComponent,
 		ImageSetLoaderComponent,

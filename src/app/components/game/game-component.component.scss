@@ -43,6 +43,9 @@
 
 			.inactive {
 				color: darken($text-color, 10%);
+				&:hover {
+					color: darken($text-color, 5%);
+				}
 			}
 
 			.off {
@@ -195,6 +198,12 @@
 			position: absolute;
 			color: darkgray;
 			cursor: pointer;
+			padding: 4px;
+			border-radius: 6px;
+
+			&:hover {
+				border: 1px solid $popup-border-color;
+			}
 		}
 	}
 

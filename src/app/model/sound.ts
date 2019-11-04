@@ -6,11 +6,15 @@ export const SOUNDS = {
 };
 
 export class Sound {
+	enabled: boolean = true;
 	private audioplayers: {
 		[index: string]: HTMLAudioElement;
 	} = {};
 
 	play(sound: string): void {
+		if (!this.enabled) {
+			return;
+		}
 		if (!this.audioplayers[sound]) {
 			const audio = new Audio();
 			audio.src = `assets/sounds/${sound}.ogg`;

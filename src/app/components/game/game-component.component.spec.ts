@@ -4,7 +4,6 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {FormsModule} from '@angular/forms';
 import {TranslateModule} from '@ngx-translate/core';
 import {MockComponent, MockPipe} from 'ng-mocks';
-import {Game} from '../../model/game';
 import {DurationPipe} from '../../pipes/duration.pipe';
 import {AppService} from '../../service/app.service';
 import {SvgdefService} from '../../service/svgdef.service';
@@ -20,10 +19,9 @@ describe('GameComponent', () => {
 	// noinspection AngularMissingOrInvalidDeclarationInModule
 	@Component({
 		selector: 'app-game-component-host-component',
-		template: '<app-game-component [game]="mockGame" [layouts]="mocklayouts"></app-game-component>'
+		template: '<app-game-component [layouts]="mocklayouts"></app-game-component>'
 	})
 	class TestGameComponentHostComponent {
-		mockGame = new Game();
 		mocklayouts = {items: []};
 	}
 
