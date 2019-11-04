@@ -5,7 +5,6 @@ import {FormsModule} from '@angular/forms';
 import {TranslateModule} from '@ngx-translate/core';
 import {MockComponent, MockPipe} from 'ng-mocks';
 import {Game} from '../../model/game';
-import {Layouts} from '../../model/layouts';
 import {DurationPipe} from '../../pipes/duration.pipe';
 import {AppService} from '../../service/app.service';
 import {SvgdefService} from '../../service/svgdef.service';
@@ -25,7 +24,7 @@ describe('GameComponent', () => {
 	})
 	class TestGameComponentHostComponent {
 		mockGame = new Game();
-		mocklayouts = new Layouts();
+		mocklayouts = {items: []};
 	}
 
 	let component: TestGameComponentHostComponent;

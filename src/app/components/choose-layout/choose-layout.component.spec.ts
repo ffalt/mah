@@ -1,13 +1,12 @@
+import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {Component} from '@angular/core';
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {FormsModule} from '@angular/forms';
 import {TranslateModule} from '@ngx-translate/core';
-import {Layouts} from '../../model/layouts';
+import {MockComponent} from 'ng-mocks';
+import {LayoutService} from '../../service/layout.service';
 import {LayoutPreviewComponent} from '../layout-preview/layout-preview.component';
 import {ChooseLayoutComponent} from './choose-layout.component';
-import {LayoutService} from '../../service/layout.service';
-import {MockComponent} from 'ng-mocks';
-import {HttpClientTestingModule} from '@angular/common/http/testing';
 
 describe('ChooseLayoutComponent', () => {
 
@@ -17,7 +16,7 @@ describe('ChooseLayoutComponent', () => {
 		template: '<app-choose-layout [layouts]="mockLayouts"></app-choose-layout>'
 	})
 	class TestChooseBoardHostComponent {
-		mockLayouts = new Layouts();
+		mockLayouts = {items: []};
 	}
 
 	let component: TestChooseBoardHostComponent;
