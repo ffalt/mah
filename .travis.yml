@@ -1,6 +1,10 @@
 language: node_js
 node_js:
   - "10.9"
+branches:
+  except:
+    - releases
+    - gh-pages
 cache:
   directories:
     - node_modules
