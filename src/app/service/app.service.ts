@@ -12,6 +12,7 @@ export class AppService {
 	constructor(private storage: LocalstorageService) {
 		this.game = new Game(storage);
 		this.settings = new Settings(storage);
+		this.settings.load();
 		this.game.init();
 	}
 
