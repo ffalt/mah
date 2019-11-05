@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="675" height="500">
+    <defs>
+        <image id="image" xlink:href="./recri/recri.png" x="0" y="0" width="7128" height="216"/>
+        <svg id="t_do1" viewBox="0 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="t_do2" viewBox="170 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="t_do3" viewBox="340 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="t_do4" viewBox="510 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="t_do5" viewBox="680 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="t_do6" viewBox="850 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="t_do7" viewBox="1020 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="t_do8" viewBox="1190 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="t_do9" viewBox="1360 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="t_wi_north" viewBox="1530 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="t_wi_west" viewBox="1700 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="t_wi_south" viewBox="1870 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="t_wi_east" viewBox="2040 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="t_dr_red" viewBox="2210 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="t_dr_green" viewBox="2380 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="t_ch1" viewBox="2550 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="t_ch2" viewBox="2720 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="t_ch3" viewBox="2890 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="t_ch4" viewBox="3060 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="t_ch5" viewBox="3230 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="t_ch6" viewBox="3400 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="t_ch7" viewBox="3570 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="t_ch8" viewBox="3740 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="t_ch9" viewBox="3910 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="t_ba1" viewBox="4070 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="t_ba2" viewBox="4240 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="t_ba3" viewBox="4410 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="t_ba4" viewBox="4580 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="t_ba5" viewBox="4750 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="t_ba6" viewBox="4920 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="t_ba7" viewBox="5090 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="t_ba8" viewBox="5260 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="t_ba9" viewBox="5430 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="t_se_spring" viewBox="5600 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="t_se_summer" viewBox="5770 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="t_se_fall" viewBox="5940 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="t_se_winter" viewBox="6110 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="t_dr_white" viewBox="6280 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="t_fl_bamboo" viewBox="6450 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="t_fl_chrysanthemum" viewBox="6620 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="t_fl_orchid" viewBox="6790 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+        <svg id="t_fl_plum" viewBox="6960 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#image"/></svg>
+    </defs>
+    <g id="t_preview">
+        <use x="0" y="0" height="100" width="75" xlink:href="#t_do1"/>
+        <use x="75" y="0" height="100" width="75" xlink:href="#t_do2"/>
+        <use x="150" y="0" height="100" width="75" xlink:href="#t_do3"/>
+        <use x="225" y="0" height="100" width="75" xlink:href="#t_do4"/>
+        <use x="300" y="0" height="100" width="75" xlink:href="#t_do5"/>
+        <use x="375" y="0" height="100" width="75" xlink:href="#t_do6"/>
+        <use x="450" y="0" height="100" width="75" xlink:href="#t_do7"/>
+        <use x="525" y="0" height="100" width="75" xlink:href="#t_do8"/>
+        <use x="600" y="0" height="100" width="75" xlink:href="#t_do9"/>
+        <use x="0" y="100" height="100" width="75" xlink:href="#t_ch1"/>
+        <use x="75" y="100" height="100" width="75" xlink:href="#t_ch2"/>
+        <use x="150" y="100" height="100" width="75" xlink:href="#t_ch3"/>
+        <use x="225" y="100" height="100" width="75" xlink:href="#t_ch4"/>
+        <use x="300" y="100" height="100" width="75" xlink:href="#t_ch5"/>
+        <use x="375" y="100" height="100" width="75" xlink:href="#t_ch6"/>
+        <use x="450" y="100" height="100" width="75" xlink:href="#t_ch7"/>
+        <use x="525" y="100" height="100" width="75" xlink:href="#t_ch8"/>
+        <use x="600" y="100" height="100" width="75" xlink:href="#t_ch9"/>
+        <use x="0" y="200" height="100" width="75" xlink:href="#t_ba1"/>
+        <use x="75" y="200" height="100" width="75" xlink:href="#t_ba2"/>
+        <use x="150" y="200" height="100" width="75" xlink:href="#t_ba3"/>
+        <use x="225" y="200" height="100" width="75" xlink:href="#t_ba4"/>
+        <use x="300" y="200" height="100" width="75" xlink:href="#t_ba5"/>
+        <use x="375" y="200" height="100" width="75" xlink:href="#t_ba6"/>
+        <use x="450" y="200" height="100" width="75" xlink:href="#t_ba7"/>
+        <use x="525" y="200" height="100" width="75" xlink:href="#t_ba8"/>
+        <use x="600" y="200" height="100" width="75" xlink:href="#t_ba9"/>
+        <use x="0" y="300" height="100" width="75" xlink:href="#t_wi_north"/>
+        <use x="75" y="300" height="100" width="75" xlink:href="#t_wi_west"/>
+        <use x="150" y="300" height="100" width="75" xlink:href="#t_wi_south"/>
+        <use x="225" y="300" height="100" width="75" xlink:href="#t_wi_east"/>
+        <use x="375" y="300" height="100" width="75" xlink:href="#t_fl_plum"/>
+        <use x="450" y="300" height="100" width="75" xlink:href="#t_fl_orchid"/>
+        <use x="525" y="300" height="100" width="75" xlink:href="#t_fl_chrysanthemum"/>
+        <use x="600" y="300" height="100" width="75" xlink:href="#t_fl_bamboo"/>
+        <use x="0" y="400" height="100" width="75" xlink:href="#t_se_spring"/>
+        <use x="75" y="400" height="100" width="75" xlink:href="#t_se_summer"/>
+        <use x="150" y="400" height="100" width="75" xlink:href="#t_se_fall"/>
+        <use x="225" y="400" height="100" width="75" xlink:href="#t_se_winter"/>
+        <use x="450" y="400" height="100" width="75" xlink:href="#t_dr_red"/>
+        <use x="525" y="400" height="100" width="75" xlink:href="#t_dr_green"/>
+        <use x="600" y="400" height="100" width="75" xlink:href="#t_dr_white"/>
+    </g>
+</svg>
