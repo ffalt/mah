@@ -1,6 +1,6 @@
 import {inject, TestBed} from '@angular/core/testing';
+import {TranslateModule} from '@ngx-translate/core';
 import {AppService} from './app.service';
-import {TranslateModule, TranslateService} from '@ngx-translate/core';
 
 describe('AppService', () => {
 	beforeEach(() => {
