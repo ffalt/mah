@@ -29,10 +29,10 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss",
               "src/fonts/fontello/css/fontello.css",
               "src/fonts/fontello/css/animation.css",
-              "src/fonts/josefine/css/josefine.css"
+              "src/fonts/josefine/css/josefine.css",
+              "src/styles.scss"
             ],
             "scripts": [],
             "es5BrowserSupport": true
