@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
 import {Meta} from '@angular/platform-browser';
 import {TranslateService} from '@ngx-translate/core';
-import {LANG_DE, LANG_EN} from './model/i18n';
 import {Layouts} from './model/types';
 import {AppService} from './service/app.service';
 import {LayoutService} from './service/layout.service';
@@ -18,7 +17,6 @@ export class AppComponent {
 
 	constructor(private layoutService: LayoutService, private storage: LocalstorageService, private translate: TranslateService, private meta: Meta, public app: AppService) {
 		this.updateName();
-		this.setupTranslations();
 		this.loadLayouts();
 		this.registerWindowListeners();
 	}
@@ -56,9 +54,4 @@ export class AppComponent {
 		this.app.name = tag ? tag.content : this.app.name;
 	}
 
-	private setupTranslations(): void {
-		this.translate.setTranslation('en', LANG_EN);
-		this.translate.setTranslation('de', LANG_DE);
-		this.translate.setDefaultLang('en');
-	}
 }
