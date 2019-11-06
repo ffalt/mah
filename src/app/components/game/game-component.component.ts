@@ -199,8 +199,4 @@ export class GameComponent implements OnInit {
 		this.app.settings.save();
 	}
 
-	debugCheat(): void {
-		this.game.board.reset();
-		this.game.checkPlayEnd();
-	}
 }

@@ -176,29 +176,26 @@ export class Game {
 		}
 	}
 
-	checkPlayEnd(): void {
-		if (this.board.count < 2) {
-			const id = this.layoutID || 'unknown';
-			const playTime = this.clock.elapsed;
-			const score = this.storage.getScore(id) || {};
-			score.playCount = (score.playCount || 0) + 1;
-			if (!score.bestTime || score.bestTime > playTime) {
-				score.bestTime = playTime;
-				this.gameOver('MSG_BEST', playTime);
-			} else {
-				this.gameOver('MSG_GOOD', playTime);
-			}
-			this.storage.storeScore(id, score);
-		} else if (this.board.free.length < 1) {
-			const id = this.layoutID || 'unknown';
-			const score = this.storage.getScore(id) || {};
-			score.playCount = (score.playCount || 0) + 1;
-			this.storage.storeScore(id, score);
-			this.gameOver('MSG_FAIL');
+	private gameOverLoosing(): void {
+		const id = this.layoutID || 'unknown';
+		const score = this.storage.getScore(id) || {};
+		score.playCount = (score.playCount || 0) + 1;
+		this.storage.storeScore(id, score);
+		this.gameOver('MSG_FAIL');
+	}
+
+	private gameOverWining(): void {
+		const id = this.layoutID || 'unknown';
+		const playTime = this.clock.elapsed;
+		const score = this.storage.getScore(id) || {};
+		score.playCount = (score.playCount || 0) + 1;
+		if (!score.bestTime || score.bestTime > playTime) {
+			score.bestTime = playTime;
+			this.gameOver('MSG_BEST', playTime);
 		} else {
-			this.sound.play(SOUNDS.MATCH);
-			this.delayedSave();
+			this.gameOver('MSG_GOOD', playTime);
 		}
+		this.storage.storeScore(id, score);
 	}
 
 	// toggleMusic(): void {
@@ -223,7 +220,14 @@ export class Game {
 		sel.picked = true;
 		stone.picked = true;
 		this.board.update();
-		this.checkPlayEnd();
+		if (this.board.count < 2) {
+			this.gameOverWining();
+		} else if (this.board.free.length < 1) {
+			this.gameOverLoosing();
+		} else {
+			this.sound.play(SOUNDS.MATCH);
+			this.delayedSave();
+		}
 	}
 
 	private gameOver(message: string, playTime?: number): void {
