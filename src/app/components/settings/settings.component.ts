@@ -13,4 +13,5 @@ export class SettingsComponent {
 
 	constructor(public app: AppService) {
 	}
+
 }

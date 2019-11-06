@@ -1,5 +1,4 @@
-import {Component, HostListener, Input, OnInit} from '@angular/core';
-import {TranslateService} from '@ngx-translate/core';
+import {Component, HostListener, Input} from '@angular/core';
 import {Game} from '../../model/game';
 import {Stone} from '../../model/stone';
 import {Layout, Layouts} from '../../model/types';
@@ -27,7 +26,7 @@ interface ElemEx extends HTMLElement {
 	templateUrl: './game-component.component.html',
 	styleUrls: ['./game-component.component.scss']
 })
-export class GameComponent implements OnInit {
+export class GameComponent {
 	@Input() layouts: Layouts;
 	game: Game;
 	tilesInfoVisible: boolean = false;
@@ -35,7 +34,7 @@ export class GameComponent implements OnInit {
 	settingsVisible: boolean = false;
 	newGameVisible: boolean = false;
 
-	constructor(private translate: TranslateService, public app: AppService) {
+	constructor(public app: AppService) {
 		this.game = app.game;
 		if (this.game.isIdle()) {
 			this.newGameVisible = true;
@@ -101,10 +100,6 @@ export class GameComponent implements OnInit {
 		}
 	}
 
-	ngOnInit(): void {
-		this.setLang();
-	}
-
 	stoneClick(stone: Stone): void {
 		this.game.click(stone);
 	}
@@ -162,8 +157,6 @@ export class GameComponent implements OnInit {
 		this.settingsVisible = !this.settingsVisible;
 		if (!this.settingsVisible) {
 			this.app.settings.save();
-			this.game.sound.enabled = this.app.settings.sounds;
-			this.setLang();
 		}
 	}
 
@@ -178,25 +171,6 @@ export class GameComponent implements OnInit {
 			this.game.reset();
 			this.newGameVisible = true;
 		}
-	}
-
-	setLang(): void {
-		let userLang: string;
-		if (!this.app.settings.lang || this.app.settings.lang === 'auto') {
-			userLang = navigator.language.split('-')[0]; // use navigator lang if available
-			userLang = /(de|en)/gi.test(userLang) ? userLang : 'en';
-		} else {
-			userLang = this.app.settings.lang;
-		}
-		if (['de', 'en'].indexOf(userLang) >= 0) {
-			this.translate.use(userLang);
-		}
-	}
-
-	toggleSound(): void {
-		this.app.settings.sounds = !this.app.settings.sounds;
-		this.game.sound.enabled = this.app.settings.sounds;
-		this.app.settings.save();
 	}
 
 }

@@ -5,9 +5,9 @@
 		<div class="buttons">
 			<form>
 				<ul class="radio">
-					<li><input type="radio" name="lang" id="lang0" value="auto" [(ngModel)]="app.settings.lang"/><label for="lang0">{{'LANG_AUTO'|translate}}</label></li>
-					<li><input type="radio" name="lang" id="lang1" value="en" [(ngModel)]="app.settings.lang"/><label for="lang1">{{'LANG_EN'|translate}}</label></li>
-					<li><input type="radio" name="lang" id="lang2" value="de" [(ngModel)]="app.settings.lang"/><label for="lang2">{{'LANG_DE'|translate}}</label></li>
+					<li><input type="radio" name="lang" id="lang0" value="auto" [(ngModel)]="app.settings.lang" (ngModelChange)="app.setLang()" /><label for="lang0">{{'LANG_AUTO'|translate}}</label></li>
+					<li><input type="radio" name="lang" id="lang1" value="en" [(ngModel)]="app.settings.lang" (ngModelChange)="app.setLang()" /><label for="lang1">{{'LANG_EN'|translate}}</label></li>
+					<li><input type="radio" name="lang" id="lang2" value="de" [(ngModel)]="app.settings.lang" (ngModelChange)="app.setLang()" /><label for="lang2">{{'LANG_DE'|translate}}</label></li>
 				</ul>
 			</form>
 		</div>

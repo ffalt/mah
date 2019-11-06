@@ -25,15 +25,15 @@ export class LocalstorageService implements StorageProvider {
 	}
 
 	storeScore(id: string, store?: LayoutScoreStore): void {
-		return this.set<LayoutScoreStore>(`score.${id}`, store);
+		this.set<LayoutScoreStore>(`score.${id}`, store);
 	}
 
 	storeSettings(store?: SettingsStore): void {
-		return this.set<SettingsStore>('settings', store);
+		this.set<SettingsStore>('settings', store);
 	}
 
 	storeState(store?: GameStateStore): void {
-		return this.set<GameStateStore>('state', store);
+		this.set<GameStateStore>('state', store);
 	}
 
 	private get<T>(key: string): T | undefined {

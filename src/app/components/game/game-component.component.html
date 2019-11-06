@@ -26,7 +26,7 @@
 		<span class="link button" (click)="toggleSettings()" title="{{'OPEN_SETTINGS' | translate}}">
 			<i class="icon-cog"></i>
 		</span>
-		<span class="link button" [class.inactive]="!app.settings.sounds" (click)="toggleSound()" title="{{'AUDIO_SOUNDS'|translate}}">
+		<span class="link button" [class.inactive]="!app.settings.sounds" (click)="app.toggleSound()" title="{{'AUDIO_SOUNDS'|translate}}">
 			<i class="icon-volume-low"></i>
 		</span>
 		<span class="link button" (click)="toggleTilesInfo()" title="{{'TILES_INFO' | translate}}">
