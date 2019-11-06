@@ -1,11 +1,12 @@
 import {inject, TestBed} from '@angular/core/testing';
 import {AppService} from './app.service';
+import {TranslateModule, TranslateService} from '@ngx-translate/core';
 
 describe('AppService', () => {
 	beforeEach(() => {
 		TestBed.configureTestingModule({
 			providers: [AppService],
-			imports: []
+			imports: [TranslateModule.forRoot()]
 		});
 	});
 
