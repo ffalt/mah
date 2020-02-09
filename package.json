@@ -45,7 +45,7 @@
     "@angular/cli": "8.3.17",
     "@angular/compiler-cli": "8.2.13",
     "@angular/language-service": "8.2.13",
-    "@types/jest": "24.0.21",
+    "@types/jest": "24.9.1",
     "@types/node": "12.12.5",
     "codelyzer": "5.2.0",
     "deplokay": "0.0.11",
