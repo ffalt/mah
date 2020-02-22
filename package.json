@@ -53,7 +53,7 @@
     "jest-preset-angular": "8.0.0",
     "ng-mocks": "8.1.0",
     "rxjs-tslint": "0.1.7",
-    "rxjs-tslint-rules": "4.26.1",
+    "rxjs-tslint-rules": "4.29.0",
     "tslint": "5.20.0",
     "tslint-etc": "1.9.2",
     "typescript": "3.5.3"
