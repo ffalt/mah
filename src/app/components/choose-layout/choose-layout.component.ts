@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, Input, OnChanges, Output, QueryList, SimpleChanges, ViewChildren} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
 import {Builder} from '../../model/builder';
 import {Layout, Layouts} from '../../model/types';
 import {LayoutService} from '../../service/layout.service';
@@ -9,6 +9,7 @@ export interface LayoutItem {
 	visible: boolean;
 	playCount?: number;
 	bestTime?: number;
+	selected?: boolean;
 }
 
 export interface LayoutGroup {
@@ -28,7 +29,6 @@ export class ChooseLayoutComponent implements OnChanges {
 	groups: Array<LayoutGroup> = [];
 	mode: string = 'MODE_SOLVABLE';
 	builder: Builder = new Builder();
-	@ViewChildren('item') items: QueryList<ElementRef>;
 
 	constructor(private layoutService: LayoutService, private storage: LocalstorageService) {
 	}
@@ -38,7 +38,7 @@ export class ChooseLayoutComponent implements OnChanges {
 			this.buildGroups();
 		}
 		setTimeout(() => {
-			this.scrollToLast();
+			this.selectLastPlayed();
 		});
 	}
 
@@ -49,9 +49,14 @@ export class ChooseLayoutComponent implements OnChanges {
 		}
 	}
 
-	scrollToLast(): void {
+	selectLastPlayed(): void {
 		const id = this.storage.getLastPlayed();
 		if (id) {
+			this.groups.forEach(g => {
+				g.layouts.forEach(layout => {
+					layout.selected = layout.layout.id === id;
+				});
+			});
 			this.scrollToItem(id);
 		}
 	}
