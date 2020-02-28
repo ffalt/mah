@@ -11,7 +11,7 @@ import {DeferLoadService} from './defer-load.service';
 	providers: [DeferLoadService]
 })
 export class DeferLoadModule {
-	static forRoot(): ModuleWithProviders {
+	static forRoot(): ModuleWithProviders<DeferLoadModule> {
 		return {
 			ngModule: DeferLoadModule
 		};
