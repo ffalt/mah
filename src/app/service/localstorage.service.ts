@@ -24,6 +24,32 @@ export class LocalstorageService implements StorageProvider {
 		return this.get<GameStateStore>('state');
 	}
 
+	getLastPlayed(): string | undefined {
+		if (!localStorage) {
+			return;
+		}
+		try {
+			return localStorage.getItem('last');
+		} catch (e) {
+			console.error(e);
+		}
+	}
+
+	storeLastPlayed(id: string): void {
+		if (!localStorage) {
+			return;
+		}
+		try {
+			if (!id) {
+				localStorage.removeItem('last');
+			} else {
+				localStorage.setItem('last', id);
+			}
+		} catch (e) {
+			console.error(e);
+		}
+	}
+
 	storeScore(id: string, store?: LayoutScoreStore): void {
 		this.set<LayoutScoreStore>(`score.${id}`, store);
 	}

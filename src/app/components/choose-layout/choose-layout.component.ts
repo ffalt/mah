@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnChanges, Output, QueryList, SimpleChanges, ViewChildren} from '@angular/core';
 import {Builder} from '../../model/builder';
 import {Layout, Layouts} from '../../model/types';
 import {LayoutService} from '../../service/layout.service';
@@ -28,6 +28,7 @@ export class ChooseLayoutComponent implements OnChanges {
 	groups: Array<LayoutGroup> = [];
 	mode: string = 'MODE_SOLVABLE';
 	builder: Builder = new Builder();
+	@ViewChildren('item') items: QueryList<ElementRef>;
 
 	constructor(private layoutService: LayoutService, private storage: LocalstorageService) {
 	}
@@ -36,11 +37,22 @@ export class ChooseLayoutComponent implements OnChanges {
 		if (this.layouts) {
 			this.buildGroups();
 		}
+		setTimeout(() => {
+			this.scrollToLast();
+		});
 	}
 
 	onStart(layout: Layout): void {
 		if (layout) {
 			this.startEvent.emit({layout, mode: this.mode});
+			this.storage.storeLastPlayed(layout.id);
+		}
+	}
+
+	scrollToLast(): void {
+		const id = this.storage.getLastPlayed();
+		if (id) {
+			this.scrollToItem(id);
 		}
 	}
 
@@ -60,7 +72,7 @@ export class ChooseLayoutComponent implements OnChanges {
 
 	randomGame(): void {
 		const index = Math.floor(Math.random() * this.layouts.items.length);
-		this.startEvent.emit({layout: this.layouts.items[index], mode: this.mode});
+		this.onStart(this.layouts.items[index]);
 	}
 
 	onDrop(files: Array<File>): void {
@@ -76,6 +88,11 @@ export class ChooseLayoutComponent implements OnChanges {
 
 	scrollToGroup(index: number): void {
 		const elements = document.getElementById(`group-${index}`);
+		elements.scrollIntoView();
+	}
+
+	scrollToItem(id: string): void {
+		const elements = document.getElementById(`item-${id}`);
 		elements.scrollIntoView();
 	}
 }

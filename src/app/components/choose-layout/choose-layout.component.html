@@ -9,14 +9,14 @@
 		<div class="group-name" *ngIf="groups.length>1">{{group.name}} ({{group.layouts.length}})</div>
 		<div class="previews">
 			<ng-container *ngIf="group.visible">
-				<div class="preview" *ngFor="let item of group.layouts" (click)="onStart(item.layout)" (appDeferLoad)="item.visible=true">
+				<div class="preview" [id]="'item-'+item.layout.id" *ngFor="let item of group.layouts" (click)="onStart(item.layout)" (appDeferLoad)="item.visible=true">
 					<app-layout-preview *ngIf="item.visible" class="svg-board" [layout]="item.layout"></app-layout-preview>
 					<div class="preview-best-time" *ngIf="item.bestTime">{{'STATS_BEST' | translate}}: {{item.bestTime|duration}}</div>
 					<div class="preview-name">{{item.layout.name}}</div>
 				</div>
 			</ng-container>
 			<ng-container *ngIf="!group.visible">
-				<div class="preview" *ngFor="let item of group.layouts">
+				<div class="preview" [id]="'item-'+item.layout.id" *ngFor="let item of group.layouts">
 					<div class="preview-name">{{item.layout.name}}</div>
 				</div>
 			</ng-container>
