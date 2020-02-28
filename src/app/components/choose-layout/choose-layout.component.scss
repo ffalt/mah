@@ -76,6 +76,10 @@
 				position: relative;
 				overflow: hidden;
 
+				&.selected {
+					border: 1px solid #000000;
+				}
+
 				app-layout-preview {
 					display: block;
 					width: 200px;
