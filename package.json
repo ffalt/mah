@@ -16,7 +16,8 @@
     "build:deploy-ghpages": "npm run build:prebuild && ng build --prod --aot --base-href \"https://ffalt.github.io/mah/\"",
     "deploy": "deplokay -c deplokay-ghpages.json",
     "release": "deplokay -c deplokay-release.json",
-    "test": "jest",
+		"update:angular": "ng update @angular/cli @angular/core",
+		"test": "jest",
     "coverage": "jest --coverage true",
     "lint": "ng lint",
     "lint:fix": "ng lint --fix"
