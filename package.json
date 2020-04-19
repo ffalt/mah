@@ -50,7 +50,7 @@
     "@types/node": "13.11.1",
     "codelyzer": "5.2.2",
     "deplokay": "0.0.12",
-    "jest": "25.3.0",
+    "jest": "25.4.0",
     "jest-preset-angular": "8.1.3",
     "ng-mocks": "9.2.0",
     "rxjs-tslint": "0.1.8",
