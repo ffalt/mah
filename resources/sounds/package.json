@@ -3,10 +3,14 @@
   "version": "1.0.0",
   "description": "Builds Sound Assets",
   "scripts": {
-    "build": "node build.js"
+    "build": "node build.js",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "devDependencies": {},
   "dependencies": {
-    "fluent-ffmpeg": "2.1.2"
-  }
+    "fluent-ffmpeg": "2.1.2",
+    "snyk": "^1.316.1"
+  },
+  "snyk": true
 }
