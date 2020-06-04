@@ -58,6 +58,6 @@
     "rxjs-tslint-rules": "4.31.0",
     "tslint": "6.1.1",
     "tslint-etc": "1.10.1",
-    "typescript": "3.7.5"
+    "typescript": "3.9.5"
   }
 }
