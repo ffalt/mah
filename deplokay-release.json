@@ -4,7 +4,7 @@
 	"source": {
 		"remote": {
 			"repository": ".",
-			"branch": "master",
+			"branch": "main",
 			"checkout_path": "./local/.release-clone"
 		}
 	},
