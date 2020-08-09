@@ -53,7 +53,7 @@
     "is-promise": "4.0.0",
     "jest": "26.1.0",
     "jest-preset-angular": "8.2.1",
-    "ng-mocks": "10.0.2",
+    "ng-mocks": "10.1.2",
     "rxjs-tslint": "0.1.8",
     "rxjs-tslint-rules": "4.34.0",
     "tslint": "6.1.2",
