@@ -51,7 +51,7 @@
     "codelyzer": "6.0.0",
     "deplokay": "0.0.12",
     "is-promise": "4.0.0",
-    "jest": "26.1.0",
+    "jest": "26.4.2",
     "jest-preset-angular": "8.2.1",
     "ng-mocks": "10.0.2",
     "rxjs-tslint": "0.1.8",
