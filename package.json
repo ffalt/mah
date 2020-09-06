@@ -35,7 +35,7 @@
     "@ngx-translate/core": "13.0.0",
     "classlist.js": "1.1.20150312",
     "core-js": "3.6.5",
-    "rxjs": "6.6.2",
+    "rxjs": "6.6.3",
     "tslib": "2.0.1",
     "tsutils": "3.17.1",
     "zone.js": "0.10.3"
