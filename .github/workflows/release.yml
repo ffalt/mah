@@ -16,17 +16,14 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: DamianReeves/write-file-action@v1
-        with:
-          path: ./custom-build-config.json
-          contents: |
-            {"name": "Mah"}
-          write-mode: overwrite
-
       - name: Install Node.js
         uses: actions/setup-node@v1
         with:
           node-version: 14.x
+
+      - name: Write App Name
+        run: |
+          echo "{\"name\": \"Mah\"}" > custom-build-config.json
 
       - name: Install Dependencies
         run: |
