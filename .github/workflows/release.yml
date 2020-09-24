@@ -16,7 +16,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: DamianReeves/write-file-action
+      - uses: DamianReeves/write-file-action@v1
         with:
           path: ./custom-build-config.json
           contents: |
