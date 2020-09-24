@@ -16,6 +16,13 @@ jobs:
         with:
           fetch-depth: 0
 
+      - uses: DamianReeves/write-file-action
+        with:
+          path: ./custom-build-config.json
+          contents: |
+            {"name": "Mah"}
+          write-mode: overwrite
+
       - name: Install Node.js
         uses: actions/setup-node@v1
         with:
