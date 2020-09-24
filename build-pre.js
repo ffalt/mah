@@ -13,6 +13,5 @@ fs.writeFile(versionFilePath, src, {flag: "w"}, (err) => {
   if (err) {
     return console.log(err);
   }
-  console.log(`Updating application version ${appVersion}`);
-  console.log(`Writing version module to ${versionFilePath}\n`);
+	console.log(`Writing ${appVersion} version module to ${versionFilePath}\n`);
 });
