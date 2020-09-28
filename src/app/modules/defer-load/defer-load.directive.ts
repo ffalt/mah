@@ -1,6 +1,6 @@
 import {AfterViewInit, Directive, ElementRef, EventEmitter, Input, OnDestroy, Output} from '@angular/core';
 import {Subscription} from 'rxjs';
-import {DeferLoadService} from './defer-load.service';
+import {DeferLoadService, ScrollNotifyEvent} from './defer-load.service';
 import {Rect} from './rect';
 
 @Directive({
@@ -82,7 +82,7 @@ export class DeferLoadDirective implements AfterViewInit, OnDestroy {
 		if (this.intersectionObserver && this._element.nativeElement) {
 			this.intersectionObserver.observe(this._element.nativeElement as Element);
 			this.onbserveSubscription = this.deferLoadService.observeNotify
-				.subscribe(entries => {
+				.subscribe((entries: Array<IntersectionObserverEntry>) => {
 					this.checkForIntersection(entries);
 				});
 		}
@@ -118,7 +118,7 @@ export class DeferLoadDirective implements AfterViewInit, OnDestroy {
 
 	private addScrollListeners(): void {
 		this.scrollSubscription = this.deferLoadService.scrollNotify
-			.subscribe(event => {
+			.subscribe((event: ScrollNotifyEvent) => {
 				if (this.checkInView(event.rect)) {
 					this.loadFromScroll();
 				}

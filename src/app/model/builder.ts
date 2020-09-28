@@ -28,7 +28,7 @@ function collectNodes(stones: Array<Stone>, stone: Stone): {
 		right: Array<Stone>;
 		bottom: Array<Stone>;
 	} = {left: [], right: [], top: [], bottom: []};
-	let s: Stone;
+	let s: Stone | undefined;
 	for (let y = stone.y - 1; y <= stone.y + 1; y++) {
 		s = safeGetStone(stones, stone.z, stone.x - 2, y);
 		if (s) {
@@ -196,16 +196,19 @@ export class Builder {
 	tiles = new Tiles();
 	modes = BuilderModes;
 
-	build(mode: string, mapping: Mapping): Array<Stone> {
-		let builder: BuilderType;
+	build(mode: string, mapping: Mapping): Array<Stone> | undefined {
+		let builder: BuilderType | undefined;
 		if (mode === 'load') {
 			builder = new LoadBoardBuilder();
 		} else {
 			const buildermode = BuilderModes.find(m => m.id === mode);
-			builder = new buildermode.builder();
+			if (buildermode) {
+				builder = new buildermode.builder();
+			}
 		}
 		if (builder) {
 			return builder.build(mapping, this.tiles);
 		}
+		return;
 	}
 }

@@ -39,21 +39,26 @@ export class DropZoneDirective {
 
 		const {dataTransfer} = event;
 
-		if (dataTransfer.items) {
-			const files = [];
+		if (dataTransfer?.items) {
+			const files: Array<File> = [];
 			// tslint:disable-next-line:prefer-for-of
 			for (let i = 0; i < dataTransfer.items.length; i++) {
 				// If dropped items aren't files, reject them
-				if (dataTransfer.items[i].kind === 'file') {
-					files.push(dataTransfer.items[i].getAsFile());
+				if (dataTransfer.items[i] && dataTransfer.items[i].kind === 'file') {
+					const file = dataTransfer.items[i].getAsFile();
+					if (file !== null) {
+						files.push(file);
+					}
 				}
 			}
 			dataTransfer.items.clear();
 			this.fileDrop.emit(files);
-		} else {
-			const files = dataTransfer.files;
+		} else if (dataTransfer) {
+			const files = dataTransfer?.files;
 			dataTransfer.clearData();
-			this.fileDrop.emit(Array.from(files));
+			if (files) {
+				this.fileDrop.emit(Array.from(files));
+			}
 		}
 	}
 

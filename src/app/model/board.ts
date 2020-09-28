@@ -9,7 +9,7 @@ interface StoneGroup {
 
 interface Hints {
 	groups: Array<StoneGroup>;
-	current: StoneGroup;
+	current?: StoneGroup;
 }
 
 export class Board {
@@ -18,7 +18,7 @@ export class Board {
 	stones: Array<Stone> = [];
 	count = 0;
 	hints: Hints = {groups: [], current: undefined};
-	selected: Stone = undefined;
+	selected?: Stone = undefined;
 
 	clearSelection(): void {
 		if (this.selected) {
@@ -27,7 +27,7 @@ export class Board {
 		this.selected = undefined;
 	}
 
-	setStoneSelected(stone: Stone): void {
+	setStoneSelected(stone?: Stone): void {
 		this.clearSelection();
 		if (stone) {
 			stone.selected = true;
@@ -68,11 +68,9 @@ export class Board {
 				return 0;
 			});
 		}
-		this.hints = {
-			groups,
-			current: groups[0]
-		};
-		this.hints.current.stones.forEach((stone: Stone) => {
+		const current = groups[0];
+		this.hints = {groups, current};
+		current.stones.forEach((stone: Stone) => {
 			stone.hinted = true;
 		});
 	}
@@ -114,8 +112,11 @@ export class Board {
 			return;
 		}
 		const stones = this.builder.build('load', mapping);
+		if (!stones) {
+			return;
+		}
 		undos.forEach((undo: Array<number>) => {
-			const stone: Stone = safeGetStone(stones, undo[0], undo[1], undo[2]);
+			const stone: Stone | undefined = safeGetStone(stones, undo[0], undo[1], undo[2]);
 			if (stone) {
 				stone.picked = true;
 			}
@@ -129,7 +130,7 @@ export class Board {
 	}
 
 	applyMapping(mapping: Mapping, mode: string): void {
-		this.stones = this.builder.build(mode, mapping);
+		this.stones = this.builder.build(mode, mapping) || [];
 	}
 
 	private hintNext(): boolean {

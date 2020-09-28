@@ -2,7 +2,7 @@ export class Clock {
 	elapsed = 0;
 	private _lastTime = 0;
 	private _started = 0;
-	private _timer: number = undefined;
+	private _timer?: number = undefined;
 
 	start(): void {
 		if (!this._timer) {
