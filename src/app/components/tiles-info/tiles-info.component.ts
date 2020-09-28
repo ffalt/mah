@@ -8,5 +8,5 @@ import {TILES_INFO} from '../../model/consts';
 })
 export class TilesInfoComponent {
 	info = TILES_INFO;
-	@Input() imageSet;
+	@Input() imageSet: any;
 }

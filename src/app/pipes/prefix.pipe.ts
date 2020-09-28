@@ -4,7 +4,7 @@ import {Pipe, PipeTransform} from '@angular/core';
 	name: 'prefix'
 })
 export class PrefixPipe implements PipeTransform {
-	transform(value: string, prefix: string): string {
+	transform(value: string | undefined, prefix: string): string {
 		return `${prefix}${value}`;
 	}
 }

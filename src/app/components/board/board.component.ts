@@ -22,7 +22,7 @@ export class BoardComponent implements OnInit, OnChanges {
 	urlPrefix: string;
 
 	ngOnInit(): void {
-		this.onResize({target: window});
+		this.resize(window);
 	}
 
 	trackByDrawStone(index: number, draw: Draw): string {
@@ -47,13 +47,19 @@ export class BoardComponent implements OnInit, OnChanges {
 		event.stopPropagation();
 	}
 
-	onResize(event: { target: { innerHeight: number, innerWidth: number } }): void {
-		const element = event.target;
+	resize(element: { innerHeight: number, innerWidth: number }): void {
 		const r = element.innerHeight > element.innerWidth;
 		if (r !== this.rotate) {
 			this.rotate = r;
 			this.translate = this.rotate ? 'rotate(90)' : '';
 			this.setViewPort();
+		}
+	}
+
+	onResize(event: UIEvent): void {
+		const element = event.target as Window;
+		if (element) {
+			this.resize(element);
 		}
 	}
 
@@ -74,7 +80,7 @@ export class BoardComponent implements OnInit, OnChanges {
 					y: stone.y,
 					v: stone.v,
 					visible: true,
-					url: stone.img.id,
+					url: stone.img?.id,
 					pos: calcDrawPos(stone.z, stone.x, stone.y),
 					source: stone
 				}));

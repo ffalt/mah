@@ -12,7 +12,7 @@ export class Game {
 // music: Music = new Music();
 	state: number = STATES.idle;
 	message?: { msgID?: string, playTime?: number };
-	layoutID: string = undefined;
+	layoutID?: string = undefined;
 	undo: Array<Array<number>> = [];
 
 	constructor(private storage: StorageProvider) {
@@ -136,6 +136,9 @@ export class Game {
 		this.board.clearHints();
 		const n1 = this.undo.pop();
 		const n2 = this.undo.pop();
+		if (!n1 || !n2) {
+			return;
+		}
 		this.board.stones.forEach(stone => {
 			if ((stone.z === n1[0]) && (stone.x === n1[1]) && (stone.y === n1[2])) {
 				stone.picked = false;
@@ -148,8 +151,8 @@ export class Game {
 
 	load(): boolean {
 		try {
-			const store: GameStateStore = this.storage.getState();
-			if (store) {
+			const store: GameStateStore | undefined = this.storage.getState();
+			if (store && store.stones) {
 				this.clock.elapsed = store.elapsed || 0;
 				this.undo = store.undo || [];
 				this.layoutID = store.layout;
@@ -160,6 +163,7 @@ export class Game {
 		} catch (e) {
 			console.error('load state failed', e);
 		}
+		return false;
 	}
 
 	save(): void {
@@ -167,7 +171,7 @@ export class Game {
 			this.storage.storeState({
 				elapsed: this.clock.elapsed,
 				state: this.state,
-				layout: this.layoutID,
+				layout: this.layoutID || '',
 				undo: this.undo,
 				stones: this.board.save()
 			});
@@ -214,6 +218,9 @@ export class Game {
 
 	private resolveMatchingStone(stone: Stone): void {
 		const sel = this.board.selected;
+		if (!sel) {
+			return;
+		}
 		this.board.clearSelection();
 		this.undo.push([sel.z, sel.x, sel.y], [stone.z, stone.x, stone.y]);
 		this.board.clearHints();

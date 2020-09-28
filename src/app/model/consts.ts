@@ -11,7 +11,7 @@ export const STATES = {
 	freeze: 3
 };
 
-export const Backgrounds: Array<{ img: string, name: string, small?: boolean }> = [
+export const Backgrounds: Array<{ img?: string, name: string, small?: boolean }> = [
 	{img: undefined, name: 'None'},
 	{img: 'bamboo.jpg', name: 'Bamboo'},
 	{img: 'blueclouds.jpg', name: 'Blue Clouds'},

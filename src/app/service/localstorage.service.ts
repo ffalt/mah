@@ -29,10 +29,12 @@ export class LocalstorageService implements StorageProvider {
 			return;
 		}
 		try {
-			return localStorage.getItem('last');
+			const result = localStorage.getItem('last');
+			return result || undefined;
 		} catch (e) {
 			console.error(e);
 		}
+		return;
 	}
 
 	storeLastPlayed(id: string): void {
@@ -71,13 +73,17 @@ export class LocalstorageService implements StorageProvider {
 			return;
 		}
 		try {
-			return JSON.parse(localStorage.getItem(`${this.prefix}${key}`));
+			const s = localStorage.getItem(`${this.prefix}${key}`);
+			if (!s) {
+				return;
+			}
+			return JSON.parse(s);
 		} catch (e) {
-			return undefined;
+			return;
 		}
 	}
 
-	private set<T>(key: string, data: T): void {
+	private set<T>(key: string, data?: T): void {
 		if (!localStorage) {
 			return;
 		}

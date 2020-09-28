@@ -55,7 +55,7 @@
 </div>
 <div *ngIf="game.message" class="overlay overlay-message" (click)="clickMessage();">
 	<div class="overlay-popup">
-		<div>{{game.message.msgID | translate}}</div>
+		<div *ngIf="game.message.msgID">{{game.message.msgID | translate}}</div>
 		<div *ngIf="game.message.playTime">{{game.message.playTime | duration}}</div>
 	</div>
 </div>

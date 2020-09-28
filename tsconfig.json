@@ -11,7 +11,15 @@
 		"module": "es2020",
 		"moduleResolution": "node",
     "importHelpers": true,
-    "target": "es2015",
+		"noImplicitReturns": true,
+		"noImplicitAny": true,
+		"forceConsistentCasingInFileNames": true,
+		"strict": true,
+		"strictPropertyInitialization": false,
+		"strictBindCallApply": true,
+		"strictFunctionTypes": true,
+		"strictNullChecks": true,
+		"target": "es2015",
     "typeRoots": [
       "node_modules/@types"
     ],
@@ -23,6 +31,7 @@
 	"angularCompilerOptions": {
 		"enableIvy": true,
 		"fullTemplateTypeCheck": true,
+		"strictTemplates": true,
 		"strictInjectionParameters": true
 	},
 	"exclude": [

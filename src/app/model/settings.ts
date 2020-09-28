@@ -17,7 +17,7 @@ export class Settings {
 
 	load(): boolean {
 		try {
-			const store: SettingsStore = this.storageProvider.getSettings();
+			const store: SettingsStore | undefined = this.storageProvider.getSettings();
 			if (store) {
 				this.lang = store.lang || 'auto';
 				this.tileset = store.tileset || ImageSetDefault;
@@ -31,6 +31,7 @@ export class Settings {
 		} catch (e) {
 			console.error('load settings failed', e);
 		}
+		return false;
 	}
 
 	save(): boolean {
@@ -48,5 +49,6 @@ export class Settings {
 		} catch (e) {
 			console.error('storing settings failed', e);
 		}
+		return false;
 	}
 }

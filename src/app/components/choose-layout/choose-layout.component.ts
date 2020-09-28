@@ -94,12 +94,16 @@ export class ChooseLayoutComponent implements OnChanges {
 
 	scrollToGroup(index: number): void {
 		const elements = document.getElementById(`group-${index}`);
-		elements.scrollIntoView();
+		if (elements) {
+			elements.scrollIntoView();
+		}
 	}
 
 	scrollToItem(id: string): void {
 		const elements = document.getElementById(`item-${id}`);
-		elements.scrollIntoView();
+		if (elements) {
+			elements.scrollIntoView();
+		}
 	}
 
 	clearBestTimeClick(event: MouseEvent, layout: LayoutItem): void {
