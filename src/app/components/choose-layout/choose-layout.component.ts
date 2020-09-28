@@ -1,4 +1,5 @@
 import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
+import {TranslateService} from '@ngx-translate/core';
 import {Builder} from '../../model/builder';
 import {Layout, Layouts} from '../../model/types';
 import {LayoutService} from '../../service/layout.service';
@@ -30,7 +31,7 @@ export class ChooseLayoutComponent implements OnChanges {
 	mode: string = 'MODE_SOLVABLE';
 	builder: Builder = new Builder();
 
-	constructor(private layoutService: LayoutService, private storage: LocalstorageService) {
+	constructor(private layoutService: LayoutService, private storage: LocalstorageService, private translate: TranslateService) {
 	}
 
 	ngOnChanges(changes: SimpleChanges): void {
@@ -99,5 +100,14 @@ export class ChooseLayoutComponent implements OnChanges {
 	scrollToItem(id: string): void {
 		const elements = document.getElementById(`item-${id}`);
 		elements.scrollIntoView();
+	}
+
+	clearBestTimeClick(event: MouseEvent, layout: LayoutItem): void {
+		event.stopPropagation();
+		if (confirm(this.translate.instant('BEST_TIMES_CLEAR_SURE'))) {
+			this.storage.clearScore(layout.layout.id);
+			layout.bestTime = undefined;
+			layout.playCount = undefined;
+		}
 	}
 }

@@ -54,6 +54,10 @@ export class LocalstorageService implements StorageProvider {
 		this.set<LayoutScoreStore>(`score.${id}`, store);
 	}
 
+	clearScore(id: string): void {
+		this.set<LayoutScoreStore>(`score.${id}`, undefined);
+	}
+
 	storeSettings(store?: SettingsStore): void {
 		this.set<SettingsStore>('settings', store);
 	}

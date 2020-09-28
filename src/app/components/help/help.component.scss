@@ -27,9 +27,12 @@
 		display: flex;
 		flex-direction: row;
 		flex-wrap: wrap;
+		@include respond-to(small-down) {
+			flex-direction: column;
+		}
 
 		> div {
-			width: 45%;
+			flex: 1;
 			margin-right: 10px;
 			@include respond-to(medium-down) {
 				width: 100%;
@@ -46,9 +49,8 @@
 						flex: 1;
 					}
 
-					.name {
-						min-width: 50%;
-						max-width: 50%;
+					.name, .info {
+						padding-right: 10px;
 					}
 
 					@include respond-to(tiny-down) {
@@ -56,21 +58,36 @@
 						.name {
 							min-width: inherit;
 							max-width: inherit;
+							padding-right: 0;
 							width: 100%;
 						}
 						.info {
+							padding-right: 0;
 							padding-bottom: 4px;
 						}
 					}
 				}
 			}
+		}
+	}
 
-
+	.license {
+		.name {
+			min-width: 40%;
+			max-width: 40%;
 		}
 	}
 
 	.keyboard {
 		.keyboard-list {
+			.func {
+				font-size: 0.8em;
+				display: block;
+			}
+			.name {
+				min-width: 50px;
+				max-width: 50px;
+			}
 			.key {
 				font-weight: bold;
 				text-transform: uppercase;
@@ -86,6 +103,7 @@
 				box-shadow: 0 5px 0 0 rgba(0, 0, 0, 1);
 				text-align: center;
 				margin-right: 0.3em;
+				margin-bottom: 0.3em;
 				@include respond-to(tiny-down) {
 					padding-left: 5px;
 					padding-right: 5px;
