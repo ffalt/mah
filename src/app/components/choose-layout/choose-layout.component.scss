@@ -96,7 +96,22 @@
 					color: white;
 					border-bottom-left-radius: 3px;
 					padding: 3px;
+					padding-left: 6px;
 					text-shadow: 1px 1px black;
+
+					a {
+						display: inline-block;
+						min-width: 1.2em;
+						text-align: right;
+						i {
+							font-size: 0.7em;
+						}
+						&:hover {
+							i {
+								font-size: 0.8em;
+							}
+						}
+					}
 				}
 
 				.preview-name {

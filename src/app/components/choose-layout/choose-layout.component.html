@@ -17,7 +17,11 @@
 						 (appDeferLoad)="item.visible=true"
 				>
 					<app-layout-preview *ngIf="item.visible" class="svg-board" [layout]="item.layout"></app-layout-preview>
-					<div class="preview-best-time" *ngIf="item.bestTime">{{'STATS_BEST' | translate}}: {{item.bestTime|duration}}</div>
+					<div class="preview-best-time" *ngIf="item.bestTime">{{'STATS_BEST' | translate}}: {{item.bestTime|duration}}
+						<a (click)="clearBestTimeClick($event, item)">
+							<i class="icon-trash-empty"></i>
+						</a>
+					</div>
 					<div class="preview-name">{{item.layout.name}}</div>
 				</div>
 			</ng-container>

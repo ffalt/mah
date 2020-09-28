@@ -29,7 +29,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/fonts/fontello/css/fontello.css",
+              "src/fonts/fontello/css/mah.css",
               "src/fonts/fontello/css/animation.css",
               "src/fonts/josefine/css/josefine.css",
               "src/styles.scss"

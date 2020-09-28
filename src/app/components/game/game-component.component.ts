@@ -144,9 +144,9 @@ export class GameComponent {
 	}
 
 	toggleNewGame(): void {
-		if (!this.game.isIdle()) {
+		// if (!this.game.isIdle()) {
 			this.newGameVisible = !this.newGameVisible;
-		}
+		// }
 	}
 
 	toggleTilesInfo(): void {
@@ -172,5 +172,9 @@ export class GameComponent {
 			this.newGameVisible = true;
 		}
 	}
+
+	// debugCheat(): void {
+	// 	(this.game as any).gameOverWining();
+	// }
 
 }

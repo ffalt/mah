@@ -19,7 +19,7 @@ export const LANG_EN = {
 	MSG_GOOD: 'Well done!',
 	MSG_FAIL: 'No more matching tiles.',
 	STATS_GAMES: 'Nr. of Games',
-	STATS_BEST: 'Best time',
+	STATS_BEST: 'Best Time',
 	LICENSE: 'License',
 	SHORTCUTS: 'Shortcuts',
 	SETTINGS: 'Settings',
@@ -29,7 +29,7 @@ export const LANG_EN = {
 	MODE_LINEAR: 'Linear',
 	MODE_RANDOM: 'Random',
 	AUDIO: 'Audio',
-	AUDIO_SOUNDS: 'Sounds',
+	AUDIO_SOUNDS: 'Sounds on/off',
 	AUDIO_MUSIC: 'Music',
 	LANG: 'Language',
 	LANG_EN: 'English',
@@ -50,7 +50,12 @@ export const LANG_EN = {
 	START_RANDOM: 'Start Random',
 	TILESET: 'Tileset Art',
 	BACKGROUND: 'Background',
-	INFO: 'Info'
+	INFO: 'Info',
+	BEST_TIMES: 'Best Times',
+	BEST_TIMES_CLEAR: 'Clear Best Times',
+	BEST_TIMES_CLEAR_SURE: 'Clear All Best Times?\nThis cannot be undone.',
+	BEST_TIME_CLEAR: 'Clear Best Time',
+	BEST_TIME_CLEAR_SURE: 'Clear Best Time?\nThis cannot be undone.'
 };
 
 export const LANG_DE = {
@@ -83,7 +88,7 @@ export const LANG_DE = {
 	MODE_LINEAR: 'Linear',
 	MODE_RANDOM: 'Zufällig',
 	AUDIO: 'Audio',
-	AUDIO_SOUNDS: 'Töne',
+	AUDIO_SOUNDS: 'Töne an/aus',
 	AUDIO_MUSIC: 'Musik',
 	LANG: 'Sprache',
 	LANG_AUTO: '[Standard]',
@@ -104,5 +109,10 @@ export const LANG_DE = {
 	START_RANDOM: 'Zufälliges starten',
 	TILESET: 'Stein-Motive',
 	BACKGROUND: 'Hintergrund',
-	INFO: 'Info'
+	INFO: 'Info',
+	BEST_TIMES: 'Bestzeiten',
+	BEST_TIMES_CLEAR: 'Bestzeiten löschen',
+	BEST_TIMES_CLEAR_SURE: 'Alle Bestzeiten löschen?\nDies kann nicht rückgängig gemacht werden.',
+	BEST_TIME_CLEAR: 'Bestzeit löschen',
+	BEST_TIME_CLEAR_SURE: 'Bestzeit löschen?\nDies kann nicht rückgängig gemacht werden.'
 };
