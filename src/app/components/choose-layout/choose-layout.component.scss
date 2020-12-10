@@ -103,13 +103,12 @@
 						display: inline-block;
 						min-width: 1.2em;
 						text-align: right;
+						transition: all 100ms;
 						i {
-							font-size: 0.7em;
+							font-size: 0.8em;
 						}
 						&:hover {
-							i {
-								font-size: 0.8em;
-							}
+							transform: scale(1.3);
 						}
 					}
 				}

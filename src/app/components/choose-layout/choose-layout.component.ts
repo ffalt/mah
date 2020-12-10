@@ -108,7 +108,7 @@ export class ChooseLayoutComponent implements OnChanges {
 
 	clearBestTimeClick(event: MouseEvent, layout: LayoutItem): void {
 		event.stopPropagation();
-		if (confirm(this.translate.instant('BEST_TIMES_CLEAR_SURE'))) {
+		if (confirm(this.translate.instant('BEST_TIME_CLEAR_SURE'))) {
 			this.storage.clearScore(layout.layout.id);
 			layout.bestTime = undefined;
 			layout.playCount = undefined;
