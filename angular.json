@@ -5,23 +5,23 @@
   "projects": {
     "mah": {
       "projectType": "application",
-			"schematics": {
-				"@schematics/angular:component": {
-					"style": "scss"
-				}
-			},
-			"root": "",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "",
       "sourceRoot": "src",
       "prefix": "app",
       "architect": {
         "build": {
-					"builder": "@angular-builders/custom-webpack:browser",
-					"options": {
+          "builder": "@angular-builders/custom-webpack:browser",
+          "options": {
             "aot": true,
             "outputPath": "dist",
             "index": "src/index.html",
-						"indexTransform": "./index-html-transform.js",
-						"main": "src/main.ts",
+            "indexTransform": "./index-html-transform.js",
+            "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "assets": [
@@ -59,17 +59,17 @@
                   "maximumWarning": "1mb",
                   "maximumError": "5mb"
                 },
-								{
-									"type": "anyComponentStyle",
-									"maximumWarning": "6kb",
-									"maximumError": "10kb"
-								}
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
               ]
             }
           }
         },
         "serve": {
-					"builder": "@angular-builders/custom-webpack:dev-server",
+          "builder": "@angular-builders/custom-webpack:dev-server",
           "options": {
             "browserTarget": "mah:build"
           },
@@ -87,18 +87,14 @@
         },
         "test": {
           "builder": "@angular-builders/jest:run",
-          "options": {
-          }
+          "options": {}
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "tsconfig.app.json",
-              "tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
             ]
           }
         }

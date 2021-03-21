@@ -1,7 +1,7 @@
 export const Consts = {
 	mY: 18, mX: 38, mZ: 7,
-	tile_width: 75,
-	tile_height: 100
+	tileWidth: 75,
+	tileHeight: 100
 };
 
 export const STATES = {
@@ -11,7 +11,7 @@ export const STATES = {
 	freeze: 3
 };
 
-export const Backgrounds: Array<{ img?: string, name: string, small?: boolean }> = [
+export const Backgrounds: Array<{ img?: string; name: string; small?: boolean }> = [
 	{img: undefined, name: 'None'},
 	{img: 'bamboo.jpg', name: 'Bamboo'},
 	{img: 'blueclouds.jpg', name: 'Blue Clouds'},

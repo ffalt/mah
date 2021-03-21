@@ -23,8 +23,8 @@ export interface Draw {
 
 export function calcDrawPos(z: number, x: number, y: number): DrawPos {
 	const pos = {
-		x: ((Consts.tile_width + 2) * x / 2 - (z * 8)) + (Consts.tile_width / 2),
-		y: ((Consts.tile_height + 2) * y / 2 - (z * 8)) + (Consts.tile_height / 2),
+		x: ((Consts.tileWidth + 2) * x / 2 - (z * 8)) + (Consts.tileWidth / 2),
+		y: ((Consts.tileHeight + 2) * y / 2 - (z * 8)) + (Consts.tileHeight / 2),
 		z: y + Consts.mY * (x + Consts.mX * z),
 		translate: ''
 	};
@@ -50,8 +50,8 @@ export function sortDrawItems(items: Array<Draw>): Array<Draw> {
 export function getDrawViewPort(items: Array<Draw>, width: number, height: number, rotate: boolean): string {
 	const bounds = getDrawBounds(items, width, height);
 	const b: Array<number> = rotate ?
-		[-bounds[3] - Consts.tile_height - 10, -bounds[0] - 30, bounds[3] + Consts.tile_height - 10, bounds[2] + bounds[0] + Consts.tile_width + 40] :
-		[bounds[0] - 40, bounds[1] - 20, bounds[2] + Consts.tile_height + 40, bounds[3] + Consts.tile_height + 20];
+		[-bounds[3] - Consts.tileHeight - 10, -bounds[0] - 30, bounds[3] + Consts.tileHeight - 10, bounds[2] + bounds[0] + Consts.tileWidth + 40] :
+		[bounds[0] - 40, bounds[1] - 20, bounds[2] + Consts.tileHeight + 40, bounds[3] + Consts.tileHeight + 20];
 	return b.join(' ');
 }
 

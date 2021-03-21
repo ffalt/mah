@@ -16,6 +16,6 @@ export class DurationPipe implements PipeTransform {
 		const hours = Math.floor(secNum / 3600);
 		const minutes = Math.floor((secNum - (hours * 3600)) / 60);
 		const seconds = secNum - (hours * 3600) - (minutes * 60);
-		return `${(hours > 0) ? pad(hours) + ':' : ''}${pad(minutes)}:${pad(seconds)}`;
+		return `${(hours > 0) ? `${pad(hours)  }:` : ''}${pad(minutes)}:${pad(seconds)}`;
 	}
 }

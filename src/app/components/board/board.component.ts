@@ -47,7 +47,7 @@ export class BoardComponent implements OnInit, OnChanges {
 		event.stopPropagation();
 	}
 
-	resize(element: { innerHeight: number, innerWidth: number }): void {
+	resize(element: { innerHeight: number; innerWidth: number }): void {
 		const r = element.innerHeight > element.innerWidth;
 		if (r !== this.rotate) {
 			this.rotate = r;
