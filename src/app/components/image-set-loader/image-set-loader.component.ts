@@ -2,7 +2,7 @@ import {Component, ElementRef, Input, OnChanges, SimpleChanges} from '@angular/c
 import {SvgdefService} from '../../service/svgdef.service';
 
 @Component({
-	// tslint:disable-next-line:component-selector
+	// eslint-disable-next-line @angular-eslint/component-selector
 	selector: '[app-image-set-loader]',
 	template: '<svg:defs></svg:defs>'
 })

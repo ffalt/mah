@@ -68,7 +68,7 @@ export async function convertKyodai(data: string): Promise<ImportLayout> {
 		layout.cat = cat || layout.cat;
 		return layout;
 	}
-	return Promise.reject(Error('Unknown .lay format ' + JSON.stringify((version || '').slice(0, 50))));
+	return Promise.reject(Error(`Unknown .lay format ${  JSON.stringify((version || '').slice(0, 50))}`));
 }
 
 /*
@@ -141,7 +141,7 @@ export function compactMapping(mapping: Mapping): CompactMapping {
 		const rows: Array<CompactMappingY> = [];
 		for (const y of Object.keys(board[z])) {
 			const a: Array<number> = board[z][y];
-			const entries: Array<{ start: number, current: number, count: number }> = [];
+			const entries: Array<{ start: number; current: number; count: number }> = [];
 			let entry = {start: -1, current: -1, count: 0};
 			a.forEach(x => {
 				if (x !== entry.current) {
@@ -220,9 +220,9 @@ function hashString(s: string): number {
 	}
 	for (i = 0; i < s.length; i++) {
 		chr = s.charCodeAt(i);
-		// tslint:disable-next-line:no-bitwise
+		// eslint-disable-next-line no-bitwise
 		hash = ((hash << 5) - hash) + chr;
-		// tslint:disable-next-line:no-bitwise
+		// eslint-disable-next-line no-bitwise
 		hash |= 0; // Convert to 32bit integer
 	}
 	return hash + 2147483647;

@@ -41,12 +41,13 @@ export class DropZoneDirective {
 
 		if (dataTransfer?.items) {
 			const files: Array<File> = [];
-			// tslint:disable-next-line:prefer-for-of
+			// eslint-disable-next-line @typescript-eslint/prefer-for-of
 			for (let i = 0; i < dataTransfer.items.length; i++) {
 				// If dropped items aren't files, reject them
 				if (dataTransfer.items[i] && dataTransfer.items[i].kind === 'file') {
 					const file = dataTransfer.items[i].getAsFile();
-					if (file !== null) {
+					// eslint-disable-next-line no-null/no-null
+					if (file !== undefined && file !== null) {
 						files.push(file);
 					}
 				}

@@ -11,8 +11,7 @@ import {LayoutService} from './service/layout.service';
 import {SvgdefService} from './service/svgdef.service';
 
 describe('AppComponent', () => {
-	beforeEach(async () =>
-		TestBed.configureTestingModule({
+	beforeEach(async () => TestBed.configureTestingModule({
 			declarations: [
 				AppComponent,
 				MockComponent(GameComponent)

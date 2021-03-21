@@ -10,5 +10,5 @@ export function generateStaticLayoutSVG(mapping: Mapping): string {
 		sl.push(`<g transform="${draw.pos.translate}"><rect class="stone" fill="#FFF9E5" stroke-width="2" stroke="black" x="0" y="0" width="75" height="100" rx="10" ry="10"></rect></g>`);
 	}
 	sl.push('</svg>');
-	return 'data:image/svg+xml;base64,' + window.btoa(sl.join(''));
+	return `data:image/svg+xml;base64,${window.btoa(sl.join(''))}`;
 }

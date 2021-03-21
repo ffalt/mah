@@ -17,7 +17,7 @@ export class DeferLoadDirective implements AfterViewInit, OnDestroy {
 	private timeoutId?: number;
 	private timeoutLoadMS: number = 20;
 
-	constructor(private _element: ElementRef, private deferLoadService: DeferLoadService) {
+	constructor(private elementRef: ElementRef, private deferLoadService: DeferLoadService) {
 	}
 
 	ngAfterViewInit(): void {
@@ -79,8 +79,8 @@ export class DeferLoadDirective implements AfterViewInit, OnDestroy {
 			return;
 		}
 		this.intersectionObserver = this.deferLoadService.getObserver();
-		if (this.intersectionObserver && this._element.nativeElement) {
-			this.intersectionObserver.observe(this._element.nativeElement as Element);
+		if (this.intersectionObserver && this.elementRef.nativeElement) {
+			this.intersectionObserver.observe(this.elementRef.nativeElement as Element);
 			this.onbserveSubscription = this.deferLoadService.observeNotify
 				.subscribe((entries: Array<IntersectionObserverEntry>) => {
 					this.checkForIntersection(entries);
@@ -88,9 +88,9 @@ export class DeferLoadDirective implements AfterViewInit, OnDestroy {
 		}
 	}
 
-	private checkForIntersection = (entries: Array<IntersectionObserverEntry>) => {
+	private checkForIntersection(entries: Array<IntersectionObserverEntry>) {
 		entries.forEach((entry: IntersectionObserverEntry) => {
-			if (entry.target === this._element.nativeElement) {
+			if (entry.target === this.elementRef.nativeElement) {
 				this.manageIntersection(entry);
 			}
 		});
@@ -131,8 +131,8 @@ export class DeferLoadDirective implements AfterViewInit, OnDestroy {
 	}
 
 	private unobserve(): void {
-		if (this.intersectionObserver && this._element.nativeElement) {
-			this.intersectionObserver.unobserve(this._element.nativeElement as Element);
+		if (this.intersectionObserver && this.elementRef.nativeElement) {
+			this.intersectionObserver.unobserve(this.elementRef.nativeElement as Element);
 			this.intersectionObserver = undefined;
 		}
 	}
@@ -150,13 +150,13 @@ export class DeferLoadDirective implements AfterViewInit, OnDestroy {
 	}
 
 	private checkInView(rect: Rect): boolean {
-		const elemRect = Rect.fromElement(this._element.nativeElement);
+		const elemRect = Rect.fromElement(this.elementRef.nativeElement);
 		return elemRect.intersectsWithY(rect);
 	}
 
 	private isVisible(): boolean {
 		const scrollPosition = DeferLoadDirective.getScrollPosition();
-		const elementOffset = this._element.nativeElement.offsetTop;
+		const elementOffset = this.elementRef.nativeElement.offsetTop;
 		return elementOffset <= scrollPosition;
 	}
 }

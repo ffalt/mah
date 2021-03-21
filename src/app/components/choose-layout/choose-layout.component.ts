@@ -26,7 +26,7 @@ export interface LayoutGroup {
 })
 export class ChooseLayoutComponent implements OnChanges {
 	@Input() layouts: Layouts;
-	@Output() readonly startEvent = new EventEmitter<{ layout: Layout, mode: string }>();
+	@Output() readonly startEvent = new EventEmitter<{ layout: Layout; mode: string }>();
 	groups: Array<LayoutGroup> = [];
 	mode: string = 'MODE_SOLVABLE';
 	builder: Builder = new Builder();

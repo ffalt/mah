@@ -137,7 +137,7 @@ export class GameComponent {
 		this.newGameVisible = true;
 	}
 
-	startGame(data: { layout: Layout, mode: string }): void {
+	startGame(data: { layout: Layout; mode: string }): void {
 		this.newGameVisible = false;
 		this.game.reset();
 		this.game.start(data.layout, data.mode);

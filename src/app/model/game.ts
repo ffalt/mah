@@ -11,7 +11,7 @@ export class Game {
 	sound: Sound = new Sound();
 // music: Music = new Music();
 	state: number = STATES.idle;
-	message?: { msgID?: string, playTime?: number };
+	message?: { msgID?: string; playTime?: number };
 	layoutID?: string = undefined;
 	undo: Array<Array<number>> = [];
 
