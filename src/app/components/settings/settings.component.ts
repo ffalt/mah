@@ -4,6 +4,7 @@ import {Backgrounds, ImageSets} from '../../model/consts';
 import {AppService} from '../../service/app.service';
 import {LayoutService} from '../../service/layout.service';
 import {LocalstorageService} from '../../service/localstorage.service';
+import {LANGUAGE_TITLES} from '../../i18n/languages';
 
 @Component({
 	selector: 'app-settings',
@@ -13,6 +14,7 @@ import {LocalstorageService} from '../../service/localstorage.service';
 export class SettingsComponent {
 	sets = ImageSets;
 	backs = Backgrounds;
+	languages = LANGUAGE_TITLES;
 
 	constructor(
 		public app: AppService,

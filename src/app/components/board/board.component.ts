@@ -92,4 +92,5 @@ export class BoardComponent implements OnInit, OnChanges {
 		const back = Backgrounds.find(b => b.img === background);
 		this.backgroundUrl = back && back.img ? `url("assets/img/${back.img}")` : undefined;
 	}
+
 }
