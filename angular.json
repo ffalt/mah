@@ -31,7 +31,7 @@
             "styles": [
               "src/fonts/fontello/css/mah.css",
               "src/fonts/fontello/css/animation.css",
-              "src/fonts/josefine/css/josefine.css",
+              "src/fonts/kulim-park/css/kulim-park.css",
               "src/styles.scss"
             ],
             "scripts": []
@@ -47,7 +47,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -85,10 +84,6 @@
             "browserTarget": "mah:build"
           }
         },
-        "test": {
-          "builder": "@angular-builders/jest:run",
-          "options": {}
-        },
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
@@ -103,6 +98,7 @@
   },
   "defaultProject": "mah",
   "cli": {
-    "analytics": false
+		"defaultCollection": "@angular-eslint/schematics",
+		"analytics": false
   }
 }
