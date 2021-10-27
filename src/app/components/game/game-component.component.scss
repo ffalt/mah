@@ -155,11 +155,7 @@
 		}
 
 		@include respond-to(jumbo-up) {
-			font-size: $base-font-size*2.5;
-		}
-
-		@include respond-to(ludicrous-up) {
-			font-size: $base-font-size*3.5;
+			font-size: $base-font-size*2;
 		}
 
 		@include respond-to-height(small-down) {
