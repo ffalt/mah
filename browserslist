@@ -4,8 +4,11 @@
 #
 # For IE 9-11 support, please remove 'not' from the last line of the file and adjust as needed
 
-> 0.5%
-last 2 versions
+> 1%
+last 2 Chrome version
+last 2 Firefox version
+last 2 Edge major versions
+last 2 Safari major versions
+last 2 iOS major versions
 Firefox ESR
-IE 11
-not IE 9-10
+not IE 9-11
