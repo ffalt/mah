@@ -30,6 +30,8 @@
 		margin-bottom: 5px;
 		display: flex;
 		flex-direction: column;
+		padding-left: 5px;
+		padding-right: 5px;
 	}
 
 	.tiles-title {
@@ -58,7 +60,7 @@
 		justify-content: space-around;
 	}
 
-	@include respond-to(small-down) {
+	@include respond-to(medium-down) {
 		.tiles-section-9 {
 			.tiles-set {
 				flex-wrap: wrap;
@@ -73,7 +75,7 @@
 		}
 	}
 
-	@include respond-to(tiny-down) {
+	@include respond-to(small-down) {
 		.tiles-section-9, .tiles-section-4, .tiles-section-3 {
 			.tiles-set {
 				flex-wrap: wrap;
@@ -83,7 +85,7 @@
 			}
 		}
 	}
-	@include respond-to(pico-down) {
+	@include respond-to(tiny-down) {
 		.tiles-section-9, .tiles-section-4, .tiles-section-3 {
 			.tiles-set {
 				flex-wrap: wrap;

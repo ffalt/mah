@@ -21,7 +21,11 @@
 				text-decoration: none;
 				font-weight: normal;
 				color: $text-color;
-				margin-left: 4px;
+				margin-left: 16px;
+
+				i {
+					margin-right: 2px;
+				}
 
 				&:hover {
 					color: lighten($text-color, 5%);
@@ -39,10 +43,20 @@
 			&.ctrl-name {
 				font-weight: 600;
 				cursor: pointer;
+
+				span.symbol {
+					margin-left: 6px;
+					vertical-align: middle;
+				}
+
+				span.name {
+					margin-left: 6px;
+				}
 			}
 
 			.inactive {
 				color: darken($text-color, 10%);
+
 				&:hover {
 					color: darken($text-color, 5%);
 				}
@@ -175,8 +189,8 @@
 			background-color: $popup-background-color;
 			padding: 1em;
 			line-height: 1.2em;
-			@include rounded (12px);
-			@include box-shadow (12px, 14px, 16px, rgba(0, 0, 0, 0.5));
+			@include rounded(12px);
+			@include box-shadow(12px, 14px, 16px, rgba(0, 0, 0, 0.5));
 
 			@include respond-to(jumbo-up) {
 				@include rounded(30px);
