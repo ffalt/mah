@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import {Game} from '../model/game';
-import {LANG_DE, LANG_EN} from '../model/i18n';
+import {DEFAULT_LANGUAGE, LANGUAGES} from '../i18n/languages';
 import {Settings} from '../model/settings';
 import {LocalstorageService} from './localstorage.service';
 
@@ -23,13 +23,14 @@ export class AppService {
 	setLang(): void {
 		let userLang: string;
 		if (!this.settings.lang || this.settings.lang === 'auto') {
-			userLang = navigator.language.split('-')[0]; // use navigator lang if available
-			userLang = /(de|en)/gi.test(userLang) ? userLang : 'en';
+			userLang = (navigator.language.split('-')[0] || DEFAULT_LANGUAGE).toLowerCase(); // use navigator lang if available
 		} else {
 			userLang = this.settings.lang;
 		}
-		if (['de', 'en'].indexOf(userLang) >= 0) {
+		if (Object.keys(LANGUAGES).indexOf(userLang) >= 0) {
 			this.translate.use(userLang);
+		} else {
+			this.translate.use(DEFAULT_LANGUAGE);
 		}
 	}
 
@@ -40,9 +41,10 @@ export class AppService {
 	}
 
 	private setupTranslations(): void {
-		this.translate.setTranslation('en', LANG_EN);
-		this.translate.setTranslation('de', LANG_DE);
-		this.translate.setDefaultLang('en');
+		Object.keys(LANGUAGES).forEach(key => {
+			this.translate.setTranslation(key, LANGUAGES[key].data);
+		});
+		this.translate.setDefaultLang(DEFAULT_LANGUAGE);
 	}
 
 }

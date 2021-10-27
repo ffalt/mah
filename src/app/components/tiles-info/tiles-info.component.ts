@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {TILES_INFO} from '../../model/consts';
+import {TILES_INFOS} from '../../model/consts';
 
 @Component({
 	selector: 'app-tiles-info',
@@ -7,6 +7,6 @@ import {TILES_INFO} from '../../model/consts';
 	styleUrls: ['./tiles-info.component.scss']
 })
 export class TilesInfoComponent {
-	info = TILES_INFO;
+	info = TILES_INFOS;
 	@Input() imageSet: any;
 }
