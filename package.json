@@ -78,10 +78,10 @@
     "typescript": "4.4.4",
     "webpack": "5.64.0"
   },
-	"contributors": [
-		{
-			"name": "Heimen Stoffels",
-			"url": "https://github.com/Vistaus"
-		}
-	]
+  "contributors": [
+    {
+      "name": "Heimen Stoffels",
+      "url": "https://github.com/Vistaus"
+    }
+  ]
 }
