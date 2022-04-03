@@ -5,14 +5,21 @@
 		<div class="buttons">
 			<form>
 				<ul class="radio">
-					<li><input type="radio" name="lang" id="lang0" value="auto" [(ngModel)]="app.settings.lang" (ngModelChange)="app.setLang()" /><label for="lang0">{{'LANG_AUTO'|translate}}</label></li>
-					<li *ngFor="let lang of languages; let i=index;"><input type="radio" name="lang" [id]="'lang'+(i+1)" [value]="lang.key" [(ngModel)]="app.settings.lang" (ngModelChange)="app.setLang()" /><label [for]="'lang'+(i+1)">{{lang.title}}</label></li>
+					<li><input type="radio" name="lang" id="lang0" value="auto" [(ngModel)]="app.settings.lang" (ngModelChange)="app.setLang()"/><label for="lang0">{{'LANG_AUTO'|translate}}</label></li>
+					<li *ngFor="let lang of languages; let i=index;"><input type="radio" name="lang" [id]="'lang'+(i+1)" [value]="lang.key" [(ngModel)]="app.settings.lang" (ngModelChange)="app.setLang()"/><label [for]="'lang'+(i+1)">{{lang.title}}</label></li>
 				</ul>
 			</form>
 		</div>
 		<p>{{'BEST_TIMES'|translate}}</p>
 		<div>
 			<button (click)="clearTimesClick()">{{'BEST_TIMES_CLEAR'|translate}}</button>
+		</div>
+		<p>{{'TILES'|translate}}</p>
+		<div>
+			<label>
+				<input type="checkbox" [(ngModel)]="app.settings.contrast">
+				{{'HIGHER_CONTRAST'|translate}}
+			</label>
 		</div>
 	</div>
 	<div class="settings">

@@ -6,6 +6,7 @@ export class Settings {
 	sounds = true;
 	// music = false;
 	tileset = ImageSetDefault;
+	contrast = false;
 	background = '';
 	stats = {
 		games: 0,
@@ -23,6 +24,7 @@ export class Settings {
 				this.tileset = store.tileset || ImageSetDefault;
 				this.background = store.background;
 				// this.music = store.music || false;
+				this.contrast = store.contrast || false;
 				this.sounds = store.sounds || false;
 				// this.stats.games = store.games || 0;
 				// this.stats.bestTime = store.bestTime || 0;
@@ -39,6 +41,7 @@ export class Settings {
 			this.storageProvider.storeSettings({
 				lang: this.lang,
 				sounds: this.sounds,
+				contrast: this.contrast,
 				// music: this.music,
 				background: this.background,
 				tileset: this.tileset

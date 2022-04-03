@@ -79,6 +79,7 @@ export class GameStateStore {
 export class SettingsStore {
 	lang: string;
 	sounds: boolean;
+	contrast: boolean;
 	tileset: string;
 	background: string;
 }

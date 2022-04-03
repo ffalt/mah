@@ -2,6 +2,7 @@ import {Component, EventEmitter, HostBinding, Input, OnChanges, OnInit, Output, 
 import {Backgrounds} from '../../model/consts';
 import {calcDrawPos, Draw, getDrawViewPort, sortDrawItems} from '../../model/draw';
 import {Stone} from '../../model/stone';
+import {AppService} from '../../service/app.service';
 
 @Component({
 	selector: 'app-board',
@@ -20,6 +21,9 @@ export class BoardComponent implements OnInit, OnChanges {
 	viewport: string = '0 0 1470 960';
 	prefix: string;
 	urlPrefix: string;
+
+	constructor(public app: AppService) {
+	}
 
 	ngOnInit(): void {
 		this.resize(window);
