@@ -1,6 +1,7 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {DomSanitizer} from '@angular/platform-browser';
+import {firstValueFrom, Observable} from 'rxjs';
 import {cleanImportLayout, convertKyodai, expandMapping, expandMappingDeprecated, mappingToID} from '../model/import';
 import {generateStaticLayoutSVG} from '../model/layout-svg';
 import {Layout, Layouts, LoadLayout, Mapping} from '../model/types';
@@ -12,11 +13,15 @@ export class LayoutService {
 	constructor(private http: HttpClient, private sanitizer: DomSanitizer) {
 	}
 
+	getBoards(): Observable<Array<LoadLayout>> {
+		return this.http.get<Array<LoadLayout>>('assets/data/boards.json');
+	}
+
 	async get(): Promise<Layouts> {
 		if (this.layouts) {
 			return this.layouts;
 		}
-		const result: Array<LoadLayout> = await this.http.get<Array<LoadLayout>>('assets/data/boards.json').toPromise();
+		const result: Array<LoadLayout> = await firstValueFrom(this.getBoards());
 
 		const items: Array<Layout> = [];
 		for (const o of result) {
