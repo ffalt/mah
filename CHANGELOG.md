@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](https://github.com/ffalt/mah/compare/v1.3.1...v1.4.0) (2022-04-03)
+
+
+### Features
+
+* **boards:** add some more boards ([91144ba](https://github.com/ffalt/mah/commit/91144bab764f89ad72faf210563f0d46df21b522))
+* **tiles:** settings for higher contrast (more thick border & darker shadow) ([1177488](https://github.com/ffalt/mah/commit/1177488fbc217fce693280851af5aa519a088cce))
+
 ## [1.3.1](https://github.com/ffalt/mah/compare/v1.3.0...v1.3.1) (2022-01-03)
 
 ### Features
