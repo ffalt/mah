@@ -32,12 +32,12 @@
 		<span class="link button" (click)="toggleTilesInfo()" title="{{'TILES_INFO' | translate}}">
 			<i class="icon-calendar"></i>
 		</span>
-		<span class="label button"><small>{{'STONES' | translate}}</small>: <span>{{game.board.count}}</span></span>
-		<span class="label button"><small>{{'FREE' | translate}}</small>: <span>{{game.board.free.length}}</span></span>
 <!--		<span class="label button" (click)="debugCheat()">CHEAT</span>-->
 	</div>
 	<div class="ctrl ctrl-time">
-		<span>{{game.clock.elapsed | duration}}</span>
+		<span class="label button text"><small>{{'STONES' | translate}}:</small> <span>{{game.board.count}}</span></span>
+		<span class="label button text"><small>{{'FREE' | translate}}:</small> <span>{{game.board.free.length}}</span></span>
+		<span class="time">{{game.clock.elapsed | duration}}</span>
 	</div>
 </div>
 
