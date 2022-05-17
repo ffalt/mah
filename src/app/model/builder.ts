@@ -7,6 +7,14 @@ interface BuilderType {
 	build(mapping: Mapping, tiles: Tiles): Array<Stone>;
 }
 
+abstract class BuilderBase implements BuilderType {
+	abstract build(mapping: Mapping, tiles: Tiles): Array<Stone>;
+
+	getTilesInGame(tiles: Tiles, amount: number): Array<Tile> {
+		return tiles.list.filter((tile: Tile) => tile !== undefined);
+	}
+}
+
 function random<T>(array: Array<T>): number {
 	return Math.floor(Math.random() * array.length);
 }
@@ -54,7 +62,7 @@ function collectNodes(stones: Array<Stone>, stone: Stone): {
 
 function fillStones(stones: Array<Stone>, tiles: Tiles): Array<Stone> {
 	const groups: { [index: number]: Array<Stone> } = {};
-	stones.forEach((stone: Stone) => {
+	stones.forEach(stone => {
 		const tile = tiles.list[stone.v];
 		stone.img = tile ? tile.img : {id: undefined};
 		groups[stone.groupnr] = groups[stone.groupnr] || [];
@@ -62,21 +70,20 @@ function fillStones(stones: Array<Stone>, tiles: Tiles): Array<Stone> {
 		stone.nodes = collectNodes(stones, stone);
 	});
 	Object.keys(groups).forEach(key => {
-		const group: Array<Stone> = groups[parseInt(key, 10)];
-		group.forEach((stone: Stone) => {
-			stone.group = group.filter((s: Stone) =>
-				s !== stone);
+		const group: Array<Stone> = groups[Number(key)];
+		group.forEach(stone => {
+			stone.group = group.filter(s => s !== stone);
 		});
 	});
 	return stones;
 }
 
-class LinearBoardBuilder implements BuilderType {
+class LinearBoardBuilder extends BuilderBase {
 
 	build(mapping: Mapping, tiles: Tiles): Array<Stone> {
-		const remainingTiles: Array<Tile> = tiles.list.filter((tile: Tile): boolean => tile !== undefined);
+		const remainingTiles = this.getTilesInGame(tiles, mapping.length);
 		const stones: Array<Stone> = [];
-		mapping.forEach((place: Place) => {
+		mapping.forEach(place => {
 			const tile = randomExtract(remainingTiles);
 			const stone = new Stone(place[0], place[1], place[2], tile.v, tile.groupnr);
 			stones.push(stone);
@@ -87,15 +94,18 @@ class LinearBoardBuilder implements BuilderType {
 
 }
 
-class RandomBoardBuilder implements BuilderType {
+class RandomBoardBuilder extends BuilderBase {
 
 	build(mapping: Mapping, tiles: Tiles): Array<Stone> {
-		const remainingTiles = tiles.list.filter((tile: Tile) => tile !== undefined);
+		const remainingTiles = this.getTilesInGame(tiles, mapping.length);
 		const stones: Array<Stone> = [];
 		const remainingPlaces = mapping.slice(0);
-		while (remainingTiles.length > 0) {
+		while (remainingPlaces.length > 0) {
 			const tile = randomExtract(remainingTiles);
 			const place = randomExtract(remainingPlaces);
+			if (!place) {
+				console.log('Display', remainingPlaces, remainingTiles);
+			}
 			stones.push(new Stone(place[0], place[1], place[2], tile.v, tile.groupnr));
 		}
 		fillStones(stones, tiles);
@@ -113,7 +123,7 @@ class SolvableBoardBuilder implements BuilderType {
 		fillStones(stones, tiles); // grouping will be repaired later
 		let pairs = this.solve(stones, tiles);
 		let runs = 1;
-		while (pairs.length === 0 && runs < 100) {
+		while (pairs.length === 0 && runs < 1000) {
 			stones.forEach((stone: Stone) => {
 				stone.picked = false;
 				stone.v = 0;
@@ -122,29 +132,37 @@ class SolvableBoardBuilder implements BuilderType {
 			pairs = this.solve(stones, tiles);
 			runs++;
 		}
+		if (pairs.length === 0) {
+			const linear = new LinearBoardBuilder();
+			return linear.build(mapping, tiles);
+		}
 		stones.forEach((stone: Stone) => {
 			stone.picked = false;
 		});
 		fillStones(stones, tiles); // repair grouping & images, etc
-		stones.sort((a: Stone, b: Stone) =>
-			a.v - b.v);
+		stones.sort((a, b) => a.v - b.v);
 		return stones;
 	}
 
 	solve(stones: Array<Stone>, tiles: Tiles): Array<Array<Tile>> {
 		const pairs: Array<Array<Tile>> = [];
-		const allpairs: Array<Array<Tile>> = [];
+		const allPairs: Array<Array<Tile>> = [];
+		const maxPairs = stones.length / 2;
 		tiles.groups.forEach(group => {
 			const g: Array<Tile> = group.tiles.slice();
 			const tile1 = randomExtract(g);
 			const tile2 = randomExtract(g);
 			const tile3 = randomExtract(g);
 			const tile4 = g[0];
-			allpairs.push([tile1, tile2]);
-			allpairs.push([tile3, tile4]);
+			if (allPairs.length < maxPairs) {
+				allPairs.push([tile1, tile2]);
+			}
+			if (allPairs.length < maxPairs) {
+				allPairs.push([tile3, tile4]);
+			}
 		});
-		while (allpairs.length > 0) {
-			const pair: Array<Tile> = randomExtract(allpairs);
+		while (allPairs.length > 0) {
+			const pair: Array<Tile> = randomExtract(allPairs);
 			const freestones: Array<Stone> = stones.filter((stone: Stone) =>
 				!stone.picked && !stone.isBlocked());
 			if (freestones.length < 2) {
