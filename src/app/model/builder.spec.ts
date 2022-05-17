@@ -11,46 +11,31 @@ const layouts: Array<Layout> = loadLayouts.map(o => {
 	return {id: o.id ? o.id : mappingToID(mapping), name: o.name, category: o.cat || 'Classic', mapping};
 });
 
+const expectNoBlankTiles = (mode: string, layout: Layout) => {
+	const builder = new Builder();
+	const fails = [];
+	for (let i = 0; i < 100; i++) {
+		const stones = builder.build(mode, layout.mapping) || [];
+		const empty = stones.filter(stone => stone.v === 0 || !stone.img?.id);
+		if (empty.length > 0) {
+			fails.push(i);
+		}
+	}
+	expect(fails.join(',')).toBe([].join(','));
+};
+
 describe('builder', () => {
 	for (const layout of layouts) {
 		describe(`Layout ${layout.name} ${layout.mapping.length}`, () => {
 			it('with linear build should not have blank tiles', async () => {
-				const builder = new Builder();
-				const fails = [];
-				for (let i = 0; i < 100; i++) {
-					const stones = builder.build('MODE_LINEAR', layout.mapping) || [];
-					const empty = stones.filter(stone => stone.v === 0 || !stone.img?.id);
-					if (empty.length > 0) {
-						fails.push(i);
-					}
-				}
-				expect(fails.join(',')).toBe([].join(','));
+				expectNoBlankTiles('MODE_LINEAR', layout);
 			});
 			it('with solvable build should not have blank tiles', async () => {
-				const builder = new Builder();
-				const fails = [];
-				for (let i = 0; i < 100; i++) {
-					const stones = builder.build('MODE_SOLVABLE', layout.mapping) || [];
-					const empty = stones.filter(stone => stone.v === 0 || !stone.img?.id);
-					if (empty.length > 0) {
-						fails.push(i);
-					}
-				}
-				expect(fails.join(',')).toBe([].join(','));
+				expectNoBlankTiles('MODE_SOLVABLE', layout);
 			});
 			it('with random build should not have blank tiles', async () => {
-				const builder = new Builder();
-				const fails = [];
-				for (let i = 0; i < 100; i++) {
-					const stones = builder.build('MODE_RANDOM', layout.mapping) || [];
-					const empty = stones.filter(stone => stone.v === 0 || !stone.img?.id);
-					if (empty.length > 0) {
-						fails.push(i);
-					}
-				}
-				expect(fails.join(',')).toBe([].join(','));
+				expectNoBlankTiles('MODE_RANDOM', layout);
 			});
 		});
 	}
-
 });
