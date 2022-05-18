@@ -3,7 +3,8 @@ import {Clock} from './clock';
 import {STATES} from './consts';
 import {Sound, SOUNDS} from './sound';
 import {Stone} from './stone';
-import {GameStateStore, Layout, StorageProvider} from './types';
+import {GameStateStore, Layout, Place, StonePlace, StorageProvider} from './types';
+import {BUILD_MODE_ID} from './builder';
 
 export class Game {
 	clock: Clock = new Clock();
@@ -13,7 +14,7 @@ export class Game {
 	state: number = STATES.idle;
 	message?: { msgID?: string; playTime?: number };
 	layoutID?: string = undefined;
-	undo: Array<Array<number>> = [];
+	undo: Array<Place> = [];
 
 	constructor(private storage: StorageProvider) {
 	}
@@ -119,7 +120,7 @@ export class Game {
 		this.undo = [];
 	}
 
-	start(layout: Layout, mode: string): void {
+	start(layout: Layout, mode: BUILD_MODE_ID): void {
 		this.layoutID = layout.id;
 		this.board.applyMapping(layout.mapping, mode);
 		this.board.update();

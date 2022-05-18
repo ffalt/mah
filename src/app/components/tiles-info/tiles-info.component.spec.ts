@@ -2,8 +2,8 @@ import {HttpClientModule} from '@angular/common/http';
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {TranslateModule} from '@ngx-translate/core';
 import {SvgdefService} from '../../service/svgdef.service';
-import {ImageSetLoaderComponent} from '../image-set-loader/image-set-loader.component';
 import {TileComponent} from '../tile/tile.component';
+import {CoreModule} from '../../modules/core/core.module';
 import {TilesInfoComponent} from './tiles-info.component';
 
 describe('TilesInfoComponent', () => {
@@ -12,10 +12,11 @@ describe('TilesInfoComponent', () => {
 
 	beforeEach(async () =>
 		TestBed.configureTestingModule({
-			declarations: [TileComponent, TilesInfoComponent, ImageSetLoaderComponent],
+			declarations: [TileComponent, TilesInfoComponent],
 			providers: [SvgdefService],
 			imports: [
 				HttpClientModule,
+				CoreModule,
 				TranslateModule.forRoot()
 			]
 		})

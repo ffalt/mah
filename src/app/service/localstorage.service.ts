@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {GameStateStore, LayoutScoreStore, SettingsStore, StorageProvider} from '../model/types';
+import {GameStateStore, LayoutScoreStore, LoadLayout, SettingsStore, StorageProvider} from '../model/types';
 
 @Injectable({
 	providedIn: 'root'
@@ -22,6 +22,10 @@ export class LocalstorageService implements StorageProvider {
 
 	getState(): GameStateStore | undefined {
 		return this.get<GameStateStore>('state');
+	}
+
+	getCustomLayouts(): Array<LoadLayout> | undefined {
+		return this.get<Array<LoadLayout>>('boards');
 	}
 
 	getLastPlayed(): string | undefined {
@@ -66,6 +70,10 @@ export class LocalstorageService implements StorageProvider {
 
 	storeState(store?: GameStateStore): void {
 		this.set<GameStateStore>('state', store);
+	}
+
+	storeCustomLayouts(layouts?: Array<LoadLayout>): void {
+		this.set<Array<LoadLayout>>('boards', layouts);
 	}
 
 	private get<T>(key: string): T | undefined {

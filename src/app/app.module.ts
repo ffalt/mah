@@ -5,29 +5,23 @@ import {BrowserModule} from '@angular/platform-browser';
 import {TranslateModule} from '@ngx-translate/core';
 
 import {AppComponent} from './app.component';
-import {BoardComponent} from './components/board/board.component';
 import {ChooseLayoutComponent} from './components/choose-layout/choose-layout.component';
 import {GameComponent} from './components/game/game-component.component';
 import {HelpComponent} from './components/help/help.component';
-import {ImageSetLoaderComponent} from './components/image-set-loader/image-set-loader.component';
-import {LayoutPreviewComponent} from './components/layout-preview/layout-preview.component';
 import {SettingsComponent} from './components/settings/settings.component';
 import {TileComponent} from './components/tile/tile.component';
 import {TilesInfoComponent} from './components/tiles-info/tiles-info.component';
-import {DropZoneDirective} from './directives/drop-zone.directive';
-import {DeferLoadModule} from './modules/defer-load';
-import {DurationPipe} from './pipes/duration.pipe';
-import {PrefixPipe} from './pipes/prefix.pipe';
 import {AppService} from './service/app.service';
 import {LayoutService} from './service/layout.service';
 import {SvgdefService} from './service/svgdef.service';
+import {CoreModule} from './modules/core/core.module';
 
 @NgModule({
 	imports: [
 		BrowserModule,
 		FormsModule,
 		HttpClientModule,
-		DeferLoadModule.forRoot(),
+		CoreModule,
 		TranslateModule.forRoot()
 	],
 	declarations: [
@@ -35,15 +29,9 @@ import {SvgdefService} from './service/svgdef.service';
 		ChooseLayoutComponent,
 		GameComponent,
 		HelpComponent,
-		LayoutPreviewComponent,
-		BoardComponent,
-		DurationPipe,
-		PrefixPipe,
 		TilesInfoComponent,
 		TileComponent,
-		ImageSetLoaderComponent,
-		SettingsComponent,
-		DropZoneDirective
+		SettingsComponent
 	],
 	providers: [
 		AppService,

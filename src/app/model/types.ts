@@ -15,18 +15,40 @@ export interface CompactMapping extends Array<CompactMappingZ> {
 }
 
 // [z, x, y]
-export interface Place extends Array<number> {
-}
+export type Place = [number, number, number];
 
 export interface Mapping extends Array<Place> {
+}
+
+// [z, x, y, value]
+export type StonePlace = [number, number, number, number];
+
+export interface StoneMapping extends Array<StonePlace> {
 }
 
 export interface Layout {
 	id: string;
 	name: string;
+	by?: string;
 	category: string;
 	mapping: Mapping;
 	previewSVG?: any;
+	custom?: boolean;
+}
+
+export interface LoadLayout {
+	id: string;
+	name: string;
+	cat?: string;
+	by?: string;
+	map: CompactMapping;
+}
+
+export interface ImportLayout {
+	name: string;
+	by?: string;
+	cat: string;
+	mapping: Mapping;
 }
 
 export interface Layouts {
@@ -36,21 +58,6 @@ export interface Layouts {
 export interface LayoutScoreStore {
 	playCount?: number;
 	bestTime?: number;
-}
-
-export interface LoadLayout {
-	name: string;
-	id?: string;
-	cat?: string;
-	mapping?: Mapping;
-	map?: CompactMapping;
-}
-
-export interface ImportLayout {
-	name: string;
-	by?: string;
-	cat: string;
-	mapping: Mapping;
 }
 
 export interface StorageProvider {
@@ -72,8 +79,8 @@ export class GameStateStore {
 	elapsed?: number;
 	state?: number;
 	layout: string;
-	undo?: Array<Array<number>>;
-	stones?: Array<Array<number>>;
+	undo?: Array<Place>;
+	stones?: Array<StonePlace>;
 }
 
 export class SettingsStore {

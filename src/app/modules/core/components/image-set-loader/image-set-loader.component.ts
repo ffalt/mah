@@ -1,5 +1,5 @@
 import {Component, ElementRef, Input, OnChanges, SimpleChanges} from '@angular/core';
-import {SvgdefService} from '../../service/svgdef.service';
+import {SvgdefService} from '../../../../service/svgdef.service';
 
 @Component({
 	// eslint-disable-next-line @angular-eslint/component-selector

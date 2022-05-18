@@ -1,8 +1,8 @@
 import {Component, EventEmitter, HostBinding, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {Backgrounds} from '../../model/consts';
-import {calcDrawPos, Draw, getDrawViewPort, sortDrawItems} from '../../model/draw';
-import {Stone} from '../../model/stone';
-import {AppService} from '../../service/app.service';
+import {Backgrounds} from '../../../../model/consts';
+import {calcDrawPos, Draw, getDrawViewPort, sortDrawItems} from '../../../../model/draw';
+import {Stone} from '../../../../model/stone';
+import {AppService} from '../../../../service/app.service';
 
 @Component({
 	selector: 'app-board',

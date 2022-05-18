@@ -3,9 +3,9 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {MockComponent} from 'ng-mocks';
 import {TranslateModule} from '@ngx-translate/core';
 import {PrefixPipe} from '../../pipes/prefix.pipe';
-import {SvgdefService} from '../../service/svgdef.service';
 import {ImageSetLoaderComponent} from '../image-set-loader/image-set-loader.component';
-import {AppService} from '../../service/app.service';
+import {SvgdefService} from '../../../../service/svgdef.service';
+import {AppService} from '../../../../service/app.service';
 import {BoardComponent} from './board.component';
 
 describe('BoardComponent', () => {

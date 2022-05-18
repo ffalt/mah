@@ -1,6 +1,6 @@
-import {Builder} from './builder';
+import {BUILD_MODE_ID, Builder} from './builder';
 import {safeGetStone, Stone} from './stone';
-import {Mapping} from './types';
+import {Mapping, Place, StoneMapping, StonePlace} from './types';
 
 interface StoneGroup {
 	group: number;
@@ -83,11 +83,11 @@ export class Board {
 		this.stones = [];
 	}
 
-	update(): void {
-		const canRemove = (stone: Stone): boolean =>
-			stone.group.filter((_stone: Stone) =>
-				!_stone.picked && !_stone.isBlocked()).length > 0;
+	canRemove(stone: Stone): boolean {
+		return stone.group.filter((_stone: Stone) => !_stone.picked && !_stone.isBlocked()).length > 0;
+	}
 
+	update(): void {
 		const free: Array<Stone> = [];
 		let count = 0;
 		this.stones.forEach((stone: Stone) => {
@@ -98,7 +98,7 @@ export class Board {
 			count += stone.picked ? 0 : 1;
 		});
 		this.stones.forEach(stone => {
-			stone.state.removable = !stone.picked && !stone.state.blocked && canRemove(stone);
+			stone.state.removable = !stone.picked && !stone.state.blocked && this.canRemove(stone);
 			if (stone.state.removable) {
 				free.push(stone);
 			}
@@ -107,15 +107,15 @@ export class Board {
 		this.count = count;
 	}
 
-	load(mapping: Mapping, undos: Array<Array<number>>): void {
+	load(mapping: StoneMapping, undos: Array<Place>): void {
 		if (!mapping) {
 			return;
 		}
-		const stones = this.builder.build('load', mapping);
+		const stones = this.builder.load(mapping);
 		if (!stones) {
 			return;
 		}
-		undos.forEach((undo: Array<number>) => {
+		undos.forEach(undo => {
 			const stone: Stone | undefined = safeGetStone(stones, undo[0], undo[1], undo[2]);
 			if (stone) {
 				stone.picked = true;
@@ -124,12 +124,11 @@ export class Board {
 		this.stones = stones;
 	}
 
-	save(): Array<Array<number>> {
-		return this.stones.map((stone: Stone) =>
-			[stone.z, stone.x, stone.y, stone.v]);
+	save(): Array<StonePlace> {
+		return this.stones.map((stone: Stone) => [stone.z, stone.x, stone.y, stone.v]);
 	}
 
-	applyMapping(mapping: Mapping, mode: string): void {
+	applyMapping(mapping: Mapping, mode: BUILD_MODE_ID): void {
 		this.stones = this.builder.build(mode, mapping) || [];
 	}
 

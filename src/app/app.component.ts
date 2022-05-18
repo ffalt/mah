@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
 import {Meta} from '@angular/platform-browser';
 import {TranslateService} from '@ngx-translate/core';
-import {Layouts} from './model/types';
 import {AppService} from './service/app.service';
 import {LayoutService} from './service/layout.service';
 import {LocalstorageService} from './service/localstorage.service';
@@ -12,10 +11,10 @@ import {LocalstorageService} from './service/localstorage.service';
 	styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-	layouts: Layouts;
 	loading = true;
 
-	constructor(private layoutService: LayoutService, private storage: LocalstorageService, private translate: TranslateService, private meta: Meta, public app: AppService) {
+	constructor(private layoutService: LayoutService, private storage: LocalstorageService,
+							private translate: TranslateService, private meta: Meta, public app: AppService) {
 		this.updateName();
 		this.loadLayouts();
 		this.registerWindowListeners();
@@ -24,7 +23,6 @@ export class AppComponent {
 	private loadLayouts(): void {
 		this.layoutService.get().then(
 			data => {
-				this.layouts = data;
 				this.loading = false;
 			})
 			.catch(e => {

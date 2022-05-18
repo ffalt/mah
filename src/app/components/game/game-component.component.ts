@@ -1,8 +1,9 @@
-import {Component, HostListener, Input} from '@angular/core';
+import {Component, HostListener} from '@angular/core';
 import {Game} from '../../model/game';
 import {Stone} from '../../model/stone';
-import {Layout, Layouts} from '../../model/types';
+import {Layout} from '../../model/types';
 import {AppService} from '../../service/app.service';
+import {BUILD_MODE_ID} from '../../model/builder';
 
 interface DocEx extends Document {
 	fullScreen: boolean;
@@ -27,7 +28,6 @@ interface ElemEx extends HTMLElement {
 	styleUrls: ['./game-component.component.scss']
 })
 export class GameComponent {
-	@Input() layouts: Layouts;
 	game: Game;
 	tilesInfoVisible: boolean = false;
 	helpVisible: boolean = false;
@@ -41,33 +41,8 @@ export class GameComponent {
 		}
 	}
 
-	@HostListener('document:keydown', ['$event'])
-	handleKeyDownEvent(event: KeyboardEvent): void {
-		if (this.helpVisible) {
-			if (event.keyCode === 27) {
-				this.toggleHelp();
-			}
-			return;
-		}
-		if (this.newGameVisible) {
-			if (event.keyCode === 27) {
-				this.newGameVisible = !this.newGameVisible;
-			}
-			return;
-		}
-		if (this.tilesInfoVisible) {
-			if (event.keyCode === 27) {
-				this.toggleTilesInfo();
-			}
-			return;
-		}
-		if (this.settingsVisible) {
-			if (event.keyCode === 27) {
-				this.toggleSettings();
-			}
-			return;
-		}
-		switch (event.which) {
+	handleKeyDownEventKey(which: number): void {
+		switch (which) {
 			case 72: // h
 				this.toggleHelp();
 				break;
@@ -98,6 +73,38 @@ export class GameComponent {
 			default:
 				break;
 		}
+	}
+
+	handleKeyDownDialogExit(): boolean {
+		if (this.helpVisible) {
+			this.toggleHelp();
+			return true;
+		}
+		if (this.newGameVisible) {
+			this.newGameVisible = !this.newGameVisible;
+			return true;
+		}
+		if (this.tilesInfoVisible) {
+			this.toggleTilesInfo();
+			return true;
+		}
+		if (this.settingsVisible) {
+			this.toggleSettings();
+			return true;
+		}
+		return false;
+	}
+
+	@HostListener('document:keydown', ['$event'])
+	handleKeyDownEvent(event: KeyboardEvent): void {
+		if (event.keyCode === 27 && this.handleKeyDownDialogExit()) {
+			return;
+		}
+		const nodeName = ((event.target as any)?.nodeName || '').toLocaleLowerCase();
+		if (nodeName === 'input') {
+			return;
+		}
+		this.handleKeyDownEventKey(event.which);
 	}
 
 	stoneClick(stone: Stone): void {
@@ -137,7 +144,7 @@ export class GameComponent {
 		this.newGameVisible = true;
 	}
 
-	startGame(data: { layout: Layout; mode: string }): void {
+	startGame(data: { layout: Layout; mode: BUILD_MODE_ID }): void {
 		this.newGameVisible = false;
 		this.game.reset();
 		this.game.start(data.layout, data.mode);
@@ -145,7 +152,7 @@ export class GameComponent {
 
 	toggleNewGame(): void {
 		// if (!this.game.isIdle()) {
-			this.newGameVisible = !this.newGameVisible;
+		this.newGameVisible = !this.newGameVisible;
 		// }
 	}
 

@@ -1,41 +1,35 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {DomSanitizer} from '@angular/platform-browser';
-import {firstValueFrom, Observable} from 'rxjs';
-import {cleanImportLayout, convertKyodai, expandMapping, expandMappingDeprecated, mappingToID} from '../model/import';
+import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
+import {firstValueFrom} from 'rxjs';
+import {expandMapping, mappingToID} from '../model/mapping';
 import {generateStaticLayoutSVG} from '../model/layout-svg';
 import {Layout, Layouts, LoadLayout, Mapping} from '../model/types';
+import {LocalstorageService} from './localstorage.service';
 
 @Injectable()
 export class LayoutService {
 	layouts: Layouts;
 
-	constructor(private http: HttpClient, private sanitizer: DomSanitizer) {
-	}
-
-	getBoards(): Observable<Array<LoadLayout>> {
-		return this.http.get<Array<LoadLayout>>('assets/data/boards.json');
+	constructor(private http: HttpClient, private sanitizer: DomSanitizer, private storage: LocalstorageService) {
 	}
 
 	async get(): Promise<Layouts> {
 		if (this.layouts) {
 			return this.layouts;
 		}
-		const result: Array<LoadLayout> = await firstValueFrom(this.getBoards());
-
 		const items: Array<Layout> = [];
-		for (const o of result) {
-			const name = o.name;
-			const category = o.cat || 'Classic';
-			let mapping: Mapping = [];
-			if (o.map) {
-				mapping = expandMapping(o.map);
+		const loadLayouts: Array<LoadLayout> = await this.requestBoards();
+		for (const o of loadLayouts) {
+			const layout = this.expandLayout(o);
+			if (layout) {
+				items.push(layout);
 			}
-			if (o.mapping) {
-				mapping = expandMappingDeprecated(o.mapping);
-			}
-			if (mapping.length > 0) {
-				const layout = {id: o.id ? o.id : mappingToID(mapping), name, category, mapping, previewSVG: this.sanitizer.bypassSecurityTrustUrl(generateStaticLayoutSVG(mapping))};
+		}
+		const customLayouts: Array<LoadLayout> = this.loadCustomBoards();
+		for (const o of customLayouts) {
+			const layout = this.expandLayout(o, true);
+			if (layout) {
 				items.push(layout);
 			}
 		}
@@ -43,25 +37,45 @@ export class LayoutService {
 		return this.layouts;
 	}
 
-	async importFile(file: File): Promise<Layout> {
-		const s = await LayoutService.readFile(file);
-		let layout = await convertKyodai(s);
-		layout = cleanImportLayout(layout);
-		const previewSVG = this.sanitizer.bypassSecurityTrustUrl(generateStaticLayoutSVG(layout.mapping));
-		return {id: mappingToID(layout.mapping), name: layout.name, mapping: layout.mapping, category: layout.cat || 'Import', previewSVG};
+	removeAllCustomLayouts(): void {
+		this.layouts.items = this.layouts.items.filter(l => !l.custom);
+		this.storage.storeCustomLayouts(undefined);
 	}
 
-	private static async readFile(file: File): Promise<string> {
-		const reader = new FileReader();
-		return new Promise<string>((resolve, reject) => {
-			reader.onload = () => {
-				resolve(reader.result as string);
-			};
-			reader.onerror = () => {
-				reject(Error(`Reading File failed: ${reader.error}`));
-			};
-			reader.readAsBinaryString(file);
-		});
+	removeCustomLayout(ids: Array<string>): void {
+		this.layouts.items = this.layouts.items.filter(l => !l.custom || !ids.includes(l.id));
+		const customLayouts = (this.storage.getCustomLayouts() || []).filter(l => !ids.includes(l.id));
+		this.storage.storeCustomLayouts(customLayouts.length === 0 ? undefined : customLayouts);
+	}
+
+	expandLayout(o: LoadLayout, custom?: boolean): Layout {
+		const mapping: Mapping = expandMapping(o.map || []);
+		return {
+			id: o.id && o.id !== '' ? o.id : mappingToID(mapping),
+			name: o.name,
+			by: o.by,
+			category: o.cat || 'Classic',
+			mapping: expandMapping(o.map),
+			previewSVG: this.generatePreview(mapping),
+			custom
+		};
+	}
+
+	loadCustomBoards(): Array<LoadLayout> {
+		return this.storage.getCustomLayouts() || [];
+	}
+
+	storeCustomBoards(list: Array<LoadLayout>) {
+		const customLayouts = this.loadCustomBoards();
+		this.storage.storeCustomLayouts(customLayouts.concat(list));
+	}
+
+	private generatePreview(mapping: Mapping): SafeUrl {
+		return this.sanitizer.bypassSecurityTrustUrl(generateStaticLayoutSVG(mapping));
+	}
+
+	private async requestBoards(): Promise<Array<LoadLayout>> {
+		return firstValueFrom(this.http.get<Array<LoadLayout>>('assets/data/boards.json'));
 	}
 
 }

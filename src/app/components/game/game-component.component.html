@@ -65,9 +65,9 @@
 		<app-tiles-info [imageSet]="app.settings.tileset"></app-tiles-info>
 	</div>
 </div>
-<div *ngIf="layouts && newGameVisible" (click)="toggleNewGame();" class="overlay overlay-newgame">
+<div *ngIf="newGameVisible" (click)="toggleNewGame();" class="overlay overlay-newgame">
 	<div class="overlay-popup" (click)="$event.stopPropagation();">
 		<span class="close" (click)="toggleNewGame();"><i class="icon-cancel-circled2 pull-right"></i></span>
-		<app-choose-layout class="choose" [layouts]="layouts" (startEvent)="startGame($event)"></app-choose-layout>
+		<app-choose-layout class="choose" (startEvent)="startGame($event)"></app-choose-layout>
 	</div>
 </div>

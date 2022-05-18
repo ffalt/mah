@@ -34,9 +34,9 @@ export class Stone {
 		return Stone.hasStone(this.nodes.top) || (Stone.hasStone(this.nodes.left) && Stone.hasStone(this.nodes.right));
 	}
 
-	isLoose(): boolean {
-		return !Stone.hasStone(this.nodes.left) && !Stone.hasStone(this.nodes.right) && !Stone.hasStone(this.nodes.bottom);
-	}
+	// isLoose(): boolean {
+	// 	return !Stone.hasStone(this.nodes.left) && !Stone.hasStone(this.nodes.right) && !Stone.hasStone(this.nodes.bottom);
+	// }
 
 	private static hasStone(list: Array<Stone>): boolean {
 		for (const stone of list) {
