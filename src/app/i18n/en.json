@@ -119,7 +119,11 @@
 	"TILES_HONORS_WINDS": "Winds",
 	"TILES_HONORS_DRAGONS": "Dragons",
 	"SHUFFLE": "Shuffle",
-	"SHUFFLE_LONG": "Shuffle stones in this game"
+	"SHUFFLE_LONG": "Shuffle stones in this game",
+	"GAME_MODE": "Mode",
+	"GAME_MODE_EASY": "Easy",
+	"GAME_MODE_STANDARD": "Standard",
+	"GAME_MODE_EXPERT": "Expert"
 }
 
 

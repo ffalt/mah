@@ -121,7 +121,7 @@
 					background-color: darken(#8b877a, 15%);
 				}
 
-				@include respond-to(large-down) {
+				@include respond-to(jumbo-down) {
 					&, app-layout-preview {
 						width: 200px;
 						height: 180px;
@@ -134,6 +134,7 @@
 						width: 100%;
 					}
 				}
+
 				@include respond-to(tiny-down) {
 					width: 100%;
 				}

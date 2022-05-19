@@ -1,41 +1,42 @@
 <div class="controls controls-top">
 	<div class="ctrl ctrl-name">
-		<span class="link button" (click)="toggleHelp()" title="{{'OPEN_HELP' | translate}}"><span class="symbol">🀄️</span><span class="name">{{app.name}}</span></span>
+		<button class="link button" (click)="toggleHelp()" title="{{'OPEN_HELP' | translate}}"><span class="symbol">🀄️</span><span class="name">{{app.name}}</span></button>
 	</div>
 	<div class="ctrl ctrl-game">
-		<span class="link button" (click)="enterFullScreen()" title="{{'FULLSCREEN' | translate}}">
-			<i class="icon-resize-full-alt"></i> <span class="label">{{'FULLSCREEN' | translate}}</span>
-		</span>
-		<span class="link button" (click)="game.toggle()" title="{{'PAUSE_LONG' | translate}}">
+		<button class="link button" (click)="game.toggle()" title="{{'PAUSE_LONG' | translate}}">
 			<i class="icon-pause"></i> <span class="label">{{'PAUSE' | translate}}</span>
-		</span>
-		<span class="link button" (click)="game.shuffle()" title="{{'SHUFFLE_LONG' | translate}}">
+		</button>
+		<button class="link button feature" [class.enabled]="game.mode | gameModeEasy" (click)="game.shuffle()" title="{{'SHUFFLE_LONG' | translate}}">
 			<i class="icon-spin1"></i> <span class="label">{{'SHUFFLE' | translate}}</span>
-		</span>
-		<span class="link button" (click)="game.back()" title="{{'UNDO_LONG' | translate}}" [attr.disabled]="game.board.undo.length===0 ? true : null">
+		</button>
+		<button class="link button feature" [class.enabled]="game.mode | gameModeStandard"  (click)="game.back()" title="{{'UNDO_LONG' | translate}}" [attr.disabled]="game.board.undo.length===0 ? true : null">
 			<i class="icon-undo"></i> <span class="label">{{'UNDO' | translate}}</span>
-		</span>
-		<span class="link button" (click)="game.hint()" title="{{'HINT_LONG' | translate}}">
+		</button>
+		<button class="link button feature" [class.enabled]="game.mode | gameModeStandard" (click)="game.hint()" title="{{'HINT_LONG' | translate}}">
 			<i class="icon-lightbulb"></i> <span class="label">{{'HINT' | translate}}</span>
-		</span>
-		<span class="link button" (click)="newGame()" title="{{'RESTART_LONG' | translate}}">
+		</button>
+		<button class="link button" (click)="newGame()" title="{{'RESTART_LONG' | translate}}">
 			<i class="icon-loop"></i> <span class="label">{{'RESTART' | translate}}</span>
-		</span>
+		</button>
+		<button class="link button" (click)="enterFullScreen()" title="{{'FULLSCREEN' | translate}}">
+			<i class="icon-resize-full-alt"></i>
+		</button>
 	</div>
 </div>
 <app-board class="board" [tiles]="game.board.stones" [imageSet]="app.settings.tileset" [background]="app.settings.background" (clickEvent)="stoneClick($event)"></app-board>
 <div class="controls controls-bottom">
 	<div class="ctrl ctrl-stats">
-		<span class="link button" (click)="toggleSettings()" title="{{'OPEN_SETTINGS' | translate}}">
+		<button class="link button" (click)="toggleSettings()" title="{{'OPEN_SETTINGS' | translate}}">
 			<i class="icon-cog"></i>
-		</span>
-		<span class="link button" [class.inactive]="!app.settings.sounds" (click)="app.toggleSound()" title="{{'AUDIO_SOUNDS'|translate}}">
+		</button>
+		<button class="link button" [class.inactive]="!app.settings.sounds" (click)="app.toggleSound()" title="{{'AUDIO_SOUNDS'|translate}}">
 			<i class="icon-volume-low"></i>
-		</span>
-		<span class="link button" (click)="toggleTilesInfo()" title="{{'TILES_INFO' | translate}}">
+		</button>
+		<button class="link button" (click)="toggleTilesInfo()" title="{{'TILES_INFO' | translate}}">
 			<i class="icon-calendar"></i>
-		</span>
-<!--		<span class="label button" (click)="debugCheat()">CHEAT</span>-->
+		</button>
+
+		<!--		<span class="label button" (click)="debugCheat()">CHEAT</span>-->
 	</div>
 	<div class="ctrl ctrl-time">
 		<span class="label button text"><small>{{'STONES' | translate}}:</small> <span>{{game.board.count}}</span></span>
@@ -71,6 +72,6 @@
 <div *ngIf="newGameVisible" (click)="toggleNewGame();" class="overlay overlay-newgame">
 	<div class="overlay-popup" (click)="$event.stopPropagation();">
 		<span class="close" (click)="toggleNewGame();"><i class="icon-cancel-circled2 pull-right"></i></span>
-		<app-choose-layout class="choose" (startEvent)="startGame($event)"></app-choose-layout>
+		<app-choose-layout class="choose" (startEvent)="startGame($event)" [gameMode]="game.mode"></app-choose-layout>
 	</div>
 </div>

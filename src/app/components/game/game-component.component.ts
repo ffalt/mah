@@ -4,6 +4,7 @@ import {Stone} from '../../model/stone';
 import {Layout} from '../../model/types';
 import {AppService} from '../../service/app.service';
 import {BUILD_MODE_ID} from '../../model/builder';
+import {GAME_MODE_ID, GameModes} from '../../model/consts';
 
 interface DocEx extends Document {
 	fullScreen: boolean;
@@ -144,10 +145,10 @@ export class GameComponent {
 		this.newGameVisible = true;
 	}
 
-	startGame(data: { layout: Layout; mode: BUILD_MODE_ID }): void {
+	startGame(data: { layout: Layout; buildMode: BUILD_MODE_ID; gameMode: GAME_MODE_ID }): void {
 		this.newGameVisible = false;
 		this.game.reset();
-		this.game.start(data.layout, data.mode);
+		this.game.start(data.layout, data.buildMode, data.gameMode);
 	}
 
 	toggleNewGame(): void {

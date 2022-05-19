@@ -1,4 +1,6 @@
 // [x, [x, amount (with 2 steps each) ]]
+import {GAME_MODE_ID} from './consts';
+
 export interface CompactMappingX extends Array<number | Array<number>> {
 }
 
@@ -79,6 +81,7 @@ export class GameStateStore {
 	elapsed?: number;
 	state?: number;
 	layout: string;
+	gameMode: GAME_MODE_ID;
 	undo?: Array<Place>;
 	stones?: Array<StonePlace>;
 }

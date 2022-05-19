@@ -34,9 +34,8 @@
 			}
 		}
 
-		.generator {
+		.generator, .mode {
 			flex: 1;
-
 			label {
 				display: block;
 				margin-bottom: 2px;
@@ -47,6 +46,9 @@
 				text-overflow: ellipsis;
 				padding: 8px;
 			}
+		}
+		.mode {
+			max-width: 30%;
 		}
 	}
 

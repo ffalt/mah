@@ -14,13 +14,6 @@
 		<div>
 			<button (click)="clearTimesClick()">{{'BEST_TIMES_CLEAR'|translate}}</button>
 		</div>
-		<p>{{'TILES'|translate}}</p>
-		<div>
-			<label>
-				<input type="checkbox" [(ngModel)]="app.settings.contrast">
-				{{'HIGHER_CONTRAST'|translate}}
-			</label>
-		</div>
 	</div>
 	<div class="settings">
 		<p>{{'TILESET'|translate}}</p>
@@ -40,6 +33,13 @@
 					<li *ngFor="let back of backs; let i=index;"><input type="radio" name="back" id="back{{i}}" [value]="back.img" [(ngModel)]="app.settings.background"/><label for="back{{i}}">{{back.name|translate}}</label></li>
 				</ul>
 			</form>
+		</div>
+		<p>{{'TILES'|translate}}</p>
+		<div>
+			<label>
+				<input type="checkbox" [(ngModel)]="app.settings.contrast">
+				{{'HIGHER_CONTRAST'|translate}}
+			</label>
 		</div>
 	</div>
 </div>

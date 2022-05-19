@@ -119,5 +119,9 @@
 	"TILES_HONORS_WINDS": "Winds",
 	"TILES_HONORS_DRAGONS": "Dragons",
 	"SHUFFLE": "Embaralhar",
-	"SHUFFLE_LONG": "Embaralhe pedras neste jogo"
+	"SHUFFLE_LONG": "Embaralhe pedras neste jogo",
+	"GAME_MODE": "Modo",
+	"GAME_MODE_EASY": "Fácil",
+	"GAME_MODE_STANDARD": "Padrão",
+	"GAME_MODE_EXPERT": "Especialista"
 }

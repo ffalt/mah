@@ -119,5 +119,9 @@
 	"TILES_HONORS_WINDS": "Winds",
 	"TILES_HONORS_DRAGONS": "Dragons",
 	"SHUFFLE": "Перемешать",
-	"SHUFFLE_LONG": "Перемешать камни в этой игре"
+	"SHUFFLE_LONG": "Перемешать камни в этой игре",
+	"GAME_MODE": "Mодус",
+	"GAME_MODE_EASY": "Легко",
+	"GAME_MODE_STANDARD": "Стандарт",
+	"GAME_MODE_EXPERT": "Эксперт"
 }

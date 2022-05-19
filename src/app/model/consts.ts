@@ -13,6 +13,32 @@ export const STATES = {
 	freeze: 3
 };
 
+export const GAME_MODE_EASY = 'GAME_MODE_EASY';
+export const GAME_MODE_STANDARD = 'GAME_MODE_STANDARD';
+export const GAME_MODE_EXPERT = 'GAME_MODE_EXPERT';
+export const GameModes = [
+	{
+		id: GAME_MODE_EASY,
+		features: [
+			{title: 'SHUFFLE'},
+			{title: 'HINT'},
+			{title: 'UNDO'}
+		]
+	},
+	{
+		id: GAME_MODE_STANDARD,
+		features: [
+			{title: 'HINT'},
+			{title: 'UNDO'}
+		]
+	},
+	{
+		id: GAME_MODE_EXPERT,
+		features: []
+	}
+];
+export type GAME_MODE_ID = 'GAME_MODE_EASY' | 'GAME_MODE_STANDARD' | 'GAME_MODE_EXPERT';
+
 export const Backgrounds: Array<{ img?: string; name: string; small?: boolean }> = [
 	{img: undefined, name: 'BACK_NONE'},
 	{img: 'bamboo.jpg', name: 'BACK_BAMBOO'},

@@ -119,7 +119,11 @@
 	"TILES_HONORS_WINDS": "Winden",
 	"TILES_HONORS_DRAGONS": "Draken",
 	"SHUFFLE": "Shuffle",
-	"SHUFFLE_LONG": "Schud stenen in dit spel"
+	"SHUFFLE_LONG": "Schud stenen in dit spel",
+	"GAME_MODE": "Modus",
+	"GAME_MODE_EASY": "Eenvoudig",
+	"GAME_MODE_STANDARD": "Standaard",
+	"GAME_MODE_EXPERT": "Deskundige"
 }
 
 

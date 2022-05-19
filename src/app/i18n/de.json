@@ -119,5 +119,9 @@
 	"TILES_HONORS_WINDS": "Winde",
 	"TILES_HONORS_DRAGONS": "Drachen",
 	"SHUFFLE": "Mischen",
-	"SHUFFLE_LONG": "Steine im Spiel neu mischen"
+	"SHUFFLE_LONG": "Steine im Spiel neu mischen",
+	"GAME_MODE": "Modus",
+	"GAME_MODE_EASY": "Einfach",
+	"GAME_MODE_STANDARD": "Standard",
+	"GAME_MODE_EXPERT": "Profi"
 }

@@ -1,6 +1,6 @@
 import {Board} from './board';
 import {Clock} from './clock';
-import {STATES} from './consts';
+import {GAME_MODE_EASY, GAME_MODE_EXPERT, GAME_MODE_ID, GAME_MODE_STANDARD, STATES} from './consts';
 import {Sound, SOUNDS} from './sound';
 import {Stone} from './stone';
 import {GameStateStore, Layout, Place, StonePlace, StorageProvider} from './types';
@@ -14,6 +14,7 @@ export class Game {
 	state: number = STATES.idle;
 	message?: { msgID?: string; playTime?: number };
 	layoutID?: string = undefined;
+	mode: GAME_MODE_ID = GAME_MODE_STANDARD;
 
 	constructor(private storage: StorageProvider) {
 	}
@@ -91,10 +92,6 @@ export class Game {
 		this.setState(STATES.run);
 	}
 
-	hint(): void {
-		this.board.hint();
-	}
-
 	toggle(): void {
 		if (this.state === STATES.run) {
 			this.pause();
@@ -118,18 +115,32 @@ export class Game {
 		this.board.reset();
 	}
 
-	start(layout: Layout, mode: BUILD_MODE_ID): void {
+	start(layout: Layout, buildMode: BUILD_MODE_ID, gameMode: GAME_MODE_ID): void {
 		this.layoutID = layout.id;
-		this.board.applyMapping(layout.mapping, mode);
+		this.mode = gameMode;
+		this.board.applyMapping(layout.mapping, buildMode);
 		this.board.update();
 		this.run();
 	}
 
+	hint(): void {
+		if (this.mode === GAME_MODE_EXPERT) {
+			return;
+		}
+		this.board.hint();
+	}
+
 	shuffle(): void {
+		if (this.mode !== GAME_MODE_EASY) {
+			return;
+		}
 		this.board.shuffle();
 	}
 
 	back(): void {
+		if (this.mode === GAME_MODE_EXPERT) {
+			return;
+		}
 		if (!this.isRunning()) {
 			return;
 		}
@@ -142,6 +153,7 @@ export class Game {
 			if (store && store.stones) {
 				this.clock.elapsed = store.elapsed || 0;
 				this.layoutID = store.layout;
+				this.mode = store.gameMode || GAME_MODE_STANDARD;
 				this.state = store.state || STATES.idle;
 				this.board.load(store.stones, store.undo || []);
 				return true;
@@ -158,6 +170,7 @@ export class Game {
 				elapsed: this.clock.elapsed,
 				state: this.state,
 				layout: this.layoutID || '',
+				gameMode: this.mode,
 				undo: this.board.undo,
 				stones: this.board.save()
 			});
