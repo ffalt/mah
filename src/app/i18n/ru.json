@@ -117,5 +117,7 @@
 	"TILES_BONUS_FLOWERS": "Flowers",
 	"TILES_HONORS": "Honors",
 	"TILES_HONORS_WINDS": "Winds",
-	"TILES_HONORS_DRAGONS": "Dragons"
+	"TILES_HONORS_DRAGONS": "Dragons",
+	"SHUFFLE": "Перемешать",
+	"SHUFFLE_LONG": "Перемешать камни в этой игре"
 }

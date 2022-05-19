@@ -1,8 +1,9 @@
 import {Component, EventEmitter, Output} from '@angular/core';
-import {BUILD_MODE_ID, Builder, MODE_SOLVABLE} from '../../model/builder';
+import {BUILD_MODE_ID, Builder, BuilderModes, MODE_SOLVABLE} from '../../model/builder';
 import {Layout} from '../../model/types';
 import {LayoutService} from '../../service/layout.service';
 import {LocalstorageService} from '../../service/localstorage.service';
+import {Tiles} from '../../model/tiles';
 
 @Component({
 	selector: 'app-choose-layout',
@@ -12,7 +13,7 @@ import {LocalstorageService} from '../../service/localstorage.service';
 export class ChooseLayoutComponent {
 	@Output() readonly startEvent = new EventEmitter<{ layout: Layout; mode: BUILD_MODE_ID }>();
 	mode: BUILD_MODE_ID = MODE_SOLVABLE;
-	builder: Builder = new Builder();
+	modes = BuilderModes;
 
 	constructor(public layoutService: LayoutService, private storage: LocalstorageService) {
 	}

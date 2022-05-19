@@ -3,6 +3,7 @@ import {Layout, LoadLayout} from './types';
 import {BUILD_MODE_ID, Builder} from './builder';
 import {expandMapping, mappingToID} from './mapping';
 import {Solver} from './solver';
+import {Tiles} from './tiles';
 
 const filepath = './src/assets/data/boards.json';
 
@@ -13,7 +14,7 @@ const layouts: Array<Layout> = loadLayouts.map(o => {
 });
 
 const expectNoBlankTiles = (mode: BUILD_MODE_ID, layout: Layout) => {
-	const builder = new Builder();
+	const builder = new Builder(new Tiles());
 	const fails: Array<number> = [];
 	for (let i = 0; i < 100; i++) {
 		const stones = builder.build(mode, layout.mapping) || [];
@@ -26,7 +27,7 @@ const expectNoBlankTiles = (mode: BUILD_MODE_ID, layout: Layout) => {
 };
 
 const expectWinnable = (mode: BUILD_MODE_ID, layout: Layout) => {
-	const builder = new Builder();
+	const builder = new Builder(new Tiles());
 	const unsolvable: Array<number> = [];
 	for (let i = 0; i < 100; i++) {
 		const stones = builder.build(mode, layout.mapping) || [];

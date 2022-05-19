@@ -6,7 +6,7 @@
 	<div class="generator">
 		<label for="board-generator-select">{{'BOARD_GENERATOR' | translate}}:</label>
 		<select id="board-generator-select" [(ngModel)]="mode">
-			<option *ngFor="let m of builder.modes" value="{{m.id}}">{{m.id | translate}} - {{m.id + '_DESC' | translate}}</option>
+			<option *ngFor="let m of modes" value="{{m.id}}">{{m.id | translate}} - {{m.id + '_DESC' | translate}}</option>
 		</select>
 	</div>
 	<div class="start-links">

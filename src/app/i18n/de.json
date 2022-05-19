@@ -117,5 +117,7 @@
 	"TILES_BONUS_FLOWERS": "Blumen",
 	"TILES_HONORS": "Trümpfe",
 	"TILES_HONORS_WINDS": "Winde",
-	"TILES_HONORS_DRAGONS": "Drachen"
+	"TILES_HONORS_DRAGONS": "Drachen",
+	"SHUFFLE": "Mischen",
+	"SHUFFLE_LONG": "Steine im Spiel neu mischen"
 }

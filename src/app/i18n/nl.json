@@ -34,7 +34,7 @@
 	"OPEN_SETTINGS": "Klik hier om de instellingen te openen",
 	"OPEN_HELP": "Klik hier om het hulpvenster te openen",
 	"READ_MORE_WIKIPEDIA": "Lees meer hierover op Wikipedia (Engels)",
-	"READ_MORE_WIKIPEDIA_URL": "https://en.wikipedia.org/wiki/Mahjong_tiles",
+	"READ_MORE_WIKIPEDIA_URL": "https://nl.wikipedia.org/wiki/Mahjong",
 	"TILES_INFO": "Toon informatie over de stenen",
 	"TILES": "Stenen",
 	"MODE_SOLVABLE_DESC": "Een willekeurige legwijze met ten minste één oplossing",
@@ -117,7 +117,9 @@
 	"TILES_BONUS_FLOWERS": "Bloemen",
 	"TILES_HONORS": "Eretekens",
 	"TILES_HONORS_WINDS": "Winden",
-	"TILES_HONORS_DRAGONS": "Draken"
+	"TILES_HONORS_DRAGONS": "Draken",
+	"SHUFFLE": "Shuffle",
+	"SHUFFLE_LONG": "Schud stenen in dit spel"
 }
 
 

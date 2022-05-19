@@ -1,6 +1,8 @@
-import {BUILD_MODE_ID, Builder} from './builder';
+import {BUILD_MODE_ID, Builder, MODE_SOLVABLE} from './builder';
 import {safeGetStone, Stone} from './stone';
 import {Mapping, Place, StoneMapping, StonePlace} from './types';
+import {Tiles} from './tiles';
+import {BuilderBase} from './builder/base';
 
 interface StoneGroup {
 	group: number;
@@ -13,12 +15,12 @@ interface Hints {
 }
 
 export class Board {
-	builder: Builder = new Builder();
 	free: Array<Stone> = [];
 	stones: Array<Stone> = [];
 	count = 0;
 	hints: Hints = {groups: [], current: undefined};
 	selected?: Stone = undefined;
+	undo: Array<Place> = [];
 
 	clearSelection(): void {
 		if (this.selected) {
@@ -81,6 +83,7 @@ export class Board {
 		this.free = [];
 		this.count = 0;
 		this.stones = [];
+		this.undo = [];
 	}
 
 	canRemove(stone: Stone): boolean {
@@ -107,11 +110,61 @@ export class Board {
 		this.count = count;
 	}
 
+	back(): void {
+		if (this.undo.length < 2) {
+			return;
+		}
+		this.clearSelection();
+		this.clearHints();
+		const n1 = this.undo.pop();
+		const n2 = this.undo.pop();
+		if (!n1 || !n2) {
+			return;
+		}
+		this.stones.forEach(stone => {
+			if ((stone.z === n1[0]) && (stone.x === n1[1]) && (stone.y === n1[2])) {
+				stone.picked = false;
+			} else if ((stone.z === n2[0]) && (stone.x === n2[1]) && (stone.y === n2[2])) {
+				stone.picked = false;
+			}
+		});
+		this.update();
+	}
+
+	shuffle() {
+		const mapping: Mapping = [];
+		const tiles = new Tiles();
+		this.stones.forEach(stone => {
+			if (!stone.picked) {
+				mapping.push([stone.z, stone.x, stone.y]);
+			}
+		});
+		const builder: Builder = new Builder(tiles);
+		const stones = builder.build(MODE_SOLVABLE, mapping);
+		if (!stones) {
+			return;
+		}
+		const unusedTiles = tiles.list.filter(t => !stones.find(s => s.v === t.v));
+		this.undo.forEach(u => {
+			const tile = unusedTiles.shift();
+			if (tile) {
+				const stone = new Stone(u[0], u[1], u[2], tile.v, tile.groupnr);
+				stone.picked = true;
+				stones.push(stone);
+			}
+		});
+		BuilderBase.fillStones(stones, tiles);
+		this.stones = stones;
+		this.update();
+	}
+
 	load(mapping: StoneMapping, undos: Array<Place>): void {
 		if (!mapping) {
 			return;
 		}
-		const stones = this.builder.load(mapping);
+		this.undo = undos;
+		const builder: Builder = new Builder(new Tiles());
+		const stones = builder.load(mapping);
 		if (!stones) {
 			return;
 		}
@@ -122,6 +175,7 @@ export class Board {
 			}
 		});
 		this.stones = stones;
+		this.update();
 	}
 
 	save(): Array<StonePlace> {
@@ -129,7 +183,17 @@ export class Board {
 	}
 
 	applyMapping(mapping: Mapping, mode: BUILD_MODE_ID): void {
-		this.stones = this.builder.build(mode, mapping) || [];
+		const builder: Builder = new Builder(new Tiles());
+		this.stones = builder.build(mode, mapping) || [];
+	}
+
+	pick(sel: Stone, stone: Stone) {
+		this.clearSelection();
+		this.undo.push([sel.z, sel.x, sel.y], [stone.z, stone.x, stone.y]);
+		this.clearHints();
+		sel.picked = true;
+		stone.picked = true;
+		this.update();
 	}
 
 	private hintNext(): boolean {
@@ -166,4 +230,5 @@ export class Board {
 		return Object.keys(hash).map((key: string) =>
 			({group: hash[key][0].groupnr, stones: hash[key]}));
 	}
+
 }

@@ -17,8 +17,9 @@ export const BuilderModes = [
 export type BUILD_MODE_ID = 'MODE_SOLVABLE' | 'MODE_RANDOM';
 
 export class Builder {
-	tiles = new Tiles();
-	modes = BuilderModes;
+
+	constructor(private tiles: Tiles) {
+	}
 
 	load(mapping: StoneMapping): Array<Stone> | undefined {
 		const builder = new LoadBoardBuilder();

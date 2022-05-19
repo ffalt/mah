@@ -14,7 +14,6 @@ export class Game {
 	state: number = STATES.idle;
 	message?: { msgID?: string; playTime?: number };
 	layoutID?: string = undefined;
-	undo: Array<Place> = [];
 
 	constructor(private storage: StorageProvider) {
 	}
@@ -117,7 +116,6 @@ export class Game {
 		this.clock.reset();
 		this.setState(STATES.idle);
 		this.board.reset();
-		this.undo = [];
 	}
 
 	start(layout: Layout, mode: BUILD_MODE_ID): void {
@@ -127,25 +125,15 @@ export class Game {
 		this.run();
 	}
 
+	shuffle(): void {
+		this.board.shuffle();
+	}
+
 	back(): void {
-		if (!this.isRunning() || (this.undo.length < 2)) {
+		if (!this.isRunning()) {
 			return;
 		}
-		this.board.clearSelection();
-		this.board.clearHints();
-		const n1 = this.undo.pop();
-		const n2 = this.undo.pop();
-		if (!n1 || !n2) {
-			return;
-		}
-		this.board.stones.forEach(stone => {
-			if ((stone.z === n1[0]) && (stone.x === n1[1]) && (stone.y === n1[2])) {
-				stone.picked = false;
-			} else if ((stone.z === n2[0]) && (stone.x === n2[1]) && (stone.y === n2[2])) {
-				stone.picked = false;
-			}
-		});
-		this.board.update();
+		this.board.back();
 	}
 
 	load(): boolean {
@@ -153,10 +141,9 @@ export class Game {
 			const store: GameStateStore | undefined = this.storage.getState();
 			if (store && store.stones) {
 				this.clock.elapsed = store.elapsed || 0;
-				this.undo = store.undo || [];
 				this.layoutID = store.layout;
 				this.state = store.state || STATES.idle;
-				this.board.load(store.stones, this.undo);
+				this.board.load(store.stones, store.undo || []);
 				return true;
 			}
 		} catch (e) {
@@ -171,7 +158,7 @@ export class Game {
 				elapsed: this.clock.elapsed,
 				state: this.state,
 				layout: this.layoutID || '',
-				undo: this.undo,
+				undo: this.board.undo,
 				stones: this.board.save()
 			});
 		} catch (e) {
@@ -220,12 +207,7 @@ export class Game {
 		if (!sel) {
 			return;
 		}
-		this.board.clearSelection();
-		this.undo.push([sel.z, sel.x, sel.y], [stone.z, stone.x, stone.y]);
-		this.board.clearHints();
-		sel.picked = true;
-		stone.picked = true;
-		this.board.update();
+		this.board.pick(sel, stone);
 		if (this.board.count < 2) {
 			this.gameOverWining();
 		} else if (this.board.free.length < 1) {
