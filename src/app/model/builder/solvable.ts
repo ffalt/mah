@@ -2,7 +2,7 @@ import {Mapping, Place} from '../types';
 import {Tile, Tiles} from '../tiles';
 import {Stone} from '../stone';
 import {BuilderBase} from './base';
-import {LinearBoardBuilder} from './linear';
+import {RandomBoardBuilder} from './random';
 
 export class SolvableBoardBuilder extends BuilderBase {
 
@@ -26,14 +26,14 @@ export class SolvableBoardBuilder extends BuilderBase {
 			runs++;
 		}
 		if (pairs.length === 0) {
-			const linear = new LinearBoardBuilder();
-			return linear.build(mapping, tiles);
+			const fallback = new RandomBoardBuilder();
+			return fallback.build(mapping, tiles);
 		}
 		stones.forEach((stone: Stone) => {
 			stone.picked = false;
 		});
 		BuilderBase.fillStones(stones, tiles); // repair grouping & images, etc
-		// stones.sort((a, b) => a.v - b.v);
+		stones.sort((a, b) => a.v - b.v);
 		return stones;
 	}
 

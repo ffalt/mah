@@ -2,22 +2,19 @@ import {Stone} from './stone';
 import {Tiles} from './tiles';
 import {Mapping, StoneMapping} from './types';
 import {SolvableBoardBuilder} from './builder/solvable';
-import {LinearBoardBuilder} from './builder/linear';
 import {RandomBoardBuilder} from './builder/random';
 import {LoadBoardBuilder} from './builder/load';
 import {BuilderType} from './builder/base';
 
 export const MODE_SOLVABLE = 'MODE_SOLVABLE';
-export const MODE_LINEAR = 'MODE_LINEAR';
 export const MODE_RANDOM = 'MODE_RANDOM';
 
 export const BuilderModes = [
 	{id: MODE_SOLVABLE, builder: SolvableBoardBuilder},
-	{id: MODE_LINEAR, builder: LinearBoardBuilder},
 	{id: MODE_RANDOM, builder: RandomBoardBuilder}
 ];
 
-export type BUILD_MODE_ID = 'MODE_SOLVABLE' | 'MODE_LINEAR' | 'MODE_RANDOM';
+export type BUILD_MODE_ID = 'MODE_SOLVABLE' | 'MODE_RANDOM';
 
 export class Builder {
 	tiles = new Tiles();

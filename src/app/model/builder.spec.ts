@@ -54,12 +54,6 @@ describe('builder', () => {
 			it('with solvable build should be solveable', async () => {
 				expectWinnable('MODE_SOLVABLE', layout);
 			});
-			it('with linear build should not have blank tiles', async () => {
-				expectNoBlankTiles('MODE_LINEAR', layout);
-			});
-			// it('with linear build should be solveable', async () => {
-			// 	expectWinnable('MODE_LINEAR', layout);
-			// });
 			it('with random build should not have blank tiles', async () => {
 				expectNoBlankTiles('MODE_RANDOM', layout);
 			});
