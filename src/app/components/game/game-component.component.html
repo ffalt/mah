@@ -23,7 +23,7 @@
 		</button>
 	</div>
 </div>
-<app-board class="board" [tiles]="game.board.stones" [imageSet]="app.settings.tileset" [background]="app.settings.background" (clickEvent)="stoneClick($event)"></app-board>
+<app-board class="board" [stones]="game.board.stones" [imageSet]="app.settings.tileset" [background]="app.settings.background" (clickEvent)="stoneClick($event)"></app-board>
 <div class="controls controls-bottom">
 	<div class="ctrl ctrl-stats">
 		<button class="link button" (click)="toggleSettings()" title="{{'OPEN_SETTINGS' | translate}}">

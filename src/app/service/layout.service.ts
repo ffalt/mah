@@ -68,9 +68,10 @@ export class LayoutService {
 	storeCustomBoards(list: Array<LoadLayout>) {
 		const customLayouts = this.loadCustomBoards();
 		this.storage.storeCustomLayouts(customLayouts.concat(list));
+		this.layouts.items = this.layouts.items.concat(list.map(layout => this.expandLayout(layout, true)));
 	}
 
-	private generatePreview(mapping: Mapping): SafeUrl {
+	generatePreview(mapping: Mapping): SafeUrl {
 		return this.sanitizer.bypassSecurityTrustUrl(generateStaticLayoutSVG(mapping));
 	}
 

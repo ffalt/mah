@@ -15,6 +15,7 @@
 	"exclude": [
 		"local",
 		"resources",
+		"src/**/*.worker.ts",
 		"test-config.helper.ts",
 		"src/environments/environment.prod.ts"
 	]

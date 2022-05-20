@@ -324,77 +324,7 @@
 		overflow: hidden;
 	}
 
-	.overlay {
-		height: 100%;
-		width: 100%;
-		position: fixed;
-		top: 0;
-		left: 0;
-		z-index: 10000;
-		background-color: rgba(0, 0, 0, 0.2);
-		max-height: 100%;
-		font-size: $base-font-size*0.9;
-
-		@include respond-to(medium-up) {
-			font-size: $base-font-size*1.1;
-		}
-
-		@include respond-to(large-up) {
-			font-size: $base-font-size*1.2;
-		}
-
-		@include respond-to(huge-up) {
-			font-size: $base-font-size*1.2;
-		}
-
-		@include respond-to(jumbo-up) {
-			font-size: $base-font-size*2;
-		}
-
-		@include respond-to-height(small-down) {
-			font-size: $base-font-size*0.9;
-		}
-
-		.overlay-popup {
-			position: fixed;
-			top: 50%;
-			left: 50%;
-			transform: translate(-50%, -50%);
-			max-height: 98%;
-			max-width: 98%;
-			margin-left: auto;
-			margin-right: auto;
-			border: 1px solid $popup-border-color;
-			background-color: $popup-background-color;
-			padding: 1em;
-			line-height: 1.2em;
-			@include rounded(12px);
-			@include box-shadow(12px, 14px, 16px, rgba(0, 0, 0, 0.5));
-
-			@include respond-to(jumbo-up) {
-				@include rounded(30px);
-			}
-
-			@include respond-to(huge-up) {
-				max-height: 80%;
-				max-width: 80%;
-			}
-		}
-
-		.close {
-			right: 4px;
-			top: 4px;
-			position: absolute;
-			color: darkgray;
-			cursor: pointer;
-			padding: 4px;
-			border-radius: 6px;
-
-			&:hover {
-				border: 1px solid $popup-border-color;
-			}
-		}
-	}
+	@include overlay();
 
 	.overlay-help, .overlay-settings, .overlay-tiles-info {
 		z-index: 10010;

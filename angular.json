@@ -34,7 +34,8 @@
               "src/fonts/kulim-park/css/kulim-park.css",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "webWorkerTsConfig": "tsconfig.worker.json"
           },
           "configurations": {
             "production": {

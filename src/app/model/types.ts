@@ -46,6 +46,11 @@ export interface LoadLayout {
 	map: CompactMapping;
 }
 
+export interface MahFormat {
+	mah: '1.0';
+	boards: Array<LoadLayout>;
+}
+
 export interface ImportLayout {
 	name: string;
 	by?: string;

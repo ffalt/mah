@@ -15,6 +15,7 @@ import {AppService} from './service/app.service';
 import {LayoutService} from './service/layout.service';
 import {SvgdefService} from './service/svgdef.service';
 import {CoreModule} from './modules/core/core.module';
+import {WorkerService} from './service/worker.service';
 
 @NgModule({
 	imports: [
@@ -36,6 +37,7 @@ import {CoreModule} from './modules/core/core.module';
 	providers: [
 		AppService,
 		LayoutService,
+		WorkerService,
 		SvgdefService
 	],
 	bootstrap: [AppComponent]

@@ -12,7 +12,7 @@ import {AppService} from '../../../../service/app.service';
 export class BoardComponent implements OnInit, OnChanges {
 	@Input() background: string;
 	@Input() imageSet: string;
-	@Input() tiles: Array<Stone>;
+	@Input() stones: Array<Stone>;
 	@Output() readonly clickEvent = new EventEmitter<Stone>();
 	@HostBinding('style.background-image') backgroundUrl: string | undefined;
 	drawStones: Array<Draw> = [];
@@ -34,8 +34,8 @@ export class BoardComponent implements OnInit, OnChanges {
 	}
 
 	ngOnChanges(changes: SimpleChanges): void {
-		if (changes.tiles) {
-			this.updateTiles(changes.tiles.currentValue);
+		if (changes.stones) {
+			this.updateStones(changes.stones.currentValue);
 		}
 		if (changes.background) {
 			this.updateBackground(changes.background.currentValue);
@@ -71,7 +71,7 @@ export class BoardComponent implements OnInit, OnChanges {
 		this.viewport = getDrawViewPort(this.drawStones, 1470, 960, this.rotate);
 	}
 
-	private updateTiles(stones: Array<Stone>): void {
+	private updateStones(stones: Array<Stone>): void {
 		if (!stones) {
 			return;
 		}
