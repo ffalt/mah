@@ -1,4 +1,6 @@
-Object.defineProperty(window, 'CSS', { value: null });
+import {createStatsSolveWorker} from './src/app/worker/create-stats-solve.worker';
+
+Object.defineProperty(window, 'CSS', {value: null});
 Object.defineProperty(document, 'doctype', {
 	value: '<!DOCTYPE html>',
 });
@@ -22,3 +24,26 @@ Object.defineProperty(document.body.style, 'transform', {
 		};
 	},
 });
+
+/* global mocks for jsdom */
+const mock = () => {
+	const storage = new Map<string, any>();
+	return {
+		getItem: (key: string) => storage.get(key),
+		setItem: (key: string, value: string) => storage.set(key, value || ''),
+		removeItem: (key: string) => storage.delete(key),
+		clear: () => (storage.clear())
+	};
+};
+
+Object.defineProperty(window, 'localStorage', {value: mock()});
+Object.defineProperty(window, 'sessionStorage', {value: mock()});
+
+jest.mock('./src/app/worker/create-stats-solve.worker.ts', () => ({
+	createStatsSolveWorker() {
+		return;
+	}
+}));
+
+/* output shorter and more meaningful Zone error stack traces */
+// Error.stackTraceLimit = 2;

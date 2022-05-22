@@ -132,6 +132,8 @@ export class Board {
 	}
 
 	shuffle() {
+		this.clearSelection();
+		this.clearHints();
 		const mapping: Mapping = [];
 		const tiles = new Tiles();
 		this.stones.forEach(stone => {

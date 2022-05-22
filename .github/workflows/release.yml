@@ -21,9 +21,9 @@ jobs:
         with:
           node-version: 14.x
 
-      - name: Write App Name
+      - name: Write App Config
         run: |
-          echo "{\"name\": \"Mah\"}" > custom-build-config.json
+          echo "{\"name\": \"Mah\", \"editor\":true}" > custom-build-config.json
 
       - name: Install Dependencies
         run: |
@@ -47,6 +47,10 @@ jobs:
           BRANCH: gh-pages # The branch the action should deploy to.
           FOLDER: dist # The folder the action should deploy.
           CLEAN: true
+
+      - name: Write App Config
+        run: |
+          echo "{\"name\": \"Mah\"}" > custom-build-config.json
 
       - name: Build
         run: |
