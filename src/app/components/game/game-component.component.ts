@@ -1,10 +1,12 @@
 import {Component, HostListener} from '@angular/core';
 import {Game} from '../../model/game';
-import {Stone} from '../../model/stone';
-import {Layout} from '../../model/types';
+import {Stone, StonePosition} from '../../model/stone';
+import {Layout, Place} from '../../model/types';
 import {AppService} from '../../service/app.service';
 import {BUILD_MODE_ID} from '../../model/builder';
 import {GAME_MODE_ID, GameModes} from '../../model/consts';
+import {WorkerService} from '../../service/worker.service';
+import {environment} from '../../../environments/environment';
 
 interface DocEx extends Document {
 	fullScreen: boolean;
@@ -35,7 +37,7 @@ export class GameComponent {
 	settingsVisible: boolean = false;
 	newGameVisible: boolean = false;
 
-	constructor(public app: AppService) {
+	constructor(public app: AppService, private workerService: WorkerService) {
 		this.game = app.game;
 		if (this.game.isIdle()) {
 			this.newGameVisible = true;
@@ -55,6 +57,9 @@ export class GameComponent {
 				break;
 			case 84: // t
 				this.game.hint();
+				break;
+			case 71: // g
+				this.debugSolve();
 				break;
 			case 85: // u
 				this.game.back();
@@ -181,8 +186,38 @@ export class GameComponent {
 		}
 	}
 
+	debugSolve(): void {
+		if (environment.production) {
+			return;
+		}
+		const play = (index: number, list: Array<Place>) => {
+			const t1 = list[index];
+			const t2 = list[index + 1];
+			if (!t1 || !t2) {
+				return;
+			}
+			const stones = this.game.board.stones.filter(s => (
+				(s.z === t1[0]) && (s.x === t1[1]) && (s.y === t1[2]) ||
+				(s.z === t2[0]) && (s.x === t2[1]) && (s.y === t2[2]))
+			);
+			if (stones.length > 1) {
+				stones.forEach(stone => {
+					stone.selected = true;
+				});
+				setTimeout(() => {
+					this.game.board.pick(stones[0], stones[1]);
+					play(index + 2, list);
+				}, 300);
+			}
+		};
+
+		this.workerService.solveGame(this.game.board.stones.filter(s => !s.picked).map(s => s.toPosition()), data => {
+			play(0, data.order);
+		});
+	}
+
 	// debugCheat(): void {
-	// 	(this.game as any).gameOverWining();
+	// 	this.game.gameOverWining();
 	// }
 
 }

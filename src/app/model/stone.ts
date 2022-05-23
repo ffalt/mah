@@ -1,11 +1,19 @@
-export class Stone {
+export interface StonePosition {
 	x: number;
 	y: number;
 	z: number;
 	v: number;
+	groupnr: number;
+}
+
+export class Stone implements StonePosition {
+	x: number;
+	y: number;
+	z: number;
+	v: number;
+	groupnr: number;
 	hinted: boolean;
 	selected: boolean;
-	groupnr: number;
 	picked: boolean = false;
 	state: {
 		blocked: boolean;
@@ -28,6 +36,10 @@ export class Stone {
 		this.y = y;
 		this.v = v;
 		this.groupnr = groupnr;
+	}
+
+	toPosition(): StonePosition {
+		return {z: this.z, x: this.x, y: this.y, v: this.v, groupnr: this.groupnr};
 	}
 
 	isBlocked(): boolean {

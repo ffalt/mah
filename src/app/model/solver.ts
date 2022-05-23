@@ -1,4 +1,5 @@
-import {Stone} from './stone';
+import {StonePosition} from './stone';
+import {Place} from './types';
 
 /*
 	MIT
@@ -137,7 +138,7 @@ export class Solver {
 	maxwidth: number = 100;
 	maxdepth: number = 10;
 
-	solveLayout(stones: Array<Stone>): number {
+	solveLayout(stones: Array<StonePosition>): number {
 		// clear layout pointers
 		for (let row = 0; row < this.maxheight; row++) {
 			this.lo[row] = [];
@@ -163,7 +164,96 @@ export class Solver {
 		});
 
 		this.ntilesCount = stones.length;
-		return this.solve(0, 0);
+		const result = this.solve(0, 0);
+		return result;
+	}
+
+	writeGame(): Array<Place> {
+		let ntiles1 = this.ntilesCount;
+		let ntiles2 = this.ntilesCount;
+		const result: Array<Place> = [];
+		const writepair = (k: number, a: number, b: number) => {
+			const t1: tile = this.qt[k].member[a] as tile;
+			const t2: tile = this.qt[k].member[b] as tile;
+			for (let row = 0; row < this.maxheight; row++) {
+				for (let col = 0; col < this.maxwidth; col++) {
+					for (let lev = 0; lev < this.maxdepth; lev++) {
+						if (this.lo[row][col][lev] === t1 || this.lo[row][col][lev] === t2) {
+							result.push([lev, col, row]);
+						}
+					}
+				}
+			}
+		};
+		this.unrotateGroups();
+		// play until no tiles can be removed any more
+		do {
+			ntiles1 = ntiles2;
+			for (let k = 0; k < this.ngroups; k++) {
+				const qtk = this.qt[k];
+				const qtm0 = qtk.member[0];
+				const qtm1 = qtk.member[1];
+				const qtm2 = qtk.member[2];
+				const qtm3 = qtk.member[3];
+				switch (qtk.bestpairing) {
+					case 1: // pairing 0-1, 2-3
+						if (qtm0 && qtm1 && qtm2 && !(qtm0.isplayed) && isplayable(qtm0) && isplayable(qtm1)) {
+							writepair(k, 0, 1);
+							qtm0.isplayed = true;
+							qtm1.isplayed = true;
+							ntiles2 -= 2;
+							qtk.isplayed = qtm2.isplayed;
+						}
+						if (qtm2 && qtm3 && !(qtm2.isplayed) && isplayable(qtm2) && isplayable(qtm3)) {
+							writepair(k, 2, 3);
+							qtm2.isplayed = true;
+							qtm3.isplayed = true;
+							ntiles2 -= 2;
+						}
+						break;
+					case 2: // pairing 0-2, 1-3
+						if (qtm0 && qtm2 && !(qtm0.isplayed) && isplayable(qtm0) && isplayable(qtm2)) {
+							writepair(k, 0, 2);
+							qtm0.isplayed = true;
+							qtm2.isplayed = true;
+							ntiles2 -= 2;
+						}
+						if (qtm1 && qtm3 && !(qtm1.isplayed) && isplayable(qtm1) && isplayable(qtm3)) {
+							writepair(k, 1, 3);
+							qtm1.isplayed = true;
+							qtm3.isplayed = true;
+							ntiles2 -= 2;
+						}
+						break;
+					case 3: // pairing 0-3, 1-2
+						if (qtm0 && qtm3 && !(qtm0.isplayed) && isplayable(qtm0) && isplayable(qtm3)) {
+							writepair(k, 0, 3);
+							qtm0.isplayed = true;
+							qtm3.isplayed = true;
+							ntiles2 -= 2;
+						}
+						if (qtm1 && qtm2 && !(qtm1.isplayed) && isplayable(qtm1) && isplayable(qtm2)) {
+							writepair(k, 1, 2);
+							qtm1.isplayed = true;
+							qtm2.isplayed = true;
+							ntiles2 -= 2;
+						}
+						break;
+					case 4: // half a group, pairing 0-1
+						if (qtm0 && qtm1 && !(qtm0.isplayed) && isplayable(qtm0) && isplayable(qtm1)) {
+							writepair(k, 0, 1);
+							qtm0.isplayed = true;
+							qtm1.isplayed = true;
+							ntiles2 -= 2;
+						}
+						break;
+					default:
+						break;
+				}
+			}
+		}
+		while (ntiles2 !== ntiles1);
+		return result;
 	}
 
 	// initializes both randomsolve and suresolve

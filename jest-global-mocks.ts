@@ -45,5 +45,11 @@ jest.mock('./src/app/worker/create-stats-solve.worker.ts', () => ({
 	}
 }));
 
+jest.mock('./src/app/worker/create-solve.worker.ts', () => ({
+	createSolveWorker() {
+		return;
+	}
+}));
+
 /* output shorter and more meaningful Zone error stack traces */
 // Error.stackTraceLimit = 2;
