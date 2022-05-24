@@ -24,7 +24,7 @@ export interface LayoutGroup {
 	styleUrls: ['./layout-list.component.scss']
 })
 export class LayoutListComponent implements OnInit, OnChanges {
-	@Input() layouts: Array<Layout>;
+	@Input() layouts?: Array<Layout>;
 	@Output() readonly startEvent = new EventEmitter<Layout>();
 	groups: Array<LayoutGroup> = [];
 
