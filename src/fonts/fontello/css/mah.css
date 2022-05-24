@@ -1,11 +1,11 @@
 @font-face {
   font-family: 'mah';
-  src: url('../font/mah.eot?47622018');
-  src: url('../font/mah.eot?47622018#iefix') format('embedded-opentype'),
-       url('../font/mah.woff2?47622018') format('woff2'),
-       url('../font/mah.woff?47622018') format('woff'),
-       url('../font/mah.ttf?47622018') format('truetype'),
-       url('../font/mah.svg?47622018#mah') format('svg');
+  src: url('../font/mah.eot?4927786');
+  src: url('../font/mah.eot?4927786#iefix') format('embedded-opentype'),
+       url('../font/mah.woff2?4927786') format('woff2'),
+       url('../font/mah.woff?4927786') format('woff'),
+       url('../font/mah.ttf?4927786') format('truetype'),
+       url('../font/mah.svg?4927786#mah') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -15,7 +15,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: 'mah';
-    src: url('../font/mah.svg?47622018#mah') format('svg');
+    src: url('../font/mah.svg?4927786#mah') format('svg');
   }
 }
 */
@@ -54,6 +54,7 @@
   /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
 }
 
+.icon-pause:before { content: '\e800'; } /* '' */
 .icon-lightbulb:before { content: '\e803'; } /* '' */
 .icon-undo:before { content: '\e807'; } /* '' */
 .icon-spin1:before { content: '\e808'; } /* '' */

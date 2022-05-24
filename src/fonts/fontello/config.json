@@ -71,6 +71,12 @@
       "css": "trash-empty",
       "code": 59413,
       "src": "fontawesome"
+    },
+    {
+      "uid": "d8d378d0ce413f231dfa37592e39c227",
+      "css": "pause",
+      "code": 59392,
+      "src": "entypo"
     }
   ]
 }
