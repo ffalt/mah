@@ -1,16 +1,15 @@
-// import {CustomWebpackBrowserSchema, TargetOptions} from '@angular-builders/custom-webpack';
-var fs = require('fs');
-var webpack = require('webpack');
-var pkg = require('./package.json');
-var appName = 'Mah Jong';
-var editor = false;
+const fs = require('fs');
+const webpack = require('webpack');
+const pkg = require('./package.json');
+let appName = 'Mah Jong';
+let editor = false;
 if (fs.existsSync('./custom-build-config.json')) {
-	var config = JSON.parse(fs.readFileSync('./custom-build-config.json').toString());
+	const config = JSON.parse(fs.readFileSync('./custom-build-config.json').toString());
 	appName = config.name || appName;
 	editor = !!config.editor;
 }
 
-function customBuildOptions(config, options, targetOptions) {
+function customBuildOptions(config) {
 	config.plugins.push(
 		new webpack.DefinePlugin({
 			APP_VERSION: JSON.stringify(pkg.version),

@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-internal-modules
 import {TestBed} from '@angular/core/testing';
 
 type CompilerOptions = Partial<{

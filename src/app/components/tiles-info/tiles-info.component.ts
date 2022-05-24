@@ -7,6 +7,6 @@ import {TILES_INFOS} from '../../model/consts';
 	styleUrls: ['./tiles-info.component.scss']
 })
 export class TilesInfoComponent {
-	info = TILES_INFOS;
+	TILES_INFOS = TILES_INFOS;
 	@Input() imageSet: any;
 }

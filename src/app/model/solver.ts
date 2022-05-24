@@ -39,7 +39,7 @@ interface tile {
 	// The group of the tile (0-35)
 	value: number;
 	// If the tile has been played already by the solver during the routine prune()
-	isplayed: boolean;
+	isPlayed: boolean;
 }
 
 // computes if a tile can be played by the solver
@@ -51,7 +51,7 @@ function isplayable(t?: tile): boolean {
 // checks if there are no above neighbo(u)rs
 	let above = t.above[k];
 	while (above !== undefined) {
-		if (!above.isplayed) {
+		if (!above.isPlayed) {
 			return false;
 		}
 		k++;
@@ -61,12 +61,12 @@ function isplayable(t?: tile): boolean {
 	let left = t.left[k];
 // checks if there are no left neighbo(u)rs
 	while (left !== undefined) {
-		if (!left.isplayed) {
+		if (!left.isPlayed) {
 			k = 0;
 // checks if there are no right neighbo(u)rs
 			let right = t.right[k];
 			while (right !== undefined) {
-				if (!right.isplayed) {
+				if (!right.isPlayed) {
 					return false;
 				}
 				k++;
@@ -78,12 +78,6 @@ function isplayable(t?: tile): boolean {
 		left = t.left[k];
 	}
 	return true;
-}
-
-function assert(b: boolean, msg: string): void {
-	if (!b) {
-		throw new Error(msg);
-	}
 }
 
 function rand(): number {
@@ -108,6 +102,89 @@ interface group {
 	bestpairing: number;
 // how often the last three tiles are cycled
 	rotation: number;
+}
+
+export class SolverWriter {
+	ntiles1: number;
+	ntiles2: number;
+	result: Array<Place> = [];
+
+	constructor(ntilesCount: number,
+							private qt: Array<group>,
+							private lo: Array<Array<Array<tile | undefined>>>,
+							private ngroups: number,
+							private maxheight: number,
+							private maxwidth: number,
+							private maxdepth: number
+	) {
+		this.ntiles1 = ntilesCount;
+		this.ntiles2 = ntilesCount;
+	}
+
+	write() {
+		// play until no tiles can be removed anymore
+		do {
+			this.ntiles1 = this.ntiles2;
+			for (let k = 0; k < this.ngroups; k++) {
+				this.writeGroup(k);
+			}
+		} while (this.ntiles2 !== this.ntiles1);
+		return this.result;
+	}
+
+	private writePair(k: number, a: number, b: number) {
+		const t1: tile = this.qt[k].member[a] as tile;
+		const t2: tile = this.qt[k].member[b] as tile;
+		for (let row = 0; row < this.maxheight; row++) {
+			for (let col = 0; col < this.maxwidth; col++) {
+				for (let lev = 0; lev < this.maxdepth; lev++) {
+					if (this.lo[row][col][lev] === t1 || this.lo[row][col][lev] === t2) {
+						this.result.push([lev, col, row]);
+					}
+				}
+			}
+		}
+	}
+
+	private writePairing(k: number, qtk: group, a: number, b: number): boolean {
+		const qtmA = qtk.member[a] as tile;
+		const qtmB = qtk.member[b] as tile;
+		if (qtmA && qtmB && !(qtmA.isPlayed) && isplayable(qtmA) && isplayable(qtmB)) {
+			this.writePair(k, a, b);
+			qtmA.isPlayed = true;
+			qtmB.isPlayed = true;
+			this.ntiles2 -= 2;
+			return true;
+		}
+		return false;
+	}
+
+	private writeGroup(k: number) {
+		const qtk = this.qt[k];
+		switch (qtk.bestpairing) {
+			case 1: // pairing 0-1, 2-3
+				if (this.writePairing(k, qtk, 0, 1)) {
+					const qtm2 = qtk.member[2] as tile;
+					qtk.isplayed = qtm2.isPlayed;
+				}
+				this.writePairing(k, qtk, 2, 3);
+				break;
+			case 2: // pairing 0-2, 1-3
+				this.writePairing(k, qtk, 0, 2);
+				this.writePairing(k, qtk, 1, 3);
+				break;
+			case 3: // pairing 0-3, 1-2
+				this.writePairing(k, qtk, 0, 3);
+				this.writePairing(k, qtk, 1, 2);
+				break;
+			case 4: // half a group, pairing 0-1
+				this.writePairing(k, qtk, 0, 1);
+				break;
+			default:
+				break;
+		}
+	}
+
 }
 
 export class Solver {
@@ -157,103 +234,56 @@ export class Solver {
 				below: [],
 				value: stone.groupnr,
 				// If the tile has been played already by the solver during the routine prune()
-				isplayed: false
+				isPlayed: false
 			};
 			this.lo[stone.y][stone.x][stone.z] = t;
 			this.tl.push(t);
 		});
 
 		this.ntilesCount = stones.length;
-		const result = this.solve(0, 0);
-		return result;
+		return this.solve(0, 0);
 	}
 
 	writeGame(): Array<Place> {
-		let ntiles1 = this.ntilesCount;
-		let ntiles2 = this.ntilesCount;
-		const result: Array<Place> = [];
-		const writepair = (k: number, a: number, b: number) => {
-			const t1: tile = this.qt[k].member[a] as tile;
-			const t2: tile = this.qt[k].member[b] as tile;
-			for (let row = 0; row < this.maxheight; row++) {
-				for (let col = 0; col < this.maxwidth; col++) {
-					for (let lev = 0; lev < this.maxdepth; lev++) {
-						if (this.lo[row][col][lev] === t1 || this.lo[row][col][lev] === t2) {
-							result.push([lev, col, row]);
-						}
-					}
-				}
-			}
-		};
 		this.unrotateGroups();
-		// play until no tiles can be removed any more
-		do {
-			ntiles1 = ntiles2;
-			for (let k = 0; k < this.ngroups; k++) {
-				const qtk = this.qt[k];
-				const qtm0 = qtk.member[0];
-				const qtm1 = qtk.member[1];
-				const qtm2 = qtk.member[2];
-				const qtm3 = qtk.member[3];
-				switch (qtk.bestpairing) {
-					case 1: // pairing 0-1, 2-3
-						if (qtm0 && qtm1 && qtm2 && !(qtm0.isplayed) && isplayable(qtm0) && isplayable(qtm1)) {
-							writepair(k, 0, 1);
-							qtm0.isplayed = true;
-							qtm1.isplayed = true;
-							ntiles2 -= 2;
-							qtk.isplayed = qtm2.isplayed;
-						}
-						if (qtm2 && qtm3 && !(qtm2.isplayed) && isplayable(qtm2) && isplayable(qtm3)) {
-							writepair(k, 2, 3);
-							qtm2.isplayed = true;
-							qtm3.isplayed = true;
-							ntiles2 -= 2;
-						}
-						break;
-					case 2: // pairing 0-2, 1-3
-						if (qtm0 && qtm2 && !(qtm0.isplayed) && isplayable(qtm0) && isplayable(qtm2)) {
-							writepair(k, 0, 2);
-							qtm0.isplayed = true;
-							qtm2.isplayed = true;
-							ntiles2 -= 2;
-						}
-						if (qtm1 && qtm3 && !(qtm1.isplayed) && isplayable(qtm1) && isplayable(qtm3)) {
-							writepair(k, 1, 3);
-							qtm1.isplayed = true;
-							qtm3.isplayed = true;
-							ntiles2 -= 2;
-						}
-						break;
-					case 3: // pairing 0-3, 1-2
-						if (qtm0 && qtm3 && !(qtm0.isplayed) && isplayable(qtm0) && isplayable(qtm3)) {
-							writepair(k, 0, 3);
-							qtm0.isplayed = true;
-							qtm3.isplayed = true;
-							ntiles2 -= 2;
-						}
-						if (qtm1 && qtm2 && !(qtm1.isplayed) && isplayable(qtm1) && isplayable(qtm2)) {
-							writepair(k, 1, 2);
-							qtm1.isplayed = true;
-							qtm2.isplayed = true;
-							ntiles2 -= 2;
-						}
-						break;
-					case 4: // half a group, pairing 0-1
-						if (qtm0 && qtm1 && !(qtm0.isplayed) && isplayable(qtm0) && isplayable(qtm1)) {
-							writepair(k, 0, 1);
-							qtm0.isplayed = true;
-							qtm1.isplayed = true;
-							ntiles2 -= 2;
-						}
-						break;
-					default:
-						break;
-				}
+		const writer = new SolverWriter(this.ntilesCount, this.qt, this.lo, this.ngroups, this.maxheight, this.maxwidth, this.maxdepth);
+		return writer.write();
+	}
+
+	// play a tile for randomsolve
+	private static playTile(t: tile, nfree: Array<number>, ntiles2: number): number {
+		let ntiles3 = ntiles2;
+		for (let i = 0; t.left[i] !== undefined; i++) {
+			const tleft = t.left[i] as tile;
+			if (!tleft.isPlayed) {
+				nfree[tleft.value] -= isplayable(tleft) ? 1 : 0;
 			}
 		}
-		while (ntiles2 !== ntiles1);
-		return result;
+		for (let i = 0; t.right[i] !== undefined; i++) {
+			const tright = t.right[i] as tile;
+			if (!tright.isPlayed) {
+				nfree[tright.value] -= isplayable(tright) ? 1 : 0;
+			}
+		}
+		t.isPlayed = true;
+		ntiles3--;
+		for (let i = 0; t.left[i] !== undefined; i++) {
+			const tleft = t.left[i] as tile;
+			if (!tleft.isPlayed) {
+				nfree[tleft.value] += isplayable(tleft) ? 1 : 0;
+			}
+		}
+		for (let i = 0; t.right[i] !== undefined; i++) {
+			const tright = t.right[i] as tile;
+			if (!tright.isPlayed) {
+				nfree[tright.value] += isplayable(tright) ? 1 : 0;
+			}
+		}
+		for (let i = 0; t.below[i] !== undefined; i++) {
+			const tbelow = t.below[i] as tile;
+			nfree[tbelow.value] += isplayable(tbelow) ? 1 : 0;
+		}
+		return ntiles3;
 	}
 
 	// initializes both randomsolve and suresolve
@@ -277,7 +307,7 @@ export class Solver {
 			tlk.below[2] = undefined;
 			tlk.below[3] = undefined;
 			tlk.below[4] = undefined;
-			tlk.isplayed = false;
+			tlk.isPlayed = false;
 		});
 		// compute left and right neighbours
 		for (let row = 0; row < this.maxheight; row++) {
@@ -401,7 +431,7 @@ export class Solver {
 		let ntiles1 = this.ntilesCount;
 		let ntiles2 = this.ntilesCount;
 		this.nplays++;
-		// play until no tiles can be removed any more
+		// play until no tiles can be removed anymore
 		do {
 			ntiles1 = ntiles2;
 			for (let k = 0; k < this.ngroups; k++) {
@@ -415,56 +445,56 @@ export class Solver {
 						case 0: { // free group, no pairing
 							// first two played together,
 							// last two played separate
-							if (qtk0.isplayed || qtk1.isplayed || qtk2.isplayed) {
-								if (!(qtk0.isplayed) && isplayable(qtk0)) {
-									qtk0.isplayed = true;
+							if (qtk0.isPlayed || qtk1.isPlayed || qtk2.isPlayed) {
+								if (!(qtk0.isPlayed) && isplayable(qtk0)) {
+									qtk0.isPlayed = true;
 									ntiles1++;
 								}
-								if (!(qtk1.isplayed) && isplayable(qtk1)) {
-									qtk1.isplayed = true;
+								if (!(qtk1.isPlayed) && isplayable(qtk1)) {
+									qtk1.isPlayed = true;
 									ntiles1++;
 								}
-								if (!(qtk2.isplayed) && isplayable(qtk2)) {
-									qtk2.isplayed = true;
+								if (!(qtk2.isPlayed) && isplayable(qtk2)) {
+									qtk2.isPlayed = true;
 									ntiles1++;
 								}
-								if (!(qtk3.isplayed) && isplayable(qtk3)) {
-									qtk3.isplayed = true;
+								if (!(qtk3.isPlayed) && isplayable(qtk3)) {
+									qtk3.isPlayed = true;
 									ntiles1++;
 								}
-								if (qtk0.isplayed && qtk1.isplayed && qtk2.isplayed && qtk3.isplayed) {
+								if (qtk0.isPlayed && qtk1.isPlayed && qtk2.isPlayed && qtk3.isPlayed) {
 									qtk.isplayed = true;
 									ntiles2 -= 2;
 								}
 							} else {
-								if (!qtk0.isplayed && isplayable(qtk0)) {
-									if (!qtk1.isplayed && isplayable(qtk1)) {
-										qtk0.isplayed = true;
-										qtk1.isplayed = true;
+								if (!qtk0.isPlayed && isplayable(qtk0)) {
+									if (!qtk1.isPlayed && isplayable(qtk1)) {
+										qtk0.isPlayed = true;
+										qtk1.isPlayed = true;
 										ntiles2 -= 2;
-									} else if (!qtk2.isplayed && isplayable(qtk2)) {
-										qtk0.isplayed = true;
-										qtk2.isplayed = true;
+									} else if (!qtk2.isPlayed && isplayable(qtk2)) {
+										qtk0.isPlayed = true;
+										qtk2.isPlayed = true;
 										ntiles2 -= 2;
-									} else if (!(qtk3.isplayed) && isplayable(qtk3)) {
-										qtk0.isplayed = true;
-										qtk3.isplayed = true;
-										ntiles2 -= 2;
-									}
-								} else if (!qtk1.isplayed && isplayable(qtk1)) {
-									if (!qtk2.isplayed && isplayable(qtk2)) {
-										qtk1.isplayed = true;
-										qtk2.isplayed = true;
-										ntiles2 -= 2;
-									} else if (!qtk3.isplayed && isplayable(qtk.member[3])) {
-										qtk1.isplayed = true;
-										qtk3.isplayed = true;
+									} else if (!(qtk3.isPlayed) && isplayable(qtk3)) {
+										qtk0.isPlayed = true;
+										qtk3.isPlayed = true;
 										ntiles2 -= 2;
 									}
-								} else if (!qtk2.isplayed && isplayable(qtk2)) {
-									if (!qtk3.isplayed && isplayable(qtk3)) {
-										qtk2.isplayed = true;
-										qtk3.isplayed = true;
+								} else if (!qtk1.isPlayed && isplayable(qtk1)) {
+									if (!qtk2.isPlayed && isplayable(qtk2)) {
+										qtk1.isPlayed = true;
+										qtk2.isPlayed = true;
+										ntiles2 -= 2;
+									} else if (!qtk3.isPlayed && isplayable(qtk.member[3])) {
+										qtk1.isPlayed = true;
+										qtk3.isPlayed = true;
+										ntiles2 -= 2;
+									}
+								} else if (!qtk2.isPlayed && isplayable(qtk2)) {
+									if (!qtk3.isPlayed && isplayable(qtk3)) {
+										qtk2.isPlayed = true;
+										qtk3.isPlayed = true;
 										ntiles2 -= 2;
 									}
 								}
@@ -472,54 +502,54 @@ export class Solver {
 							break;
 						}
 						case 1: {// pairing 0-1, 2-3
-							if (!qtk0.isplayed && isplayable(qtk.member[0]) && isplayable(qtk.member[1])) {
-								qtk0.isplayed = true;
-								qtk1.isplayed = true;
+							if (!qtk0.isPlayed && isplayable(qtk.member[0]) && isplayable(qtk.member[1])) {
+								qtk0.isPlayed = true;
+								qtk1.isPlayed = true;
 								ntiles2 -= 2;
-								qtk.isplayed = qtk2.isplayed;
+								qtk.isplayed = qtk2.isPlayed;
 							}
-							if (!qtk2.isplayed && isplayable(qtk.member[2]) && isplayable(qtk.member[3])) {
-								qtk2.isplayed = true;
-								qtk3.isplayed = true;
+							if (!qtk2.isPlayed && isplayable(qtk.member[2]) && isplayable(qtk.member[3])) {
+								qtk2.isPlayed = true;
+								qtk3.isPlayed = true;
 								ntiles2 -= 2;
-								qtk.isplayed = qtk0.isplayed;
+								qtk.isplayed = qtk0.isPlayed;
 							}
 							break;
 						}
 						case 2: {// pairing 0-2, 1-3
-							if (!(qtk0.isplayed) && isplayable(qtk0) && isplayable(qtk2)) {
-								qtk0.isplayed = true;
-								qtk2.isplayed = true;
+							if (!(qtk0.isPlayed) && isplayable(qtk0) && isplayable(qtk2)) {
+								qtk0.isPlayed = true;
+								qtk2.isPlayed = true;
 								ntiles2 -= 2;
-								qtk.isplayed = qtk1.isplayed;
+								qtk.isplayed = qtk1.isPlayed;
 							}
-							if (!qtk1.isplayed && isplayable(qtk1) && isplayable(qtk3)) {
-								qtk1.isplayed = true;
-								qtk3.isplayed = true;
+							if (!qtk1.isPlayed && isplayable(qtk1) && isplayable(qtk3)) {
+								qtk1.isPlayed = true;
+								qtk3.isPlayed = true;
 								ntiles2 -= 2;
-								qtk.isplayed = qtk0.isplayed;
+								qtk.isplayed = qtk0.isPlayed;
 							}
 							break;
 						}
 						case 3: {// pairing 0-3, 1-2
-							if (!(qtk0.isplayed) && isplayable(qtk0) && isplayable(qtk3)) {
-								qtk0.isplayed = true;
-								qtk3.isplayed = true;
+							if (!(qtk0.isPlayed) && isplayable(qtk0) && isplayable(qtk3)) {
+								qtk0.isPlayed = true;
+								qtk3.isPlayed = true;
 								ntiles2 -= 2;
-								qtk.isplayed = qtk1.isplayed;
+								qtk.isplayed = qtk1.isPlayed;
 							}
-							if (!(qtk1.isplayed) && isplayable(qtk1) && isplayable(qtk2)) {
-								qtk1.isplayed = true;
-								qtk2.isplayed = true;
+							if (!(qtk1.isPlayed) && isplayable(qtk1) && isplayable(qtk2)) {
+								qtk1.isPlayed = true;
+								qtk2.isPlayed = true;
 								ntiles2 -= 2;
-								qtk.isplayed = qtk0.isplayed;
+								qtk.isplayed = qtk0.isPlayed;
 							}
 							break;
 						}
 						case 4: {// half a group, pairing 0-1
 							if (isplayable(qtk0) && isplayable(qtk1)) {
-								qtk0.isplayed = true;
-								qtk1.isplayed = true;
+								qtk0.isPlayed = true;
+								qtk1.isPlayed = true;
 								ntiles2 -= 2;
 								qtk.isplayed = true;
 							}
@@ -528,10 +558,10 @@ export class Solver {
 						case 5: {// all four removed simultaneously
 							// for heuristic to smell blockades
 							if (isplayable(qtk.member[0]) && isplayable(qtk.member[1]) && isplayable(qtk.member[2]) && isplayable(qtk.member[3])) {
-								qtk0.isplayed = true;
-								qtk1.isplayed = true;
-								qtk2.isplayed = true;
-								qtk3.isplayed = true;
+								qtk0.isPlayed = true;
+								qtk1.isPlayed = true;
+								qtk2.isPlayed = true;
+								qtk3.isPlayed = true;
 								ntiles2 -= 4;
 								qtk.isplayed = true;
 							}
@@ -545,7 +575,7 @@ export class Solver {
 		} while (ntiles2 !== ntiles1);
 		// unplay all played tiles
 		for (let k = 0; k < this.ntilesCount; k++) {
-			this.tl[k].isplayed = false;
+			this.tl[k].isPlayed = false;
 		}
 		for (let k = 0; k < this.ngroups; k++) {
 			this.qt[k].isplayed = false;
@@ -680,42 +710,6 @@ export class Solver {
 		return false;
 	}
 
-	// play a tile for randomsolve
-	private playTile(t: tile, nfree: Array<number>, ntiles2: number): number {
-		let ntiles3 = ntiles2;
-		for (let i = 0; t.left[i] !== undefined; i++) {
-			const tleft = t.left[i] as tile;
-			if (!tleft.isplayed) {
-				nfree[tleft.value] -= isplayable(tleft) ? 1 : 0;
-			}
-		}
-		for (let i = 0; t.right[i] !== undefined; i++) {
-			const tright = t.right[i] as tile;
-			if (!tright.isplayed) {
-				nfree[tright.value] -= isplayable(tright) ? 1 : 0;
-			}
-		}
-		t.isplayed = true;
-		ntiles3--;
-		for (let i = 0; t.left[i] !== undefined; i++) {
-			const tleft = t.left[i] as tile;
-			if (!tleft.isplayed) {
-				nfree[tleft.value] += isplayable(tleft) ? 1 : 0;
-			}
-		}
-		for (let i = 0; t.right[i] !== undefined; i++) {
-			const tright = t.right[i] as tile;
-			if (!tright.isplayed) {
-				nfree[tright.value] += isplayable(tright) ? 1 : 0;
-			}
-		}
-		for (let i = 0; t.below[i] !== undefined; i++) {
-			const tbelow = t.below[i] as tile;
-			nfree[tbelow.value] += isplayable(tbelow) ? 1 : 0;
-		}
-		return ntiles3;
-	}
-
 	// iterative search routine to determine solvability, but not unsolvability
 	// eslint-disable-next-line complexity
 	private randomSolve(count: number): boolean {
@@ -770,7 +764,7 @@ export class Solver {
 				if (r <= 1) {
 					// play the first
 					let qtki = qtk.member[i] as tile;
-					while (qtki.isplayed || !isplayable(qtki)) {
+					while (qtki.isPlayed || !isplayable(qtki)) {
 						i++;
 						qtki = qtk.member[i] as tile;
 					}
@@ -778,7 +772,7 @@ export class Solver {
 						j = i + 1;
 						// play the next
 						let qtkj = qtk.member[j] as tile;
-						while (qtkj.isplayed || !isplayable(qtkj)) {
+						while (qtkj.isPlayed || !isplayable(qtkj)) {
 							j++;
 							qtkj = qtk.member[j] as tile;
 						}
@@ -787,7 +781,7 @@ export class Solver {
 				if (r >= 1) {
 					// play the last
 					let qtkj = qtk.member[j] as tile;
-					while (qtkj.isplayed || !isplayable(qtkj)) {
+					while (qtkj.isPlayed || !isplayable(qtkj)) {
 						j--;
 						qtkj = qtk.member[j] as tile;
 					}
@@ -795,20 +789,20 @@ export class Solver {
 						i = j - 1;
 						// play the previous
 						let qtki = qtk.member[i] as tile;
-						while (qtki.isplayed || !isplayable(qtki)) {
+						while (qtki.isPlayed || !isplayable(qtki)) {
 							i--;
 							qtki = qtk.member[i] as tile;
 						}
 					}
 				}
-				ntiles2 = this.playTile(qtk.member[i] as tile, nfree, ntiles2);
-				ntiles2 = this.playTile(qtk.member[j] as tile, nfree, ntiles2);
+				ntiles2 = Solver.playTile(qtk.member[i] as tile, nfree, ntiles2);
+				ntiles2 = Solver.playTile(qtk.member[j] as tile, nfree, ntiles2);
 				qtk.isplayed = true;
 				qtk.pairing = p[i][j];
 				nfree[k] -= 2;
 			}
 			for (let k = 0; k < this.ntilesCount; k++) {
-				this.tl[k].isplayed = false;
+				this.tl[k].isPlayed = false;
 			}
 			for (let k = 0; k < this.ngroups; k++) {
 				this.qt[k].isplayed = false;

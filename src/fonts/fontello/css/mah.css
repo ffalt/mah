@@ -1,11 +1,11 @@
 @font-face {
   font-family: 'mah';
-  src: url('../font/mah.eot?89414241');
-  src: url('../font/mah.eot?89414241#iefix') format('embedded-opentype'),
-       url('../font/mah.woff2?89414241') format('woff2'),
-       url('../font/mah.woff?89414241') format('woff'),
-       url('../font/mah.ttf?89414241') format('truetype'),
-       url('../font/mah.svg?89414241#mah') format('svg');
+  src: url('../font/mah.eot?47622018');
+  src: url('../font/mah.eot?47622018#iefix') format('embedded-opentype'),
+       url('../font/mah.woff2?47622018') format('woff2'),
+       url('../font/mah.woff?47622018') format('woff'),
+       url('../font/mah.ttf?47622018') format('truetype'),
+       url('../font/mah.svg?47622018#mah') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -15,64 +15,53 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: 'mah';
-    src: url('../font/mah.svg?89414241#mah') format('svg');
+    src: url('../font/mah.svg?47622018#mah') format('svg');
   }
 }
 */
- 
- [class^="icon-"]:before, [class*=" icon-"]:before {
+[class^="icon-"]:before, [class*=" icon-"]:before {
   font-family: "mah";
   font-style: normal;
   font-weight: normal;
   speak: never;
- 
+
   display: inline-block;
   text-decoration: inherit;
   width: 1em;
   margin-right: .2em;
   text-align: center;
   /* opacity: .8; */
- 
+
   /* For safety - reset parent styles, that can break glyph codes*/
   font-variant: normal;
   text-transform: none;
- 
+
   /* fix buttons height, for twitter bootstrap */
   line-height: 1em;
- 
+
   /* Animation center compensation - margins should be symmetric */
   /* remove if not needed */
   margin-left: .2em;
- 
+
   /* you can be more comfortable with increased icons size */
   /* font-size: 120%; */
- 
+
   /* Font smoothing. That was taken from TWBS */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
- 
+
   /* Uncomment for 3D effect */
   /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
 }
- 
-.icon-emo-happy:before { content: '\e800'; } /* '' */
-.icon-emo-unhappy:before { content: '\e801'; } /* '' */
-.icon-emo-laugh:before { content: '\e802'; } /* '' */
+
 .icon-lightbulb:before { content: '\e803'; } /* '' */
-.icon-play:before { content: '\e804'; } /* '' */
-.icon-pause:before { content: '\e805'; } /* '' */
-.icon-info:before { content: '\e806'; } /* '' */
 .icon-undo:before { content: '\e807'; } /* '' */
 .icon-spin1:before { content: '\e808'; } /* '' */
 .icon-cancel-circled2:before { content: '\e809'; } /* '' */
 .icon-calendar:before { content: '\e80a'; } /* '' */
 .icon-note-beamed:before { content: '\e80b'; } /* '' */
-.icon-block:before { content: '\e80c'; } /* '' */
 .icon-resize-full-alt:before { content: '\e80d'; } /* '' */
 .icon-volume-low:before { content: '\e80e'; } /* '' */
-.icon-export:before { content: '\e80f'; } /* '' */
-.icon-ok:before { content: '\e810'; } /* '' */
-.icon-heart:before { content: '\e811'; } /* '' */
 .icon-loop:before { content: '\e812'; } /* '' */
 .icon-cog:before { content: '\e813'; } /* '' */
 .icon-trash-empty:before { content: '\e815'; } /* '' */

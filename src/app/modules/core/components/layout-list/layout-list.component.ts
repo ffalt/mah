@@ -1,6 +1,6 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
-import {Layout, Layouts} from '../../../../model/types';
+import {Layout} from '../../../../model/types';
 import {LocalstorageService} from '../../../../service/localstorage.service';
 import {LayoutService} from '../../../../service/layout.service';
 

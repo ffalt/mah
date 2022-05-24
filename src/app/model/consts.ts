@@ -60,9 +60,9 @@ export const ImageSets = [
 	{id: 'gleitz', type: 'PNG', name: 'Gleitz', url: 'https://github.com/gleitz/mahjong/tree/master/public/img/tiles'},
 	{id: 'recri', type: 'PNG', name: 'Recri', url: 'https://github.com/recri/mahjong'},
 	{id: 'open-fruits', type: 'PNG', name: 'Fruits', url: 'https://github.com/xunkar/open-mahjong/tree/master/resources/tiles/fruits'},
-	{id: 'picasso', type: 'PNG', name: 'Picasso', url: 'http://star.physics.yale.edu/~ullrich/software/SolitaireMahjong/'},
-	{id: 'modern', type: 'PNG', name: 'Modern', url: 'http://star.physics.yale.edu/~ullrich/software/SolitaireMahjong/'},
-	{id: 'classic', type: 'PNG', name: 'Classic', url: 'http://star.physics.yale.edu/~ullrich/software/SolitaireMahjong/'}
+	{id: 'picasso', type: 'PNG', name: 'Picasso', url: 'https://star.physics.yale.edu/~ullrich/software/SolitaireMahjong/'},
+	{id: 'modern', type: 'PNG', name: 'Modern', url: 'https://star.physics.yale.edu/~ullrich/software/SolitaireMahjong/'},
+	{id: 'classic', type: 'PNG', name: 'Classic', url: 'https://star.physics.yale.edu/~ullrich/software/SolitaireMahjong/'}
 ];
 
 export const ImageSetDefault = 'riichi';

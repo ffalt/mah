@@ -13,7 +13,7 @@ export class ImageSetLoaderComponent implements OnChanges {
 	constructor(private elementRef: ElementRef, private svgdef: SvgdefService) {
 	}
 
-	ngOnChanges(changes: SimpleChanges): void {
+	ngOnChanges(_: SimpleChanges): void {
 		this.getImageSet();
 	}
 

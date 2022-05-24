@@ -38,8 +38,8 @@ export class SolvableBoardBuilder extends BuilderBase {
 	}
 
 	solve(stones: Array<Stone>, tiles: Tiles): Array<Array<Tile>> {
-		const pairs: Array<Array<Tile>> = [];
-		const allPairs: Array<Array<Tile>> = [];
+		const pairs: Array<[Tile, Tile]> = [];
+		const allPairs: Array<[Tile, Tile]> = [];
 		const maxPairs = stones.length / 2;
 		const groups = tiles.groups.slice();
 		while (groups.length > 0) {
@@ -57,7 +57,7 @@ export class SolvableBoardBuilder extends BuilderBase {
 			}
 		}
 		while (allPairs.length > 0) {
-			const pair: Array<Tile> = BuilderBase.randomExtract(allPairs);
+			const pair: [Tile, Tile] = BuilderBase.randomExtract(allPairs);
 			const freestones: Array<Stone> = stones.filter((stone: Stone) =>
 				!stone.picked && !stone.isBlocked());
 			if (freestones.length < 2) {

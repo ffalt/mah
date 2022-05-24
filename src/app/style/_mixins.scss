@@ -1,3 +1,5 @@
+@import "variables";
+
 @mixin fontdef($OpenSansPath, $OpenSansVersion, $FontType:"Regular") {
   src: url('#{$OpenSansPath}/#{$FontType}/OpenSans-#{$FontType}.eot?v=#{$OpenSansVersion}');
   src: url('#{$OpenSansPath}/#{$FontType}/OpenSans-#{$FontType}.eot?#iefix&v=#{$OpenSansVersion}') format('embedded-opentype'),

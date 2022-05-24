@@ -1,6 +1,6 @@
 <h1>🀄️{{'TILES'|translate}}</h1>
 <div class="tiles-content">
-	<ng-container *ngFor="let suit of info">
+	<ng-container *ngFor="let suit of TILES_INFOS">
 		<div class="tiles-section tiles-section-{{group.tiles.length}}" *ngFor="let group of suit.groups">
 			<div class="tiles-title">{{group.name | translate}}</div>
 			<div class="tiles-set tiles-set-{{group.tiles.length}}">

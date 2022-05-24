@@ -27,12 +27,15 @@ export class SvgdefService {
 		item = {};
 		const request = new Promise<string>((resolve, reject) => {
 			this.http.get(`assets/svg/${name}.svg`, {responseType: 'text'})
-				.subscribe(res => {
-					item.data = res;
-					item.request = undefined;
-					resolve(res);
-				}, err => {
-					reject(err);
+				.subscribe({
+					next: res => {
+						item.data = res;
+						item.request = undefined;
+						resolve(res);
+					},
+					error: err => {
+						reject(err);
+					}
 				});
 		});
 		item.request = request;

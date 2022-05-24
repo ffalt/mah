@@ -32,12 +32,9 @@ const expectWinnable = (mode: BUILD_MODE_ID, layout: Layout) => {
 	for (let i = 0; i < 100; i++) {
 		const stones = builder.build(mode, layout.mapping) || [];
 		const solver = new Solver();
-		const winable = solver.solveLayout(stones);
-		if (winable <= 0) {
-			// console.log(`Winable "${layout.name}": ${winable}`);
-		} else {
-			unsolvable.push(winable);
-			// console.log(`Fail "${layout.name}": ${winable}`);
+		const result = solver.solveLayout(stones);
+		if (result > 0) {
+			unsolvable.push(result);
 		}
 	}
 	if (unsolvable.length) {
@@ -52,7 +49,7 @@ describe('builder', () => {
 			it('with solvable build should not have blank tiles', async () => {
 				expectNoBlankTiles('MODE_SOLVABLE', layout);
 			});
-			it('with solvable build should be solveable', async () => {
+			it('with solvable build should be solvable', async () => {
 				expectWinnable('MODE_SOLVABLE', layout);
 			});
 			it('with random build should not have blank tiles', async () => {

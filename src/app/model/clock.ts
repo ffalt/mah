@@ -36,14 +36,13 @@ export class Clock {
 		}
 		window.clearTimeout(this.timer);
 		this.timer = undefined;
-		const newtime = Date.now();
-		this.elapsed += newtime - this.lastTime;
+		this.elapsed += Date.now() - this.lastTime;
 	}
 
 	private step(): void {
-		const newtime = Date.now();
-		this.elapsed += newtime - this.lastTime;
-		this.lastTime = newtime;
+		const newTime = Date.now();
+		this.elapsed += newTime - this.lastTime;
+		this.lastTime = newTime;
 		this.timer = window.setTimeout(() => {
 			this.step();
 		}, 1000);

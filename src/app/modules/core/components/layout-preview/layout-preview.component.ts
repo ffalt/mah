@@ -10,6 +10,7 @@ import {Layout} from '../../../../model/types';
 export class LayoutPreviewComponent implements OnChanges {
 	@Input() layout: Layout;
 	@Input() svg: any;
+	@Input() alt: string;
 
 	ngOnChanges(changes: SimpleChanges): void {
 		if (changes.layout) {

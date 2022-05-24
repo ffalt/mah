@@ -1,31 +1,28 @@
-import {createStatsSolveWorker} from './src/app/worker/create-stats-solve.worker';
+/* global mocks for jsdom */
 
+// eslint-disable-next-line no-null/no-null
 Object.defineProperty(window, 'CSS', {value: null});
 Object.defineProperty(document, 'doctype', {
-	value: '<!DOCTYPE html>',
+	value: '<!DOCTYPE html>'
 });
 Object.defineProperty(window, 'getComputedStyle', {
-	value: () => {
-		return {
-			display: 'none',
-			appearance: ['-webkit-appearance'],
-		};
-	},
+	value: () => ({
+		display: 'none',
+		appearance: ['-webkit-appearance']
+	})
 });
+
 /**
  * ISSUE: https://github.com/angular/material2/issues/7101
  * Workaround for JSDOM missing transform property
  */
 Object.defineProperty(document.body.style, 'transform', {
-	value: () => {
-		return {
-			enumerable: true,
-			configurable: true,
-		};
-	},
+	value: () => ({
+		enumerable: true,
+		configurable: true
+	})
 });
 
-/* global mocks for jsdom */
 const mock = () => {
 	const storage = new Map<string, any>();
 	return {
@@ -40,14 +37,14 @@ Object.defineProperty(window, 'localStorage', {value: mock()});
 Object.defineProperty(window, 'sessionStorage', {value: mock()});
 
 jest.mock('./src/app/worker/create-stats-solve.worker.ts', () => ({
-	createStatsSolveWorker() {
-		return;
+	createStatsSolveWorker: () => {
+		// nope
 	}
 }));
 
 jest.mock('./src/app/worker/create-solve.worker.ts', () => ({
-	createSolveWorker() {
-		return;
+	createSolveWorker: () => {
+		// mope
 	}
 }));
 

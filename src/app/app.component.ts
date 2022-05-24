@@ -22,7 +22,7 @@ export class AppComponent {
 
 	private loadLayouts(): void {
 		this.layoutService.get().then(
-			data => {
+			() => {
 				this.loading = false;
 			})
 			.catch(e => {

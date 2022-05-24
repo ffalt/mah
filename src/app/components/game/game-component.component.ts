@@ -1,10 +1,10 @@
 import {Component, HostListener} from '@angular/core';
 import {Game} from '../../model/game';
-import {Stone, StonePosition} from '../../model/stone';
+import {Stone} from '../../model/stone';
 import {Layout, Place} from '../../model/types';
 import {AppService} from '../../service/app.service';
 import {BUILD_MODE_ID} from '../../model/builder';
-import {GAME_MODE_ID, GameModes} from '../../model/consts';
+import {GAME_MODE_ID} from '../../model/consts';
 import {WorkerService} from '../../service/worker.service';
 import {environment} from '../../../environments/environment';
 
@@ -44,32 +44,32 @@ export class GameComponent {
 		}
 	}
 
-	handleKeyDownEventKey(which: number): void {
-		switch (which) {
-			case 72: // h
+	handleKeyDownEventKey(key: string): void {
+		switch (key) {
+			case 'h':
 				this.toggleHelp();
 				break;
-			case 73: // i
+			case 'i':
 				this.toggleTilesInfo();
 				break;
-			case 83: // s
+			case 's':
 				this.toggleSettings();
 				break;
-			case 84: // t
+			case 't':
 				this.game.hint();
 				break;
-			case 71: // g
+			case 'g':
 				this.debugSolve();
 				break;
-			case 85: // u
+			case 'u':
 				this.game.back();
 				break;
-			case 78: // n
+			case 'n':
 				this.game.pause();
 				this.newGameVisible = true;
 				break;
-			case 32: // space
-			case 80: // p
+			case ' ': // space
+			case 'p':
 				if (this.game.isRunning()) {
 					this.game.pause();
 				} else if (this.game.isPaused()) {
@@ -103,14 +103,14 @@ export class GameComponent {
 
 	@HostListener('document:keydown', ['$event'])
 	handleKeyDownEvent(event: KeyboardEvent): void {
-		if (event.keyCode === 27 && this.handleKeyDownDialogExit()) {
+		if (event.key === 'Escape' && this.handleKeyDownDialogExit()) {
 			return;
 		}
 		const nodeName = ((event.target as any)?.nodeName || '').toLocaleLowerCase();
 		if (nodeName === 'input') {
 			return;
 		}
-		this.handleKeyDownEventKey(event.which);
+		this.handleKeyDownEventKey(event.key);
 	}
 
 	stoneClick(stone: Stone): void {

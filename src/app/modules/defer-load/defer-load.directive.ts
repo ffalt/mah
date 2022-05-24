@@ -38,6 +38,7 @@ export class DeferLoadDirective implements AfterViewInit, OnDestroy {
 
 	private static getScrollPosition(): number {
 		// Getting screen size and scroll position for IE
+		// noinspection JSDeprecatedSymbols
 		return (window.scrollY || window.pageYOffset)
 			+ (document.documentElement.clientHeight || document.body.clientHeight);
 	}
@@ -97,7 +98,7 @@ export class DeferLoadDirective implements AfterViewInit, OnDestroy {
 	};
 
 	private checkIfIntersecting(entry: IntersectionObserverEntry): boolean {
-		// For Samsung native browser, IO has been partially implemented where by the
+		// For Samsung native browser, IO has been partially implemented whereby the
 		// callback fires, but entry object is empty. We will check manually.
 		if (entry && entry.time) {
 			return entry.isIntersecting;

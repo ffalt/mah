@@ -9,6 +9,7 @@ export interface BuilderType {
 export abstract class BuilderBase implements BuilderType {
 	abstract build(mapping: Mapping, tiles: Tiles): Array<Stone>;
 
+	/*
 	static randomBool(): boolean {
 		return Math.random() < 0.5;
 	}
@@ -16,6 +17,7 @@ export abstract class BuilderBase implements BuilderType {
 	static randomNr(max: number): number {
 		return Math.floor(Math.random() * max);
 	}
+	*/
 
 	static random<T>(array: Array<T>): number {
 		return Math.floor(Math.random() * array.length);
@@ -93,5 +95,4 @@ export abstract class BuilderBase implements BuilderType {
 		});
 		return result;
 	}
-
 }

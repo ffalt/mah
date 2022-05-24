@@ -75,10 +75,6 @@
 				}
 			}
 
-			.off {
-				display: none;
-			}
-
 			&.ctrl-game {
 				float: right;
 			}
@@ -324,8 +320,6 @@
 		flex: 1;
 		overflow: hidden;
 	}
-
-	@include overlay();
 
 	.overlay-help, .overlay-settings, .overlay-tiles-info {
 		z-index: 10010;

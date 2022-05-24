@@ -7,46 +7,10 @@
   "ascent": 850,
   "glyphs": [
     {
-      "uid": "c64623255a4a7c72436b199b05296c4f",
-      "css": "emo-happy",
-      "code": 59392,
-      "src": "fontelico"
-    },
-    {
-      "uid": "53ed8570225581269cd7eff5795e8bea",
-      "css": "emo-unhappy",
-      "code": 59393,
-      "src": "fontelico"
-    },
-    {
-      "uid": "2bd5f98482d86649958312ea2ab5bb40",
-      "css": "emo-laugh",
-      "code": 59394,
-      "src": "fontelico"
-    },
-    {
       "uid": "5278ef7773e948d56c4d442c8c8c98cf",
       "css": "lightbulb",
       "code": 59395,
       "src": "fontawesome"
-    },
-    {
-      "uid": "3e290a111c0f3ee3acbf7b5f17ccc04a",
-      "css": "play",
-      "code": 59396,
-      "src": "typicons"
-    },
-    {
-      "uid": "e44ef09cb81413287d702eefa65dd790",
-      "css": "pause",
-      "code": 59397,
-      "src": "typicons"
-    },
-    {
-      "uid": "ccd52a22af21fbaa98a9c85fb50fca6b",
-      "css": "info",
-      "code": 59398,
-      "src": "iconic"
     },
     {
       "uid": "ce5e29aa5208417700e7f7012a236c00",
@@ -79,40 +43,16 @@
       "src": "entypo"
     },
     {
-      "uid": "29e7f6072d5935d7818204d9b088508b",
-      "css": "block",
-      "code": 59404,
-      "src": "entypo"
-    },
-    {
       "uid": "43m0a70tvxqc6q7jxgzhz5lmlt3ce2iy",
       "css": "volume-low",
       "code": 59406,
       "src": "typicons"
     },
     {
-      "uid": "390d6d13398cbf8c8c3c5493f7d34088",
-      "css": "export",
-      "code": 59407,
-      "src": "entypo"
-    },
-    {
       "uid": "776687efbdb973ebc67e049cc4c41b13",
       "css": "resize-full-alt",
       "code": 59405,
       "src": "iconic"
-    },
-    {
-      "uid": "12f4ece88e46abd864e40b35e05b11cd",
-      "css": "ok",
-      "code": 59408,
-      "src": "fontawesome"
-    },
-    {
-      "uid": "d73eceadda1f594cec0536087539afbf",
-      "css": "heart",
-      "code": 59409,
-      "src": "fontawesome"
     },
     {
       "uid": "5d3ef4b7c90d2931e641b840ee42f694",

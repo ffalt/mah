@@ -3,7 +3,7 @@ import {Clock} from './clock';
 import {GAME_MODE_EASY, GAME_MODE_EXPERT, GAME_MODE_ID, GAME_MODE_STANDARD, STATES} from './consts';
 import {Sound, SOUNDS} from './sound';
 import {Stone} from './stone';
-import {GameStateStore, Layout, Place, StonePlace, StorageProvider} from './types';
+import {GameStateStore, Layout, StorageProvider} from './types';
 import {BUILD_MODE_ID} from './builder';
 
 export class Game {
@@ -53,7 +53,7 @@ export class Game {
 		return this.state === STATES.run;
 	}
 
-	isFreezed(): boolean {
+	isFrozen(): boolean {
 		return this.state === STATES.freeze;
 	}
 

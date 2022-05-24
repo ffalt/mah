@@ -2,7 +2,6 @@ const destFolder = "../../src/assets/sounds/";
 const sourceFolder = "./sounds_org/";
 
 const path = require("path");
-const fs = require("fs");
 const ffmpeg = require("fluent-ffmpeg");
 
 async function convertMP3(source, dest) {
