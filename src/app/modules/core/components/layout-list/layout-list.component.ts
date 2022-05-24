@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import {Layout} from '../../../../model/types';
 import {LocalstorageService} from '../../../../service/localstorage.service';
@@ -23,15 +23,27 @@ export interface LayoutGroup {
 	templateUrl: './layout-list.component.html',
 	styleUrls: ['./layout-list.component.scss']
 })
-export class LayoutListComponent implements OnInit {
+export class LayoutListComponent implements OnInit, OnChanges {
+	@Input() layouts: Array<Layout>;
 	@Output() readonly startEvent = new EventEmitter<Layout>();
 	groups: Array<LayoutGroup> = [];
 
 	constructor(private storage: LocalstorageService, private translate: TranslateService, private layoutService: LayoutService) {
+		if (this.layouts) {
+			this.buildGroups();
+		}
 	}
 
 	ngOnInit(): void {
-		if (this.layoutService.layouts) {
+		this.refresh();
+	}
+
+	ngOnChanges(changes: SimpleChanges): void {
+		this.refresh();
+	}
+
+	refresh(): void {
+		if (this.layouts) {
 			this.buildGroups();
 			setTimeout(() => {
 				this.selectLastPlayed();
@@ -93,4 +105,5 @@ export class LayoutListComponent implements OnInit {
 			layout.playCount = undefined;
 		}
 	}
+
 }
