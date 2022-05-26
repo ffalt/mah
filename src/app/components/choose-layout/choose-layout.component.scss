@@ -21,6 +21,9 @@
 		flex-direction: row;
 		flex-wrap: nowrap;
 		align-items: flex-end;
+		@include respond-to-height(small-down) {
+			padding-top: 4px;
+		}
 
 		.start-links {
 			text-align: right;
@@ -36,6 +39,7 @@
 
 		.generator, .mode {
 			flex: 1;
+
 			label {
 				display: block;
 				margin-bottom: 2px;
@@ -47,6 +51,7 @@
 				padding: 8px;
 			}
 		}
+
 		.mode {
 			margin-left: 8px;
 			max-width: 30%;

@@ -18,9 +18,6 @@
 		<button class="link button" (click)="newGame()" title="{{'RESTART_LONG' | translate}}">
 			<i class="icon-loop"></i> <span class="label">{{'RESTART' | translate}}</span>
 		</button>
-		<button class="link button" (click)="enterFullScreen()" title="{{'FULLSCREEN' | translate}}">
-			<i class="icon-resize-full-alt"></i>
-		</button>
 	</div>
 </div>
 <app-board class="board" [stones]="game.board.stones" [imageSet]="app.settings.tileset" [background]="app.settings.background" (clickEvent)="stoneClick($event)"></app-board>
@@ -35,7 +32,9 @@
 		<button class="link button" (click)="toggleTilesInfo()" title="{{'TILES_INFO' | translate}}">
 			<i class="icon-calendar"></i>
 		</button>
-
+		<button class="link button" (click)="enterFullScreen()" title="{{'FULLSCREEN' | translate}}">
+			<i class="icon-resize-full-alt"></i>
+		</button>
 		<!--		<span class="label button" (click)="debugCheat()">CHEAT</span>-->
 	</div>
 	<div class="ctrl ctrl-time">
