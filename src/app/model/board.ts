@@ -135,7 +135,7 @@ export class Board {
 		this.clearSelection();
 		this.clearHints();
 		const mapping: Mapping = [];
-		const tiles = new Tiles();
+		const tiles = new Tiles(this.stones.length);
 		this.stones.forEach(stone => {
 			if (!stone.picked) {
 				mapping.push([stone.z, stone.x, stone.y]);
@@ -165,7 +165,7 @@ export class Board {
 			return;
 		}
 		this.undo = undos;
-		const builder: Builder = new Builder(new Tiles());
+		const builder: Builder = new Builder(new Tiles(mapping.length + undos.length));
 		const stones = builder.load(mapping);
 		if (!stones) {
 			return;
@@ -185,7 +185,7 @@ export class Board {
 	}
 
 	applyMapping(mapping: Mapping, mode: BUILD_MODE_ID): void {
-		const builder: Builder = new Builder(new Tiles());
+		const builder: Builder = new Builder(new Tiles(mapping.length));
 		this.stones = builder.build(mode, mapping) || [];
 	}
 

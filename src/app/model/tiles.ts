@@ -15,9 +15,13 @@ export class Tiles {
 	list: Array<Tile> = [];
 	groups: Array<TileGroup> = [];
 
-	constructor() {
+	constructor(amount: number) {
 		let v = 0;
 		const tilesMapping = TILES.map(row => row.map(id => ({id})));
+		const groups_needed = Math.ceil(amount / 4);
+		while (tilesMapping.length < groups_needed) {
+			tilesMapping.push([{id: `_${tilesMapping.length}a`}, {id: `_${tilesMapping.length}b`}, {id: `_${tilesMapping.length}c`}, {id: `_${tilesMapping.length}d`}]);
+		}
 		tilesMapping.forEach((group, groupnr) => {
 			const g: TileGroup = {v: groupnr, tiles: []};
 			this.groups.push(g);

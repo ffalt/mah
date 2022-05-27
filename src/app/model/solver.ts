@@ -210,7 +210,7 @@ export class Solver {
 	remainMin: number;
 	aborted: boolean; // for aborting the solver
 
-	maxgroups: number = 40;
+	maxgroups: number = 50;
 	maxheight: number = 40;
 	maxwidth: number = 100;
 	maxdepth: number = 10;

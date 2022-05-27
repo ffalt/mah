@@ -12,7 +12,7 @@ export function solveGame(stones: Array<StonePosition>, finish: (data: { result:
 
 export function statsSolveMapping(mapping: Mapping, rounds: number, progress: (progress: Array<number>) => void, finish: (result: Array<number>) => void): void {
 	const solver = new Solver();
-	const builder = new Builder(new Tiles());
+	const builder = new Builder(new Tiles(mapping.length));
 	let fail = 0;
 	let won = 0;
 	for (let i = 0; i < rounds; i++) {
