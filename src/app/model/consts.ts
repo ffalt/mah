@@ -130,6 +130,7 @@ export const TILES_INFOS = [
 	}
 ];
 
+/*
 export const TILES_INFO = {
 	t_do1: 'Chu',
 	t_do2: 'Sung',
@@ -174,3 +175,4 @@ export const TILES_INFO = {
 	t_dr_green: 'Fa',
 	t_dr_white: 'Pai'
 };
+*/
