@@ -5,14 +5,14 @@
 <div class="choose-buttons">
 	<div class="generator">
 		<label for="board-generator-select">{{'BOARD_GENERATOR' | translate}}:</label>
-		<select id="board-generator-select" [(ngModel)]="buildMode">
-			<option *ngFor="let m of buildModes" value="{{m.id}}">{{m.id | translate}} [{{m.id + '_DESC' | translate}}]</option>
+		<select id="board-generator-select" (change)="buildMode = $any($event.target).value">
+			<option *ngFor="let m of buildModes" [value]="m.id" [selected]="buildMode === m.id">{{m.id | translate}} [{{m.id + '_DESC' | translate}}]</option>
 		</select>
 	</div>
 	<div class="mode">
 		<label for="game-mode-select">{{'GAME_MODE' | translate}}:</label>
-		<select id="game-mode-select" [(ngModel)]="gameMode">
-			<option *ngFor="let m of gameModes" value="{{m.id}}">{{m.id | translate}}
+		<select id="game-mode-select" (change)="gameMode = $any($event.target).value">
+			<option *ngFor="let m of gameModes" [value]="m.id" [selected]="gameMode === m.id">{{m.id | translate}}
 				<ng-container *ngIf="m.features.length>0">[<ng-container *ngFor="let f of m.features; let last = last">{{f.title | translate}}{{!last ? ', ' : ''}}</ng-container>]</ng-container>
 			</option>
 		</select>

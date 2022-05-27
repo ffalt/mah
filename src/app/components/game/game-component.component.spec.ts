@@ -1,6 +1,5 @@
 import {HttpClientModule} from '@angular/common/http';
 import {ComponentFixture, TestBed} from '@angular/core/testing';
-import {FormsModule} from '@angular/forms';
 import {TranslateModule} from '@ngx-translate/core';
 import {MockComponent} from 'ng-mocks';
 import {AppService} from '../../service/app.service';
@@ -25,7 +24,7 @@ describe('GameComponent', () => {
 				MockComponent(TilesInfoComponent),
 				MockComponent(ChooseLayoutComponent)
 			],
-			imports: [HttpClientModule, FormsModule, CoreModule, TranslateModule.forRoot()],
+			imports: [HttpClientModule, CoreModule, TranslateModule.forRoot()],
 			providers: [SvgdefService, AppService]
 		})
 			.compileComponents());

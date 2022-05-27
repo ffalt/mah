@@ -1,7 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {TranslateModule} from '@ngx-translate/core';
-import {FormsModule} from '@angular/forms';
 import {DeferLoadModule} from '../defer-load';
 import {BoardComponent} from './components/board/board.component';
 import {ImageSetLoaderComponent} from './components/image-set-loader/image-set-loader.component';
@@ -23,7 +22,7 @@ const declarations = [
 ];
 
 @NgModule({
-	imports: [CommonModule, TranslateModule, FormsModule, DeferLoadModule.forRoot()],
+	imports: [CommonModule, TranslateModule, DeferLoadModule.forRoot()],
 	declarations,
 	exports: declarations,
 	providers: []

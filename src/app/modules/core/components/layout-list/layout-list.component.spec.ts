@@ -1,6 +1,5 @@
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {ComponentFixture, TestBed} from '@angular/core/testing';
-import {FormsModule} from '@angular/forms';
 import {TranslateModule} from '@ngx-translate/core';
 import {MockComponent} from 'ng-mocks';
 import {LayoutPreviewComponent} from '../layout-preview/layout-preview.component';
@@ -15,7 +14,7 @@ describe('ChooseLayoutComponent', () => {
 	beforeEach(async () =>
 		TestBed.configureTestingModule({
 			declarations: [LayoutListComponent, MockComponent(LayoutPreviewComponent), DurationPipe],
-			imports: [FormsModule, HttpClientTestingModule, TranslateModule.forRoot()],
+			imports: [HttpClientTestingModule, TranslateModule.forRoot()],
 			providers: [LayoutService]
 		})
 			.compileComponents());

@@ -1,6 +1,5 @@
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {ComponentFixture, TestBed} from '@angular/core/testing';
-import {FormsModule} from '@angular/forms';
 import {TranslateModule} from '@ngx-translate/core';
 import {LayoutService} from '../../service/layout.service';
 import {CoreModule} from '../../modules/core/core.module';
@@ -13,7 +12,7 @@ describe('ChooseLayoutComponent', () => {
 	beforeEach(async () =>
 		TestBed.configureTestingModule({
 			declarations: [ChooseLayoutComponent],
-			imports: [FormsModule, HttpClientTestingModule, CoreModule, TranslateModule.forRoot()],
+			imports: [HttpClientTestingModule, CoreModule, TranslateModule.forRoot()],
 			providers: [LayoutService]
 		})
 			.compileComponents());

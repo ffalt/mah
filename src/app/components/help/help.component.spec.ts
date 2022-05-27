@@ -1,5 +1,4 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
-import {FormsModule} from '@angular/forms';
 import {TranslateModule} from '@ngx-translate/core';
 import {AppService} from '../../service/app.service';
 import {HelpComponent} from './help.component';
@@ -10,7 +9,7 @@ describe('HelpComponent', () => {
 	beforeEach(async () =>
 		TestBed.configureTestingModule({
 			declarations: [HelpComponent, HelpComponent],
-			imports: [FormsModule, TranslateModule.forRoot()],
+			imports: [TranslateModule.forRoot()],
 			providers: [AppService]
 		})
 			.compileComponents());

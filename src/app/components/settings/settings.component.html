@@ -5,8 +5,15 @@
 		<div class="buttons">
 			<form>
 				<ul class="radio">
-					<li><input type="radio" name="lang" id="lang0" value="auto" [(ngModel)]="app.settings.lang" (ngModelChange)="app.setLang()"/><label for="lang0">{{'LANG_AUTO'|translate}}</label></li>
-					<li *ngFor="let lang of languages; let i=index;"><input type="radio" name="lang" [id]="'lang'+(i+1)" [value]="lang.key" [(ngModel)]="app.settings.lang" (ngModelChange)="app.setLang()"/><label [for]="'lang'+(i+1)">{{lang.title}}</label></li>
+					<li><input type="radio" name="lang" id="lang0" value="auto"
+										 [checked]="( app.settings.lang === 'auto' )"
+										 (change)="app.settings.lang = 'auto';app.setLang();"
+					/><label for="lang0">{{'LANG_AUTO'|translate}}</label></li>
+					<li *ngFor="let lang of languages; let i=index;">
+						<input type="radio" name="lang" [id]="'lang'+(i+1)" [value]="lang.key"
+									 [checked]="( app.settings.lang === lang.key )"
+									 (change)="app.settings.lang = lang.key;app.setLang();"
+						/><label [for]="'lang'+(i+1)">{{lang.title}}</label></li>
 				</ul>
 			</form>
 		</div>
@@ -20,7 +27,13 @@
 		<div class="buttons">
 			<form>
 				<ul class="radio">
-					<li *ngFor="let imageset of sets; let i=index;"><input type="radio" name="imageset" id="imageset{{i}}" [value]="imageset.id" [(ngModel)]="app.settings.tileset"/><label for="imageset{{i}}">{{imageset.name}} <a target="_blank" rel="noopener" href="{{imageset.url}}">{{'SOURCE'|translate}}</a></label></li>
+					<li *ngFor="let imageset of sets; let i=index;">
+						<input type="radio" name="imageset" id="imageset{{i}}" [value]="imageset.id"
+									 [checked]="app.settings.tileset === imageset.id"
+									 (change)="app.settings.tileset = imageset.id;"
+						/>
+						<label for="imageset{{i}}">{{imageset.name}} <a target="_blank" rel="noopener" href="{{imageset.url}}">{{'SOURCE'|translate}}</a></label>
+					</li>
 				</ul>
 			</form>
 		</div>
@@ -30,14 +43,22 @@
 		<div class="buttons">
 			<form>
 				<ul class="radio">
-					<li *ngFor="let back of backs; let i=index;"><input type="radio" name="back" id="back{{i}}" [value]="back.img" [(ngModel)]="app.settings.background"/><label for="back{{i}}">{{back.name|translate}}</label></li>
+					<li *ngFor="let back of backs; let i=index;">
+						<input type="radio" name="back" id="back{{i}}" [value]="back.img"
+									 [checked]="app.settings.background === back.img"
+									 (change)="app.settings.background = back.img || '';"
+						/><label for="back{{i}}">{{back.name|translate}}</label>
+					</li>
 				</ul>
 			</form>
 		</div>
 		<p>{{'TILES'|translate}}</p>
 		<div>
 			<label>
-				<input type="checkbox" [(ngModel)]="app.settings.contrast">
+				<input type="checkbox"
+							 [checked]="app.settings.contrast"
+							 (change)="app.settings.contrast = !app.settings.contrast;"
+				>
 				{{'HIGHER_CONTRAST'|translate}}
 			</label>
 		</div>
