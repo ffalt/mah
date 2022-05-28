@@ -110,6 +110,9 @@ export const TILES_EXT: Array<[string, string, string, string]> = [];
 for (let index = 1; index < 19; index++) {
 	TILES_EXT.push([`t_g${index}`, `t_g${index}`, `t_g${index}`, `t_g${index}`]);
 }
+for (let index = 1; index < 10; index++) {
+	TILES_EXT.push([`t_e${index}`, `t_e${index}`, `t_e${index}`, `t_e${index}`]);
+}
 export const TILES_INFOS = [
 	{
 		name: 'TILES_SUITS',
