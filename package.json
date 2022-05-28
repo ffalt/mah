@@ -32,6 +32,7 @@
 		"@angular/common": "13.3.9",
 		"@angular/compiler": "13.3.9",
 		"@angular/core": "13.3.9",
+		"@angular/forms": "13.3.9",
 		"@angular/platform-browser": "13.3.9",
 		"@angular/platform-browser-dynamic": "13.3.9",
 		"@angular/platform-server": "13.3.9",
