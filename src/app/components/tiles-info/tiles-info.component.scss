@@ -1,29 +1,39 @@
 @import "../../style/globals";
 
 :host {
-	display: block;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	height: 100%;
 
 	h1 {
 		text-align: center;
 		color: $text-color;
 		margin-top: 0;
 		margin-bottom: 0.2em;
+		line-height: 1em;
+	}
+
+	.tiles-header {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
 	}
 
 	.tiles-content {
 		display: flex;
 		flex-direction: row;
 		flex-wrap: wrap;
+		flex: 1;
+		overflow-y: auto;
 	}
 
 	.tiles-reference {
 		padding-top: 5px;
-		text-align: right;
 	}
 
 	.tile {
-		flex: 1 100%;
-		min-width: auto;
+		flex: 1;
 		text-align: center;
 		word-break: normal;
 		margin-top: 5px;
@@ -32,13 +42,20 @@
 		flex-direction: column;
 		padding-left: 5px;
 		padding-right: 5px;
+
+		> div {
+			flex: 1;
+			font-size: 0.9em;
+		}
 	}
 
 	.tiles-title {
 		flex: 1;
-		margin-top: 0.2em;
+		margin-top: 0.5em;
+		margin-bottom: 0.2em;
 		font-weight: bold;
 		text-align: center;
+		letter-spacing: 2px;
 		border-bottom: 1px solid lighten($background-color, 5%);
 	}
 
@@ -50,17 +67,20 @@
 		flex: 100%;
 	}
 
+	.tiles-section-5 {
+		flex: 100%;
+	}
+
 	.tiles-section-4, .tiles-section-3 {
 		flex: 50%;
 	}
 
 	.tiles-set {
 		display: flex;
-		align-items: center;
 		justify-content: space-around;
 	}
 
-	@include respond-to(medium-down) {
+	@include respond-to(large-down) {
 		.tiles-section-9 {
 			.tiles-set {
 				flex-wrap: wrap;
@@ -70,23 +90,49 @@
 				}
 			}
 		}
+	}
+	@include respond-to(medium-down) {
+
 		.tiles-section-4, .tiles-section-3 {
 			flex: 100%;
+		}
+
+		.tiles-section-9, .tiles-section-5, .tiles-section-3 {
+			.tiles-set {
+				flex-wrap: wrap;
+
+				.tile {
+					flex: 33%;
+				}
+			}
 		}
 	}
 
 	@include respond-to(small-down) {
-		.tiles-section-9, .tiles-section-4, .tiles-section-3 {
+
+		.tiles-header {
+			flex-direction: column;
+			text-align: center;
+			form {
+				order: 1;
+			}
+
+			.tiles-reference {
+				order: 2;
+			}
+		}
+		.tiles-section-4 {
 			.tiles-set {
 				flex-wrap: wrap;
+
 				.tile {
-					flex: 25%;
+					flex: 50%;
 				}
 			}
 		}
 	}
 	@include respond-to(tiny-down) {
-		.tiles-section-9, .tiles-section-4, .tiles-section-3 {
+		.tiles-section-9, .tiles-section-5, .tiles-section-4, .tiles-section-3 {
 			.tiles-set {
 				flex-wrap: wrap;
 

@@ -2,14 +2,13 @@
 
 :host {
 	display: block;
-	width: 100%;
-	height: auto;
+	width: 75px;
+	height: 100px;
 	margin: 0 auto;
-	max-width: 1.5em;
 
 	> svg {
 		height: 100%;
-		width: 100%;
+		width: auto;
 		background-color: #FFF9E5;
 		border: 1px solid #4b4b4b;
 

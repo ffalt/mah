@@ -1,17 +1,26 @@
-<h1>🀄️{{'TILES'|translate}}</h1>
+<div class="tiles-header">
+	<form>
+		<select (change)="tileset = $any($event.target).value">
+			<option *ngFor="let imageset of sets; let i=index;" [value]="imageset.id" [selected]="tileset === imageset.id">{{imageset.name}}</option>
+		</select>
+	</form>
+	<h1>🀄️{{'TILES'|translate}}</h1>
+	<div class="tiles-reference">
+		<a rel="noopener" target="_blank" href="{{'READ_MORE_WIKIPEDIA_URL' | translate}}">{{'READ_MORE_WIKIPEDIA' | translate}}</a>
+	</div>
+</div>
 <div class="tiles-content">
 	<ng-container *ngFor="let suit of TILES_INFOS">
 		<div class="tiles-section tiles-section-{{group.tiles.length}}" *ngFor="let group of suit.groups">
 			<div class="tiles-title">{{group.name | translate}}</div>
 			<div class="tiles-set tiles-set-{{group.tiles.length}}">
 				<div class="tile" *ngFor="let tile of group.tiles">
-					<app-tile [tile]="tile" [imageSet]="imageSet"></app-tile>
+					<div>
+						<app-tile [tile]="tile" [imageSet]="tileset"></app-tile>
+					</div>
 					<div [innerHtml]="tile | translate"></div>
 				</div>
 			</div>
 		</div>
 	</ng-container>
-</div>
-<div class="tiles-reference">
-	<a rel="noopener" target="_blank" href="{{'READ_MORE_WIKIPEDIA_URL' | translate}}">{{'READ_MORE_WIKIPEDIA' | translate}}</a>
 </div>
