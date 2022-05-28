@@ -14,7 +14,7 @@ const layouts: Array<Layout> = loadLayouts.map(o => {
 });
 
 const expectNoBlankTiles = (mode: BUILD_MODE_ID, layout: Layout) => {
-	const builder = new Builder(new Tiles());
+	const builder = new Builder(new Tiles(layout.mapping.length));
 	const fails: Array<number> = [];
 	for (let i = 0; i < 100; i++) {
 		const stones = builder.build(mode, layout.mapping) || [];
@@ -27,7 +27,7 @@ const expectNoBlankTiles = (mode: BUILD_MODE_ID, layout: Layout) => {
 };
 
 const expectWinnable = (mode: BUILD_MODE_ID, layout: Layout) => {
-	const builder = new Builder(new Tiles());
+	const builder = new Builder(new Tiles(layout.mapping.length));
 	const unsolvable: Array<number> = [];
 	for (let i = 0; i < 100; i++) {
 		const stones = builder.build(mode, layout.mapping) || [];

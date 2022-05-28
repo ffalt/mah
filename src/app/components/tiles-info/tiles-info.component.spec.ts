@@ -4,6 +4,7 @@ import {TranslateModule} from '@ngx-translate/core';
 import {SvgdefService} from '../../service/svgdef.service';
 import {TileComponent} from '../tile/tile.component';
 import {CoreModule} from '../../modules/core/core.module';
+import {AppService} from '../../service/app.service';
 import {TilesInfoComponent} from './tiles-info.component';
 
 describe('TilesInfoComponent', () => {
@@ -13,7 +14,7 @@ describe('TilesInfoComponent', () => {
 	beforeEach(async () =>
 		TestBed.configureTestingModule({
 			declarations: [TileComponent, TilesInfoComponent],
-			providers: [SvgdefService],
+			providers: [SvgdefService, AppService],
 			imports: [
 				HttpClientModule,
 				CoreModule,
