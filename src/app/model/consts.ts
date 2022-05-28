@@ -67,7 +67,7 @@ export const ImageSets = [
 
 export const ImageSetDefault = 'riichi';
 
-export const TILES = [
+export const TILES: Array<[string, string, string, string]> = [
 	['t_do1', 't_do1', 't_do1', 't_do1'],
 	['t_do2', 't_do2', 't_do2', 't_do2'],
 	['t_do3', 't_do3', 't_do3', 't_do3'],
@@ -106,6 +106,10 @@ export const TILES = [
 	['t_dr_red', 't_dr_red', 't_dr_red', 't_dr_red']
 ];
 
+export const TILES_EXT: Array<[string, string, string, string]> = [];
+for (let index = 1; index < 19; index++) {
+	TILES_EXT.push([`t_g${index}`, `t_g${index}`, `t_g${index}`, `t_g${index}`]);
+}
 export const TILES_INFOS = [
 	{
 		name: 'TILES_SUITS',
@@ -121,11 +125,21 @@ export const TILES_INFOS = [
 			{name: 'TILES_BONUS_SEASONS', tiles: ['t_se_spring', 't_se_summer', 't_se_fall', 't_se_winter']},
 			{name: 'TILES_BONUS_FLOWERS', tiles: ['t_fl_bamboo', 't_fl_orchid', 't_fl_plum', 't_fl_chrysanthemum']}
 		]
-	}, {
+	},
+	{
 		name: 'TILES_HONORS',
 		groups: [
 			{name: 'TILES_HONORS_WINDS', tiles: ['t_wi_east', 't_wi_south', 't_wi_west', 't_wi_north']},
 			{name: 'TILES_HONORS_DRAGONS', tiles: ['t_dr_red', 't_dr_green', 't_dr_white']}
+		]
+	},
+	{
+		name: 'TILES_JOKERS',
+		groups: [
+			{name: 'TILES_JOKERS_GENERAL', tiles: ['t_g1', 't_g2', 't_g3']},
+			{name: 'TILES_JOKERS_BLUEGREEN', tiles: ['t_g4', 't_g5', 't_g6', 't_g7', 't_g8']},
+			{name: 'TILES_JOKERS_RED', tiles: ['t_g9', 't_g10', 't_g11', 't_g12', 't_g13']},
+			{name: 'TILES_JOKERS_RANK', tiles: ['t_g14', 't_g15', 't_g16', 't_g17', 't_g18']}
 		]
 	}
 ];

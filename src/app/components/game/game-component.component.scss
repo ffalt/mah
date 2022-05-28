@@ -328,6 +328,17 @@
 
 		.overlay-popup {
 			width: 90%;
+		}
+	}
+
+	.overlay-tiles-info {
+		.overlay-popup {
+			height: 90%;
+		}
+	}
+
+	.overlay-help, .overlay-settings {
+		.overlay-popup {
 			overflow-y: auto;
 		}
 	}
