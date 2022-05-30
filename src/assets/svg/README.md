@@ -45,8 +45,14 @@ based on images from http://star.physics.yale.edu/~ullrich/software/SolitaireMah
 GNU General Public License 3 http://www.gnu.org/licenses/
 by Thomas S. Ullrich
 
+----
 
----
+Joker tiles in `picasso.svg`
+https://www.onlygfx.com/120-geometric-elements-for-modern-abstract-art-svg-eps/
+All images are free for both personal and commercial use. Attribution or link back is not required, but much appreciated!
+
+----
+
 Joker tiles in `all`
 
 Creative Commons Attribution 4.0 International License. https://creativecommons.org/licenses/by-sa/4.0/deed.en

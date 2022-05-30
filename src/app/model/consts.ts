@@ -144,6 +144,12 @@ export const TILES_INFOS = [
 			{name: 'TILES_JOKERS_RED', tiles: ['t_g9', 't_g10', 't_g11', 't_g12', 't_g13']},
 			{name: 'TILES_JOKERS_RANK', tiles: ['t_g14', 't_g15', 't_g16', 't_g17', 't_g18']}
 		]
+	},
+	{
+		name: 'TILES_EXTRA',
+		groups: [
+			{name: 'TILES_EXTRA', tiles: ['t_e1', 't_e2', 't_e3','t_e4','t_e5','t_e6','t_e7','t_e8','t_e9']}
+		]
 	}
 ];
 
