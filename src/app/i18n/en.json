@@ -123,6 +123,7 @@
 	"TILES_JOKERS_BLUEGREEN": "Blue/green jokers",
 	"TILES_JOKERS_RED": "Red jokers",
 	"TILES_JOKERS_RANK": "Rank-restricted jokers",
+	"TILES_EXTRA": "Extra",
 	"t_g1": "Hundred uses",
 	"t_g2": "Many uses",
 	"t_g3": "Flying",
