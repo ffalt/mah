@@ -42,7 +42,10 @@ export type GAME_MODE_ID = 'GAME_MODE_EASY' | 'GAME_MODE_STANDARD' | 'GAME_MODE_
 export const Themes: Array<{ id?: string; name: string }> = [
 	{id: 'ltgreen', name: 'Light Green'},
 	{id: 'dkgreen', name: 'Dark Green'},
-	{id: 'black', name: 'Black'}
+	{id: 'blue', name: 'Blue'},
+	{id: 'brown', name: 'Brown'},
+	{id: 'black', name: 'Black'},
+	{id: 'white', name: 'White'},
 ];
 
 export const Backgrounds: Array<{ img?: string; name: string; small?: boolean }> = [

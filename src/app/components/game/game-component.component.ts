@@ -164,10 +164,25 @@ export class GameComponent {
 
 	toggleTilesInfo(): void {
 		this.tilesInfoVisible = !this.tilesInfoVisible;
+		this.toggleDialogState(this.tilesInfoVisible);
+	}
+
+	toggleDialogState(dialogVisible: boolean): void {
+		if (dialogVisible) {
+			if (!this.app.game.isPaused()) {
+				this.app.game.pause();
+			}
+		} else {
+			this.app.settings.save();
+			if (this.app.game.isPaused()) {
+				this.app.game.resume();
+			}
+		}
 	}
 
 	toggleSettings(): void {
 		this.settingsVisible = !this.settingsVisible;
+		this.toggleDialogState(this.settingsVisible);
 		if (!this.settingsVisible) {
 			this.app.settings.save();
 		}
@@ -175,6 +190,7 @@ export class GameComponent {
 
 	toggleHelp(): void {
 		this.helpVisible = !this.helpVisible;
+		this.toggleDialogState(this.helpVisible);
 	}
 
 	clickMessage(): void {

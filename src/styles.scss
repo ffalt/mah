@@ -13,6 +13,7 @@ html {
 	--main-text-color: #{$text-color};
 	--main-text-color-lt: #{$text-color-light};
 	--main-text-color-dk: #{$text-color-dark};
+	--dialog-text-color: #{$text-color};
 	background-color: var(--main-bg-color);
 }
 

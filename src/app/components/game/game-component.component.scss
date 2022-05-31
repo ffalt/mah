@@ -10,21 +10,45 @@
 	background-color: var(--main-bg-color);
 
 	&.dkgreen {
-		--main-bg-color: #2b424f;
-		--main-bg-color-lt: #2e4856;
-		--main-bg-color-dk: #253c46;
-		//--main-text-color: #{$text-color};
-		//--main-text-color-lt: #{$text-color-light};
-		//--main-text-color-dk: #{$text-color-dark};
+		--main-bg-color: #19262e;
+		--main-bg-color-lt: #22353f;
+		--main-bg-color-dk: #142026;
+	}
+
+	&.blue {
+		--main-bg-color: #001552;
+		--main-bg-color-lt: #22353f;
+		--main-bg-color-dk: #142026;
+		--main-text-color: #fff;
+		--main-text-color-lt: #ffe9c0;
+		--main-text-color-dk: #dcdbdb;
+		--dialog-text-color: #001552;
+	}
+
+	&.white {
+		--main-bg-color: #fff;
+		--main-bg-color-lt: #b9b9b9;
+		--main-bg-color-dk: #f6f5f5;
+		--main-text-color: #000;
+		--main-text-color-lt: #646464;
+		--main-text-color-dk: #8c8c8c;
+		--dialog-text-color: #000;
+	}
+
+	&.brown {
+		--main-bg-color: brown;
+		--main-bg-color-lt: #ad2d2d;
+		--main-bg-color-dk: #982626;
+		--main-text-color: #fff;
+		--main-text-color-lt: #ffe9c0;
+		--main-text-color-dk: #dcdbdb;
+		--dialog-text-color: #601616;
 	}
 
 	&.black {
 		--main-bg-color: #000;
 		--main-bg-color-lt: #3a3a3a;
 		--main-bg-color-dk: #171717;
-		//--main-text-color: #{$text-color};
-		//--main-text-color-lt: #{$text-color-light};
-		//--main-text-color-dk: #{$text-color-dark};
 	}
 
 	.controls {
@@ -70,7 +94,8 @@
 			.button {
 				background-color: transparent;
 				background-image: none;
-				border-color: var(--main-bg-color-dk);
+				border-color: transparent;
+				border-radius: 3px;
 
 				&:hover {
 					border-color: var(--main-bg-color-lt);
@@ -359,6 +384,7 @@
 	.overlay-help, .overlay-settings {
 		.overlay-popup {
 			overflow-y: auto;
+			max-width: 1024px;
 		}
 	}
 
@@ -367,7 +393,7 @@
 			cursor: pointer;
 			font-weight: 600;
 			text-align: center;
-			color: var(--main-text-color);
+			color: var(--dialog-text-color);
 			@include no-select();
 		}
 	}

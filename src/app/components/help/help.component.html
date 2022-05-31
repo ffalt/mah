@@ -9,6 +9,12 @@
 			<div><div class="name">{{'FONTS'|translate}}</div><div class="info"><a rel="noopener" target="_blank" href="https://github.com/ffalt/mah/blob/main/src/fonts/README.md">SIL</a></div></div>
 			<div><div class="name">{{'BACKGROUNDS'|translate}}</div><div class="info"><a rel="noopener" target="_blank" href="https://github.com/ffalt/mah/blob/main/src/assets/img/README.md">Public Domain</a></div></div>
 		</div>
+		<p>{{'TILESET'|translate}}</p>
+		<div class="license-list license-list-tilesets">
+			<div *ngFor="let imageset of sets; let i=index;">
+				<div class="name">{{imageset.name}}</div><div class="info"><a rel="noopener" target="_blank" href="{{imageset.url}}">{{'SOURCE'|translate}}</a></div>
+			</div>
+		</div>
 	</div>
 	<div class="keyboard">
 		<p>{{'SHORTCUTS'|translate}}</p>

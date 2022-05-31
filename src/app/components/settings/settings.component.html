@@ -17,38 +17,6 @@
 				</ul>
 			</form>
 		</div>
-		<p>{{'BEST_TIMES'|translate}}</p>
-		<div>
-			<button (click)="clearTimesClick()">{{'BEST_TIMES_CLEAR'|translate}}</button>
-		</div>
-	</div>
-	<div class="settings">
-		<p>{{'TILESET'|translate}}</p>
-		<div class="buttons">
-			<form>
-				<ul class="radio">
-					<li *ngFor="let imageset of sets; let i=index;">
-						<input type="radio" name="imageset" id="imageset{{i}}" [value]="imageset.id"
-									 [checked]="app.settings.tileset === imageset.id"
-									 (change)="app.settings.tileset = imageset.id;app.settings.save();"
-						/>
-						<label for="imageset{{i}}">{{imageset.name}} <a target="_blank" rel="noopener" href="{{imageset.url}}">{{'SOURCE'|translate}}</a></label>
-					</li>
-				</ul>
-			</form>
-		</div>
-		<p>{{'TILES'|translate}}</p>
-		<div>
-			<label>
-				<input type="checkbox"
-							 [checked]="app.settings.contrast"
-							 (change)="app.settings.contrast = !app.settings.contrast;app.settings.save();"
-				>
-				{{'HIGHER_CONTRAST'|translate}}
-			</label>
-		</div>
-	</div>
-	<div class="settings">
 		<p>{{'BACKGROUND'|translate}}</p>
 		<div class="buttons">
 			<form>
@@ -74,6 +42,36 @@
 					</li>
 				</ul>
 			</form>
+		</div>
+	</div>
+	<div class="settings">
+		<p>{{'TILESET'|translate}}</p>
+		<div class="buttons">
+			<form>
+				<ul class="radio radio-tilesets">
+					<li *ngFor="let imageset of sets; let i=index;">
+						<input type="radio" name="imageset" id="imageset{{i}}" [value]="imageset.id"
+									 [checked]="app.settings.tileset === imageset.id"
+									 (change)="app.settings.tileset = imageset.id;app.settings.save();"
+						/>
+						<label for="imageset{{i}}">{{imageset.name}}</label>
+					</li>
+				</ul>
+			</form>
+		</div>
+		<p>{{'TILES'|translate}}</p>
+		<div>
+			<label>
+				<input type="checkbox"
+							 [checked]="app.settings.contrast"
+							 (change)="app.settings.contrast = !app.settings.contrast;app.settings.save();"
+				>
+				{{'HIGHER_CONTRAST'|translate}}
+			</label>
+		</div>
+		<p>{{'BEST_TIMES'|translate}}</p>
+		<div>
+			<button (click)="clearTimesClick()">{{'BEST_TIMES_CLEAR'|translate}}</button>
 		</div>
 	</div>
 </div>
