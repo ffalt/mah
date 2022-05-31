@@ -10,9 +10,9 @@
 	background-color: var(--main-bg-color);
 
 	&.dkgreen {
-		--main-bg-color: brown;
-		--main-bg-color-lt: lighten(brown, 5%);
-		--main-bg-color-dk: darken(brown, 10%);
+		--main-bg-color: #2b424f;
+		--main-bg-color-lt: #2e4856;
+		--main-bg-color-dk: #253c46;
 		//--main-text-color: #{$text-color};
 		//--main-text-color-lt: #{$text-color-light};
 		//--main-text-color-dk: #{$text-color-dark};
@@ -70,7 +70,7 @@
 			.button {
 				background-color: transparent;
 				background-image: none;
-				border-color: var(--main-bg-color);
+				border-color: var(--main-bg-color-dk);
 
 				&:hover {
 					border-color: var(--main-bg-color-lt);
