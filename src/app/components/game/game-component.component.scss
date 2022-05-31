@@ -7,6 +7,25 @@
 	height: 100%;
 	width: 100%;
 	min-height: 100vh;
+	background-color: var(--main-bg-color);
+
+	&.dkgreen {
+		--main-bg-color: brown;
+		--main-bg-color-lt: lighten(brown, 5%);
+		--main-bg-color-dk: darken(brown, 10%);
+		//--main-text-color: #{$text-color};
+		//--main-text-color-lt: #{$text-color-light};
+		//--main-text-color-dk: #{$text-color-dark};
+	}
+
+	&.black {
+		--main-bg-color: #000;
+		--main-bg-color-lt: #3a3a3a;
+		--main-bg-color-dk: #171717;
+		//--main-text-color: #{$text-color};
+		//--main-text-color-lt: #{$text-color-light};
+		//--main-text-color-dk: #{$text-color-dark};
+	}
 
 	.controls {
 		min-width: 170px;
@@ -21,13 +40,13 @@
 
 		.ctrl {
 			display: inline-block;
-			color: $text-color;
+			color: var(--main-text-color);
 			@include no-select();
 
 			.link {
 				text-decoration: none;
 				font-weight: normal;
-				color: $text-color;
+				color: var(--main-text-color);
 				margin-left: 16px;
 				padding: 0.2em 0.8em;
 
@@ -36,11 +55,11 @@
 				}
 
 				&:hover {
-					color: lighten($text-color, 5%);
+					color: var(--main-text-color-lt);
 				}
 
 				&[disabled] {
-					color: darken($text-color, 10%);
+					color: var(--main-text-color-dk);
 				}
 
 				@include respond-to(tiny-up) {
@@ -51,10 +70,10 @@
 			.button {
 				background-color: transparent;
 				background-image: none;
-				border-color: $background-color;
+				border-color: var(--main-bg-color);
 
 				&:hover {
-					border-color: lighten($background-color, 2%);
+					border-color: var(--main-bg-color-lt);
 				}
 			}
 
@@ -68,10 +87,10 @@
 			}
 
 			.inactive {
-				color: darken($text-color, 10%);
+				color: var(--main-text-color-dk);
 
 				&:hover {
-					color: darken($text-color, 5%);
+					color: var(--main-text-color-dk);
 				}
 			}
 
@@ -309,11 +328,11 @@
 	}
 
 	.controls-top {
-		border-bottom: 1px solid lighten($background-color, 5%);
+		border-bottom: 1px solid var(--main-bg-color-lt);
 	}
 
 	.controls-bottom {
-		border-top: 1px solid lighten($background-color, 5%);
+		border-top: 1px solid var(--main-bg-color-lt);
 	}
 
 	.board {
@@ -348,7 +367,7 @@
 			cursor: pointer;
 			font-weight: 600;
 			text-align: center;
-			color: $text-color;
+			color: var(--main-text-color);
 			@include no-select();
 		}
 	}

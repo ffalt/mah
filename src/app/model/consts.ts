@@ -39,6 +39,12 @@ export const GameModes = [
 ];
 export type GAME_MODE_ID = 'GAME_MODE_EASY' | 'GAME_MODE_STANDARD' | 'GAME_MODE_EXPERT';
 
+export const Themes: Array<{ id?: string; name: string }> = [
+	{id: 'ltgreen', name: 'Light Green'},
+	{id: 'dkgreen', name: 'Dark Green'},
+	{id: 'black', name: 'Black'}
+];
+
 export const Backgrounds: Array<{ img?: string; name: string; small?: boolean }> = [
 	{img: undefined, name: 'BACK_NONE'},
 	{img: 'bamboo.jpg', name: 'BACK_BAMBOO'},
@@ -148,7 +154,7 @@ export const TILES_INFOS = [
 	{
 		name: 'TILES_EXTRA',
 		groups: [
-			{name: 'TILES_EXTRA', tiles: ['t_e1', 't_e2', 't_e3','t_e4','t_e5','t_e6','t_e7','t_e8','t_e9']}
+			{name: 'TILES_EXTRA', tiles: ['t_e1', 't_e2', 't_e3', 't_e4', 't_e5', 't_e6', 't_e7', 't_e8', 't_e9']}
 		]
 	}
 ];

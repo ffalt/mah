@@ -23,7 +23,7 @@
 			text-align: center;
 
 			&:hover {
-				color: lighten($text-color, 5%);
+				color: var(--main-text-color-lt);
 			}
 		}
 	}

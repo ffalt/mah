@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
-import {Backgrounds, ImageSets} from '../../model/consts';
+import {Backgrounds, ImageSets, Themes} from '../../model/consts';
 import {AppService} from '../../service/app.service';
 import {LayoutService} from '../../service/layout.service';
 import {LocalstorageService} from '../../service/localstorage.service';
@@ -14,6 +14,7 @@ import {LANGUAGE_TITLES} from '../../i18n/languages';
 export class SettingsComponent {
 	sets = ImageSets;
 	backs = Backgrounds;
+	themes = Themes;
 	languages = LANGUAGE_TITLES;
 
 	constructor(

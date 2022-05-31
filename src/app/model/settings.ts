@@ -7,6 +7,7 @@ export class Settings {
 	tileset = ImageSetDefault;
 	contrast = false;
 	background = '';
+	theme = '';
 	stats = {
 		games: 0,
 		bestTime: 0
@@ -22,6 +23,7 @@ export class Settings {
 				this.lang = store.lang || 'auto';
 				this.tileset = store.tileset || ImageSetDefault;
 				this.background = store.background;
+				this.theme = store.theme || '';
 				this.contrast = store.contrast || false;
 				this.sounds = store.sounds || false;
 			}
@@ -39,6 +41,7 @@ export class Settings {
 				sounds: this.sounds,
 				contrast: this.contrast,
 				background: this.background,
+				theme: this.theme,
 				tileset: this.tileset
 			});
 			return true;

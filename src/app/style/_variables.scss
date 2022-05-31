@@ -1,9 +1,13 @@
 $background-color: #2b424f;
+$background-color-light: lighten($background-color, 5%);
+$background-color-dark: darken($background-color, 10%);
 
 $popup-background-color: #f5f1e4;
 $popup-border-color:#707070;
 
 $text-color: #47b00a;
+$text-color-light: lighten($text-color, 5%);
+$text-color-dark: darken($text-color, 10%);
 $text-font: 'Kulim Park', 'Tahoma', sans-serif;
 
 // Font-Size
