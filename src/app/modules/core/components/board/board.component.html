@@ -13,7 +13,7 @@
 		</svg>
 	</defs>
 	<defs app-image-set-loader [imageSet]="imageSet" [prefix]="prefix"></defs>
-	<g class="stage" [attr.transform]="translate">
+	<g class="stage" [attr.transform]="translate" [class.dark]="isDark">
 		<g *ngFor="let draw of drawStones; trackBy:trackByDrawStone" class="draw"
 			 [class.contrast]="app.settings.contrast"
 			 [class.selected]="draw.source.selected"

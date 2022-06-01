@@ -62,6 +62,7 @@ export const Backgrounds: Array<{ img?: string; name: string; small?: boolean }>
 
 export const ImageSets = [
 	{id: 'riichi', type: 'SVG', name: 'Riichi', url: 'https://github.com/FluffyStuff/riichi-mahjong-tiles'},
+	{id: 'riichi-black', type: 'SVG', name: 'Riichi Black', url: 'https://github.com/FluffyStuff/riichi-mahjong-tiles'},
 	{id: 'uni', type: 'SVG', name: 'Uni', url: 'https://commons.wikimedia.org/wiki/Category:Unicode_1F000-1F02F_Mahjong_Tiles_(color)'},
 	{id: 'bzhmaddog', type: 'SVG', name: 'Bzhmaddog', url: 'https://github.com/bzhmaddog/html5-mahjong-solitaire/tree/master/res/skins/default/tiles'},
 	{id: 'cheshire137', type: 'SVG', name: 'Cheshire', url: 'https://github.com/cheshire137/Mahjong/tree/master/app/assets/images/tiles'},
@@ -74,6 +75,8 @@ export const ImageSets = [
 	{id: 'modern', type: 'PNG', name: 'Modern', url: 'https://star.physics.yale.edu/~ullrich/software/SolitaireMahjong/'},
 	{id: 'classic', type: 'PNG', name: 'Classic', url: 'https://star.physics.yale.edu/~ullrich/software/SolitaireMahjong/'}
 ];
+
+export const DarkSets = ['riichi-black'];
 
 export const ImageSetDefault = 'riichi';
 

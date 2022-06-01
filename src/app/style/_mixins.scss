@@ -323,7 +323,29 @@
 		opacity: 0;
 	}
 
+	g.stage.dark {
+		g.selected g.tile rect.stone {
+			stroke: #F8EABB;
+			fill: black;
+		}
+
+		g.draw rect.shadow {
+			opacity: 0.6;
+			stroke-width: 1;
+			fill: #9d948c;
+			stroke: green;
+		}
+
+		g.draw rect.stone {
+			fill: #000;
+			stroke-width: 1;
+			stroke: #9d948c;
+		}
+
+	}
+
 }
+
 @mixin overlay() {
 
 	.overlay {
