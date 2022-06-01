@@ -15,7 +15,7 @@
 		--main-bg-color-dk: #142026;
 	}
 
-	&.blue {
+	&.dkblue {
 		--main-bg-color: #001552;
 		--main-bg-color-lt: #22353f;
 		--main-bg-color-dk: #142026;
@@ -23,6 +23,16 @@
 		--main-text-color-lt: #ffe9c0;
 		--main-text-color-dk: #dcdbdb;
 		--dialog-text-color: #001552;
+	}
+
+	&.ltblue {
+		--main-bg-color: #34385a;
+		--main-bg-color-lt: #22353f;
+		--main-bg-color-dk: #142026;
+		--main-text-color: #fff;
+		--main-text-color-lt: #ffe9c0;
+		--main-text-color-dk: #dcdbdb;
+		--dialog-text-color: #34385a;
 	}
 
 	&.white {

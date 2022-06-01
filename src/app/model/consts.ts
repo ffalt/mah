@@ -42,7 +42,8 @@ export type GAME_MODE_ID = 'GAME_MODE_EASY' | 'GAME_MODE_STANDARD' | 'GAME_MODE_
 export const Themes: Array<{ id?: string; name: string }> = [
 	{id: 'ltgreen', name: 'Light Green'},
 	{id: 'dkgreen', name: 'Dark Green'},
-	{id: 'blue', name: 'Blue'},
+	{id: 'ltblue', name: 'Light Blue'},
+	{id: 'dkblue', name: 'Dark Blue'},
 	{id: 'brown', name: 'Brown'},
 	{id: 'black', name: 'Black'},
 	{id: 'white', name: 'White'},
