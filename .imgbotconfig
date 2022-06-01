@@ -1,5 +1,6 @@
 {
    "ignoredFiles": [
         "src/assets/svg/*.svg"
+        "src/fonts/fontello/font/*"
     ],
 }

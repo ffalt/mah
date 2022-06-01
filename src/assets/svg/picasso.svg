@@ -682,11 +682,8 @@
 		<use x="450" y="400" height="100px" width="75px" xlink:href="#t_dr_red"/>
 		<use x="525" y="400" height="100px" width="75px" xlink:href="#t_dr_green"/>
 		<use x="600" y="400" height="100px" width="75px" xlink:href="#t_dr_white"/>
-		<rect x="0" y="500" height="100px" width="75px" fill="none" stroke="black"></rect>
 		<use x="0" y="500" height="100px" width="75px" xlink:href="#t_g1"/>
-		<rect x="75" y="500" height="100px" width="75px" fill="none" stroke="black"></rect>
 		<use x="75" y="500" height="100px" width="75px" xlink:href="#t_g2"/>
-		<rect x="150" y="500" height="100px" width="75px" fill="none" stroke="black"></rect>
 		<use x="150" y="500" height="100px" width="75px" xlink:href="#t_g3"/>
 		<use x="225" y="500" height="100px" width="75px" xlink:href="#t_g4"/>
 		<use x="300" y="500" height="100px" width="75px" xlink:href="#t_g5"/>
