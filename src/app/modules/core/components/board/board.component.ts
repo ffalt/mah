@@ -1,5 +1,5 @@
 import {Component, EventEmitter, HostBinding, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {Backgrounds, DarkSets} from '../../../../model/consts';
+import {Backgrounds} from '../../../../model/consts';
 import {calcDrawPos, Draw, getDrawViewPort, sortDrawItems} from '../../../../model/draw';
 import {Stone} from '../../../../model/stone';
 import {AppService} from '../../../../service/app.service';
@@ -44,7 +44,7 @@ export class BoardComponent implements OnInit, OnChanges {
 		if (changes.imageSet) {
 			this.prefix = `b_${changes.imageSet.currentValue}_`;
 			this.urlPrefix = `#b_${changes.imageSet.currentValue}_`;
-			this.isDark = DarkSets.includes(changes.imageSet.currentValue);
+			this.isDark = (changes.imageSet.currentValue||'').endsWith('-black');
 		}
 	}
 

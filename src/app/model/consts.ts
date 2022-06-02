@@ -62,7 +62,6 @@ export const Backgrounds: Array<{ img?: string; name: string; small?: boolean }>
 
 export const ImageSets = [
 	{id: 'riichi', type: 'SVG', name: 'Riichi', url: 'https://github.com/FluffyStuff/riichi-mahjong-tiles'},
-	{id: 'riichi-black', type: 'SVG', name: 'Riichi Black', url: 'https://github.com/FluffyStuff/riichi-mahjong-tiles'},
 	{id: 'uni', type: 'SVG', name: 'Uni', url: 'https://commons.wikimedia.org/wiki/Category:Unicode_1F000-1F02F_Mahjong_Tiles_(color)'},
 	{id: 'bzhmaddog', type: 'SVG', name: 'Bzhmaddog', url: 'https://github.com/bzhmaddog/html5-mahjong-solitaire/tree/master/res/skins/default/tiles'},
 	{id: 'cheshire137', type: 'SVG', name: 'Cheshire', url: 'https://github.com/cheshire137/Mahjong/tree/master/app/assets/images/tiles'},
@@ -73,10 +72,22 @@ export const ImageSets = [
 	{id: 'open-fruits', type: 'PNG', name: 'Fruits', url: 'https://github.com/xunkar/open-mahjong/tree/master/resources/tiles/fruits'},
 	{id: 'picasso', type: 'PNG', name: 'Picasso', url: 'https://star.physics.yale.edu/~ullrich/software/SolitaireMahjong/'},
 	{id: 'modern', type: 'PNG', name: 'Modern', url: 'https://star.physics.yale.edu/~ullrich/software/SolitaireMahjong/'},
-	{id: 'classic', type: 'PNG', name: 'Classic', url: 'https://star.physics.yale.edu/~ullrich/software/SolitaireMahjong/'}
+	{id: 'classic', type: 'PNG', name: 'Classic', url: 'https://star.physics.yale.edu/~ullrich/software/SolitaireMahjong/'},
+	{id: 'riichi-black', type: 'SVG', name: 'Riichi Black', url: 'https://github.com/FluffyStuff/riichi-mahjong-tiles'},
+	{id: 'uni-black', type: 'SVG', name: 'Uni Black', url: 'https://commons.wikimedia.org/wiki/Category:Unicode_1F000-1F02F_Mahjong_Tiles_(color)'},
+	{id: 'bzhmaddog-black', type: 'SVG', name: 'Bzhmaddog Black', url: 'https://github.com/bzhmaddog/html5-mahjong-solitaire/tree/master/res/skins/default/tiles'},
+	{id: 'cheshire137-black', type: 'SVG', name: 'Cheshire Black', url: 'https://github.com/cheshire137/Mahjong/tree/master/app/assets/images/tiles'},
+	{id: 'recri2-black', type: 'SVG', name: 'Recri Black', url: 'https://github.com/recri/mahjong'},
+	{id: 'unib-black', type: 'SVG', name: 'White', url: 'https://commons.wikimedia.org/wiki/Category:Unicode_1F000-1F02F_Mahjong_Tiles'},
+	{id: 'gleitz-black', type: 'PNG', name: 'Gleitz Black', url: 'https://github.com/gleitz/mahjong/tree/master/public/img/tiles'},
+	{id: 'recri-black', type: 'PNG', name: 'Recri Black', url: 'https://github.com/recri/mahjong'},
+	{id: 'open-fruits-black', type: 'PNG', name: 'Fruits Black', url: 'https://github.com/xunkar/open-mahjong/tree/master/resources/tiles/fruits'},
+	{id: 'picasso-black', type: 'PNG', name: 'Picasso Black', url: 'https://star.physics.yale.edu/~ullrich/software/SolitaireMahjong/'},
+	{id: 'modern-black', type: 'PNG', name: 'Modern Black', url: 'https://star.physics.yale.edu/~ullrich/software/SolitaireMahjong/'},
+	{id: 'classic-black', type: 'PNG', name: 'Classic Black', url: 'https://star.physics.yale.edu/~ullrich/software/SolitaireMahjong/'}
 ];
 
-export const DarkSets = ['riichi-black'];
+export const DarkSets = ['recri2-black','unib-black','uni-black', 'riichi-black', 'open-fruits-black', 'picasso-black', 'modern-black', 'gleitz-black', 'classic-black', 'recri-black', 'cheshire137-black','bzhmaddog-black'];
 
 export const ImageSetDefault = 'riichi';
 

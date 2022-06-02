@@ -1,6 +1,6 @@
 <div class="tiles-header">
 	<form>
-		<select (change)="tileset = $any($event.target).value">
+		<select (change)="tileset = $any($event.target).value" tabindex="0">
 			<option *ngFor="let imageset of sets; let i=index;" [value]="imageset.id" [selected]="tileset === imageset.id">{{imageset.name}}</option>
 		</select>
 	</form>
@@ -14,9 +14,9 @@
 		<div class="tiles-section tiles-section-{{group.tiles.length}}" *ngFor="let group of suit.groups">
 			<div class="tiles-title">{{group.name | translate}}</div>
 			<div class="tiles-set tiles-set-{{group.tiles.length}}">
-				<div class="tile" *ngFor="let tile of group.tiles">
+				<div class="tile" *ngFor="let tile of group.tiles; let i=index">
 					<div>
-						<app-tile [tile]="tile" [imageSet]="tileset"></app-tile>
+						<app-tile [tile]="tile" [imageSet]="tileset" [index]="i"></app-tile>
 					</div>
 					<div [innerHtml]="tile | translate"></div>
 				</div>
