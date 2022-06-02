@@ -40,13 +40,13 @@ export const GameModes = [
 export type GAME_MODE_ID = 'GAME_MODE_EASY' | 'GAME_MODE_STANDARD' | 'GAME_MODE_EXPERT';
 
 export const Themes: Array<{ id?: string; name: string }> = [
-	{id: 'ltgreen', name: 'Light Green'},
-	{id: 'dkgreen', name: 'Dark Green'},
-	{id: 'ltblue', name: 'Light Blue'},
-	{id: 'dkblue', name: 'Dark Blue'},
-	{id: 'brown', name: 'Brown'},
-	{id: 'black', name: 'Black'},
-	{id: 'white', name: 'White'},
+	{id: 'ltgreen', name: 'THEME_LIGHT_GREEN'},
+	{id: 'dkgreen', name: 'THEME_DARK_GREEN'},
+	{id: 'ltblue', name: 'THEME_LIGHT_BLUE'},
+	{id: 'dkblue', name: 'THEME_DARK_BLUE'},
+	{id: 'brown', name: 'THEME_BROWN'},
+	{id: 'black', name: 'THEME_BLACK'},
+	{id: 'white', name: 'THEME_WHITE'},
 ];
 
 export const Backgrounds: Array<{ img?: string; name: string; small?: boolean }> = [
