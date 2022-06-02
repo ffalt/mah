@@ -45,12 +45,15 @@
 					display: flex;
 					flex-direction: row;
 
-					> div {
+					.name {
 						flex: 1;
 					}
 
-					.name, .info {
+					.name {
 						padding-right: 2em;
+					}
+					.info {
+						font-size: 0.9em;
 					}
 
 					@include respond-to(tiny-down) {
@@ -72,6 +75,7 @@
 	}
 
 	.license {
+		padding-right: 10px;
 		.name {
 			min-width: 40%;
 			max-width: 40%;
@@ -79,6 +83,9 @@
 
 		.license-list-tilesets {
 			columns: 2;
+			> div {
+				justify-content: space-between;
+			}
 		}
 	}
 
