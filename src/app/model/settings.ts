@@ -6,6 +6,7 @@ export class Settings {
 	sounds = true;
 	tileset = ImageSetDefault;
 	contrast = false;
+	dark = false;
 	background = '';
 	theme = '';
 	stats = {
@@ -25,6 +26,7 @@ export class Settings {
 				this.background = store.background;
 				this.theme = store.theme || '';
 				this.contrast = store.contrast || false;
+				this.dark = store.dark || false;
 				this.sounds = store.sounds || false;
 			}
 			return true;
@@ -40,6 +42,7 @@ export class Settings {
 				lang: this.lang,
 				sounds: this.sounds,
 				contrast: this.contrast,
+				dark: this.dark,
 				background: this.background,
 				theme: this.theme,
 				tileset: this.tileset

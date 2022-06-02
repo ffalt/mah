@@ -67,6 +67,13 @@
 							 (change)="app.settings.contrast = !app.settings.contrast;app.settings.save();"
 				>
 				{{'HIGHER_CONTRAST'|translate}}
+			</label><br/>
+		<label>
+				<input type="checkbox"
+							 [checked]="app.settings.dark"
+							 (change)="app.settings.dark = !app.settings.dark;app.settings.save();"
+				>
+				{{'TILES_DARK'|translate}}
 			</label>
 		</div>
 		<p>{{'BEST_TIMES'|translate}}</p>

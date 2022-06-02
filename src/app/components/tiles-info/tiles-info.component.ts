@@ -11,8 +11,10 @@ export class TilesInfoComponent {
 	TILES_INFOS = TILES_INFOS;
 	sets = ImageSets;
 	tileset = ImageSetDefault;
+	isDark = false;
 
 	constructor(private app: AppService) {
 		this.tileset = app.settings.tileset;
+		this.isDark = app.settings.dark;
 	}
 }

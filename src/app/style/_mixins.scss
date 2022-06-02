@@ -309,18 +309,22 @@
 		stroke: black;
 	}
 
-	g.draw.contrast {
-		rect.stone {
-			stroke-width: 2;
-		}
-		rect.shadow {
-			opacity: 0.7;
-			//transform: translate(1px, 1px);
-		}
-	}
-
 	g.hidden {
 		opacity: 0;
+	}
+
+	g.stage.contrast {
+
+		g.draw {
+			rect.stone {
+				stroke-width: 2;
+			}
+			rect.shadow {
+				opacity: 0.7;
+				//transform: translate(1px, 1px);
+			}
+		}
+
 	}
 
 	g.stage.dark {
@@ -342,6 +346,19 @@
 			stroke: #9d948c;
 		}
 
+		&.contrast {
+
+			g.draw {
+				rect.stone {
+					stroke-width: 2;
+				}
+				rect.shadow {
+					opacity: 0.7;
+					//transform: translate(1px, 1px);
+				}
+			}
+
+		}
 	}
 
 }

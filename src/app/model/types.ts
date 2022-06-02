@@ -95,6 +95,7 @@ export class SettingsStore {
 	lang: string;
 	sounds: boolean;
 	contrast: boolean;
+	dark: boolean;
 	tileset: string;
 	theme: string;
 	background: string;

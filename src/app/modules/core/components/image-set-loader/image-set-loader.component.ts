@@ -10,6 +10,7 @@ import {Stone} from '../../../../model/stone';
 export class ImageSetLoaderComponent implements OnChanges {
 	@Input() imageSet: string;
 	@Input() prefix: string;
+	@Input() dark: boolean = false;
 
 	constructor(private elementRef: ElementRef, private svgdef: SvgdefService) {
 	}
@@ -22,7 +23,8 @@ export class ImageSetLoaderComponent implements OnChanges {
 		if (!this.imageSet) {
 			return;
 		}
-		this.svgdef.get(this.imageSet)
+		const imageSet = this.imageSet + (this.dark ? '-black' : '');
+		this.svgdef.get(imageSet)
 			.then(def => {
 				let s = def.split('<defs>')[1].split('</defs>')[0];
 				s = s.replace(/xlink:href="\./g, 'xlink:href="assets/svg')
