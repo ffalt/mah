@@ -1,0 +1,6 @@
+{
+	"appId": "org.ffalt.mah",
+	"appName": "Mah",
+	"webDir": "../../dist",
+	"bundledWebRuntime": false
+}
