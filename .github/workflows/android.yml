@@ -14,7 +14,6 @@ jobs:
       - name: Setup java
         uses: actions/setup-java@v1
         with:
-          distribution: 'zulu'
           java-version: '11'
 
       - name: Setup Node.js
@@ -42,11 +41,10 @@ jobs:
 
       - name: Extract Android signing key from env
         run: |
-          echo "${{ secrets.RELEASE_KEYSTORE }}" > resources/mobile/android/release.jks.base64
-          base64 -d resources/mobile/android/release.jks.base64 > resources/mobile/android/release.decrypted.jks
+          echo "${{ secrets.RELEASE_KEYSTORE }}" | base64 -di > resources/mobile/android/release.decrypted.jks
 
       - name: Sign dev build
-        run: jarsigner -keystore resources/mobile/android/release.decrypted.jks -storepass "${{ secrets.RELEASE_KEYSTORE_PASSWORD }}" -signedjar ./resources/mobile/android/app/build/outputs/bundle/release/app-release-signed.aab ./resources/mobile/android/app/build/outputs/bundle/release/app-release.aab release
+        run: jarsigner -keystore resources/mobile/android/release.decrypted.jks -storepass "${{ secrets.RELEASE_KEYSTORE_PASSWORD }}" -signedjar ./resources/mobile/android/app/build/outputs/bundle/release/app-release-signed.aab ./resources/mobile/android/app/build/outputs/bundle/release/app-release.aab key0
 
       - name: Upload release bundle
         uses: actions/upload-artifact@v2
