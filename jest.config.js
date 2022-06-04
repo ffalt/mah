@@ -5,6 +5,7 @@ module.exports = {
 	globals: {
 		APP_VERSION: 'TEST',
 		APP_NAME: 'TEST MAHJONG',
-		APP_FEATURE_EDITOR: 'true'
+		APP_FEATURE_EDITOR: 'true',
+		APP_FEATURE_MOBILE: 'false'
 	},
 };
