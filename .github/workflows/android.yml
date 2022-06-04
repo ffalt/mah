@@ -16,18 +16,22 @@ jobs:
         with:
           java-version: '11'
 
-      - name: Setup Node.js
+      - name: Setup node.js
         uses: actions/setup-node@v1
         with:
           node-version: 16.x
 
-      - name: Install app dependencies
+      - name: Install mah build dependencies
         run: npm install
 
-      - name: Build app
+      - name: Write mah build config
+        run: |
+          echo "{\"name\": \"Mah\", \"editor\":true}" > custom-build-config.json
+
+      - name: Build mah
         run: npm run build:prod
 
-      - name: Install Capacitor
+      - name: Install capacitor
         run: cd resources/mobile && npm install
 
       - name: Capacitor update
@@ -36,19 +40,37 @@ jobs:
       - name: Capacitor copy
         run: cd resources/mobile && npx cap copy
 
-      - name: Build app bundle
-        run: cd resources/mobile/android && gradle bundle
+      - name: Gradle chmod Setup
+        run: cd resources/mobile/android && chmod +x gradlew
 
-      - name: Extract Android signing key from env
+      - name: Decode Keystore
+        env:
+          ENCODED_STRING: ${{ secrets.KEYSTORE }}
         run: |
-          echo "${{ secrets.RELEASE_KEYSTORE }}" | base64 -di > resources/mobile/android/release.decrypted.jks
+          echo $ENCODED_STRING | base64 -di > resources/mobile/android/app/mah_keystore.jks
 
-      - name: Sign dev build
-        run: jarsigner -keystore resources/mobile/android/release.decrypted.jks -storepass "${{ secrets.RELEASE_KEYSTORE_PASSWORD }}" -signedjar ./resources/mobile/android/app/build/outputs/bundle/release/app-release-signed.aab ./resources/mobile/android/app/build/outputs/bundle/release/app-release.aab key0
+      - name: Build application apks
+        run: cd resources/mobile && npm run android:build:release:apk
+        env:
+          SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
+          SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
+          SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
+
+      - name: Build application aab
+        run: cd resources/mobile && npm run android:build:release:aab
+        env:
+          SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
+          SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
+          SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
 
       - name: Upload release bundle
         uses: actions/upload-artifact@v2
         with:
           name: app-release
-          path: resources/mobile/android/app/build/outputs/bundle/release/app-release-signed.aab
-          retention-days: 60
+          retention-days: 10
+          path: |
+            resources/mobile/android/app/build/outputs/apk/release/app-arm64-v8a-release.apk
+            resources/mobile/android/app/build/outputs/apk/release/app-armeabi-v7a-release.apk
+            resources/mobile/android/app/build/outputs/apk/release/app-x86-release.apk
+            resources/mobile/android/app/build/outputs/apk/release/app-x86_64-release.apk
+            resources/mobile/android/app/build/outputs/bundle/release/app-release.aab

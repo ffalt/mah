@@ -5,8 +5,10 @@
   "main": "index.js",
   "scripts": {
     "open": "npx cap open android",
-    "sync": "npx cap sync android"
-  },
+    "sync": "npx cap sync android",
+		"build:release:apk": "cd android && ./gradlew assembleRelease",
+		"build:release:aab": "cd android && ./gradlew bundleRelease"
+	},
   "author": "",
   "license": "ISC",
   "dependencies": {
