@@ -11,14 +11,9 @@
 		width: 100%;
 		height: 100%;
 		position: relative;
-
 		g.stage {
 			transition: opacity 500ms;
 		}
-
 		@include no-select();
-		@include svg-stones();
-
-
 	}
 }

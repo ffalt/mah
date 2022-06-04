@@ -1,6 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 75 100" preserveAspectRatio="xMidYMid meet" [class.dark]="isDark">
 	<defs app-image-set-loader [imageSet]="imageSet" [dark]="isDark" [prefix]="'t_'+imageSet+'_'+index+'_'"></defs>
-	<rect class="stone" x="0" y="0" width="75" height="100" rx="10" ry="10"></rect>
 	<title>{{tile | translate}}</title>
 	<use [attr.xlink:href]="'#t_'+imageSet+'_'+index+'_'+tile" x="6" y="6" width="63" height="88"/>
 </svg>
