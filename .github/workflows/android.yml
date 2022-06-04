@@ -31,7 +31,7 @@ jobs:
 
       - name: Write mah build config
         run: |
-          echo "{\"name\": \"Mah\"}" > custom-build-config.json
+          echo "{\"name\": \"Mah\", \"mobile\":true}" > custom-build-config.json
 
       - name: Build mah
         run: npm run build:prod

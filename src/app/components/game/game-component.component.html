@@ -32,7 +32,7 @@
 		<button class="link button" (click)="toggleTilesInfo()" title="{{'TILES_INFO' | translate}}">
 			<i class="icon-calendar"></i>
 		</button>
-		<button class="link button" (click)="enterFullScreen()" title="{{'FULLSCREEN' | translate}}">
+		<button *ngIf="fullScreenEnabled" class="link button" (click)="enterFullScreen()" title="{{'FULLSCREEN' | translate}}">
 			<i class="icon-resize-full-alt"></i>
 		</button>
 		<!--		<span class="label button" (click)="debugCheat()">CHEAT</span>-->

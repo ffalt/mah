@@ -13,6 +13,8 @@ interface DocEx extends Document {
 	fullscreen: boolean;
 	mozFullScreen: boolean;
 	webkitIsFullScreen: boolean;
+	mozFullscreenEnabled: boolean;
+	webkitFullscreenEnabled: boolean;
 
 	mozCancelFullScreen(): void;
 
@@ -36,12 +38,14 @@ export class GameComponent {
 	helpVisible: boolean = false;
 	settingsVisible: boolean = false;
 	newGameVisible: boolean = false;
+	fullScreenEnabled: boolean = true;
 
 	constructor(public app: AppService, private workerService: WorkerService) {
 		this.game = app.game;
 		if (this.game.isIdle()) {
 			this.newGameVisible = true;
 		}
+		this.fullScreenEnabled = this.canFullscreen();
 	}
 
 	handleKeyDownEventKey(key: string): void {
@@ -115,6 +119,14 @@ export class GameComponent {
 
 	stoneClick(stone: Stone): void {
 		this.game.click(stone);
+	}
+
+	canFullscreen(): boolean {
+		if (environment.mobile) {
+			return false;
+		}
+		const doc = window.document as DocEx;
+		return doc.fullscreenEnabled || doc.mozFullscreenEnabled || doc.webkitFullscreenEnabled;
 	}
 
 	enterFullScreen(): void {
