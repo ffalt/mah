@@ -1,11 +1,11 @@
-name: Build Android
+name: build android
 
 on:
   workflow_dispatch:
 
 jobs:
   build:
-    name: Build APK
+    name: Build APK and AAB
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source
@@ -26,7 +26,7 @@ jobs:
 
       - name: Write mah build config
         run: |
-          echo "{\"name\": \"Mah\", \"editor\":true}" > custom-build-config.json
+          echo "{\"name\": \"Mah\"}" > custom-build-config.json
 
       - name: Build mah
         run: npm run build:prod
@@ -50,14 +50,14 @@ jobs:
           echo $ENCODED_STRING | base64 -di > resources/mobile/android/app/mah_keystore.jks
 
       - name: Build application apks
-        run: cd resources/mobile && npm run android:build:release:apk
+        run: cd resources/mobile && npm run build:release:apk
         env:
           SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
           SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
           SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
 
       - name: Build application aab
-        run: cd resources/mobile && npm run android:build:release:aab
+        run: cd resources/mobile && npm run build:release:aab
         env:
           SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
           SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
