@@ -21,6 +21,11 @@ jobs:
         with:
           node-version: 16.x
 
+      - uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-android-${{ hashFiles('**/package-lock.json') }}
+
       - name: Install mah build dependencies
         run: npm install
 
