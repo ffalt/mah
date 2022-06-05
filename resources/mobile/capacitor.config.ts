@@ -2,9 +2,13 @@ import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
   appId: 'org.ffalt.mah',
-  appName: 'Mah',
+  appName: 'mah',
   webDir: '../../dist',
-  bundledWebRuntime: false
+	backgroundColor: '#FFFFFF',
+	bundledWebRuntime: false,
+	android: {
+		backgroundColor: '#FFFFFF'
+	}
 };
 
 export default config;

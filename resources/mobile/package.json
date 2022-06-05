@@ -6,6 +6,7 @@
   "scripts": {
     "open": "npx cap open android",
     "sync": "npx cap sync android",
+    "res": "npx cordova-res android --skip-config --copy",
 		"build:release:apk": "cd android && ./gradlew assembleRelease",
 		"build:release:aab": "cd android && ./gradlew bundleRelease"
 	},
