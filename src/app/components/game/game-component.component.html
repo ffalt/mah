@@ -44,19 +44,19 @@
 	</div>
 </div>
 
-<app-dialog #help (clickEvent)="toggleDialogState($event)" class="overlay-help">
+<app-dialog #help (clickEvent)="toggleDialogState($event)" class="overlay-help" [title]="title">
 	<app-help></app-help>
 </app-dialog>
 
-<app-dialog #info (clickEvent)="toggleDialogState($event)" class="overlay-info">
+<app-dialog #info (clickEvent)="toggleDialogState($event)" class="overlay-info" [title]="'TILES'|translate">
 	<app-tiles-info></app-tiles-info>
 </app-dialog>
 
-<app-dialog #settings (clickEvent)="toggleDialogState($event)" class="overlay-settings">
+<app-dialog #settings (clickEvent)="toggleDialogState($event)" class="overlay-settings" [title]="'SETTINGS'|translate">
 	<app-settings></app-settings>
 </app-dialog>
 
-<app-dialog #newgame (clickEvent)="toggleDialogState($event)" class="overlay-newgame">
+<app-dialog #newgame (clickEvent)="toggleDialogState($event)" class="overlay-newgame" [title]="'SELECT_BOARD'|translate">
 	<app-choose-layout class="choose" (startEvent)="startGame($event)" [gameMode]="game.mode"></app-choose-layout>
 </app-dialog>
 

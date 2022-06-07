@@ -1,22 +1,3 @@
-<div class="tiles-header">
-	<form>
-		<select (change)="tileset = $any($event.target).value" tabindex="0">
-			<option *ngFor="let imageset of sets; let i=index;" [value]="imageset.id" [selected]="tileset === imageset.id">{{imageset.name}}</option>
-		</select>
-		<label>
-			<br/>
-			<input type="checkbox"
-						 [checked]="isDark"
-						 (change)="isDark = !isDark;"
-			>
-			{{'TILES_DARK'|translate}}
-		</label>
-	</form>
-	<h1>🀄️{{'TILES'|translate}}</h1>
-	<div class="tiles-reference">
-		<a rel="noopener" target="_blank" href="{{'READ_MORE_WIKIPEDIA_URL' | translate}}">{{'READ_MORE_WIKIPEDIA' | translate}}</a>
-	</div>
-</div>
 <div class="tiles-content">
 	<ng-container *ngFor="let suit of TILES_INFOS">
 		<div class="tiles-section tiles-section-{{group.tiles.length}}" *ngFor="let group of suit.groups">
@@ -31,4 +12,21 @@
 			</div>
 		</div>
 	</ng-container>
+</div>
+<div class="tiles-header">
+	<form>
+		<select (change)="tileset = $any($event.target).value" tabindex="0">
+			<option *ngFor="let imageset of sets; let i=index;" [value]="imageset.id" [selected]="tileset === imageset.id">{{imageset.name}}</option>
+		</select>
+		<label>
+			<input type="checkbox"
+						 [checked]="isDark"
+						 (change)="isDark = !isDark;"
+			>
+			{{'TILES_DARK'|translate}}
+		</label>
+	</form>
+	<div class="tiles-reference">
+		<a rel="noopener" target="_blank" href="{{'READ_MORE_WIKIPEDIA_URL' | translate}}">{{'READ_MORE_WIKIPEDIA' | translate}}</a>
+	</div>
 </div>

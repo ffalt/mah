@@ -36,6 +36,7 @@
 	"READ_MORE_WIKIPEDIA": "Read more on wikipedia",
 	"READ_MORE_WIKIPEDIA_URL": "https://en.wikipedia.org/wiki/Mahjong_tiles",
 	"TILES_INFO": "Tiles Information",
+	"INFO_LONG": "Tiles Information",
 	"TILES": "Tiles",
 	"MODE_SOLVABLE_DESC": "A random fill with at least one solving possibility",
 	"MODE_RANDOM_DESC": "A total random fill, maybe unsolvable",

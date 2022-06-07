@@ -7,12 +7,7 @@
 	height: 100%;
 	display: flex;
 	flex-direction: column;
-
-	.headline {
-		padding-top: 8px;
-		padding-bottom: 8px;
-		border-bottom: 1px solid #afafaf;
-	}
+	overflow: hidden;
 
 	.choose-buttons {
 		border-top: 1px solid #afafaf;

@@ -36,6 +36,7 @@
 	"READ_MORE_WIKIPEDIA": "Leia mais na wikipedia",
 	"READ_MORE_WIKIPEDIA_URL": "https://pt.wikipedia.org/wiki/Mahjong",
 	"TILES_INFO": "Informações sobre as peças",
+	"INFO_LONG": "Informações sobre as peças",
 	"TILES": "Peças",
 	"MODE_SOLVABLE_DESC": "Um preenchimento aleatório com pelo menos uma possibilidade de solução",
 	"MODE_RANDOM_DESC": "Um preenchimento totalmente aleatório, talvez insolúvel",

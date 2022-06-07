@@ -1,29 +1,41 @@
-<h1>🀄️{{app.name}} Solitaire v{{version}}</h1>
-<div class="help-content">
-	<div class="license">
-		<p>{{'LICENSE'|translate}}</p>
-		<div class="license-list">
-			<div><div class="name">{{'GAME'|translate}}</div><div class="info"><a rel="noopener" target="_blank" href="https://github.com/ffalt/mah/blob/main/README.md">MIT</a></div></div>
-			<div><div class="name">{{'DESIGNS'|translate}}</div><div class="info"><a rel="noopener" target="_blank" href="https://github.com/ffalt/mah/tree/main/src/assets/svg/README.md">MIT | Public Domain | CCA4.0 | GNU</a></div></div>
-			<div><div class="name">{{'SOUNDS'|translate}}</div><div class="info"><a rel="noopener" href="https://github.com/ffalt/mah/blob/main/src/assets/sounds/README.md">CC0 | CC-BY3.0</a></div></div>
-			<div><div class="name">{{'FONTS'|translate}}</div><div class="info"><a rel="noopener" target="_blank" href="https://github.com/ffalt/mah/blob/main/src/fonts/README.md">SIL</a></div></div>
-			<div><div class="name">{{'BACKGROUNDS'|translate}}</div><div class="info"><a rel="noopener" target="_blank" href="https://github.com/ffalt/mah/blob/main/src/assets/img/README.md">Public Domain</a></div></div>
+<div class="license">
+	<p>{{'LICENSE'|translate}}</p>
+	<div class="license-list">
+		<div>
+			<div class="name">{{'GAME'|translate}}</div>
+			<div class="info"><a rel="noopener" target="_blank" href="https://github.com/ffalt/mah/blob/main/README.md">MIT</a></div>
 		</div>
-		<p>{{'TILESET'|translate}}</p>
-		<div class="license-list license-list-tilesets">
-			<div *ngFor="let imageset of sets; let i=index;">
-				<div class="name">{{imageset.name}}</div><div><a rel="noopener" target="_blank" href="{{imageset.url}}">{{'SOURCE'|translate}}</a></div>
-			</div>
+		<div>
+			<div class="name">{{'DESIGNS'|translate}}</div>
+			<div class="info"><a rel="noopener" target="_blank" href="https://github.com/ffalt/mah/tree/main/src/assets/svg/README.md">MIT | Public Domain | CCA4.0 | GNU</a></div>
 		</div>
-	</div>
-	<div class="keyboard">
-		<p>{{'SHORTCUTS'|translate}}</p>
-		<div class="keyboard-list">
-			<div><div class="name"><span class="key">T</span></div><div class="info"><span>{{'HINT'|translate}}</span><span class="func">{{'HINT_LONG'|translate}}</span></div></div>
-			<div><div class="name"><span class="key">U</span></div><div class="info"><span>{{'UNDO'|translate}}</span><span class="func">{{'UNDO_LONG'|translate}}</span></div></div>
-			<div><div class="name"><span class="key">N</span></div><div class="info"><span>{{'RESTART'|translate}}</span><span class="func">{{'RESTART_LONG'|translate}}</span></div></div>
-			<div><div class="name"><span class="key">P</span></div><div class="info"><span>{{'PAUSE'|translate}}</span><span class="func">{{'PAUSE_LONG'|translate}}</span></div></div>
-			<div><div class="name"><span class="key">I</span></div><div class="info"><span>{{'INFO'|translate}}</span><span class="func">{{'TILES_INFO'|translate}}</span></div></div>
+		<div>
+			<div class="name">{{'SOUNDS'|translate}}</div>
+			<div class="info"><a rel="noopener" href="https://github.com/ffalt/mah/blob/main/src/assets/sounds/README.md">CC0 | CC-BY3.0</a></div>
+		</div>
+		<div>
+			<div class="name">{{'FONTS'|translate}}</div>
+			<div class="info"><a rel="noopener" target="_blank" href="https://github.com/ffalt/mah/blob/main/src/fonts/README.md">SIL</a></div>
+		</div>
+		<div>
+			<div class="name">{{'BACKGROUNDS'|translate}}</div>
+			<div class="info"><a rel="noopener" target="_blank" href="https://github.com/ffalt/mah/blob/main/src/assets/img/README.md">Public Domain</a></div>
 		</div>
 	</div>
+	<p>{{'TILESET'|translate}}</p>
+	<div class="license-list license-list-tilesets">
+		<div *ngFor="let imageset of sets; let i=index;">
+			<div class="name">{{imageset.name}}</div>
+			<div><a rel="noopener" target="_blank" href="{{imageset.url}}">{{'SOURCE'|translate}}</a></div>
+		</div>
+	</div>
+</div>
+<div class="keyboard">
+	<p>{{'SHORTCUTS'|translate}}</p>
+	<ul class="keyboard-list icon-">
+		<li *ngFor="let shortcut of shortcuts; let i=index;">
+			<div><i *ngIf="shortcut.icon" [class]="shortcut.icon"></i><span *ngIf="!shortcut.icon" class="key">🀄️</span><span class="key">{{shortcut.key}}</span><span class="name">{{shortcut.name|translate}}</span></div>
+			<span class="func">{{(shortcut.name + '_LONG')|translate}}</span>
+		</li>
+	</ul>
 </div>

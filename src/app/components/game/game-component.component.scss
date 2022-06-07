@@ -380,7 +380,6 @@
 				z-index: 10010;
 
 				.overlay-popup {
-					display: flex;
 					max-height: 90%;
 					width: 90%;
 					max-width: 1200px;
@@ -409,9 +408,8 @@
 
 				.overlay-popup {
 					width: 90%;
-					display: flex;
 					max-height: 90%;
-					max-width: 1400px;
+					max-width: 1200px;
 				}
 			}
 		}
@@ -425,6 +423,7 @@
 				.overlay-popup {
 					width: 98%;
 					height: 98%;
+					overflow: hidden;
 					@include respond-to-height(small-down) {
 						padding: 0 10px 5px;
 					}
@@ -436,7 +435,7 @@
 	.overlay-message {
 		::ng-deep {
 			.overlay-message-message {
-				padding: 1em;
+				padding: 2em;
 			}
 
 			.overlay-popup {

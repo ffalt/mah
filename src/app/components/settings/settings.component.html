@@ -1,84 +1,81 @@
-<h1>🀄️{{'SETTINGS'|translate}}</h1>
-	<div class="settings-content">
-		<div class="settings">
-			<p>{{'LANG'|translate}}</p>
-			<div class="buttons">
-				<form>
-					<ul class="radio">
-						<li><input type="radio" name="lang" id="lang0" value="auto"
-											 [checked]="( app.settings.lang === 'auto' )"
-											 (change)="app.settings.lang = 'auto';app.setLang();"
-						/><label for="lang0">{{'LANG_AUTO'|translate}}</label></li>
-						<li *ngFor="let lang of languages; let i=index;">
-							<input type="radio" name="lang" [id]="'lang'+(i+1)" [value]="lang.key"
-										 [checked]="( app.settings.lang === lang.key )"
-										 (change)="app.settings.lang = lang.key;app.setLang();"
-							/><label [for]="'lang'+(i+1)">{{lang.title}}</label></li>
-					</ul>
-				</form>
-			</div>
-			<p>{{'BACKGROUND'|translate}}</p>
-			<div class="buttons">
-				<form>
-					<ul class="radio">
-						<li *ngFor="let back of backs; let i=index;">
-							<input type="radio" name="back" id="back{{i}}" [value]="back.img"
-										 [checked]="app.settings.background === back.img"
-										 (change)="app.settings.background = back.img || '';app.settings.save();"
-							/><label for="back{{i}}">{{back.name|translate}}</label>
-						</li>
-					</ul>
-				</form>
-			</div>
-			<p>{{'THEME'|translate}}</p>
-			<div class="buttons">
-				<form>
-					<ul class="radio">
-						<li *ngFor="let theme of themes; let i=index;">
-							<input type="radio" name="color" id="color{{i}}" [value]="theme.id"
-										 [checked]="app.settings.theme === theme.id"
-										 (change)="app.settings.theme = theme.id || '';app.settings.save();"
-							/><label for="color{{i}}">{{theme.name|translate}}</label>
-						</li>
-					</ul>
-				</form>
-			</div>
-		</div>
-		<div class="settings">
-			<p>{{'TILESET'|translate}}</p>
-			<div class="buttons">
-				<form>
-					<ul class="radio radio-tilesets">
-						<li *ngFor="let imageset of sets; let i=index;">
-							<input type="radio" name="imageset" id="imageset{{i}}" [value]="imageset.id"
-										 [checked]="app.settings.tileset === imageset.id"
-										 (change)="app.settings.tileset = imageset.id;app.settings.save();"
-							/>
-							<label for="imageset{{i}}">{{imageset.name}}</label>
-						</li>
-					</ul>
-				</form>
-			</div>
-			<p>{{'TILES'|translate}}</p>
-			<div>
-				<label>
-					<input type="checkbox"
-								 [checked]="app.settings.contrast"
-								 (change)="app.settings.contrast = !app.settings.contrast;app.settings.save();"
-					>
-					{{'HIGHER_CONTRAST'|translate}}
-				</label><br/>
-				<label>
-					<input type="checkbox"
-								 [checked]="app.settings.dark"
-								 (change)="app.settings.dark = !app.settings.dark;app.settings.save();"
-					>
-					{{'TILES_DARK'|translate}}
-				</label>
-			</div>
-			<p>{{'BEST_TIMES'|translate}}</p>
-			<div>
-				<button (click)="clearTimesClick()">{{'BEST_TIMES_CLEAR'|translate}}</button>
-			</div>
-		</div>
+<div class="settings">
+	<p>{{'LANG'|translate}}</p>
+	<div class="buttons">
+		<form>
+			<ul class="radio">
+				<li><input type="radio" name="lang" id="lang0" value="auto"
+									 [checked]="( app.settings.lang === 'auto' )"
+									 (change)="app.settings.lang = 'auto';app.setLang();"
+				/><label for="lang0">{{'LANG_AUTO'|translate}}</label></li>
+				<li *ngFor="let lang of languages; let i=index;">
+					<input type="radio" name="lang" [id]="'lang'+(i+1)" [value]="lang.key"
+								 [checked]="( app.settings.lang === lang.key )"
+								 (change)="app.settings.lang = lang.key;app.setLang();"
+					/><label [for]="'lang'+(i+1)">{{lang.title}}</label></li>
+			</ul>
+		</form>
 	</div>
+	<p>{{'BACKGROUND'|translate}}</p>
+	<div class="buttons">
+		<form>
+			<ul class="radio">
+				<li *ngFor="let back of backs; let i=index;">
+					<input type="radio" name="back" id="back{{i}}" [value]="back.img"
+								 [checked]="app.settings.background === back.img"
+								 (change)="app.settings.background = back.img || '';app.settings.save();"
+					/><label for="back{{i}}">{{back.name|translate}}</label>
+				</li>
+			</ul>
+		</form>
+	</div>
+	<p>{{'THEME'|translate}}</p>
+	<div class="buttons">
+		<form>
+			<ul class="radio">
+				<li *ngFor="let theme of themes; let i=index;">
+					<input type="radio" name="color" id="color{{i}}" [value]="theme.id"
+								 [checked]="app.settings.theme === theme.id"
+								 (change)="app.settings.theme = theme.id || '';app.settings.save();"
+					/><label for="color{{i}}">{{theme.name|translate}}</label>
+				</li>
+			</ul>
+		</form>
+	</div>
+</div>
+<div class="settings">
+	<p>{{'TILESET'|translate}}</p>
+	<div class="buttons">
+		<form>
+			<ul class="radio radio-tilesets">
+				<li *ngFor="let imageset of sets; let i=index;">
+					<input type="radio" name="imageset" id="imageset{{i}}" [value]="imageset.id"
+								 [checked]="app.settings.tileset === imageset.id"
+								 (change)="app.settings.tileset = imageset.id;app.settings.save();"
+					/>
+					<label for="imageset{{i}}">{{imageset.name}}</label>
+				</li>
+			</ul>
+		</form>
+	</div>
+	<p>{{'TILES'|translate}}</p>
+	<div>
+		<label>
+			<input type="checkbox"
+						 [checked]="app.settings.contrast"
+						 (change)="app.settings.contrast = !app.settings.contrast;app.settings.save();"
+			>
+			{{'HIGHER_CONTRAST'|translate}}
+		</label><br/>
+		<label>
+			<input type="checkbox"
+						 [checked]="app.settings.dark"
+						 (change)="app.settings.dark = !app.settings.dark;app.settings.save();"
+			>
+			{{'TILES_DARK'|translate}}
+		</label>
+	</div>
+	<p>{{'BEST_TIMES'|translate}}</p>
+	<div>
+		<button (click)="clearTimesClick()">{{'BEST_TIMES_CLEAR'|translate}}</button>
+	</div>
+</div>

@@ -36,6 +36,7 @@
 	"READ_MORE_WIKIPEDIA": "Lees meer hierover op Wikipedia (Engels)",
 	"READ_MORE_WIKIPEDIA_URL": "https://nl.wikipedia.org/wiki/Mahjong",
 	"TILES_INFO": "Toon informatie over de stenen",
+	"INFO_LONG": "Toon informatie over de stenen",
 	"TILES": "Stenen",
 	"MODE_SOLVABLE_DESC": "Een willekeurige legwijze met ten minste één oplossing",
 	"MODE_RANDOM_DESC": "Een willekeurige legwijze, mogelijk zonder oplossing",

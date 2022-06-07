@@ -308,6 +308,8 @@
 			background-color: var(--dialog-background-color);
 			line-height: 1.2em;
 			padding: 1.5em 2em;
+			display: flex;
+			flex-direction: column;
 			@include rounded(12px);
 			@include box-shadow(12px, 14px, 16px, rgba(0, 0, 0, 0.5));
 

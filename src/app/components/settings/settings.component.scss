@@ -2,17 +2,35 @@
 
 :host {
 	display: flex;
-	flex-direction: column;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-between;
 	flex: 1;
+	overflow-y: auto;
 
-	h1 {
-		text-align: center;
-		color: var(--dialog-text-color);
-		margin-top: 0;
-		margin-bottom: 0.2em;
-		line-height: 1em;
-		@include respond-to(tiny-down) {
-			font-size: 1.2em;
+	> div {
+		width: 50%;
+		padding-right: 20px;
+
+		@include respond-to(medium-down) {
+			width: 100%;
+		}
+
+		> div {
+			width: 100%;
+
+			> div {
+				display: flex;
+				flex-direction: row;
+
+				> div {
+					flex: 1;
+				}
+
+				.name {
+					max-width: 40%;
+				}
+			}
 		}
 	}
 
@@ -39,47 +57,13 @@
 			white-space: nowrap;
 			text-overflow: ellipsis;
 		}
+
 		input {
 			margin-left: -19px;
 		}
 
 		@include respond-to(pico-down) {
 			columns: 1;
-		}
-	}
-
-	.settings-content {
-		display: flex;
-		flex-direction: row;
-		flex-wrap: wrap;
-		justify-content: space-between;
-		flex: 1;
-		overflow-y: auto;
-
-		> div {
-			width: 50%;
-			padding-right: 20px;
-
-			@include respond-to(medium-down) {
-				width: 100%;
-			}
-
-			> div {
-				width: 100%;
-
-				> div {
-					display: flex;
-					flex-direction: row;
-
-					> div {
-						flex: 1;
-					}
-
-					.name {
-						max-width: 40%;
-					}
-				}
-			}
 		}
 	}
 

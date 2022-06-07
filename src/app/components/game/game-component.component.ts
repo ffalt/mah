@@ -36,6 +36,7 @@ interface ElemEx extends HTMLElement {
 export class GameComponent implements OnInit {
 	game: Game;
 	fullScreenEnabled: boolean = true;
+	title: string = '';
 	@ViewChild('info', {static: true}) info: DialogComponent;
 	@ViewChild('settings', {static: true}) settings: DialogComponent;
 	@ViewChild('help', {static: true}) help: DialogComponent;
@@ -44,6 +45,7 @@ export class GameComponent implements OnInit {
 	constructor(public app: AppService, private workerService: WorkerService) {
 		this.game = app.game;
 		this.fullScreenEnabled = this.canFullscreen();
+		this.title = `${app.name} Solitaire v${environment.version}`;
 	}
 
 	ngOnInit(): void {
