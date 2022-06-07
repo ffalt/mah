@@ -46,7 +46,7 @@ export const Themes: Array<{ id?: string; name: string }> = [
 	{id: 'dkblue', name: 'THEME_DARK_BLUE'},
 	{id: 'brown', name: 'THEME_BROWN'},
 	{id: 'black', name: 'THEME_BLACK'},
-	{id: 'white', name: 'THEME_WHITE'},
+	{id: 'white', name: 'THEME_WHITE'}
 ];
 
 export const Backgrounds: Array<{ img?: string; name: string; small?: boolean }> = [
