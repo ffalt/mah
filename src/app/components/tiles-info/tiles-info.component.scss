@@ -126,17 +126,10 @@
 				order: 2;
 			}
 		}
-		.tiles-section-4 {
-			.tiles-set {
-				flex-wrap: wrap;
 
-				.tile {
-					flex: 50%;
-				}
-			}
-		}
 	}
-	@include respond-to(tiny-down) {
+	@include respond-to(pico-down) {
+
 		.tiles-section-9, .tiles-section-5, .tiles-section-4, .tiles-section-3 {
 			.tiles-set {
 				flex-wrap: wrap;

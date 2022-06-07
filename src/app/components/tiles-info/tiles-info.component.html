@@ -18,13 +18,7 @@
 		<select (change)="tileset = $any($event.target).value" tabindex="0">
 			<option *ngFor="let imageset of sets; let i=index;" [value]="imageset.id" [selected]="tileset === imageset.id">{{imageset.name}}</option>
 		</select>
-		<label>
-			<input type="checkbox"
-						 [checked]="isDark"
-						 (change)="isDark = !isDark;"
-			>
-			{{'TILES_DARK'|translate}}
-		</label>
+		<label><input type="checkbox" [checked]="isDark" (change)="isDark = !isDark;">{{'TILES_DARK'|translate}}</label>
 	</form>
 	<div class="tiles-reference">
 		<a rel="noopener" target="_blank" href="{{'READ_MORE_WIKIPEDIA_URL' | translate}}">{{'READ_MORE_WIKIPEDIA' | translate}}</a>
