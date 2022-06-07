@@ -8,7 +8,7 @@ export class Settings {
 	contrast = false;
 	dark = false;
 	background = '';
-	theme = '';
+	theme = 'ltgreen';
 	stats = {
 		games: 0,
 		bestTime: 0
@@ -24,7 +24,7 @@ export class Settings {
 				this.lang = store.lang || 'auto';
 				this.tileset = store.tileset || ImageSetDefault;
 				this.background = store.background;
-				this.theme = store.theme || '';
+				this.theme = store.theme || 'ltgreen';
 				this.contrast = store.contrast || false;
 				this.dark = store.dark || false;
 				this.sounds = store.sounds || false;

@@ -1,27 +1,49 @@
 @import "../../style/globals";
 
 :host {
-  display: block;
+	display: flex;
+	flex-direction: column;
+	flex: 1;
 
-  h1 {
-    text-align: center;
-    color: var(--dialog-text-color);
-    margin-top: 0;
-    margin-bottom: 0.2em;
+	h1 {
+		text-align: center;
+		color: var(--dialog-text-color);
+		margin-top: 0;
+		margin-bottom: 0.2em;
+		line-height: 1em;
 		@include respond-to(tiny-down) {
 			font-size: 1.2em;
 		}
 	}
 
-  p {
-    margin: 10px 0 4px;
-    font-weight: bold;
+	input {
+		height: 1em;
+		width: 1em;
+	}
+
+	input, label, button {
+		cursor: pointer;
+	}
+
+	p {
+		margin: 10px 0 4px;
+		font-weight: bold;
 		border-bottom: 1px solid var(--main-bg-color-lt);
 	}
 
 	.radio {
 		columns: 2;
-		@include respond-to(small-down) {
+
+		li {
+			padding-left: 19px;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+		}
+		input {
+			margin-left: -19px;
+		}
+
+		@include respond-to(pico-down) {
 			columns: 1;
 		}
 	}
@@ -31,6 +53,8 @@
 		flex-direction: row;
 		flex-wrap: wrap;
 		justify-content: space-between;
+		flex: 1;
+		overflow-y: auto;
 
 		> div {
 			width: 50%;
@@ -39,14 +63,18 @@
 			@include respond-to(medium-down) {
 				width: 100%;
 			}
+
 			> div {
 				width: 100%;
+
 				> div {
 					display: flex;
 					flex-direction: row;
+
 					> div {
 						flex: 1;
 					}
+
 					.name {
 						max-width: 40%;
 					}
@@ -57,28 +85,29 @@
 
 	button {
 		margin-top: 10px;
-		padding: 12px;
+		padding: 12px 20px;
 	}
 
-  .radio {
-    text-align: left;
-    list-style: none;
-    padding: 0;
-    margin: 0;
+	.radio {
+		text-align: left;
+		list-style: none;
+		padding: 0;
+		margin: 0;
 		vertical-align: middle;
+
 		label {
 			vertical-align: middle;
 			margin-left: 2px;
-    }
+		}
 
 		a {
-      float: right;
-      margin-left: 3px;
+			float: right;
+			margin-left: 3px;
 			font-size: 0.8em;
-    }
-  }
+		}
+	}
 
-  .close {
-    margin-top: 0;
-  }
+	.close {
+		margin-top: 0;
+	}
 }

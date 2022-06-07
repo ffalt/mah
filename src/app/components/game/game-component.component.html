@@ -46,13 +46,13 @@
 
 <div *ngIf="helpVisible" class="overlay overlay-help" (click)="toggleHelp();">
 	<div class="overlay-popup" (click)="$event.stopPropagation();">
-		<span class="close" (click)="toggleHelp()"><i class="icon-cancel-circled2 pull-right"></i></span>
+		<a class="close" (click)="toggleHelp()"><i class="icon-cancel-circled2 pull-right"></i></a>
 		<app-help></app-help>
 	</div>
 </div>
 <div *ngIf="settingsVisible" class="overlay overlay-settings" (click)="toggleSettings();">
 	<div class="overlay-popup" (click)="$event.stopPropagation();">
-		<span class="close" (click)="toggleSettings()"><i class="icon-cancel-circled2 pull-right"></i></span>
+		<a class="close" (click)="toggleSettings()"><i class="icon-cancel-circled2 pull-right"></i></a>
 		<app-settings></app-settings>
 	</div>
 </div>
@@ -64,13 +64,13 @@
 </div>
 <div *ngIf="tilesInfoVisible" class="overlay overlay-tiles-info" (click)="toggleTilesInfo();">
 	<div class="overlay-popup" (click)="$event.stopPropagation();">
-		<span class="close" (click)="toggleTilesInfo()"><i class="icon-cancel-circled2 pull-right"></i></span>
+		<a class="close" (click)="toggleTilesInfo()"><i class="icon-cancel-circled2 pull-right"></i></a>
 		<app-tiles-info></app-tiles-info>
 	</div>
 </div>
 <div *ngIf="newGameVisible" (click)="toggleNewGame();" class="overlay overlay-newgame">
 	<div class="overlay-popup" (click)="$event.stopPropagation();">
-		<span class="close" (click)="toggleNewGame();"><i class="icon-cancel-circled2 pull-right"></i></span>
+		<a class="close" (click)="toggleNewGame();"><i class="icon-cancel-circled2 pull-right"></i></a>
 		<app-choose-layout class="choose" (startEvent)="startGame($event)" [gameMode]="game.mode"></app-choose-layout>
 	</div>
 </div>

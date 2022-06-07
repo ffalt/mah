@@ -12,6 +12,9 @@
 		margin-top: 0;
 		margin-bottom: 0.2em;
 		line-height: 1em;
+		@include respond-to(tiny-down) {
+			font-size: 1.2em;
+		}
 	}
 
 	.tiles-header {

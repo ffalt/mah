@@ -319,19 +319,29 @@
 				max-height: 80%;
 				max-width: 80%;
 			}
+			@include respond-to(large-down) {
+				padding: 1.5em;
+			}
+			@include respond-to(pico-down) {
+				padding: 1.5em 1em;
+			}
 		}
 
 		.close {
-			right: 4px;
-			top: 4px;
+			right: 8px;
+			top: 8px;
 			position: absolute;
 			color: darkgray;
 			cursor: pointer;
-			padding: 4px;
+			padding: 3px;
 			border-radius: 6px;
 
+			i {
+				font-size: 1.2em;
+			}
+
 			&:hover {
-				border: 1px solid $popup-border-color;
+				color: $popup-border-color;
 			}
 		}
 	}

@@ -204,6 +204,7 @@
 				margin-left: 2px;
 				padding: 0.1em;
 			}
+			font-size: 24px;
 		}
 
 		@include respond-to(tiny-down) {
@@ -242,16 +243,16 @@
 				float: unset !important;
 				text-align: center;
 
-				i {
-					font-size: 20px;
+				.symbol, i {
+					font-size: 32px;
 				}
 
 				.link {
 					display: block;
 					margin-left: 0;
 					margin-bottom: 10px;
-					padding-left: 4px;
-					padding-right: 4px;
+					padding-left: 0;
+					padding-right: 0;
 				}
 
 				.feature {
@@ -265,12 +266,12 @@
 			}
 		}
 
-		padding-left: 40px;
-		padding-right: 40px;
+		padding-left: 52px;
+		padding-right: 52px;
 
 		.controls-top {
 			min-width: unset;
-			max-width: 32px;
+			max-width: 52px;
 			padding: 0;
 			display: flex;
 			flex-direction: column;
@@ -322,10 +323,6 @@
 				.label {
 					margin-left: 0;
 				}
-			}
-
-			.ctrl.ctrl-stats {
-				max-width: 40px;
 			}
 
 			.ctrl.ctrl-time {
@@ -391,9 +388,18 @@
 		}
 	}
 
-	.overlay-help, .overlay-settings {
+	.overlay-settings {
 		.overlay-popup {
-			overflow-y: auto;
+			display: flex;
+			max-height: 90%;
+			max-width: 1400px;
+		}
+	}
+
+	.overlay-help {
+		.overlay-popup {
+			display: flex;
+			max-height: 90%;
 			max-width: 1024px;
 		}
 	}
