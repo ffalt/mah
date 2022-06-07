@@ -9,12 +9,14 @@ import {PrefixPipe} from './pipes/prefix.pipe';
 import {LayoutListComponent} from './components/layout-list/layout-list.component';
 import {LayoutPreviewComponent} from './components/layout-preview/layout-preview.component';
 import {GameModeEasyPipe, GameModeStandardPipe} from './pipes/game-mode.pipe';
+import {DialogComponent} from './components/dialog/dialog.component';
 
 const declarations = [
 	ImageSetLoaderComponent,
 	BoardComponent,
 	LayoutListComponent,
 	LayoutPreviewComponent,
+	DialogComponent,
 	DurationPipe,
 	GameModeEasyPipe,
 	GameModeStandardPipe,

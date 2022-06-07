@@ -374,56 +374,79 @@
 		overflow: hidden;
 	}
 
-	.overlay-help, .overlay-settings, .overlay-tiles-info {
-		z-index: 10010;
+	.overlay-help {
+		::ng-deep {
+			.overlay {
+				z-index: 10010;
 
-		.overlay-popup {
-			width: 90%;
+				.overlay-popup {
+					display: flex;
+					max-height: 90%;
+					width: 90%;
+					max-width: 1200px;
+				}
+			}
 		}
 	}
 
-	.overlay-tiles-info {
-		.overlay-popup {
-			height: 90%;
+	.overlay-info {
+		::ng-deep {
+			.overlay {
+				z-index: 10010;
+
+				.overlay-popup {
+					width: 90%;
+					height: 90%;
+				}
+			}
 		}
 	}
 
 	.overlay-settings {
-		.overlay-popup {
-			display: flex;
-			max-height: 90%;
-			max-width: 1400px;
-		}
-	}
+		::ng-deep {
+			.overlay {
+				z-index: 10010;
 
-	.overlay-help {
-		.overlay-popup {
-			display: flex;
-			max-height: 90%;
-			max-width: 1024px;
-		}
-	}
-
-	.overlay-message {
-		.overlay-popup {
-			cursor: pointer;
-			font-weight: 600;
-			text-align: center;
-			color: var(--dialog-text-color);
-			@include no-select();
+				.overlay-popup {
+					width: 90%;
+					display: flex;
+					max-height: 90%;
+					max-width: 1400px;
+				}
+			}
 		}
 	}
 
 	.overlay-newgame {
-		.overlay-popup {
-			width: 98%;
-			height: 98%;
+		::ng-deep {
+			.overlay {
+				z-index: 10010;
 
-			@include respond-to-height(small-down) {
-				padding: 0 10px 5px;
+				.overlay-popup {
+					width: 98%;
+					height: 98%;
+					@include respond-to-height(small-down) {
+						padding: 0 10px 5px;
+					}
+				}
 			}
-
 		}
 	}
 
+	.overlay-message {
+		::ng-deep {
+			.overlay-message-message {
+				padding: 1em;
+			}
+
+			.overlay-popup {
+				cursor: pointer;
+				font-weight: 600;
+				text-align: center;
+				color: var(--dialog-text-color);
+				padding: 0;
+				@include no-select();
+			}
+		}
+	}
 }

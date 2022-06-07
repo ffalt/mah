@@ -1,4 +1,4 @@
-import {Component, HostListener} from '@angular/core';
+import {Component, HostListener, OnInit, ViewChild} from '@angular/core';
 import {Game} from '../../model/game';
 import {Stone} from '../../model/stone';
 import {Layout, Place} from '../../model/types';
@@ -7,6 +7,7 @@ import {BUILD_MODE_ID} from '../../model/builder';
 import {GAME_MODE_ID} from '../../model/consts';
 import {WorkerService} from '../../service/worker.service';
 import {environment} from '../../../environments/environment';
+import {DialogComponent} from '../../modules/core/components/dialog/dialog.component';
 
 interface DocEx extends Document {
 	fullScreen: boolean;
@@ -32,32 +33,35 @@ interface ElemEx extends HTMLElement {
 	templateUrl: './game-component.component.html',
 	styleUrls: ['./game-component.component.scss']
 })
-export class GameComponent {
+export class GameComponent implements OnInit {
 	game: Game;
-	tilesInfoVisible: boolean = false;
-	helpVisible: boolean = false;
-	settingsVisible: boolean = false;
-	newGameVisible: boolean = false;
 	fullScreenEnabled: boolean = true;
+	@ViewChild('info', {static: true}) info: DialogComponent;
+	@ViewChild('settings', {static: true}) settings: DialogComponent;
+	@ViewChild('help', {static: true}) help: DialogComponent;
+	@ViewChild('newgame', {static: true}) newgame: DialogComponent;
 
 	constructor(public app: AppService, private workerService: WorkerService) {
 		this.game = app.game;
-		if (this.game.isIdle()) {
-			this.newGameVisible = true;
-		}
 		this.fullScreenEnabled = this.canFullscreen();
+	}
+
+	ngOnInit(): void {
+		if (this.game.isIdle()) {
+			this.newgame.visible = true;
+		}
 	}
 
 	handleKeyDownEventKey(key: string): void {
 		switch (key) {
 			case 'h':
-				this.toggleHelp();
+				this.help.toggle();
 				break;
 			case 'i':
-				this.toggleTilesInfo();
+				this.info.toggle();
 				break;
 			case 's':
-				this.toggleSettings();
+				this.settings.toggle();
 				break;
 			case 't':
 				this.game.hint();
@@ -70,7 +74,7 @@ export class GameComponent {
 				break;
 			case 'n':
 				this.game.pause();
-				this.newGameVisible = true;
+				this.newgame.toggle();
 				break;
 			case ' ': // space
 			case 'p':
@@ -86,20 +90,20 @@ export class GameComponent {
 	}
 
 	handleKeyDownDialogExit(): boolean {
-		if (this.helpVisible) {
-			this.toggleHelp();
+		if (this.help.visible) {
+			this.help.toggle();
 			return true;
 		}
-		if (this.newGameVisible) {
-			this.newGameVisible = !this.newGameVisible;
+		if (this.newgame.visible) {
+			this.newgame.toggle();
 			return true;
 		}
-		if (this.tilesInfoVisible) {
-			this.toggleTilesInfo();
+		if (this.info.visible) {
+			this.info.toggle();
 			return true;
 		}
-		if (this.settingsVisible) {
-			this.toggleSettings();
+		if (this.settings.visible) {
+			this.settings.toggle();
 			return true;
 		}
 		return false;
@@ -159,24 +163,13 @@ export class GameComponent {
 
 	newGame(): void {
 		this.game.pause();
-		this.newGameVisible = true;
+		this.newgame.visible = true;
 	}
 
 	startGame(data: { layout: Layout; buildMode: BUILD_MODE_ID; gameMode: GAME_MODE_ID }): void {
-		this.newGameVisible = false;
+		this.newgame.visible = false;
 		this.game.reset();
 		this.game.start(data.layout, data.buildMode, data.gameMode);
-	}
-
-	toggleNewGame(): void {
-		// if (!this.game.isIdle()) {
-		this.newGameVisible = !this.newGameVisible;
-		// }
-	}
-
-	toggleTilesInfo(): void {
-		this.tilesInfoVisible = !this.tilesInfoVisible;
-		this.toggleDialogState(this.tilesInfoVisible);
 	}
 
 	toggleDialogState(dialogVisible: boolean): void {
@@ -192,25 +185,12 @@ export class GameComponent {
 		}
 	}
 
-	toggleSettings(): void {
-		this.settingsVisible = !this.settingsVisible;
-		this.toggleDialogState(this.settingsVisible);
-		if (!this.settingsVisible) {
-			this.app.settings.save();
-		}
-	}
-
-	toggleHelp(): void {
-		this.helpVisible = !this.helpVisible;
-		this.toggleDialogState(this.helpVisible);
-	}
-
 	clickMessage(): void {
 		if (this.game.isPaused()) {
 			this.game.resume();
 		} else {
 			this.game.reset();
-			this.newGameVisible = true;
+			this.newgame.visible = true;
 		}
 	}
 
