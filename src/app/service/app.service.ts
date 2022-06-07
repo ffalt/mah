@@ -18,6 +18,7 @@ export class AppService {
 		this.setupTranslations();
 		this.setLang();
 		this.game.init();
+		this.game.sound.enabled = this.settings.sounds;
 	}
 
 	setLang(): void {
