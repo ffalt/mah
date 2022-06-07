@@ -68,6 +68,9 @@ export class GameComponent implements OnInit {
 			case 't':
 				this.game.hint();
 				break;
+			case 'm':
+				this.game.shuffle();
+				break;
 			case 'g':
 				this.debugSolve();
 				break;

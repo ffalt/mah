@@ -165,7 +165,7 @@
 	"t_e8": "Extra 8",
 	"t_e9": "Extra 9",
 	"SHUFFLE": "Mischen",
-	"SHUFFLE_HINT": "Steine im Spiel mischen",
+	"SHUFFLE_LONG": "Steine im Spiel mischen",
 	"GAME_MODE": "Modus",
 	"GAME_MODE_EASY": "Einfach",
 	"GAME_MODE_STANDARD": "Standard",
