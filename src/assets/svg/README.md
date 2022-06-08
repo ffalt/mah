@@ -49,7 +49,7 @@ by Thomas S. Ullrich
 
 Joker tiles in `picasso.svg`
 https://www.onlygfx.com/120-geometric-elements-for-modern-abstract-art-svg-eps/
-All images are free for both personal and commercial use. Attribution or link back is not required, but much appreciated!
+All images are free for both personal and commercial use.
 
 ----
 

@@ -169,7 +169,14 @@
 	"GAME_MODE": "Modo",
 	"GAME_MODE_EASY": "Fácil",
 	"GAME_MODE_STANDARD": "Padrão",
-	"GAME_MODE_EXPERT": "Especialista"
+	"GAME_MODE_EXPERT": "Especialista",
+	"HOW_TO_PLAY": "Como jogar",
+	"HOW_GOAL": "O objetivo é remover todas as peças em pares abertos do tabuleiro de jogo.",
+	"HOW_OPEN": "Abrir",
+	"HOW_PAIR": "Par",
+	"HOW_PAIR_DESC": "Duas telhas com frente idêntica. Dentro das flores e estações, quaisquer duas peças do mesmo grupo podem ser combinadas.",
+	"HOW_OPEN_DESC": "Uma peça está aberta se não houver peças à sua esquerda, direita ou acima dela.",
+	"HOW_DO": "Selecione duas peças iguais para removê-las. Como há mais de duas peças para cada par potencial, a estratégia está envolvida."
 }
 
 

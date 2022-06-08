@@ -169,7 +169,14 @@
 	"GAME_MODE": "Modus",
 	"GAME_MODE_EASY": "Einfach",
 	"GAME_MODE_STANDARD": "Standard",
-	"GAME_MODE_EXPERT": "Profi"
+	"GAME_MODE_EXPERT": "Profi",
+	"HOW_TO_PLAY": "Spielanleitung",
+	"HOW_GOAL": "Das Ziel ist es, alle Steine in offenen Paaren vom Spielbrett zu entfernen.",
+	"HOW_OPEN": "Offen",
+	"HOW_PAIR": "Paar",
+	"HOW_PAIR_DESC": "Zwei Steine mit identischer Vorderseite. Innerhalb der Blumen und Jahreszeiten passen zwei beliebige Steine derselben Gruppe.",
+	"HOW_OPEN_DESC": "Ein Stein ist offen, wenn sich links, rechts oder darüber kein Stein befindet.",
+	"HOW_DO": "Wählen Sie zwei passende Steine aus, um sie zu entfernen. Da es für jede potenzielle Paarung mehr als zwei Steine gibt, ist Strategie erforderlich."
 }
 
 

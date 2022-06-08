@@ -169,7 +169,14 @@
 	"GAME_MODE": "Modus",
 	"GAME_MODE_EASY": "Eenvoudig",
 	"GAME_MODE_STANDARD": "Standaard",
-	"GAME_MODE_EXPERT": "Deskundige"
+	"GAME_MODE_EXPERT": "Deskundige",
+	"HOW_TO_PLAY": "Hoe te spelen",
+	"HOW_GOAL": "Het doel is om alle tegels in open paren van het spelbord te verwijderen.",
+	"HOW_OPEN": "Open",
+	"HOW_PAIR": "Paar",
+	"HOW_PAIR_DESC": "Twee tegels met identiek front. Binnen de bloemen en seizoenen kunnen twee tegels uit dezelfde groep worden gematcht.",
+	"HOW_OPEN_DESC": "Een tegel is open als er links, rechts of erboven geen tegels zijn.",
+	"HOW_DO": "Selecteer twee overeenkomende tegels om ze te verwijderen. Omdat er meer dan twee tegels zijn voor elke mogelijke koppeling, komt er strategie bij kijken."
 }
 
 

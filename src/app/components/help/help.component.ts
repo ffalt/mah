@@ -1,5 +1,4 @@
 import {Component} from '@angular/core';
-import {ImageSets} from '../../model/consts';
 
 @Component({
 	selector: 'app-help',
@@ -7,7 +6,6 @@ import {ImageSets} from '../../model/consts';
 	styleUrls: ['./help.component.scss']
 })
 export class HelpComponent {
-	sets = ImageSets;
 	shortcuts = [
 		{icon: 'icon-lightbulb', key: 'T', name: 'HINT'},
 		{icon: 'icon-spin1', key: 'M', name: 'SHUFFLE'},

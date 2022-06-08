@@ -169,7 +169,14 @@
 	"GAME_MODE": "Mode",
 	"GAME_MODE_EASY": "Easy",
 	"GAME_MODE_STANDARD": "Standard",
-	"GAME_MODE_EXPERT": "Expert"
+	"GAME_MODE_EXPERT": "Expert",
+	"HOW_TO_PLAY": "How to play",
+	"HOW_GOAL": "The goal is to remove all tiles in open pairs from the game board.",
+	"HOW_OPEN": "Open",
+	"HOW_PAIR": "Pair",
+	"HOW_PAIR_DESC": "Two tiles with identical front. Within the flowers and seasons, any two tiles from the same group can be matched.",
+	"HOW_OPEN_DESC": "A tile is open if there are no tiles to its left, right or above it.",
+	"HOW_DO": "Select two matching tiles to remove them. Because there are more than two tiles for each potential pairing, strategy is involved."
 }
 
 
