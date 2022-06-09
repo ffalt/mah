@@ -12,6 +12,8 @@ import com.android.build.OutputFile
 def enableSeparateBuildPerCPUArchitecture = true
 
 android {
+
+    namespace 'org.ffalt.mah'
     compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
         applicationId "org.ffalt.mah"
