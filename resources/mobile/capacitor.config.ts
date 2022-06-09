@@ -4,10 +4,10 @@ const config: CapacitorConfig = {
   appId: 'org.ffalt.mah',
   appName: 'mah',
   webDir: '../../dist',
-	backgroundColor: '#FFFFFF',
+	backgroundColor: '#2b424f',
 	bundledWebRuntime: false,
 	android: {
-		backgroundColor: '#FFFFFF'
+		backgroundColor: '#2b424f'
 	}
 };
 
