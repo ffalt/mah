@@ -3,7 +3,7 @@
   "compilerOptions": {
     "outDir": "./out-tsc/spec",
 		"esModuleInterop": true,
-    "types": ["jest", "node"]
+    "types": ["jest", "node", "hammerjs"]
   },
   "files": [
     "src/polyfills.ts"
