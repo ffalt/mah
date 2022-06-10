@@ -1,6 +1,6 @@
 import {HttpClientModule} from '@angular/common/http';
-import {NgModule} from '@angular/core';
-import {BrowserModule} from '@angular/platform-browser';
+import {Injectable, NgModule} from '@angular/core';
+import {BrowserModule, HAMMER_GESTURE_CONFIG, HammerGestureConfig, HammerModule} from '@angular/platform-browser';
 import {TranslateModule} from '@ngx-translate/core';
 
 import {AppComponent} from './app.component';
@@ -16,10 +16,29 @@ import {SvgdefService} from './service/svgdef.service';
 import {CoreModule} from './modules/core/core.module';
 import {WorkerService} from './service/worker.service';
 
+declare let Hammer: any;
+
+@Injectable()
+export class CustomHammerConfig extends HammerGestureConfig {
+	overrides = {
+		pan: {
+			enable: true,
+			direction: Hammer.DIRECTION_ALL,
+			threshold: 5
+		},
+		pinch: {enable: true},
+		press: {enable: false},
+		rotate: {enable: false},
+		swipe: {enable: false},
+		tap: {enable: false}
+	} as any;
+}
+
 @NgModule({
 	imports: [
 		BrowserModule,
 		HttpClientModule,
+		HammerModule,
 		CoreModule,
 		TranslateModule.forRoot()
 	],
@@ -36,7 +55,11 @@ import {WorkerService} from './service/worker.service';
 		AppService,
 		LayoutService,
 		WorkerService,
-		SvgdefService
+		SvgdefService,
+		{
+			provide: HAMMER_GESTURE_CONFIG,
+			useClass: CustomHammerConfig
+		},
 	],
 	bootstrap: [AppComponent]
 })

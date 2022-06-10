@@ -19,14 +19,17 @@
 	<meta name="msapplication-config" content="assets/app/browserconfig.xml">
 	<meta name="theme-color" content="#ffffff">
 	<style>
-		html,body { background: #2b424f; }
-		.loading { text-align: center; color: white; padding-top: 20px; text-transform: uppercase }
+		html,body, app-root { background: #2b424f; height: 100%; margin: 0;}
+		.splash { height: 100%; display: flex; justify-content: center; align-items: center;}
+		.loading {
+			text-align: center; color: white; padding-top: 20px; text-transform: uppercase;
+			font-family: 'Kulim Park', monospace;font-variant-numeric: slashed-zero tabular-nums;
+		}
 		.loader, .loader:before, .loader:after {border-radius: 50%;}
 		.loader {
 			color: #ffffff;
-			font-size: 11px;
 			text-indent: -99999em;
-			margin: 55px auto;
+			margin: 55px auto 0;
 			position: relative;
 			width: 10em;
 			height: 10em;
@@ -84,9 +87,11 @@
 </head>
 <body>
 <app-root>
-	<div class="loading">
-		LOAD "APP_NAME",8,1<br/>LOADING…<br/>
-		<div class="loader"></div>
+	<div class="splash">
+		<div class="loading">
+			LOAD "APP_NAME",8,1<br/>LOADING…<br/>
+			<div class="loader"></div>
+		</div>
 	</div>
 </app-root>
 </body>

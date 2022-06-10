@@ -3,7 +3,7 @@ import {Mapping} from './types';
 
 export function generateStaticLayoutSVG(mapping: Mapping): string {
 	const items = mappingToDrawItems(mapping);
-	const viewport = getDrawViewPort(items, 1470, 960, false);
+	const viewport = getDrawViewPort(items, 1470, 960);
 	const sl: Array<string> = [];
 	sl.push(`<svg xmlns="http://www.w3.org/2000/svg" class="board-svg" viewBox="${viewport}" preserveAspectRatio="xMidYMid meet" height="100%" width="100%">`);
 	for (const draw of items) {

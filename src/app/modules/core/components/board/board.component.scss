@@ -16,4 +16,19 @@
 		}
 		@include no-select();
 	}
+
+	.gesture__indicator {
+		user-select: none;
+		position: fixed;
+		top: 0;
+		left: 0;
+		height: 50px;
+		width: 50px;
+		display: block;
+		border-radius: 50%;
+		text-align: center;
+		line-height: 45px;
+		z-index: 10;
+		background-color: #42a5f5;
+	}
 }

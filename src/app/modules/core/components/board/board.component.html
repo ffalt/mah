@@ -1,4 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" class="board-svg" [class.rotate]="rotate" [attr.viewBox]="viewport" preserveAspectRatio="xMidYMid meet" (window:resize)="onResize($event)" (mousedown)="onClick($event)">
+<svg xmlns="http://www.w3.org/2000/svg" class="board-svg" [class.rotate]="rotate" [attr.viewBox]="viewport" preserveAspectRatio="xMidYMid meet"
+		 (window:resize)="onResize($event)"
+		 (mouseup)="onMouseUp($event)" (wheel)="onWheel($event)"
+		 (pinchstart)="onPinchStart($event)"
+		 (pinchend)="onPinchEnd($event)"
+		 (pinch)="onPinch($event)"
+		 (pan)="onPan($event)"
+		 (panend)="onPanEnd($event)">
 	<defs>
 		<filter id="mah-board-filter" style="color-interpolation-filters:sRGB">
 			<feGaussianBlur in="SourceGraphic" stdDeviation="8"/>
@@ -70,7 +77,7 @@
 			 [class.selected]="draw.source.selected"
 			 [class.hidden]="draw.source.picked"
 			 [class.hinted]="draw.source.hinted"
-			 [attr.transform]="draw.pos.translate" (mousedown)="onClick($event, draw)">
+			 [attr.transform]="draw.pos.translate" (mousedown)="onClickDown($event)" (mouseup)="onClickUp($event, draw)">
 			<g class="tile">
 				<title *ngIf="draw.url">{{draw.url | translate}}</title>
 				<rect class="shadow" x="3" y="3" width="75px" height="100px" rx="10" ry="10"></rect>
@@ -81,3 +88,12 @@
 		</g>
 	</g>
 </svg>
+<div
+	class="gesture__indicator"
+	*ngFor="let indicator of indicators.gestureIndicators"
+	[style.top.px]="indicator.y - (indicator.size/2)"
+	[style.left.px]="indicator.x - (indicator.size/2)"
+	[style.width.px]="indicator.size"
+	[style.height.px]="indicator.size"
+	[style.transform]="indicator.transform"
+	[@indicatorState]="indicator.state"></div>
