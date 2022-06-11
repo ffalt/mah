@@ -3,7 +3,7 @@ import {Backgrounds} from '../../../../model/consts';
 import {calcDrawPos, Draw, getDrawBounds, getDrawBoundsViewPort, sortDrawItems} from '../../../../model/draw';
 import {Stone} from '../../../../model/stone';
 import {AppService} from '../../../../service/app.service';
-import {Indicator, IndicatorAnimations} from '../../model/indicator';
+import {Indicator, IndicatorAnimations, GestureIndicator} from '../../model/indicator';
 
 type HammerEvent = HammerInput & Event;
 const defaultW = 1470;
@@ -63,7 +63,7 @@ export class BoardComponent implements OnInit, OnChanges {
 
 	onPinch($event: Event) {
 		const evt: HammerInput = $event as HammerEvent;
-		this.indicators.gestureIndicators[0].size = 40 * evt.scale;
+		this.indicators.setSize(0,40 * evt.scale);
 	}
 
 	onPinchStart($event: Event) {
@@ -92,7 +92,6 @@ export class BoardComponent implements OnInit, OnChanges {
 		const border = (50 / this.zoom)
 		this.panX = clamp(x, qx - border, (w / this.zoom) - w + border);
 		this.panY = clamp(y, qy - border, (h / this.zoom) - h + border);
-		console.log(this.panX, this.panY);
 	}
 
 	setPan(evt: HammerInput) {
@@ -124,7 +123,6 @@ export class BoardComponent implements OnInit, OnChanges {
 		this.indicators.hide(indicator);
 		let steps = 0;
 		if ($event.deltaY < 0) {
-			console.log($event.deltaY);
 			steps = $event.deltaY * 0.006;
 		} else {
 			steps = 1;
@@ -149,12 +147,12 @@ export class BoardComponent implements OnInit, OnChanges {
 			this.panX = 0;
 			this.panY = 0;
 		} else {
-			const mouseX = x + this.panX;
-			const mouseY = y + this.panY;
-			const locX = mouseX * oldZoom / z;
-			const locY = mouseY * oldZoom / z;
-			const panX = (locX - x) * z;
-			const panY = (locY - y) * z;
+			const pointX = x + (this.panX / this.zoom);
+			const pointY = y + (this.panY / this.zoom);
+			const pointNextX = pointX / z;
+			const pointNextY = pointY / z;
+			const panX = (pointNextX - pointX) * z;
+			const panY = (pointNextY - pointY) * z;
 			this.zoom = z;
 			this.setPanValue(panX, panY);
 		}

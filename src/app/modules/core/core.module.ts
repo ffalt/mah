@@ -10,6 +10,7 @@ import {LayoutListComponent} from './components/layout-list/layout-list.componen
 import {LayoutPreviewComponent} from './components/layout-preview/layout-preview.component';
 import {GameModeEasyPipe, GameModeStandardPipe} from './pipes/game-mode.pipe';
 import {DialogComponent} from './components/dialog/dialog.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 const declarations = [
 	ImageSetLoaderComponent,
@@ -24,7 +25,7 @@ const declarations = [
 ];
 
 @NgModule({
-	imports: [CommonModule, TranslateModule, DeferLoadModule.forRoot()],
+	imports: [CommonModule, BrowserAnimationsModule, TranslateModule, DeferLoadModule.forRoot()],
 	declarations,
 	exports: declarations,
 	providers: []

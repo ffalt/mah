@@ -74,7 +74,15 @@
                   "maximumError": "10kb"
                 }
               ]
-            }
+            },
+						"development": {
+							"buildOptimizer": false,
+							"optimization": false,
+							"vendorChunk": true,
+							"extractLicenses": false,
+							"sourceMap": true,
+							"namedChunks": true
+						}
           }
         },
         "serve": {
@@ -85,6 +93,9 @@
           "configurations": {
             "production": {
               "browserTarget": "mah:build:production"
+            },
+            "development": {
+              "browserTarget": "mah:build:development"
             }
           }
         },

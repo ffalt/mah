@@ -45,19 +45,19 @@
 </div>
 
 <app-dialog #help (clickEvent)="toggleDialogState($event)" class="overlay-help" [title]="title">
-	<app-help></app-help>
+	<app-help *ngIf="help.visible"></app-help>
 </app-dialog>
 
 <app-dialog #info (clickEvent)="toggleDialogState($event)" class="overlay-info" [title]="'TILES'|translate">
-	<app-tiles-info></app-tiles-info>
+	<app-tiles-info *ngIf="info.visible"></app-tiles-info>
 </app-dialog>
 
 <app-dialog #settings (clickEvent)="toggleDialogState($event)" class="overlay-settings" [title]="'SETTINGS'|translate">
-	<app-settings></app-settings>
+	<app-settings *ngIf="settings.visible"></app-settings>
 </app-dialog>
 
 <app-dialog #newgame (clickEvent)="toggleDialogState($event)" class="overlay-newgame" [title]="'SELECT_BOARD'|translate">
-	<app-choose-layout class="choose" (startEvent)="startGame($event)" [gameMode]="game.mode"></app-choose-layout>
+	<app-choose-layout *ngIf="newgame.visible" class="choose" (startEvent)="startGame($event)" [gameMode]="game.mode"></app-choose-layout>
 </app-dialog>
 
 <app-dialog (clickEvent)="clickMessage()" [visible]="!!game.message" class="overlay-message" [noClose]="true">

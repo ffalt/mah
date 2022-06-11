@@ -8,6 +8,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "start:development": "ng serve -c development",
     "build": "ng build",
     "build:prod": "npm run build:deploy-release",
     "build:analyze:prod": "ng build --configuration production --aot --source-map",

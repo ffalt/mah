@@ -1,11 +1,13 @@
 import {trigger, state, style, animate, transition} from '@angular/animations';
 
-interface GestureIndicator {
+export interface GestureIndicator {
 	x: number;
 	y: number;
 	size: number;
 	state: string;
 	transform?: string;
+	top: number;
+	left: number;
 }
 
 export class Indicator {
@@ -30,9 +32,15 @@ export class Indicator {
 		}, 500);
 	}
 
+	setSize(nr: number, size: number): void {
+		this.gestureIndicators[nr].size = size;
+		this.gestureIndicators[nr].top = this.gestureIndicators[nr].y - (size / 2);
+		this.gestureIndicators[nr].left = this.gestureIndicators[nr].x - (size / 2);
+	}
+
 	display(x: number, y: number, size: number): GestureIndicator | undefined {
 		if (x > 0 && y > 0) {
-			const gestureIndicator: GestureIndicator = {x, y, size, state: 'hidden'};
+			const gestureIndicator: GestureIndicator = {x, y, size, top: y - (size / 2), left: x - (size / 2), state: 'hidden'};
 			this.gestureIndicators.push(gestureIndicator);
 			setTimeout(() => {
 				gestureIndicator.state = 'visible';
