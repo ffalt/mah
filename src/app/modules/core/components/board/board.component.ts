@@ -1,5 +1,5 @@
 import {Component, EventEmitter, HostBinding, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {Backgrounds} from '../../../../model/consts';
+import {Backgrounds, Consts} from '../../../../model/consts';
 import {calcDrawPos, Draw, getDrawBounds, getDrawBoundsViewPort, sortDrawItems} from '../../../../model/draw';
 import {Stone} from '../../../../model/stone';
 import {AppService} from '../../../../service/app.service';
@@ -63,7 +63,7 @@ export class BoardComponent implements OnInit, OnChanges {
 
 	onPinch($event: Event) {
 		const evt: HammerInput = $event as HammerEvent;
-		this.indicators.setSize(0,40 * evt.scale);
+		this.indicators.setSize(0, 40 * evt.scale);
 	}
 
 	onPinchStart($event: Event) {
@@ -90,8 +90,13 @@ export class BoardComponent implements OnInit, OnChanges {
 		const qx = this.bounds[0] / this.zoom;
 		const qy = this.bounds[1] / this.zoom;
 		const border = (50 / this.zoom)
-		this.panX = clamp(x, qx - border, (w / this.zoom) - w + border);
-		this.panY = clamp(y, qy - border, (h / this.zoom) - h + border);
+		if (this.rotate) {
+			this.panX = clamp(x, h - (defaultH / this.zoom), qy - border);
+			this.panY = clamp(y, qx - border, (w / this.zoom) - w + border);
+		} else {
+			this.panX = clamp(x, qx - border, (w / this.zoom) - w + border);
+			this.panY = clamp(y, qy - border, (h / this.zoom) - h + border);
+		}
 	}
 
 	setPan(evt: HammerInput) {
