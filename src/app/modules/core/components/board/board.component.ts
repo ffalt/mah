@@ -104,14 +104,14 @@ export class BoardComponent implements OnInit, OnChanges {
 	@HostListener('wheel', ['$event'])
 	onWheel($event: WheelEvent) {
 		$event.preventDefault();
-		const indicator = this.indicators.display($event.clientX, $event.clientY, 10);
-		this.indicators.hide(indicator);
 		const wheel = $event.deltaY < 0 ? 1 : -1;
 		let scale = 1;
 		if (wheel === 1) {
 			scale = this.scale + 0.15;
 		}
 		this.zoomSVGValue(scale, $event.clientX, $event.clientY);
+		const indicator = this.indicators.display($event.clientX, $event.clientY, scale * 10);
+		this.indicators.hide(indicator);
 	}
 
 	@HostListener('window:resize', ['$event'])
