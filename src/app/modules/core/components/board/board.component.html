@@ -1,6 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" class="board-svg" [class.rotate]="rotate" [attr.viewBox]="viewport" preserveAspectRatio="xMidYMid meet"
-		 (mouseup)="onMouseUp($event)" (wheel)="onWheel($event)"
-		 [style.transform]="transformSVG">
+<svg xmlns="http://www.w3.org/2000/svg" class="board-svg" preserveAspectRatio="xMidYMid meet"
+		 [class.rotate]="rotate"
+		 [attr.viewBox]="viewport"
+		 [style.transform]="transformSVG"
+		 (mouseup)="onMouseUp($event)"
+>
 	<defs>
 		<filter id="mah-board-filter" style="color-interpolation-filters:sRGB">
 			<feGaussianBlur in="SourceGraphic" stdDeviation="8"/>

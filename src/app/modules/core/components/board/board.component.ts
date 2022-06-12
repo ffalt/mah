@@ -1,4 +1,4 @@
-import {Component, EventEmitter, HostBinding, HostListener, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {Component, ElementRef, EventEmitter, HostBinding, HostListener, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {Backgrounds, Consts} from '../../../../model/consts';
 import {calcDrawPos, Draw, getDrawBounds, getDrawBoundsViewPort, sortDrawItems} from '../../../../model/draw';
 import {Stone} from '../../../../model/stone';
@@ -38,7 +38,7 @@ export class BoardComponent implements OnInit, OnChanges {
 	panX: number = 0;
 	panY: number = 0;
 
-	constructor(public app: AppService) {
+	constructor(private element: ElementRef, public app: AppService) {
 	}
 
 	ngOnInit(): void {
@@ -84,19 +84,6 @@ export class BoardComponent implements OnInit, OnChanges {
 		evt.preventDefault();
 	}
 
-	setPanValue(x: number, y: number) {
-		const minX = (this.bounds[2] - this.bounds[0]) * this.scale;
-		const minY = (this.bounds[3] - this.bounds[1]) * this.scale;
-		this.panX = clamp(x, -minX, 0);
-		this.panY = clamp(y, -minY, 0);
-	}
-
-	setPan(evt: HammerEvent) {
-		evt.preventDefault();
-		const limiter = 0.05;
-		this.setPanValue(this.panX + (evt.deltaX * limiter), this.panY + (evt.deltaY * limiter));
-	}
-
 	@HostListener('pan', ['$event'])
 	onPan(evt: HammerEvent) {
 		if (this.scale > 1 && evt.pointers.length === 1) {
@@ -114,6 +101,7 @@ export class BoardComponent implements OnInit, OnChanges {
 		}
 	}
 
+	@HostListener('wheel', ['$event'])
 	onWheel($event: WheelEvent) {
 		$event.preventDefault();
 		const indicator = this.indicators.display($event.clientX, $event.clientY, 10);
@@ -126,10 +114,38 @@ export class BoardComponent implements OnInit, OnChanges {
 		this.zoomSVGValue(scale, $event.clientX, $event.clientY);
 	}
 
-	updateViewPort() {
-		window.requestAnimationFrame(() => {
-			this.setViewPort();
-		});
+	@HostListener('window:resize', ['$event'])
+	onResize(event: UIEvent): void {
+		const element = event.target as Window;
+		if (element) {
+			this.resize(element);
+		}
+	}
+
+	onMouseUp(event: MouseEvent): void {
+		this.clickEvent.emit(undefined);
+	}
+
+	onClickDown(event: MouseEvent): void {
+		// this.onMouseDown(event);
+	}
+
+	onClickUp(event: MouseEvent, draw?: Draw): void {
+		this.clickEvent.emit(draw ? draw.source : undefined);
+		event.stopPropagation();
+	}
+
+	setPan(evt: HammerEvent) {
+		evt.preventDefault();
+		const limiter = 0.05;
+		this.setPanValue(this.panX + (evt.deltaX * limiter), this.panY + (evt.deltaY * limiter));
+	}
+
+	setPanValue(x: number, y: number) {
+		const minX = -this.element.nativeElement.offsetWidth;
+		const minY = -this.element.nativeElement.offsetHeight;
+		this.panX = clamp(x, minX - 50, 50);
+		this.panY = clamp(y, minY - 50, 50);
 	}
 
 	zoomSVGValue(scale: number, x: number, y: number) {
@@ -153,25 +169,10 @@ export class BoardComponent implements OnInit, OnChanges {
 		this.updateTransform();
 	}
 
-	onMouseUp(event: MouseEvent): void {
-		this.clickEvent.emit(undefined);
-	}
-
-	onClickDown(event: MouseEvent): void {
-		// this.onMouseDown(event);
-	}
-
-	onClickUp(event: MouseEvent, draw?: Draw): void {
-		this.clickEvent.emit(draw ? draw.source : undefined);
-		event.stopPropagation();
-	}
-
-	resize(element: { innerHeight: number; innerWidth: number }): void {
-		const r = element.innerHeight > element.innerWidth;
-		if (r !== this.rotate) {
-			this.rotate = r;
-			this.updateViewPort();
-		}
+	updateViewPort() {
+		window.requestAnimationFrame(() => {
+			this.setViewPort();
+		});
 	}
 
 	updateTransform() {
@@ -179,11 +180,15 @@ export class BoardComponent implements OnInit, OnChanges {
 		this.transformStage = this.rotate ? 'rotate(90)' : '';
 	}
 
-	@HostListener('window:resize', ['$event'])
-	onResize(event: UIEvent): void {
-		const element = event.target as Window;
-		if (element) {
-			this.resize(element);
+	private resize(element: { innerHeight: number; innerWidth: number }): void {
+		const r = element.innerHeight > element.innerWidth;
+		this.panX = 0;
+		this.panY = 0;
+		this.scale = 1;
+		this.updateTransform();
+		if (r !== this.rotate) {
+			this.rotate = r;
+			this.updateViewPort();
 		}
 	}
 
