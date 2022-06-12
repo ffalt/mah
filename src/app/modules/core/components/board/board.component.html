@@ -1,11 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" class="board-svg" [class.rotate]="rotate" [attr.viewBox]="viewport" preserveAspectRatio="xMidYMid meet"
-		 (window:resize)="onResize($event)"
 		 (mouseup)="onMouseUp($event)" (wheel)="onWheel($event)"
-		 (pinchstart)="onPinchStart($event)"
-		 (pinchend)="onPinchEnd($event)"
-		 (pinch)="onPinch($event)"
-		 (pan)="onPan($event)"
-		 (panend)="onPanEnd($event)">
+		 [style.transform]="transformSVG">
 	<defs>
 		<filter id="mah-board-filter" style="color-interpolation-filters:sRGB">
 			<feGaussianBlur in="SourceGraphic" stdDeviation="8"/>
@@ -113,7 +108,7 @@
 
 	</style>
 	<defs app-image-set-loader [imageSet]="imageSet" [dark]="app.settings.dark" [prefix]="prefix"></defs>
-	<g class="stage" [attr.transform]="translate" [class.dark]="app.settings.dark" [class.contrast]="app.settings.contrast">
+	<g class="stage" [attr.transform]="transformStage" [class.dark]="app.settings.dark" [class.contrast]="app.settings.contrast">
 		<g *ngFor="let draw of drawStones; trackBy:trackByDrawStone" class="draw"
 			 [class.selected]="draw.source.selected"
 			 [class.hidden]="draw.source.picked"

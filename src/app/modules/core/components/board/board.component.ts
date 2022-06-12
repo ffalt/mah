@@ -1,9 +1,9 @@
-import {Component, EventEmitter, HostBinding, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, HostBinding, HostListener, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {Backgrounds, Consts} from '../../../../model/consts';
 import {calcDrawPos, Draw, getDrawBounds, getDrawBoundsViewPort, sortDrawItems} from '../../../../model/draw';
 import {Stone} from '../../../../model/stone';
 import {AppService} from '../../../../service/app.service';
-import {Indicator, IndicatorAnimations, GestureIndicator} from '../../model/indicator';
+import {Indicator, IndicatorAnimations} from '../../model/indicator';
 
 type HammerEvent = HammerInput & Event;
 const defaultW = 1470;
@@ -22,20 +22,21 @@ function clamp(value: number, min: number, max: number): number {
 export class BoardComponent implements OnInit, OnChanges {
 	@Input() background: string;
 	@Input() imageSet: string;
-	@Input() zoom: number = 1;
-	@Input() panX: number = 0;
-	@Input() panY: number = 0;
 	@Input() stones: Array<Stone>;
 	@Output() readonly clickEvent = new EventEmitter<Stone>();
 	@HostBinding('style.background-image') backgroundUrl: string | undefined;
 	indicators = new Indicator();
 	drawStones: Array<Draw> = [];
 	rotate: boolean = false;
-	translate: string = '';
+	transformSVG: string = '';
+	transformStage: string = '';
 	viewport: string = `0 0 ${defaultW} ${defaultH}`;
 	prefix: string;
 	urlPrefix: string;
 	bounds: Array<number> = [0, 0, defaultW, defaultH];
+	scale: number = 1;
+	panX: number = 0;
+	panY: number = 0;
 
 	constructor(public app: AppService) {
 	}
@@ -61,62 +62,53 @@ export class BoardComponent implements OnInit, OnChanges {
 		}
 	}
 
-	onPinch($event: Event) {
-		const evt: HammerInput = $event as HammerEvent;
+	@HostListener('pinch', ['$event'])
+	onPinch(evt: HammerEvent) {
 		this.indicators.setSize(0, 40 * evt.scale);
 	}
 
-	onPinchStart($event: Event) {
-		const evt: HammerInput = $event as HammerEvent;
+	@HostListener('pinchstart', ['$event'])
+	onPinchStart(evt: HammerEvent) {
 		this.indicators.gestureIndicators = [];
 		this.indicators.display(evt.center.x, evt.center.y, 40);
 	}
 
-	onPinchEnd($event: Event) {
-		const evt: HammerInput = $event as HammerEvent;
+	@HostListener('pinchend', ['$event'])
+	onPinchEnd(evt: HammerEvent) {
 		this.indicators.hide(this.indicators.gestureIndicators[0]);
-		let steps = 0;
-		if (evt.scale > 1) {
-			steps = -(evt.scale * 0.1);
-		} else {
-			steps = 1;
+		let scale = 1;
+		if (evt.scale > 1.1) {
+			scale = this.scale + (0.2 * evt.scale);
 		}
-		this.zoomSVGValue(this.zoom + steps, evt.center.x, evt.center.y);
+		this.zoomSVGValue(scale, evt.center.x, evt.center.y);
+		evt.preventDefault();
 	}
 
 	setPanValue(x: number, y: number) {
-		const w = (this.bounds[2] - this.bounds[0]);
-		const h = (this.bounds[3] - this.bounds[1]);
-		const qx = this.bounds[0] / this.zoom;
-		const qy = this.bounds[1] / this.zoom;
-		const border = (50 / this.zoom)
-		if (this.rotate) {
-			this.panX = clamp(x, h - (defaultH / this.zoom), qy - border);
-			this.panY = clamp(y, qx - border, (w / this.zoom) - w + border);
-		} else {
-			this.panX = clamp(x, qx - border, (w / this.zoom) - w + border);
-			this.panY = clamp(y, qy - border, (h / this.zoom) - h + border);
-		}
+		const minX = (this.bounds[2] - this.bounds[0]) * this.scale;
+		const minY = (this.bounds[3] - this.bounds[1]) * this.scale;
+		this.panX = clamp(x, -minX, 0);
+		this.panY = clamp(y, -minY, 0);
 	}
 
-	setPan(evt: HammerInput) {
+	setPan(evt: HammerEvent) {
 		evt.preventDefault();
-		const limiter = 0.15;
-		this.setPanValue(this.panX - (evt.deltaX * limiter), this.panY - (evt.deltaY * limiter));
+		const limiter = 0.05;
+		this.setPanValue(this.panX + (evt.deltaX * limiter), this.panY + (evt.deltaY * limiter));
 	}
 
-	onPan($event: Event) {
-		const evt: HammerInput = $event as HammerEvent;
-		if (this.zoom < 1 && evt.pointers.length === 1) {
+	@HostListener('pan', ['$event'])
+	onPan(evt: HammerEvent) {
+		if (this.scale > 1 && evt.pointers.length === 1) {
 			const indicator = this.indicators.display(evt.center.x, evt.center.y, 10);
 			this.indicators.hide(indicator);
 			this.setPan(evt);
 		}
 	}
 
-	onPanEnd($event: Event) {
-		const evt: HammerInput = $event as HammerEvent;
-		if (this.zoom < 1 && evt.pointers.length === 1) {
+	@HostListener('panend', ['$event'])
+	onPanEnd(evt: HammerEvent) {
+		if (this.scale > 1 && evt.pointers.length === 1) {
 			this.setPan(evt);
 			this.updateViewPort();
 		}
@@ -126,13 +118,12 @@ export class BoardComponent implements OnInit, OnChanges {
 		$event.preventDefault();
 		const indicator = this.indicators.display($event.clientX, $event.clientY, 10);
 		this.indicators.hide(indicator);
-		let steps = 0;
-		if ($event.deltaY < 0) {
-			steps = $event.deltaY * 0.006;
-		} else {
-			steps = 1;
+		const wheel = $event.deltaY < 0 ? 1 : -1;
+		let scale = 1;
+		if (wheel === 1) {
+			scale = this.scale + 0.15;
 		}
-		this.zoomSVGValue(this.zoom + steps, $event.clientX, $event.clientY);
+		this.zoomSVGValue(scale, $event.clientX, $event.clientY);
 	}
 
 	updateViewPort() {
@@ -141,27 +132,25 @@ export class BoardComponent implements OnInit, OnChanges {
 		});
 	}
 
-	zoomSVGValue(zoom: number, x: number, y: number) {
-		const oldZoom = this.zoom;
-		const z = Math.min(Math.max(0.5, zoom), 1);
-		if (z === oldZoom) {
+	zoomSVGValue(scale: number, x: number, y: number) {
+		const oldScale = this.scale;
+		const z = clamp(scale, 1, 2);
+		if (z === oldScale) {
 			return;
 		}
-		if (z >= 0.99) {
-			this.zoom = 1;
+		if (z < 1.01) {
+			this.scale = 1;
 			this.panX = 0;
 			this.panY = 0;
 		} else {
-			const pointX = x + (this.panX / this.zoom);
-			const pointY = y + (this.panY / this.zoom);
-			const pointNextX = pointX / z;
-			const pointNextY = pointY / z;
-			const panX = (pointNextX - pointX) * z;
-			const panY = (pointNextY - pointY) * z;
-			this.zoom = z;
+			const xs = (x - this.panX) / this.scale;
+			const ys = (y - this.panY) / this.scale;
+			const panX = x - xs * z;
+			const panY = y - ys * z;
+			this.scale = z;
 			this.setPanValue(panX, panY);
 		}
-		this.updateViewPort();
+		this.updateTransform();
 	}
 
 	onMouseUp(event: MouseEvent): void {
@@ -173,11 +162,7 @@ export class BoardComponent implements OnInit, OnChanges {
 	}
 
 	onClickUp(event: MouseEvent, draw?: Draw): void {
-		// if (!this.mouseDrag) {
 		this.clickEvent.emit(draw ? draw.source : undefined);
-		// }
-		// this.mouseDown = false;
-		// this.mouseDrag = false;
 		event.stopPropagation();
 	}
 
@@ -185,11 +170,16 @@ export class BoardComponent implements OnInit, OnChanges {
 		const r = element.innerHeight > element.innerWidth;
 		if (r !== this.rotate) {
 			this.rotate = r;
-			this.translate = this.rotate ? 'rotate(90)' : '';
 			this.updateViewPort();
 		}
 	}
 
+	updateTransform() {
+		this.transformSVG = `translate(${this.panX}px, ${this.panY}px)${this.scale > 1 ? ` scale(${this.scale})` : ''}`;
+		this.transformStage = this.rotate ? 'rotate(90)' : '';
+	}
+
+	@HostListener('window:resize', ['$event'])
 	onResize(event: UIEvent): void {
 		const element = event.target as Window;
 		if (element) {
@@ -198,14 +188,15 @@ export class BoardComponent implements OnInit, OnChanges {
 	}
 
 	private setViewPort(): void {
-		this.viewport = getDrawBoundsViewPort(this.bounds, defaultW, defaultH, this.rotate, this.zoom, this.panX, this.panY);
+		this.updateTransform();
+		this.viewport = getDrawBoundsViewPort(this.bounds, defaultW, defaultH, this.rotate);
 	}
 
 	private updateStones(stones: Array<Stone>): void {
 		if (!stones) {
 			return;
 		}
-		this.zoom = 1;
+		this.scale = 1;
 		this.panX = 0;
 		this.panY = 0;
 		const items = stones

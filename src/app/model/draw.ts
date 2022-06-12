@@ -47,29 +47,26 @@ export function sortDrawItems(items: Array<Draw>): Array<Draw> {
 	});
 }
 
-export function getDrawBoundsViewPort(bounds: Array<number>, width: number, height: number, rotate: boolean = false, zoom: number = 1, panX: number = 0, panY: number = 0): string {
-	let b: Array<number> = rotate ?
+export function getDrawBoundsViewPort(bounds: Array<number>, width: number, height: number, rotate: boolean = false): string {
+	const b: Array<number> = rotate ?
 		[
-			-bounds[3] - Consts.tileHeight - 10 + panX,
-			-bounds[0] - 30 + panY,
+			-bounds[3] - Consts.tileHeight - 10,
+			-bounds[0] - 30,
 			bounds[3] + Consts.tileHeight - 10,
 			bounds[2] + bounds[0] + Consts.tileWidth + 40
 		] :
 		[
-			bounds[0] - 40 + panX,
-			bounds[1] - 20 + panY,
+			bounds[0] - 40,
+			bounds[1] - 20,
 			bounds[2] + Consts.tileHeight + 40,
 			bounds[3] + Consts.tileHeight + 20
 		];
-	if (zoom !== 1) {
-		b = b.map(n => n * zoom);
-	}
 	return b.join(' ');
 }
 
-export function getDrawViewPort(items: Array<Draw>, width: number, height: number, rotate: boolean = false, zoom: number = 1, panX: number = 0, panY: number = 0): string {
+export function getDrawViewPort(items: Array<Draw>, width: number, height: number, rotate: boolean = false): string {
 	const bounds = getDrawBounds(items, width, height);
-	return getDrawBoundsViewPort(bounds, width, height, rotate, zoom, panX, panY);
+	return getDrawBoundsViewPort(bounds, width, height, rotate);
 }
 
 export function getDrawBounds(items: Array<Draw>, width: number, height: number): Array<number> {
