@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.5.1](https://github.com/ffalt/mah/compare/v1.5.0...v1.5.1) (2022-06-13)
+
+
+### Bug Fixes
+
+* **dialogs:** mobile portrait mode issues ([87be0e7](https://github.com/ffalt/mah/commit/87be0e7f703c8ca4206799d034c1f7e257de78db))
+
 ## [1.5.0](https://github.com/ffalt/mah/compare/v1.4.0...v1.5.0) (2022-06-13)
 
 
