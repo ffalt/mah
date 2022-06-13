@@ -75,6 +75,34 @@
                 }
               ]
             },
+            "capacitor": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.capacitor.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "1mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "7kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            },
 						"development": {
 							"buildOptimizer": false,
 							"optimization": false,
@@ -96,6 +124,9 @@
             },
             "development": {
               "browserTarget": "mah:build:development"
+            },
+            "capacitor": {
+              "browserTarget": "mah:build:capacitor"
             }
           }
         },

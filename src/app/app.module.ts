@@ -3,6 +3,7 @@ import {Injectable, NgModule} from '@angular/core';
 import {BrowserModule, HAMMER_GESTURE_CONFIG, HammerGestureConfig, HammerModule} from '@angular/platform-browser';
 import {TranslateModule} from '@ngx-translate/core';
 
+import {environment} from '../environments/environment';
 import {AppComponent} from './app.component';
 import {ChooseLayoutComponent} from './components/choose-layout/choose-layout.component';
 import {GameComponent} from './components/game/game-component.component';
@@ -40,7 +41,8 @@ export class CustomHammerConfig extends HammerGestureConfig {
 		HttpClientModule,
 		HammerModule,
 		CoreModule,
-		TranslateModule.forRoot()
+		TranslateModule.forRoot(),
+		...environment.modules
 	],
 	declarations: [
 		AppComponent,
