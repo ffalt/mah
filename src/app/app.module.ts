@@ -25,7 +25,7 @@ export class CustomHammerConfig extends HammerGestureConfig {
 		pan: {
 			enable: true,
 			direction: Hammer.DIRECTION_ALL,
-			threshold: 5
+			threshold: 15
 		},
 		pinch: {enable: true},
 		press: {enable: false},

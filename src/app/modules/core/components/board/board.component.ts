@@ -37,6 +37,7 @@ export class BoardComponent implements OnInit, OnChanges {
 	scale: number = 1;
 	panX: number = 0;
 	panY: number = 0;
+	lastPinch: number = 0;
 
 	constructor(private element: ElementRef, public app: AppService) {
 	}
@@ -65,12 +66,16 @@ export class BoardComponent implements OnInit, OnChanges {
 	@HostListener('pinch', ['$event'])
 	onPinch(evt: HammerEvent) {
 		this.indicators.setSize(0, 40 * evt.scale);
+		evt.preventDefault();
+		this.lastPinch = Date.now();
 	}
 
 	@HostListener('pinchstart', ['$event'])
 	onPinchStart(evt: HammerEvent) {
 		this.indicators.gestureIndicators = [];
 		this.indicators.display(evt.center.x, evt.center.y, 40);
+		evt.preventDefault();
+		this.lastPinch = Date.now();
 	}
 
 	@HostListener('pinchend', ['$event'])
@@ -82,23 +87,18 @@ export class BoardComponent implements OnInit, OnChanges {
 		}
 		this.zoomSVGValue(scale, evt.center.x, evt.center.y);
 		evt.preventDefault();
+		this.lastPinch = Date.now();
 	}
 
 	@HostListener('pan', ['$event'])
 	onPan(evt: HammerEvent) {
-		if (this.scale > 1 && evt.pointers.length === 1) {
-			const indicator = this.indicators.display(evt.center.x, evt.center.y, 10);
-			this.indicators.hide(indicator);
-			this.setPan(evt);
-		}
+		this.setPan(evt);
 	}
 
 	@HostListener('panend', ['$event'])
 	onPanEnd(evt: HammerEvent) {
-		if (this.scale > 1 && evt.pointers.length === 1) {
-			this.setPan(evt);
-			this.updateViewPort();
-		}
+		this.setPan(evt);
+		this.updateTransform();
 	}
 
 	@HostListener('wheel', ['$event'])
@@ -136,9 +136,13 @@ export class BoardComponent implements OnInit, OnChanges {
 	}
 
 	setPan(evt: HammerEvent) {
-		evt.preventDefault();
-		const limiter = 0.05;
-		this.setPanValue(this.panX + (evt.deltaX * limiter), this.panY + (evt.deltaY * limiter));
+		if (this.scale > 1 && evt.pointers.length === 1 && Date.now() - this.lastPinch > 600) {
+			const indicator = this.indicators.display(evt.center.x, evt.center.y, 10);
+			this.indicators.hide(indicator);
+			const limiter = 0.05;
+			this.setPanValue(this.panX + (evt.deltaX * limiter), this.panY + (evt.deltaY * limiter));
+			evt.preventDefault();
+		}
 	}
 
 	setPanValue(x: number, y: number) {
@@ -176,6 +180,12 @@ export class BoardComponent implements OnInit, OnChanges {
 	}
 
 	updateTransform() {
+		window.requestAnimationFrame(() => {
+			this.setTransform();
+		});
+	}
+
+	setTransform() {
 		this.transformSVG = `translate(${this.panX}px, ${this.panY}px)${this.scale > 1 ? ` scale(${this.scale})` : ''}`;
 		this.transformStage = this.rotate ? 'rotate(90)' : '';
 	}
@@ -193,7 +203,6 @@ export class BoardComponent implements OnInit, OnChanges {
 	}
 
 	private setViewPort(): void {
-		this.updateTransform();
 		this.viewport = getDrawBoundsViewPort(this.bounds, defaultW, defaultH, this.rotate);
 	}
 
@@ -220,6 +229,7 @@ export class BoardComponent implements OnInit, OnChanges {
 		this.bounds = getDrawBounds(items, defaultW, defaultH);
 		this.drawStones = sortDrawItems(items);
 		this.setViewPort();
+		this.setTransform();
 	}
 
 	private updateBackground(background: string): void {
