@@ -12,35 +12,35 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
-      - name: Install Node.js
-        uses: actions/setup-node@v1
+      - name: Install node.js
+        uses: actions/setup-node@v3
         with:
           node-version: 16.x
 
-      - name: Write App Config
+      - name: Write github.io app config
         run: |
           echo "{\"name\": \"Mah\", \"editor\":true}" > custom-build-config.json
 
-      - name: Install Dependencies
+      - name: Install dependencies
         run: |
           npm install
 
       - name: Test
         run: npm run test
 
-      - name: Build GH Pages Release
+      - name: Build GH Pages release
         run: |
           npm run build:deploy-ghpages
 
-      - name: Build GH Pages Settings
+      - name: Build GH Pages settings
         run: |
           touch ./dist/.nojekyll
 
-      - name: Deploy to Github Pages Branch 🚀
+      - name: Deploy to GH Pages branch 🚀
         uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -48,7 +48,7 @@ jobs:
           FOLDER: dist # The folder the action should deploy.
           CLEAN: true
 
-      - name: Write App Config
+      - name: Write release app config
         run: |
           echo "{\"name\": \"Mah\"}" > custom-build-config.json
 
@@ -56,15 +56,15 @@ jobs:
         run: |
           npm run build:deploy-release
 
-      - name: Create Release Package
+      - name: Create release package
         run: |
           cd dist && zip -r ./mah-release.zip .
 
-      - name: Generate Releaselog
+      - name: Generate release log
         run: |
           npm run build:releaselog
 
-      - name: Create Release
+      - name: Create release
         id: create_release
         uses: actions/create-release@v1
         env:
@@ -76,7 +76,7 @@ jobs:
           draft: false
           prerelease: false
 
-      - name: Upload Release Package
+      - name: Upload release package
         id: upload-release-asset
         uses: actions/upload-release-asset@v1
         env:
