@@ -14,6 +14,7 @@
   "exclude": [
 		"src/**/*.worker.ts",
 		"src/environments/environment.prod.ts",
+		"src/environments/environment.capacitor.ts",
 		"src/**/*.spec.ts"
   ]
 }

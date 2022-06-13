@@ -17,6 +17,7 @@
 		"resources",
 		"src/**/*.worker.ts",
 		"test-config.helper.ts",
+		"src/environments/environment.capacitor.ts",
 		"src/environments/environment.prod.ts"
 	]
 }
