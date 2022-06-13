@@ -38,7 +38,7 @@ jobs:
       - name: Build mah with capacitor config
         run: npm run build:capacitor
 
-      - name: Install capacitor
+      - name: Install capacitor dependencies
         run: cd resources/mobile && npm install
 
       - name: Capacitor update
