@@ -63,9 +63,6 @@
 	> div {
 		flex: 1;
 		margin-right: 10px;
-		@include respond-to(medium-down) {
-			width: 100%;
-		}
 	}
 
 	.help, .license {
@@ -156,6 +153,32 @@
 			}
 		}
 
+	}
+
+	@include respond-to(large-down) {
+		flex-direction: column;
+		flex-wrap: nowrap;
+		> div {
+			width: 100%;
+		}
+
+		.top {
+			display: flex;
+			flex-direction: row;
+			> div {
+				flex: 1;
+			}
+		}
+	}
+
+	@include respond-to(medium-down) {
+		.top {
+			flex-direction: column;
+			flex-wrap: nowrap;
+		}
+		.help, .license {
+			width: 100%;
+		}
 	}
 
 }

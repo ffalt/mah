@@ -434,7 +434,7 @@
 					height: 98%;
 					overflow: hidden;
 					@include respond-to-height(small-down) {
-						padding: 0 10px 5px;
+						padding: 10px;
 					}
 				}
 			}
