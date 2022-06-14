@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
 import {firstValueFrom} from 'rxjs';
 import {expandMapping, mappingToID} from '../model/mapping';
-import {generateStaticLayoutSVG} from '../model/layout-svg';
+import {generateBase64SVG} from '../model/layout-svg';
 import {Layout, Layouts, LoadLayout, Mapping} from '../model/types';
 import {LocalstorageService} from './localstorage.service';
 
@@ -72,7 +72,7 @@ export class LayoutService {
 	}
 
 	generatePreview(mapping: Mapping): SafeUrl {
-		return this.sanitizer.bypassSecurityTrustUrl(generateStaticLayoutSVG(mapping));
+		return this.sanitizer.bypassSecurityTrustUrl(generateBase64SVG(mapping));
 	}
 
 	private async requestBoards(): Promise<Array<LoadLayout>> {
