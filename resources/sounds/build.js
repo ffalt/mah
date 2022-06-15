@@ -1,3 +1,6 @@
+/* eslint-disable promise/avoid-new */
+/* eslint-disable no-console */
+
 const destFolder = "../../src/assets/sounds/";
 const sourceFolder = "./sounds_org/";
 
@@ -60,7 +63,7 @@ async function run() {
 }
 
 run().then(() => {
-  console.log("done");
+  return console.log("done");
 }).catch(e => {
   console.log("an error happened: " + e.message);
 });
