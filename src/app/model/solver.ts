@@ -81,7 +81,7 @@ function isplayable(t?: tile): boolean {
 }
 
 function rand(): number {
-	return Math.floor(Math.random() * 100); // TODO
+	return Math.floor(Math.random() * 100);
 }
 
 function int(i: number): number {
@@ -441,27 +441,29 @@ export class Solver {
 					const qtk1 = qtk.member[1] as tile;
 					const qtk2 = qtk.member[2] as tile;
 					const qtk3 = qtk.member[3] as tile;
+					const play = (t1: tile, t2: tile) => {
+						t1.isPlayed = true;
+						t2.isPlayed = true;
+						ntiles2 -= 2;
+					};
+					const check_free = (t: tile) => {
+						if (!(t.isPlayed) && isplayable(t)) {
+							t.isPlayed = true;
+							ntiles1++;
+						}
+					};
+					const check_pair = (t1: tile, t2: tile, t3: tile) => {
+						if (!t1.isPlayed && isplayable(t1) && isplayable(t2)) {
+							play(t1, t2);
+							qtk.isplayed = t3.isPlayed;
+						}
+					};
 					switch (qtk.pairing) {
 						case 0: { // free group, no pairing
 							// first two played together,
 							// last two played separate
 							if (qtk0.isPlayed || qtk1.isPlayed || qtk2.isPlayed) {
-								if (!(qtk0.isPlayed) && isplayable(qtk0)) {
-									qtk0.isPlayed = true;
-									ntiles1++;
-								}
-								if (!(qtk1.isPlayed) && isplayable(qtk1)) {
-									qtk1.isPlayed = true;
-									ntiles1++;
-								}
-								if (!(qtk2.isPlayed) && isplayable(qtk2)) {
-									qtk2.isPlayed = true;
-									ntiles1++;
-								}
-								if (!(qtk3.isPlayed) && isplayable(qtk3)) {
-									qtk3.isPlayed = true;
-									ntiles1++;
-								}
+								qtk.member.forEach(t => check_free(t as tile));
 								if (qtk0.isPlayed && qtk1.isPlayed && qtk2.isPlayed && qtk3.isPlayed) {
 									qtk.isplayed = true;
 									ntiles2 -= 2;
@@ -469,100 +471,53 @@ export class Solver {
 							} else {
 								if (!qtk0.isPlayed && isplayable(qtk0)) {
 									if (!qtk1.isPlayed && isplayable(qtk1)) {
-										qtk0.isPlayed = true;
-										qtk1.isPlayed = true;
-										ntiles2 -= 2;
+										play(qtk0, qtk1);
 									} else if (!qtk2.isPlayed && isplayable(qtk2)) {
-										qtk0.isPlayed = true;
-										qtk2.isPlayed = true;
-										ntiles2 -= 2;
+										play(qtk0, qtk2);
 									} else if (!(qtk3.isPlayed) && isplayable(qtk3)) {
-										qtk0.isPlayed = true;
-										qtk3.isPlayed = true;
-										ntiles2 -= 2;
+										play(qtk0, qtk3);
 									}
 								} else if (!qtk1.isPlayed && isplayable(qtk1)) {
 									if (!qtk2.isPlayed && isplayable(qtk2)) {
-										qtk1.isPlayed = true;
-										qtk2.isPlayed = true;
-										ntiles2 -= 2;
+										play(qtk1, qtk2);
 									} else if (!qtk3.isPlayed && isplayable(qtk.member[3])) {
-										qtk1.isPlayed = true;
-										qtk3.isPlayed = true;
-										ntiles2 -= 2;
+										play(qtk1, qtk3);
 									}
 								} else if (!qtk2.isPlayed && isplayable(qtk2)) {
 									if (!qtk3.isPlayed && isplayable(qtk3)) {
-										qtk2.isPlayed = true;
-										qtk3.isPlayed = true;
-										ntiles2 -= 2;
+										play(qtk2, qtk3);
 									}
 								}
 							}
 							break;
 						}
 						case 1: {// pairing 0-1, 2-3
-							if (!qtk0.isPlayed && isplayable(qtk.member[0]) && isplayable(qtk.member[1])) {
-								qtk0.isPlayed = true;
-								qtk1.isPlayed = true;
-								ntiles2 -= 2;
-								qtk.isplayed = qtk2.isPlayed;
-							}
-							if (!qtk2.isPlayed && isplayable(qtk.member[2]) && isplayable(qtk.member[3])) {
-								qtk2.isPlayed = true;
-								qtk3.isPlayed = true;
-								ntiles2 -= 2;
-								qtk.isplayed = qtk0.isPlayed;
-							}
+							check_pair(qtk0, qtk1, qtk2);
+							check_pair(qtk2, qtk3, qtk0);
 							break;
 						}
 						case 2: {// pairing 0-2, 1-3
-							if (!(qtk0.isPlayed) && isplayable(qtk0) && isplayable(qtk2)) {
-								qtk0.isPlayed = true;
-								qtk2.isPlayed = true;
-								ntiles2 -= 2;
-								qtk.isplayed = qtk1.isPlayed;
-							}
-							if (!qtk1.isPlayed && isplayable(qtk1) && isplayable(qtk3)) {
-								qtk1.isPlayed = true;
-								qtk3.isPlayed = true;
-								ntiles2 -= 2;
-								qtk.isplayed = qtk0.isPlayed;
-							}
+							check_pair(qtk0, qtk2, qtk1);
+							check_pair(qtk1, qtk3, qtk0);
 							break;
 						}
 						case 3: {// pairing 0-3, 1-2
-							if (!(qtk0.isPlayed) && isplayable(qtk0) && isplayable(qtk3)) {
-								qtk0.isPlayed = true;
-								qtk3.isPlayed = true;
-								ntiles2 -= 2;
-								qtk.isplayed = qtk1.isPlayed;
-							}
-							if (!(qtk1.isPlayed) && isplayable(qtk1) && isplayable(qtk2)) {
-								qtk1.isPlayed = true;
-								qtk2.isPlayed = true;
-								ntiles2 -= 2;
-								qtk.isplayed = qtk0.isPlayed;
-							}
+							check_pair(qtk0, qtk3, qtk1);
+							check_pair(qtk1, qtk2, qtk0);
 							break;
 						}
 						case 4: {// half a group, pairing 0-1
 							if (isplayable(qtk0) && isplayable(qtk1)) {
-								qtk0.isPlayed = true;
-								qtk1.isPlayed = true;
-								ntiles2 -= 2;
+								play(qtk0, qtk1);
 								qtk.isplayed = true;
 							}
 							break;
 						}
 						case 5: {// all four removed simultaneously
 							// for heuristic to smell blockades
-							if (isplayable(qtk.member[0]) && isplayable(qtk.member[1]) && isplayable(qtk.member[2]) && isplayable(qtk.member[3])) {
-								qtk0.isPlayed = true;
-								qtk1.isPlayed = true;
-								qtk2.isPlayed = true;
-								qtk3.isPlayed = true;
-								ntiles2 -= 4;
+							if (isplayable(qtk0) && isplayable(qtk1) && isplayable(qtk2) && isplayable(qtk3)) {
+								play(qtk0, qtk1);
+								play(qtk2, qtk3);
 								qtk.isplayed = true;
 							}
 							break;
