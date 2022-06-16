@@ -11,11 +11,9 @@ export class CapacitorModule {
 	constructor(private ngZone: NgZone, private app: AppService) {
 		console.error('CapacitorService');
 		App.addListener('appStateChange', ({isActive}) => {
-			console.log('App state change', isActive);
 			if (!isActive) {
 				this.ngZone.run(() => {
 					if (this.app.game.isRunning()) {
-						console.log('Trigger pause');
 						app.game.pause();
 					}
 				});
