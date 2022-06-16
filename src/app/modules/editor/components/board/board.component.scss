@@ -1,0 +1,47 @@
+@import "../../../../style/globals";
+
+:host {
+	flex: 1;
+
+	.board-svg {
+		height: 100%;
+		width: 100%;
+		max-height: 960px;
+		background-color: $background-color;
+		@include no-select();
+
+		g.stage {
+			transition: opacity 500ms;
+		}
+
+		.draw {
+			fill: #2b424f;
+
+			&.tile {
+				fill: #fff9e5;
+			}
+		}
+
+		&.edit {
+			.draw {
+				fill: transparent;
+				cursor: pointer;
+
+				&.invalid {
+					fill: #000;
+					cursor: default;
+				}
+
+				&.below {
+					stroke: chocolate;
+					stroke-width: 1px;
+				}
+
+				&.tile, &.blocked {
+					fill: #0c1a1e;
+					cursor: default;
+				}
+			}
+		}
+	}
+}

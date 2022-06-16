@@ -1,0 +1,116 @@
+<div class="editor-matrix-list" *ngIf="this.layout">
+	<ul class="matrix-list">
+		<li *ngFor="let z of this.matrix.levels; let i = index" [ngClass]="{selected:i===this.currentZ}" (click)="this.selectLevel(i)">
+			<div>Level {{i}}</div>
+			<div class="matrix-level">
+				<app-editor-board [level]="{z:i,rows:z,showStones:true}" [matrix]="this.matrix" (clickBoardEvent)="this.selectLevel(i)"></app-editor-board>
+			</div>
+		</li>
+	</ul>
+</div>
+<div class="editor-selected" *ngIf="this.layout">
+	<div class="matrix-edit">
+		<div class="matrix-edit-top">
+			<div class="buttonbar">
+				<div class="buttonbar-title">Level {{this.currentZ}}</div>
+				<div class="buttons">
+					<span>Tiles: {{this.stats.layerCount}}</span>
+					<button (click)="this.moveLayerY(-1)" title="Move tiles up">
+						<i class="icon-editor-up-small"></i>
+					</button>
+					<button (click)="this.moveLayerY(1)" title="Move tiles down">
+						<i class="icon-editor-down-small"></i>
+					</button>
+					<button (click)="this.moveLayerX(-1)" title="Move tiles left">
+						<i class="icon-editor-left-small"></i>
+					</button>
+					<button (click)="this.moveLayerX(1)" title="Move tiles right">
+						<i class="icon-editor-right-small"></i>
+					</button>
+				</div>
+			</div>
+			<div class="matrix-board">
+				<app-editor-board [level]="this.level" (clickDrawEvent)="this.onCellClick($event)" (clickStoneEvent)="this.onStoneClick($event)" [isBoard]="true" [matrix]="this.matrix"></app-editor-board>
+			</div>
+			<div class="buttonbar">
+				<div class="buttons">
+					<button (click)="this.newLayerBelow(this.currentZ)" title="New Level below">
+						<i class="icon-editor-list-add"></i>
+					</button>
+					<button [disabled]="this.currentZ===0" (click)="this.moveLayerZ(-1, this.currentZ)" title="Move Level down">
+						<i class="icon-editor-up-small"></i>
+					</button>
+					<button [disabled]="this.currentZ===this.matrix.levels.length-1" (click)="this.moveLayerZ(1, this.currentZ)" title="Move Level up">
+						<i class="icon-editor-down-small"></i>
+					</button>
+					<button (click)="this.duplicateLayerZ(this.currentZ)" title="Duplicate Level">
+						<i class="icon-editor-docs"></i>
+					</button>
+					<button (click)="this.clearLayerZ(this.currentZ)" title="Clear Level">
+						<i class="icon-editor-cancel-alt"></i>
+					</button>
+					<button (click)="this.deleteLayerZ(this.currentZ)" title="Delete Level">
+						<i class="icon-editor-trash"></i>
+					</button>
+				</div>
+			</div>
+		</div>
+		<div class="matrix-edit-bottom">
+			<div class="buttonbar">
+				<div class="buttons">
+				</div>
+				<div class="buttons">
+					<span [class.fail]="this.stats.countInvalid">Tiles: {{this.stats.totalCount}}</span>
+					<button (click)="this.moveY(-1)" title="Move all tiles up">
+						<i class="icon-editor-up-small"></i>
+					</button>
+					<button (click)="this.moveY(1)" title="Move all tiles down">
+						<i class="icon-editor-down-small"></i>
+					</button>
+					<button (click)="this.moveX(-1)" title="Move all tiles left">
+						<i class="icon-editor-left-small"></i>
+					</button>
+					<button (click)="this.moveX(1)" title="Move all tiles right">
+						<i class="icon-editor-right-small"></i>
+					</button>
+				</div>
+			</div>
+			<div class="matrix-preview">
+				<app-layout-preview class="svg-board" [svg]="svg"></app-layout-preview>
+				<div class="dimensions" *ngIf="this.stats">
+					<svg xmlns="http://www.w3.org/2000/svg" height="100%" width="100%" x="0px" y="0px" viewBox="0 0 1600 1500">
+						<g transform="translate(0, 300)">
+							<path fill="#47b00a"
+										d="M10,309.7c40.7-99.4,81.5-198.7,122.3-298c39.6,99.2,78.6,198.7,117.9,298c-31.6,0.1-63.2,0-94.8,0.1c0,167-0.1,334.1,0,501.1c148.5-103.4,296.4-207.8,444.8-311.4c-16.9-26.8-37-51.7-53.8-78.5c102.1-22.8,204.1-46,306.2-69C795.4,439.2,738,526.3,680.3,613.2c-17.6-25.2-35.1-50.4-52.9-75.4C480.9,640,334.5,742.4,188.5,845.4c167.8,0.3,335.6,0.1,503.4,0.1c0.1-32.5-0.1-64.9,0.1-97.3c99.4,40.7,198.7,81.5,298,122.3C890.8,910,791.3,949,691.9,988.3c-0.1-31.6,0-63.2-0.1-94.8c-193.7-0.1-387.4-0.1-581.1,0c-1.2,0-2.3-0.5-3.5-0.8c0.1-194.3,0.1-388.6,0-582.9C74.9,309.7,42.5,309.8,10,309.7L10,309.7z"/>
+						</g>
+						<text x="100" y="1500" fill="#47b00a" style="font: 200px monospace">x{{this.stats.minX}} … x{{this.stats.maxX}}</text>
+						<text x="0" y="200" fill="#47b00a" style="font: 200px monospace">z{{this.stats.minZ}} … z{{this.stats.maxZ}}</text>
+						<text x="600" y="500" fill="#47b00a" style="font: 200px monospace">y{{this.stats.minY}} … y{{this.stats.maxY}}</text>
+					</svg>
+				</div>
+			</div>
+			<div class="stats stats-bottom">
+				<div class="buttons">
+					<div>
+						<button class="text-button" *ngIf="!this.solveWorker" (click)="this.solve()">
+							Test Solvable
+						</button>
+						<button class="text-button" *ngIf="this.solveWorker" (click)="this.cancelSolve()">
+							Cancel Solve
+						</button>
+					</div>
+				</div>
+				<div *ngIf="this.solveStats">
+					<div>Win:  {{this.solveStats.won}}</div>
+					<div>Fail: <span [class.fail]="this.solveStats.fail>0">{{this.solveStats.fail}}</span></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div *ngIf="saveDialog" (click)="toggleSave();" class="overlay overlay-save">
+	<div class="overlay-popup" (click)="$event.stopPropagation();">
+		<span class="close" (click)="toggleSave();"><i class="icon-cancel-circled2 pull-right"></i></span>
+		<app-editor-export-component [layout]="layout" (savedEvent)="toggleSave()"></app-editor-export-component>
+	</div>
+</div>

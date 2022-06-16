@@ -1,0 +1,247 @@
+@import "../../../../style/globals";
+
+:host {
+
+	.save-button {
+		position: fixed;
+		right: 50px;
+		top: 6px;
+	}
+
+	display: flex;
+	flex: 1;
+	flex-direction: row;
+	color: $text-color;
+	overflow: hidden;
+
+	.overlay-save {
+		.overlay-popup {
+			width: 98%;
+			height: 98%;
+			max-height: 640px;
+			max-width: 640px;
+			overflow-y: auto;
+		}
+	}
+
+	.buttons {
+
+		> span {
+			padding-right: 6px;
+		}
+
+		.fail {
+			color: #cc919f;
+		}
+
+		button {
+			@include button();
+		}
+	}
+
+	.buttonbar {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+
+		.buttonbar-title {
+			padding-left: 12px;
+		}
+	}
+
+	.editor-matrix-list {
+		width: 220px;
+		max-height: 100%;
+		height: 100%;
+		padding-right: 4px;
+		border-right: 1px solid $popup-border-color;
+		overflow-y: auto;
+
+		.matrix-list {
+			list-style: none;
+			padding: 0;
+			margin: 4px;
+			max-height: 100%;
+
+			.matrix-level {
+				display: flex;
+				max-width: 80%;
+				margin: 0 auto;
+			}
+
+			li {
+				text-align: center;
+				cursor: pointer;
+				border: 1px solid $popup-border-color;
+				margin-bottom: 4px;
+				display: flex;
+				flex-direction: column;
+				overflow: hidden;
+
+				&:hover {
+					border-color: lighten($popup-background-color, 3%);
+				}
+
+				&.selected {
+					border-color: yellow;
+				}
+
+			}
+
+			span {
+				@include no-select();
+				display: inline-block;
+				min-width: 0.8em;
+			}
+		}
+	}
+
+	.editor-selected {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		overflow: auto;
+
+		.editor-commands {
+			border-bottom: 1px solid #ececec;
+			padding-bottom: 10px;
+
+			> div {
+				font-size: 0.9em;
+				display: inline-block;
+				vertical-align: top;
+				margin-right: 10px;
+			}
+
+			span {
+				cursor: pointer;
+				text-decoration: underline;
+				@include no-select();
+			}
+		}
+
+		.matrix-edit {
+			height: 100%;
+			display: flex;
+			flex-direction: column;
+			text-align: center;
+			max-height: 100%;
+			overflow: hidden;
+
+			.matrix-edit-top {
+				display: flex;
+				flex-direction: column;
+				flex: 1;
+				overflow: hidden;
+
+				.matrix-board {
+					flex: 1;
+					display: flex;
+					overflow: hidden;
+
+				}
+			}
+
+			.matrix-edit-bottom {
+				border-top: 1px solid #707070;
+				height: 25%;
+				display: flex;
+				flex-direction: column;
+				position: relative;
+				min-height: 120px;
+
+				.matrix-preview {
+					position: relative;
+					overflow: hidden;
+
+					.dimensions {
+						opacity: 0;
+						background-color: rgba(0, 0, 0, 0.7);
+						position: absolute;
+						padding: 8px;
+						left: 0;
+						top: 0;
+						bottom: 0;
+						right: 0;
+					}
+
+					&:hover {
+						.dimensions {
+							opacity: 1;
+						}
+					}
+				}
+
+				.stats {
+					position: absolute;
+					background-color: rgba(0, 0, 0, 0.7);
+					bottom: 0;
+					font-size: 0.9em;
+					border-radius: 6px;
+					text-align: left;
+					padding: 10px;
+					font-variant-numeric: slashed-zero tabular-nums;
+				}
+
+				.stats-bottom {
+					text-align: right;
+					right: 0;
+				}
+			}
+		}
+	}
+
+	@include respond-to(medium-down) {
+		flex-direction: column;
+
+		.editor-matrix-list {
+			height: 80px;
+			width: 100%;
+			overflow-y: hidden;
+			overflow-x: auto;
+			margin-bottom: 2px;
+			border-right: none;
+			border-bottom: 1px solid #707070;
+
+			.matrix-list {
+				white-space: nowrap;
+				border-right: none;
+				height: 92%;
+
+				li {
+					width: 100px;
+					height: 100%;
+					display: inline-flex;
+				}
+			}
+		}
+	}
+
+	@include respond-to-horizontal-device(pad) {
+
+		.editor-selected {
+			.matrix-edit {
+				flex-direction: row;
+
+
+				.matrix-edit-top {
+					max-height: 100%;
+				}
+
+				.matrix-edit-bottom {
+					height: 100%;
+					width: 30%;
+					border-top: none;
+
+					.buttons {
+						span {
+							display: block;
+						}
+					}
+				}
+			}
+		}
+
+	}
+
+}

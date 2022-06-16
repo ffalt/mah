@@ -1,0 +1,40 @@
+<div class="layout-table">
+	<div class="layout layout-header">
+		<div class="col-image">Preview</div>
+		<div class="col-name sortable" (click)="clickSortBy($event,1)" [class.sort-up]="sortColumn===1 && sortDesc" [class.sort-down]="sortColumn===1 && !sortDesc">Name <span class="arrow"></span></div>
+		<div class="col-by sortable" (click)="clickSortBy($event,2)" [class.sort-up]="sortColumn===2 && sortDesc" [class.sort-down]="sortColumn===2 && !sortDesc">by <span class="arrow"></span></div>
+		<div class="col-cat sortable" (click)="clickSortBy($event,3)" [class.sort-up]="sortColumn===3 && sortDesc" [class.sort-down]="sortColumn===3 && !sortDesc">Category <span class="arrow"></span></div>
+		<div class="col-stats sortable" (click)="clickSortBy($event,4)" [class.sort-up]="sortColumn===4 && sortDesc" [class.sort-down]="sortColumn===4 && !sortDesc"># of Stones <span class="arrow"></span></div>
+		<div class="col-clear">
+			Clear
+			<button (click)="removeCustomLayouts($event)" title="Remove all custom layouts">
+				<i class="icon-trash-empty"></i>
+			</button>
+		</div>
+		<div class="col-test">Test
+			<button (click)="testLayouts($event)" title="Test all layouts">
+				<i class="icon-editor-ok"></i>
+			</button>
+		</div>
+	</div>
+	<div class="layout" *ngFor="let layout of layouts" (click)="editLayout(layout)">
+		<div class="col-image">
+			<app-layout-preview class="svg-board" [layout]="layout"></app-layout-preview>
+		</div>
+		<div class="col-name">{{layout.name}}</div>
+		<div class="col-by">{{layout.by}}</div>
+		<div class="col-cat">{{layout.category}}</div>
+		<div class="col-stats">{{layout.mapping.length}}</div>
+		<div class="col-clear">
+			<button *ngIf="layout.custom" (click)="removeCustomBoard($event, layout)" title="Remove this layouts">
+				<i class="icon-trash-empty"></i>
+			</button>
+		</div>
+		<div class="col-test">
+			<div *ngIf="test[layout.id]">
+				<div *ngIf="test[layout.id].win">Win: {{test[layout.id].win}}</div>
+				<div class="fail" *ngIf="test[layout.id].fail">Fail: {{test[layout.id].fail}}</div>
+			</div>
+		</div>
+	</div>
+</div>

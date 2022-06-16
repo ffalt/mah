@@ -39,7 +39,7 @@
 						},
             "styles": [
               "src/fonts/fontello/css/mah.css",
-              "src/fonts/fontello/css/animation.css",
+              "src/fonts/editor/css/editor.css",
               "src/fonts/kulim-park/css/kulim-park.css",
               "src/styles.scss"
             ],
