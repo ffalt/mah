@@ -1,0 +1,47 @@
+<div class="editor-content">
+	<a class="close" (click)="close()" title="Close"><i class="icon-cancel-circled2 pull-right"></i></a>
+	<div class="editor-manager" [class.visible]="mode==='manager'">
+		<div class="editor-nav buttons">
+			<ul>
+				<li>Mah Editor</li>
+				<li class="sep"></li>
+				<li>
+					<button (click)="newLayout()">New</button>
+				</li>
+				<li>
+					<button (click)="mode='import'">Import</button>
+				</li>
+				<li>
+					<button (click)="exportLayouts()">Export</button>
+				</li>
+			</ul>
+		</div>
+		<div class="editor-main" (appDropZone)="onDropFiles()" (appDropZoneOver)="onDragFiles()">
+			<app-manager-component [inputLayouts]="layoutService.layouts?.items || []" (editEvent)="editLayout($event)"></app-manager-component>
+		</div>
+	</div>
+	<div *ngIf="mode==='import'">
+		<div class="editor-nav">
+			<ul>
+				<li>Mah Editor: Import</li>
+			</ul>
+		</div>
+		<div class="editor-main">
+			<app-import-component (editEvent)="editLayout($event)"></app-import-component>
+		</div>
+	</div>
+	<div *ngIf="mode==='edit' && !!layout">
+		<div class="editor-nav buttons">
+			<ul>
+				<li>Mah Editor: {{layout?.name}}</li>
+				<li class="sep"></li>
+				<li>
+					<button (click)="save()">Save</button>
+				</li>
+			</ul>
+		</div>
+		<div class="editor-main">
+			<app-editor-layout-component [layout]="layout"></app-editor-layout-component>
+		</div>
+	</div>
+</div>

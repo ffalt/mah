@@ -1,0 +1,52 @@
+@import "../../../../style/globals";
+
+:host {
+	flex: 1;
+	display: flex;
+	color: $text-color;
+	width: 100%;
+
+	.import-section {
+		flex: 1;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-direction: column;
+		width: 100%;
+
+		.drop-zone {
+			padding: 80px 30px;
+			width: 100%;
+			max-width: 800px;
+			border: 2px dashed $popup-background-color;
+			border-radius: 20px;
+			text-align: center;
+			position: relative;
+		}
+
+		.log-zone {
+			margin-top: 20px;
+			max-height: 300px;
+			width: 100%;
+			max-width: 800px;
+			color: $text-color;
+			overflow-y: auto;
+
+			a {
+				cursor: pointer;
+			}
+
+			p.is-error {
+				color: #f29c9c;
+			}
+		}
+
+		&.drop-zone-active {
+			.drop-zone {
+				border: 2px dashed $popup-border-color;
+			}
+		}
+
+	}
+
+}

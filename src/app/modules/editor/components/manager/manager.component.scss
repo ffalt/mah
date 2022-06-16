@@ -1,0 +1,96 @@
+@import "../../../../style/globals";
+
+:host {
+
+	overflow-y: auto;
+	flex: 1;
+	display: flex;
+
+	.fail {
+		color: #cc919f;
+	}
+
+	.layout-table {
+		display: table;
+		color: $text-color;
+		width: 100%;
+
+		.layout {
+			display: table-row;
+			cursor: pointer;
+
+			&:hover {
+				background-color: rgba(255, 255, 255, 0.02);
+			}
+
+			> div {
+				display: table-cell;
+				vertical-align: middle;
+				padding: 4px 15px;
+				border-top: 1px solid lighten($background-color, 5%);
+				border-right: 1px solid lighten($background-color, 5%);
+
+				.arrow {
+					width: 0;
+					height: 0;
+					border-left: 5px solid transparent;
+					border-right: 5px solid transparent;
+					border-bottom: 5px solid $text-color;
+					display: none;
+					margin-bottom: 3px;
+				}
+
+				&.sortable {
+					cursor: pointer;
+				}
+
+				&.sort-up {
+					.arrow {
+						display: inline-block;
+					}
+				}
+
+				&.sort-down {
+					.arrow {
+						display: inline-block;
+						transform: rotate(180deg);
+					}
+				}
+
+			}
+
+			.col-image {
+				width: 80px;
+				height: 80px;
+			}
+
+			.col-id {
+				font-variant-numeric: slashed-zero tabular-nums;
+			}
+
+		}
+
+		.col-stats, .col-clear {
+			max-width: 50px;
+		}
+
+		.col-test {
+			max-width: 80px;
+		}
+
+		.layout-header {
+			background-color: rgba(0, 0, 0, 0.1);
+
+			&:hover {
+				background-color: rgba(0, 0, 0, 0.1);
+			}
+		}
+
+	}
+
+	button {
+		@include button();
+		text-align: center;
+	}
+
+}
