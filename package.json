@@ -1,6 +1,6 @@
 {
   "name": "mah",
-  "version": "1.5.1",
+  "version": "1.6.0",
   "author": "ffalt",
   "license": "MIT",
   "description": "a html5 mahjong solitaire game",
@@ -85,9 +85,9 @@
       "name": "Heimen Stoffels",
       "url": "https://github.com/Vistaus"
     },
-		{
-			"name": "Carmen F. B.",
-			"url": "https://github.com/carmenfdezb"
-		}
+    {
+      "name": "Carmen F. B.",
+      "url": "https://github.com/carmenfdezb"
+    }
   ]
 }

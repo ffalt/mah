@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.6.0](https://github.com/ffalt/mah/compare/v1.5.1...v1.6.0) (2022-06-21)
+
+
+### Features
+
+* **i18n:** added Spanish, thanks Carmen! ([cb45093](https://github.com/ffalt/mah/commit/cb45093c0737983a3fb1ec18eff3065032892a37))
+
+
+### Bug Fixes
+
+* **settings-dialog:** more max width ([b860080](https://github.com/ffalt/mah/commit/b8600808c720d4d9116593f865ef5b6a57fb4b30))
+
 ### [1.5.1](https://github.com/ffalt/mah/compare/v1.5.0...v1.5.1) (2022-06-13)
 
 
