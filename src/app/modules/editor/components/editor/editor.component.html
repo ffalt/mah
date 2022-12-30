@@ -17,7 +17,7 @@
 			</ul>
 		</div>
 		<div class="editor-main" (appDropZone)="onDropFiles()" (appDropZoneOver)="onDragFiles()">
-			<app-manager-component [inputLayouts]="layoutService.layouts?.items || []" (editEvent)="editLayout($event)"></app-manager-component>
+			<app-manager-component [inputLayouts]="layoutService.layouts.items" (editEvent)="editLayout($event)"></app-manager-component>
 		</div>
 	</div>
 	<div *ngIf="mode==='import'">
@@ -33,7 +33,7 @@
 	<div *ngIf="mode==='edit' && !!layout">
 		<div class="editor-nav buttons">
 			<ul>
-				<li>Mah Editor: {{layout?.name}}</li>
+				<li>Mah Editor: {{layout.name}}</li>
 				<li class="sep"></li>
 				<li>
 					<button (click)="save()">Save</button>

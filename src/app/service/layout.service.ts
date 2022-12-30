@@ -9,13 +9,14 @@ import {LocalstorageService} from './localstorage.service';
 
 @Injectable()
 export class LayoutService {
-	layouts: Layouts;
+	layouts: Layouts = {items: []};
+	loaded = false;
 
 	constructor(private http: HttpClient, private sanitizer: DomSanitizer, private storage: LocalstorageService) {
 	}
 
 	async get(): Promise<Layouts> {
-		if (this.layouts) {
+		if (this.loaded) {
 			return this.layouts;
 		}
 		const items: Array<Layout> = [];
@@ -34,6 +35,7 @@ export class LayoutService {
 			}
 		}
 		this.layouts = {items};
+		this.loaded = true;
 		return this.layouts;
 	}
 
