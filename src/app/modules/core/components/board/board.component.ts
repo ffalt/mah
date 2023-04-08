@@ -1,5 +1,5 @@
 import {Component, ElementRef, EventEmitter, HostBinding, HostListener, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {Backgrounds, Consts} from '../../../../model/consts';
+import {Backgrounds} from '../../../../model/consts';
 import {calcDrawPos, Draw, getDrawBounds, getDrawBoundsViewPort, sortDrawItems} from '../../../../model/draw';
 import {Stone} from '../../../../model/stone';
 import {AppService} from '../../../../service/app.service';

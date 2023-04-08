@@ -33,7 +33,7 @@ interface ElemEx extends HTMLElement {
 	templateUrl: './game-component.component.html',
 	styleUrls: ['./game-component.component.scss']
 })
-export class GameComponent implements OnInit {
+export class GameComponent {
 	game: Game;
 	fullScreenEnabled: boolean = true;
 	title: string = '';
@@ -48,10 +48,8 @@ export class GameComponent implements OnInit {
 		this.title = `${app.name} Solitaire v${environment.version}`;
 	}
 
-	ngOnInit(): void {
-		if (this.game.isIdle()) {
-			this.newgame.visible = true;
-		}
+	showNewGame(): void {
+		this.newgame.visible = true;
 	}
 
 	handleKeyDownEventKey(key: string): void {
@@ -168,7 +166,7 @@ export class GameComponent implements OnInit {
 
 	newGame(): void {
 		this.game.pause();
-		this.newgame.visible = true;
+		this.showNewGame();
 	}
 
 	startGame(data: { layout: Layout; buildMode: BUILD_MODE_ID; gameMode: GAME_MODE_ID }): void {
@@ -195,7 +193,7 @@ export class GameComponent implements OnInit {
 			this.game.resume();
 		} else {
 			this.game.reset();
-			this.newgame.visible = true;
+			this.showNewGame();
 		}
 	}
 

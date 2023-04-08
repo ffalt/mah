@@ -77,7 +77,7 @@ export async function convertKmahjongg(data: string, filename: string): Promise<
 	const version = lines.shift() || '';
 	const layout: ImportLayout = {
 		name: names.join('.').replace(/_/g, ' '),
-		cat: 'Kmahjongg',
+		cat: 'uncategorized',
 		mapping: []
 	};
 	if (['kmahjongg-layout-v1.0'].includes(version)) {
@@ -104,7 +104,7 @@ export async function convertKyodai(data: string, filename: string): Promise<Imp
 	if (['Kyodai 3.0', 'Kyodai 6.0'].includes(version)) {
 		const nameCat = (lines[1] || '').split('::');
 		const name = nameCat[0] || '';
-		const cat = nameCat[1];
+		const cat = nameCat[1] || 'uncategorized';
 		const board = lines[2] || '';
 		const layout = await convert3400Matrix(name, board);
 		layout.cat = cat || layout.cat;

@@ -23,7 +23,7 @@ export interface LayoutGroup {
 	templateUrl: './layout-list.component.html',
 	styleUrls: ['./layout-list.component.scss']
 })
-export class LayoutListComponent implements OnInit, OnChanges {
+export class LayoutListComponent implements OnChanges {
 	@Input() layouts?: Array<Layout>;
 	@Output() readonly startEvent = new EventEmitter<Layout>();
 	groups: Array<LayoutGroup> = [];
@@ -34,10 +34,6 @@ export class LayoutListComponent implements OnInit, OnChanges {
 		}
 	}
 
-	ngOnInit(): void {
-		this.refresh();
-	}
-
 	ngOnChanges(changes: SimpleChanges): void {
 		this.refresh();
 	}
@@ -45,9 +41,17 @@ export class LayoutListComponent implements OnInit, OnChanges {
 	refresh(): void {
 		if (this.layouts) {
 			this.buildGroups();
-			setTimeout(() => {
-				this.selectLastPlayed();
-			});
+			let id = this.storage.getLastPlayed();
+			const boardID = this.layoutService.selectBoardID;
+			this.layoutService.selectBoardID = undefined;
+			if (boardID && this.layouts.find(l => l.id === boardID)) {
+				id = boardID;
+			}
+			if (id) {
+				setTimeout(() => {
+					this.select(id);
+				});
+			}
 		}
 	}
 
@@ -85,8 +89,7 @@ export class LayoutListComponent implements OnInit, OnChanges {
 		}
 	}
 
-	selectLastPlayed(): void {
-		const id = this.storage.getLastPlayed();
+	select(id?: string): void {
 		if (id) {
 			this.groups.forEach(g => {
 				g.layouts.forEach(layout => {

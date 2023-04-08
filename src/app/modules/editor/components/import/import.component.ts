@@ -25,7 +25,7 @@ export class ImportComponent {
 
 	async importLayouts(files: Array<File>): Promise<void> {
 		this.logs = [];
-		const imported: Array<{ custom: LoadLayout; layout: Layout }> = [];
+		const imported: Array<LoadLayout> = [];
 		for (const file of files) {
 			try {
 				const loadLayouts: Array<LoadLayout> = await importLayouts(file);
@@ -33,17 +33,14 @@ export class ImportComponent {
 					const layout = this.layoutService.expandLayout(loadLayout, true);
 					if (
 						!this.layoutService.layouts.items.find(l => l.id === layout.id) &&
-						!imported.find(l => l.layout.id === layout.id)
+						!imported.find(l => l.id === layout.id)
 					) {
 						imported.push({
-							layout,
-							custom: {
-								id: layout.id,
-								name: layout.name,
-								by: layout.by,
-								cat: layout.category,
-								map: loadLayout.map
-							}
+							id: layout.id,
+							name: layout.name,
+							by: layout.by,
+							cat: layout.category,
+							map: loadLayout.map
 						});
 						this.logs.push({msg: `Imported: "${file.name}"`, id: layout.id});
 					} else {
@@ -57,7 +54,7 @@ export class ImportComponent {
 			}
 		}
 		if (imported.length > 0) {
-			this.layoutService.storeCustomBoards(imported.map(i => i.custom));
+			this.layoutService.storeCustomBoards(imported);
 		}
 	}
 

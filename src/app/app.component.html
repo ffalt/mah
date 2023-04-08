@@ -1,2 +1,2 @@
-<app-game-component *ngIf="!editorVisible" [hidden]="loading" [class]="app.settings.theme"></app-game-component>
+<app-game-component #gameComponent *ngIf="!editorVisible" [hidden]="loading" [class]="app.settings.theme"></app-game-component>
 <ng-template #editorPlaceholder></ng-template>

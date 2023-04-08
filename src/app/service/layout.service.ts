@@ -11,6 +11,7 @@ import {LocalstorageService} from './localstorage.service';
 export class LayoutService {
 	layouts: Layouts = {items: []};
 	loaded = false;
+	selectBoardID?: string | null;
 
 	constructor(private http: HttpClient, private sanitizer: DomSanitizer, private storage: LocalstorageService) {
 	}
