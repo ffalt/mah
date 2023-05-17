@@ -6,7 +6,7 @@ import {Rect} from './rect';
 
 export interface ScrollEvent {
 	name: string;
-	element?: any;
+	element?: HTMLElement;
 }
 
 export interface ScrollNotifyEvent {

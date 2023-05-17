@@ -5,7 +5,7 @@ import {DeferLoadService} from './defer-load.service';
 	selector: '[appDeferLoadScrollHost]'
 })
 export class DeferLoadScrollHostDirective implements OnChanges {
-	@Input() scrollTo: any;
+	@Input() scrollTo?: HTMLElement;
 
 	constructor(private element: ElementRef, private scrollNotify: DeferLoadService) {
 	}

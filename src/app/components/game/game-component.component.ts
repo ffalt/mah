@@ -117,7 +117,7 @@ export class GameComponent {
 		if (event.key === 'Escape' && this.handleKeyDownDialogExit()) {
 			return;
 		}
-		const nodeName = ((event.target as any)?.nodeName || '').toLocaleLowerCase();
+		const nodeName = ((event.target as { nodeName?: string })?.nodeName || '').toLocaleLowerCase();
 		if (nodeName === 'input') {
 			return;
 		}

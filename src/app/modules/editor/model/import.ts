@@ -86,9 +86,9 @@ export async function convertKmahjongg(data: string, filename: string): Promise<
 		return layout;
 	} else if (['kmahjongg-layout-v1.1'].includes(version)) {
 		const h = Number((lines.find(line => line.startsWith('h')) || 'h16').split('').slice().join(''));
-		const name = (lines.find(line => line.startsWith('# name:')) || '') .slice(7).trim();
+		const name = (lines.find(line => line.startsWith('# name:')) || '').slice(7).trim();
 		layout.name = name || layout.name;
-		const by = (lines.find(line => line.startsWith('# by:')) || '') .slice(5).trim();
+		const by = (lines.find(line => line.startsWith('# by:')) || '').slice(5).trim();
 		layout.by = by || layout.by;
 		lines = lines.filter(line => !line.startsWith('h') && !line.startsWith('w') && !line.startsWith('d') && !line.startsWith('#'));
 		layout.mapping = await convertKmahjonggLines(lines, isNaN(h) ? 16 : h);
@@ -143,7 +143,7 @@ export function compactMappingDeprecated(mapping: Mapping): Mapping {
 */
 
 export function compactMapping(mapping: Mapping): CompactMapping {
-	const board: any = {};
+	const board: { [key: number]: { [key: number]: Array<number> } } = {};
 	sortMapping(mapping).forEach(m => {
 		board[m[0]] = board[m[0]] || {};
 		board[m[0]][m[2]] = board[m[0]][m[2]] || [];
@@ -152,8 +152,8 @@ export function compactMapping(mapping: Mapping): CompactMapping {
 	const result: CompactMapping = [];
 	for (const z of Object.keys(board)) {
 		const rows: Array<CompactMappingY> = [];
-		for (const y of Object.keys(board[z])) {
-			const a: Array<number> = board[z][y];
+		for (const y of Object.keys(board[Number(z)])) {
+			const a: Array<number> = board[Number(z)][Number(y)];
 			const entries: Array<{ start: number; current: number; count: number }> = [];
 			let entry = {start: -1, current: -1, count: 0};
 			a.forEach(x => {

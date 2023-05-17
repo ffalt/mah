@@ -1,6 +1,8 @@
 // [x, [x, amount (with 2 steps each) ]]
 import {GAME_MODE_ID} from './consts';
 
+export type SafeUrlSVG = string;
+
 export interface CompactMappingX extends Array<number | Array<number>> {
 }
 
@@ -34,7 +36,7 @@ export interface Layout {
 	by?: string;
 	category: string;
 	mapping: Mapping;
-	previewSVG?: any;
+	previewSVG?: SafeUrlSVG;
 	custom?: boolean;
 }
 

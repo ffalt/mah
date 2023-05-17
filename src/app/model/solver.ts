@@ -687,6 +687,7 @@ export class Solver {
 					this.qt[k].isplayed = true;
 				}
 			}
+			// eslint-disable-next-line no-constant-condition
 			while (1) {
 				let go_label = false;
 				let r = 0;

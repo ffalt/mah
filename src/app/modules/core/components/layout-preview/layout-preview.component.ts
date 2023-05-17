@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges} from '@angular/core';
-import {Layout} from '../../../../model/types';
+import {Layout, SafeUrlSVG} from '../../../../model/types';
 
 @Component({
 	selector: 'app-layout-preview',
@@ -9,7 +9,7 @@ import {Layout} from '../../../../model/types';
 })
 export class LayoutPreviewComponent implements OnChanges {
 	@Input() layout: Layout;
-	@Input() svg: any;
+	@Input() svg: SafeUrlSVG | undefined;
 	@Input() alt: string;
 
 	ngOnChanges(changes: SimpleChanges): void {

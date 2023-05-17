@@ -1,10 +1,10 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
+import {DomSanitizer} from '@angular/platform-browser';
 import {firstValueFrom} from 'rxjs';
 import {expandMapping, mappingToID} from '../model/mapping';
 import {generateBase64SVG} from '../model/layout-svg';
-import {Layout, Layouts, LoadLayout, Mapping} from '../model/types';
+import {Layout, Layouts, LoadLayout, Mapping, SafeUrlSVG} from '../model/types';
 import {LocalstorageService} from './localstorage.service';
 
 @Injectable()
@@ -74,8 +74,8 @@ export class LayoutService {
 		this.layouts.items = this.layouts.items.concat(list.map(layout => this.expandLayout(layout, true)));
 	}
 
-	generatePreview(mapping: Mapping): SafeUrl {
-		return this.sanitizer.bypassSecurityTrustUrl(generateBase64SVG(mapping));
+	generatePreview(mapping: Mapping): SafeUrlSVG {
+		return this.sanitizer.bypassSecurityTrustUrl(generateBase64SVG(mapping)) as SafeUrlSVG;
 	}
 
 	private async requestBoards(): Promise<Array<LoadLayout>> {

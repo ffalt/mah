@@ -18,14 +18,17 @@
 				"createDefaultProgram": true
 			},
 			"extends": [
-				"plugin:@angular-eslint/ng-cli-compat",
-				"plugin:@angular-eslint/ng-cli-compat--formatting-add-on",
+				"eslint:recommended",
+				"plugin:import/recommended",
+				"plugin:@typescript-eslint/recommended",
+				"plugin:@angular-eslint/recommended",
 				"plugin:@angular-eslint/template/process-inline-templates"
 			],
 			"plugins": [
 				"eslint-plugin-rxjs",
 				"eslint-plugin-unicorn",
-				"eslint-plugin-no-null"
+				"eslint-plugin-no-null",
+				"eslint-plugin-prefer-arrow"
 			],
 			"rules": {
 				"@angular-eslint/component-max-inline-declarations": "error",
@@ -149,6 +152,7 @@
 					}
 				],
 				"default-case": "error",
+				"import/no-unresolved": "off",
 				"import/no-default-export": "error",
 				"import/no-extraneous-dependencies": "error",
 				"import/no-internal-modules": [
@@ -251,7 +255,6 @@
 				"@angular-eslint/template/accessibility-alt-text": "off",
 				"@angular-eslint/template/accessibility-elements-content": "off",
 				"@angular-eslint/template/accessibility-label-for": "off",
-				"@angular-eslint/template/accessibility-valid-aria": "error",
 				"@angular-eslint/template/click-events-have-key-events": "off",
 				"@angular-eslint/template/conditional-complexity": "error",
 				"@angular-eslint/template/cyclomatic-complexity": [

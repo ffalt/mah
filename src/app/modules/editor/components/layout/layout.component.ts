@@ -1,5 +1,5 @@
 import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
-import {Layout, Place} from '../../../../model/types';
+import {Layout, Place, SafeUrlSVG} from '../../../../model/types';
 import {Matrix} from '../../model/matrix';
 import {Cell} from '../../model/cell';
 import {Consts} from '../../../../model/consts';
@@ -50,7 +50,7 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 	totalX = Consts.mX;
 	matrix: Matrix = new Matrix();
 	saveDialog: boolean = false;
-	svg: any;
+	svg: SafeUrlSVG;
 
 	constructor(private worker: WorkerService, private layoutService: LayoutService) {
 	}

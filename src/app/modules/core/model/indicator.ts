@@ -13,7 +13,7 @@ export interface GestureIndicator {
 export class Indicator {
 	gestureIndicators: Array<GestureIndicator> = [];
 
-	hide(gestureIndicator: any) {
+	hide(gestureIndicator?: { state: string, x: number, y: number }) {
 		setTimeout(() => {
 			if (gestureIndicator) {
 				gestureIndicator.state = 'hidden';

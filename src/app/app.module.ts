@@ -17,7 +17,7 @@ import {SvgdefService} from './service/svgdef.service';
 import {CoreModule} from './modules/core/core.module';
 import {WorkerService} from './service/worker.service';
 
-declare let Hammer: any;
+declare let Hammer: HammerStatic;
 
 @Injectable()
 export class CustomHammerConfig extends HammerGestureConfig {
@@ -32,7 +32,7 @@ export class CustomHammerConfig extends HammerGestureConfig {
 		rotate: {enable: false},
 		swipe: {enable: false},
 		tap: {enable: false}
-	} as any;
+	};
 }
 
 @NgModule({

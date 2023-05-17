@@ -110,12 +110,12 @@ export class LocalstorageService implements StorageProvider {
 			let old = localStorage.getItem('state');
 			if (old) {
 				localStorage.removeItem('state');
-				this.set<any>('state', JSON.parse(old));
+				this.set<unknown>('state', JSON.parse(old));
 			}
 			old = localStorage.getItem('settings');
 			if (old) {
 				localStorage.removeItem('settings');
-				this.set<any>('settings', JSON.parse(old));
+				this.set<unknown>('settings', JSON.parse(old));
 			}
 		} catch (e) {
 			console.error(e);

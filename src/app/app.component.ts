@@ -38,7 +38,7 @@ export class AppComponent implements OnInit {
 
 	@HostListener('document:keydown', ['$event'])
 	handleKeyDownEvent(event: KeyboardEvent): void {
-		const nodeName = ((event.target as any)?.nodeName || '').toLocaleLowerCase();
+		const nodeName = ((event.target as { nodeName?: string })?.nodeName || '').toLocaleLowerCase();
 		if (nodeName === 'input') {
 			return;
 		}

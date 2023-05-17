@@ -9,7 +9,7 @@ import {Rect} from './rect';
 export class DeferLoadDirective implements AfterViewInit, OnDestroy {
 
 	@Input() preRender: boolean = false;
-	@Output() readonly appDeferLoad: EventEmitter<any> = new EventEmitter();
+	@Output() readonly appDeferLoad: EventEmitter<void> = new EventEmitter();
 
 	private intersectionObserver?: IntersectionObserver;
 	private scrollSubscription?: Subscription;
@@ -64,7 +64,7 @@ export class DeferLoadDirective implements AfterViewInit, OnDestroy {
 		this.timeoutId = setTimeout(() => {
 			this.loadAndUnobserve();
 			this.cancelDelayLoad();
-		}, this.timeoutLoadMS) as any;
+		}, this.timeoutLoadMS) as unknown as number;
 	}
 
 	private manageIntersection(entry: IntersectionObserverEntry): void {
@@ -76,7 +76,7 @@ export class DeferLoadDirective implements AfterViewInit, OnDestroy {
 	}
 
 	private registerIntersectionObserver(): void {
-		if (!!this.intersectionObserver) {
+		if (this.intersectionObserver) {
 			return;
 		}
 		this.intersectionObserver = this.deferLoadService.getObserver();
@@ -95,7 +95,7 @@ export class DeferLoadDirective implements AfterViewInit, OnDestroy {
 				this.manageIntersection(entry);
 			}
 		});
-	};
+	}
 
 	private checkIfIntersecting(entry: IntersectionObserverEntry): boolean {
 		// For Samsung native browser, IO has been partially implemented whereby the

@@ -1,8 +1,8 @@
 /* eslint-disable no-var */
-declare var APP_VERSION: any;
-declare var APP_NAME: any;
-declare var APP_FEATURE_EDITOR: any;
-declare var APP_FEATURE_MOBILE: any;
+declare var APP_VERSION: string | undefined;
+declare var APP_NAME: string | undefined;
+declare var APP_FEATURE_EDITOR: boolean | undefined;
+declare var APP_FEATURE_MOBILE: boolean | undefined;
 
 export const env: {
 	APP_VERSION: string;

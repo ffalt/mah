@@ -6,7 +6,7 @@ import * as LANG_RU from './ru.json';
 import * as LANG_ES from './es.json';
 
 export const DEFAULT_LANGUAGE = 'en';
-export const LANGUAGES: { [name: string]: any } = {
+export const LANGUAGES: { [name: string]: { title: string; data: { [key: string]: string } } } = {
 	en: {title: 'English', data: LANG_EN},
 	de: {title: 'Deutsch', data: LANG_DE},
 	nl: {title: 'Nederlands', data: LANG_NL},

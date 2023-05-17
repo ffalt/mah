@@ -21,7 +21,7 @@
     "strictFunctionTypes": true,
     "strictNullChecks": true,
     "target": "ES2022",
-    "typeRoots": [
+	  "typeRoots": [
       "node_modules/@types"
     ],
     "lib": [
