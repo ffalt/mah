@@ -20,8 +20,8 @@
     "build:releaselog": "conventional-changelog -p angular -r 2 -o RELEASELOG.md",
     "explore-map-explorer": "source-map-explorer dist/**/*.js",
     "explore": "npm run build:analyze:prod && npm run explore-map-explorer",
-    "release": "standard-version -a",
-    "update:angular": "ng update @angular/cli @angular/core",
+		"release": "commit-and-tag-version -a",
+		"update:angular": "ng update @angular/cli @angular/core",
     "clean": "rimraf dist",
     "test": "jest",
     "coverage": "jest --coverage true",
@@ -76,8 +76,8 @@
     "ng-mocks": "14.10.1",
     "rimraf": "5.0.0",
     "source-map-explorer": "2.5.3",
-    "standard-version": "9.5.0",
-    "typescript": "5.0.4",
+		"commit-and-tag-version": "11.2.0",
+		"typescript": "5.0.4",
     "webpack": "5.83.1"
   },
   "contributors": [
