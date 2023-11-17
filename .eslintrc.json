@@ -25,6 +25,8 @@
 				"plugin:@angular-eslint/template/process-inline-templates"
 			],
 			"plugins": [
+				"@angular-eslint",
+				"@angular-eslint/eslint-plugin-template",
 				"eslint-plugin-rxjs",
 				"eslint-plugin-unicorn",
 				"eslint-plugin-no-null",
