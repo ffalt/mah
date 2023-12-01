@@ -13,7 +13,8 @@
 			],
 			"parserOptions": {
 				"project": [
-					"tsconfig.json"
+					"tsconfig.json",
+					"tsconfig.worker.json"
 				],
 				"createDefaultProgram": true
 			},
