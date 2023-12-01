@@ -5,7 +5,6 @@ const config: CapacitorConfig = {
   appName: 'mah',
   webDir: '../../dist',
 	backgroundColor: '#2b424f',
-	bundledWebRuntime: false,
 	android: {
 		backgroundColor: '#2b424f'
 	}
