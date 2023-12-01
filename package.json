@@ -79,6 +79,9 @@
     "typescript": "5.2.2",
     "webpack": "5.89.0"
   },
+	"engines": {
+		"node": "^18.13.0 || >=20.9.0"
+	},
   "contributors": [
     {
       "name": "Heimen Stoffels",
