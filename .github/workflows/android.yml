@@ -31,15 +31,15 @@ jobs:
       - name: Install mah build dependencies
         run: npm install
 
+      - name: Install capacitor dependencies
+        run: cd resources/mobile && npm install
+
       - name: Write mah build config
         run: |
           echo "{\"name\": \"Mah\", \"mobile\":true}" > custom-build-config.json
 
       - name: Build mah with capacitor config
         run: npm run build:capacitor
-
-      - name: Install capacitor dependencies
-        run: cd resources/mobile && npm install
 
       - name: Capacitor update
         run: cd resources/mobile && npx cap update
