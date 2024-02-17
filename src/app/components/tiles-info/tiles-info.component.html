@@ -15,7 +15,7 @@
 </div>
 <div class="tiles-header">
 	<form>
-		<select (change)="tileset = $any($event.target).value" tabindex="0">
+		<select (change)="tileset = $any($event.target).value">
 			<option *ngFor="let imageset of sets; let i=index;" [value]="imageset.id" [selected]="tileset === imageset.id">{{imageset.name}}</option>
 		</select>
 		<label><input type="checkbox" [checked]="isDark" (change)="isDark = !isDark;">{{'TILES_DARK'|translate}}</label>

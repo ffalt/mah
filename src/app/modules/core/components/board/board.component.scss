@@ -13,8 +13,6 @@
 		position: relative;
 		transform-origin: 0 0 0;
 		transform: translate(0px, 0px) scale(1);
-		//transition: transform 0.3s;
-		//transition-timing-function: linear;
 		@include no-select();
 	}
 
@@ -30,6 +28,6 @@
 		text-align: center;
 		line-height: 45px;
 		z-index: 10;
-		background-color: #42a5f5;
+		background-color: var(--gesture-indicator);
 	}
 }

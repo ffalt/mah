@@ -451,7 +451,7 @@
 				cursor: pointer;
 				font-weight: 600;
 				text-align: center;
-				color: var(--dialog-text-color);
+				color: var(--dialog-headline-color);
 				padding: 0;
 				@include no-select();
 			}

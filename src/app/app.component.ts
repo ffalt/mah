@@ -104,30 +104,31 @@ export class AppComponent implements OnInit {
 	}
 
 	private async checkImport(base64jsonString: string | null): Promise<Array<string>> {
+		if (!base64jsonString) {
+			return [];
+		}
 		try {
 			const result: Array<string> = [];
-			if (base64jsonString) {
-				const mah: MahFormat = JSON.parse(atob(base64jsonString));
-				const imported: Array<LoadLayout> = [];
-				mah.boards.forEach(custom => {
-					const layout = this.layoutService.expandLayout(custom, true);
-					result.push(layout.id);
-					if (
-						!this.layoutService.layouts.items.find(l => l.id === layout.id) &&
-						!imported.find(l => l.id === layout.id)
-					) {
-						imported.push({
-							id: layout.id,
-							name: layout.name,
-							by: layout.by,
-							cat: layout.category,
-							map: custom.map
-						});
-					}
-				});
-				if (imported.length > 0) {
-					this.layoutService.storeCustomBoards(imported);
+			const mah: MahFormat = JSON.parse(atob(base64jsonString));
+			const imported: Array<LoadLayout> = [];
+			mah.boards.forEach(custom => {
+				const layout = this.layoutService.expandLayout(custom, true);
+				result.push(layout.id);
+				if (
+					!this.layoutService.layouts.items.find(l => l.id === layout.id) &&
+					!imported.find(l => l.id === layout.id)
+				) {
+					imported.push({
+						id: layout.id,
+						name: layout.name,
+						by: layout.by,
+						cat: layout.category,
+						map: custom.map
+					});
 				}
+			});
+			if (imported.length > 0) {
+				this.layoutService.storeCustomBoards(imported);
 			}
 			return result;
 		} catch (e) {

@@ -8,8 +8,10 @@
 			<ng-container *ngIf="group.visible">
 				<div class="preview"
 						 *ngFor="let item of group.layouts"
+						 tabindex="0"
 						 [id]="'item-'+item.layout.id"
 						 [class.selected]="item.selected"
+						 (keydown.enter)="onStart(item.layout)"
 						 (click)="onStart(item.layout)"
 						 (appDeferLoad)="item.visible=true"
 				>

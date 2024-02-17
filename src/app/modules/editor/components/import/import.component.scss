@@ -3,7 +3,7 @@
 :host {
 	flex: 1;
 	display: flex;
-	color: $text-color;
+	color: var(--main-text-color);
 	width: 100%;
 
 	.import-section {
@@ -18,7 +18,7 @@
 			padding: 80px 30px;
 			width: 100%;
 			max-width: 800px;
-			border: 2px dashed $popup-background-color;
+			border: 2px dashed var(--dialog-border-color);
 			border-radius: 20px;
 			text-align: center;
 			position: relative;
@@ -29,7 +29,7 @@
 			max-height: 300px;
 			width: 100%;
 			max-width: 800px;
-			color: $text-color;
+			color: var(--main-text-color);
 			overflow-y: auto;
 
 			a {
@@ -37,16 +37,14 @@
 			}
 
 			p.is-error {
-				color: #f29c9c;
+				color: var(--text-fail-color);
 			}
 		}
 
 		&.drop-zone-active {
 			.drop-zone {
-				border: 2px dashed $popup-border-color;
+				border: 2px dashed var(--dialog-border-color);
 			}
 		}
-
 	}
-
 }

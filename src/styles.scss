@@ -5,18 +5,65 @@
 }
 
 html {
+	--main-bg-color: #2b424f;
+	--main-bg-color-lt: #2e4856;
+	--main-bg-color-dk: #253c46;
+	--main-text-color: #47b00a;
+	--main-text-color-hover: #{darken(#47b00a, 10%)};
+	--main-text-color-lt: #{lighten(#47b00a, 5%)};
+	--main-text-color-dk: #{darken(#47b00a, 10%)};
+	--main-content-text-color: #000;
+	--main-content-link-color: #2e4856;
+	--main-content-link-hover-color: #22353f;
+	--dialog-headline-color: #47b00a;
+	--dialog-text-color: #000;
+	--dialog-background-color: #f5f1e4;
+	--dialog-border-color: #0d1417;
+	--dialog-border-color-hover: #2e4856;
+	--dialog-border-color-selected: yellow;
+	--card-layout-color-border-selected: #000000;
+	--card-layout-color-border: #afafaf;
+	--card-layout-color-bg: #2b424f;
+	--card-layout-color-bg-hover: #1e2e37;
+	--card-layout-color: #fff;
+	--card-text-color-bg: #1e2e37;
+	--card-text-color-bg-hover: #1e2e37;
+	--card-text-color: #fff;
+	--input-text-color: #000;
+	--input-background-color: #ddd;
+	--input-border-color: #8f8f8f;
+	--text-fail-color: #cc919f;
+	--text-disabled-color: #8d8d8d;
+	--text-highlight-color: #8ec271;
+	--close-color: #ececec;
+	--close-color-hover: #bdbdbd;
+	--tile-color: #FFF9E5;
+	--tile-color-border: #4b4b4b;
+	--tile-color-dark: #000;
+	--tile-color-border-dark: #4b4b4b;
+	--preview-overlay-background: rgba(24, 24, 24, .8);
+	--preview-overlay-text: #fff;
+	--preview-overlay-text-shadow: #000;
+	--gesture-indicator: #42a5f5;
+
 	width: 100%;
 	height: 100%;
-	--main-bg-color: #{$background-color};
-	--main-bg-color-lt: #{$background-color-light};
-	--main-bg-color-dk: #{$background-color-dark};
-	--main-text-color: #{$text-color};
-	--main-text-color-lt: #{$text-color-light};
-	--main-text-color-dk: #{$text-color-dark};
-	--dialog-text-color: #{$text-color};
-	--dialog-background-color: #{$popup-background-color};
 	background-color: var(--main-bg-color);
 }
+
+@media (prefers-color-scheme: dark) {
+	html {
+		--dialog-background-color: #1b1b1b;
+		--card-layout-color-border: #353535;
+		--main-content-text-color: #ddd;
+		--input-text-color: #ddd;
+		--input-background-color: #000;
+		--input-border-color: #353535;
+		--main-content-link-color: #5685a8;
+		--main-content-link-hover-color: #3e617a;
+	}
+}
+
 
 body {
 	font-family: $text-font;
@@ -30,7 +77,6 @@ body {
 }
 
 button, select {
-	background-image: linear-gradient(to bottom, #e4e4e4, #f7f7f7);
 	border: 1px solid #afafaf;
 	font-family: $text-font;
 	font-size: inherit;
@@ -41,6 +87,14 @@ input[type=radio] {
 	width: 0.9em;
 	height: 0.9em;
 	vertical-align: middle;
+}
+
+a {
+	color: var(--main-content-link-color);
+
+	&:hover {
+		color: var(--main-content-link-hover-color);
+	}
 }
 
 p {
@@ -58,7 +112,6 @@ p {
 
 @include overlay();
 
-//----- Extends
 %clearfix:after {
 	display: block;
 	clear: both;

@@ -3,10 +3,11 @@
 :host {
 	display: flex;
 	flex-direction: column;
+	color: var(--main-content-text-color);
 
 	h1 {
 		text-align: center;
-		color: var(--dialog-text-color);
+		color: var(--dialog-headline-color);
 		margin-top: -8px;
 		margin-bottom: 10px;
 		line-height: 1.3em;

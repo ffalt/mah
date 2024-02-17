@@ -9,10 +9,12 @@
 	> svg {
 		height: 100%;
 		width: auto;
-		background-color: #FFF9E5;
-		border: 1px solid #4b4b4b;
+		background-color: var(--tile-color);
+		border: 1px solid var(--tile-color-border);
+
 		&.dark {
-			background-color: #000;
+			background-color: var(--tile-color-dark);
+			border: 1px solid var(--tile-color-border-dark);
 		}
 	}
 }

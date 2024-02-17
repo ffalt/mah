@@ -36,7 +36,7 @@
 	<h2>{{'SHORTCUTS'|translate}}</h2>
 	<ul class="keyboard-list icon-">
 		<li *ngFor="let shortcut of shortcuts; let i=index;">
-			<div><i *ngIf="shortcut.icon" [class]="shortcut.icon"></i><span *ngIf="!shortcut.icon" class="key">🀄️</span><span class="key">{{shortcut.key}}</span><span class="name">{{shortcut.name|translate}}</span></div>
+			<div><span class="key">{{shortcut.key}}</span><i *ngIf="shortcut.icon" [class]="shortcut.icon"></i><span *ngIf="!shortcut.icon" class="icon">🀄️</span><span class="name">{{shortcut.name|translate}}</span></div>
 			<span class="func">{{(shortcut.name + '_LONG')|translate}}</span>
 		</li>
 	</ul>

@@ -56,12 +56,6 @@
 	filter: blur($blur);
 }
 
-@mixin background-linear-gradient($back, $start: #000, $stop: #FFF) {
-	background-color: $back;
-	background: -webkit-linear-gradient(top, $start, $stop);
-	background: linear-gradient(to bottom, $start, $stop);
-}
-
 @mixin text-shadow($x: 2px, $y: 2px, $blur: 5px, $color: rgba(0,0,0,.4)) {
 	text-shadow: $x $y $blur $color;
 }
@@ -243,12 +237,12 @@
 @mixin button() {
 	background-color: transparent;
 	background-image: none;
-	color: $highlight-color;
+	color: var(--text-highlight-color);
 	border: 1px solid var(--main-bg-color-dk);
 	cursor: pointer;
 
 	&:hover {
-		color: var(--main-bg-color-lt);
+		color: var(--main-text-color-hover);
 		border: 1px solid var(--main-bg-color-lt);
 	}
 
@@ -257,7 +251,7 @@
 	}
 
 	&[disabled] {
-		color: #8d8d8d;
+		color: var(--text-disabled-color);
 		cursor: default;
 	}
 }
@@ -274,6 +268,15 @@
 		background-color: rgba(0, 0, 0, 0.2);
 		max-height: 100%;
 		font-size: $base-font-size*0.9;
+
+		button, select {
+			background-color: var(--input-background-color);
+			border-color: var(--input-border-color);
+			color: var(--input-text-color);
+			text-overflow: ellipsis;
+			padding: 8px 12px;
+			font-size: 0.9em;
+		}
 
 		@include respond-to(medium-up) {
 			font-size: $base-font-size*1.1;
@@ -304,7 +307,7 @@
 			max-width: 98%;
 			margin-left: auto;
 			margin-right: auto;
-			border: 1px solid $popup-border-color;
+			border: 1px solid var(--dialog-border-color);
 			background-color: var(--dialog-background-color);
 			line-height: 1.2em;
 			padding: 1.5em 2em;
@@ -333,7 +336,7 @@
 			right: 8px;
 			top: 8px;
 			position: absolute;
-			color: darkgray;
+			color: var(--close-color);
 			cursor: pointer;
 			padding: 3px;
 			border-radius: 6px;
@@ -343,7 +346,7 @@
 			}
 
 			&:hover {
-				color: $popup-border-color;
+				color: var(--close-color-hover)
 			}
 		}
 	}

@@ -10,7 +10,7 @@
 	overflow: hidden;
 
 	.choose-buttons {
-		border-top: 1px solid #afafaf;
+		border-top: 1px solid var(--card-layout-color-border);
 		padding-top: 10px;
 		display: flex;
 		flex-direction: row;
@@ -25,10 +25,10 @@
 			display: inline-block;
 
 			.link {
-				color: black;
+				color: var(--input-text-color);
 				margin-left: 8px;
 				text-decoration: none;
-				padding: 8px;
+				padding: 8px 12px;
 			}
 		}
 
@@ -42,8 +42,6 @@
 
 			select {
 				width: 100%;
-				text-overflow: ellipsis;
-				padding: 8px;
 			}
 		}
 

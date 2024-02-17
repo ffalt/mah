@@ -7,11 +7,12 @@
 	flex: 1;
 
 	.headline-anchors {
-		border-bottom: 1px solid #afafaf;
+		border-bottom: 1px solid var(--card-layout-color-border);
 		width: 100%;
 		display: flex;
 		flex-direction: row;
 		flex-wrap: wrap;
+		color: var(--dialog-text-color);
 
 		a {
 			flex-grow: 1;
@@ -39,7 +40,8 @@
 			padding-bottom: 16px;
 
 			.group-name {
-				border-top: 1px solid #d5d5d5;
+				border-top: 1px solid var(--card-layout-color-border);
+				color: var(--main-content-text-color);
 				padding-top: 16px;
 				text-align: center;
 			}
@@ -63,16 +65,11 @@
 				width: 300px;
 				height: 200px;
 				cursor: pointer;
-				border: 1px solid #afafaf;
+				border: 1px solid var(--card-layout-color-border);
+				background-color: var(--card-layout-color-bg);
 				display: block;
-				background-color: #2b424f;
 				position: relative;
 				overflow: hidden;
-
-				&.selected {
-					border: 1px solid #000000;
-					box-shadow: rgba(0, 0, 0, 0.16) 0 3px 6px, rgba(0, 0, 0, 0.23) 0 3px 6px;
-				}
 
 				app-layout-preview {
 					display: block;
@@ -86,11 +83,11 @@
 					position: absolute;
 					top: 0;
 					right: 0;
-					background-color: rgba(24, 24, 24, .8);
-					color: white;
+					background-color: var(--preview-overlay-background);
+					color: var(--preview-overlay-text);
+					text-shadow: 1px 1px var(--preview-overlay-text-shadow);
 					border-bottom-left-radius: 3px;
 					padding: 3px 3px 3px 6px;
-					text-shadow: 1px 1px black;
 
 					a {
 						display: inline-block;
@@ -112,13 +109,23 @@
 					position: absolute;
 					width: 100%;
 					bottom: 0;
-					background-color: rgba(255, 255, 255, .8);
+					background-color: var(--card-text-color-bg);
+					color: var(--card-text-color);
 					text-align: center;
-					text-shadow: 1px 1px white;
+					font-size: 0.8em;
 				}
 
-				&:hover {
-					background-color: darken(#8b877a, 15%);
+				&.selected, &:hover, &:focus {
+					background-color: var(--card-layout-color-bg-hover);
+
+					.preview-name {
+						background-color: var(--card-text-color-bg-hover);
+					}
+				}
+
+				&.selected {
+					border: 1px solid var(--card-layout-color-border-selected);
+					box-shadow: rgba(0, 0, 0, 0.16) 0 3px 6px, rgba(0, 0, 0, 0.23) 0 3px 6px;
 				}
 
 				@include respond-to(jumbo-down) {

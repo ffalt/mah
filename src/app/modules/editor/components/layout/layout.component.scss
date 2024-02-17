@@ -1,18 +1,17 @@
 @import "../../../../style/globals";
 
 :host {
+	display: flex;
+	flex: 1;
+	flex-direction: row;
+	color: var(--main-text-color);
+	overflow: hidden;
 
 	.save-button {
 		position: fixed;
 		right: 50px;
 		top: 6px;
 	}
-
-	display: flex;
-	flex: 1;
-	flex-direction: row;
-	color: $text-color;
-	overflow: hidden;
 
 	.overlay-save {
 		.overlay-popup {
@@ -31,7 +30,7 @@
 		}
 
 		.fail {
-			color: #cc919f;
+			color: var(--text-fail-color);
 		}
 
 		button {
@@ -54,7 +53,7 @@
 		max-height: 100%;
 		height: 100%;
 		padding-right: 4px;
-		border-right: 1px solid $popup-border-color;
+		border-right: 1px solid var(--dialog-border-color);
 		overflow-y: auto;
 
 		.matrix-list {
@@ -72,20 +71,19 @@
 			li {
 				text-align: center;
 				cursor: pointer;
-				border: 1px solid $popup-border-color;
+				border: 1px solid var(--dialog-border-color);
 				margin-bottom: 4px;
 				display: flex;
 				flex-direction: column;
 				overflow: hidden;
 
 				&:hover {
-					border-color: lighten($popup-background-color, 3%);
+					border-color: var(--dialog-border-color-hover);
 				}
 
 				&.selected {
-					border-color: yellow;
+					border-color: var(--dialog-border-color-selected);
 				}
-
 			}
 
 			span {
@@ -143,7 +141,7 @@
 			}
 
 			.matrix-edit-bottom {
-				border-top: 1px solid #707070;
+				border-top: 1px solid var(--dialog-border-color);
 				height: 25%;
 				display: flex;
 				flex-direction: column;
@@ -201,7 +199,7 @@
 			overflow-x: auto;
 			margin-bottom: 2px;
 			border-right: none;
-			border-bottom: 1px solid #707070;
+			border-bottom: 1px solid var(--dialog-border-color);
 
 			.matrix-list {
 				white-space: nowrap;

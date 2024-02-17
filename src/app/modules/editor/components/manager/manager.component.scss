@@ -7,12 +7,12 @@
 	display: flex;
 
 	.fail {
-		color: #cc919f;
+		color: var(--text-fail-color);
 	}
 
 	.layout-table {
 		display: table;
-		color: $text-color;
+		color: var(--main-text-color);
 		width: 100%;
 
 		.layout {
@@ -27,15 +27,15 @@
 				display: table-cell;
 				vertical-align: middle;
 				padding: 4px 15px;
-				border-top: 1px solid lighten($background-color, 5%);
-				border-right: 1px solid lighten($background-color, 5%);
+				border-top: 1px solid var(--dialog-border-color);
+				border-right: 1px solid var(--dialog-border-color);
 
 				.arrow {
 					width: 0;
 					height: 0;
 					border-left: 5px solid transparent;
 					border-right: 5px solid transparent;
-					border-bottom: 5px solid $text-color;
+					border-bottom: 5px solid var(--main-text-color);
 					display: none;
 					margin-bottom: 3px;
 				}
@@ -79,7 +79,9 @@
 		}
 
 		.layout-header {
-			background-color: rgba(0, 0, 0, 0.1);
+			> div {
+				border-top: none;
+			}
 
 			&:hover {
 				background-color: rgba(0, 0, 0, 0.1);
