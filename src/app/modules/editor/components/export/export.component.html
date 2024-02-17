@@ -1,36 +1,40 @@
 <h3>Save / Export</h3>
-<div class="section" *ngIf="layout">
-	<div class="inputs">
-		<label>Name</label>
-		<input type="text" [value]="layout.name" (input)="layout.name = $any($event.target).value;" (change)="this.update()" (blur)="this.update()">
-		<label>By</label>
-		<input type="text" [value]="layout.by" (input)="layout.by = $any($event.target).value;" (change)="this.update()" (blur)="this.update()">
-		<label>Category</label>
-		<input type="text" [value]="layout.category" (input)="layout.category = $any($event.target).value;" (change)="this.update()" (blur)="this.update()">
+@if (layout) {
+	<div class="section">
+		<div class="inputs">
+			<label>Name</label>
+			<input type="text" [value]="layout.name" (input)="layout.name = $any($event.target).value;" (change)="this.update()" (blur)="this.update()">
+			<label>By</label>
+			<input type="text" [value]="layout.by" (input)="layout.by = $any($event.target).value;" (change)="this.update()" (blur)="this.update()">
+			<label>Category</label>
+			<input type="text" [value]="layout.category" (input)="layout.category = $any($event.target).value;" (change)="this.update()" (blur)="this.update()">
+		</div>
+		<div class="preview">
+			<app-layout-preview class="svg-board" [layout]="layout"></app-layout-preview>
+		</div>
 	</div>
-	<div class="preview">
-		<app-layout-preview class="svg-board" [layout]="layout"></app-layout-preview>
-	</div>
-</div>
+}
 <div class="export">
 	<label>Format</label>
 	<fieldset>
 		<ul>
-			<li *ngFor="let ef of exportFormats">
-				<input [id]="'format_'+ef.name" type="radio" [value]="ef" name="format"
-							 [checked]="( format === ef )"
-							 (change)="chooseFormat(ef);"
-				>
-				<label [for]="'format_'+ef.name">{{ef.name}}</label>
-			</li>
+			@for (ef of exportFormats; track ef) {
+				<li>
+					<input [id]="'format_'+ef.name" type="radio" [value]="ef" name="format"
+								 [checked]="( format === ef )"
+								 (change)="chooseFormat(ef);"
+					>
+					<label [for]="'format_'+ef.name">{{ ef.name }}</label>
+				</li>
+			}
 		</ul>
 	</fieldset>
 	<div class="export-preview">
-		<pre>{{this.output}}</pre>
+		<pre>{{ this.output }}</pre>
 	</div>
 	<br/>
 	<div class="buttons">
-		<button class="text-button" (click)="download()">Download {{filename}}</button>
+		<button class="text-button" (click)="download()">Download {{ filename }}</button>
 		<button class="text-button" (click)="save()">Save in Browser Cache</button>
 	</div>
 </div>

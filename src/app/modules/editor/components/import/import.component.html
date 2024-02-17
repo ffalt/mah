@@ -8,9 +8,15 @@
 		<input name="file" type="file" multiple (change)="selectFiles($event)">
 	</div>
 	<div class="log-zone">
-		<p class="layout" *ngFor="let log of logs" [class.is-error]="log.isError">
-		<a *ngIf="log.id" (click)="selectLayout(log.id)"><i class="icon-editor-ok"></i> {{log.msg}}</a>
-		<ng-container *ngIf="!log.id">{{log.msg}}</ng-container>
-		</p>
+		@for (log of logs; track log) {
+			<p class="layout" [class.is-error]="log.isError">
+				@if (log.id) {
+					<a (click)="selectLayout(log.id)"><i class="icon-editor-ok"></i> {{ log.msg }}</a>
+				}
+				@if (!log.id) {
+					{{ log.msg }}
+				}
+			</p>
+		}
 	</div>
 </div>

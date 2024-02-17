@@ -20,28 +20,32 @@
 			<app-manager-component [inputLayouts]="layoutService.layouts.items" (editEvent)="editLayout($event)"></app-manager-component>
 		</div>
 	</div>
-	<div *ngIf="mode==='import'">
-		<div class="editor-nav">
-			<ul>
-				<li>Mah Editor: Import</li>
-			</ul>
+	@if (mode === 'import') {
+		<div>
+			<div class="editor-nav">
+				<ul>
+					<li>Mah Editor: Import</li>
+				</ul>
+			</div>
+			<div class="editor-main">
+				<app-import-component (editEvent)="editLayout($event)"></app-import-component>
+			</div>
 		</div>
-		<div class="editor-main">
-			<app-import-component (editEvent)="editLayout($event)"></app-import-component>
+	}
+	@if (mode === 'edit' && !!layout) {
+		<div>
+			<div class="editor-nav buttons">
+				<ul>
+					<li>Mah Editor: {{ layout.name }}</li>
+					<li class="sep"></li>
+					<li>
+						<button (click)="save()">Save</button>
+					</li>
+				</ul>
+			</div>
+			<div class="editor-main">
+				<app-editor-layout-component [layout]="layout"></app-editor-layout-component>
+			</div>
 		</div>
-	</div>
-	<div *ngIf="mode==='edit' && !!layout">
-		<div class="editor-nav buttons">
-			<ul>
-				<li>Mah Editor: {{layout.name}}</li>
-				<li class="sep"></li>
-				<li>
-					<button (click)="save()">Save</button>
-				</li>
-			</ul>
-		</div>
-		<div class="editor-main">
-			<app-editor-layout-component [layout]="layout"></app-editor-layout-component>
-		</div>
-	</div>
+	}
 </div>

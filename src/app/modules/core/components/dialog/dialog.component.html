@@ -1,7 +1,13 @@
-<div *ngIf="visible" class="overlay" (click)="toggle();">
-	<div class="overlay-popup" (click)="$event.stopPropagation();">
-		<h1 *ngIf="title">🀄️{{title}}</h1>
-		<a *ngIf="!noClose" class="close" (click)="toggle()"><i class="icon-cancel-circled2 pull-right"></i></a>
-		<ng-content></ng-content>
+@if (visible) {
+	<div class="overlay" (click)="toggle();">
+		<div class="overlay-popup" (click)="$event.stopPropagation();">
+			@if (title) {
+				<h1>🀄️{{ title }}</h1>
+			}
+			@if (!noClose) {
+				<a class="close" (click)="toggle()"><i class="icon-cancel-circled2 pull-right"></i></a>
+			}
+			<ng-content></ng-content>
+		</div>
 	</div>
-</div>
+}

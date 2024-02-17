@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" class="board-svg" [class.rotate]="rotate" [attr.viewBox]="viewport" preserveAspectRatio="xMidYMin meet"
-		(mousedown)="onClickBoard($event)" [class.edit]="isBoard">
+		 (mousedown)="onClickBoard($event)" [class.edit]="isBoard">
 	<defs>
 		<filter id="filter4198-8" style="color-interpolation-filters:sRGB">
 			<feGaussianBlur in="SourceGraphic" stdDeviation="8"/>
@@ -14,35 +14,58 @@
 		</svg>
 	</defs>
 	<style>
-		g.tile {transform-origin: 50px 32.5px;opacity: 1;}
+		g.tile {
+			transform-origin: 50px 32.5px;
+			opacity: 1;
+		}
 
-		g.selected g.tile {transform: scale(1.04);}
+		g.selected g.tile {
+			transform: scale(1.04);
+		}
 
-		g.selected g.tile rect.stone {stroke: black;fill: #F8EABB;}
+		g.selected g.tile rect.stone {
+			stroke: black;
+			fill: #F8EABB;
+		}
 
-		g.draw rect.shadow {fill: #191919;opacity: 0.6;stroke-width: 1;stroke: black;}
+		g.draw rect.shadow {
+			fill: #191919;
+			opacity: 0.6;
+			stroke-width: 1;
+			stroke: black;
+		}
 
-		g.draw rect.stone {fill: #FFF9E5;stroke-width: 1;stroke: black;}
+		g.draw rect.stone {
+			fill: #FFF9E5;
+			stroke-width: 1;
+			stroke: black;
+		}
 
-		g.hidden {opacity: 0;}
+		g.hidden {
+			opacity: 0;
+		}
 
 	</style>
 	<g class="stage" [attr.transform]="translate">
-		<rect *ngFor="let draw of drawCells" stroke="black" stroke-width="1" class="draw"
-					[class]="draw.className" [attr.x]="draw.pos.x" [attr.y]="draw.pos.y"
-					width="37.5px" height="50px" (click)="onClickDraw($event, draw);"></rect>
+		@for (draw of drawCells; track draw) {
+			<rect stroke="black" stroke-width="1" class="draw"
+						[class]="draw.className" [attr.x]="draw.pos.x" [attr.y]="draw.pos.y"
+						width="37.5px" height="50px" (click)="onClickDraw($event, draw);"></rect>
+		}
 	</g>
 	<g class="stage" [attr.transform]="translate">
-		<g *ngFor="let draw of drawStones; trackBy:trackByDrawStone" class="draw"
-			 [class.selected]="draw.source.selected"
-			 [class.hidden]="draw.source.picked"
-			 [class.hinted]="draw.source.hinted"
-			 [attr.transform]="draw.pos.translate" (mousedown)="onClickStone($event, draw)">
-			<g class="tile">
-				<rect class="shadow" x="3" y="3" width="75px" height="100px" rx="10" ry="10"></rect>
-				<rect class="stone" x="0" y="0" width="75" height="100" rx="10" ry="10"></rect>
-				<use xlink:href="#front" x="0" y="0" width="75" height="100"/>
+		@for (draw of drawStones; track draw.source.groupnr + '/' + draw.source.v) {
+			<g class="draw"
+				 [class.selected]="draw.source.selected"
+				 [class.hidden]="draw.source.picked"
+				 [class.hinted]="draw.source.hinted"
+				 [attr.transform]="draw.pos.translate" (mousedown)="onClickStone($event, draw)">
+				<g class="tile">
+					<rect class="shadow" x="3" y="3" width="75px" height="100px" rx="10" ry="10"></rect>
+					<rect class="stone" x="0" y="0" width="75" height="100" rx="10" ry="10"></rect>
+					<use xlink:href="#front" x="0" y="0" width="75" height="100"/>
+				</g>
 			</g>
-		</g>
+		}
 	</g>
 </svg>

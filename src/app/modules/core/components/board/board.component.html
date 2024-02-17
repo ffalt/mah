@@ -112,25 +112,30 @@
 	</style>
 	<defs app-image-set-loader [imageSet]="imageSet" [dark]="app.settings.dark" [prefix]="prefix"></defs>
 	<g class="stage" [attr.transform]="transformStage" [class.dark]="app.settings.dark" [class.contrast]="app.settings.contrast">
-		<g *ngFor="let draw of drawStones; trackBy:trackByDrawStone" class="draw"
-			 [class.selected]="draw.source.selected"
-			 [class.hidden]="draw.source.picked"
-			 [class.hinted]="draw.source.hinted"
-			 [attr.transform]="draw.pos.translate" (mousedown)="onClickDown($event)" (mouseup)="onClickUp($event, draw)">
-			<g class="tile">
-				<title *ngIf="draw.url">{{draw.url | translate}}</title>
-				<rect class="shadow" x="3" y="3" width="75px" height="100px" rx="10" ry="10"></rect>
-				<rect class="stone" x="0" y="0" width="75" height="100" rx="10" ry="10"></rect>
-				<use [attr.xlink:href]="draw.url | prefix:urlPrefix" x="6" y="6" width="63" height="88"/>
-				<use xlink:href="#front" x="0" y="0" width="75" height="100"/>
+		@for (draw of drawStones; track draw.source.groupnr + '/' + draw.source.v) {
+			<g class="draw"
+				 [class.selected]="draw.source.selected"
+				 [class.hidden]="draw.source.picked"
+				 [class.hinted]="draw.source.hinted"
+				 [attr.transform]="draw.pos.translate" (mousedown)="onClickDown($event)" (mouseup)="onClickUp($event, draw)">
+				<g class="tile">
+					@if (draw.url) {
+						<title>{{ draw.url | translate }}</title>
+					}
+					<rect class="shadow" x="3" y="3" width="75px" height="100px" rx="10" ry="10"></rect>
+					<rect class="stone" x="0" y="0" width="75" height="100" rx="10" ry="10"></rect>
+					<use [attr.xlink:href]="draw.url | prefix:urlPrefix" x="6" y="6" width="63" height="88"/>
+					<use xlink:href="#front" x="0" y="0" width="75" height="100"/>
+				</g>
 			</g>
-		</g>
+		}
 	</g>
 </svg>
-<div
-	class="gesture-indicator"
-	*ngFor="let indicator of indicators.gestureIndicators"
-	[style.top.px]="indicator.top" [style.left.px]="indicator.left"
-	[style.width.px]="indicator.size" [style.height.px]="indicator.size"
-	[style.transform]="indicator.transform"
-	[@indicatorState]="indicator.state"></div>
+@for (indicator of indicators.gestureIndicators; track indicator) {
+	<div
+		class="gesture-indicator"
+		[style.top.px]="indicator.top" [style.left.px]="indicator.left"
+		[style.width.px]="indicator.size" [style.height.px]="indicator.size"
+		[style.transform]="indicator.transform"
+		[@indicatorState]="indicator.state"></div>
+}

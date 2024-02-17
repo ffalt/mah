@@ -1,43 +1,50 @@
 <div class="top">
 	<div class="help">
-		<h2>{{'HOW_TO_PLAY'|translate}}</h2>
-		<p>{{'HOW_GOAL'|translate}}</p>
-		<p><b>{{'HOW_OPEN'|translate}}</b>: {{'HOW_OPEN_DESC'|translate}}</p>
-		<p><b>{{'HOW_PAIR'|translate}}</b>: {{'HOW_PAIR_DESC'|translate}}</p>
-		<p>{{'HOW_DO'|translate}}</p>
+		<h2>{{ 'HOW_TO_PLAY'|translate }}</h2>
+		<p>{{ 'HOW_GOAL'|translate }}</p>
+		<p><b>{{ 'HOW_OPEN'|translate }}</b>: {{ 'HOW_OPEN_DESC'|translate }}</p>
+		<p><b>{{ 'HOW_PAIR'|translate }}</b>: {{ 'HOW_PAIR_DESC'|translate }}</p>
+		<p>{{ 'HOW_DO'|translate }}</p>
 	</div>
 	<div class="license">
-		<h2>{{'LICENSE'|translate}}</h2>
+		<h2>{{ 'LICENSE'|translate }}</h2>
 		<div class="license-list">
 			<div>
-				<div class="name">{{'GAME'|translate}}</div>
+				<div class="name">{{ 'GAME'|translate }}</div>
 				<div class="info"><a rel="noopener" target="_blank" href="https://github.com/ffalt/mah/blob/main/README.md">MIT</a></div>
 			</div>
 			<div>
-				<div class="name">{{'DESIGNS'|translate}}</div>
+				<div class="name">{{ 'DESIGNS'|translate }}</div>
 				<div class="info"><a rel="noopener" target="_blank" href="https://github.com/ffalt/mah/tree/main/src/assets/svg/README.md">MIT | Public Domain | CCA4.0 | GNU</a></div>
 			</div>
 			<div>
-				<div class="name">{{'SOUNDS'|translate}}</div>
+				<div class="name">{{ 'SOUNDS'|translate }}</div>
 				<div class="info"><a rel="noopener" href="https://github.com/ffalt/mah/blob/main/src/assets/sounds/README.md">CC0 | CC-BY3.0</a></div>
 			</div>
 			<div>
-				<div class="name">{{'FONTS'|translate}}</div>
+				<div class="name">{{ 'FONTS'|translate }}</div>
 				<div class="info"><a rel="noopener" target="_blank" href="https://github.com/ffalt/mah/blob/main/src/fonts/README.md">SIL</a></div>
 			</div>
 			<div>
-				<div class="name">{{'BACKGROUNDS'|translate}}</div>
+				<div class="name">{{ 'BACKGROUNDS'|translate }}</div>
 				<div class="info"><a rel="noopener" target="_blank" href="https://github.com/ffalt/mah/blob/main/src/assets/img/README.md">Public Domain</a></div>
 			</div>
 		</div>
 	</div>
 </div>
 <div class="keyboard">
-	<h2>{{'SHORTCUTS'|translate}}</h2>
+	<h2>{{ 'SHORTCUTS'|translate }}</h2>
 	<ul class="keyboard-list icon-">
-		<li *ngFor="let shortcut of shortcuts; let i=index;">
-			<div><span class="key">{{shortcut.key}}</span><i *ngIf="shortcut.icon" [class]="shortcut.icon"></i><span *ngIf="!shortcut.icon" class="icon">🀄️</span><span class="name">{{shortcut.name|translate}}</span></div>
-			<span class="func">{{(shortcut.name + '_LONG')|translate}}</span>
-		</li>
+		@for (shortcut of shortcuts; track shortcut; let i = $index) {
+			<li>
+				<div><span class="key">{{ shortcut.key }}</span>@if (shortcut.icon) {
+					<i [class]="shortcut.icon"></i>
+				}
+					@if (!shortcut.icon) {
+						<span class="icon">🀄️</span>
+					}<span class="name">{{ shortcut.name|translate }}</span></div>
+				<span class="func">{{ (shortcut.name + '_LONG')|translate }}</span>
+			</li>
+		}
 	</ul>
 </div>

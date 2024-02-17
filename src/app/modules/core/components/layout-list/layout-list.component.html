@@ -1,38 +1,52 @@
-<div class="headline-anchors" *ngIf="groups.length>1">
-	<a *ngFor="let group of groups; let i=index" (click)="scrollToGroup(i)">{{group.name}}</a>
-</div>
-<div class="groups" appDeferLoadScrollHost>
-	<div class="group" *ngFor="let group of groups; let i=index" id="group-{{i}}" (appDeferLoad)="group.visible=true">
-		<div class="group-name" *ngIf="groups.length>1">{{group.name}} ({{group.layouts.length}})</div>
-		<div class="previews">
-			<ng-container *ngIf="group.visible">
-				<div class="preview"
-						 *ngFor="let item of group.layouts"
-						 tabindex="0"
-						 [id]="'item-'+item.layout.id"
-						 [class.selected]="item.selected"
-						 (keydown.enter)="onStart(item.layout)"
-						 (click)="onStart(item.layout)"
-						 (appDeferLoad)="item.visible=true"
-				>
-					<app-layout-preview *ngIf="item.visible" class="svg-board" [svg]="item.layout.previewSVG" [alt]="item.layout.name"></app-layout-preview>
-					<div class="preview-best-time" *ngIf="item.bestTime">{{'STATS_BEST' | translate}}: {{item.bestTime|duration}}
-						<a (click)="clearBestTimeClick($event, item)">
-							<i class="icon-trash-empty"></i>
-						</a>
-					</div>
-					<div class="preview-name">{{item.layout.name}}</div>
-				</div>
-			</ng-container>
-			<ng-container *ngIf="!group.visible">
-				<div class="preview"
-						 *ngFor="let item of group.layouts"
-						 [id]="'item-'+item.layout.id"
-						 [class.selected]="item.selected"
-				>
-					<div class="preview-name">{{item.layout.name}}</div>
-				</div>
-			</ng-container>
-		</div>
+@if (groups.length > 1) {
+	<div class="headline-anchors">
+		@for (group of groups; track group; let i = $index) {
+			<a (click)="scrollToGroup(i)">{{ group.name }}</a>
+		}
 	</div>
+}
+<div class="groups" appDeferLoadScrollHost>
+	@for (group of groups; track group; let i = $index) {
+		<div class="group" id="group-{{i}}" (appDeferLoad)="group.visible=true">
+			@if (groups.length > 1) {
+				<div class="group-name">{{ group.name }} ({{ group.layouts.length }})</div>
+			}
+			<div class="previews">
+				@if (group.visible) {
+					@for (item of group.layouts; track item) {
+						<div class="preview"
+								 tabindex="0"
+								 [id]="'item-'+item.layout.id"
+								 [class.selected]="item.selected"
+								 (keydown.enter)="onStart(item.layout)"
+								 (click)="onStart(item.layout)"
+								 (appDeferLoad)="item.visible=true"
+						>
+							@if (item.visible) {
+								<app-layout-preview class="svg-board" [svg]="item.layout.previewSVG" [alt]="item.layout.name"></app-layout-preview>
+							}
+							@if (item.bestTime) {
+								<div class="preview-best-time">{{ 'STATS_BEST' | translate }}: {{ item.bestTime|duration }}
+									<a (click)="clearBestTimeClick($event, item)">
+										<i class="icon-trash-empty"></i>
+									</a>
+								</div>
+							}
+							<div class="preview-name">{{ item.layout.name }}</div>
+						</div>
+					}
+				}
+				@if (!group.visible) {
+					@for (item of group.layouts; track item) {
+						<div class="preview"
+								 [id]="'item-'+item.layout.id"
+								 [class.selected]="item.selected"
+						>
+							<div class="preview-name">{{ item.layout.name }}</div>
+						</div>
+					}
+				}
+			</div>
+		</div>
+	}
 </div>

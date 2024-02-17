@@ -46,10 +46,6 @@ export class BoardComponent implements OnInit, OnChanges {
 		this.resize(window);
 	}
 
-	trackByDrawStone(index: number, draw: Draw): string {
-		return `${draw.source.groupnr}/${draw.source.v}`;
-	}
-
 	ngOnChanges(changes: SimpleChanges): void {
 		if (changes.stones) {
 			this.updateStones(changes.stones.currentValue);
