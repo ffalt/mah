@@ -24,7 +24,6 @@
 	}
 
 	.buttons {
-
 		> span {
 			padding-right: 6px;
 		}
@@ -34,7 +33,7 @@
 		}
 
 		button {
-			@include button();
+			@include button;
 		}
 	}
 
@@ -87,7 +86,8 @@
 			}
 
 			span {
-				@include no-select();
+				@include no-select;
+
 				display: inline-block;
 				min-width: 0.8em;
 			}
@@ -114,7 +114,8 @@
 			span {
 				cursor: pointer;
 				text-decoration: underline;
-				@include no-select();
+
+				@include no-select;
 			}
 		}
 
@@ -154,13 +155,10 @@
 
 					.dimensions {
 						opacity: 0;
-						background-color: rgba(0, 0, 0, 0.7);
+						background-color: rgb(0 0 0 / 70%);
 						position: absolute;
 						padding: 8px;
-						left: 0;
-						top: 0;
-						bottom: 0;
-						right: 0;
+						inset: 0;
 					}
 
 					&:hover {
@@ -172,7 +170,7 @@
 
 				.stats {
 					position: absolute;
-					background-color: rgba(0, 0, 0, 0.7);
+					background-color: rgb(0 0 0 / 70%);
 					bottom: 0;
 					font-size: 0.9em;
 					border-radius: 6px;
@@ -195,8 +193,7 @@
 		.editor-matrix-list {
 			height: 80px;
 			width: 100%;
-			overflow-y: hidden;
-			overflow-x: auto;
+			overflow: auto hidden;
 			margin-bottom: 2px;
 			border-right: none;
 			border-bottom: 1px solid var(--dialog-border-color);
@@ -216,7 +213,6 @@
 	}
 
 	@include respond-to-horizontal-device(pad) {
-
 		.editor-selected {
 			.matrix-edit {
 				flex-direction: row;

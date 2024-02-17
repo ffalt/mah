@@ -1,7 +1,6 @@
 @import "../../../../style/globals";
 
 :host {
-
 	overflow-y: auto;
 	flex: 1;
 	display: flex;
@@ -20,7 +19,7 @@
 			cursor: pointer;
 
 			&:hover {
-				background-color: rgba(255, 255, 255, 0.02);
+				background-color: rgb(255 255 255 / 2%);
 			}
 
 			> div {
@@ -84,14 +83,15 @@
 			}
 
 			&:hover {
-				background-color: rgba(0, 0, 0, 0.1);
+				background-color: rgb(0 0 0 / 10%);
 			}
 		}
 
 	}
 
 	button {
-		@include button();
+		@include button;
+
 		text-align: center;
 	}
 

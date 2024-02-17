@@ -2,8 +2,7 @@
 
 :host {
 	display: flex;
-	flex-direction: row;
-	flex-wrap: wrap;
+	flex-flow: row wrap;
 	flex: 1;
 	overflow-y: auto;
 
@@ -91,12 +90,12 @@
 				min-height: 20px;
 				min-width: 28px;
 				font-size: 0.7em;
-				vert-align: top;
+				vertical-align: top;
 				display: inline-block;
 				letter-spacing: 1px;
 				background: black;
 				color: #ddd;
-				box-shadow: 0 5px 0 0 rgba(0, 0, 0, 1);
+				box-shadow: 0 5px 0 0 rgb(0 0 0 / 100%);
 				text-align: center;
 			}
 
@@ -107,8 +106,8 @@
 	}
 
 	@include respond-to(large-down) {
-		flex-direction: column;
-		flex-wrap: nowrap;
+		flex-flow: column nowrap;
+
 		> div {
 			width: 100%;
 		}
@@ -116,6 +115,7 @@
 		.top {
 			display: flex;
 			flex-direction: row;
+
 			> div {
 				flex: 1;
 			}
@@ -124,9 +124,9 @@
 
 	@include respond-to(medium-down) {
 		.top {
-			flex-direction: column;
-			flex-wrap: nowrap;
+			flex-flow: column nowrap;
 		}
+
 		.help, .license {
 			width: 100%;
 		}

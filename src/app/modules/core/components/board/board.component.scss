@@ -12,11 +12,12 @@
 		height: 100%;
 		position: relative;
 		transform-origin: 0 0 0;
-		transform: translate(0px, 0px) scale(1);
-		@include no-select();
+		transform: translate(0, 0) scale(1);
+
+		@include no-select;
 	}
 
-	.gesture__indicator {
+	.gesture-indicator {
 		user-select: none;
 		position: fixed;
 		top: 0;

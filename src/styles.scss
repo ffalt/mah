@@ -1,6 +1,6 @@
 @import "app/style/globals";
 
-*, *:before, *:after {
+*, *::before, *::after {
 	box-sizing: border-box;
 }
 
@@ -9,9 +9,9 @@ html {
 	--main-bg-color-lt: #2e4856;
 	--main-bg-color-dk: #253c46;
 	--main-text-color: #47b00a;
-	--main-text-color-hover: #{darken(#47b00a, 10%)};
-	--main-text-color-lt: #{lighten(#47b00a, 5%)};
-	--main-text-color-dk: #{darken(#47b00a, 10%)};
+	--main-text-color-hover: #358808;
+	--main-text-color-lt: #51ca0a;
+	--main-text-color-dk: #358808;
 	--main-content-text-color: #000;
 	--main-content-link-color: #2e4856;
 	--main-content-link-hover-color: #22353f;
@@ -21,7 +21,7 @@ html {
 	--dialog-border-color: #0d1417;
 	--dialog-border-color-hover: #2e4856;
 	--dialog-border-color-selected: yellow;
-	--card-layout-color-border-selected: #000000;
+	--card-layout-color-border-selected: #000;
 	--card-layout-color-border: #afafaf;
 	--card-layout-color-bg: #2b424f;
 	--card-layout-color-bg-hover: #1e2e37;
@@ -41,7 +41,7 @@ html {
 	--tile-color-border: #4b4b4b;
 	--tile-color-dark: #000;
 	--tile-color-border-dark: #4b4b4b;
-	--preview-overlay-background: rgba(24, 24, 24, .8);
+	--preview-overlay-background: rgb(24 24 24 / 80%);
 	--preview-overlay-text: #fff;
 	--preview-overlay-text-shadow: #000;
 	--gesture-indicator: #42a5f5;
@@ -82,7 +82,7 @@ button, select {
 	font-size: inherit;
 }
 
-input[type=radio] {
+input[type="radio"] {
 	font-size: inherit;
 	width: 0.9em;
 	height: 0.9em;
@@ -110,7 +110,7 @@ p {
 	cursor: pointer;
 }
 
-@include overlay();
+@include overlay;
 
 %clearfix:after {
 	display: block;

@@ -13,9 +13,9 @@
 		border-top: 1px solid var(--card-layout-color-border);
 		padding-top: 10px;
 		display: flex;
-		flex-direction: row;
-		flex-wrap: nowrap;
+		flex-flow: row nowrap;
 		align-items: flex-end;
+
 		@include respond-to-height(small-down) {
 			padding-top: 4px;
 		}
