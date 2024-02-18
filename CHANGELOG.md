@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [1.7.1](https://github.com/ffalt/mah/compare/v1.7.0...v1.7.1) (2024-02-18)
+
+
+### Bug Fixes
+
+* **mobile:** use full-height without browser bar to avoid scrolled UI ([d6a071b](https://github.com/ffalt/mah/commit/d6a071b774b7e8f460fd91afbab9e1433b7906af))
+* **mobile:** use full-height without browser bar to avoid scrolled UI ([f32088b](https://github.com/ffalt/mah/commit/f32088b35ee0a8584ccc0dc6a20bfe52a68e7e68))
+
 ## [1.7.0](https://github.com/ffalt/mah/compare/v1.6.1...v1.7.0) (2024-02-18)
 
 
