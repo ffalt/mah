@@ -24,9 +24,11 @@ build with html5, svg, angular
 
 * 3 difficulties
 
-* Automatic save & restore of game state - start game today in the bus, finish at home. You can always start a new game on the top right.
+* Automatic save & restore of game state
 
 * English, Deutsch, Nederlands, Português, русский, Español
+
+  Want to help translate Mah? Please use https://crowdin.com/project/mahjong
 
 ## Build Config
 
