@@ -3,10 +3,10 @@
 :host {
 	display: flex;
 	flex-flow: column nowrap;
-	height: 100%;
 	width: 100%;
-	min-height: 100vh;
 	background-color: var(--main-bg-color);
+
+	@include full-height;
 
 	&.dkgreen {
 		--main-bg-color: #19262e;
