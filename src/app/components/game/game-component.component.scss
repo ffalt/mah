@@ -74,8 +74,7 @@
 		.ctrl {
 			display: inline-block;
 			color: var(--main-text-color);
-
-			@include no-select;
+			user-select: none;
 
 			.link {
 				text-decoration: none;
@@ -249,83 +248,6 @@
 		flex-direction: row;
 		flex: 1;
 		overflow: hidden;
-	}
-
-	.overlay-info {
-		::ng-deep {
-			.overlay {
-				z-index: 10010;
-
-				.overlay-popup {
-					width: 90%;
-					height: 90%;
-				}
-			}
-		}
-	}
-
-	.overlay-settings {
-		::ng-deep {
-			.overlay {
-				z-index: 10010;
-
-				.overlay-popup {
-					width: 90%;
-					max-height: 90%;
-					max-width: 1400px;
-				}
-			}
-		}
-	}
-
-	.overlay-newgame {
-		::ng-deep {
-			.overlay {
-				z-index: 10010;
-
-				.overlay-popup {
-					width: 98%;
-					height: 98%;
-					overflow: hidden;
-
-					@include respond-to-height(small-down) {
-						padding: 10px;
-					}
-				}
-			}
-		}
-	}
-
-	.overlay-message {
-		::ng-deep {
-			.overlay-message-message {
-				padding: 2em;
-			}
-
-			.overlay-popup {
-				cursor: pointer;
-				font-weight: 600;
-				text-align: center;
-				color: var(--dialog-headline-color);
-				padding: 0;
-
-				@include no-select;
-			}
-		}
-	}
-
-	.overlay-help {
-		::ng-deep {
-			.overlay {
-				z-index: 10010;
-
-				.overlay-popup {
-					max-height: 90%;
-					width: 90%;
-					max-width: 1200px;
-				}
-			}
-		}
 	}
 
 	@include respond-to-horizontal-device(pad) {

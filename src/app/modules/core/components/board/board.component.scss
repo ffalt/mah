@@ -13,8 +13,7 @@
 		position: relative;
 		transform-origin: 0 0 0;
 		transform: translate(0, 0) scale(1);
-
-		@include no-select;
+		user-select: none;
 	}
 
 	.gesture-indicator {

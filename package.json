@@ -26,7 +26,7 @@
     "test": "jest",
     "coverage": "jest --coverage true",
     "lint:scss": "stylelint \"**/*.scss\"",
-    "lint:css": "stylelint --fix \"**/*.css\"",
+    "lint:css": "stylelint \"**/*.css\"",
     "lint": "ng lint",
     "lint:fix": "ng lint --fix"
   },

@@ -7,6 +7,7 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 })
 export class DialogComponent {
 	@Input() title?: string;
+	@Input() className: string;
 	@Input() visible: boolean = false;
 	@Input() noClose: boolean = false;
 	@Output() readonly clickEvent = new EventEmitter<boolean>();

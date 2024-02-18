@@ -111,7 +111,159 @@ p {
 	cursor: pointer;
 }
 
-@include overlay;
+.overlay {
+	height: 100%;
+	width: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 10000;
+	background-color: rgb(0 0 0 / 20%);
+	max-height: 100%;
+	font-size: $base-font-size * 0.9;
+
+	button, select {
+		background-color: var(--input-background-color);
+		border-color: var(--input-border-color);
+		color: var(--input-text-color);
+		text-overflow: ellipsis;
+		padding: 8px 12px;
+		font-size: 0.9em;
+	}
+
+	@include respond-to(medium-up) {
+		font-size: $base-font-size * 1.1;
+	}
+
+	@include respond-to(large-up) {
+		font-size: $base-font-size * 1.2;
+	}
+
+	@include respond-to(huge-up) {
+		font-size: $base-font-size * 1.2;
+	}
+
+	@include respond-to(jumbo-up) {
+		font-size: $base-font-size * 2;
+	}
+
+	@include respond-to-height(small-down) {
+		font-size: $base-font-size * 0.9;
+	}
+
+	.overlay-popup {
+		position: fixed;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		max-height: 98%;
+		max-width: 98%;
+		margin-left: auto;
+		margin-right: auto;
+		border: 1px solid var(--dialog-border-color);
+		background-color: var(--dialog-background-color);
+		line-height: 1.2em;
+		padding: 1.5em 2em;
+		display: flex;
+		flex-direction: column;
+		box-shadow: 12px 14px 16px, rgb(0 0 0 / 50%);
+		border-radius: 12px;
+
+		@include respond-to(jumbo-up) {
+			border-radius: 30px;
+		}
+
+		@include respond-to(huge-up) {
+			max-height: 80%;
+			max-width: 80%;
+		}
+
+		@include respond-to(large-down) {
+			padding: 1.5em;
+		}
+
+		@include respond-to(pico-down) {
+			padding: 1.5em 1em;
+		}
+	}
+
+	.close {
+		right: 8px;
+		top: 8px;
+		position: absolute;
+		color: var(--close-color);
+		cursor: pointer;
+		padding: 3px;
+		border-radius: 6px;
+
+		i {
+			font-size: 1.2em;
+		}
+
+		&:hover {
+			color: var(--close-color-hover)
+		}
+	}
+
+	&.overlay-info {
+		z-index: 10010;
+
+		.overlay-popup {
+			width: 90%;
+			height: 90%;
+		}
+	}
+
+	&.overlay-settings {
+		z-index: 10010;
+
+		.overlay-popup {
+			width: 90%;
+			max-height: 90%;
+			max-width: 1400px;
+		}
+	}
+
+	&.overlay-newgame {
+		z-index: 10010;
+
+		.overlay-popup {
+			width: 98%;
+			height: 98%;
+			overflow: hidden;
+
+			@include respond-to-height(small-down) {
+				padding: 10px;
+			}
+		}
+	}
+
+	&.overlay-message {
+		.overlay-message-message {
+			padding: 2em;
+		}
+
+		.overlay-popup {
+			cursor: pointer;
+			font-weight: 600;
+			text-align: center;
+			color: var(--dialog-headline-color);
+			padding: 0;
+			user-select: none;
+			pointer-events: none;
+		}
+	}
+
+	&.overlay-help {
+		z-index: 10010;
+
+		.overlay-popup {
+			max-height: 90%;
+			width: 90%;
+			max-width: 1200px;
+		}
+	}
+}
 
 %clearfix:after {
 	display: block;

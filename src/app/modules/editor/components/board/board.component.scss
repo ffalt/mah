@@ -8,8 +8,7 @@
 		width: 100%;
 		max-height: 960px;
 		background-color: var(--main-background-color);
-
-		@include no-select;
+		user-select: none;
 
 		g.stage {
 			transition: opacity 500ms;
