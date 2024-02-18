@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file. See [commit
 
 ## [1.7.2](https://github.com/ffalt/mah/compare/v1.7.1...v1.7.2) (2024-02-18)
 
+### Features
+
+* **i18n:** update all translations
+
 ## [1.7.1](https://github.com/ffalt/mah/compare/v1.7.0...v1.7.1) (2024-02-18)
 
 
