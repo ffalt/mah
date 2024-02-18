@@ -2,6 +2,8 @@
 
 A Mahjong Solitaire Game
 
+The  original open source version of many Mahjong games out there. Completely free, no ads, no tracking.
+
 Play it [here](https://ffalt.github.io/mah/)  
 
 build with html5, svg, angular
@@ -11,6 +13,20 @@ build with html5, svg, angular
 [![developer](https://img.shields.io/badge/developer-awesome-brightgreen.svg)](https://github.com/ffalt/mah)
 [![known vulnerabilities](https://snyk.io/test/github/ffalt/mah/badge.svg)](https://snyk.io/test/github/ffalt/mah)
 [![codebeat badge](https://codebeat.co/badges/021d3bc7-e512-473b-b99e-80e7650ba57f)](https://codebeat.co/projects/github-com-ffalt-mah-main)
+
+## Features:
+
+* 56 boards to play
+
+* 12 different tile/piece image sets; light & dark
+
+* 8 game backgrounds, themes; light & dark
+
+* 3 difficulties
+
+* Automatic save & restore of game state - start game today in the bus, finish at home. You can always start a new game on the top right.
+
+* English, Deutsch, Nederlands, Português, русский, Español
 
 ## Build Config
 
