@@ -2,6 +2,8 @@
 	"extends": "stylelint-config-standard-scss",
 	"ignoreFiles": [
 		"./angular/**",
+		"./dist/**",
+		"./resources/mobile/android/app/**",
 		"./local/**"
 	]
 }

@@ -1,5 +1,5 @@
 @font-face {
-  font-family: 'editor';
+  font-family: editor;
   src: url('../font/editor.eot?34690429');
   src: url('../font/editor.eot?34690429#iefix') format('embedded-opentype'),
        url('../font/editor.woff2?34690429') format('woff2'),
@@ -9,8 +9,11 @@
   font-weight: normal;
   font-style: normal;
 }
+
 /* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
+
 /* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
+
 /*
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
@@ -19,20 +22,20 @@
   }
 }
 */
-[class^="icon-editor-"]:before, [class*=" icon-editor-"]:before {
-  font-family: "editor";
+[class^="icon-editor-"]::before, [class*=" icon-editor-"]::before {
+  font-family: editor, sans-serif;
   font-style: normal;
   font-weight: normal;
   speak: never;
-
   display: inline-block;
   text-decoration: inherit;
   width: 1em;
   margin-right: .2em;
   text-align: center;
+
   /* opacity: .8; */
 
-  /* For safety - reset parent styles, that can break glyph codes*/
+  /* For safety - reset parent styles, that can break glyph codes */
   font-variant: normal;
   text-transform: none;
 
@@ -40,10 +43,12 @@
   line-height: 1em;
 
   /* Animation center compensation - margins should be symmetric */
+
   /* remove if not needed */
   margin-left: .2em;
 
   /* you can be more comfortable with increased icons size */
+
   /* font-size: 120%; */
 
   /* Font smoothing. That was taken from TWBS */
@@ -51,15 +56,16 @@
   -moz-osx-font-smoothing: grayscale;
 
   /* Uncomment for 3D effect */
+
   /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
 }
 
-.icon-editor-down-small:before { content: '\e800'; } /* '' */
-.icon-editor-left-small:before { content: '\e801'; } /* '' */
-.icon-editor-right-small:before { content: '\e802'; } /* '' */
-.icon-editor-up-small:before { content: '\e803'; } /* '' */
-.icon-editor-trash:before { content: '\e804'; } /* '' */
-.icon-editor-cancel-alt:before { content: '\e805'; } /* '' */
-.icon-editor-ok:before { content: '\e810'; } /* '' */
-.icon-editor-list-add:before { content: '\e832'; } /* '' */
-.icon-editor-docs:before { content: '\f0c5'; } /* '' */
+.icon-editor-down-small::before { content: '\e800'; } /* '' */
+.icon-editor-left-small::before { content: '\e801'; } /* '' */
+.icon-editor-right-small::before { content: '\e802'; } /* '' */
+.icon-editor-up-small::before { content: '\e803'; } /* '' */
+.icon-editor-trash::before { content: '\e804'; } /* '' */
+.icon-editor-cancel-alt::before { content: '\e805'; } /* '' */
+.icon-editor-ok::before { content: '\e810'; } /* '' */
+.icon-editor-list-add::before { content: '\e832'; } /* '' */
+.icon-editor-docs::before { content: '\f0c5'; } /* '' */
