@@ -1,4 +1,3 @@
-/* eslint-disable promise/avoid-new */
 /* eslint-disable no-console */
 
 const destFolder = "../../src/assets/sounds/";
