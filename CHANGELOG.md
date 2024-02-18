@@ -1,6 +1,14 @@
 # Changelog
 
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
+
+## [1.7.0](https://github.com/ffalt/mah/compare/v1.6.1...v1.7.0) (2024-02-18)
+
+
+### Features
+
+* **sets:** add better seasons and flowers to riichi ([a8ddead](https://github.com/ffalt/mah/commit/a8ddeada6a8675c2542280858fa9e48afea6edc4))
+* **theme:** support dark mode in dialogs ([7527228](https://github.com/ffalt/mah/commit/7527228fb88ec8b529c2288ab12e0c5d7716420b))
 
 ### [1.6.1](https://github.com/ffalt/mah/compare/v1.6.0...v1.6.1) (2022-06-21)
 
