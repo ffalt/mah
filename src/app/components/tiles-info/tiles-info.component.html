@@ -7,7 +7,7 @@
 					@for (tile of group.tiles; track tile; let i = $index) {
 						<div class="tile">
 							<div>
-								<app-tile [tile]="tile" [imageSet]="tileset" [index]="i" [isDark]="isDark"></app-tile>
+								<app-tile [tile]="tile" [imageSet]="tileset" [kyodaiUrl]="kyodaiUrl" [index]="i" [isDark]="isDark"></app-tile>
 							</div>
 							<div [innerHtml]="tile | translate"></div>
 						</div>

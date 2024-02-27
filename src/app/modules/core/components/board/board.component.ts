@@ -4,6 +4,7 @@ import {calcDrawPos, Draw, getDrawBounds, getDrawBoundsViewPort, sortDrawItems} 
 import {Stone} from '../../../../model/stone';
 import {AppService} from '../../../../service/app.service';
 import {Indicator, IndicatorAnimations} from '../../model/indicator';
+import {imageSetIsKyodai} from '../../model/tilesets';
 
 type HammerEvent = HammerInput & Event;
 const defaultW = 1470;
@@ -22,6 +23,7 @@ function clamp(value: number, min: number, max: number): number {
 export class BoardComponent implements OnInit, OnChanges {
 	@Input() background: string;
 	@Input() imageSet: string;
+	@Input() kyodaiUrl?: string;
 	@Input() stones: Array<Stone>;
 	@Output() readonly clickEvent = new EventEmitter<Stone>();
 	@HostBinding('style.background-image') backgroundUrl: string | undefined;
@@ -34,6 +36,7 @@ export class BoardComponent implements OnInit, OnChanges {
 	prefix: string;
 	urlPrefix: string;
 	bounds: Array<number> = [0, 0, defaultW, defaultH];
+	imagePos: Array<number> = [6, 6, 63, 88];
 	scale: number = 1;
 	panX: number = 0;
 	panY: number = 0;
@@ -56,6 +59,7 @@ export class BoardComponent implements OnInit, OnChanges {
 		if (changes.imageSet) {
 			this.prefix = `b_${changes.imageSet.currentValue}_`;
 			this.urlPrefix = `#b_${changes.imageSet.currentValue}_`;
+			this.imagePos = imageSetIsKyodai(changes.imageSet.currentValue) ? [0, 0, 75, 100] : [6, 6, 63, 88];
 		}
 	}
 

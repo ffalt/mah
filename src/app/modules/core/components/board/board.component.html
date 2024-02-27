@@ -16,6 +16,9 @@
 						style="fill:#ffffff;fill-opacity:0.4;fill-rule:evenodd;stroke:none;filter:url(#mah-board-filter)"
 						d="M -4.7687833,775.07096 C -9.6501835,741.99485 -16.84552,674.23676 -1.2788716,652.0641 18.998297,625.94378 233.50094,631.63117 263.31435,653.90999 276.21398,662.64856 70.349579,663.12124 47.099353,691.74479 24.390958,719.11242 0.65060847,818.18718 -4.7687833,775.07096 Z"/>
 		</svg>
+		<clipPath id="mah-image-clip">
+			<rect x="1" y="1" width="73" height="98" rx="10" ry="10" fill="#fff"/>
+		</clipPath>
 	</defs>
 	<style>
 		g.tile {
@@ -110,7 +113,7 @@
 		}
 
 	</style>
-	<defs app-image-set-loader [imageSet]="imageSet" [dark]="app.settings.dark" [prefix]="prefix"></defs>
+	<defs app-image-set-loader [imageSet]="imageSet" [kyodaiUrl]="kyodaiUrl" [dark]="app.settings.dark" [prefix]="prefix"></defs>
 	<g class="stage" [attr.transform]="transformStage" [class.dark]="app.settings.dark" [class.contrast]="app.settings.contrast">
 		@for (draw of drawStones; track draw.source.groupnr + '/' + draw.source.v) {
 			<g class="draw"
@@ -122,9 +125,16 @@
 					@if (draw.url) {
 						<title>{{ draw.url | translate }}</title>
 					}
-					<rect class="shadow" x="3" y="3" width="75px" height="100px" rx="10" ry="10"></rect>
+					<rect class="shadow" x="3" y="3" width="75" height="100" rx="10" ry="10"></rect>
 					<rect class="stone" x="0" y="0" width="75" height="100" rx="10" ry="10"></rect>
-					<use [attr.xlink:href]="draw.url | prefix:urlPrefix" x="6" y="6" width="63" height="88"/>
+					<use
+						[attr.xlink:href]="draw.url | prefix:urlPrefix"
+						[attr.x]="imagePos[0]"
+						[attr.y]="imagePos[1]"
+						[attr.width]="imagePos[2]"
+						[attr.height]="imagePos[3]"
+						clip-path="url(#mah-image-clip)"
+					/>
 					<use xlink:href="#front" x="0" y="0" width="75" height="100"/>
 				</g>
 			</g>

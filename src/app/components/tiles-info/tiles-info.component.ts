@@ -12,9 +12,11 @@ export class TilesInfoComponent {
 	sets = ImageSets;
 	tileset = ImageSetDefault;
 	isDark = false;
+	kyodaiUrl?: string;
 
-	constructor(private app: AppService) {
+	constructor(app: AppService) {
 		this.tileset = app.settings.tileset;
 		this.isDark = app.settings.dark;
+		this.kyodaiUrl = app.settings.kyodaiUrl;
 	}
 }

@@ -9,6 +9,7 @@ import {Stone} from '../../../../model/stone';
 })
 export class ImageSetLoaderComponent implements OnChanges {
 	@Input() imageSet: string;
+	@Input() kyodaiUrl?: string;
 	@Input() prefix: string;
 	@Input() dark: boolean = false;
 
@@ -24,7 +25,7 @@ export class ImageSetLoaderComponent implements OnChanges {
 			return;
 		}
 		const imageSet = this.imageSet + (this.dark ? '-black' : '');
-		this.svgdef.get(imageSet)
+		this.svgdef.get(imageSet, this.kyodaiUrl)
 			.then(def => {
 				let s = def.split('<defs>')[1].split('</defs>')[0];
 				s = s.replace(/xlink:href="\./g, 'xlink:href="assets/svg')

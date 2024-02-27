@@ -65,6 +65,17 @@
 			</ul>
 		</form>
 	</div>
+	@if (app.settings.tileset === 'kyodai') {
+		<p>{{ 'KYODAI_TILESET_URL'|translate }}</p>
+		<input type="text" name="kyodai" list="kyodai-list" [value]="app.settings.kyodaiUrl?app.settings.kyodaiUrl:''"
+					 (change)="uodateKyodaiUrl($event)"
+		><button (click)="app.settings.kyodaiUrl = undefined; app.settings.save()">Clear</button>
+		<datalist id="kyodai-list">
+			@for (k of kyodaiTilesets; track k.source; let i = $index) {
+				<option value="{{k.source}}">{{ k.name }}</option>
+			}
+		</datalist>
+	}
 	<p>{{ 'TILES'|translate }}</p>
 	<div>
 		<label>
