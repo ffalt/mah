@@ -18,6 +18,7 @@ export class SettingsComponent {
 	backs = Backgrounds;
 	themes = Themes;
 	languages = LANGUAGE_TITLES;
+	@ViewChild('kyodaiInput', {static: false}) kyodaiInput: ElementRef<HTMLInputElement>;
 
 	constructor(
 		public app: AppService,
@@ -30,6 +31,18 @@ export class SettingsComponent {
 	uodateKyodaiUrl($event: Event): void {
 		this.app.settings.kyodaiUrl = ($event.target as HTMLInputElement).value;
 		this.app.settings.save();
+	}
+
+	clearKyodaiUrl(): void {
+		this.app.settings.kyodaiUrl = undefined;
+		this.app.settings.save()
+	}
+
+	applyKyodaiUrl(): void {
+		if (this.kyodaiInput.nativeElement) {
+			this.app.settings.kyodaiUrl = this.kyodaiInput.nativeElement.value;
+			this.app.settings.save();
+		}
 	}
 
 	async clearTimes(): Promise<void> {

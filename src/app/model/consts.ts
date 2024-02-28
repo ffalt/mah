@@ -74,7 +74,7 @@ export const ImageSets = [
 	{id: 'picasso', type: 'PNG', name: 'Picasso'},
 	{id: 'modern', type: 'PNG', name: 'Modern'},
 	{id: 'classic', type: 'PNG', name: 'Classic'},
-	{id: 'kyodai', type: 'JPG', name: 'Kyodai Tilesets'}
+	{id: 'kyodai', type: 'JPG', name: 'External Kyodai Tilesets'}
 ];
 
 export const ImageSetDefault = 'riichi';

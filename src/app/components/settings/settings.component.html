@@ -67,9 +67,11 @@
 	</div>
 	@if (app.settings.tileset === 'kyodai') {
 		<p>{{ 'KYODAI_TILESET_URL'|translate }}</p>
-		<input type="text" name="kyodai" list="kyodai-list" [value]="app.settings.kyodaiUrl?app.settings.kyodaiUrl:''"
+		<input #kyodaiInput type="text" name="kyodai" list="kyodai-list" [value]="app.settings.kyodaiUrl?app.settings.kyodaiUrl:''"
 					 (change)="uodateKyodaiUrl($event)"
-		><button (click)="app.settings.kyodaiUrl = undefined; app.settings.save()">Clear</button>
+		>
+		<button (click)="applyKyodaiUrl()">Apply</button>
+		<button (click)="clearKyodaiUrl()">Clear</button>
 		<datalist id="kyodai-list">
 			@for (k of kyodaiTilesets; track k.source; let i = $index) {
 				<option value="{{k.source}}">{{ k.name }}</option>
