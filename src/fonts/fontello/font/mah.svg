@@ -1,12 +1,14 @@
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg xmlns="http://www.w3.org/2000/svg">
-<metadata>Copyright (C) 2022 by original authors @ fontello.com</metadata>
+<metadata>Copyright (C) 2024 by original authors @ fontello.com</metadata>
 <defs>
 <font id="mah" horiz-adv-x="1000" >
 <font-face font-family="mah" font-weight="400" font-stretch="normal" units-per-em="1000" ascent="850" descent="-150" />
 <missing-glyph horiz-adv-x="1000" />
 <glyph glyph-name="pause" unicode="&#xe800;" d="M440 700q90 0 90-64l0-570q0-66-90-66t-90 66l0 570q0 64 90 64z m-350 0q90 0 90-64l0-570q0-66-90-66t-90 66l0 570q0 64 90 64z" horiz-adv-x="530" />
+
+<glyph glyph-name="cancel-squared" unicode="&#xe801;" d="M700 750q42 0 71-29t29-71l0-600q0-40-29-70t-71-30l-600 0q-40 0-70 30t-30 70l0 600q0 42 30 71t70 29l600 0z m-146-638l86 86-154 152 154 154-86 86-154-152-152 152-88-86 154-154-154-152 88-86 152 152z" horiz-adv-x="800" />
 
 <glyph glyph-name="lightbulb" unicode="&#xe803;" d="M411 529q0-8-6-13t-12-5-13 5-5 13q0 25-30 39t-59 14q-7 0-13 5t-5 13 5 13 13 5q28 0 55-9t49-30 21-50z m89 0q0 40-19 74t-50 57-69 35-76 12-76-12-69-35-50-57-20-74q0-57 38-101 6-6 17-18t17-19q72-85 79-166h127q8 81 79 166 6 6 17 19t17 18q38 44 38 101z m71 0q0-87-57-150-25-27-42-48t-33-54-19-60q26-15 26-46 0-20-13-35 13-15 13-36 0-29-25-45 8-13 8-26 0-26-18-40t-43-14q-11-25-34-39t-48-15-49 15-33 39q-26 0-44 14t-17 40q0 13 7 26-25 16-25 45 0 21 14 36-14 15-14 35 0 31 26 46-2 28-19 60t-33 54-41 48q-58 63-58 150 0 55 25 103t65 79 92 49 104 19 104-19 91-49 66-79 24-103z" horiz-adv-x="571.4" />
 

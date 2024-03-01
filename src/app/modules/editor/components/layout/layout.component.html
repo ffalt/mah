@@ -125,7 +125,7 @@
 @if (saveDialog) {
 	<div (click)="toggleSave();" class="overlay overlay-save">
 		<div class="overlay-popup" (click)="$event.stopPropagation();">
-			<span class="close" (click)="toggleSave();"><i class="icon-cancel-circled2 pull-right"></i></span>
+			<span class="close" (click)="toggleSave();"><i class="icon-cancel-circled2"></i></span>
 			<app-editor-export-component [layout]="layout" (savedEvent)="toggleSave()"></app-editor-export-component>
 		</div>
 	</div>

@@ -28,7 +28,7 @@ export class LayoutService {
 				items.push(layout);
 			}
 		}
-		const customLayouts: Array<LoadLayout> = this.loadCustomBoards();
+		const customLayouts: Array<LoadLayout> = this.loadCustomLayouts();
 		for (const o of customLayouts) {
 			const layout = this.expandLayout(o, true);
 			if (layout) {
@@ -64,12 +64,12 @@ export class LayoutService {
 		};
 	}
 
-	loadCustomBoards(): Array<LoadLayout> {
+	loadCustomLayouts(): Array<LoadLayout> {
 		return this.storage.getCustomLayouts() || [];
 	}
 
 	storeCustomBoards(list: Array<LoadLayout>) {
-		const customLayouts = this.loadCustomBoards();
+		const customLayouts = this.loadCustomLayouts();
 		this.storage.storeCustomLayouts(customLayouts.concat(list));
 		this.layouts.items = this.layouts.items.concat(list.map(layout => this.expandLayout(layout, true)));
 	}

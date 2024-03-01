@@ -176,8 +176,7 @@
 	"HOW_PAIR": "Paar",
 	"HOW_PAIR_DESC": "Zwei Steine mit identischer Vorderseite. Innerhalb der Blumen und Jahreszeiten passen zwei beliebige Steine derselben Gruppe.",
 	"HOW_OPEN_DESC": "Ein Stein ist offen, wenn sich links, rechts oder darüber kein Stein befindet.",
-	"HOW_DO": "Wählen Sie zwei passende Steine aus, um sie zu entfernen. Da es für jede potenzielle Paarung mehr als zwei Steine gibt, ist Strategie erforderlich."
+	"HOW_DO": "Wählen Sie zwei passende Steine aus, um sie zu entfernen. Da es für jede potenzielle Paarung mehr als zwei Steine gibt, ist Strategie erforderlich.",
+	"CUSTOM_BOARD_DELETE": "Eigenes Spielbrett löschen",
+	"CUSTOM_BOARD_DELETE_SURE": "Eigenes Spielbrett löschen?\nDies kann nicht rückgängig gemacht werden."
 }
-
-
-

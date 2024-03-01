@@ -176,8 +176,8 @@
 	"HOW_PAIR": "Par",
 	"HOW_PAIR_DESC": "Dos fichas con idéntico dibujo. Dentro de las flores y las estaciones, se pueden emparejar dos fichas cualquiera del mismo grupo.",
 	"HOW_OPEN_DESC": "Una ficha está abierta si no hay fichas a su izquierda, derecha o encima.",
-	"HOW_DO": "Selecciona dos fichas iguales para eliminarlas. Como hay más de dos fichas para cada combinación posible, hay que seguir una estrategia."
+	"HOW_DO": "Selecciona dos fichas iguales para eliminarlas. Como hay más de dos fichas para cada combinación posible, hay que seguir una estrategia.",
+	"CUSTOM_BOARD_DELETE": "Eliminar tablero personalizado",
+	"CUSTOM_BOARD_DELETE_SURE": "¿Borrar el tablero personalizado?\nEsto no se puede deshacer."
 }
-
-
 
