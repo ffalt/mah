@@ -26,7 +26,7 @@ export class ImageSetLoaderComponent implements OnChanges {
 		const sl: Array<string> = [svg_spinner_icon];
 		TILES.forEach(row => {
 			row.forEach(id => {
-				sl.push(`<svg id="${id}" width="75" height="100"><use xlink:href="#mah-tile-spinner" transform="translate(24,42)"></use></svg>`);
+				sl.push(`<svg id="${id}" width="75" height="100"><use xlink:href="#mah-tile-spinner" transform="translate(26,42)"></use></svg>`);
 			})
 		})
 		this.setImageSet(`<svg><defs>${sl.join('')}</defs></svg>`);

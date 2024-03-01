@@ -218,16 +218,6 @@ export const KyodaiTileSets = [
 		name: 'Age of Empires II: Age of Kings',
 		author: 'vikinganswerlady',
 		source: 'https://web.archive.org/web/20030919052725/http://www.vikinganswerlady.com/kyodai/AOEII.jpg'
-	},
-	{
-		name: '',
-		author: 'kurenai',
-		source: 'https://web.archive.org/web/20140227215635im_/http://tsubassa-kurenai.de/Kyodai/Tilesets/Colors.bmp'
-	},
-	{
-		name: '',
-		author: 'kurenai',
-		source: ''
 	}
 ];
 

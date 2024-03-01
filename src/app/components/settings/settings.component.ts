@@ -28,14 +28,22 @@ export class SettingsComponent {
 	) {
 	}
 
-	uodateKyodaiUrl($event: Event): void {
-		this.app.settings.kyodaiUrl = ($event.target as HTMLInputElement).value;
+	uodateKyodaiUrl(event: Event): void {
+		this.app.settings.kyodaiUrl = (event.target as HTMLInputElement).value;
 		this.app.settings.save();
 	}
 
 	clearKyodaiUrl(): void {
 		this.app.settings.kyodaiUrl = undefined;
 		this.app.settings.save()
+	}
+
+	setKyodaiUrl(event: Event): void {
+		if (this.kyodaiInput.nativeElement) {
+			event.preventDefault();
+			event.stopPropagation();
+			this.kyodaiInput.nativeElement.value = (event.target as HTMLSelectElement).value;
+		}
 	}
 
 	applyKyodaiUrl(): void {

@@ -38,10 +38,6 @@
 		width: 1em;
 	}
 
-	input[type=text] {
-		width: 100%;
-	}
-
 	input[type=radio], input[type=checkbox], label, button {
 		cursor: pointer;
 	}
@@ -86,12 +82,30 @@
 		}
 	}
 
-	button {
+	.clear-times {
 		margin-top: 10px;
 		padding: 12px 20px;
 	}
 
 	.close {
 		margin-top: 0;
+	}
+
+	.input-wrapper {
+		display: flex;
+		flex-direction: row;
+		position: relative;
+		border: 1px solid var(--card-layout-color-border);
+
+		textarea {
+			flex: 1;
+			border: none;
+			resize: none;
+		}
+
+		.clear-kyodai {
+			background-color: #fff;
+			border: none;
+		}
 	}
 }

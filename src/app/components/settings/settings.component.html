@@ -65,19 +65,6 @@
 			</ul>
 		</form>
 	</div>
-	@if (app.settings.tileset === 'kyodai') {
-		<p>{{ 'KYODAI_TILESET_URL'|translate }}</p>
-		<input #kyodaiInput type="text" name="kyodai" list="kyodai-list" [value]="app.settings.kyodaiUrl?app.settings.kyodaiUrl:''"
-					 (change)="uodateKyodaiUrl($event)"
-		>
-		<button (click)="applyKyodaiUrl()">Apply</button>
-		<button (click)="clearKyodaiUrl()">Clear</button>
-		<datalist id="kyodai-list">
-			@for (k of kyodaiTilesets; track k.source; let i = $index) {
-				<option value="{{k.source}}">{{ k.name }}</option>
-			}
-		</datalist>
-	}
 	<p>{{ 'TILES'|translate }}</p>
 	<div>
 		<label>
@@ -97,6 +84,28 @@
 	</div>
 	<p>{{ 'BEST_TIMES'|translate }}</p>
 	<div>
-		<button (click)="clearTimesClick()">{{ 'BEST_TIMES_CLEAR'|translate }}</button>
+		<button class="clear-times" (click)="clearTimesClick()">{{ 'BEST_TIMES_CLEAR'|translate }}</button>
 	</div>
 </div>
+@if (app.settings.tileset === 'kyodai') {
+	<div class="settings">
+		<p>{{ 'KYODAI_TILESET_URL'|translate }}</p>
+		<div class="input-wrapper">
+			<textarea #kyodaiInput type="text" name="kyodai" [value]="app.settings.kyodaiUrl?app.settings.kyodaiUrl:''"
+								(change)="uodateKyodaiUrl($event)"></textarea>
+			<button class="clear-kyodai" (click)="clearKyodaiUrl()">
+				<svg fill="#000000" width="10px" height="10px" viewBox="0 0 35 35">
+					<path d="M28.814,30.064a1.247,1.247,0,0,1-.884-.367L5.3,7.07A1.249,1.249,0,0,1,7.07,5.3L29.7,27.93a1.251,1.251,0,0,1-.884,2.134Z"/>
+					<path d="M6.186,30.064A1.251,1.251,0,0,1,5.3,27.93L27.93,5.3A1.25,1.25,0,0,1,29.7,7.07L7.07,29.7A1.247,1.247,0,0,1,6.186,30.064Z"/>
+				</svg>
+			</button>
+			<button (click)="applyKyodaiUrl()">Load</button>
+		</div>
+		<select (change)="setKyodaiUrl($event)">
+			<option value="">Your Kyodai Tileset Link!</option>
+			@for (k of kyodaiTilesets; track k.source; let i = $index) {
+				<option [value]="k.source">{{ k.name }} - {{ k.author }}</option>
+			}
+		</select>
+	</div>
+}
