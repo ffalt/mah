@@ -5,7 +5,7 @@
 				<h1>🀄️{{ title }}</h1>
 			}
 			@if (!noClose) {
-				<a class="close" (click)="toggle()"><i class="icon-cancel-circled2"></i></a>
+				<a class="close" (click)="toggle()" title="{{ 'CLOSE' | translate }}"><i class="icon-cancel-circled2"></i></a>
 			}
 			<ng-content></ng-content>
 		</div>

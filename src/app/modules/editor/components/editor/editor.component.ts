@@ -1,8 +1,10 @@
 import {Component, EventEmitter, Output, ViewChild} from '@angular/core';
-import {Layout} from '../../../../model/types';
+import {TranslateService} from '@ngx-translate/core';
 import {LayoutService} from '../../../../service/layout.service';
 import {LayoutComponent} from '../layout/layout.component';
 import {downloadMahLayouts} from '../../model/export';
+import {EditLayout} from '../../model/edit-layout';
+import {Layout} from '../../../../model/types';
 
 @Component({
 	selector: 'app-editor-component',
@@ -11,11 +13,11 @@ import {downloadMahLayouts} from '../../model/export';
 })
 export class EditorComponent {
 	mode = 'manager';
-	layout?: Layout;
+	layout?: EditLayout;
 	@Output() readonly closeEvent = new EventEmitter();
 	@ViewChild(LayoutComponent, {static: false}) layoutComponent?: LayoutComponent;
 
-	constructor(public layoutService: LayoutService) {
+	constructor(public layoutService: LayoutService, private translate: TranslateService) {
 	}
 
 	save() {
@@ -29,17 +31,21 @@ export class EditorComponent {
 			this.closeEvent.emit();
 			return;
 		}
-		this.layout = undefined;
-		this.mode = 'manager';
+		const hasChanged = this.layout && this.layoutComponent && this.layoutComponent.hasChanged;
+		if (!hasChanged || confirm(this.translate.instant('EDITOR_DISCARD_CHANGES_SURE'))) {
+			this.layout = undefined;
+			this.mode = 'manager';
+		}
 	}
 
 	editLayout(layout: Layout) {
 		this.mode = 'edit';
 		this.layout = {
 			id: '',
+			originalId: layout.id,
 			name: layout.name,
 			by: layout.by || '',
-			category: layout.category || 'Custom',
+			category: (layout.custom ? layout.category : undefined) || 'Custom',
 			mapping: layout.mapping.map(m => [m[0], m[1], m[2]])
 		};
 	}
@@ -51,7 +57,7 @@ export class EditorComponent {
 	newLayout() {
 		this.editLayout({
 			id: '',
-			name: 'New Layout',
+			name: 'New Board',
 			category: 'Custom',
 			by: '',
 			mapping: []

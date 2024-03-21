@@ -1,7 +1,9 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {Layout} from '../../../../model/types';
+import {TranslateService} from '@ngx-translate/core';
+import {Layout, LoadLayout} from '../../../../model/types';
 import {LayoutService} from '../../../../service/layout.service';
 import {downloadLayout, generateExportKmahjongg, generateExportKyodai, generateExportLayout, generateExportMah} from '../../model/export';
+import {EditLayout} from '../../model/edit-layout';
 
 interface Format {
 	name: string;
@@ -16,8 +18,8 @@ interface Format {
 	styleUrls: ['./export.component.scss']
 })
 export class ExportComponent implements OnInit, OnChanges {
-	@Input() layout: Layout;
-	@Output() readonly savedEvent = new EventEmitter<void>();
+	@Input() layout: EditLayout;
+	@Output() readonly savedEvent = new EventEmitter<boolean>();
 	exportFormats: Array<Format> = [
 		{
 			name: 'Mah',
@@ -39,11 +41,12 @@ export class ExportComponent implements OnInit, OnChanges {
 		}
 	];
 	format: Format = this.exportFormats[0];
+	exportLayout: LoadLayout;
 	layoutName: string;
 	output: string;
 	filename: string;
 
-	constructor(private layoutService: LayoutService) {
+	constructor(private translate: TranslateService, private layoutService: LayoutService) {
 	}
 
 	ngOnInit(): void {
@@ -58,18 +61,23 @@ export class ExportComponent implements OnInit, OnChanges {
 		}
 	}
 
+	saveAsCopy(): void {
+		this.layoutService.storeCustomBoards([this.exportLayout]);
+		this.layout.originalId = this.exportLayout.id;
+		this.savedEvent.emit(true);
+	}
+
 	save(): void {
-		const exportLayout = generateExportLayout(this.layout);
-		if (this.layoutService.layouts.items.find(l => !l.custom && l.id === exportLayout.id)) {
-			alert('Similar (build-in) layout already in Game!');
+		if (this.layoutService.layouts.items.find(l => !l.custom && l.id === this.exportLayout.id)) {
+			alert(this.translate.instant('EDITOR_BUILD_IN_EXISTS'));
 			return;
-		} else if (this.layoutService.layouts.items.find(l => l.custom && l.id === exportLayout.id)) {
-			this.layoutService.removeCustomLayout([exportLayout.id]);
-			this.layoutService.storeCustomBoards([exportLayout]);
-		} else {
-			this.layoutService.storeCustomBoards([exportLayout]);
 		}
-		this.savedEvent.emit();
+		const removeIDs = [this.exportLayout.id];
+		if (this.layout.originalId) {
+			removeIDs.push(this.layout.originalId);
+		}
+		this.layoutService.removeCustomLayout(removeIDs);
+		this.saveAsCopy();
 	}
 
 	chooseFormat(ef: Format): void {
@@ -79,11 +87,13 @@ export class ExportComponent implements OnInit, OnChanges {
 
 	download(): void {
 		downloadLayout(this.filename, this.output, this.format.type);
+		this.savedEvent.emit(true);
 	}
 
 	update(): void {
 		this.layoutName = this.layout.name.toLocaleLowerCase().replace(/ /g, '_');
 		this.output = this.format.func(this.layout);
 		this.filename = `${this.layoutName}.${this.format.ext}`;
+		this.exportLayout = generateExportLayout(this.layout);
 	}
 }

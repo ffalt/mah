@@ -1,18 +1,18 @@
 <div class="editor-content">
-	<a class="close" (click)="close()" title="Close"><i class="icon-cancel-circled2"></i></a>
+	<a class="close" (click)="close()" title="{{ 'CLOSE' | translate }}"><i class="icon-cancel-circled2"></i></a>
 	<div class="editor-manager" [class.visible]="mode==='manager'">
 		<div class="editor-nav buttons">
 			<ul>
-				<li>Mah Editor</li>
+				<li>{{ 'EDITOR_TITLE' | translate }}</li>
 				<li class="sep"></li>
 				<li>
-					<button (click)="newLayout()">New</button>
+					<button (click)="newLayout()" title="{{ 'EDITOR_NEW_LONG' | translate }}">{{ 'EDITOR_NEW' | translate }}</button>
 				</li>
 				<li>
-					<button (click)="mode='import'">Import</button>
+					<button (click)="mode='import'" title="{{ 'EDITOR_IMPORT_LONG' | translate }}">{{ 'EDITOR_IMPORT' | translate }}</button>
 				</li>
 				<li>
-					<button (click)="exportLayouts()">Export</button>
+					<button (click)="exportLayouts()" title="{{ 'EDITOR_EXPORT_LONG' | translate }}">{{ 'EDITOR_EXPORT' | translate }}</button>
 				</li>
 			</ul>
 		</div>
@@ -24,7 +24,7 @@
 		<div>
 			<div class="editor-nav">
 				<ul>
-					<li>Mah Editor: Import</li>
+					<li>{{ 'EDITOR_TITLE' | translate }}: {{ 'EDITOR_IMPORT' | translate }}</li>
 				</ul>
 			</div>
 			<div class="editor-main">
@@ -36,10 +36,10 @@
 		<div>
 			<div class="editor-nav buttons">
 				<ul>
-					<li>Mah Editor: {{ layout.name }}</li>
+					<li>{{ 'EDITOR_TITLE' | translate }}: {{ layout.name }}</li>
 					<li class="sep"></li>
 					<li>
-						<button (click)="save()">Save</button>
+						<button (click)="save()" title="{{ 'EDITOR_SAVE_LONG' | translate }}">{{ 'EDITOR_SAVE' | translate }}</button>
 					</li>
 				</ul>
 			</div>

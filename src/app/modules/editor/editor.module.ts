@@ -1,5 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import {TranslateModule} from '@ngx-translate/core';
 import {CoreModule} from '../core/core.module';
 import {EditorComponent} from './components/editor/editor.component';
 import {LayoutComponent} from './components/layout/layout.component';
@@ -10,7 +11,7 @@ import {ImportComponent} from './components/import/import.component';
 import {ManagerComponent} from './components/manager/manager.component';
 
 @NgModule({
-	imports: [CommonModule, CoreModule],
+	imports: [CommonModule, CoreModule, TranslateModule],
 	declarations: [
 		EditorComponent,
 		LayoutComponent,
