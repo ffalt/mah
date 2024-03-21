@@ -35,7 +35,7 @@
 	<br/>
 	<div class="buttons">
 		<button class="text-button" (click)="download()">{{ 'EDITOR_LAYOUT_DOWNLOAD' | translate }} {{ filename }}</button>
-		@if (this.layout.originalId && exportLayout.id !== this.layout.originalId) {
+		@if (this.layout && this.layout.originalId && exportLayout.id !== this.layout.originalId) {
 			<button class="text-button" (click)="saveAsCopy()">{{ 'EDITOR_LAYOUT_SAVE_AS_COPY' | translate }}</button>
 		}
 		<button class="text-button" (click)="save()">{{ 'EDITOR_LAYOUT_SAVE' | translate }}</button>
