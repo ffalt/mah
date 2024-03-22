@@ -4,7 +4,7 @@ import {DomSanitizer} from '@angular/platform-browser';
 import {firstValueFrom} from 'rxjs';
 import {expandMapping, mappingToID} from '../model/mapping';
 import {generateBase64SVG} from '../model/layout-svg';
-import {Layout, Layouts, LoadLayout, Mapping, SafeUrlSVG} from '../model/types';
+import {CompactMapping, Layout, Layouts, LoadLayout, Mapping, SafeUrlSVG} from '../model/types';
 import {LocalstorageService} from './localstorage.service';
 
 @Injectable()
@@ -14,6 +14,16 @@ export class LayoutService {
 	selectBoardID?: string | null;
 
 	constructor(private http: HttpClient, private sanitizer: DomSanitizer, private storage: LocalstorageService) {
+	}
+
+	static layout2loadLayout(layout: Layout, map: CompactMapping): LoadLayout {
+		return {
+			id: layout.id,
+			name: layout.name,
+			by: layout.by,
+			cat: layout.category,
+			map
+		};
 	}
 
 	async get(): Promise<Layouts> {
@@ -28,7 +38,7 @@ export class LayoutService {
 				items.push(layout);
 			}
 		}
-		const customLayouts: Array<LoadLayout> = this.loadCustomBoards();
+		const customLayouts: Array<LoadLayout> = this.loadCustomLayouts();
 		for (const o of customLayouts) {
 			const layout = this.expandLayout(o, true);
 			if (layout) {
@@ -64,12 +74,12 @@ export class LayoutService {
 		};
 	}
 
-	loadCustomBoards(): Array<LoadLayout> {
+	loadCustomLayouts(): Array<LoadLayout> {
 		return this.storage.getCustomLayouts() || [];
 	}
 
 	storeCustomBoards(list: Array<LoadLayout>) {
-		const customLayouts = this.loadCustomBoards();
+		const customLayouts = this.loadCustomLayouts();
 		this.storage.storeCustomLayouts(customLayouts.concat(list));
 		this.layouts.items = this.layouts.items.concat(list.map(layout => this.expandLayout(layout, true)));
 	}

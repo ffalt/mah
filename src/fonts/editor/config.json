@@ -59,6 +59,12 @@
       "css": "ok",
       "code": 59408,
       "src": "fontawesome"
+    },
+    {
+      "uid": "4b2321afcbe0505a70b80abd5c25e09b",
+      "css": "paper-plane-empty",
+      "code": 61913,
+      "src": "fontawesome"
     }
   ]
 }

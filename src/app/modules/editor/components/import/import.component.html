@@ -1,9 +1,9 @@
 <div class="import-section" (appDropZone)="onDropFiles($event)">
 	<div class="drop-zone">
-		<div class="title">Drag your files here<br/>
-			*.lay (Kyodai text format)<br/>
-			*.layout (kmahjongg text format)<br/>
-			*.mah (Mah json format)<br/>
+		<div class="title">{{'EDITOR_IMPORT_DROP' | translate }}<br/>
+			{{'EDITOR_FORMAT_KYODAI' | translate }}<br/>
+			{{'EDITOR_FORMAT_KMAHJONGG' | translate }}<br/>
+			{{'EDITOR_FORMAT_MAH' | translate }}<br/>
 		</div>
 		<input name="file" type="file" multiple (change)="selectFiles($event)">
 	</div>

@@ -109,4 +109,12 @@ export class LayoutListComponent implements OnChanges {
 		}
 	}
 
+	removeCustomLayout(event: MouseEvent, layout: LayoutItem): void {
+		event.stopPropagation();
+		if (confirm(this.translate.instant('CUSTOM_BOARD_DELETE_SURE'))) {
+			this.layoutService.removeCustomLayout([layout.layout.id]);
+			this.refresh();
+		}
+	}
+
 }

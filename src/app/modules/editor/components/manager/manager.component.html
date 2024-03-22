@@ -1,50 +1,61 @@
-<div class="layout-table">
-	<div class="layout layout-header">
-		<div class="col-image">Preview</div>
-		<div class="col-name sortable" (click)="clickSortBy($event,1)" [class.sort-up]="sortColumn===1 && sortDesc" [class.sort-down]="sortColumn===1 && !sortDesc">Name <span class="arrow"></span></div>
-		<div class="col-by sortable" (click)="clickSortBy($event,2)" [class.sort-up]="sortColumn===2 && sortDesc" [class.sort-down]="sortColumn===2 && !sortDesc">by <span class="arrow"></span></div>
-		<div class="col-cat sortable" (click)="clickSortBy($event,3)" [class.sort-up]="sortColumn===3 && sortDesc" [class.sort-down]="sortColumn===3 && !sortDesc">Category <span class="arrow"></span></div>
-		<div class="col-stats sortable" (click)="clickSortBy($event,4)" [class.sort-up]="sortColumn===4 && sortDesc" [class.sort-down]="sortColumn===4 && !sortDesc"># of Stones <span class="arrow"></span></div>
-		<div class="col-clear">
-			Clear
-			<button (click)="removeCustomLayouts($event)" title="Remove all custom layouts">
+<table class="layout-table">
+	<thead>
+		<tr class="layout layout-header">
+		<td class="col-image">{{ 'EDITOR_COLUMN_PREVIEW' | translate }}</td>
+		<td class="col-name sortable" (click)="clickSortBy($event,1)" [class.sort-up]="sortColumn===1 && sortDesc" [class.sort-down]="sortColumn===1 && !sortDesc">{{ 'EDITOR_LAYOUT_NAME' | translate }} <span class="arrow"></span></td>
+		<td class="col-cat sortable" (click)="clickSortBy($event,3)" [class.sort-up]="sortColumn===3 && sortDesc" [class.sort-down]="sortColumn===3 && !sortDesc">{{ 'EDITOR_LAYOUT_CATEGORY' | translate }} <span class="arrow"></span>
+			<div>
+			<label>
+				<input type="checkbox" [checked]="showBuildIn" (change)="toggleBuildIn()">
+				{{'EDITOR_SHOW_BUILDIN'|translate}}
+			</label>
+			</div>
+		</td>
+		<td class="col-stats sortable" (click)="clickSortBy($event,4)" [class.sort-up]="sortColumn===4 && sortDesc" [class.sort-down]="sortColumn===4 && !sortDesc">{{ 'EDITOR_LAYOUT_NR_OF_STONES' | translate }} <span class="arrow"></span></td>
+		<td class="col-test">{{ 'EDITOR_COLUMN_TEST' | translate }}
+			<button (click)="testLayouts($event)" title="{{ 'EDITOR_TEST_RUN' | translate }}">
+				<i class="icon-editor-paper-plane-empty"></i>
+			</button>
+		</td>
+		<td class="col-delete">
+			<button (click)="removeCustomLayouts($event)" title="{{ 'CUSTOM_BOARD_DELETE_ALL' | translate }}">
 				<i class="icon-trash-empty"></i>
 			</button>
-		</div>
-		<div class="col-test">Test
-			<button (click)="testLayouts($event)" title="Test all layouts">
-				<i class="icon-editor-ok"></i>
-			</button>
-		</div>
-	</div>
+		</td>
+	</tr>
+	</thead>
+	<tbody>
 	@for (layout of layouts; track layout) {
-		<div class="layout" (click)="editLayout(layout)">
-			<div class="col-image">
+		<tr class="layout" (click)="editLayout(layout)">
+			<td class="col-image">
 				<app-layout-preview class="svg-board" [layout]="layout"></app-layout-preview>
-			</div>
-			<div class="col-name">{{ layout.name }}</div>
-			<div class="col-by">{{ layout.by }}</div>
-			<div class="col-cat">{{ layout.category }}</div>
-			<div class="col-stats">{{ layout.mapping.length }}</div>
-			<div class="col-clear">
-				@if (layout.custom) {
-					<button (click)="removeCustomBoard($event, layout)" title="Remove this layouts">
-						<i class="icon-trash-empty"></i>
-					</button>
-				}
-			</div>
-			<div class="col-test">
+			</td>
+			<td class="col-name">{{ layout.name }}</td>
+			<td class="col-cat">{{ layout.category }}</td>
+			<td class="col-stats">{{ layout.mapping.length }}</td>
+			<td class="col-test">
+				<button (click)="testLayout($event, layout)" title="{{ 'EDITOR_TEST_RUN' | translate }}">
+					<i class="icon-editor-paper-plane-empty"></i>
+				</button>
 				@if (test[layout.id]) {
 					<div>
-						@if (test[layout.id].win) {
-							<div>Win: {{ test[layout.id].win }}</div>
+						@if (test[layout.id]?.win) {
+							<div>{{ 'EDITOR_TEST_SOLVED' | translate }}: {{ test[layout.id]?.win }}</div>
 						}
-						@if (test[layout.id].fail) {
-							<div class="fail">Fail: {{ test[layout.id].fail }}</div>
+						@if (test[layout.id]?.fail) {
+							<div class="fail">{{ 'EDITOR_TEST_FAILED' | translate }}: {{ test[layout.id]?.fail }}</div>
 						}
 					</div>
 				}
-			</div>
-		</div>
+			</td>
+			<td class="col-delete">
+				@if (layout.custom) {
+					<button (click)="removeCustomBoard($event, layout)" title="{{'CUSTOM_BOARD_DELETE' | translate}}">
+						<i class="icon-trash-empty"></i>
+					</button>
+				}
+			</td>
+		</tr>
 	}
-</div>
+	</tbody>
+</table>

@@ -10,26 +10,48 @@
 				</li>
 			}
 		</ul>
+		<div class="buttonbar">
+			<div class="buttons">
+				<button (click)="this.newLayerBelow(this.currentZ)" title="{{'EDITOR_NEW_LAYER_LONG' | translate}}">
+					<i class="icon-editor-list-add"></i>
+				</button>
+			</div>
+		</div>
 	</div>
-}
-@if (this.layout) {
 	<div class="editor-selected">
 		<div class="matrix-edit">
 			<div class="matrix-edit-top">
 				<div class="buttonbar">
-					<div class="buttonbar-title">Level {{ this.currentZ }}</div>
-					<div class="buttons">
-						<span>Tiles: {{ this.stats.layerCount }}</span>
-						<button (click)="this.moveLayerY(-1)" title="Move tiles up">
+					<div class="buttons buttons-current-level">
+						<div class="buttonbar-title">Level {{ this.currentZ }}</div>
+						<button [disabled]="this.currentZ===0" (click)="this.moveLayerZ(-1, this.currentZ)" title="{{'EDITOR_MOVE_LAYER_DOWN_LONG' | translate}}">
 							<i class="icon-editor-up-small"></i>
 						</button>
-						<button (click)="this.moveLayerY(1)" title="Move tiles down">
+						<button [disabled]="this.currentZ===this.matrix.levels.length-1" (click)="this.moveLayerZ(1, this.currentZ)" title="{{'EDITOR_MOVE_LAYER_UP_LONG' | translate}}">
 							<i class="icon-editor-down-small"></i>
 						</button>
-						<button (click)="this.moveLayerX(-1)" title="Move tiles left">
+						<button (click)="this.duplicateLayerZ(this.currentZ)" title="{{'EDITOR_DUPLICATE_LAYER_LONG' | translate}}">
+							<i class="icon-editor-docs"></i>
+						</button>
+						<button (click)="this.clearLayerZ(this.currentZ)" title="{{'EDITOR_CLEAR_LAYER_LONG' | translate}}">
+							<i class="icon-editor-cancel-alt"></i>
+						</button>
+						<button (click)="this.deleteLayerZ(this.currentZ)" title="{{'EDITOR_DELETE_LAYER_LONG' | translate}}">
+							<i class="icon-editor-trash"></i>
+						</button>
+					</div>
+					<div class="buttons">
+						<span>Tiles: {{ this.stats.layerCount }}</span>
+						<button (click)="this.moveLayerY(-1)" title="{{'EDITOR_MOVE_TILES_UP_LONG' | translate}}">
+							<i class="icon-editor-up-small"></i>
+						</button>
+						<button (click)="this.moveLayerY(1)" title="{{'EDITOR_MOVE_TILES_DOWN_LONG' | translate}}">
+							<i class="icon-editor-down-small"></i>
+						</button>
+						<button (click)="this.moveLayerX(-1)" title="{{'EDITOR_MOVE_TILES_LEFT_LONG' | translate}}">
 							<i class="icon-editor-left-small"></i>
 						</button>
-						<button (click)="this.moveLayerX(1)" title="Move tiles right">
+						<button (click)="this.moveLayerX(1)" title="{{'EDITOR_MOVE_TILES_RIGHT_LONG' | translate}}">
 							<i class="icon-editor-right-small"></i>
 						</button>
 					</div>
@@ -37,45 +59,24 @@
 				<div class="matrix-board">
 					<app-editor-board [level]="this.level" (clickDrawEvent)="this.onCellClick($event)" (clickStoneEvent)="this.onStoneClick($event)" [isBoard]="true" [matrix]="this.matrix"></app-editor-board>
 				</div>
-				<div class="buttonbar">
-					<div class="buttons">
-						<button (click)="this.newLayerBelow(this.currentZ)" title="New Level below">
-							<i class="icon-editor-list-add"></i>
-						</button>
-						<button [disabled]="this.currentZ===0" (click)="this.moveLayerZ(-1, this.currentZ)" title="Move Level down">
-							<i class="icon-editor-up-small"></i>
-						</button>
-						<button [disabled]="this.currentZ===this.matrix.levels.length-1" (click)="this.moveLayerZ(1, this.currentZ)" title="Move Level up">
-							<i class="icon-editor-down-small"></i>
-						</button>
-						<button (click)="this.duplicateLayerZ(this.currentZ)" title="Duplicate Level">
-							<i class="icon-editor-docs"></i>
-						</button>
-						<button (click)="this.clearLayerZ(this.currentZ)" title="Clear Level">
-							<i class="icon-editor-cancel-alt"></i>
-						</button>
-						<button (click)="this.deleteLayerZ(this.currentZ)" title="Delete Level">
-							<i class="icon-editor-trash"></i>
-						</button>
-					</div>
-				</div>
 			</div>
 			<div class="matrix-edit-bottom">
 				<div class="buttonbar">
 					<div class="buttons">
+						<div class="buttonbar-title">{{ 'EDITOR_VIEW_FULL' | translate }}</div>
 					</div>
 					<div class="buttons">
 						<span [class.fail]="this.stats.countInvalid">Tiles: {{ this.stats.totalCount }}</span>
-						<button (click)="this.moveY(-1)" title="Move all tiles up">
+						<button (click)="this.moveY(-1)" title="{{ 'EDITOR_MOVE_ALL_TILES_UP_LONG' | translate }}">
 							<i class="icon-editor-up-small"></i>
 						</button>
-						<button (click)="this.moveY(1)" title="Move all tiles down">
+						<button (click)="this.moveY(1)" title="{{ 'EDITOR_MOVE_ALL_TILES_DOWN_LONG' | translate }}">
 							<i class="icon-editor-down-small"></i>
 						</button>
-						<button (click)="this.moveX(-1)" title="Move all tiles left">
+						<button (click)="this.moveX(-1)" title="{{ 'EDITOR_MOVE_ALL_TILES_LEFT_LONG' | translate }}">
 							<i class="icon-editor-left-small"></i>
 						</button>
-						<button (click)="this.moveX(1)" title="Move all tiles right">
+						<button (click)="this.moveX(1)" title="{{ 'EDITOR_MOVE_ALL_TILES_RIGHT_LONG' | translate }}">
 							<i class="icon-editor-right-small"></i>
 						</button>
 					</div>
@@ -101,20 +102,20 @@
 						<div>
 							@if (!this.solveWorker) {
 								<button class="text-button" (click)="this.solve()">
-									Test Solvable
+									{{ 'EDITOR_TEST_RUN' | translate }}
 								</button>
 							}
 							@if (this.solveWorker) {
 								<button class="text-button" (click)="this.cancelSolve()">
-									Cancel Solve
+									{{ 'EDITOR_TEST_CANCEL' | translate }}
 								</button>
 							}
 						</div>
 					</div>
 					@if (this.solveStats) {
 						<div>
-							<div>Win:  {{ this.solveStats.won }}</div>
-							<div>Fail: <span [class.fail]="this.solveStats.fail>0">{{ this.solveStats.fail }}</span></div>
+							<div>{{ 'EDITOR_TEST_SOLVED' | translate }}: {{ this.solveStats.won }}</div>
+							<div>{{ 'EDITOR_TEST_FAILED' | translate }}: <span [class.fail]="this.solveStats.fail>0">{{ this.solveStats.fail }}</span></div>
 						</div>
 					}
 				</div>
@@ -125,8 +126,8 @@
 @if (saveDialog) {
 	<div (click)="toggleSave();" class="overlay overlay-save">
 		<div class="overlay-popup" (click)="$event.stopPropagation();">
-			<span class="close" (click)="toggleSave();"><i class="icon-cancel-circled2 pull-right"></i></span>
-			<app-editor-export-component [layout]="layout" (savedEvent)="toggleSave()"></app-editor-export-component>
+			<span class="close" (click)="toggleSave();" title="{{ 'CLOSE' | translate }}"><i class="icon-cancel-circled2"></i></span>
+			<app-editor-export-component [layout]="layout" (savedEvent)="toggleAfterSave()"></app-editor-export-component>
 		</div>
 	</div>
 }

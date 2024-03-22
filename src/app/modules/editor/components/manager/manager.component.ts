@@ -10,9 +10,10 @@ import {WorkerService} from '../../../../service/worker.service';
 })
 export class ManagerComponent implements OnChanges, OnDestroy {
 	layouts: Array<Layout>;
-	test: { [key: string]: { win: number; fail: number; msg?: string } } = {};
+	test: { [key: string]: { win: number; fail: number; msg?: string } | undefined } = {};
 	sortColumn: number = 1;
 	sortDesc: boolean = true;
+	showBuildIn: boolean = true;
 	worker?: Worker;
 	@Input() inputLayouts: Array<Layout>;
 	@Output() readonly editEvent = new EventEmitter<Layout>();
@@ -38,6 +39,11 @@ export class ManagerComponent implements OnChanges, OnDestroy {
 		this.editEvent.emit(layout);
 	}
 
+	toggleBuildIn() {
+		this.showBuildIn = !this.showBuildIn;
+		this.update();
+	}
+
 	clickSortBy(event: MouseEvent, column: number) {
 		if (this.sortColumn === column) {
 			this.sortDesc = !this.sortDesc;
@@ -48,6 +54,9 @@ export class ManagerComponent implements OnChanges, OnDestroy {
 	update() {
 		if (this.inputLayouts) {
 			this.layouts = this.inputLayouts.sort((a, b) => a.name.localeCompare(b.name));
+			if (!this.showBuildIn) {
+				this.layouts = this.layouts.filter(l => l.custom);
+			}
 			this.sortBy(this.sortColumn);
 		}
 	}
@@ -88,6 +97,27 @@ export class ManagerComponent implements OnChanges, OnDestroy {
 		});
 	}
 
+	testLayout(event: MouseEvent, layout: Layout): void {
+		event.stopPropagation();
+		this.startTestLayout(layout);
+	}
+
+	startTestLayout(layout: Layout, callback?: () => void): void {
+		if (this.worker) {
+			this.worker.terminate();
+			this.worker = undefined;
+			return;
+		}
+		this.test[layout.id] = undefined;
+		this.worker = this.workerService.solve(layout.mapping, 10, progress => {
+			this.test[layout.id] = {win: progress[0], fail: progress[1]};
+		}, finish => {
+			this.test[layout.id] = {win: finish[0], fail: finish[1]};
+			this.worker = undefined;
+			callback && callback();
+		});
+	}
+
 	testLayouts(event: MouseEvent): void {
 		if (this.worker) {
 			this.worker.terminate();
@@ -99,13 +129,9 @@ export class ManagerComponent implements OnChanges, OnDestroy {
 	testNextLayout(): void {
 		const next = this.layouts.find(l => !this.test[l.id]);
 		if (next) {
-			this.worker = this.workerService.solve(next.mapping, 10, progress => {
-				this.test[next.id] = {win: progress[0], fail: progress[1]};
-			}, finish => {
-				this.test[next.id] = {win: finish[0], fail: finish[1]};
+			this.startTestLayout(next, () => {
 				this.testNextLayout();
-				this.worker = undefined;
-			});
+			})
 		}
 	}
 

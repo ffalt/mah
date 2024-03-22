@@ -26,13 +26,21 @@
 								<app-layout-preview class="svg-board" [svg]="item.layout.previewSVG" [alt]="item.layout.name"></app-layout-preview>
 							}
 							@if (item.bestTime) {
-								<div class="preview-best-time">{{ 'STATS_BEST' | translate }}: {{ item.bestTime|duration }}
-									<a (click)="clearBestTimeClick($event, item)">
-										<i class="icon-trash-empty"></i>
+								<div class="preview-best-time">
+									<span title="{{ 'STATS_BEST' | translate }}">{{ item.bestTime|duration }}</span>
+									<a (click)="clearBestTimeClick($event, item)" title="{{ 'BEST_TIME_CLEAR' | translate }}">
+										<i class="icon-cancel-squared"></i>
 									</a>
 								</div>
 							}
 							<div class="preview-name">{{ item.layout.name }}</div>
+							@if (item.layout.custom) {
+								<div class="preview-custom" title="{{ 'CUSTOM_BOARD_DELETE' | translate }}">
+									<a (click)="removeCustomLayout($event, item)">
+										<i class="icon-trash-empty"></i>
+									</a>
+								</div>
+							}
 						</div>
 					}
 				}

@@ -3,27 +3,25 @@
 :host {
 	overflow-y: auto;
 	flex: 1;
-	display: flex;
 
 	.fail {
 		color: var(--text-fail-color);
 	}
 
 	.layout-table {
-		display: table;
-		color: var(--main-text-color);
+		color: var(--editor-table-row-color);
 		width: 100%;
 
 		.layout {
-			display: table-row;
 			cursor: pointer;
+			background-color: var(--editor-table-row-color-bg);
+			height: 80px;
 
 			&:hover {
-				background-color: rgb(255 255 255 / 2%);
+				background-color: var(--editor-table-row-color-bg-hover);
 			}
 
 			> div {
-				display: table-cell;
 				vertical-align: middle;
 				padding: 4px 15px;
 				border-top: 1px solid var(--dialog-border-color);
@@ -66,18 +64,30 @@
 			.col-id {
 				font-variant-numeric: slashed-zero tabular-nums;
 			}
-
 		}
 
-		.col-stats, .col-clear {
-			max-width: 50px;
+		.col-stats {
+			width: 50px;
 		}
 
 		.col-test {
-			max-width: 80px;
+			width: 140px;
+		}
+
+		.col-cat {
+			width: 200px;
+		}
+
+		.col-stats {
+			width: 140px;
+		}
+
+		.col-delete {
+			width: 80px;
 		}
 
 		.layout-header {
+			max-height: 30px;
 			> div {
 				border-top: none;
 			}

@@ -55,6 +55,10 @@
 		}
 	}
 
+	.buttons-current-level {
+		display: flex;
+	}
+
 	.buttonbar {
 		display: flex;
 		flex-direction: row;
@@ -62,6 +66,7 @@
 
 		.buttonbar-title {
 			padding-left: 12px;
+			padding-right: 12px;
 		}
 	}
 
@@ -71,6 +76,7 @@
 		height: 100%;
 		border-right: 1px solid var(--dialog-border-color);
 		overflow-y: auto;
+		background-color: var(--editor-color-bg);
 
 		.matrix-list {
 			list-style: none;
@@ -147,6 +153,9 @@
 				flex-direction: column;
 				flex: 1;
 				overflow: hidden;
+
+				.buttonbar {
+				}
 
 				.matrix-board {
 					flex: 1;

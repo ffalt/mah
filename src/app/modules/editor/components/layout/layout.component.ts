@@ -1,5 +1,5 @@
 import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
-import {Layout, Place, SafeUrlSVG} from '../../../../model/types';
+import {Place, SafeUrlSVG} from '../../../../model/types';
 import {Matrix} from '../../model/matrix';
 import {Cell} from '../../model/cell';
 import {Consts} from '../../../../model/consts';
@@ -7,6 +7,7 @@ import {Stone} from '../../../../model/stone';
 import {WorkerService} from '../../../../service/worker.service';
 import {LayoutService} from '../../../../service/layout.service';
 import {optimizeMapping} from '../../model/import';
+import {EditLayout} from '../../model/edit-layout';
 
 interface Stats {
 	name: string;
@@ -35,7 +36,7 @@ interface SolveStats {
 	styleUrls: ['./layout.component.scss']
 })
 export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
-	@Input() layout: Layout;
+	@Input() layout: EditLayout;
 	level: {
 		z: number;
 		rows: Array<Array<number>>;
@@ -50,6 +51,7 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 	totalX = Consts.mX;
 	matrix: Matrix = new Matrix();
 	saveDialog: boolean = false;
+	hasChanged: boolean = false;
 	svg: SafeUrlSVG;
 
 	constructor(private worker: WorkerService, private layoutService: LayoutService) {
@@ -59,7 +61,7 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 		this.cancelSolve();
 	}
 
-	getStats(layout: Layout): Stats {
+	getStats(layout: EditLayout): Stats {
 		const stats: Stats = {
 			name: layout.name,
 			totalCount: layout.mapping.length,
@@ -104,12 +106,14 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 	ngOnInit(): void {
 		if (this.layout) {
 			this.refresh();
+			this.hasChanged = false;
 		}
 	}
 
 	ngOnChanges(changes: SimpleChanges): void {
 		if (changes.layout) {
 			this.refresh();
+			this.hasChanged = false;
 		}
 	}
 
@@ -142,6 +146,7 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 	}
 
 	refresh(): void {
+		this.hasChanged = true;
 		this.matrix.applyMapping(this.layout.mapping, this.totalZ, this.totalX, this.totalY);
 		this.stats = this.getStats(this.layout);
 		this.level = {z: this.currentZ, rows: this.matrix.levels[this.currentZ], showTiles: true};
@@ -255,6 +260,11 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 
 	toggleSave(): void {
 		this.saveDialog = !this.saveDialog;
+	}
+
+	toggleAfterSave(): void {
+		this.saveDialog = false;
+		this.hasChanged = false;
 	}
 
 	cancelSolve(): void {

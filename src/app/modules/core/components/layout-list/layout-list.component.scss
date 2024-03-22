@@ -76,6 +76,33 @@
 					padding-bottom: 1.5em;
 				}
 
+				.preview-custom {
+					position: absolute;
+					bottom: 0;
+					right: 0;
+					display: none;
+					background-color: var(--preview-overlay-background);
+					color: var(--preview-overlay-text);
+					text-shadow: 1px 1px var(--preview-overlay-text-shadow);
+					border-bottom-left-radius: 3px;
+					padding: 3px 3px 3px 6px;
+
+					a {
+						display: inline-block;
+						min-width: 1.2em;
+						text-align: right;
+						transition: all 100ms;
+
+						i {
+							font-size: 0.8em;
+						}
+
+						&:hover {
+							transform: scale(1.3);
+						}
+					}
+				}
+
 				.preview-best-time {
 					position: absolute;
 					top: 0;
@@ -117,6 +144,9 @@
 
 					.preview-name {
 						background-color: var(--card-text-color-bg-hover);
+					}
+					.preview-custom {
+						display: block;
 					}
 				}
 

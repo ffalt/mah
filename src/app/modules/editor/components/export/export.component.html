@@ -1,12 +1,12 @@
-<h3>Save / Export</h3>
+<h3>{{ 'EDITOR_SAVE' | translate }} / {{ 'EDITOR_EXPORT' | translate }}</h3>
 @if (layout) {
 	<div class="section">
 		<div class="inputs">
-			<label>Name</label>
+			<label>{{ 'EDITOR_LAYOUT_NAME' | translate }}</label>
 			<input type="text" [value]="layout.name" (input)="layout.name = $any($event.target).value;" (change)="this.update()" (blur)="this.update()">
-			<label>By</label>
+			<label>{{ 'EDITOR_LAYOUT_BY' | translate }}</label>
 			<input type="text" [value]="layout.by" (input)="layout.by = $any($event.target).value;" (change)="this.update()" (blur)="this.update()">
-			<label>Category</label>
+			<label>{{ 'EDITOR_LAYOUT_CATEGORY' | translate }}</label>
 			<input type="text" [value]="layout.category" (input)="layout.category = $any($event.target).value;" (change)="this.update()" (blur)="this.update()">
 		</div>
 		<div class="preview">
@@ -34,7 +34,10 @@
 	</div>
 	<br/>
 	<div class="buttons">
-		<button class="text-button" (click)="download()">Download {{ filename }}</button>
-		<button class="text-button" (click)="save()">Save in Browser Cache</button>
+		<button class="text-button" (click)="download()">{{ 'EDITOR_LAYOUT_DOWNLOAD' | translate }} {{ filename }}</button>
+		@if (this.layout && this.layout.originalId && exportLayout.id !== this.layout.originalId) {
+			<button class="text-button" (click)="saveAsCopy()">{{ 'EDITOR_LAYOUT_SAVE_AS_COPY' | translate }}</button>
+		}
+		<button class="text-button" (click)="save()">{{ 'EDITOR_LAYOUT_SAVE' | translate }}</button>
 	</div>
 </div>

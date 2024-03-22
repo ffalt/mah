@@ -39,8 +39,9 @@
 
 				&.tile, &.blocked {
 					fill: #0c1a1e;
-					cursor: default;
+					cursor: not-allowed;
 				}
+
 			}
 		}
 	}
