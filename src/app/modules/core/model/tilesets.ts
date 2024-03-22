@@ -244,6 +244,14 @@ function hashCode(str: string) {
 	return hash;
 }
 
+const kyodai = [
+	['t_do1', 't_do2', 't_do3', 't_do4', 't_do5', 't_do6', 't_do7', 't_do8', 't_do9'],
+	['t_ba1', 't_ba2', 't_ba3', 't_ba4', 't_ba5', 't_ba6', 't_ba7', 't_ba8', 't_ba9'],
+	['t_ch1', 't_ch2', 't_ch3', 't_ch4', 't_ch5', 't_ch6', 't_ch7', 't_ch8', 't_ch9'],
+	['t_se_winter', 't_se_spring', 't_se_summer', 't_se_fall', 't_wi_north', 't_wi_south', 't_wi_east', 't_wi_west'],
+	['t_fl_bamboo', 't_fl_plum', 't_fl_orchid', 't_fl_chrysanthemum', 't_dr_green', 't_dr_white', 't_dr_red']
+];
+
 export async function buildKyodaiSVG(tileSetUrl?: string): Promise<string> {
 	if (!tileSetUrl) {
 		return '<svg><defs></defs></svg>';
@@ -253,19 +261,11 @@ export async function buildKyodaiSVG(tileSetUrl?: string): Promise<string> {
 	const colWidth = image.width / 9;
 	const image_id = hashCode(tileSetUrl);
 	let data = `<svg><defs><image id="${image_id}" xlink:href="${tileSetUrl}" x="0" y="0" height="${image.height}" width="${image.width}"/>`;
-	const kyodai = [
-		['t_do1', 't_do2', 't_do3', 't_do4', 't_do5', 't_do6', 't_do7', 't_do8', 't_do9'],
-		['t_ba1', 't_ba2', 't_ba3', 't_ba4', 't_ba5', 't_ba6', 't_ba7', 't_ba8', 't_ba9'],
-		['t_ch1', 't_ch2', 't_ch3', 't_ch4', 't_ch5', 't_ch6', 't_ch7', 't_ch8', 't_ch9'],
-		['t_se_winter', 't_se_spring', 't_se_summer', 't_se_fall', 't_wi_north', 't_wi_south', 't_wi_east', 't_wi_west'],
-		['t_fl_bamboo', 't_fl_plum', 't_fl_orchid', 't_fl_chrysanthemum', 't_dr_green', 't_dr_white', 't_dr_red']
-	]
 	kyodai.forEach(((row, nr) => {
 		const y = nr * rowHeight;
 		row.forEach((id, col) => {
 			const x = col * colWidth;
-			data += `<svg preserveAspectRatio="xMidYMid slice" id="${id}" width="75" height="100" viewBox="${x} ${y} ${colWidth} ${rowHeight}">
-<use xlink:href="#${image_id}"></use></svg>`;
+			data += `<svg preserveAspectRatio="xMidYMid slice" id="${id}" width="75" height="100" viewBox="${x} ${y} ${colWidth} ${rowHeight}"><use xlink:href="#${image_id}"></use></svg>`;
 		});
 	}));
 	data += '</defs></svg>';
