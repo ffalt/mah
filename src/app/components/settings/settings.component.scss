@@ -102,7 +102,7 @@
 		margin-top: 8px;
 		margin-bottom: 8px;
 
-		&:after {
+		&::after {
 			position: absolute;
 			content: '';
 			right: 8px;

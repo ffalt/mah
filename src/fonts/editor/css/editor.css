@@ -23,7 +23,7 @@
 }
 */
 [class^="icon-editor-"]::before, [class*=" icon-editor-"]::before {
-  font-family: editor;
+	font-family: editor, emoji;
   font-style: normal;
   font-weight: normal;
   speak: never;
