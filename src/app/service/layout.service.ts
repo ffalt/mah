@@ -4,7 +4,7 @@ import {DomSanitizer} from '@angular/platform-browser';
 import {firstValueFrom} from 'rxjs';
 import {expandMapping, mappingToID} from '../model/mapping';
 import {generateBase64SVG} from '../model/layout-svg';
-import {Layout, Layouts, LoadLayout, Mapping, SafeUrlSVG} from '../model/types';
+import {CompactMapping, Layout, Layouts, LoadLayout, Mapping, SafeUrlSVG} from '../model/types';
 import {LocalstorageService} from './localstorage.service';
 
 @Injectable()
@@ -14,6 +14,16 @@ export class LayoutService {
 	selectBoardID?: string | null;
 
 	constructor(private http: HttpClient, private sanitizer: DomSanitizer, private storage: LocalstorageService) {
+	}
+
+	static layout2loadLayout(layout: Layout, map: CompactMapping): LoadLayout {
+		return {
+			id: layout.id,
+			name: layout.name,
+			by: layout.by,
+			cat: layout.category,
+			map
+		};
 	}
 
 	async get(): Promise<Layouts> {

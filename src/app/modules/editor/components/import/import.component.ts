@@ -35,13 +35,7 @@ export class ImportComponent {
 						!this.layoutService.layouts.items.find(l => l.id === layout.id) &&
 						!imported.find(l => l.id === layout.id)
 					) {
-						imported.push({
-							id: layout.id,
-							name: layout.name,
-							by: layout.by,
-							cat: layout.category,
-							map: loadLayout.map
-						});
+						imported.push(LayoutService.layout2loadLayout(layout, loadLayout.map));
 						this.logs.push({msg: `Imported: "${file.name}"`, id: layout.id});
 					} else {
 						console.error(`Similar layout to "${layout.name}" already available. Import rejected`);
