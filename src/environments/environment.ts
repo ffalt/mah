@@ -10,5 +10,6 @@ export const environment = {
 	name: env.APP_NAME,
 	mobile: env.APP_FEATURE_MOBILE,
 	editor: env.APP_FEATURE_EDITOR,
+	kyodai: env.APP_FEATURE_KYODAI,
 	modules: []
 };

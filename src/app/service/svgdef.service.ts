@@ -1,5 +1,6 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
+import {buildKyodaiSVG, imageSetIsKyodai} from '../modules/core/model/tilesets';
 
 interface CacheItem {
 	data?: string;
@@ -14,7 +15,10 @@ export class SvgdefService {
 	constructor(private http: HttpClient) {
 	}
 
-	async get(name: string): Promise<string> {
+	async get(name: string, kyodaiUrl?: string): Promise<string> {
+		if (imageSetIsKyodai(name)) {
+			return buildKyodaiSVG(kyodaiUrl);
+		}
 		let item = this.cache[name];
 		if (item) {
 			if (item.data) {

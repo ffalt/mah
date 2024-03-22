@@ -1,5 +1,5 @@
 <div class="settings">
-	<p>{{ 'LANG'|translate }}</p>
+	<p>{{ 'LANG' | translate }}</p>
 	<div class="buttons">
 		<form>
 			<ul class="radio">
@@ -17,7 +17,7 @@
 			</ul>
 		</form>
 	</div>
-	<p>{{ 'BACKGROUND'|translate }}</p>
+	<p>{{ 'BACKGROUND' | translate }}</p>
 	<div class="buttons">
 		<form>
 			<ul class="radio">
@@ -32,7 +32,7 @@
 			</ul>
 		</form>
 	</div>
-	<p>{{ 'THEME'|translate }}</p>
+	<p>{{ 'THEME' | translate }}</p>
 	<div class="buttons">
 		<form>
 			<ul class="radio">
@@ -49,7 +49,7 @@
 	</div>
 </div>
 <div class="settings">
-	<p>{{ 'TILESET'|translate }}</p>
+	<p>{{ 'TILESET' | translate }}</p>
 	<div class="buttons">
 		<form>
 			<ul class="radio radio-tilesets">
@@ -62,10 +62,43 @@
 						<label for="imageset{{i}}">{{ imageset.name }}</label>
 					</li>
 				}
+				@if (canKyodai) {
+					<li>
+						<input type="radio" id="sd" name="imageset" value="kyodai" id="imageset-kyodai"
+									 [checked]="app.settings.tileset === 'kyodai'"
+									 (change)="app.settings.tileset = 'kyodai';app.settings.save();"
+						/>
+						<label for="imageset-kyodai">{{ 'KYODAI_TILESET' | translate }}</label>
+					</li>
+				}
 			</ul>
 		</form>
 	</div>
-	<p>{{ 'TILES'|translate }}</p>
+	@if (canKyodai && app.settings.tileset === 'kyodai') {
+		<div class="settings">
+			<p>{{ 'KYODAI_TILESET_SETTINGS' | translate }}</p>
+			<div class="input-wrapper">
+			<textarea #kyodaiInput type="text" name="kyodai"
+								[value]="app.settings.kyodaiUrl ? app.settings.kyodaiUrl : ''"
+								(change)="uodateKyodaiUrl($event)"></textarea>
+				<button class="clear-kyodai" (click)="clearKyodaiUrl()">
+					<svg width="17px" height="17px" viewBox="0 0 35 35">
+						<path d="M28.814,30.064a1.247,1.247,0,0,1-.884-.367L5.3,7.07A1.249,1.249,0,0,1,7.07,5.3L29.7,27.93a1.251,1.251,0,0,1-.884,2.134Z"/>
+						<path d="M6.186,30.064A1.251,1.251,0,0,1,5.3,27.93L27.93,5.3A1.25,1.25,0,0,1,29.7,7.07L7.07,29.7A1.247,1.247,0,0,1,6.186,30.064Z"/>
+					</svg>
+				</button>
+				<select class="example-kyodai" (change)="setKyodaiUrl($event)">
+					<option value="">{{ 'KYODAI_TILESET_EXAMPLES' | translate }}</option>
+					@for (k of kyodaiTileSets; track k.source; let i = $index) {
+						<option [value]="k.source">{{ k.name }} - {{ k.author }}</option>
+					}
+				</select>
+			</div>
+				<button (click)="applyKyodaiUrl()">{{ 'KYODAI_TILESET_LOAD' | translate }}</button>
+		</div>
+	}
+
+	<p>{{ 'TILES' | translate }}</p>
 	<div>
 		<label>
 			<input type="checkbox"
@@ -82,8 +115,8 @@
 			{{ 'TILES_DARK'|translate }}
 		</label>
 	</div>
-	<p>{{ 'BEST_TIMES'|translate }}</p>
+	<p>{{ 'BEST_TIMES' | translate }}</p>
 	<div>
-		<button (click)="clearTimesClick()">{{ 'BEST_TIMES_CLEAR'|translate }}</button>
+		<button class="clear-times" (click)="clearTimesClick()">{{ 'BEST_TIMES_CLEAR' | translate }}</button>
 	</div>
 </div>

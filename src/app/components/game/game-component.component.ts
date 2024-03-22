@@ -1,4 +1,4 @@
-import {Component, HostListener, OnInit, ViewChild} from '@angular/core';
+import {Component, HostListener, ViewChild} from '@angular/core';
 import {Game} from '../../model/game';
 import {Stone} from '../../model/stone';
 import {Layout, Place} from '../../model/types';

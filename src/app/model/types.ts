@@ -99,6 +99,7 @@ export class SettingsStore {
 	contrast: boolean;
 	dark: boolean;
 	tileset: string;
+	kyodaiUrl?: string;
 	theme: string;
 	background: string;
 }

@@ -8,6 +8,7 @@ export class Settings {
 	contrast = false;
 	dark = false;
 	background = '';
+	kyodaiUrl?: string;
 	theme = 'ltgreen';
 	stats = {
 		games: 0,
@@ -28,6 +29,7 @@ export class Settings {
 				this.contrast = store.contrast || false;
 				this.dark = store.dark || false;
 				this.sounds = store.sounds || false;
+				this.kyodaiUrl = store.kyodaiUrl;
 			}
 			return true;
 		} catch (e) {
@@ -45,7 +47,8 @@ export class Settings {
 				dark: this.dark,
 				background: this.background,
 				theme: this.theme,
-				tileset: this.tileset
+				tileset: this.tileset,
+				kyodaiUrl: this.kyodaiUrl
 			});
 			return true;
 		} catch (e) {

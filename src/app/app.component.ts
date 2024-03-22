@@ -16,10 +16,8 @@ import {GameComponent} from './components/game/game-component.component';
 })
 export class AppComponent implements OnInit {
 	loading = true;
-	@ViewChild('editorPlaceholder', {read: ViewContainerRef, static: true})
-	editorPlaceholder: ViewContainerRef;
-	@ViewChild('gameComponent', {static: false})
-	gameComponent: GameComponent;
+	@ViewChild('editorPlaceholder', {read: ViewContainerRef, static: true}) editorPlaceholder: ViewContainerRef;
+	@ViewChild('gameComponent', {static: false}) gameComponent: GameComponent;
 	editorSubscription?: Subscription;
 	editorVisible: boolean = false;
 
