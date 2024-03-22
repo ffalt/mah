@@ -1,6 +1,5 @@
-import {Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
+import {Component, ElementRef, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {SvgdefService} from '../../../../service/svgdef.service';
-import {Stone} from '../../../../model/stone';
 import {TILES} from '../../../../model/consts';
 import {svg_error_icon, svg_spinner_icon} from './svg';
 

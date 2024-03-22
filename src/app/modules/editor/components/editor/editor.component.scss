@@ -5,14 +5,11 @@
 	--editor-color-bg: #1e2e37;
 	--editor-table-row-color-bg: #1e2e37;
 	--editor-table-row-color-bg-hover: #2b424f;
+
 	position: absolute;
 	inset: 0;
 	background-color: var(--editor-color-bg);
 	z-index: 10001;
-
-	@media (prefers-color-scheme: dark) {
-
-	}
 
 	a {
 		color: var(--main-content-link-color);

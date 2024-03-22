@@ -1,5 +1,5 @@
 <div class="settings">
-	<p>{{ 'LANG'|translate }}</p>
+	<p>{{ 'LANG' | translate }}</p>
 	<div class="buttons">
 		<form>
 			<ul class="radio">
@@ -17,7 +17,7 @@
 			</ul>
 		</form>
 	</div>
-	<p>{{ 'BACKGROUND'|translate }}</p>
+	<p>{{ 'BACKGROUND' | translate }}</p>
 	<div class="buttons">
 		<form>
 			<ul class="radio">
@@ -32,7 +32,7 @@
 			</ul>
 		</form>
 	</div>
-	<p>{{ 'THEME'|translate }}</p>
+	<p>{{ 'THEME' | translate }}</p>
 	<div class="buttons">
 		<form>
 			<ul class="radio">
@@ -49,7 +49,7 @@
 	</div>
 </div>
 <div class="settings">
-	<p>{{ 'TILESET'|translate }}</p>
+	<p>{{ 'TILESET' | translate }}</p>
 	<div class="buttons">
 		<form>
 			<ul class="radio radio-tilesets">
@@ -65,7 +65,7 @@
 			</ul>
 		</form>
 	</div>
-	<p>{{ 'TILES'|translate }}</p>
+	<p>{{ 'TILES' | translate }}</p>
 	<div>
 		<label>
 			<input type="checkbox"
@@ -82,14 +82,14 @@
 			{{ 'TILES_DARK'|translate }}
 		</label>
 	</div>
-	<p>{{ 'BEST_TIMES'|translate }}</p>
+	<p>{{ 'BEST_TIMES' | translate }}</p>
 	<div>
-		<button class="clear-times" (click)="clearTimesClick()">{{ 'BEST_TIMES_CLEAR'|translate }}</button>
+		<button class="clear-times" (click)="clearTimesClick()">{{ 'BEST_TIMES_CLEAR' | translate }}</button>
 	</div>
 </div>
 @if (app.settings.tileset === 'kyodai') {
 	<div class="settings">
-		<p>{{ 'KYODAI_TILESET_URL'|translate }}</p>
+		<p>{{ 'KYODAI_TILESET_URL' | translate }}</p>
 		<div class="input-wrapper">
 			<textarea #kyodaiInput type="text" name="kyodai" [value]="app.settings.kyodaiUrl?app.settings.kyodaiUrl:''"
 								(change)="uodateKyodaiUrl($event)"></textarea>
