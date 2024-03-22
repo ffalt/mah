@@ -6,6 +6,7 @@ import {LayoutService} from '../../service/layout.service';
 import {LocalstorageService} from '../../service/localstorage.service';
 import {LANGUAGE_TITLES} from '../../i18n/languages';
 import {KyodaiTileSets} from '../../modules/core/model/tilesets';
+import {environment} from '../../../environments/environment';
 
 @Component({
 	selector: 'app-settings',
@@ -13,7 +14,8 @@ import {KyodaiTileSets} from '../../modules/core/model/tilesets';
 	styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent {
-	kyodaiTilesets = KyodaiTileSets;
+	canKyodai = environment.kyodai;
+	kyodaiTileSets = KyodaiTileSets;
 	sets = ImageSets;
 	backs = Backgrounds;
 	themes = Themes;
@@ -67,5 +69,4 @@ export class SettingsComponent {
 			});
 		}
 	}
-
 }

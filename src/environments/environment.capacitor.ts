@@ -7,5 +7,6 @@ export const environment = {
 	name: env.APP_NAME,
 	mobile: true,
 	editor: env.APP_FEATURE_EDITOR,
+	kyodai: env.APP_FEATURE_KYODAI,
 	modules: [CapacitorModule.forRoot()]
 };

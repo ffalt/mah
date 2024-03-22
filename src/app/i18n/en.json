@@ -224,5 +224,9 @@
 	"EDITOR_TEST_CANCEL": "Cancel",
 	"EDITOR_TEST_SOLVED": "Solved",
 	"EDITOR_TEST_FAILED": "Failed",
-	"CLOSE": "Close"
+	"CLOSE": "Close",
+	"KYODAI_TILESET_LOAD": "Load Image",
+	"KYODAI_TILESET_SETTINGS": "Kyodai Image URL",
+	"KYODAI_TILESET_EXAMPLES": "Kyodai Tileset Examples",
+	"KYODAI_TILESET": "Kyodai Tileset"
 }

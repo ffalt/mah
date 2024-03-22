@@ -8,7 +8,7 @@ export interface Tileset {
 	name?: string;
 }
 
-export const KyodaiTileSets = [
+export const KyodaiTileSets: Array<Tileset> = [
 	{
 		name: 'Traditional',
 		author: 'My Kyodai Mahjongg',

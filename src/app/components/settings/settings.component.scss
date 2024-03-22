@@ -43,7 +43,7 @@
 	}
 
 	p {
-		margin: 10px 0 4px;
+		margin: 1em 0 4px;
 		font-weight: bold;
 		border-bottom: 1px solid var(--main-bg-color-lt);
 	}
@@ -96,16 +96,55 @@
 		flex-direction: row;
 		position: relative;
 		border: 1px solid var(--card-layout-color-border);
+		background-color: var(--input-background-color);
+		border-color: var(--input-border-color);
+		color: var(--input-text-color);
+		margin-top: 8px;
+		margin-bottom: 8px;
+
+		&:after {
+			position: absolute;
+			content: '';
+			right: 8px;
+			top: 16px;
+			width: 0;
+			height: 0;
+			border-left: 5px solid transparent;
+			border-right: 5px solid transparent;
+			border-top: 10px solid var(--input-text-color);
+			pointer-events: none;
+		}
 
 		textarea {
 			flex: 1;
 			border: none;
 			resize: none;
+			outline: none;
+			font-size: 10px;
+			background-color: var(--input-background-color);
+			color: var(--input-text-color);
+		}
+
+		&:focus-within {
+			outline: 2px solid var(--card-layout-color-border);
+		}
+
+		.example-kyodai {
+			background-color: var(--input-background-color);
+			color: var(--input-background-color);
+			border: none;
+			width: 30px;
 		}
 
 		.clear-kyodai {
-			background-color: #fff;
+			background-color: var(--input-background-color);
+			color: var(--input-text-color);
 			border: none;
+			width: 30px;
+
+			svg {
+				fill: var(--input-text-color);
+			}
 		}
 	}
 }
