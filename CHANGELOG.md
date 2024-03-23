@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [1.7.3](https://github.com/ffalt/mah/compare/v1.7.2...v1.7.3) (2024-03-23)
+
+
+### Features
+
+* **layout-list:** allow deleting custom layouts in the layout-list ([74eaf0d](https://github.com/ffalt/mah/commit/74eaf0d7df1cf4db2b2cb1d866baabc90361aecb))
+
 ## [1.7.2](https://github.com/ffalt/mah/compare/v1.7.1...v1.7.2) (2024-02-18)
 
 ### Features
