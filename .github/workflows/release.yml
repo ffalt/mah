@@ -23,7 +23,7 @@ jobs:
 
       - name: Write github.io app config
         run: |
-          echo "{\"name\": \"Mah\", \"editor\":true}" > custom-build-config.json
+          echo "{\"name\": \"Mah\", \"kyodai\":true, \"editor\":true}" > custom-build-config.json
 
       - name: Install dependencies
         run: |
