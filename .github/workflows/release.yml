@@ -41,12 +41,11 @@ jobs:
           touch ./dist/.nojekyll
 
       - name: Deploy to GH Pages branch 🚀
-        uses: JamesIves/github-pages-deploy-action@releases/v3
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: gh-pages # The branch the action should deploy to.
-          FOLDER: dist # The folder the action should deploy.
-          CLEAN: true
+          branch: gh-pages
+          folder: dist
+          clean: true
 
       - name: Write release app config
         run: |
