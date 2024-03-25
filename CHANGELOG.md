@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [1.7.4](https://github.com/ffalt/mah/compare/v1.7.3...v1.7.4) (2024-03-25)
+
+
+### Bug Fixes
+
+* **layout-list:** delete custom board overlayed best time ([b37d61b](https://github.com/ffalt/mah/commit/b37d61bbd05e2359a4d89be25995c3dae8e67116))
+
 ## [1.7.3](https://github.com/ffalt/mah/compare/v1.7.2...v1.7.3) (2024-03-23)
 
 
