@@ -78,7 +78,6 @@
 
 				.preview-custom, .preview-best-time {
 					position: absolute;
-					top: 0;
 					right: 0;
 					background-color: var(--preview-overlay-background);
 					color: var(--preview-overlay-text);
@@ -91,6 +90,7 @@
 						min-width: 1.2em;
 						text-align: right;
 						transition: all 100ms;
+						margin-top: -1px;
 
 						i {
 							font-size: 0.8em;
@@ -110,6 +110,19 @@
 					color: var(--card-text-color);
 					text-align: center;
 					font-size: 0.8em;
+					padding: 2px;
+				}
+
+				.preview-best-time {
+					top: 0;
+					display: flex;
+					flex-direction: row;
+					justify-content: center;
+				}
+
+				.preview-custom {
+					bottom: 0;
+					padding: 2px;
 				}
 
 				&.selected, &:hover, &:focus {
@@ -132,7 +145,7 @@
 				@include respond-to(jumbo-down) {
 					&, app-layout-preview {
 						width: 200px;
-						height: 180px;
+						height: 190px;
 					}
 				}
 
