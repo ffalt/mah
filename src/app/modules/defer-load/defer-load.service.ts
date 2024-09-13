@@ -26,7 +26,6 @@ export class DeferLoadService {
 	private scrollObservable: Observable<ScrollNotifyEvent>;
 	private intersectionObserver?: IntersectionObserver;
 
-	// eslint-disable-next-line @typescript-eslint/ban-types
 	constructor(@Inject(PLATFORM_ID) private platformId: object) {
 		this.isBrowser = isPlatformBrowser(this.platformId);
 		this.hasIntersectionObserver = DeferLoadService.checkIntersectionObserver();

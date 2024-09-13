@@ -32,11 +32,11 @@
 				"eslint-plugin-rxjs",
 				"eslint-plugin-unicorn",
 				"eslint-plugin-no-null",
-				"eslint-plugin-prefer-arrow",
-				"unused-imports"
+				"eslint-plugin-prefer-arrow"
 			],
 			"rules": {
-				"unused-imports/no-unused-imports": "error",
+				"import/named": "off",
+				"@typescript-eslint/no-empty-object-type": "off",
 				"@angular-eslint/component-max-inline-declarations": "error",
 				"@angular-eslint/component-selector": [
 					"error",
@@ -100,13 +100,6 @@
 				"@typescript-eslint/no-var-requires": "error",
 				"@typescript-eslint/prefer-readonly": "off",
 				"@typescript-eslint/promise-function-async": "error",
-				"@typescript-eslint/quotes": [
-					"error",
-					"single",
-					{
-						"avoidEscape": true
-					}
-				],
 				"@typescript-eslint/restrict-plus-operands": "error",
 				"@typescript-eslint/strict-boolean-expressions": [
 					"off",

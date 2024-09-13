@@ -1,4 +1,4 @@
-import {HttpClientModule} from '@angular/common/http';
+import {provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
 import {Injectable, NgModule} from '@angular/core';
 import {BrowserModule, HAMMER_GESTURE_CONFIG, HammerGestureConfig, HammerModule} from '@angular/platform-browser';
 import {TranslateModule} from '@ngx-translate/core';
@@ -36,14 +36,6 @@ export class CustomHammerConfig extends HammerGestureConfig {
 }
 
 @NgModule({
-	imports: [
-		BrowserModule,
-		HttpClientModule,
-		HammerModule,
-		CoreModule,
-		TranslateModule.forRoot(),
-		...environment.modules
-	],
 	declarations: [
 		AppComponent,
 		ChooseLayoutComponent,
@@ -53,6 +45,13 @@ export class CustomHammerConfig extends HammerGestureConfig {
 		TileComponent,
 		SettingsComponent
 	],
+	bootstrap: [AppComponent],
+	imports: [BrowserModule,
+		HammerModule,
+		CoreModule,
+		TranslateModule.forRoot(),
+		...environment.modules
+	],
 	providers: [
 		AppService,
 		LayoutService,
@@ -61,9 +60,9 @@ export class CustomHammerConfig extends HammerGestureConfig {
 		{
 			provide: HAMMER_GESTURE_CONFIG,
 			useClass: CustomHammerConfig
-		}
-	],
-	bootstrap: [AppComponent]
+		},
+		provideHttpClient(withInterceptorsFromDi())
+	]
 })
 export class AppModule {
 }

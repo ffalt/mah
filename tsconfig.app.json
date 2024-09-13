@@ -5,8 +5,7 @@
     "types": ["hammerjs"]
   },
 	"files": [
-		"src/main.ts",
-		"src/polyfills.ts"
+		"src/main.ts"
 	],
 	"include": [
 		"src/**/*.ts"
