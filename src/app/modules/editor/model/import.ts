@@ -25,7 +25,7 @@ export function sortMapping(mapping: Mapping): Mapping {
 	});
 }
 
-async function convertMatrix(
+export async function convertMatrix(
 	matrixCount: number, rowCount: number, cellCount: number,
 	name: string, board: string): Promise<ImportLayout> {
 	const matrixLength: number = rowCount * cellCount;
@@ -97,7 +97,7 @@ export async function convertKmahjongg(data: string, filename: string): Promise<
 	return Promise.reject(Error(`Unknown .layout format ${JSON.stringify((version || '').slice(0, 50))}`));
 }
 
-export async function convertKyodai(data: string, filename: string): Promise<ImportLayout> {
+export async function convertKyodai(data: string, _: string): Promise<ImportLayout> {
 	// unify line endings
 	const lines = data.replace(/\r\n/g, '\n').split('\n');
 	const version = lines[0] || '';
