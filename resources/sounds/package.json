@@ -7,6 +7,6 @@
   },
   "devDependencies": {},
   "dependencies": {
-    "fluent-ffmpeg": "2.1.2"
+    "fluent-ffmpeg": "2.1.3"
   }
 }
