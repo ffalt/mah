@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [1.7.5](https://github.com/ffalt/mah/compare/v1.7.4...v1.7.5) (2024-10-02)
+
+* **dependencies:** update
+
 ## [1.7.4](https://github.com/ffalt/mah/compare/v1.7.3...v1.7.4) (2024-03-25)
 
 
