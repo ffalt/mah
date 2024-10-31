@@ -26,7 +26,7 @@ build with html5, svg, angular
 
 * Automatic save & restore of game state
 
-* English, Deutsch, Nederlands, Português, русский, Español
+* English, Deutsch, Nederlands, Português, русский, Español, Euskara
 
   Want to help translate Mah? Please use https://crowdin.com/project/mahjong
 
