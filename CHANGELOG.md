@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file. See [commit
 
 ## [1.7.6](https://github.com/ffalt/mah/compare/v1.7.5...v1.7.6) (2024-10-31)
 
+* **i18n**: add Euskara (Basque) thanks to https://crowdin.com/profile/mirenbz
+
 ## [1.7.5](https://github.com/ffalt/mah/compare/v1.7.4...v1.7.5) (2024-10-02)
 
 * **dependencies:** update
