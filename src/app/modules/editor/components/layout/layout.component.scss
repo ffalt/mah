@@ -1,4 +1,4 @@
-@import "../../../../style/globals";
+@use "../../../../style/mixins";
 
 :host {
 	display: flex;
@@ -207,7 +207,7 @@
 		}
 	}
 
-	@include respond-to(medium-down) {
+	@include mixins.respond-to(medium-down) {
 		flex-direction: column;
 
 		.editor-matrix-list {
@@ -232,7 +232,7 @@
 		}
 	}
 
-	@include respond-to-horizontal-device(pad) {
+	@include mixins.respond-to-horizontal-device(pad) {
 		.editor-selected {
 			.matrix-edit {
 				flex-direction: row;

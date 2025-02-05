@@ -1,4 +1,5 @@
-@import "app/style/globals";
+@use "app/style/variables";
+@use "app/style/mixins";
 
 *, *::before, *::after {
 	box-sizing: border-box;
@@ -49,7 +50,7 @@ html {
 	width: 100%;
 	background-color: var(--main-bg-color);
 
-	@include full-height;
+	@include mixins.full-height;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -69,20 +70,20 @@ html {
 }
 
 body {
-	font-family: $text-font;
+	font-family: variables.$text-font;
 	background-color: var(--main-bg-color);
 	padding: 0;
 	margin: 0;
 	width: 100%;
-	font-size: $base-font-size;
-	line-height: $base-line-height;
+	font-size: variables.$base-font-size;
+	line-height: variables.$base-line-height;
 
-	@include full-height;
+	@include mixins.full-height;
 }
 
 button, select {
 	border: 1px solid #afafaf;
-	font-family: $text-font;
+	font-family: variables.$text-font;
 	font-size: inherit;
 }
 
@@ -123,7 +124,7 @@ p {
 	z-index: 10000;
 	background-color: rgb(0 0 0 / 20%);
 	max-height: 100%;
-	font-size: $base-font-size * 0.9;
+	font-size: variables.$base-font-size * 0.9;
 
 	button, select {
 		background-color: var(--input-background-color);
@@ -134,24 +135,24 @@ p {
 		font-size: 0.9em;
 	}
 
-	@include respond-to(medium-up) {
-		font-size: $base-font-size * 1.1;
+	@include mixins.respond-to(medium-up) {
+		font-size: variables.$base-font-size * 1.1;
 	}
 
-	@include respond-to(large-up) {
-		font-size: $base-font-size * 1.2;
+	@include mixins.respond-to(large-up) {
+		font-size: variables.$base-font-size * 1.2;
 	}
 
-	@include respond-to(huge-up) {
-		font-size: $base-font-size * 1.2;
+	@include mixins.respond-to(huge-up) {
+		font-size: variables.$base-font-size * 1.2;
 	}
 
-	@include respond-to(jumbo-up) {
-		font-size: $base-font-size * 2;
+	@include mixins.respond-to(jumbo-up) {
+		font-size: variables.$base-font-size * 2;
 	}
 
-	@include respond-to-height(small-down) {
-		font-size: $base-font-size * 0.9;
+	@include mixins.respond-to-height(small-down) {
+		font-size: variables.$base-font-size * 0.9;
 	}
 
 	.overlay-popup {
@@ -172,20 +173,20 @@ p {
 		box-shadow: 12px 14px 16px, rgb(0 0 0 / 50%);
 		border-radius: 12px;
 
-		@include respond-to(jumbo-up) {
+		@include mixins.respond-to(jumbo-up) {
 			border-radius: 30px;
 		}
 
-		@include respond-to(huge-up) {
+		@include mixins.respond-to(huge-up) {
 			max-height: 80%;
 			max-width: 80%;
 		}
 
-		@include respond-to(large-down) {
+		@include mixins.respond-to(large-down) {
 			padding: 1.5em;
 		}
 
-		@include respond-to(pico-down) {
+		@include mixins.respond-to(pico-down) {
 			padding: 1.5em 1em;
 		}
 	}
@@ -235,7 +236,7 @@ p {
 			height: 98%;
 			overflow: hidden;
 
-			@include respond-to-height(small-down) {
+			@include mixins.respond-to-height(small-down) {
 				padding: 10px;
 			}
 		}

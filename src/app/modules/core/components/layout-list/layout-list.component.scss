@@ -1,4 +1,4 @@
-@import "../../../../style/globals";
+@use "../../../../style/mixins";
 
 :host {
 	display: flex;
@@ -143,14 +143,14 @@
 					box-shadow: rgb(0 0 0 / 16%) 0 3px 6px, rgb(0 0 0 / 23%) 0 3px 6px;
 				}
 
-				@include respond-to(jumbo-down) {
+				@include mixins.respond-to(jumbo-down) {
 					&, app-layout-preview {
 						width: 200px;
 						height: 190px;
 					}
 				}
 
-				@include respond-to(medium-down) {
+				@include mixins.respond-to(medium-down) {
 					width: 50%;
 
 					app-layout-preview {
@@ -158,11 +158,11 @@
 					}
 				}
 
-				@include respond-to(tiny-down) {
+				@include mixins.respond-to(tiny-down) {
 					width: 100%;
 				}
 
-				@include respond-to-height(small-down) {
+				@include mixins.respond-to-height(small-down) {
 					height: 120px;
 
 					app-layout-preview {

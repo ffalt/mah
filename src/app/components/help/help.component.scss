@@ -1,4 +1,4 @@
-@import "../../style/globals";
+@use "../../style/mixins";
 
 :host {
 	display: flex;
@@ -99,13 +99,13 @@
 				text-align: center;
 			}
 
-			@include respond-to(medium-down) {
+			@include mixins.respond-to(medium-down) {
 				columns: 1;
 			}
 		}
 	}
 
-	@include respond-to(large-down) {
+	@include mixins.respond-to(large-down) {
 		flex-flow: column nowrap;
 
 		> div {
@@ -122,7 +122,7 @@
 		}
 	}
 
-	@include respond-to(medium-down) {
+	@include mixins.respond-to(medium-down) {
 		.top {
 			flex-flow: column nowrap;
 		}

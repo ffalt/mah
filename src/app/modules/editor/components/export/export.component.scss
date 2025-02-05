@@ -1,4 +1,4 @@
-@import "../../../../style/globals";
+@use "../../../../style/mixins";
 
 :host {
 	color: var(--main-text-color);
@@ -27,7 +27,7 @@
 		}
 	}
 
-	@include respond-to(tiny-down) {
+	@include mixins.respond-to(tiny-down) {
 		.preview {
 			display: none;
 		}

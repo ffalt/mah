@@ -1,4 +1,5 @@
-@import "../../style/globals";
+@use "../../style/mixins";
+@use "../../style/variables";
 
 :host {
 	display: flex;
@@ -6,7 +7,7 @@
 	width: 100%;
 	background-color: var(--main-bg-color);
 
-	@include full-height;
+	@include mixins.full-height;
 
 	&.dkgreen {
 		--main-bg-color: #19262e;
@@ -95,7 +96,7 @@
 					color: var(--main-text-color-dk);
 				}
 
-				@include respond-to(tiny-up) {
+				@include mixins.respond-to(tiny-up) {
 					margin-left: 10px;
 				}
 			}
@@ -164,41 +165,41 @@
 
 		}
 
-		@include respond-to(medium-up) {
-			font-size: $base-font-size * 1.2;
+		@include mixins.respond-to(medium-up) {
+			font-size: variables.$base-font-size * 1.2;
 		}
 
-		@include respond-to(large-up) {
-			font-size: $base-font-size * 1.3;
+		@include mixins.respond-to(large-up) {
+			font-size: variables.$base-font-size * 1.3;
 		}
 
-		@include respond-to(huge-up) {
-			font-size: $base-font-size * 1.6;
+		@include mixins.respond-to(huge-up) {
+			font-size: variables.$base-font-size * 1.6;
 		}
 
-		@include respond-to(jumbo-up) {
-			font-size: $base-font-size * 2.3;
+		@include mixins.respond-to(jumbo-up) {
+			font-size: variables.$base-font-size * 2.3;
 		}
 
-		@include respond-to(ludicrous-up) {
-			font-size: $base-font-size * 4;
+		@include mixins.respond-to(ludicrous-up) {
+			font-size: variables.$base-font-size * 4;
 		}
 
-		@include respond-to(large-down) {
-			font-size: $base-font-size * 1.1;
+		@include mixins.respond-to(large-down) {
+			font-size: variables.$base-font-size * 1.1;
 
 			.ctrl .link {
 				padding: 0.2em;
 			}
 		}
 
-		@include respond-to(medium-down) {
+		@include mixins.respond-to(medium-down) {
 			span.label {
 				display: none;
 			}
 		}
 
-		@include respond-to(small-down) {
+		@include mixins.respond-to(small-down) {
 			padding: 0 6px;
 
 			.ctrl .link {
@@ -209,7 +210,7 @@
 			font-size: 24px;
 		}
 
-		@include respond-to(tiny-down) {
+		@include mixins.respond-to(tiny-down) {
 			.ctrl .link {
 				padding: 0.2em;
 				margin-left: 2px;
@@ -226,8 +227,8 @@
 			}
 		}
 
-		@include respond-to(pico-down) {
-			font-size: $base-font-size * 1.1;
+		@include mixins.respond-to(pico-down) {
+			font-size: variables.$base-font-size * 1.1;
 
 			span.name {
 				display: none;
@@ -250,7 +251,7 @@
 		overflow: hidden;
 	}
 
-	@include respond-to-horizontal-device(pad) {
+	@include mixins.respond-to-horizontal-device(pad) {
 		flex-direction: row;
 
 		.controls {
@@ -368,7 +369,7 @@
 		}
 	}
 
-	@include respond-to-horizontal-device(phone) {
+	@include mixins.respond-to-horizontal-device(phone) {
 		.controls .ctrl .link {
 			margin-bottom: 0;
 		}

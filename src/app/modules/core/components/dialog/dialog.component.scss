@@ -1,4 +1,4 @@
-@import "../../../../style/globals";
+@use "../../../../style/mixins";
 
 :host {
 	display: flex;
@@ -12,11 +12,11 @@
 		margin-bottom: 10px;
 		line-height: 1.3em;
 
-		@include respond-to(medium-down) {
+		@include mixins.respond-to(medium-down) {
 			font-size: 1.2em;
 		}
 
-		@include respond-to(tiny-down) {
+		@include mixins.respond-to(tiny-down) {
 			font-size: 1.1em;
 		}
 	}

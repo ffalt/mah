@@ -1,4 +1,4 @@
-@import "../../style/globals";
+@use "../../style/mixins";
 
 :host {
 	padding: 0;
@@ -16,7 +16,7 @@
 		flex-flow: row nowrap;
 		align-items: flex-end;
 
-		@include respond-to-height(small-down) {
+		@include mixins.respond-to-height(small-down) {
 			padding-top: 4px;
 		}
 

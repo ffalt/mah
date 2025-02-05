@@ -1,8 +1,8 @@
-@import "./style/globals";
+@use "./style/mixins";
 
 :host {
 	display: block;
 	width: 100%;
 
-	@include full-height;
+	@include mixins.full-height;
 }
