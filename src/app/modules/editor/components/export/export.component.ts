@@ -13,9 +13,10 @@ interface Format {
 }
 
 @Component({
-	selector: 'app-editor-export-component',
-	templateUrl: './export.component.html',
-	styleUrls: ['./export.component.scss']
+    selector: 'app-editor-export-component',
+    templateUrl: './export.component.html',
+    styleUrls: ['./export.component.scss'],
+    standalone: false
 })
 export class ExportComponent implements OnInit, OnChanges {
 	@Input() layout: EditLayout;

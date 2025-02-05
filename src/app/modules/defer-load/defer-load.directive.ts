@@ -4,7 +4,8 @@ import {DeferLoadService, ScrollNotifyEvent} from './defer-load.service';
 import {Rect} from './rect';
 
 @Directive({
-	selector: '[appDeferLoad]'
+    selector: '[appDeferLoad]',
+    standalone: false
 })
 export class DeferLoadDirective implements AfterViewInit, OnDestroy {
 

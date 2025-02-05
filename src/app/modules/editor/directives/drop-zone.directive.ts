@@ -14,7 +14,10 @@ import {Directive, EventEmitter, HostBinding, HostListener, Input, Output} from 
 //
 // https://gist.github.com/darrenmothersele/7afda13d858a156ce571510dd78b7624
 
-@Directive({selector: '[appDropZone]'})
+@Directive({
+    selector: '[appDropZone]',
+    standalone: false
+})
 export class DropZoneDirective {
 
 	// The directive emits a `fileDrop` event

@@ -15,10 +15,11 @@ function clamp(value: number, min: number, max: number): number {
 }
 
 @Component({
-	selector: 'app-board',
-	templateUrl: './board.component.html',
-	styleUrls: ['./board.component.scss'],
-	animations: IndicatorAnimations
+    selector: 'app-board',
+    templateUrl: './board.component.html',
+    styleUrls: ['./board.component.scss'],
+    animations: IndicatorAnimations,
+    standalone: false
 })
 export class BoardComponent implements OnInit, OnChanges {
 	@Input() background: string;

@@ -5,7 +5,8 @@ function pad(num: number): string {
 }
 
 @Pipe({
-	name: 'duration'
+    name: 'duration',
+    standalone: false
 })
 export class DurationPipe implements PipeTransform {
 	transform(value: number): string {

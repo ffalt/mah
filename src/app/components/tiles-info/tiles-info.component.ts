@@ -3,9 +3,10 @@ import {ImageSetDefault, ImageSets, TILES_INFOS} from '../../model/consts';
 import {AppService} from '../../service/app.service';
 
 @Component({
-	selector: 'app-tiles-info',
-	templateUrl: './tiles-info.component.html',
-	styleUrls: ['./tiles-info.component.scss']
+    selector: 'app-tiles-info',
+    templateUrl: './tiles-info.component.html',
+    styleUrls: ['./tiles-info.component.scss'],
+    standalone: false
 })
 export class TilesInfoComponent {
 	TILES_INFOS = TILES_INFOS;

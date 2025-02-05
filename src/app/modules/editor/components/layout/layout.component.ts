@@ -31,9 +31,10 @@ interface SolveStats {
 }
 
 @Component({
-	selector: 'app-editor-layout-component',
-	templateUrl: './layout.component.html',
-	styleUrls: ['./layout.component.scss']
+    selector: 'app-editor-layout-component',
+    templateUrl: './layout.component.html',
+    styleUrls: ['./layout.component.scss'],
+    standalone: false
 })
 export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 	@Input() layout: EditLayout;

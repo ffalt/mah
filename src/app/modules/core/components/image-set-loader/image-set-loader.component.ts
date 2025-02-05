@@ -4,9 +4,10 @@ import {TILES} from '../../../../model/consts';
 import {svg_error_icon, svg_spinner_icon} from './svg';
 
 @Component({
-	// eslint-disable-next-line @angular-eslint/component-selector
-	selector: '[app-image-set-loader]',
-	template: '<svg:defs></svg:defs>'
+    // eslint-disable-next-line @angular-eslint/component-selector
+    selector: '[app-image-set-loader]',
+    template: '<svg:defs></svg:defs>',
+    standalone: false
 })
 export class ImageSetLoaderComponent implements OnChanges {
 	@Input() imageSet: string;

@@ -19,9 +19,10 @@ export interface LayoutGroup {
 }
 
 @Component({
-	selector: 'app-layout-list',
-	templateUrl: './layout-list.component.html',
-	styleUrls: ['./layout-list.component.scss']
+    selector: 'app-layout-list',
+    templateUrl: './layout-list.component.html',
+    styleUrls: ['./layout-list.component.scss'],
+    standalone: false
 })
 export class LayoutListComponent implements OnChanges {
 	@Input() layouts?: Array<Layout>;

@@ -4,9 +4,10 @@ import {LayoutService} from '../../../../service/layout.service';
 import {WorkerService} from '../../../../service/worker.service';
 
 @Component({
-	selector: 'app-manager-component',
-	templateUrl: './manager.component.html',
-	styleUrls: ['./manager.component.scss']
+    selector: 'app-manager-component',
+    templateUrl: './manager.component.html',
+    styleUrls: ['./manager.component.scss'],
+    standalone: false
 })
 export class ManagerComponent implements OnChanges, OnDestroy {
 	layouts: Array<Layout>;

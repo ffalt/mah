@@ -2,10 +2,11 @@ import {ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges} fro
 import {Layout, SafeUrlSVG} from '../../../../model/types';
 
 @Component({
-	selector: 'app-layout-preview',
-	templateUrl: './layout-preview.component.html',
-	styleUrls: ['./layout-preview.component.scss'],
-	changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-layout-preview',
+    templateUrl: './layout-preview.component.html',
+    styleUrls: ['./layout-preview.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class LayoutPreviewComponent implements OnChanges {
 	@Input() layout: Layout;

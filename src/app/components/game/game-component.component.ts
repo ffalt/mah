@@ -29,9 +29,10 @@ interface ElemEx extends HTMLElement {
 }
 
 @Component({
-	selector: 'app-game-component',
-	templateUrl: './game-component.component.html',
-	styleUrls: ['./game-component.component.scss']
+    selector: 'app-game-component',
+    templateUrl: './game-component.component.html',
+    styleUrls: ['./game-component.component.scss'],
+    standalone: false
 })
 export class GameComponent {
 	game: Game;

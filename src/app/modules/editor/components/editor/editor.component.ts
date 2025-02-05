@@ -7,9 +7,10 @@ import {EditLayout} from '../../model/edit-layout';
 import {Layout} from '../../../../model/types';
 
 @Component({
-	selector: 'app-editor-component',
-	templateUrl: './editor.component.html',
-	styleUrls: ['./editor.component.scss']
+    selector: 'app-editor-component',
+    templateUrl: './editor.component.html',
+    styleUrls: ['./editor.component.scss'],
+    standalone: false
 })
 export class EditorComponent {
 	mode = 'manager';

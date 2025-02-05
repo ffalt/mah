@@ -9,9 +9,10 @@ import {KyodaiTileSets} from '../../modules/core/model/tilesets';
 import {environment} from '../../../environments/environment';
 
 @Component({
-	selector: 'app-settings',
-	templateUrl: './settings.component.html',
-	styleUrls: ['./settings.component.scss']
+    selector: 'app-settings',
+    templateUrl: './settings.component.html',
+    styleUrls: ['./settings.component.scss'],
+    standalone: false
 })
 export class SettingsComponent {
 	canKyodai = environment.kyodai;

@@ -6,9 +6,10 @@ import {LocalstorageService} from '../../service/localstorage.service';
 import {GAME_MODE_ID, GAME_MODE_STANDARD, GameModes} from '../../model/consts';
 
 @Component({
-	selector: 'app-choose-layout',
-	templateUrl: './choose-layout.component.html',
-	styleUrls: ['./choose-layout.component.scss']
+    selector: 'app-choose-layout',
+    templateUrl: './choose-layout.component.html',
+    styleUrls: ['./choose-layout.component.scss'],
+    standalone: false
 })
 export class ChooseLayoutComponent {
 	@Output() readonly startEvent = new EventEmitter<{ layout: Layout; buildMode: BUILD_MODE_ID; gameMode: GAME_MODE_ID }>();

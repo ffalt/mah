@@ -4,9 +4,10 @@ import {LayoutService} from '../../../../service/layout.service';
 import {importLayouts} from '../../model/import';
 
 @Component({
-	selector: 'app-import-component',
-	templateUrl: './import.component.html',
-	styleUrls: ['./import.component.scss']
+    selector: 'app-import-component',
+    templateUrl: './import.component.html',
+    styleUrls: ['./import.component.scss'],
+    standalone: false
 })
 export class ImportComponent {
 	@Output() readonly editEvent = new EventEmitter<Layout>();
