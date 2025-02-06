@@ -37,6 +37,7 @@
 			"rules": {
 				"import/named": "off",
 				"@typescript-eslint/no-empty-object-type": "off",
+				"@angular-eslint/prefer-standalone": "off",
 				"@angular-eslint/component-max-inline-declarations": "error",
 				"@angular-eslint/component-selector": [
 					"error",
