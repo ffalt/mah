@@ -2,7 +2,7 @@
 
 A Mahjong Solitaire Game
 
-The  original open source version of many Mahjong games out there. Completely free, no ads, no tracking.
+Development repository of the original open source version of many Mahjong games out there. Completely free, no ads, no tracking.
 
 Play it [here](https://ffalt.github.io/mah/)  
 
@@ -26,7 +26,7 @@ build with html5, svg, angular
 
 * Automatic save & restore of game state
 
-* English, Deutsch, Nederlands, Português, русский, Español, Euskara
+* English, Deutsch, Nederlands, Português, русский, Español, Euskara, 日本語, Français
 
   Want to help translate Mah? Please use https://crowdin.com/project/mahjong
 
