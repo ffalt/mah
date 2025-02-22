@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file. See [commit
 
 ## [1.7.7](https://github.com/ffalt/mah/compare/v1.7.6...v1.7.7) (2025-02-22)
 
+* **i18n**: add French
+* **i18n**: add Japanese
+* **dependencies:** update
+
 ## [1.7.6](https://github.com/ffalt/mah/compare/v1.7.5...v1.7.6) (2024-10-31)
 
 * **i18n**: add Euskara (Basque) thanks to https://crowdin.com/profile/mirenbz
