@@ -29,8 +29,6 @@
 			"plugins": [
 				"@angular-eslint",
 				"@angular-eslint/eslint-plugin-template",
-				"eslint-plugin-rxjs",
-				"eslint-plugin-unicorn",
 				"eslint-plugin-no-null",
 				"eslint-plugin-prefer-arrow"
 			],
@@ -222,13 +220,10 @@
 				],
 				"prefer-object-spread": "error",
 				"prefer-template": "error",
-				"rxjs/no-create": "error",
-				"rxjs/no-unsafe-takeuntil": "error",
 				"space-in-parens": [
 					"error",
 					"never"
 				],
-				"unicorn/filename-case": "error",
 				"yoda": "error",
 				"prefer-arrow/prefer-arrow-functions": [
 					"error",

@@ -122,13 +122,13 @@
 					},
 					"configurations": {
 						"production": {
-							"browserTarget": "mah:build:production"
+							"buildTarget": "mah:build:production"
 						},
 						"development": {
-							"browserTarget": "mah:build:development"
+							"buildTarget": "mah:build:development"
 						},
 						"capacitor": {
-							"browserTarget": "mah:build:capacitor"
+							"buildTarget": "mah:build:capacitor"
 						}
 					}
 				},
