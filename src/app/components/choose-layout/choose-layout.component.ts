@@ -1,9 +1,9 @@
-import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
-import {BUILD_MODE_ID, BuilderModes, MODE_SOLVABLE} from '../../model/builder';
-import {Layout} from '../../model/types';
-import {LayoutService} from '../../service/layout.service';
-import {LocalstorageService} from '../../service/localstorage.service';
-import {GAME_MODE_ID, GAME_MODE_STANDARD, GameModes} from '../../model/consts';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { BUILD_MODE_ID, BuilderModes, MODE_SOLVABLE } from '../../model/builder';
+import { Layout } from '../../model/types';
+import { LayoutService } from '../../service/layout.service';
+import { LocalstorageService } from '../../service/localstorage.service';
+import { GAME_MODE_ID, GAME_MODE_STANDARD, GameModes } from '../../model/consts';
 
 @Component({
     selector: 'app-choose-layout',

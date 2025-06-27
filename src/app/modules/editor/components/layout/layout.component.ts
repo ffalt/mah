@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, inject } from '@angular/core';
+import { Component, inject, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { Place, SafeUrlSVG } from '../../../../model/types';
 import { Matrix } from '../../model/matrix';
 import { Cell } from '../../model/cell';

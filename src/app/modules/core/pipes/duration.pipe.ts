@@ -1,4 +1,4 @@
-import {Pipe, PipeTransform} from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 
 function pad(num: number): string {
 	return (num < 10 ? '0' : '') + num.toString();

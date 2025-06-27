@@ -1,4 +1,4 @@
-import { Directive, ElementRef, HostListener, Input, OnChanges, SimpleChange, inject } from '@angular/core';
+import { Directive, ElementRef, HostListener, inject, Input, OnChanges, SimpleChange } from '@angular/core';
 import { DeferLoadService } from './defer-load.service';
 
 @Directive({

@@ -1,7 +1,7 @@
-import { Component, EventEmitter, Output, inject } from '@angular/core';
-import {Layout, LoadLayout} from '../../../../model/types';
-import {LayoutService} from '../../../../service/layout.service';
-import {importLayouts} from '../../model/import';
+import { Component, EventEmitter, inject, Output } from '@angular/core';
+import { Layout, LoadLayout } from '../../../../model/types';
+import { LayoutService } from '../../../../service/layout.service';
+import { importLayouts } from '../../model/import';
 
 @Component({
     selector: 'app-import-component',

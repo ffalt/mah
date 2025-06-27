@@ -1,4 +1,4 @@
-import {PrefixPipe} from './prefix.pipe';
+import { PrefixPipe } from './prefix.pipe';
 
 describe('PrefixPipe', () => {
 	it('create an instance', () => {

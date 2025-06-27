@@ -1,6 +1,6 @@
-import { Component, ElementRef, ViewChild, inject } from '@angular/core';
+import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Backgrounds, ImageSets, LangAuto, Themes } from '../../model/consts';
+import { Backgrounds, ImageSets, Themes } from '../../model/consts';
 import { AppService } from '../../service/app.service';
 import { LayoutService } from '../../service/layout.service';
 import { LocalstorageService } from '../../service/localstorage.service';

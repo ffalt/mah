@@ -1,4 +1,4 @@
-import { AfterViewInit, Directive, ElementRef, EventEmitter, Input, OnDestroy, Output, inject } from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, EventEmitter, inject, Input, OnDestroy, Output } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { DeferLoadService, ScrollNotifyEvent } from './defer-load.service';
 import { Rect } from './rect';

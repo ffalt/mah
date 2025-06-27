@@ -1,10 +1,10 @@
-import { Component, ElementRef, EventEmitter, HostBinding, HostListener, Input, OnChanges, OnInit, Output, SimpleChanges, inject } from '@angular/core';
-import {Backgrounds} from '../../../../model/consts';
-import {calcDrawPos, Draw, getDrawBounds, getDrawBoundsViewPort, sortDrawItems} from '../../../../model/draw';
-import {Stone} from '../../../../model/stone';
-import {AppService} from '../../../../service/app.service';
-import {Indicator, IndicatorAnimations} from '../../model/indicator';
-import {imageSetIsKyodai} from '../../model/tilesets';
+import { Component, ElementRef, EventEmitter, HostBinding, HostListener, inject, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Backgrounds } from '../../../../model/consts';
+import { calcDrawPos, Draw, getDrawBounds, getDrawBoundsViewPort, sortDrawItems } from '../../../../model/draw';
+import { Stone } from '../../../../model/stone';
+import { AppService } from '../../../../service/app.service';
+import { Indicator, IndicatorAnimations } from '../../model/indicator';
+import { imageSetIsKyodai } from '../../model/tilesets';
 
 type HammerEvent = HammerInput & Event;
 const defaultW = 1470;

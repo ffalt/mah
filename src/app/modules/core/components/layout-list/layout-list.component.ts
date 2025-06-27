@@ -1,8 +1,8 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, inject } from '@angular/core';
-import {TranslateService} from '@ngx-translate/core';
-import {Layout} from '../../../../model/types';
-import {LocalstorageService} from '../../../../service/localstorage.service';
-import {LayoutService} from '../../../../service/layout.service';
+import { Component, EventEmitter, inject, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { Layout } from '../../../../model/types';
+import { LocalstorageService } from '../../../../service/localstorage.service';
+import { LayoutService } from '../../../../service/layout.service';
 
 export interface LayoutItem {
 	layout: Layout;

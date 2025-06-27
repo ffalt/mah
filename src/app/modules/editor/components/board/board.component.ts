@@ -1,8 +1,8 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {Stone} from '../../../../model/stone';
-import {Draw, DrawPos, getDrawViewPort, sortDrawItems} from '../../../../model/draw';
-import {Consts} from '../../../../model/consts';
-import {Matrix} from '../../model/matrix';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Stone } from '../../../../model/stone';
+import { Draw, DrawPos, getDrawViewPort, sortDrawItems } from '../../../../model/draw';
+import { Consts } from '../../../../model/consts';
+import { Matrix } from '../../model/matrix';
 
 interface Level {
 	z: number;

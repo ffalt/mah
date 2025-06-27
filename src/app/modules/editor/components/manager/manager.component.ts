@@ -1,7 +1,7 @@
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges, inject } from '@angular/core';
-import {Layout} from '../../../../model/types';
-import {LayoutService} from '../../../../service/layout.service';
-import {WorkerService} from '../../../../service/worker.service';
+import { Component, EventEmitter, inject, Input, OnChanges, OnDestroy, Output, SimpleChanges } from '@angular/core';
+import { Layout } from '../../../../model/types';
+import { LayoutService } from '../../../../service/layout.service';
+import { WorkerService } from '../../../../service/worker.service';
 
 @Component({
     selector: 'app-manager-component',

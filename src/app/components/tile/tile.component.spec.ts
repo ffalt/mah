@@ -1,9 +1,9 @@
-import {HttpClientModule} from '@angular/common/http';
-import {ComponentFixture, TestBed} from '@angular/core/testing';
-import {TranslateModule} from '@ngx-translate/core';
-import {SvgdefService} from '../../service/svgdef.service';
-import {CoreModule} from '../../modules/core/core.module';
-import {TileComponent} from './tile.component';
+import { HttpClientModule } from '@angular/common/http';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TranslateModule } from '@ngx-translate/core';
+import { SvgdefService } from '../../service/svgdef.service';
+import { CoreModule } from '../../modules/core/core.module';
+import { TileComponent } from './tile.component';
 
 describe('TileComponent', () => {
 	let component: TileComponent;

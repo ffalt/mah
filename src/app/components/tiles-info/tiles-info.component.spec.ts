@@ -1,11 +1,11 @@
-import {HttpClientModule} from '@angular/common/http';
-import {ComponentFixture, TestBed} from '@angular/core/testing';
-import {TranslateModule} from '@ngx-translate/core';
-import {SvgdefService} from '../../service/svgdef.service';
-import {TileComponent} from '../tile/tile.component';
-import {CoreModule} from '../../modules/core/core.module';
-import {AppService} from '../../service/app.service';
-import {TilesInfoComponent} from './tiles-info.component';
+import { HttpClientModule } from '@angular/common/http';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TranslateModule } from '@ngx-translate/core';
+import { SvgdefService } from '../../service/svgdef.service';
+import { TileComponent } from '../tile/tile.component';
+import { CoreModule } from '../../modules/core/core.module';
+import { AppService } from '../../service/app.service';
+import { TilesInfoComponent } from './tiles-info.component';
 
 describe('TilesInfoComponent', () => {
 	let component: TilesInfoComponent;

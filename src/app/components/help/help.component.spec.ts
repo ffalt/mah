@@ -1,7 +1,7 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
-import {TranslateModule} from '@ngx-translate/core';
-import {AppService} from '../../service/app.service';
-import {HelpComponent} from './help.component';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TranslateModule } from '@ngx-translate/core';
+import { AppService } from '../../service/app.service';
+import { HelpComponent } from './help.component';
 
 describe('HelpComponent', () => {
 	let component: HelpComponent;

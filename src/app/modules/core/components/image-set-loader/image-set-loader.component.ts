@@ -1,7 +1,7 @@
-import { Component, ElementRef, Input, OnChanges, SimpleChanges, inject } from '@angular/core';
-import {SvgdefService} from '../../../../service/svgdef.service';
-import {TILES} from '../../../../model/consts';
-import {svg_error_icon, svg_spinner_icon} from './svg';
+import { Component, ElementRef, inject, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { SvgdefService } from '../../../../service/svgdef.service';
+import { TILES } from '../../../../model/consts';
+import { svg_error_icon, svg_spinner_icon } from './svg';
 
 @Component({
     // eslint-disable-next-line @angular-eslint/component-selector

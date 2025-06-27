@@ -1,13 +1,11 @@
-import { Component, HostListener, OnInit, ViewChild, ViewContainerRef, inject } from '@angular/core';
-import {Meta} from '@angular/platform-browser';
-import {TranslateService} from '@ngx-translate/core';
-import {Subscription} from 'rxjs';
-import {environment} from '../environments/environment';
-import {AppService} from './service/app.service';
-import {LayoutService} from './service/layout.service';
-import {LocalstorageService} from './service/localstorage.service';
-import {LoadLayout, MahFormat} from './model/types';
-import {GameComponent} from './components/game/game-component.component';
+import { Component, HostListener, inject, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { Meta } from '@angular/platform-browser';
+import { Subscription } from 'rxjs';
+import { environment } from '../environments/environment';
+import { AppService } from './service/app.service';
+import { LayoutService } from './service/layout.service';
+import { LoadLayout, MahFormat } from './model/types';
+import { GameComponent } from './components/game/game-component.component';
 
 @Component({
     selector: 'app-root',

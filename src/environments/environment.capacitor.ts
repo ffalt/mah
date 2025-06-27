@@ -1,5 +1,5 @@
-import {CapacitorModule} from '../../resources/mobile/src/capacitor.module';
-import {env} from './env';
+import { CapacitorModule } from '../../resources/mobile/src/capacitor.module';
+import { env } from './env';
 
 export const environment = {
 	production: true,
