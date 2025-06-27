@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges, inject } from '@angular/core';
 import {Layout} from '../../../../model/types';
 import {LayoutService} from '../../../../service/layout.service';
 import {WorkerService} from '../../../../service/worker.service';
@@ -10,16 +10,18 @@ import {WorkerService} from '../../../../service/worker.service';
     standalone: false
 })
 export class ManagerComponent implements OnChanges, OnDestroy {
+	@Input() inputLayouts: Array<Layout>;
+	@Output() readonly editEvent = new EventEmitter<Layout>();
 	layouts: Array<Layout>;
 	test: { [key: string]: { win: number; fail: number; msg?: string } | undefined } = {};
 	sortColumn: number = 1;
 	sortDesc: boolean = true;
 	showBuildIn: boolean = true;
 	worker?: Worker;
-	@Input() inputLayouts: Array<Layout>;
-	@Output() readonly editEvent = new EventEmitter<Layout>();
+	layoutService = inject(LayoutService);
+	workerService = inject(WorkerService);
 
-	constructor(public layoutService: LayoutService, private workerService: WorkerService) {
+	constructor() {
 		this.update();
 	}
 

@@ -1,16 +1,16 @@
-import {readFileSync} from 'fs';
-import {Layout, LoadLayout} from './types';
-import {BUILD_MODE_ID, Builder} from './builder';
-import {expandMapping, mappingToID} from './mapping';
-import {Solver} from './solver';
-import {Tiles} from './tiles';
+import { readFileSync } from 'fs';
+import { Layout, LoadLayout } from './types';
+import { BUILD_MODE_ID, Builder } from './builder';
+import { expandMapping, mappingToID } from './mapping';
+import { Solver } from './solver';
+import { Tiles } from './tiles';
 
 const filepath = './src/assets/data/boards.json';
 
 const loadLayouts: Array<LoadLayout> = JSON.parse(readFileSync(filepath).toString());
 const layouts: Array<Layout> = loadLayouts.map(o => {
 	const mapping = expandMapping(o.map || []);
-	return {id: o.id ? o.id : mappingToID(mapping), name: o.name, category: o.cat || 'Classic', mapping};
+	return { id: o.id ? o.id : mappingToID(mapping), name: o.name, category: o.cat || 'Classic', mapping };
 });
 
 const expectNoBlankTiles = (mode: BUILD_MODE_ID, layout: Layout) => {

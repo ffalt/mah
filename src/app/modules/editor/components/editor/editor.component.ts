@@ -1,25 +1,24 @@
-import {Component, EventEmitter, Output, ViewChild} from '@angular/core';
-import {TranslateService} from '@ngx-translate/core';
-import {LayoutService} from '../../../../service/layout.service';
-import {LayoutComponent} from '../layout/layout.component';
-import {downloadMahLayouts} from '../../model/export';
-import {EditLayout} from '../../model/edit-layout';
-import {Layout} from '../../../../model/types';
+import { Component, EventEmitter, Output, ViewChild, inject } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { LayoutService } from '../../../../service/layout.service';
+import { LayoutComponent } from '../layout/layout.component';
+import { downloadMahLayouts } from '../../model/export';
+import { EditLayout } from '../../model/edit-layout';
+import { Layout } from '../../../../model/types';
 
 @Component({
-    selector: 'app-editor-component',
-    templateUrl: './editor.component.html',
-    styleUrls: ['./editor.component.scss'],
-    standalone: false
+	selector: 'app-editor-component',
+	templateUrl: './editor.component.html',
+	styleUrls: ['./editor.component.scss'],
+	standalone: false
 })
 export class EditorComponent {
+	@Output() readonly closeEvent = new EventEmitter();
+	@ViewChild(LayoutComponent, { static: false }) layoutComponent?: LayoutComponent;
 	mode = 'manager';
 	layout?: EditLayout;
-	@Output() readonly closeEvent = new EventEmitter();
-	@ViewChild(LayoutComponent, {static: false}) layoutComponent?: LayoutComponent;
-
-	constructor(public layoutService: LayoutService, private translate: TranslateService) {
-	}
+	layoutService = inject(LayoutService);
+	translate = inject(TranslateService);
 
 	save() {
 		if (this.layoutComponent) {

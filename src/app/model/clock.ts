@@ -1,7 +1,6 @@
 export class Clock {
 	elapsed = 0;
 	private lastTime = 0;
-	private started = 0;
 	private timer?: number = undefined;
 
 	start(): void {
@@ -15,7 +14,6 @@ export class Clock {
 			window.clearTimeout(this.timer);
 			this.timer = undefined;
 		}
-		this.started = 0;
 		this.lastTime = 0;
 		this.elapsed = 0;
 	}

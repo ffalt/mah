@@ -39,7 +39,7 @@ export class Rect {
 	}
 
 	static fromElement(element: HTMLElement): Rect {
-		const {left, top, right, bottom} = element.getBoundingClientRect();
+		const { left, top, right, bottom } = element.getBoundingClientRect();
 		return new Rect(left, top, right, bottom);
 	}
 

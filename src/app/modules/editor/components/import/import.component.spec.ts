@@ -1,9 +1,9 @@
-import {HttpClientTestingModule} from '@angular/common/http/testing';
-import {ComponentFixture, TestBed} from '@angular/core/testing';
-import {TranslateModule} from '@ngx-translate/core';
-import {CoreModule} from '../../../core/core.module';
-import {LayoutService} from '../../../../service/layout.service';
-import {ImportComponent} from './import.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TranslateModule } from '@ngx-translate/core';
+import { CoreModule } from '../../../core/core.module';
+import { LayoutService } from '../../../../service/layout.service';
+import { ImportComponent } from './import.component';
 
 describe('ImportComponent', () => {
 	let component: ImportComponent;

@@ -1,4 +1,4 @@
-import {CompactMapping, CompactMappingX, CompactMappingY, Mapping, Place} from './types';
+import { CompactMapping, CompactMappingX, CompactMappingY, Mapping, Place } from './types';
 
 export function expandMapping(map: CompactMapping): Mapping {
 	const result: Mapping = [];
@@ -51,7 +51,7 @@ export function mappingToID(mapping: Mapping): string {
 }
 
 export function mappingBounds(mapping: Mapping, minLevel: number, minX: number, minY: number): { x: number; y: number; z: number } {
-	const bound = {x: minX, y: minY, z: minLevel};
+	const bound = { x: minX, y: minY, z: minLevel };
 	mapping.forEach((place: Place) => {
 		bound.z = Math.max(bound.z, place[0] + 1);
 		bound.x = Math.max(bound.x, place[1] + 1);

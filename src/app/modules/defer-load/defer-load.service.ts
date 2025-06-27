@@ -1,8 +1,8 @@
-import {isPlatformBrowser} from '@angular/common';
-import {EventEmitter, Inject, Injectable, PLATFORM_ID} from '@angular/core';
-import {merge, Observable, Subject} from 'rxjs';
-import {debounceTime, throttleTime} from 'rxjs/operators';
-import {Rect} from './rect';
+import { isPlatformBrowser } from '@angular/common';
+import { EventEmitter, Injectable, PLATFORM_ID, inject } from '@angular/core';
+import { merge, Observable, Subject } from 'rxjs';
+import { debounceTime, throttleTime } from 'rxjs/operators';
+import { Rect } from './rect';
 
 export interface ScrollEvent {
 	name: string;
@@ -25,8 +25,9 @@ export class DeferLoadService {
 	private scrollSubject = new Subject<ScrollNotifyEvent>();
 	private scrollObservable: Observable<ScrollNotifyEvent>;
 	private intersectionObserver?: IntersectionObserver;
+	private platformId = inject(PLATFORM_ID);
 
-	constructor(@Inject(PLATFORM_ID) private platformId: object) {
+	constructor() {
 		this.isBrowser = isPlatformBrowser(this.platformId);
 		this.hasIntersectionObserver = DeferLoadService.checkIntersectionObserver();
 		const observable = this.scrollSubject.asObservable();
@@ -48,7 +49,7 @@ export class DeferLoadService {
 		}
 		this.intersectionObserver = new IntersectionObserver(entries => {
 			this.observeNotify.next(entries);
-		}, {threshold: 0});
+		}, { threshold: 0 });
 		return this.intersectionObserver;
 	}
 
@@ -61,7 +62,7 @@ export class DeferLoadService {
 		rect.bottom += height;
 		rect.top -= height;
 		this.currentViewport = rect;
-		this.scrollSubject.next({rect});
+		this.scrollSubject.next({ rect });
 	}
 
 	private static checkIntersectionObserver(): boolean {
@@ -72,5 +73,4 @@ export class DeferLoadService {
 		const isEdgeVersion16OrBetter = isEdge && (!!matches && parseInt(matches[1], 10) > 15);
 		return hasIntersectionObserver && (!isEdge || isEdgeVersion16OrBetter);
 	}
-
 }

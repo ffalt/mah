@@ -1,35 +1,31 @@
-import {Component, ElementRef, ViewChild} from '@angular/core';
-import {TranslateService} from '@ngx-translate/core';
-import {Backgrounds, ImageSets, Themes} from '../../model/consts';
-import {AppService} from '../../service/app.service';
-import {LayoutService} from '../../service/layout.service';
-import {LocalstorageService} from '../../service/localstorage.service';
-import {LANGUAGE_TITLES} from '../../i18n/languages';
-import {KyodaiTileSets} from '../../modules/core/model/tilesets';
-import {environment} from '../../../environments/environment';
+import { Component, ElementRef, ViewChild, inject } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { Backgrounds, ImageSets, LangAuto, Themes } from '../../model/consts';
+import { AppService } from '../../service/app.service';
+import { LayoutService } from '../../service/layout.service';
+import { LocalstorageService } from '../../service/localstorage.service';
+import { LANGUAGE_TITLES } from '../../i18n/languages';
+import { KyodaiTileSets } from '../../modules/core/model/tilesets';
+import { environment } from '../../../environments/environment';
 
 @Component({
-    selector: 'app-settings',
-    templateUrl: './settings.component.html',
-    styleUrls: ['./settings.component.scss'],
-    standalone: false
+	selector: 'app-settings',
+	templateUrl: './settings.component.html',
+	styleUrls: ['./settings.component.scss'],
+	standalone: false
 })
 export class SettingsComponent {
+	@ViewChild('kyodaiInput', { static: false }) kyodaiInput: ElementRef<HTMLInputElement>;
 	canKyodai = environment.kyodai;
 	kyodaiTileSets = KyodaiTileSets;
 	sets = ImageSets;
 	backs = Backgrounds;
 	themes = Themes;
 	languages = LANGUAGE_TITLES;
-	@ViewChild('kyodaiInput', {static: false}) kyodaiInput: ElementRef<HTMLInputElement>;
-
-	constructor(
-		public app: AppService,
-		private storage: LocalstorageService,
-		private layoutService: LayoutService,
-		private translate: TranslateService
-	) {
-	}
+	app = inject(AppService);
+	private storage = inject(LocalstorageService);
+	private layoutService = inject(LayoutService);
+	private translate = inject(TranslateService);
 
 	uodateKyodaiUrl(event: Event): void {
 		this.app.settings.kyodaiUrl = (event.target as HTMLInputElement).value;

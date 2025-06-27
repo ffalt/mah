@@ -1,12 +1,12 @@
-import {HttpClientModule} from '@angular/common/http';
-import {ComponentFixture, TestBed} from '@angular/core/testing';
-import {MockComponent} from 'ng-mocks';
-import {TranslateModule} from '@ngx-translate/core';
-import {PrefixPipe} from '../../pipes/prefix.pipe';
-import {ImageSetLoaderComponent} from '../image-set-loader/image-set-loader.component';
-import {SvgdefService} from '../../../../service/svgdef.service';
-import {AppService} from '../../../../service/app.service';
-import {BoardComponent} from './board.component';
+import { HttpClientModule } from '@angular/common/http';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MockComponent } from 'ng-mocks';
+import { TranslateModule } from '@ngx-translate/core';
+import { PrefixPipe } from '../../pipes/prefix.pipe';
+import { ImageSetLoaderComponent } from '../image-set-loader/image-set-loader.component';
+import { SvgdefService } from '../../../../service/svgdef.service';
+import { AppService } from '../../../../service/app.service';
+import { BoardComponent } from './board.component';
 
 describe('BoardComponent', () => {
 	let component: BoardComponent;

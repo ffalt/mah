@@ -1,7 +1,7 @@
-import {Layout, LoadLayout, MahFormat, Mapping} from '../../../model/types';
-import {mappingBounds, mappingToID} from '../../../model/mapping';
-import {Matrix} from './matrix';
-import {compactMapping, optimizeMapping} from './import';
+import { Layout, LoadLayout, MahFormat, Mapping } from '../../../model/types';
+import { mappingBounds, mappingToID } from '../../../model/mapping';
+import { Matrix } from './matrix';
+import { compactMapping, optimizeMapping } from './import';
 
 export function generateExportMah(layout: Layout): string {
 	return generateExportMahLayouts([layout]);
@@ -24,7 +24,7 @@ export function generateExportLayout(layout: Layout): LoadLayout {
 
 export function generateExportMahJSON(layouts: Array<Layout>): MahFormat {
 	const boards = layouts.map(layout => generateExportLayout(layout));
-	return {mah: '1.0', boards};
+	return { mah: '1.0', boards };
 }
 
 export function generateExportKmahjongg(layout: Layout): string {
@@ -100,7 +100,7 @@ export function downloadMahLayouts(layouts: Array<Layout>): void {
 }
 
 export function downloadLayout(filename: string, content: string, type: string): void {
-	const blob = new Blob([content], {type});
+	const blob = new Blob([content], { type });
 	const a = document.createElement('a');
 	a.href = window.URL.createObjectURL(blob);
 	a.download = filename;

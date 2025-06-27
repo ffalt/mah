@@ -1,13 +1,13 @@
-import {statsSolveMapping} from '../model/tasks';
+import { statsSolveMapping } from '../model/tasks';
 
-addEventListener('message', ({data}) => {
+addEventListener('message', ({ data }) => {
 	if (data) {
 		statsSolveMapping(data.mapping, data.rounds,
 			(progress: Array<number>) => {
-				postMessage({progress});
+				postMessage({ progress });
 			},
 			(result: Array<number>) => {
-				postMessage({result});
+				postMessage({ result });
 			});
 	}
 });

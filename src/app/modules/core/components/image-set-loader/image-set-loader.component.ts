@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, OnChanges, SimpleChanges} from '@angular/core';
+import { Component, ElementRef, Input, OnChanges, SimpleChanges, inject } from '@angular/core';
 import {SvgdefService} from '../../../../service/svgdef.service';
 import {TILES} from '../../../../model/consts';
 import {svg_error_icon, svg_spinner_icon} from './svg';
@@ -14,9 +14,8 @@ export class ImageSetLoaderComponent implements OnChanges {
 	@Input() kyodaiUrl?: string;
 	@Input() prefix: string;
 	@Input() dark: boolean = false;
-
-	constructor(private elementRef: ElementRef, private svgdef: SvgdefService) {
-	}
+	private elementRef = inject(ElementRef);
+	private svgdef = inject(SvgdefService);
 
 	ngOnChanges(_: SimpleChanges): void {
 		this.getImageSet();

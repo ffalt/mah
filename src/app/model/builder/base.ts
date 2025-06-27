@@ -1,6 +1,6 @@
-import {Mapping} from '../types';
-import {Tile, Tiles} from '../tiles';
-import {safeGetStone, Stone} from '../stone';
+import { Mapping } from '../types';
+import { Tile, Tiles } from '../tiles';
+import { safeGetStone, Stone } from '../stone';
 
 export interface BuilderType {
 	build(mapping: Mapping, tiles: Tiles): Array<Stone>;
@@ -39,7 +39,7 @@ export abstract class BuilderBase implements BuilderType {
 			left: Array<Stone>;
 			right: Array<Stone>;
 			bottom: Array<Stone>;
-		} = {left: [], right: [], top: [], bottom: []};
+		} = { left: [], right: [], top: [], bottom: [] };
 		let s: Stone | undefined;
 		for (let y = stone.y - 1; y <= stone.y + 1; y++) {
 			s = safeGetStone(stones, stone.z, stone.x - 2, y);
@@ -68,7 +68,7 @@ export abstract class BuilderBase implements BuilderType {
 		const groups: { [index: number]: Array<Stone> } = {};
 		stones.forEach(stone => {
 			const tile = tiles.list[stone.v];
-			stone.img = tile ? tile.img : {id: undefined};
+			stone.img = tile ? tile.img : { id: undefined };
 			groups[stone.groupnr] = groups[stone.groupnr] || [];
 			groups[stone.groupnr].push(stone);
 			stone.nodes = BuilderBase.collectNodes(stones, stone);

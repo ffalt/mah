@@ -1,8 +1,8 @@
-// [x, [x, amount (with 2 steps each) ]]
-import {GAME_MODE_ID} from './consts';
+import { GAME_MODE_ID } from './consts';
 
 export type SafeUrlSVG = string;
 
+// [x, [x, amount (with 2 steps each) ]]
 export interface CompactMappingX extends Array<number | Array<number>> {
 }
 
@@ -70,17 +70,11 @@ export interface LayoutScoreStore {
 }
 
 export interface StorageProvider {
-
 	getScore(id: string): LayoutScoreStore | undefined;
-
 	getSettings(): SettingsStore | undefined;
-
 	getState(): GameStateStore | undefined;
-
 	storeScore(id: string, store?: LayoutScoreStore): void;
-
 	storeSettings(store?: SettingsStore): void;
-
 	storeState(store?: GameStateStore): void;
 }
 

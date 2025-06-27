@@ -1,15 +1,15 @@
-import {HttpClientModule} from '@angular/common/http';
-import {ComponentFixture, TestBed} from '@angular/core/testing';
-import {TranslateModule} from '@ngx-translate/core';
-import {MockComponent} from 'ng-mocks';
-import {AppService} from '../../service/app.service';
-import {SvgdefService} from '../../service/svgdef.service';
-import {ChooseLayoutComponent} from '../choose-layout/choose-layout.component';
-import {HelpComponent} from '../help/help.component';
-import {SettingsComponent} from '../settings/settings.component';
-import {TilesInfoComponent} from '../tiles-info/tiles-info.component';
-import {CoreModule} from '../../modules/core/core.module';
-import {GameComponent} from './game-component.component';
+import { HttpClientModule } from '@angular/common/http';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TranslateModule } from '@ngx-translate/core';
+import { MockComponent } from 'ng-mocks';
+import { AppService } from '../../service/app.service';
+import { SvgdefService } from '../../service/svgdef.service';
+import { ChooseLayoutComponent } from '../choose-layout/choose-layout.component';
+import { HelpComponent } from '../help/help.component';
+import { SettingsComponent } from '../settings/settings.component';
+import { TilesInfoComponent } from '../tiles-info/tiles-info.component';
+import { CoreModule } from '../../modules/core/core.module';
+import { GameComponent } from './game-component.component';
 
 describe('GameComponent', () => {
 	let component: GameComponent;

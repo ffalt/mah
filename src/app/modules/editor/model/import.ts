@@ -1,5 +1,5 @@
-import {CompactMapping, CompactMappingX, CompactMappingY, ImportLayout, LoadLayout, MahFormat, Mapping, Place} from '../../../model/types';
-import {mappingToID} from '../../../model/mapping';
+import { CompactMapping, CompactMappingX, CompactMappingY, ImportLayout, LoadLayout, MahFormat, Mapping, Place } from '../../../model/types';
+import { mappingToID } from '../../../model/mapping';
 
 export function sortMapping(mapping: Mapping): Mapping {
 	return mapping.sort((a: Place, b: Place): number => {
@@ -33,7 +33,7 @@ export async function convertMatrix(
 	if (board.length !== totalLength) {
 		return Promise.reject(Error('Invalid Matrix Pattern length'));
 	}
-	const layout: ImportLayout = {name, cat: 'Kyodai', mapping: []};
+	const layout: ImportLayout = { name, cat: 'Kyodai', mapping: [] };
 	for (let z = 0; z < matrixCount; z++) {
 		const matrix = board.slice(z * matrixLength, (z + 1) * matrixLength);
 		for (let y = 0; y < rowCount; y++) {
@@ -155,10 +155,10 @@ export function compactMapping(mapping: Mapping): CompactMapping {
 		for (const y of Object.keys(board[Number(z)])) {
 			const a: Array<number> = board[Number(z)][Number(y)];
 			const entries: Array<{ start: number; current: number; count: number }> = [];
-			let entry = {start: -1, current: -1, count: 0};
+			let entry = { start: -1, current: -1, count: 0 };
 			a.forEach(x => {
 				if (x !== entry.current) {
-					entry = {start: x, current: x + 2, count: 1};
+					entry = { start: x, current: x + 2, count: 1 };
 					entries.push(entry);
 				} else {
 					entry.current += 2;

@@ -1,11 +1,10 @@
-import {Mapping, Place} from '../types';
-import {Tile, Tiles} from '../tiles';
-import {Stone} from '../stone';
-import {BuilderBase} from './base';
-import {RandomBoardBuilder} from './random';
+import { Mapping, Place } from '../types';
+import { Tile, Tiles } from '../tiles';
+import { Stone } from '../stone';
+import { BuilderBase } from './base';
+import { RandomBoardBuilder } from './random';
 
 export class SolvableBoardBuilder extends BuilderBase {
-
 	build(mapping: Mapping, tiles: Tiles): Array<Stone> {
 		// Initial a board with all matching faces
 		const stones: Array<Stone> = [];
@@ -79,5 +78,4 @@ export class SolvableBoardBuilder extends BuilderBase {
 		}
 		return pairs;
 	}
-
 }

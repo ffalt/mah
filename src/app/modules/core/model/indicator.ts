@@ -1,4 +1,4 @@
-import {trigger, state, style, animate, transition} from '@angular/animations';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 
 export interface GestureIndicator {
 	x: number;
@@ -40,7 +40,7 @@ export class Indicator {
 
 	display(x: number, y: number, size: number): GestureIndicator | undefined {
 		if (x > 0 && y > 0) {
-			const gestureIndicator: GestureIndicator = {x, y, size, top: y - (size / 2), left: x - (size / 2), state: 'hidden'};
+			const gestureIndicator: GestureIndicator = { x, y, size, top: y - (size / 2), left: x - (size / 2), state: 'hidden' };
 			this.gestureIndicators.push(gestureIndicator);
 			setTimeout(() => {
 				gestureIndicator.state = 'visible';

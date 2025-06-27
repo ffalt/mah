@@ -1,11 +1,11 @@
-import {HttpClientTestingModule} from '@angular/common/http/testing';
-import {ComponentFixture, TestBed} from '@angular/core/testing';
-import {TranslateModule} from '@ngx-translate/core';
-import {MockComponent} from 'ng-mocks';
-import {CoreModule} from '../../../core/core.module';
-import {LayoutService} from '../../../../service/layout.service';
-import {ManagerComponent} from '../manager/manager.component';
-import {EditorComponent} from './editor.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TranslateModule } from '@ngx-translate/core';
+import { MockComponent } from 'ng-mocks';
+import { CoreModule } from '../../../core/core.module';
+import { LayoutService } from '../../../../service/layout.service';
+import { ManagerComponent } from '../manager/manager.component';
+import { EditorComponent } from './editor.component';
 
 describe('EditorComponent', () => {
 	let component: EditorComponent;

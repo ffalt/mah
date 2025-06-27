@@ -4,7 +4,7 @@
 #
 # For IE 9-11 support, please remove 'not' from the last line of the file and adjust as needed
 
-> 1%
+defaults
 last 2 Chrome version
 last 2 Firefox version
 last 2 Edge major versions

@@ -1,5 +1,5 @@
-import {Mapping, Place} from '../../../model/types';
-import {mappingBounds} from '../../../model/mapping';
+import { Mapping, Place } from '../../../model/types';
+import { mappingBounds } from '../../../model/mapping';
 
 interface Row extends Array<number> {
 }

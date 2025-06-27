@@ -1,4 +1,4 @@
-import {Component, HostListener, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild, ViewContainerRef, inject } from '@angular/core';
 import {Meta} from '@angular/platform-browser';
 import {TranslateService} from '@ngx-translate/core';
 import {Subscription} from 'rxjs';
@@ -16,14 +16,16 @@ import {GameComponent} from './components/game/game-component.component';
     standalone: false
 })
 export class AppComponent implements OnInit {
-	loading = true;
-	@ViewChild('editorPlaceholder', {read: ViewContainerRef, static: true}) editorPlaceholder: ViewContainerRef;
 	@ViewChild('gameComponent', {static: false}) gameComponent: GameComponent;
+	@ViewChild('editorPlaceholder', {read: ViewContainerRef, static: true}) editorPlaceholder: ViewContainerRef;
+	app = inject(AppService);
+	loading = true;
 	editorSubscription?: Subscription;
 	editorVisible: boolean = false;
+	layoutService = inject(LayoutService);
+	meta = inject(Meta);
 
-	constructor(private layoutService: LayoutService, private storage: LocalstorageService,
-							private translate: TranslateService, private meta: Meta, public app: AppService) {
+	constructor() {
 		this.updateName();
 		this.registerWindowListeners();
 	}

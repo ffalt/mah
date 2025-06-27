@@ -1,16 +1,16 @@
-import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {TranslateModule} from '@ngx-translate/core';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {DeferLoadModule} from '../defer-load';
-import {BoardComponent} from './components/board/board.component';
-import {ImageSetLoaderComponent} from './components/image-set-loader/image-set-loader.component';
-import {DurationPipe} from './pipes/duration.pipe';
-import {PrefixPipe} from './pipes/prefix.pipe';
-import {LayoutListComponent} from './components/layout-list/layout-list.component';
-import {LayoutPreviewComponent} from './components/layout-preview/layout-preview.component';
-import {GameModeEasyPipe, GameModeStandardPipe} from './pipes/game-mode.pipe';
-import {DialogComponent} from './components/dialog/dialog.component';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DeferLoadModule } from '../defer-load';
+import { BoardComponent } from './components/board/board.component';
+import { ImageSetLoaderComponent } from './components/image-set-loader/image-set-loader.component';
+import { DurationPipe } from './pipes/duration.pipe';
+import { PrefixPipe } from './pipes/prefix.pipe';
+import { LayoutListComponent } from './components/layout-list/layout-list.component';
+import { LayoutPreviewComponent } from './components/layout-preview/layout-preview.component';
+import { GameModeEasyPipe, GameModeStandardPipe } from './pipes/game-mode.pipe';
+import { DialogComponent } from './components/dialog/dialog.component';
 
 const declarations = [
 	ImageSetLoaderComponent,

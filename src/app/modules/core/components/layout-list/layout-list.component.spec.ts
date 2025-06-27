@@ -1,11 +1,11 @@
-import {HttpClientTestingModule} from '@angular/common/http/testing';
-import {ComponentFixture, TestBed} from '@angular/core/testing';
-import {TranslateModule} from '@ngx-translate/core';
-import {MockComponent} from 'ng-mocks';
-import {LayoutPreviewComponent} from '../layout-preview/layout-preview.component';
-import {DurationPipe} from '../../pipes/duration.pipe';
-import {LayoutService} from '../../../../service/layout.service';
-import {LayoutListComponent} from './layout-list.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TranslateModule } from '@ngx-translate/core';
+import { MockComponent } from 'ng-mocks';
+import { LayoutPreviewComponent } from '../layout-preview/layout-preview.component';
+import { DurationPipe } from '../../pipes/duration.pipe';
+import { LayoutService } from '../../../../service/layout.service';
+import { LayoutListComponent } from './layout-list.component';
 
 describe('ChooseLayoutComponent', () => {
 	let component: LayoutListComponent;

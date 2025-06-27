@@ -1,9 +1,9 @@
-import {HttpClientTestingModule} from '@angular/common/http/testing';
-import {ComponentFixture, TestBed} from '@angular/core/testing';
-import {TranslateModule} from '@ngx-translate/core';
-import {LayoutService} from '../../service/layout.service';
-import {CoreModule} from '../../modules/core/core.module';
-import {ChooseLayoutComponent} from './choose-layout.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TranslateModule } from '@ngx-translate/core';
+import { LayoutService } from '../../service/layout.service';
+import { CoreModule } from '../../modules/core/core.module';
+import { ChooseLayoutComponent } from './choose-layout.component';
 
 describe('ChooseLayoutComponent', () => {
 	let component: ChooseLayoutComponent;

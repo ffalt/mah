@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, HostBinding, HostListener, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostBinding, HostListener, Input, OnChanges, OnInit, Output, SimpleChanges, inject } from '@angular/core';
 import {Backgrounds} from '../../../../model/consts';
 import {calcDrawPos, Draw, getDrawBounds, getDrawBoundsViewPort, sortDrawItems} from '../../../../model/draw';
 import {Stone} from '../../../../model/stone';
@@ -42,9 +42,8 @@ export class BoardComponent implements OnInit, OnChanges {
 	panX: number = 0;
 	panY: number = 0;
 	lastPinch: number = 0;
-
-	constructor(private element: ElementRef, public app: AppService) {
-	}
+	app = inject(AppService);
+	element = inject(ElementRef);
 
 	ngOnInit(): void {
 		this.resize(window);

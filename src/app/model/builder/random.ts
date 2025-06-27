@@ -1,10 +1,9 @@
-import {Mapping} from '../types';
-import {Tiles} from '../tiles';
-import {Stone} from '../stone';
-import {BuilderBase} from './base';
+import { Mapping } from '../types';
+import { Tiles } from '../tiles';
+import { Stone } from '../stone';
+import { BuilderBase } from './base';
 
 export class RandomBoardBuilder extends BuilderBase {
-
 	build(mapping: Mapping, tiles: Tiles): Array<Stone> {
 		const remainingTiles = this.getTilesInGame(tiles, mapping.length);
 		const stones: Array<Stone> = [];

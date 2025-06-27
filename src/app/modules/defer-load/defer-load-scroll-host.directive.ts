@@ -1,15 +1,14 @@
-import {Directive, ElementRef, HostListener, Input, OnChanges, SimpleChange} from '@angular/core';
-import {DeferLoadService} from './defer-load.service';
+import { Directive, ElementRef, HostListener, Input, OnChanges, SimpleChange, inject } from '@angular/core';
+import { DeferLoadService } from './defer-load.service';
 
 @Directive({
-    selector: '[appDeferLoadScrollHost]',
-    standalone: false
+	selector: '[appDeferLoadScrollHost]',
+	standalone: false
 })
 export class DeferLoadScrollHostDirective implements OnChanges {
 	@Input() scrollTo?: HTMLElement;
-
-	constructor(private element: ElementRef, private scrollNotify: DeferLoadService) {
-	}
+	private element = inject(ElementRef);
+	private scrollNotify = inject(DeferLoadService);
 
 	ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
 		if (changes.scrollTo && changes.scrollTo.currentValue) {
@@ -25,6 +24,6 @@ export class DeferLoadScrollHostDirective implements OnChanges {
 
 	@HostListener('scroll', ['$event'])
 	scrollTrack(_: Event): void {
-		this.scrollNotify.notifyScroll({name: 'scroll-host', element: this.element.nativeElement});
+		this.scrollNotify.notifyScroll({ name: 'scroll-host', element: this.element.nativeElement });
 	}
 }

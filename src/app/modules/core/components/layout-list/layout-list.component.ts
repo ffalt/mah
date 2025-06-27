@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, inject } from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import {Layout} from '../../../../model/types';
 import {LocalstorageService} from '../../../../service/localstorage.service';
@@ -28,8 +28,11 @@ export class LayoutListComponent implements OnChanges {
 	@Input() layouts?: Array<Layout>;
 	@Output() readonly startEvent = new EventEmitter<Layout>();
 	groups: Array<LayoutGroup> = [];
+	private storage = inject(LocalstorageService);
+	private translate = inject(TranslateService);
+	private layoutService = inject(LayoutService);
 
-	constructor(private storage: LocalstorageService, private translate: TranslateService, private layoutService: LayoutService) {
+	constructor() {
 		if (this.layouts) {
 			this.buildGroups();
 		}

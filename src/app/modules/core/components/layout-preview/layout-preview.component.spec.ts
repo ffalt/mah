@@ -1,5 +1,5 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
-import {LayoutPreviewComponent} from './layout-preview.component';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { LayoutPreviewComponent } from './layout-preview.component';
 
 describe('LayoutPreviewComponent', () => {
 	let component: LayoutPreviewComponent;

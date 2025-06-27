@@ -1,9 +1,9 @@
-import {HttpClientTestingModule} from '@angular/common/http/testing';
-import {ComponentFixture, TestBed} from '@angular/core/testing';
-import {TranslateModule} from '@ngx-translate/core';
-import {AppService} from '../../service/app.service';
-import {LayoutService} from '../../service/layout.service';
-import {SettingsComponent} from './settings.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TranslateModule } from '@ngx-translate/core';
+import { AppService } from '../../service/app.service';
+import { LayoutService } from '../../service/layout.service';
+import { SettingsComponent } from './settings.component';
 
 describe('SettingsComponent', () => {
 	let component: SettingsComponent;

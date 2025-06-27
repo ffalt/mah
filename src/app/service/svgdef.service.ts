@@ -1,6 +1,6 @@
-import {HttpClient} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {buildKyodaiSVG, imageSetIsKyodai} from '../modules/core/model/tilesets';
+import { HttpClient } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core';
+import { buildKyodaiSVG, imageSetIsKyodai } from '../modules/core/model/tilesets';
 
 interface CacheItem {
 	data?: string;
@@ -9,11 +9,8 @@ interface CacheItem {
 
 @Injectable()
 export class SvgdefService {
-
+	private http = inject(HttpClient);
 	private cache: { [name: string]: CacheItem } = {};
-
-	constructor(private http: HttpClient) {
-	}
 
 	async get(name: string, kyodaiUrl?: string): Promise<string> {
 		if (imageSetIsKyodai(name)) {
@@ -30,7 +27,7 @@ export class SvgdefService {
 		}
 		item = {};
 		const request = new Promise<string>((resolve, reject) => {
-			this.http.get(`assets/svg/${name}.svg`, {responseType: 'text'})
+			this.http.get(`assets/svg/${name}.svg`, { responseType: 'text' })
 				.subscribe({
 					next: res => {
 						item.data = res;

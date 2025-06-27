@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, inject } from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import {Layout, LoadLayout} from '../../../../model/types';
 import {LayoutService} from '../../../../service/layout.service';
@@ -46,9 +46,8 @@ export class ExportComponent implements OnInit, OnChanges {
 	layoutName: string;
 	output: string;
 	filename: string;
-
-	constructor(private translate: TranslateService, private layoutService: LayoutService) {
-	}
+	translate = inject(TranslateService);
+	layoutService = inject(LayoutService);
 
 	ngOnInit(): void {
 		if (this.layout) {

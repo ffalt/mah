@@ -1,4 +1,4 @@
-import {Directive, EventEmitter, HostBinding, HostListener, Input, Output} from '@angular/core';
+import { Directive, EventEmitter, HostBinding, HostListener, Input, Output } from '@angular/core';
 
 // Angular Drag and Drop File
 //
@@ -15,11 +15,10 @@ import {Directive, EventEmitter, HostBinding, HostListener, Input, Output} from 
 // https://gist.github.com/darrenmothersele/7afda13d858a156ce571510dd78b7624
 
 @Directive({
-    selector: '[appDropZone]',
-    standalone: false
+	selector: '[appDropZone]',
+	standalone: false
 })
 export class DropZoneDirective {
-
 	// The directive emits a `fileDrop` event
 	// with the list of files dropped on the element
 	// as an JS array of `File` objects.
@@ -41,7 +40,7 @@ export class DropZoneDirective {
 		event.preventDefault();
 		this.active = false;
 
-		const {dataTransfer} = event;
+		const { dataTransfer } = event;
 
 		if (dataTransfer?.items) {
 			const files: Array<File> = [];

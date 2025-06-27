@@ -10,15 +10,15 @@ import * as LANG_FR from './fr.json';
 
 export const DEFAULT_LANGUAGE = 'en';
 export const LANGUAGES: { [name: string]: { title: string; data: { [key: string]: string } } } = {
-	en: {title: 'English', data: LANG_EN},
-	de: {title: 'Deutsch', data: LANG_DE},
-	nl: {title: 'Nederlands', data: LANG_NL},
-	pt: {title: 'Português', data: LANG_PT},
-	ru: {title: 'русский', data: LANG_RU},
-	es: {title: 'Español', data: LANG_ES},
-	eu: {title: 'Euskara', data: LANG_EU},
-	jp: {title: '日本語', data: LANG_JP},
-	fr: {title: 'Français', data: LANG_FR}
+	en: { title: 'English', data: LANG_EN },
+	de: { title: 'Deutsch', data: LANG_DE },
+	nl: { title: 'Nederlands', data: LANG_NL },
+	pt: { title: 'Português', data: LANG_PT },
+	ru: { title: 'русский', data: LANG_RU },
+	es: { title: 'Español', data: LANG_ES },
+	eu: { title: 'Euskara', data: LANG_EU },
+	jp: { title: '日本語', data: LANG_JP },
+	fr: { title: 'Français', data: LANG_FR }
 };
 
-export const LANGUAGE_TITLES = Object.keys(LANGUAGES).map(key => ({key, title: LANGUAGES[key].title}));
+export const LANGUAGE_TITLES = Object.keys(LANGUAGES).map(key => ({ key, title: LANGUAGES[key].title }));

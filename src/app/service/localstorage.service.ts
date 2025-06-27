@@ -1,11 +1,10 @@
-import {Injectable} from '@angular/core';
-import {GameStateStore, LayoutScoreStore, LoadLayout, SettingsStore, StorageProvider} from '../model/types';
+import { Injectable } from '@angular/core';
+import { GameStateStore, LayoutScoreStore, LoadLayout, SettingsStore, StorageProvider } from '../model/types';
 
 @Injectable({
 	providedIn: 'root'
 })
 export class LocalstorageService implements StorageProvider {
-
 	private readonly prefix = 'mah.';
 
 	constructor() {

@@ -1,25 +1,22 @@
-import {AfterViewInit, Directive, ElementRef, EventEmitter, Input, OnDestroy, Output} from '@angular/core';
-import {Subscription} from 'rxjs';
-import {DeferLoadService, ScrollNotifyEvent} from './defer-load.service';
-import {Rect} from './rect';
+import { AfterViewInit, Directive, ElementRef, EventEmitter, Input, OnDestroy, Output, inject } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { DeferLoadService, ScrollNotifyEvent } from './defer-load.service';
+import { Rect } from './rect';
 
 @Directive({
-    selector: '[appDeferLoad]',
-    standalone: false
+	selector: '[appDeferLoad]',
+	standalone: false
 })
 export class DeferLoadDirective implements AfterViewInit, OnDestroy {
-
 	@Input() preRender: boolean = false;
 	@Output() readonly appDeferLoad: EventEmitter<void> = new EventEmitter();
-
 	private intersectionObserver?: IntersectionObserver;
 	private scrollSubscription?: Subscription;
-	private onbserveSubscription?: Subscription;
+	private observeSubscription?: Subscription;
 	private timeoutId?: number;
 	private timeoutLoadMS: number = 20;
-
-	constructor(private elementRef: ElementRef, private deferLoadService: DeferLoadService) {
-	}
+	private elementRef = inject(ElementRef);
+	private deferLoadService = inject(DeferLoadService);
 
 	ngAfterViewInit(): void {
 		if (this.deferLoadService.isBrowser) {
@@ -83,7 +80,7 @@ export class DeferLoadDirective implements AfterViewInit, OnDestroy {
 		this.intersectionObserver = this.deferLoadService.getObserver();
 		if (this.intersectionObserver && this.elementRef.nativeElement) {
 			this.intersectionObserver.observe(this.elementRef.nativeElement as Element);
-			this.onbserveSubscription = this.deferLoadService.observeNotify
+			this.observeSubscription = this.deferLoadService.observeNotify
 				.subscribe((entries: Array<IntersectionObserverEntry>) => {
 					this.checkForIntersection(entries);
 				});
@@ -145,9 +142,9 @@ export class DeferLoadDirective implements AfterViewInit, OnDestroy {
 			this.scrollSubscription = undefined;
 		}
 		this.unobserve();
-		if (this.onbserveSubscription) {
-			this.onbserveSubscription.unsubscribe();
-			this.onbserveSubscription = undefined;
+		if (this.observeSubscription) {
+			this.observeSubscription.unsubscribe();
+			this.observeSubscription = undefined;
 		}
 	}
 

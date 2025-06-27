@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import {BUILD_MODE_ID, BuilderModes, MODE_SOLVABLE} from '../../model/builder';
 import {Layout} from '../../model/types';
 import {LayoutService} from '../../service/layout.service';
@@ -17,9 +17,8 @@ export class ChooseLayoutComponent {
 	buildMode: BUILD_MODE_ID = MODE_SOLVABLE;
 	buildModes = BuilderModes;
 	gameModes = GameModes;
-
-	constructor(public layoutService: LayoutService, private storage: LocalstorageService) {
-	}
+	layoutService = inject(LayoutService);
+	storage = inject(LocalstorageService);
 
 	onStart(layout: Layout): void {
 		if (layout) {

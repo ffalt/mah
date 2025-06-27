@@ -1,10 +1,9 @@
-import {StoneMapping} from '../types';
-import {Tile, Tiles} from '../tiles';
-import {Stone} from '../stone';
-import {BuilderBase} from './base';
+import { StoneMapping } from '../types';
+import { Tile, Tiles } from '../tiles';
+import { Stone } from '../stone';
+import { BuilderBase } from './base';
 
 export class LoadBoardBuilder {
-
 	build(mapping: StoneMapping, tiles: Tiles): Array<Stone> {
 		const stones: Array<Stone> = [];
 		mapping.forEach((st: Array<number>) => {
@@ -17,5 +16,4 @@ export class LoadBoardBuilder {
 		BuilderBase.fillStones(stones, tiles);
 		return stones;
 	}
-
 }

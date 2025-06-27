@@ -1,13 +1,13 @@
-import {Component, HostListener, ViewChild} from '@angular/core';
-import {Game} from '../../model/game';
-import {Stone} from '../../model/stone';
-import {Layout, Place} from '../../model/types';
-import {AppService} from '../../service/app.service';
-import {BUILD_MODE_ID} from '../../model/builder';
-import {GAME_MODE_ID} from '../../model/consts';
-import {WorkerService} from '../../service/worker.service';
-import {environment} from '../../../environments/environment';
-import {DialogComponent} from '../../modules/core/components/dialog/dialog.component';
+import { Component, HostListener, ViewChild, inject } from '@angular/core';
+import { Game } from '../../model/game';
+import { Stone } from '../../model/stone';
+import { Layout, Place } from '../../model/types';
+import { AppService } from '../../service/app.service';
+import { BUILD_MODE_ID } from '../../model/builder';
+import { GAME_MODE_ID } from '../../model/consts';
+import { WorkerService } from '../../service/worker.service';
+import { environment } from '../../../environments/environment';
+import { DialogComponent } from '../../modules/core/components/dialog/dialog.component';
 
 interface DocEx extends Document {
 	fullScreen: boolean;
@@ -16,37 +16,36 @@ interface DocEx extends Document {
 	webkitIsFullScreen: boolean;
 	mozFullscreenEnabled: boolean;
 	webkitFullscreenEnabled: boolean;
-
 	mozCancelFullScreen(): void;
-
 	webkitExitFullscreen(): void;
 }
 
 interface ElemEx extends HTMLElement {
 	webkitRequestFullScreen(): void;
-
 	mozRequestFullScreen(): void;
 }
 
 @Component({
-    selector: 'app-game-component',
-    templateUrl: './game-component.component.html',
-    styleUrls: ['./game-component.component.scss'],
-    standalone: false
+	selector: 'app-game-component',
+	templateUrl: './game-component.component.html',
+	styleUrls: ['./game-component.component.scss'],
+	standalone: false
 })
 export class GameComponent {
+	@ViewChild('info', { static: true }) info: DialogComponent;
+	@ViewChild('settings', { static: true }) settings: DialogComponent;
+	@ViewChild('help', { static: true }) help: DialogComponent;
+	@ViewChild('newgame', { static: true }) newgame: DialogComponent;
+	app = inject(AppService);
 	game: Game;
 	fullScreenEnabled: boolean = true;
 	title: string = '';
-	@ViewChild('info', {static: true}) info: DialogComponent;
-	@ViewChild('settings', {static: true}) settings: DialogComponent;
-	@ViewChild('help', {static: true}) help: DialogComponent;
-	@ViewChild('newgame', {static: true}) newgame: DialogComponent;
+	workerService = inject(WorkerService);
 
-	constructor(public app: AppService, private workerService: WorkerService) {
-		this.game = app.game;
+	constructor() {
+		this.game = this.app.game;
 		this.fullScreenEnabled = this.canFullscreen();
-		this.title = `${app.name} v${environment.version}`;
+		this.title = `${this.app.name} v${environment.version}`;
 	}
 
 	showNewGame(): void {

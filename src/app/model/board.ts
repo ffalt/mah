@@ -1,8 +1,8 @@
-import {BUILD_MODE_ID, Builder, MODE_SOLVABLE} from './builder';
-import {safeGetStone, Stone} from './stone';
-import {Mapping, Place, StoneMapping, StonePlace} from './types';
-import {Tiles} from './tiles';
-import {BuilderBase} from './builder/base';
+import { BUILD_MODE_ID, Builder, MODE_SOLVABLE } from './builder';
+import { safeGetStone, Stone } from './stone';
+import { Mapping, Place, StoneMapping, StonePlace } from './types';
+import { Tiles } from './tiles';
+import { BuilderBase } from './builder/base';
 
 interface StoneGroup {
 	group: number;
@@ -18,7 +18,7 @@ export class Board {
 	free: Array<Stone> = [];
 	stones: Array<Stone> = [];
 	count = 0;
-	hints: Hints = {groups: [], current: undefined};
+	hints: Hints = { groups: [], current: undefined };
 	selected?: Stone = undefined;
 	undo: Array<Place> = [];
 
@@ -71,7 +71,7 @@ export class Board {
 			});
 		}
 		const current = groups[0];
-		this.hints = {groups, current};
+		this.hints = { groups, current };
 		current.stones.forEach((stone: Stone) => {
 			stone.hinted = true;
 		});
@@ -230,7 +230,6 @@ export class Board {
 			hash[gn].push(stone);
 		});
 		return Object.keys(hash).map((key: string) =>
-			({group: hash[key][0].groupnr, stones: hash[key]}));
+			({ group: hash[key][0].groupnr, stones: hash[key] }));
 	}
-
 }

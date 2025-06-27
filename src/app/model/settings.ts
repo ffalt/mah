@@ -1,15 +1,15 @@
-import {ImageSetDefault} from './consts';
-import {SettingsStore, StorageProvider} from './types';
+import { ImageSetDefault, LangDefault, ThemeDefault } from './consts';
+import { SettingsStore, StorageProvider } from './types';
 
 export class Settings {
-	lang = 'auto';
+	lang = LangDefault;
 	sounds = true;
 	tileset = ImageSetDefault;
 	contrast = false;
 	dark = false;
 	background = '';
 	kyodaiUrl?: string;
-	theme = 'ltgreen';
+	theme = ThemeDefault;
 	stats = {
 		games: 0,
 		bestTime: 0
@@ -22,10 +22,10 @@ export class Settings {
 		try {
 			const store: SettingsStore | undefined = this.storageProvider.getSettings();
 			if (store) {
-				this.lang = store.lang || 'auto';
+				this.lang = store.lang || LangDefault;
 				this.tileset = store.tileset || ImageSetDefault;
 				this.background = store.background;
-				this.theme = store.theme || 'ltgreen';
+				this.theme = store.theme || ThemeDefault;
 				this.contrast = store.contrast || false;
 				this.dark = store.dark || false;
 				this.sounds = store.sounds || false;

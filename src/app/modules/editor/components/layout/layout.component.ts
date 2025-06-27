@@ -1,13 +1,13 @@
-import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
-import {Place, SafeUrlSVG} from '../../../../model/types';
-import {Matrix} from '../../model/matrix';
-import {Cell} from '../../model/cell';
-import {Consts} from '../../../../model/consts';
-import {Stone} from '../../../../model/stone';
-import {WorkerService} from '../../../../service/worker.service';
-import {LayoutService} from '../../../../service/layout.service';
-import {optimizeMapping} from '../../model/import';
-import {EditLayout} from '../../model/edit-layout';
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, inject } from '@angular/core';
+import { Place, SafeUrlSVG } from '../../../../model/types';
+import { Matrix } from '../../model/matrix';
+import { Cell } from '../../model/cell';
+import { Consts } from '../../../../model/consts';
+import { Stone } from '../../../../model/stone';
+import { WorkerService } from '../../../../service/worker.service';
+import { LayoutService } from '../../../../service/layout.service';
+import { optimizeMapping } from '../../model/import';
+import { EditLayout } from '../../model/edit-layout';
 
 interface Stats {
 	name: string;
@@ -31,10 +31,10 @@ interface SolveStats {
 }
 
 @Component({
-    selector: 'app-editor-layout-component',
-    templateUrl: './layout.component.html',
-    styleUrls: ['./layout.component.scss'],
-    standalone: false
+	selector: 'app-editor-layout-component',
+	templateUrl: './layout.component.html',
+	styleUrls: ['./layout.component.scss'],
+	standalone: false
 })
 export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 	@Input() layout: EditLayout;
@@ -54,9 +54,8 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 	saveDialog: boolean = false;
 	hasChanged: boolean = false;
 	svg: SafeUrlSVG;
-
-	constructor(private worker: WorkerService, private layoutService: LayoutService) {
-	}
+	worker = inject(WorkerService);
+	layoutService = inject(LayoutService);
 
 	ngOnDestroy(): void {
 		this.cancelSolve();
@@ -141,7 +140,7 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 	}
 
 	selectLevel(z: number): void {
-		this.level = {z, rows: this.matrix.levels[z], showTiles: true};
+		this.level = { z, rows: this.matrix.levels[z], showTiles: true };
 		this.currentZ = z;
 		this.refresh();
 	}
@@ -150,7 +149,7 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 		this.hasChanged = true;
 		this.matrix.applyMapping(this.layout.mapping, this.totalZ, this.totalX, this.totalY);
 		this.stats = this.getStats(this.layout);
-		this.level = {z: this.currentZ, rows: this.matrix.levels[this.currentZ], showTiles: true};
+		this.level = { z: this.currentZ, rows: this.matrix.levels[this.currentZ], showTiles: true };
 		this.svg = this.layoutService.generatePreview(optimizeMapping(this.layout.mapping));
 		this.layout.previewSVG = this.svg;
 	}
@@ -279,7 +278,7 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 		if (this.solveWorker) {
 			return;
 		}
-		const solveStats = {fail: 0, won: 0};
+		const solveStats = { fail: 0, won: 0 };
 		this.solveWorker = this.worker.solve(this.layout.mapping, 1000,
 			progress => {
 				solveStats.won = progress[0];

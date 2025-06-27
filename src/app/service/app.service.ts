@@ -1,19 +1,22 @@
-import {Injectable} from '@angular/core';
-import {TranslateService} from '@ngx-translate/core';
-import {Game} from '../model/game';
-import {DEFAULT_LANGUAGE, LANGUAGES} from '../i18n/languages';
-import {Settings} from '../model/settings';
-import {LocalstorageService} from './localstorage.service';
+import { Injectable, inject } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { Game } from '../model/game';
+import { DEFAULT_LANGUAGE, LANGUAGES } from '../i18n/languages';
+import { Settings } from '../model/settings';
+import { LangAuto } from '../model/consts';
+import { LocalstorageService } from './localstorage.service';
 
 @Injectable()
 export class AppService {
 	name: string = 'Mah Jong';
 	game: Game;
 	settings: Settings;
+	storage = inject(LocalstorageService);
+	translate = inject(TranslateService);
 
-	constructor(private storage: LocalstorageService, private translate: TranslateService) {
-		this.game = new Game(storage);
-		this.settings = new Settings(storage);
+	constructor() {
+		this.game = new Game(this.storage);
+		this.settings = new Settings(this.storage);
 		this.settings.load();
 		this.setupTranslations();
 		this.setLang();
@@ -23,7 +26,7 @@ export class AppService {
 
 	setLang(): void {
 		let userLang: string;
-		if (!this.settings.lang || this.settings.lang === 'auto') {
+		if (!this.settings.lang || this.settings.lang === LangAuto) {
 			userLang = (navigator.language.split('-')[0] || DEFAULT_LANGUAGE).toLowerCase(); // use navigator lang if available
 		} else {
 			userLang = this.settings.lang;

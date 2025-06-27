@@ -1,20 +1,20 @@
-import {HttpClient} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {DomSanitizer} from '@angular/platform-browser';
-import {firstValueFrom} from 'rxjs';
-import {expandMapping, mappingToID} from '../model/mapping';
-import {generateBase64SVG} from '../model/layout-svg';
-import {CompactMapping, Layout, Layouts, LoadLayout, Mapping, SafeUrlSVG} from '../model/types';
-import {LocalstorageService} from './localstorage.service';
+import { HttpClient } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
+import { firstValueFrom } from 'rxjs';
+import { expandMapping, mappingToID } from '../model/mapping';
+import { generateBase64SVG } from '../model/layout-svg';
+import { CompactMapping, Layout, Layouts, LoadLayout, Mapping, SafeUrlSVG } from '../model/types';
+import { LocalstorageService } from './localstorage.service';
 
 @Injectable()
 export class LayoutService {
-	layouts: Layouts = {items: []};
+	layouts: Layouts = { items: [] };
 	loaded = false;
 	selectBoardID?: string | null;
-
-	constructor(private http: HttpClient, private sanitizer: DomSanitizer, private storage: LocalstorageService) {
-	}
+	private http = inject(HttpClient);
+	private sanitizer = inject(DomSanitizer);
+	private storage = inject(LocalstorageService);
 
 	static layout2loadLayout(layout: Layout, map: CompactMapping): LoadLayout {
 		return {
@@ -45,7 +45,7 @@ export class LayoutService {
 				items.push(layout);
 			}
 		}
-		this.layouts = {items};
+		this.layouts = { items };
 		this.loaded = true;
 		return this.layouts;
 	}

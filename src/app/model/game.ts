@@ -1,10 +1,10 @@
-import {Board} from './board';
-import {Clock} from './clock';
-import {GAME_MODE_EASY, GAME_MODE_EXPERT, GAME_MODE_ID, GAME_MODE_STANDARD, STATES} from './consts';
-import {Sound, SOUNDS} from './sound';
-import {Stone} from './stone';
-import {GameStateStore, Layout, StorageProvider} from './types';
-import {BUILD_MODE_ID} from './builder';
+import { Board } from './board';
+import { Clock } from './clock';
+import { GAME_MODE_EASY, GAME_MODE_EXPERT, GAME_MODE_ID, GAME_MODE_STANDARD, STATES } from './consts';
+import { Sound, SOUNDS } from './sound';
+import { Stone } from './stone';
+import { GameStateStore, Layout, StorageProvider } from './types';
+import { BUILD_MODE_ID } from './builder';
 
 export class Game {
 	clock: Clock = new Clock();
@@ -25,7 +25,7 @@ export class Game {
 		if (this.state === STATES.run) {
 			this.pause();
 		}
-		this.message = {msgID: this.isPaused() ? 'MSG_CONTINUE_SAVE' : 'MSG_START'};
+		this.message = { msgID: this.isPaused() ? 'MSG_CONTINUE_SAVE' : 'MSG_START' };
 	}
 
 	click(stone: Stone): boolean {
@@ -239,7 +239,7 @@ export class Game {
 	}
 
 	private setState(state: number, msgID?: string, playTime?: number): void {
-		this.message = msgID ? {msgID, playTime} : undefined;
+		this.message = msgID ? { msgID, playTime } : undefined;
 		this.state = state;
 	}
 

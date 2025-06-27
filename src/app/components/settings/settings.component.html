@@ -5,8 +5,8 @@
 			<ul class="radio">
 				<li><input type="radio" name="lang" id="lang0" value="auto"
 									 [checked]="( app.settings.lang === 'auto' )"
-									 (change)="app.settings.lang = 'auto';app.setLang();"
-				/><label for="lang0">{{ 'LANG_AUTO'|translate }}</label></li>
+									 (change)="app.settings.lang = 'auto'; app.setLang();"
+				/><label for="lang0">{{ 'LANG_AUTO' | translate }}</label></li>
 				@for (lang of languages; track lang; let i = $index) {
 					<li>
 						<input type="radio" name="lang" [id]="'lang'+(i+1)" [value]="lang.key"
@@ -26,7 +26,7 @@
 						<input type="radio" name="back" id="back{{i}}" [value]="back.img"
 									 [checked]="app.settings.background === back.img"
 									 (change)="app.settings.background = back.img || '';app.settings.save();"
-						/><label for="back{{i}}">{{ back.name|translate }}</label>
+						/><label for="back{{i}}">{{ back.name | translate }}</label>
 					</li>
 				}
 			</ul>
@@ -41,7 +41,7 @@
 						<input type="radio" name="color" id="color{{i}}" [value]="theme.id"
 									 [checked]="app.settings.theme === theme.id"
 									 (change)="app.settings.theme = theme.id || '';app.settings.save();"
-						/><label for="color{{i}}">{{ theme.name|translate }}</label>
+						/><label for="color{{i}}">{{ theme.name | translate }}</label>
 					</li>
 				}
 			</ul>
@@ -94,7 +94,7 @@
 					}
 				</select>
 			</div>
-				<button (click)="applyKyodaiUrl()">{{ 'KYODAI_TILESET_LOAD' | translate }}</button>
+			<button (click)="applyKyodaiUrl()">{{ 'KYODAI_TILESET_LOAD' | translate }}</button>
 		</div>
 	}
 
@@ -105,14 +105,14 @@
 						 [checked]="app.settings.contrast"
 						 (change)="app.settings.contrast = !app.settings.contrast;app.settings.save();"
 			>
-			{{ 'HIGHER_CONTRAST'|translate }}
+			{{ 'HIGHER_CONTRAST' | translate }}
 		</label><br/>
 		<label>
 			<input type="checkbox"
 						 [checked]="app.settings.dark"
 						 (change)="app.settings.dark = !app.settings.dark;app.settings.save();"
 			>
-			{{ 'TILES_DARK'|translate }}
+			{{ 'TILES_DARK' | translate }}
 		</label>
 	</div>
 	<p>{{ 'BEST_TIMES' | translate }}</p>
