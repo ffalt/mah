@@ -9,7 +9,7 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "module": "es2020",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "importHelpers": true,
     "noImplicitReturns": true,
     "noImplicitAny": true,
@@ -21,7 +21,7 @@
     "strictFunctionTypes": true,
     "strictNullChecks": true,
     "target": "ES2022",
-	  "typeRoots": [
+    "typeRoots": [
       "node_modules/@types"
     ],
     "lib": [
