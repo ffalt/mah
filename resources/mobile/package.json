@@ -12,11 +12,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@capacitor/android": "6.1.2",
-    "@capacitor/app": "6.0.1",
-    "@capacitor/core": "6.1.2"
+    "@capacitor/android": "7.4.0",
+    "@capacitor/app": "7.0.1",
+    "@capacitor/core": "7.4.0"
   },
   "devDependencies": {
-    "@capacitor/cli": "6.1.2"
+    "@capacitor/cli": "7.4.0"
   }
 }
