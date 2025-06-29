@@ -1,4 +1,4 @@
-import { Directive, HostBinding, HostListener, output, input } from '@angular/core';
+import { Directive, output, input } from '@angular/core';
 
 // Angular Drag and Drop File
 //
@@ -16,7 +16,15 @@ import { Directive, HostBinding, HostListener, output, input } from '@angular/co
 
 @Directive({
 	selector: '[appDropZone]',
-	standalone: false
+	standalone: false,
+	host: {
+		'[class.drop-zone-active]': 'active',
+		'(drop)': 'onDrop($event)',
+		'(dragover)': 'onDragOver($event)',
+		'(dragleave)': 'onDragLeave($event)',
+		'(body:dragover)': 'onBodyDragOver($event)',
+		'(body:drop)': 'onBodyDrop($event)'
+	}
 })
 export class DropZoneDirective {
 	// The directive emits a `fileDrop` event
@@ -33,9 +41,8 @@ export class DropZoneDirective {
 
 	// The `drop-zone-active` class is applied to the host
 	// element when a drag is currently over the target.
-	@HostBinding('class.drop-zone-active') active = false;
+	active = false;
 
-	@HostListener('drop', ['$event'])
 	onDrop(event: DragEvent): void {
 		event.preventDefault();
 		this.active = false;
@@ -66,23 +73,19 @@ export class DropZoneDirective {
 		}
 	}
 
-	@HostListener('dragover', ['$event'])
 	onDragOver(event: DragEvent): void {
 		event.stopPropagation();
 		event.preventDefault();
 		if (!this.active) {
-			// TODO: The 'emit' function requires a mandatory void argument
 			this.appDropZoneOver.emit();
 		}
 		this.active = true;
 	}
 
-	@HostListener('dragleave', ['$event'])
 	onDragLeave(_event: DragEvent): void {
 		this.active = false;
 	}
 
-	@HostListener('body:dragover', ['$event'])
 	onBodyDragOver(event: DragEvent): void {
 		if (this.preventBodyDrop()) {
 			event.preventDefault();
@@ -90,7 +93,6 @@ export class DropZoneDirective {
 		}
 	}
 
-	@HostListener('body:drop', ['$event'])
 	onBodyDrop(event: DragEvent): void {
 		if (this.preventBodyDrop()) {
 			event.preventDefault();

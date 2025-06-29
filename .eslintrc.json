@@ -231,12 +231,7 @@
 						"allowStandaloneDeclarations": true
 					}
 				],
-				"@typescript-eslint/naming-convention": ["error",
-					{
-						"selector": "property",
-						"format": ["camelCase", "UPPER_CASE"]
-					}
-				]
+				"@typescript-eslint/naming-convention": "off"
 			}
 		},
 		{

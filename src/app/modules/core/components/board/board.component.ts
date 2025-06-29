@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostBinding, HostListener, inject, OnChanges, OnInit, SimpleChanges, output, input } from '@angular/core';
+import { Component, ElementRef, inject, OnChanges, OnInit, SimpleChanges, output, input } from '@angular/core';
 import { Backgrounds } from '../../../../model/consts';
 import { calcDrawPos, Draw, getDrawBounds, getDrawBoundsViewPort, sortDrawItems } from '../../../../model/draw';
 import { Stone } from '../../../../model/stone';
@@ -19,7 +19,17 @@ function clamp(value: number, min: number, max: number): number {
 	templateUrl: './board.component.html',
 	styleUrls: ['./board.component.scss'],
 	animations: IndicatorAnimations,
-	standalone: false
+	standalone: false,
+	host: {
+		'[style.background-image]': 'backgroundUrl',
+		'(pinch)': 'onPinch($event)',
+		'(pinchstart)': 'onPinchStart($event)',
+		'(pinchend)': 'onPinchEnd($event)',
+		'(pan)': 'onPan($event)',
+		'(panend)': 'onPanEnd($event)',
+		'(wheel)': 'onWheel($event)',
+		'(window:resize)': 'onResize($event)'
+	}
 })
 export class BoardComponent implements OnInit, OnChanges {
 	readonly background = input<string>();
@@ -27,7 +37,7 @@ export class BoardComponent implements OnInit, OnChanges {
 	readonly kyodaiUrl = input<string>();
 	readonly stones = input<Array<Stone>>();
 	readonly clickEvent = output<Stone | undefined>();
-	@HostBinding('style.background-image') backgroundUrl: string | undefined;
+	backgroundUrl: string | undefined;
 	indicators = new Indicator();
 	drawStones: Array<Draw> = [];
 	rotate: boolean = false;
@@ -63,14 +73,12 @@ export class BoardComponent implements OnInit, OnChanges {
 		}
 	}
 
-	@HostListener('pinch', ['$event'])
 	onPinch(evt: HammerEvent) {
 		this.indicators.setSize(0, 40 * evt.scale);
 		evt.preventDefault();
 		this.lastPinch = Date.now();
 	}
 
-	@HostListener('pinchstart', ['$event'])
 	onPinchStart(evt: HammerEvent) {
 		this.indicators.gestureIndicators = [];
 		this.indicators.display(evt.center.x, evt.center.y, 40);
@@ -78,7 +86,6 @@ export class BoardComponent implements OnInit, OnChanges {
 		this.lastPinch = Date.now();
 	}
 
-	@HostListener('pinchend', ['$event'])
 	onPinchEnd(evt: HammerEvent) {
 		this.indicators.hide(this.indicators.gestureIndicators[0]);
 		let scale = 1;
@@ -90,18 +97,15 @@ export class BoardComponent implements OnInit, OnChanges {
 		this.lastPinch = Date.now();
 	}
 
-	@HostListener('pan', ['$event'])
 	onPan(evt: HammerEvent) {
 		this.setPan(evt);
 	}
 
-	@HostListener('panend', ['$event'])
 	onPanEnd(evt: HammerEvent) {
 		this.setPan(evt);
 		this.updateTransform();
 	}
 
-	@HostListener('wheel', ['$event'])
 	onWheel($event: WheelEvent) {
 		$event.preventDefault();
 		const wheel = $event.deltaY < 0 ? 1 : -1;
@@ -114,7 +118,6 @@ export class BoardComponent implements OnInit, OnChanges {
 		this.indicators.hide(indicator);
 	}
 
-	@HostListener('window:resize', ['$event'])
 	onResize(event: UIEvent): void {
 		const element = event.target as Window;
 		if (element) {

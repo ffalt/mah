@@ -1,4 +1,4 @@
-import { Component, HostListener, inject, OnInit, OutputRefSubscription, ViewContainerRef, viewChild } from '@angular/core';
+import { Component, inject, OnInit, OutputRefSubscription, ViewContainerRef, viewChild } from '@angular/core';
 import { Meta } from '@angular/platform-browser';
 import { environment } from '../environments/environment';
 import { AppService } from './service/app.service';
@@ -10,7 +10,8 @@ import { GameComponent } from './components/game/game-component.component';
 	selector: 'app-root',
 	templateUrl: './app.component.html',
 	styleUrls: ['./app.component.scss'],
-	standalone: false
+	standalone: false,
+	host: { '(document:keydown)': 'handleKeyDownEvent($event)' }
 })
 export class AppComponent implements OnInit {
 	readonly gameComponent = viewChild.required<GameComponent>('gameComponent');
@@ -34,7 +35,6 @@ export class AppComponent implements OnInit {
 			});
 	}
 
-	@HostListener('document:keydown', ['$event'])
 	handleKeyDownEvent(event: KeyboardEvent): void {
 		const nodeName = ((event.target as { nodeName?: string })?.nodeName || '').toLocaleLowerCase();
 		if (nodeName === 'input') {
@@ -130,10 +130,6 @@ export class AppComponent implements OnInit {
 	}
 
 	private registerWindowListeners(): void {
-		// does not work:
-		// @HostListener('window:onbeforeunload')
-		// public onBeforeUnload() {}
-		// => old style!
 		window.addEventListener('beforeunload', () => {
 			if (this.app.game.isRunning()) {
 				this.app.game.pause();

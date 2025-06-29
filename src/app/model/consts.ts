@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
-
 export const Consts = {
 	mY: 18, mX: 38, mZ: 7,
 	tileWidth: 75,

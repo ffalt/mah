@@ -1,4 +1,4 @@
-import { Component, HostListener, inject, viewChild } from '@angular/core';
+import { Component, inject, viewChild } from '@angular/core';
 import { Game } from '../../model/game';
 import { Stone } from '../../model/stone';
 import { Layout, Place } from '../../model/types';
@@ -32,7 +32,8 @@ interface ElemEx extends HTMLElement {
 	selector: 'app-game-component',
 	templateUrl: './game-component.component.html',
 	styleUrls: ['./game-component.component.scss'],
-	standalone: false
+	standalone: false,
+	host: { '(document:keydown)': 'handleKeyDownEvent($event)' }
 })
 export class GameComponent {
 	readonly info = viewChild.required<DialogComponent>('info');
@@ -119,7 +120,6 @@ export class GameComponent {
 		return false;
 	}
 
-	@HostListener('document:keydown', ['$event'])
 	handleKeyDownEvent(event: KeyboardEvent): void {
 		if (event.key === 'Escape' && this.handleKeyDownDialogExit()) {
 			return;
