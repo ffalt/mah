@@ -26,7 +26,7 @@
 					 [kyodaiUrl]="app.settings.kyodaiUrl"
 					 [background]="app.settings.background"
 					 (clickEvent)="stoneClick($event)"
-></app-board>
+ />
 <div class="controls controls-bottom">
 	<div class="ctrl ctrl-stats">
 		<button class="link button" (click)="settings.toggle()" title="{{'OPEN_SETTINGS' | translate}}">
@@ -54,25 +54,25 @@
 
 <app-dialog #help (clickEvent)="toggleDialogState($event)" className="overlay-help" [title]="title">
 	@if (help.visible()) {
-		<app-help></app-help>
+		<app-help />
 	}
 </app-dialog>
 
 <app-dialog #info (clickEvent)="toggleDialogState($event)" className="overlay-info" [title]="'TILES' | translate">
 	@if (info.visible()) {
-		<app-tiles-info></app-tiles-info>
+		<app-tiles-info />
 	}
 </app-dialog>
 
 <app-dialog #settings (clickEvent)="toggleDialogState($event)" className="overlay-settings" [title]="'SETTINGS' | translate">
 	@if (settings.visible()) {
-		<app-settings></app-settings>
+		<app-settings />
 	}
 </app-dialog>
 
 <app-dialog #newgame (clickEvent)="toggleDialogState($event)" className="overlay-newgame" [title]="'SELECT_BOARD' | translate">
 	@if (newgame.visible()) {
-		<app-choose-layout class="choose" (startEvent)="startGame($event)" [gameMode]="game.mode"></app-choose-layout>
+		<app-choose-layout class="choose" (startEvent)="startGame($event)" [gameMode]="game.mode" />
 	}
 </app-dialog>
 
