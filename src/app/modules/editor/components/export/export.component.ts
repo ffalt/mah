@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, inject, Input, output, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Layout, LoadLayout } from '../../../../model/types';
 import { LayoutService } from '../../../../service/layout.service';
@@ -13,14 +13,14 @@ interface Format {
 }
 
 @Component({
-    selector: 'app-editor-export-component',
-    templateUrl: './export.component.html',
-    styleUrls: ['./export.component.scss'],
-    standalone: false
+	selector: 'app-editor-export-component',
+	templateUrl: './export.component.html',
+	styleUrls: ['./export.component.scss'],
+	standalone: false
 })
 export class ExportComponent implements OnInit, OnChanges {
 	@Input() layout: EditLayout;
-	@Output() readonly savedEvent = new EventEmitter<boolean>();
+	readonly savedEvent = output<boolean>();
 	exportFormats: Array<Format> = [
 		{
 			name: 'Mah',
@@ -44,7 +44,7 @@ export class ExportComponent implements OnInit, OnChanges {
 	format: Format = this.exportFormats[0];
 	exportLayout: LoadLayout;
 	layoutName: string;
-	output: string;
+	result: string;
 	filename: string;
 	translate = inject(TranslateService);
 	layoutService = inject(LayoutService);
@@ -86,13 +86,13 @@ export class ExportComponent implements OnInit, OnChanges {
 	}
 
 	download(): void {
-		downloadLayout(this.filename, this.output, this.format.type);
+		downloadLayout(this.filename, this.result, this.format.type);
 		this.savedEvent.emit(true);
 	}
 
 	update(): void {
 		this.layoutName = this.layout.name.toLocaleLowerCase().replace(/ /g, '_');
-		this.output = this.format.func(this.layout);
+		this.result = this.format.func(this.layout);
 		this.filename = `${this.layoutName}.${this.format.ext}`;
 		this.exportLayout = generateExportLayout(this.layout);
 	}

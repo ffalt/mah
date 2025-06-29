@@ -1,6 +1,5 @@
-import { Component, HostListener, inject, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, HostListener, inject, OnInit, OutputRefSubscription, ViewChild, ViewContainerRef } from '@angular/core';
 import { Meta } from '@angular/platform-browser';
-import { Subscription } from 'rxjs';
 import { environment } from '../environments/environment';
 import { AppService } from './service/app.service';
 import { LayoutService } from './service/layout.service';
@@ -18,7 +17,7 @@ export class AppComponent implements OnInit {
 	@ViewChild('editorPlaceholder', {read: ViewContainerRef, static: true}) editorPlaceholder: ViewContainerRef;
 	app = inject(AppService);
 	loading = true;
-	editorSubscription?: Subscription;
+	editorSubscription?: OutputRefSubscription;
 	editorVisible: boolean = false;
 	layoutService = inject(LayoutService);
 	meta = inject(Meta);

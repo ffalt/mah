@@ -124,7 +124,7 @@ export class GameComponent {
 		this.handleKeyDownEventKey(event.key);
 	}
 
-	stoneClick(stone: Stone): void {
+	stoneClick(stone?: Stone): void {
 		this.game.click(stone);
 	}
 

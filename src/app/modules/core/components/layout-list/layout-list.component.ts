@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, inject, Input, OnChanges, SimpleChanges, output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Layout } from '../../../../model/types';
 import { LocalstorageService } from '../../../../service/localstorage.service';
@@ -19,14 +19,14 @@ export interface LayoutGroup {
 }
 
 @Component({
-    selector: 'app-layout-list',
-    templateUrl: './layout-list.component.html',
-    styleUrls: ['./layout-list.component.scss'],
-    standalone: false
+	selector: 'app-layout-list',
+	templateUrl: './layout-list.component.html',
+	styleUrls: ['./layout-list.component.scss'],
+	standalone: false
 })
 export class LayoutListComponent implements OnChanges {
 	@Input() layouts?: Array<Layout>;
-	@Output() readonly startEvent = new EventEmitter<Layout>();
+	readonly startEvent = output<Layout>();
 	groups: Array<LayoutGroup> = [];
 	private storage = inject(LocalstorageService);
 	private translate = inject(TranslateService);
@@ -70,11 +70,11 @@ export class LayoutListComponent implements OnChanges {
 		const g: { [name: string]: LayoutGroup } = {};
 		for (const layout of this.layoutService.layouts.items) {
 			if (!g[layout.category]) {
-				g[layout.category] = {name: layout.category, layouts: [], visible: false};
+				g[layout.category] = { name: layout.category, layouts: [], visible: false };
 				groups.push(g[layout.category]);
 			}
 			const score = this.storage.getScore(layout.id) || {};
-			g[layout.category].layouts.push({layout, playCount: score.playCount, bestTime: score.bestTime, visible: false});
+			g[layout.category].layouts.push({ layout, playCount: score.playCount, bestTime: score.bestTime, visible: false });
 		}
 		this.groups = groups;
 	}

@@ -1,17 +1,17 @@
-import { Component, EventEmitter, inject, Input, OnChanges, OnDestroy, Output, SimpleChanges } from '@angular/core';
+import { Component, inject, Input, OnChanges, OnDestroy, SimpleChanges, output } from '@angular/core';
 import { Layout } from '../../../../model/types';
 import { LayoutService } from '../../../../service/layout.service';
 import { WorkerService } from '../../../../service/worker.service';
 
 @Component({
-    selector: 'app-manager-component',
-    templateUrl: './manager.component.html',
-    styleUrls: ['./manager.component.scss'],
-    standalone: false
+	selector: 'app-manager-component',
+	templateUrl: './manager.component.html',
+	styleUrls: ['./manager.component.scss'],
+	standalone: false
 })
 export class ManagerComponent implements OnChanges, OnDestroy {
 	@Input() inputLayouts: Array<Layout>;
-	@Output() readonly editEvent = new EventEmitter<Layout>();
+	readonly editEvent = output<Layout>();
 	layouts: Array<Layout>;
 	test: { [key: string]: { win: number; fail: number; msg?: string } | undefined } = {};
 	sortColumn: number = 1;
@@ -113,15 +113,15 @@ export class ManagerComponent implements OnChanges, OnDestroy {
 		}
 		this.test[layout.id] = undefined;
 		this.worker = this.workerService.solve(layout.mapping, 10, progress => {
-			this.test[layout.id] = {win: progress[0], fail: progress[1]};
+			this.test[layout.id] = { win: progress[0], fail: progress[1] };
 		}, finish => {
-			this.test[layout.id] = {win: finish[0], fail: finish[1]};
+			this.test[layout.id] = { win: finish[0], fail: finish[1] };
 			this.worker = undefined;
 			callback && callback();
 		});
 	}
 
-	testLayouts(event: MouseEvent): void {
+	testLayouts(_event: MouseEvent): void {
 		if (this.worker) {
 			this.worker.terminate();
 			return;

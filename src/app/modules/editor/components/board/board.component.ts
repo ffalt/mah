@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, output } from '@angular/core';
 import { Stone } from '../../../../model/stone';
 import { Draw, DrawPos, getDrawViewPort, sortDrawItems } from '../../../../model/draw';
 import { Consts } from '../../../../model/consts';
@@ -11,19 +11,19 @@ interface Level {
 }
 
 @Component({
-    selector: 'app-editor-board',
-    templateUrl: './board.component.html',
-    styleUrls: ['./board.component.scss'],
-    standalone: false
+	selector: 'app-editor-board',
+	templateUrl: './board.component.html',
+	styleUrls: ['./board.component.scss'],
+	standalone: false
 })
 export class BoardComponent implements OnInit, OnChanges {
 	@Input() imageSet: string;
 	@Input() level: Level;
 	@Input() matrix: Matrix;
 	@Input() isBoard: boolean;
-	@Output() readonly clickBoardEvent = new EventEmitter();
-	@Output() readonly clickDrawEvent = new EventEmitter<Draw>();
-	@Output() readonly clickStoneEvent = new EventEmitter<Stone | undefined>();
+	readonly clickBoardEvent = output();
+	readonly clickDrawEvent = output<Draw>();
+	readonly clickStoneEvent = output<Stone | undefined>();
 	drawStones: Array<Draw> = [];
 	drawCells: Array<Draw> = [];
 	rotate: boolean = false;
@@ -65,7 +65,7 @@ export class BoardComponent implements OnInit, OnChanges {
 		event.stopPropagation();
 	}
 
-	onClickBoard(event: MouseEvent): void {
+	onClickBoard(_event: MouseEvent): void {
 		this.clickBoardEvent.emit();
 	}
 

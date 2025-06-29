@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Output, ViewChild } from '@angular/core';
+import { Component, inject, ViewChild, output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { LayoutService } from '../../../../service/layout.service';
 import { LayoutComponent } from '../layout/layout.component';
@@ -13,7 +13,7 @@ import { Layout } from '../../../../model/types';
 	standalone: false
 })
 export class EditorComponent {
-	@Output() readonly closeEvent = new EventEmitter();
+	readonly closeEvent = output();
 	@ViewChild(LayoutComponent, { static: false }) layoutComponent?: LayoutComponent;
 	mode = 'manager';
 	layout?: EditLayout;

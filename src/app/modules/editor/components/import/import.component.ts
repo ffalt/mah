@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Output } from '@angular/core';
+import { Component, inject, output } from '@angular/core';
 import { Layout, LoadLayout } from '../../../../model/types';
 import { LayoutService } from '../../../../service/layout.service';
 import { importLayouts } from '../../model/import';
@@ -10,7 +10,7 @@ import { importLayouts } from '../../model/import';
     standalone: false
 })
 export class ImportComponent {
-	@Output() readonly editEvent = new EventEmitter<Layout>();
+	readonly editEvent = output<Layout>();
 	layoutService = inject(LayoutService);
 	logs: Array<{ msg: string; isError?: boolean; id?: string }> = [];
 

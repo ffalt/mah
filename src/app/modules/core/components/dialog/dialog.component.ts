@@ -1,17 +1,17 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input, output } from '@angular/core';
 
 @Component({
-    selector: 'app-dialog',
-    templateUrl: './dialog.component.html',
-    styleUrls: ['./dialog.component.scss'],
-    standalone: false
+	selector: 'app-dialog',
+	templateUrl: './dialog.component.html',
+	styleUrls: ['./dialog.component.scss'],
+	standalone: false
 })
 export class DialogComponent {
 	@Input() title?: string;
 	@Input() className: string;
 	@Input() visible: boolean = false;
 	@Input() noClose: boolean = false;
-	@Output() readonly clickEvent = new EventEmitter<boolean>();
+	readonly clickEvent = output<boolean>();
 
 	toggle() {
 		this.visible = !this.visible;

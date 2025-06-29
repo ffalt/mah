@@ -1,4 +1,4 @@
-import { Directive, EventEmitter, HostBinding, HostListener, Input, Output } from '@angular/core';
+import { Directive, HostBinding, HostListener, Input, output } from '@angular/core';
 
 // Angular Drag and Drop File
 //
@@ -22,8 +22,8 @@ export class DropZoneDirective {
 	// The directive emits a `fileDrop` event
 	// with the list of files dropped on the element
 	// as an JS array of `File` objects.
-	@Output() readonly appDropZone = new EventEmitter<Array<File>>();
-	@Output() readonly appDropZoneOver = new EventEmitter<void>();
+	readonly appDropZone = output<Array<File>>();
+	readonly appDropZoneOver = output();
 
 	// Disable dropping on the body of the document.
 	// This prevents the browser from loading the dropped files
@@ -71,13 +71,14 @@ export class DropZoneDirective {
 		event.stopPropagation();
 		event.preventDefault();
 		if (!this.active) {
+			// TODO: The 'emit' function requires a mandatory void argument
 			this.appDropZoneOver.emit();
 		}
 		this.active = true;
 	}
 
 	@HostListener('dragleave', ['$event'])
-	onDragLeave(event: DragEvent): void {
+	onDragLeave(_event: DragEvent): void {
 		this.active = false;
 	}
 

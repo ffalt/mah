@@ -28,7 +28,7 @@ export class Game {
 		this.message = { msgID: this.isPaused() ? 'MSG_CONTINUE_SAVE' : 'MSG_START' };
 	}
 
-	click(stone: Stone): boolean {
+	click(stone?: Stone): boolean {
 		if (!stone) {
 			this.board.clearSelection();
 			return false;

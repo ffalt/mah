@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, HostBinding, HostListener, inject, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, HostBinding, HostListener, inject, Input, OnChanges, OnInit, SimpleChanges, output } from '@angular/core';
 import { Backgrounds } from '../../../../model/consts';
 import { calcDrawPos, Draw, getDrawBounds, getDrawBoundsViewPort, sortDrawItems } from '../../../../model/draw';
 import { Stone } from '../../../../model/stone';
@@ -15,18 +15,18 @@ function clamp(value: number, min: number, max: number): number {
 }
 
 @Component({
-    selector: 'app-board',
-    templateUrl: './board.component.html',
-    styleUrls: ['./board.component.scss'],
-    animations: IndicatorAnimations,
-    standalone: false
+	selector: 'app-board',
+	templateUrl: './board.component.html',
+	styleUrls: ['./board.component.scss'],
+	animations: IndicatorAnimations,
+	standalone: false
 })
 export class BoardComponent implements OnInit, OnChanges {
 	@Input() background: string;
 	@Input() imageSet: string;
 	@Input() kyodaiUrl?: string;
 	@Input() stones: Array<Stone>;
-	@Output() readonly clickEvent = new EventEmitter<Stone>();
+	readonly clickEvent = output<Stone | undefined>();
 	@HostBinding('style.background-image') backgroundUrl: string | undefined;
 	indicators = new Indicator();
 	drawStones: Array<Draw> = [];
@@ -122,11 +122,11 @@ export class BoardComponent implements OnInit, OnChanges {
 		}
 	}
 
-	onMouseUp(event: MouseEvent): void {
+	onMouseUp(_event: MouseEvent): void {
 		this.clickEvent.emit(undefined);
 	}
 
-	onClickDown(event: MouseEvent): void {
+	onClickDown(_event: MouseEvent): void {
 		// this.onMouseDown(event);
 	}
 
