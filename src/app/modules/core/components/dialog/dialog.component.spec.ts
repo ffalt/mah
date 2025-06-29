@@ -1,4 +1,3 @@
-import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { DialogComponent } from './dialog.component';
@@ -10,7 +9,7 @@ describe('DialogComponent', () => {
 	beforeEach(async () =>
 		TestBed.configureTestingModule({
 			declarations: [DialogComponent],
-			imports: [HttpClientModule, TranslateModule.forRoot()],
+			imports: [TranslateModule.forRoot()],
 			providers: []
 		})
 			.compileComponents());

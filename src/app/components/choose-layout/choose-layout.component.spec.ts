@@ -1,8 +1,10 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
+import { provideHttpClient } from '@angular/common/http';
 import { LayoutService } from '../../service/layout.service';
 import { CoreModule } from '../../modules/core/core.module';
+import { GAME_MODE_EASY } from '../../model/consts';
 import { ChooseLayoutComponent } from './choose-layout.component';
 
 describe('ChooseLayoutComponent', () => {
@@ -12,13 +14,14 @@ describe('ChooseLayoutComponent', () => {
 	beforeEach(async () =>
 		TestBed.configureTestingModule({
 			declarations: [ChooseLayoutComponent],
-			imports: [HttpClientTestingModule, CoreModule, TranslateModule.forRoot()],
-			providers: [LayoutService]
+			imports: [CoreModule, TranslateModule.forRoot()],
+			providers: [provideHttpClient(), provideHttpClientTesting(), LayoutService]
 		})
 			.compileComponents());
 
 	beforeEach(() => {
 		fixture = TestBed.createComponent(ChooseLayoutComponent);
+		fixture.componentRef.setInput('gameMode', GAME_MODE_EASY);
 		component = fixture.componentInstance;
 		fixture.detectChanges();
 	});

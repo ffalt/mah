@@ -1,6 +1,6 @@
-import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
+import { provideHttpClient } from '@angular/common/http';
 import { SvgdefService } from '../../service/svgdef.service';
 import { TileComponent } from '../tile/tile.component';
 import { CoreModule } from '../../modules/core/core.module';
@@ -13,13 +13,12 @@ describe('TilesInfoComponent', () => {
 
 	beforeEach(async () =>
 		TestBed.configureTestingModule({
-			declarations: [TileComponent, TilesInfoComponent],
-			providers: [SvgdefService, AppService],
-			imports: [
-				HttpClientModule,
-				CoreModule,
-				TranslateModule.forRoot()
-			]
+			declarations: [
+				TilesInfoComponent,
+				TileComponent
+			],
+			providers: [provideHttpClient(), SvgdefService, AppService],
+			imports: [CoreModule, TranslateModule.forRoot()]
 		})
 			.compileComponents());
 

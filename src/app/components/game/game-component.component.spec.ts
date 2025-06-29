@@ -1,7 +1,7 @@
-import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { MockComponent } from 'ng-mocks';
+import { provideHttpClient } from '@angular/common/http';
 import { AppService } from '../../service/app.service';
 import { SvgdefService } from '../../service/svgdef.service';
 import { ChooseLayoutComponent } from '../choose-layout/choose-layout.component';
@@ -24,8 +24,8 @@ describe('GameComponent', () => {
 				MockComponent(TilesInfoComponent),
 				MockComponent(ChooseLayoutComponent)
 			],
-			imports: [HttpClientModule, CoreModule, TranslateModule.forRoot()],
-			providers: [SvgdefService, AppService]
+			imports: [CoreModule, TranslateModule.forRoot()],
+			providers: [provideHttpClient(), SvgdefService, AppService]
 		})
 			.compileComponents());
 

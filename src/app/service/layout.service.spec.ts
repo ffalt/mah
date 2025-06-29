@@ -1,12 +1,11 @@
-import { HttpClientModule } from '@angular/common/http';
 import { inject, TestBed } from '@angular/core/testing';
+import { provideHttpClient } from '@angular/common/http';
 import { LayoutService } from './layout.service';
 
 describe('LayoutService', () => {
 	beforeEach(() => {
 		TestBed.configureTestingModule({
-			providers: [LayoutService],
-			imports: [HttpClientModule]
+			providers: [provideHttpClient(), LayoutService]
 		});
 	});
 

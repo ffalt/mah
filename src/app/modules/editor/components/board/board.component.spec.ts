@@ -1,6 +1,7 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
+import { provideHttpClient } from '@angular/common/http';
 import { CoreModule } from '../../../core/core.module';
 import { BoardComponent } from './board.component';
 
@@ -11,8 +12,8 @@ describe('BoardComponent', () => {
 	beforeEach(async () =>
 		TestBed.configureTestingModule({
 			declarations: [BoardComponent],
-			imports: [HttpClientTestingModule, CoreModule, TranslateModule.forRoot()],
-			providers: []
+			imports: [CoreModule, TranslateModule.forRoot()],
+			providers: [provideHttpClient(), provideHttpClientTesting()]
 		})
 			.compileComponents());
 

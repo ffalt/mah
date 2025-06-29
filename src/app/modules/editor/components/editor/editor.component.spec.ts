@@ -1,6 +1,7 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
+import { provideHttpClient } from '@angular/common/http';
 import { MockComponent } from 'ng-mocks';
 import { CoreModule } from '../../../core/core.module';
 import { LayoutService } from '../../../../service/layout.service';
@@ -13,11 +14,9 @@ describe('EditorComponent', () => {
 
 	beforeEach(async () =>
 		TestBed.configureTestingModule({
-			declarations: [EditorComponent,
-				MockComponent(ManagerComponent)
-			],
-			imports: [HttpClientTestingModule, CoreModule, TranslateModule.forRoot()],
-			providers: [LayoutService]
+			declarations: [EditorComponent, MockComponent(ManagerComponent)],
+			imports: [CoreModule, TranslateModule.forRoot()],
+			providers: [provideHttpClient(), provideHttpClientTesting(), LayoutService]
 		})
 			.compileComponents());
 
@@ -30,5 +29,4 @@ describe('EditorComponent', () => {
 	it('should create', async () => {
 		expect(component).toBeTruthy();
 	});
-
 });

@@ -1,12 +1,11 @@
-import { HttpClientModule } from '@angular/common/http';
 import { inject, TestBed } from '@angular/core/testing';
+import { provideHttpClient } from '@angular/common/http';
 import { SvgdefService } from './svgdef.service';
 
 describe('SvgdefService', () => {
 	beforeEach(() => {
 		TestBed.configureTestingModule({
-			providers: [SvgdefService],
-			imports: [HttpClientModule]
+			providers: [provideHttpClient(), SvgdefService]
 		});
 	});
 

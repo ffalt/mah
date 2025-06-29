@@ -1,6 +1,7 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
+import { provideHttpClient } from '@angular/common/http';
 import { AppService } from '../../service/app.service';
 import { LayoutService } from '../../service/layout.service';
 import { SettingsComponent } from './settings.component';
@@ -11,8 +12,8 @@ describe('SettingsComponent', () => {
 	beforeEach(async () =>
 		TestBed.configureTestingModule({
 			declarations: [SettingsComponent],
-			imports: [TranslateModule.forRoot(), HttpClientTestingModule],
-			providers: [AppService, LayoutService]
+			imports: [TranslateModule.forRoot()],
+			providers: [provideHttpClient(), provideHttpClientTesting(), AppService, LayoutService]
 		})
 			.compileComponents());
 

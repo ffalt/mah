@@ -1,4 +1,3 @@
-import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockComponent } from 'ng-mocks';
 import { TranslateModule } from '@ngx-translate/core';
@@ -16,7 +15,7 @@ describe('BoardComponent', () => {
 		TestBed.configureTestingModule({
 			declarations: [BoardComponent, PrefixPipe, MockComponent(ImageSetLoaderComponent)
 			],
-			imports: [HttpClientModule, TranslateModule.forRoot()],
+			imports: [TranslateModule.forRoot()],
 			providers: [SvgdefService, AppService]
 		})
 			.compileComponents());
