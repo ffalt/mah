@@ -1,16 +1,16 @@
 <h3>{{ 'EDITOR_SAVE' | translate }} / {{ 'EDITOR_EXPORT' | translate }}</h3>
-@if (layout) {
+@if (layout()) {
 	<div class="section">
 		<div class="inputs">
 			<label>{{ 'EDITOR_LAYOUT_NAME' | translate }}</label>
-			<input type="text" [value]="layout.name" (input)="layout.name = $any($event.target).value;" (change)="this.update()" (blur)="this.update()">
+			<input type="text" [value]="layout().name" (input)="layout().name = $any($event.target).value;" (change)="this.update()" (blur)="this.update()">
 			<label>{{ 'EDITOR_LAYOUT_BY' | translate }}</label>
-			<input type="text" [value]="layout.by" (input)="layout.by = $any($event.target).value;" (change)="this.update()" (blur)="this.update()">
+			<input type="text" [value]="layout().by" (input)="layout().by = $any($event.target).value;" (change)="this.update()" (blur)="this.update()">
 			<label>{{ 'EDITOR_LAYOUT_CATEGORY' | translate }}</label>
-			<input type="text" [value]="layout.category" (input)="layout.category = $any($event.target).value;" (change)="this.update()" (blur)="this.update()">
+			<input type="text" [value]="layout().category" (input)="layout().category = $any($event.target).value;" (change)="this.update()" (blur)="this.update()">
 		</div>
 		<div class="preview">
-			<app-layout-preview class="svg-board" [layout]="layout"></app-layout-preview>
+			<app-layout-preview class="svg-board" [layout]="layout()"></app-layout-preview>
 		</div>
 	</div>
 }
@@ -35,7 +35,7 @@
 	<br/>
 	<div class="buttons">
 		<button class="text-button" (click)="download()">{{ 'EDITOR_LAYOUT_DOWNLOAD' | translate }} {{ filename }}</button>
-		@if (this.layout && this.layout.originalId && exportLayout.id !== this.layout.originalId) {
+		@if (this.layout() && this.layout().originalId && exportLayout.id !== this.layout().originalId) {
 			<button class="text-button" (click)="saveAsCopy()">{{ 'EDITOR_LAYOUT_SAVE_AS_COPY' | translate }}</button>
 		}
 		<button class="text-button" (click)="save()">{{ 'EDITOR_LAYOUT_SAVE' | translate }}</button>

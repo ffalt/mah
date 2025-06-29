@@ -10,9 +10,9 @@
 	</div>
 	<div class="mode">
 		<label for="game-mode-select">{{ 'GAME_MODE' | translate }}:</label>
-		<select id="game-mode-select" (change)="gameMode = $any($event.target).value">
+		<select id="game-mode-select" (change)="this.gameMode.set($any($event.target).value)">
 			@for (m of gameModes; track m) {
-				<option [value]="m.id" [selected]="gameMode === m.id">{{ m.id | translate }}
+				<option [value]="m.id" [selected]="gameMode() === m.id">{{ m.id | translate }}
 					@if (m.features.length > 0) {
 						[@for (f of m.features; track f; let last = $last) {
 							{{ f.title | translate }}{{ !last ? ', ' : '' }}

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnChanges, SimpleChanges, input, model } from '@angular/core';
 import { Layout, SafeUrlSVG } from '../../../../model/types';
 
 @Component({
@@ -9,9 +9,9 @@ import { Layout, SafeUrlSVG } from '../../../../model/types';
 	standalone: false
 })
 export class LayoutPreviewComponent implements OnChanges {
-	@Input() layout: Layout;
-	@Input() svg: SafeUrlSVG | undefined;
-	@Input() alt: string;
+	readonly layout = input<Layout>();
+	readonly svg = model<SafeUrlSVG>();
+	readonly alt = input<string>();
 
 	ngOnChanges(changes: SimpleChanges): void {
 		if (changes.layout) {
@@ -20,6 +20,6 @@ export class LayoutPreviewComponent implements OnChanges {
 	}
 
 	private updateLayout(layout: Layout): void {
-		this.svg = layout.previewSVG;
+		this.svg.set(layout.previewSVG);
 	}
 }

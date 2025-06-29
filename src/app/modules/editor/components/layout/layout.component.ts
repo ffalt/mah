@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { Component, inject, OnChanges, OnDestroy, OnInit, SimpleChanges, input, model } from '@angular/core';
 import { Place, SafeUrlSVG } from '../../../../model/types';
 import { Matrix } from '../../model/matrix';
 import { Cell } from '../../model/cell';
@@ -37,7 +37,7 @@ interface SolveStats {
 	standalone: false
 })
 export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
-	@Input() layout: EditLayout;
+	readonly layout = model.required<EditLayout>();
 	level: {
 		z: number;
 		rows: Array<Array<number>>;
@@ -104,7 +104,7 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 	}
 
 	ngOnInit(): void {
-		if (this.layout) {
+		if (this.layout()) {
 			this.refresh();
 			this.hasChanged = false;
 		}
@@ -122,9 +122,9 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 			return;
 		}
 		if (!this.matrix.isTile(z, x, y)) {
-			this.layout.mapping.push([z, x, y]);
+			this.layout().mapping.push([z, x, y]);
 		} else {
-			this.layout.mapping = this.layout.mapping.filter(m => ((m[0] !== z) || (m[1] !== x) || (m[2] !== y)));
+			this.layout().mapping = this.layout().mapping.filter(m => ((m[0] !== z) || (m[1] !== x) || (m[2] !== y)));
 		}
 		this.refresh();
 	}
@@ -146,19 +146,23 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 	}
 
 	refresh(): void {
+		const layout = this.layout();
+		if (!layout) {
+			return;
+		}
 		this.hasChanged = true;
-		this.matrix.applyMapping(this.layout.mapping, this.totalZ, this.totalX, this.totalY);
-		this.stats = this.getStats(this.layout);
+		this.matrix.applyMapping(layout.mapping, this.totalZ, this.totalX, this.totalY);
+		this.stats = this.getStats(layout);
 		this.level = { z: this.currentZ, rows: this.matrix.levels[this.currentZ], showTiles: true };
-		this.svg = this.layoutService.generatePreview(optimizeMapping(this.layout.mapping));
-		this.layout.previewSVG = this.svg;
+		this.svg = this.layoutService.generatePreview(optimizeMapping(layout.mapping));
+		layout.previewSVG = this.svg;
 	}
 
 	moveX(x: number): void {
 		if (this.stats.minX + x < 0 || this.stats.maxX + x >= Consts.mX - 1) {
 			return;
 		}
-		this.layout.mapping.forEach(m => m[1] = m[1] + x);
+		this.layout().mapping.forEach(m => m[1] = m[1] + x);
 		this.refresh();
 	}
 
@@ -166,12 +170,12 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 		if (this.stats.minY + y < 0 || this.stats.maxY + y >= Consts.mY - 1) {
 			return;
 		}
-		this.layout.mapping.forEach(m => m[2] = m[2] + y);
+		this.layout().mapping.forEach(m => m[2] = m[2] + y);
 		this.refresh();
 	}
 
 	moveLayerX(deltaX: number): void {
-		const list = this.layout.mapping.filter(m => m[0] === this.currentZ);
+		const list = this.layout().mapping.filter(m => m[0] === this.currentZ);
 		let minx = list[0][1];
 		let maxx = list[0][1];
 		list.forEach(m => {
@@ -186,7 +190,7 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 	}
 
 	moveLayerY(deltaY: number): void {
-		const list = this.layout.mapping.filter(m => m[0] === this.currentZ);
+		const list = this.layout().mapping.filter(m => m[0] === this.currentZ);
 		let miny = list[0][2];
 		let maxy = list[0][2];
 		list.forEach(m => {
@@ -202,7 +206,7 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 
 	duplicateLayerZ(layer: number): void {
 		const dups: Array<Place> = [];
-		this.layout.mapping.forEach(m => {
+		this.layout().mapping.forEach(m => {
 			if (m[0] > layer) {
 				m[0] = m[0] + 1;
 			} else if (m[0] === layer) {
@@ -210,19 +214,19 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 			}
 		});
 		dups.forEach(m => {
-			this.layout.mapping.push([layer + 1, m[1], m[2]]);
+			this.layout().mapping.push([layer + 1, m[1], m[2]]);
 		});
 		this.refresh();
 	}
 
 	clearLayerZ(layer: number): void {
-		this.layout.mapping = this.layout.mapping.filter(m => m[0] !== layer);
+		this.layout().mapping = this.layout().mapping.filter(m => m[0] !== layer);
 		this.refresh();
 	}
 
 	deleteLayerZ(layer: number): void {
-		this.layout.mapping = this.layout.mapping.filter(m => m[0] !== layer);
-		this.layout.mapping.forEach(m => {
+		this.layout().mapping = this.layout().mapping.filter(m => m[0] !== layer);
+		this.layout().mapping.forEach(m => {
 			if (m[0] > layer) {
 				m[0] = m[0] - 1;
 			}
@@ -233,7 +237,7 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 
 	newLayerBelow(layer: number): void {
 		this.totalZ += 1;
-		this.layout.mapping.forEach(m => {
+		this.layout().mapping.forEach(m => {
 			if (m[0] > layer) {
 				m[0] = m[0] + 1;
 			}
@@ -245,7 +249,7 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 		if (layer + deltaZ < 0 || layer + deltaZ >= this.matrix.levels.length) {
 			return;
 		}
-		this.layout.mapping.forEach(m => {
+		this.layout().mapping.forEach(m => {
 			if (m[0] === layer) {
 				m[0] = m[0] + deltaZ;
 			} else if (m[0] === layer + deltaZ) {
@@ -279,7 +283,7 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 			return;
 		}
 		const solveStats = { fail: 0, won: 0 };
-		this.solveWorker = this.worker.solve(this.layout.mapping, 1000,
+		this.solveWorker = this.worker.solve(this.layout().mapping, 1000,
 			progress => {
 				solveStats.won = progress[0];
 				solveStats.fail = progress[1];

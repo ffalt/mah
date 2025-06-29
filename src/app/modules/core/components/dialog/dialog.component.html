@@ -1,10 +1,10 @@
-@if (visible) {
-	<div class="overlay {{className}}" (click)="toggle();">
+@if (visible()) {
+	<div class="overlay {{className()}}" (click)="toggle();">
 		<div class="overlay-popup" (click)="$event.stopPropagation();">
-			@if (title) {
-				<h1>🀄️{{ title }}</h1>
+			@if (title()) {
+				<h1>🀄️{{ title() }}</h1>
 			}
-			@if (!noClose) {
+			@if (!noClose()) {
 				<a class="close" (click)="toggle()" title="{{ 'CLOSE' | translate }}"><i class="icon-cancel-circled2"></i></a>
 			}
 			<ng-content></ng-content>

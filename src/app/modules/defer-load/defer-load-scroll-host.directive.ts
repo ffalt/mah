@@ -1,4 +1,4 @@
-import { Directive, ElementRef, HostListener, inject, Input, OnChanges, SimpleChange } from '@angular/core';
+import { Directive, ElementRef, HostListener, inject, OnChanges, SimpleChange, input } from '@angular/core';
 import { DeferLoadService } from './defer-load.service';
 
 @Directive({
@@ -6,7 +6,7 @@ import { DeferLoadService } from './defer-load.service';
 	standalone: false
 })
 export class DeferLoadScrollHostDirective implements OnChanges {
-	@Input() scrollTo?: HTMLElement;
+	readonly scrollTo = input<HTMLElement>();
 	private element = inject(ElementRef);
 	private scrollNotify = inject(DeferLoadService);
 

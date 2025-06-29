@@ -1,4 +1,4 @@
-import { Component, Input, output } from '@angular/core';
+import { Component, output, input, model } from '@angular/core';
 
 @Component({
 	selector: 'app-dialog',
@@ -7,14 +7,14 @@ import { Component, Input, output } from '@angular/core';
 	standalone: false
 })
 export class DialogComponent {
-	@Input() title?: string;
-	@Input() className: string;
-	@Input() visible: boolean = false;
-	@Input() noClose: boolean = false;
+	readonly title = input<string>();
+	readonly className = input<string>();
+	readonly visible = model<boolean>(false);
+	readonly noClose = input<boolean>(false);
 	readonly clickEvent = output<boolean>();
 
 	toggle() {
-		this.visible = !this.visible;
-		this.clickEvent.emit(this.visible);
+		this.visible.set(!this.visible());
+		this.clickEvent.emit(this.visible());
 	}
 }

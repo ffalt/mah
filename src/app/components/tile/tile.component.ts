@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
 	selector: 'app-tile',
@@ -7,9 +7,9 @@ import { Component, Input } from '@angular/core';
 	standalone: false
 })
 export class TileComponent {
-	@Input() imageSet: string;
-	@Input() kyodaiUrl?: string;
-	@Input() tile: string;
-	@Input() index: number;
-	@Input() isDark: boolean = false;
+	readonly imageSet = input<string>();
+	readonly kyodaiUrl = input<string>();
+	readonly tile = input.required<string>();
+	readonly index = input<number>();
+	readonly isDark = input<boolean>(false);
 }

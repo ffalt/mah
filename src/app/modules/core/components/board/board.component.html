@@ -113,7 +113,7 @@
 		}
 
 	</style>
-	<defs app-image-set-loader [imageSet]="imageSet" [kyodaiUrl]="kyodaiUrl" [dark]="app.settings.dark" [prefix]="prefix"></defs>
+	<defs app-image-set-loader [imageSet]="imageSet()" [kyodaiUrl]="kyodaiUrl()" [dark]="app.settings.dark" [prefix]="prefix"></defs>
 	<g class="stage" [attr.transform]="transformStage" [class.dark]="app.settings.dark" [class.contrast]="app.settings.contrast">
 		@for (draw of drawStones; track draw.source.groupnr + '/' + draw.source.v) {
 			<g class="draw"

@@ -1,4 +1,4 @@
-@if (this.layout) {
+@if (this.layout()) {
 	<div class="editor-matrix-list">
 		<ul class="matrix-list">
 			@for (z of this.matrix.levels; track z; let i = $index) {
@@ -127,7 +127,7 @@
 	<div (click)="toggleSave();" class="overlay overlay-save">
 		<div class="overlay-popup" (click)="$event.stopPropagation();">
 			<span class="close" (click)="toggleSave();" title="{{ 'CLOSE' | translate }}"><i class="icon-cancel-circled2"></i></span>
-			<app-editor-export-component [layout]="layout" (savedEvent)="toggleAfterSave()"></app-editor-export-component>
+			<app-editor-export-component [layout]="layout()" (savedEvent)="toggleAfterSave()"></app-editor-export-component>
 		</div>
 	</div>
 }

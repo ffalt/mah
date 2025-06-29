@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, inject, OnChanges, SimpleChanges, input } from '@angular/core';
 import { SvgdefService } from '../../../../service/svgdef.service';
 import { TILES } from '../../../../model/consts';
 import { svg_error_icon, svg_spinner_icon } from './svg';
@@ -10,10 +10,10 @@ import { svg_error_icon, svg_spinner_icon } from './svg';
     standalone: false
 })
 export class ImageSetLoaderComponent implements OnChanges {
-	@Input() imageSet: string;
-	@Input() kyodaiUrl?: string;
-	@Input() prefix: string;
-	@Input() dark: boolean = false;
+	readonly imageSet = input<string>();
+	readonly kyodaiUrl = input<string>();
+	readonly prefix = input<string>();
+	readonly dark = input<boolean>(false);
 	private elementRef = inject(ElementRef);
 	private svgdef = inject(SvgdefService);
 
@@ -34,7 +34,7 @@ export class ImageSetLoaderComponent implements OnChanges {
 	private prepareDefs(svg: string): string {
 		const s = svg.split('<defs>')[1].split('</defs>')[0];
 		return s.replace(/xlink:href="\./g, 'xlink:href="assets/svg')
-			.replace(/ id="t_/g, ` id="${this.prefix}t_`);
+			.replace(/ id="t_/g, ` id="${this.prefix()}t_`);
 	}
 
 	private setError(): void {
@@ -61,8 +61,8 @@ export class ImageSetLoaderComponent implements OnChanges {
 	}
 
 	private loadImageSet(): void {
-		const imageSet = this.imageSet + (this.dark ? '-black' : '');
-		this.svgdef.get(imageSet, this.kyodaiUrl)
+		const imageSet = this.imageSet() + (this.dark() ? '-black' : '');
+		this.svgdef.get(imageSet, this.kyodaiUrl())
 			.then(svg => {
 				this.setImageSet(svg);
 			})
@@ -73,7 +73,7 @@ export class ImageSetLoaderComponent implements OnChanges {
 	}
 
 	private getImageSet(): void {
-		if (!this.imageSet) {
+		if (!this.imageSet()) {
 			return;
 		}
 		this.setLoading();

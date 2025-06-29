@@ -1,4 +1,4 @@
-import { Directive, HostBinding, HostListener, Input, output } from '@angular/core';
+import { Directive, HostBinding, HostListener, output, input } from '@angular/core';
 
 // Angular Drag and Drop File
 //
@@ -29,7 +29,7 @@ export class DropZoneDirective {
 	// This prevents the browser from loading the dropped files
 	// using its default behaviour if the user misses the drop zone.
 	// Set this input to false if you want the browser default behaviour.
-	@Input() preventBodyDrop = true;
+	readonly preventBodyDrop = input(true);
 
 	// The `drop-zone-active` class is applied to the host
 	// element when a drag is currently over the target.
@@ -84,7 +84,7 @@ export class DropZoneDirective {
 
 	@HostListener('body:dragover', ['$event'])
 	onBodyDragOver(event: DragEvent): void {
-		if (this.preventBodyDrop) {
+		if (this.preventBodyDrop()) {
 			event.preventDefault();
 			event.stopPropagation();
 		}
@@ -92,7 +92,7 @@ export class DropZoneDirective {
 
 	@HostListener('body:drop', ['$event'])
 	onBodyDrop(event: DragEvent): void {
-		if (this.preventBodyDrop) {
+		if (this.preventBodyDrop()) {
 			event.preventDefault();
 		}
 	}

@@ -13,9 +13,9 @@ export const STATES = {
 	freeze: 3
 };
 
-export const GAME_MODE_EASY = 'GAME_MODE_EASY';
-export const GAME_MODE_STANDARD = 'GAME_MODE_STANDARD';
-export const GAME_MODE_EXPERT = 'GAME_MODE_EXPERT';
+export const GAME_MODE_EASY: GAME_MODE_ID = 'GAME_MODE_EASY';
+export const GAME_MODE_STANDARD: GAME_MODE_ID = 'GAME_MODE_STANDARD';
+export const GAME_MODE_EXPERT: GAME_MODE_ID = 'GAME_MODE_EXPERT';
 export const GameModes = [
 	{
 		id: GAME_MODE_EASY,

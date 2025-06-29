@@ -1,4 +1,4 @@
-import { Component, inject, Input, output, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, inject, output, OnChanges, OnInit, SimpleChanges, input } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Layout, LoadLayout } from '../../../../model/types';
 import { LayoutService } from '../../../../service/layout.service';
@@ -19,7 +19,7 @@ interface Format {
 	standalone: false
 })
 export class ExportComponent implements OnInit, OnChanges {
-	@Input() layout: EditLayout;
+	readonly layout = input.required<EditLayout>();
 	readonly savedEvent = output<boolean>();
 	exportFormats: Array<Format> = [
 		{
@@ -50,7 +50,7 @@ export class ExportComponent implements OnInit, OnChanges {
 	layoutService = inject(LayoutService);
 
 	ngOnInit(): void {
-		if (this.layout) {
+		if (this.layout()) {
 			this.update();
 		}
 	}
@@ -63,7 +63,8 @@ export class ExportComponent implements OnInit, OnChanges {
 
 	saveAsCopy(): void {
 		this.layoutService.storeCustomBoards([this.exportLayout]);
-		this.layout.originalId = this.exportLayout.id;
+		const layout = this.layout();
+		layout.originalId = this.exportLayout.id;
 		this.savedEvent.emit(true);
 	}
 
@@ -73,8 +74,9 @@ export class ExportComponent implements OnInit, OnChanges {
 			return;
 		}
 		const removeIDs = [this.exportLayout.id];
-		if (this.layout.originalId) {
-			removeIDs.push(this.layout.originalId);
+		const layout = this.layout();
+		if (layout.originalId) {
+			removeIDs.push(layout.originalId);
 		}
 		this.layoutService.removeCustomLayout(removeIDs);
 		this.saveAsCopy();
@@ -91,9 +93,10 @@ export class ExportComponent implements OnInit, OnChanges {
 	}
 
 	update(): void {
-		this.layoutName = this.layout.name.toLocaleLowerCase().replace(/ /g, '_');
-		this.result = this.format.func(this.layout);
+		const layout = this.layout();
+		this.layoutName = layout.name.toLocaleLowerCase().replace(/ /g, '_');
+		this.result = this.format.func(layout);
 		this.filename = `${this.layoutName}.${this.format.ext}`;
-		this.exportLayout = generateExportLayout(this.layout);
+		this.exportLayout = generateExportLayout(layout);
 	}
 }

@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnChanges, SimpleChanges, output } from '@angular/core';
+import { Component, inject, OnChanges, SimpleChanges, output, input } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Layout } from '../../../../model/types';
 import { LocalstorageService } from '../../../../service/localstorage.service';
@@ -25,7 +25,7 @@ export interface LayoutGroup {
 	standalone: false
 })
 export class LayoutListComponent implements OnChanges {
-	@Input() layouts?: Array<Layout>;
+	readonly layouts = input<Array<Layout>>();
 	readonly startEvent = output<Layout>();
 	groups: Array<LayoutGroup> = [];
 	private storage = inject(LocalstorageService);
@@ -33,7 +33,7 @@ export class LayoutListComponent implements OnChanges {
 	private layoutService = inject(LayoutService);
 
 	constructor() {
-		if (this.layouts) {
+		if (this.layouts()) {
 			this.buildGroups();
 		}
 	}
@@ -43,12 +43,13 @@ export class LayoutListComponent implements OnChanges {
 	}
 
 	refresh(): void {
-		if (this.layouts) {
+		const layouts = this.layouts();
+  if (layouts) {
 			this.buildGroups();
 			let id = this.storage.getLastPlayed();
 			const boardID = this.layoutService.selectBoardID;
 			this.layoutService.selectBoardID = undefined;
-			if (boardID && this.layouts.find(l => l.id === boardID)) {
+			if (boardID && layouts.find(l => l.id === boardID)) {
 				id = boardID;
 			}
 			if (id) {

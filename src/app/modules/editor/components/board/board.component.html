@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" class="board-svg" [class.rotate]="rotate" [attr.viewBox]="viewport" preserveAspectRatio="xMidYMin meet"
-		 (mousedown)="onClickBoard($event)" [class.edit]="isBoard">
+		 (mousedown)="onClickBoard($event)" [class.edit]="isBoard()">
 	<defs>
 		<filter id="filter4198-8" style="color-interpolation-filters:sRGB">
 			<feGaussianBlur in="SourceGraphic" stdDeviation="8"/>

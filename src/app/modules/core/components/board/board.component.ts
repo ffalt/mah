@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostBinding, HostListener, inject, Input, OnChanges, OnInit, SimpleChanges, output } from '@angular/core';
+import { Component, ElementRef, HostBinding, HostListener, inject, OnChanges, OnInit, SimpleChanges, output, input } from '@angular/core';
 import { Backgrounds } from '../../../../model/consts';
 import { calcDrawPos, Draw, getDrawBounds, getDrawBoundsViewPort, sortDrawItems } from '../../../../model/draw';
 import { Stone } from '../../../../model/stone';
@@ -22,10 +22,10 @@ function clamp(value: number, min: number, max: number): number {
 	standalone: false
 })
 export class BoardComponent implements OnInit, OnChanges {
-	@Input() background: string;
-	@Input() imageSet: string;
-	@Input() kyodaiUrl?: string;
-	@Input() stones: Array<Stone>;
+	readonly background = input<string>();
+	readonly imageSet = input<string>();
+	readonly kyodaiUrl = input<string>();
+	readonly stones = input<Array<Stone>>();
 	readonly clickEvent = output<Stone | undefined>();
 	@HostBinding('style.background-image') backgroundUrl: string | undefined;
 	indicators = new Indicator();

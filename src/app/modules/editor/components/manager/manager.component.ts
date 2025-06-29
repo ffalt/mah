@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnChanges, OnDestroy, SimpleChanges, output } from '@angular/core';
+import { Component, inject, OnChanges, OnDestroy, SimpleChanges, output, input } from '@angular/core';
 import { Layout } from '../../../../model/types';
 import { LayoutService } from '../../../../service/layout.service';
 import { WorkerService } from '../../../../service/worker.service';
@@ -10,7 +10,7 @@ import { WorkerService } from '../../../../service/worker.service';
 	standalone: false
 })
 export class ManagerComponent implements OnChanges, OnDestroy {
-	@Input() inputLayouts: Array<Layout>;
+	readonly inputLayouts = input<Array<Layout>>();
 	readonly editEvent = output<Layout>();
 	layouts: Array<Layout>;
 	test: { [key: string]: { win: number; fail: number; msg?: string } | undefined } = {};
@@ -55,8 +55,9 @@ export class ManagerComponent implements OnChanges, OnDestroy {
 	}
 
 	update() {
-		if (this.inputLayouts) {
-			this.layouts = this.inputLayouts.sort((a, b) => a.name.localeCompare(b.name));
+		const inputLayouts = this.inputLayouts();
+  if (inputLayouts) {
+			this.layouts = inputLayouts.sort((a, b) => a.name.localeCompare(b.name));
 			if (!this.showBuildIn) {
 				this.layouts = this.layouts.filter(l => l.custom);
 			}

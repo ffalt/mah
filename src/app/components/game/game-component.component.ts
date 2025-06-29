@@ -49,7 +49,7 @@ export class GameComponent {
 	}
 
 	showNewGame(): void {
-		this.newgame.visible = true;
+		this.newgame.visible.set(true);
 	}
 
 	handleKeyDownEventKey(key: string): void {
@@ -93,19 +93,19 @@ export class GameComponent {
 	}
 
 	handleKeyDownDialogExit(): boolean {
-		if (this.help.visible) {
+		if (this.help.visible()) {
 			this.help.toggle();
 			return true;
 		}
-		if (this.newgame.visible) {
+		if (this.newgame.visible()) {
 			this.newgame.toggle();
 			return true;
 		}
-		if (this.info.visible) {
+		if (this.info.visible()) {
 			this.info.toggle();
 			return true;
 		}
-		if (this.settings.visible) {
+		if (this.settings.visible()) {
 			this.settings.toggle();
 			return true;
 		}
@@ -170,7 +170,7 @@ export class GameComponent {
 	}
 
 	startGame(data: { layout: Layout; buildMode: BUILD_MODE_ID; gameMode: GAME_MODE_ID }): void {
-		this.newgame.visible = false;
+		this.newgame.visible.set(false);
 		this.game.reset();
 		this.game.start(data.layout, data.buildMode, data.gameMode);
 	}

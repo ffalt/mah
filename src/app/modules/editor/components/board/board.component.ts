@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges, output } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges, output, input } from '@angular/core';
 import { Stone } from '../../../../model/stone';
 import { Draw, DrawPos, getDrawViewPort, sortDrawItems } from '../../../../model/draw';
 import { Consts } from '../../../../model/consts';
@@ -17,10 +17,10 @@ interface Level {
 	standalone: false
 })
 export class BoardComponent implements OnInit, OnChanges {
-	@Input() imageSet: string;
-	@Input() level: Level;
-	@Input() matrix: Matrix;
-	@Input() isBoard: boolean;
+	readonly imageSet = input<string>();
+	readonly level = input<Level>();
+	readonly matrix = input.required<Matrix>();
+	readonly isBoard = input<boolean>();
 	readonly clickBoardEvent = output();
 	readonly clickDrawEvent = output<Draw>();
 	readonly clickStoneEvent = output<Stone | undefined>();
@@ -32,23 +32,25 @@ export class BoardComponent implements OnInit, OnChanges {
 	emptySource: Stone = new Stone(0, 0, 0, 0, 0);
 
 	ngOnInit(): void {
-		if (this.level) {
-			this.updateLevel(this.level);
+		const level = this.level();
+  if (level) {
+			this.updateLevel(level);
 		}
 	}
 
 	drawClass(z: number, x: number, y: number): string {
 		let s = '';
-		if (!this.matrix.inBounds(z, x, y)) {
+		const matrix = this.matrix();
+  if (!matrix.inBounds(z, x, y)) {
 			s = 'invalid';
 		}
-		if (this.matrix.isTile(z, x, y) || this.matrix.isTilePosBlocked(z, x, y)) {
+		if (matrix.isTile(z, x, y) || matrix.isTilePosBlocked(z, x, y)) {
 			s = 'tile';
 		}
-		if (this.matrix.isTilePosInvalid(z, x, y)) {
+		if (matrix.isTilePosInvalid(z, x, y)) {
 			s = 'blocked';
 		}
-		if (z > 0 && (this.matrix.isTile(z - 1, x, y) || this.matrix.isTilePosBlocked(z - 1, x, y))) {
+		if (z > 0 && (matrix.isTile(z - 1, x, y) || matrix.isTilePosBlocked(z - 1, x, y))) {
 			s += ' below';
 		}
 		return s;
