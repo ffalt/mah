@@ -1,4 +1,4 @@
-import { Component, HostListener, inject, ViewChild } from '@angular/core';
+import { Component, HostListener, inject, viewChild } from '@angular/core';
 import { Game } from '../../model/game';
 import { Stone } from '../../model/stone';
 import { Layout, Place } from '../../model/types';
@@ -16,12 +16,15 @@ interface DocEx extends Document {
 	webkitIsFullScreen: boolean;
 	mozFullscreenEnabled: boolean;
 	webkitFullscreenEnabled: boolean;
+
 	mozCancelFullScreen(): void;
+
 	webkitExitFullscreen(): void;
 }
 
 interface ElemEx extends HTMLElement {
 	webkitRequestFullScreen(): void;
+
 	mozRequestFullScreen(): void;
 }
 
@@ -32,10 +35,10 @@ interface ElemEx extends HTMLElement {
 	standalone: false
 })
 export class GameComponent {
-	@ViewChild('info', { static: true }) info: DialogComponent;
-	@ViewChild('settings', { static: true }) settings: DialogComponent;
-	@ViewChild('help', { static: true }) help: DialogComponent;
-	@ViewChild('newgame', { static: true }) newgame: DialogComponent;
+	readonly info = viewChild.required<DialogComponent>('info');
+	readonly settings = viewChild.required<DialogComponent>('settings');
+	readonly help = viewChild.required<DialogComponent>('help');
+	readonly newgame = viewChild.required<DialogComponent>('newgame');
 	app = inject(AppService);
 	game: Game;
 	fullScreenEnabled: boolean = true;
@@ -49,19 +52,19 @@ export class GameComponent {
 	}
 
 	showNewGame(): void {
-		this.newgame.visible.set(true);
+		this.newgame().visible.set(true);
 	}
 
 	handleKeyDownEventKey(key: string): void {
 		switch (key) {
 			case 'h':
-				this.help.toggle();
+				this.help().toggle();
 				break;
 			case 'i':
-				this.info.toggle();
+				this.info().toggle();
 				break;
 			case 's':
-				this.settings.toggle();
+				this.settings().toggle();
 				break;
 			case 't':
 				this.game.hint();
@@ -77,7 +80,7 @@ export class GameComponent {
 				break;
 			case 'n':
 				this.game.pause();
-				this.newgame.toggle();
+				this.newgame().toggle();
 				break;
 			case ' ': // space
 			case 'p':
@@ -93,20 +96,24 @@ export class GameComponent {
 	}
 
 	handleKeyDownDialogExit(): boolean {
-		if (this.help.visible()) {
-			this.help.toggle();
+		const help = this.help();
+		if (help.visible()) {
+			help.toggle();
 			return true;
 		}
-		if (this.newgame.visible()) {
-			this.newgame.toggle();
+		const newgame = this.newgame();
+		if (newgame.visible()) {
+			newgame.toggle();
 			return true;
 		}
-		if (this.info.visible()) {
-			this.info.toggle();
+		const info = this.info();
+		if (info.visible()) {
+			info.toggle();
 			return true;
 		}
-		if (this.settings.visible()) {
-			this.settings.toggle();
+		const settings = this.settings();
+		if (settings.visible()) {
+			settings.toggle();
 			return true;
 		}
 		return false;
@@ -170,7 +177,7 @@ export class GameComponent {
 	}
 
 	startGame(data: { layout: Layout; buildMode: BUILD_MODE_ID; gameMode: GAME_MODE_ID }): void {
-		this.newgame.visible.set(false);
+		this.newgame().visible.set(false);
 		this.game.reset();
 		this.game.start(data.layout, data.buildMode, data.gameMode);
 	}

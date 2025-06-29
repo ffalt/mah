@@ -1,4 +1,4 @@
-import { Component, HostListener, inject, OnInit, OutputRefSubscription, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, HostListener, inject, OnInit, OutputRefSubscription, ViewContainerRef, viewChild } from '@angular/core';
 import { Meta } from '@angular/platform-browser';
 import { environment } from '../environments/environment';
 import { AppService } from './service/app.service';
@@ -7,14 +7,14 @@ import { LoadLayout, MahFormat } from './model/types';
 import { GameComponent } from './components/game/game-component.component';
 
 @Component({
-    selector: 'app-root',
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.scss'],
-    standalone: false
+	selector: 'app-root',
+	templateUrl: './app.component.html',
+	styleUrls: ['./app.component.scss'],
+	standalone: false
 })
 export class AppComponent implements OnInit {
-	@ViewChild('gameComponent', {static: false}) gameComponent: GameComponent;
-	@ViewChild('editorPlaceholder', {read: ViewContainerRef, static: true}) editorPlaceholder: ViewContainerRef;
+	readonly gameComponent = viewChild.required<GameComponent>('gameComponent');
+	readonly editorPlaceholder = viewChild.required('editorPlaceholder', { read: ViewContainerRef });
 	app = inject(AppService);
 	loading = true;
 	editorSubscription?: OutputRefSubscription;
@@ -50,9 +50,9 @@ export class AppComponent implements OnInit {
 	loadEditor(): void {
 		if (environment.editor) {
 			import('./modules/editor/editor.module')
-				.then(({EditorModule}) => {
+				.then(({ EditorModule }) => {
 					const EditorComponent = EditorModule.getEditorComponentComponent();
-					const component = this.editorPlaceholder.createComponent(EditorComponent);
+					const component = this.editorPlaceholder().createComponent(EditorComponent);
 					this.editorSubscription = component.instance.closeEvent.subscribe(() => {
 						this.toggleEditor();
 					});
@@ -73,7 +73,7 @@ export class AppComponent implements OnInit {
 					this.editorSubscription.unsubscribe();
 					this.editorSubscription = undefined;
 				}
-				this.editorPlaceholder.clear();
+				this.editorPlaceholder().clear();
 			}
 		}
 	}
@@ -88,7 +88,7 @@ export class AppComponent implements OnInit {
 			this.clearSearchParameters();
 		}
 		if (this.app.game.isIdle() || this.layoutService.selectBoardID) {
-			this.gameComponent.showNewGame();
+			this.gameComponent().showNewGame();
 		}
 	}
 

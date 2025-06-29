@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, viewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Backgrounds, ImageSets, Themes } from '../../model/consts';
 import { AppService } from '../../service/app.service';
@@ -15,7 +15,7 @@ import { environment } from '../../../environments/environment';
 	standalone: false
 })
 export class SettingsComponent {
-	@ViewChild('kyodaiInput', { static: false }) kyodaiInput: ElementRef<HTMLInputElement>;
+	readonly kyodaiInput = viewChild.required<ElementRef<HTMLInputElement>>('kyodaiInput');
 	canKyodai = environment.kyodai;
 	kyodaiTileSets = KyodaiTileSets;
 	sets = ImageSets;
@@ -27,7 +27,7 @@ export class SettingsComponent {
 	private layoutService = inject(LayoutService);
 	private translate = inject(TranslateService);
 
-	uodateKyodaiUrl(event: Event): void {
+	updateKyodaiUrl(event: Event): void {
 		this.app.settings.kyodaiUrl = (event.target as HTMLInputElement).value;
 		this.app.settings.save();
 	}
@@ -38,16 +38,18 @@ export class SettingsComponent {
 	}
 
 	setKyodaiUrl(event: Event): void {
-		if (this.kyodaiInput.nativeElement) {
+		const kyodaiInput = this.kyodaiInput();
+		if (kyodaiInput.nativeElement) {
 			event.preventDefault();
 			event.stopPropagation();
-			this.kyodaiInput.nativeElement.value = (event.target as HTMLSelectElement).value;
+			kyodaiInput.nativeElement.value = (event.target as HTMLSelectElement).value;
 		}
 	}
 
 	applyKyodaiUrl(): void {
-		if (this.kyodaiInput.nativeElement) {
-			this.app.settings.kyodaiUrl = this.kyodaiInput.nativeElement.value;
+		const kyodaiInput = this.kyodaiInput();
+		if (kyodaiInput.nativeElement) {
+			this.app.settings.kyodaiUrl = kyodaiInput.nativeElement.value;
 			this.app.settings.save();
 		}
 	}

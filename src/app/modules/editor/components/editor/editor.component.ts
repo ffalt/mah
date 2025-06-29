@@ -1,4 +1,4 @@
-import { Component, inject, ViewChild, output } from '@angular/core';
+import { Component, inject, output, viewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { LayoutService } from '../../../../service/layout.service';
 import { LayoutComponent } from '../layout/layout.component';
@@ -14,15 +14,16 @@ import { Layout } from '../../../../model/types';
 })
 export class EditorComponent {
 	readonly closeEvent = output();
-	@ViewChild(LayoutComponent, { static: false }) layoutComponent?: LayoutComponent;
+	readonly layoutComponent = viewChild(LayoutComponent);
 	mode = 'manager';
 	layout?: EditLayout;
 	layoutService = inject(LayoutService);
 	translate = inject(TranslateService);
 
 	save() {
-		if (this.layoutComponent) {
-			this.layoutComponent.toggleSave();
+		const layoutComponent = this.layoutComponent();
+		if (layoutComponent) {
+			layoutComponent.toggleSave();
 		}
 	}
 
@@ -31,7 +32,8 @@ export class EditorComponent {
 			this.closeEvent.emit();
 			return;
 		}
-		const hasChanged = this.layout && this.layoutComponent && this.layoutComponent.hasChanged;
+		const layoutComponent = this.layoutComponent();
+		const hasChanged = this.layout && layoutComponent && layoutComponent.hasChanged;
 		if (!hasChanged || confirm(this.translate.instant('EDITOR_DISCARD_CHANGES_SURE'))) {
 			this.layout = undefined;
 			this.mode = 'manager';

@@ -80,7 +80,7 @@
 			<div class="input-wrapper">
 			<textarea #kyodaiInput type="text" name="kyodai"
 								[value]="app.settings.kyodaiUrl ? app.settings.kyodaiUrl : ''"
-								(change)="uodateKyodaiUrl($event)"></textarea>
+								(change)="updateKyodaiUrl($event)"></textarea>
 				<button class="clear-kyodai" (click)="clearKyodaiUrl()">
 					<svg width="17px" height="17px" viewBox="0 0 35 35">
 						<path d="M28.814,30.064a1.247,1.247,0,0,1-.884-.367L5.3,7.07A1.249,1.249,0,0,1,7.07,5.3L29.7,27.93a1.251,1.251,0,0,1-.884,2.134Z"/>
