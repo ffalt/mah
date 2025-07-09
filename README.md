@@ -14,7 +14,7 @@ build with html5, svg, angular
 [![known vulnerabilities](https://snyk.io/test/github/ffalt/mah/badge.svg)](https://snyk.io/test/github/ffalt/mah)
 [![codebeat badge](https://codebeat.co/badges/021d3bc7-e512-473b-b99e-80e7650ba57f)](https://codebeat.co/projects/github-com-ffalt-mah-main)
 
-## Features:
+## Features
 
 * 56 boards to play
 
@@ -28,11 +28,12 @@ build with html5, svg, angular
 
 * English, Deutsch, Nederlands, Português, русский, Español, Euskara, 日本語, Français
 
-  Want to help translate Mah? Please use https://crowdin.com/project/mahjong
+  Want to help translate Mah? Please use <https://crowdin.com/project/mahjong>
 
 ## Build Config
 
-The default game name is "Mah Jong", to change it 
+The default game name is "Mah Jong", to change it
+
 * copy file `custom-build-config.json.dist` to `custom-build-config.json`
 * edit the name in `custom-build-config.json` to your desired app name
 

@@ -10,7 +10,7 @@ All notable changes to this project will be documented in this file. See [commit
 
 ## [1.7.6](https://github.com/ffalt/mah/compare/v1.7.5...v1.7.6) (2024-10-31)
 
-* **i18n**: add Euskara (Basque) thanks to https://crowdin.com/profile/mirenbz
+* **i18n**: add Euskara (Basque) thanks to <https://crowdin.com/profile/mirenbz>
 
 ## [1.7.5](https://github.com/ffalt/mah/compare/v1.7.4...v1.7.5) (2024-10-02)
 
@@ -18,13 +18,11 @@ All notable changes to this project will be documented in this file. See [commit
 
 ## [1.7.4](https://github.com/ffalt/mah/compare/v1.7.3...v1.7.4) (2024-03-25)
 
-
 ### Bug Fixes
 
 * **layout-list:** delete custom board overlayed best time ([b37d61b](https://github.com/ffalt/mah/commit/b37d61bbd05e2359a4d89be25995c3dae8e67116))
 
 ## [1.7.3](https://github.com/ffalt/mah/compare/v1.7.2...v1.7.3) (2024-03-23)
-
 
 ### Features
 
@@ -38,13 +36,11 @@ All notable changes to this project will be documented in this file. See [commit
 
 ## [1.7.1](https://github.com/ffalt/mah/compare/v1.7.0...v1.7.1) (2024-02-18)
 
-
 ### Bug Fixes
 
 * **mobile:** use full-height without browser bar to avoid scrolled UI ([d6a071b](https://github.com/ffalt/mah/commit/d6a071b774b7e8f460fd91afbab9e1433b7906af))
 
 ## [1.7.0](https://github.com/ffalt/mah/compare/v1.6.1...v1.7.0) (2024-02-18)
-
 
 ### Features
 
@@ -53,18 +49,15 @@ All notable changes to this project will be documented in this file. See [commit
 
 ### [1.6.1](https://github.com/ffalt/mah/compare/v1.6.0...v1.6.1) (2022-06-21)
 
-
 ### Bug Fixes
 
 * **i18n:** Merge pull request [#438](https://github.com/ffalt/mah/issues/438) from carmenfdezb/main ([521039d](https://github.com/ffalt/mah/commit/521039dcab039e57f25d0fefec658e41344761cb))
 
 ## [1.6.0](https://github.com/ffalt/mah/compare/v1.5.1...v1.6.0) (2022-06-21)
 
-
 ### Features
 
 * **i18n:** added Spanish, thanks Carmen! ([cb45093](https://github.com/ffalt/mah/commit/cb45093c0737983a3fb1ec18eff3065032892a37))
-
 
 ### Bug Fixes
 
@@ -72,13 +65,11 @@ All notable changes to this project will be documented in this file. See [commit
 
 ### [1.5.1](https://github.com/ffalt/mah/compare/v1.5.0...v1.5.1) (2022-06-13)
 
-
 ### Bug Fixes
 
 * **dialogs:** mobile portrait mode issues ([87be0e7](https://github.com/ffalt/mah/commit/87be0e7f703c8ca4206799d034c1f7e257de78db))
 
 ## [1.5.0](https://github.com/ffalt/mah/compare/v1.4.0...v1.5.0) (2022-06-13)
-
 
 ### Features
 
@@ -110,7 +101,6 @@ All notable changes to this project will be documented in this file. See [commit
 * **tileset:** make dark tiles an option ([0bcef97](https://github.com/ffalt/mah/commit/0bcef97c4810fbedc94f2bc220b40633455d651d))
 * **toolbars:** attach toolbar left & right if screen.height < 600 ([4cb4b38](https://github.com/ffalt/mah/commit/4cb4b384d7d1adfbdd333e78121450793701ea93))
 
-
 ### Bug Fixes
 
 * **board:** handle rotated board in pan ([bee3576](https://github.com/ffalt/mah/commit/bee3576587c2bc6309372032a9ceda181e183d75))
@@ -129,7 +119,6 @@ All notable changes to this project will be documented in this file. See [commit
 
 ## [1.4.0](https://github.com/ffalt/mah/compare/v1.3.1...v1.4.0) (2022-04-03)
 
-
 ### Features
 
 * **boards:** add some more boards ([91144ba](https://github.com/ffalt/mah/commit/91144bab764f89ad72faf210563f0d46df21b522))
@@ -141,9 +130,7 @@ All notable changes to this project will be documented in this file. See [commit
 
 * **i18n:** feat(i18n): nl translation by Vistaus
 
-
 ## [1.3.0](https://github.com/ffalt/mah/compare/v1.2.0...v1.3.0) (2021-10-27)
-
 
 ### ⚠ BREAKING CHANGES
 
@@ -156,19 +143,16 @@ All notable changes to this project will be documented in this file. See [commit
 * **i18n:** refactor, add pt & ru, translate more strings ([b7e30fe](https://github.com/ffalt/mah/commit/b7e30fe8dd9d4e1c73f8723de8b5e70f17780ab1))
 * **sound:** play tile sound on deselect too ([a91acf7](https://github.com/ffalt/mah/commit/a91acf7bc22218b3fe17b7d5c9dbad4cb1712ddb))
 
-
 ### Bug Fixes
 
 * **css:** better paddings ([ef91056](https://github.com/ffalt/mah/commit/ef91056c71eb9a18e0a7764d843f0ed17fb25202))
 * **css:** fix font sizes and layout on 4k display ([d2c375e](https://github.com/ffalt/mah/commit/d2c375e2d07cdd99a5b82acd81eafd09d0a7563a))
-
 
 ### build
 
 * **deps:** update to angular 12.2.11 ([e54d412](https://github.com/ffalt/mah/commit/e54d412878dd355b25324eb086b699ffd54f8ab2))
 
 ## [1.2.0](https://github.com/ffalt/mah/compare/v1.1.9...v1.2.0) (2020-12-10)
-
 
 ### Features
 
