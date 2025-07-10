@@ -1,8 +1,8 @@
-import { Mapping, Place } from './types';
+import type { Mapping, Place } from './types';
 import { Solver } from './solver';
 import { Builder, MODE_SOLVABLE } from './builder';
 import { Tiles } from './tiles';
-import { StonePosition } from './stone';
+import type { StonePosition } from './stone';
 
 export function solveGame(stones: Array<StonePosition>, finish: (data: { result: number; order: Array<Place> }) => void): void {
 	const solver = new Solver();

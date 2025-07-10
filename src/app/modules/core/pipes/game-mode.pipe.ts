@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Pipe, type PipeTransform } from '@angular/core';
 import { GAME_MODE_EASY, GAME_MODE_STANDARD } from '../../../model/consts';
 
 @Pipe({

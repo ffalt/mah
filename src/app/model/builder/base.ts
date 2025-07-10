@@ -1,6 +1,6 @@
-import { Mapping } from '../types';
-import { Tile, Tiles } from '../tiles';
-import { safeGetStone, Stone } from '../stone';
+import type { Mapping } from '../types';
+import type { Tile, Tiles } from '../tiles';
+import { safeGetStone, type Stone } from '../stone';
 
 export interface BuilderType {
 	build(mapping: Mapping, tiles: Tiles): Array<Stone>;
@@ -82,11 +82,11 @@ export abstract class BuilderBase implements BuilderType {
 		return stones;
 	}
 
-	getTilesInGame(tiles: Tiles, amount: number): Array<Tile> {
+	getTilesInGame(tiles: Tiles, _amount: number): Array<Tile> {
 		return tiles.list.filter((tile: Tile) => tile !== undefined);
 	}
 
-	getTilesInPairs(tiles: Tiles, amount: number): Array<[Tile, Tile]> {
+	getTilesInPairs(tiles: Tiles, _amount: number): Array<[Tile, Tile]> {
 		const result: Array<[Tile, Tile]> = [];
 		tiles.groups.forEach(group => {
 			for (let i = 0; i < group.tiles.length; i += 2) {

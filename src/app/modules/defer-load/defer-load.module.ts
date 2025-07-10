@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ModuleWithProviders, NgModule } from '@angular/core';
+import { type ModuleWithProviders, NgModule } from '@angular/core';
 import { DeferLoadScrollHostDirective } from './defer-load-scroll-host.directive';
 import { DeferLoadDirective } from './defer-load.directive';
 import { DeferLoadService } from './defer-load.service';

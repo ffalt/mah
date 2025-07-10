@@ -1,6 +1,6 @@
 import { AfterViewInit, Directive, ElementRef, inject, OnDestroy, output, input } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { DeferLoadService, ScrollNotifyEvent } from './defer-load.service';
+import type { Subscription } from 'rxjs';
+import { DeferLoadService, type ScrollNotifyEvent } from './defer-load.service';
 import { Rect } from './rect';
 
 @Directive({
@@ -14,9 +14,9 @@ export class DeferLoadDirective implements AfterViewInit, OnDestroy {
 	private scrollSubscription?: Subscription;
 	private observeSubscription?: Subscription;
 	private timeoutId?: number;
-	private timeoutLoadMS: number = 20;
-	private elementRef = inject(ElementRef);
-	private deferLoadService = inject(DeferLoadService);
+	private readonly timeoutLoadMS: number = 20;
+	private readonly elementRef = inject(ElementRef);
+	private readonly deferLoadService = inject(DeferLoadService);
 
 	ngAfterViewInit(): void {
 		if (this.deferLoadService.isBrowser) {
@@ -35,10 +35,7 @@ export class DeferLoadDirective implements AfterViewInit, OnDestroy {
 	}
 
 	private static getScrollPosition(): number {
-		// Getting screen size and scroll position for IE
-		// noinspection JSDeprecatedSymbols
-		return (window.scrollY || window.pageYOffset)
-			+ (document.documentElement.clientHeight || document.body.clientHeight);
+		return window.scrollY + (document.documentElement.clientHeight || document.body.clientHeight);
 	}
 
 	private loadAndUnobserve(): void {
@@ -98,7 +95,7 @@ export class DeferLoadDirective implements AfterViewInit, OnDestroy {
 	private checkIfIntersecting(entry: IntersectionObserverEntry): boolean {
 		// For Samsung native browser, IO has been partially implemented whereby the
 		// callback fires, but entry object is empty. We will check manually.
-		if (entry && entry.time) {
+		if (entry?.time) {
 			return entry.isIntersecting;
 		}
 		return this.isVisible();

@@ -1,7 +1,7 @@
 {
-	name: 'Mah Jong',
-	description: 'Mah Jong Solitaire',
-	category: 'Solitaire Board Game',
-	title: 'Mah Jong',
-	url: 'https://ffalt.github.io/mah/'
+	"name": "Mah Jong",
+	"description": "Mah Jong Solitaire",
+	"category": "Solitaire Board Game",
+	"title": "Mah Jong",
+	"url": "https://ffalt.github.io/mah/"
 }

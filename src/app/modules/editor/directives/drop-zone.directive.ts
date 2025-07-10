@@ -46,18 +46,15 @@ export class DropZoneDirective {
 	onDrop(event: DragEvent): void {
 		event.preventDefault();
 		this.active = false;
-
 		const { dataTransfer } = event;
-
 		if (dataTransfer?.items) {
 			const files: Array<File> = [];
-			// eslint-disable-next-line @typescript-eslint/prefer-for-of
-			for (let i = 0; i < dataTransfer.items.length; i++) {
+			const items = Array.from(dataTransfer.items);
+			for (const item of items) {
 				// If dropped items aren't files, reject them
-				if (dataTransfer.items[i] && dataTransfer.items[i].kind === 'file') {
-					const file = dataTransfer.items[i].getAsFile();
-					// eslint-disable-next-line no-null/no-null
-					if (file !== undefined && file !== null) {
+				if (item?.kind === 'file') {
+					const file = item.getAsFile();
+					if (file) {
 						files.push(file);
 					}
 				}

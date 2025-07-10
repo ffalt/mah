@@ -22,6 +22,7 @@ export class AppService {
 		this.setLang();
 		this.game.init();
 		this.game.sound.enabled = this.settings.sounds;
+		this.game.music.enabled = this.settings.music;
 	}
 
 	setLang(): void {
@@ -41,6 +42,13 @@ export class AppService {
 	toggleSound(): void {
 		this.settings.sounds = !this.settings.sounds;
 		this.game.sound.enabled = this.settings.sounds;
+		this.settings.save();
+	}
+
+	toggleMusic(): void {
+		this.settings.music = !this.settings.music;
+		this.game.music.enabled = this.settings.music;
+		this.game.music.toggle();
 		this.settings.save();
 	}
 

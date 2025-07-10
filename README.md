@@ -2,9 +2,9 @@
 
 A Mahjong Solitaire Game
 
-Development repository of the original open source version of many Mahjong games out there. Completely free, no ads, no tracking.
+Development repository of the original open source version of many Mahjong games out there.
 
-Play it [here](https://ffalt.github.io/mah/)  
+[Play it here](https://ffalt.github.io/mah/) - Completely free, no ads, no tracking.
 
 build with html5, svg, angular
 

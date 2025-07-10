@@ -1,10 +1,11 @@
 import { ImageSetDefault, LangDefault, ThemeDefault } from './consts';
-import { SettingsStore, StorageProvider } from './types';
+import type { SettingsStore, StorageProvider } from './types';
 
 export class Settings {
 	lang = LangDefault;
 	sounds = true;
 	tileset = ImageSetDefault;
+	music = false;
 	contrast = false;
 	dark = false;
 	background = '';
@@ -15,7 +16,7 @@ export class Settings {
 		bestTime: 0
 	};
 
-	constructor(private storageProvider: StorageProvider) {
+	constructor(private readonly storageProvider: StorageProvider) {
 	}
 
 	load(): boolean {
@@ -29,6 +30,7 @@ export class Settings {
 				this.contrast = store.contrast || false;
 				this.dark = store.dark || false;
 				this.sounds = store.sounds || false;
+				this.music = store.music || false;
 				this.kyodaiUrl = store.kyodaiUrl;
 			}
 			return true;
@@ -43,6 +45,7 @@ export class Settings {
 			this.storageProvider.storeSettings({
 				lang: this.lang,
 				sounds: this.sounds,
+				music: this.music,
 				contrast: this.contrast,
 				dark: this.dark,
 				background: this.background,

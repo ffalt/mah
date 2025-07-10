@@ -3,8 +3,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { LayoutService } from '../../../../service/layout.service';
 import { LayoutComponent } from '../layout/layout.component';
 import { downloadMahLayouts } from '../../model/export';
-import { EditLayout } from '../../model/edit-layout';
-import { Layout } from '../../../../model/types';
+import type { EditLayout } from '../../model/edit-layout';
+import type { Layout } from '../../../../model/types';
 
 @Component({
 	selector: 'app-editor-component',
@@ -33,7 +33,7 @@ export class EditorComponent {
 			return;
 		}
 		const layoutComponent = this.layoutComponent();
-		const hasChanged = this.layout && layoutComponent && layoutComponent.hasChanged;
+		const hasChanged = this.layout && layoutComponent?.hasChanged;
 		if (!hasChanged || confirm(this.translate.instant('EDITOR_DISCARD_CHANGES_SURE'))) {
 			this.layout = undefined;
 			this.mode = 'manager';
@@ -46,8 +46,8 @@ export class EditorComponent {
 			id: '',
 			originalId: layout.id,
 			name: layout.name,
-			by: layout.by || '',
-			category: (layout.custom ? layout.category : undefined) || 'Custom',
+			by: layout.by ?? '',
+			category: (layout.custom ? layout.category : undefined) ?? 'Custom',
 			mapping: layout.mapping.map(m => [m[0], m[1], m[2]])
 		};
 	}

@@ -1,5 +1,5 @@
-import { StoneMapping } from '../types';
-import { Tile, Tiles } from '../tiles';
+import type { StoneMapping } from '../types';
+import type { Tile, Tiles } from '../tiles';
 import { Stone } from '../stone';
 import { BuilderBase } from './base';
 

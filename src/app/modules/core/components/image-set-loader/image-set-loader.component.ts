@@ -1,21 +1,20 @@
-import { Component, ElementRef, inject, OnChanges, SimpleChanges, input } from '@angular/core';
+import { Component, ElementRef, inject, type OnChanges, type SimpleChanges, input } from '@angular/core';
 import { SvgdefService } from '../../../../service/svgdef.service';
 import { TILES } from '../../../../model/consts';
 import { svg_error_icon, svg_spinner_icon } from './svg';
 
 @Component({
-    // eslint-disable-next-line @angular-eslint/component-selector
-    selector: '[app-image-set-loader]',
-    template: '<svg:defs></svg:defs>',
-    standalone: false
+	selector: '[app-image-set-loader]',
+	template: '<svg:defs></svg:defs>',
+	standalone: false
 })
 export class ImageSetLoaderComponent implements OnChanges {
 	readonly imageSet = input<string>();
 	readonly kyodaiUrl = input<string>();
 	readonly prefix = input<string>();
 	readonly dark = input<boolean>(false);
-	private elementRef = inject(ElementRef);
-	private svgdef = inject(SvgdefService);
+	private readonly elementRef = inject(ElementRef);
+	private readonly svgDef = inject(SvgdefService);
 
 	ngOnChanges(_: SimpleChanges): void {
 		this.getImageSet();
@@ -52,17 +51,12 @@ export class ImageSetLoaderComponent implements OnChanges {
 		const defs = this.prepareDefs(svg);
 		setTimeout(() => {
 			this.elementRef.nativeElement.innerHTML = defs;
-			// if (!this.elementRef.nativeElement.firstChild) {
-			// const doc = new DOMParser().parseFromString(`<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">${s}</svg>`, 'application/xml');
-			// const node = this.elementRef.nativeElement.ownerDocument.importNode(doc.documentElement, true);
-			// this.elementRef.nativeElement.appendChild(node);
-			// }
 		}, 0);
 	}
 
 	private loadImageSet(): void {
 		const imageSet = this.imageSet() + (this.dark() ? '-black' : '');
-		this.svgdef.get(imageSet, this.kyodaiUrl())
+		this.svgDef.get(imageSet, this.kyodaiUrl())
 			.then(svg => {
 				this.setImageSet(svg);
 			})

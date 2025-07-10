@@ -1,10 +1,10 @@
-import { Component, inject, OnInit, OutputRefSubscription, ViewContainerRef, viewChild } from '@angular/core';
+import { Component, inject, type OnInit, type OutputRefSubscription, ViewContainerRef, viewChild } from '@angular/core';
 import { Meta } from '@angular/platform-browser';
 import { environment } from '../environments/environment';
 import { AppService } from './service/app.service';
 import { LayoutService } from './service/layout.service';
-import { LoadLayout, MahFormat } from './model/types';
-import { GameComponent } from './components/game/game-component.component';
+import type { LoadLayout, MahFormat } from './model/types';
+import type { GameComponent } from './components/game/game-component.component';
 
 @Component({
 	selector: 'app-root',
@@ -36,7 +36,7 @@ export class AppComponent implements OnInit {
 	}
 
 	handleKeyDownEvent(event: KeyboardEvent): void {
-		const nodeName = ((event.target as { nodeName?: string })?.nodeName || '').toLocaleLowerCase();
+		const nodeName = ((event.target as { nodeName?: string })?.nodeName ?? '').toLocaleLowerCase();
 		if (nodeName === 'input') {
 			return;
 		}
@@ -94,7 +94,6 @@ export class AppComponent implements OnInit {
 
 	private clearSearchParameters() {
 		try {
-			// eslint-disable-next-line no-null/no-null
 			window.history.replaceState(null, '', window.location.pathname);
 		} catch (e) {
 			console.error(e);

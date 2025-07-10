@@ -25,7 +25,7 @@
  */
 
 export class Rect {
-	static empty: Rect = new Rect(0, 0, 0, 0);
+	static readonly empty: Rect = new Rect(0, 0, 0, 0);
 	left: number;
 	top: number;
 	right: number;

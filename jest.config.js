@@ -8,5 +8,5 @@ module.exports = {
 		APP_FEATURE_EDITOR: 'true',
 		APP_FEATURE_KYODAI: 'false',
 		APP_FEATURE_MOBILE: 'false'
-	},
+	}
 };

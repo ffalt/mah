@@ -1,5 +1,5 @@
 import { Component, inject, output } from '@angular/core';
-import { Layout, LoadLayout } from '../../../../model/types';
+import type { Layout, LoadLayout } from '../../../../model/types';
 import { LayoutService } from '../../../../service/layout.service';
 import { importLayouts } from '../../model/import';
 

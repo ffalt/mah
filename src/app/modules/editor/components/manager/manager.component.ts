@@ -1,5 +1,5 @@
-import { Component, inject, OnChanges, OnDestroy, SimpleChanges, output, input } from '@angular/core';
-import { Layout } from '../../../../model/types';
+import { Component, inject, type OnChanges, OnDestroy, SimpleChanges, output, input } from '@angular/core';
+import type { Layout } from '../../../../model/types';
 import { LayoutService } from '../../../../service/layout.service';
 import { WorkerService } from '../../../../service/worker.service';
 
@@ -47,7 +47,7 @@ export class ManagerComponent implements OnChanges, OnDestroy {
 		this.update();
 	}
 
-	clickSortBy(event: MouseEvent, column: number) {
+	clickSortBy(_event: MouseEvent, column: number) {
 		if (this.sortColumn === column) {
 			this.sortDesc = !this.sortDesc;
 		}
@@ -56,7 +56,7 @@ export class ManagerComponent implements OnChanges, OnDestroy {
 
 	update() {
 		const inputLayouts = this.inputLayouts();
-  if (inputLayouts) {
+		if (inputLayouts) {
 			this.layouts = inputLayouts.sort((a, b) => a.name.localeCompare(b.name));
 			if (!this.showBuildIn) {
 				this.layouts = this.layouts.filter(l => l.custom);
@@ -86,10 +86,10 @@ export class ManagerComponent implements OnChanges, OnDestroy {
 					result = a.name.localeCompare(b.name);
 					break;
 				case 2:
-					result = (a.by || '').localeCompare((b.by || ''));
+					result = (a.by ?? '').localeCompare((b.by ?? ''));
 					break;
 				case 3:
-					result = (a.category || '').localeCompare((b.category || ''));
+					result = (a.category ?? '').localeCompare((b.category ?? ''));
 					break;
 				case 4:
 					result = a.mapping.length - b.mapping.length;
@@ -118,7 +118,9 @@ export class ManagerComponent implements OnChanges, OnDestroy {
 		}, finish => {
 			this.test[layout.id] = { win: finish[0], fail: finish[1] };
 			this.worker = undefined;
-			callback && callback();
+			if (callback) {
+				callback();
+			}
 		});
 	}
 

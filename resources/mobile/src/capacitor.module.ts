@@ -1,4 +1,4 @@
-import { ModuleWithProviders, NgModule, NgZone, inject } from '@angular/core';
+import { type ModuleWithProviders, NgModule, NgZone, inject } from '@angular/core';
 import { App } from '@capacitor/app';
 import { AppService } from '../../../src/app/service/app.service';
 

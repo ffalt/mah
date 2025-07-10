@@ -1,5 +1,5 @@
-import { Mapping, Place } from '../types';
-import { Tile, Tiles } from '../tiles';
+import type { Mapping, Place } from '../types';
+import type { Tile, Tiles } from '../tiles';
 import { Stone } from '../stone';
 import { BuilderBase } from './base';
 import { RandomBoardBuilder } from './random';

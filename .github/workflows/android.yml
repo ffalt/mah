@@ -3,6 +3,9 @@ name: build android
 on:
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     name: Build APK and AAB

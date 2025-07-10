@@ -4,7 +4,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { firstValueFrom } from 'rxjs';
 import { expandMapping, mappingToID } from '../model/mapping';
 import { generateBase64SVG } from '../model/layout-svg';
-import { CompactMapping, Layout, Layouts, LoadLayout, Mapping, SafeUrlSVG } from '../model/types';
+import type { CompactMapping, Layout, Layouts, LoadLayout, Mapping, SafeUrlSVG } from '../model/types';
 import { LocalstorageService } from './localstorage.service';
 
 @Injectable()
@@ -12,9 +12,9 @@ export class LayoutService {
 	layouts: Layouts = { items: [] };
 	loaded = false;
 	selectBoardID?: string | null;
-	private http = inject(HttpClient);
-	private sanitizer = inject(DomSanitizer);
-	private storage = inject(LocalstorageService);
+	private readonly http = inject(HttpClient);
+	private readonly sanitizer = inject(DomSanitizer);
+	private readonly storage = inject(LocalstorageService);
 
 	static layout2loadLayout(layout: Layout, map: CompactMapping): LoadLayout {
 		return {
@@ -52,7 +52,7 @@ export class LayoutService {
 
 	removeAllCustomLayouts(): void {
 		this.layouts.items = this.layouts.items.filter(l => !l.custom);
-		this.storage.storeCustomLayouts(undefined);
+		this.storage.storeCustomLayouts();
 	}
 
 	removeCustomLayout(ids: Array<string>): void {
@@ -67,7 +67,7 @@ export class LayoutService {
 			id: o.id && o.id !== '' ? o.id : mappingToID(mapping),
 			name: o.name,
 			by: o.by,
-			category: o.cat || 'Classic',
+			category: o.cat ?? 'Classic',
 			mapping: expandMapping(o.map),
 			previewSVG: this.generatePreview(mapping),
 			custom

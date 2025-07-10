@@ -1,5 +1,5 @@
 import { getDrawViewPort, mappingToDrawItems } from './draw';
-import { Mapping } from './types';
+import type { Mapping } from './types';
 
 export function generateSVG(mapping: Mapping): string {
 	const items = mappingToDrawItems(mapping);

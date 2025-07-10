@@ -1,4 +1,4 @@
-import { CompactMapping, CompactMappingX, CompactMappingY, ImportLayout, LoadLayout, MahFormat, Mapping, Place } from '../../../model/types';
+import type { CompactMapping, CompactMappingX, CompactMappingY, ImportLayout, LoadLayout, MahFormat, Mapping, Place } from '../../../model/types';
 import { mappingToID } from '../../../model/mapping';
 
 export function sortMapping(mapping: Mapping): Mapping {
@@ -74,7 +74,7 @@ export async function convertKmahjongg(data: string, filename: string): Promise<
 	let lines = data.replace(/\r\n/g, '\n').split('\n');
 	const names = filename.split('.');
 	names.pop();
-	const version = lines.shift() || '';
+	const version = lines.shift() ?? '';
 	const layout: ImportLayout = {
 		name: names.join('.').replace(/_/g, ' '),
 		cat: 'uncategorized',
@@ -84,17 +84,18 @@ export async function convertKmahjongg(data: string, filename: string): Promise<
 		layout.by = 'KDE Games team';
 		layout.mapping = await convertKmahjonggLines(lines.filter(line => !line.startsWith('#')), 16);
 		return layout;
-	} else if (['kmahjongg-layout-v1.1'].includes(version)) {
-		const h = Number((lines.find(line => line.startsWith('h')) || 'h16').split('').slice().join(''));
-		const name = (lines.find(line => line.startsWith('# name:')) || '').slice(7).trim();
-		layout.name = name || layout.name;
-		const by = (lines.find(line => line.startsWith('# by:')) || '').slice(5).trim();
+	}
+	if (['kmahjongg-layout-v1.1'].includes(version)) {
+		const h = Number((lines.find(line => line.startsWith('h')) ?? 'h16').split('').slice().join(''));
+		const name = (lines.find(line => line.startsWith('# name:')) ?? '').slice(7).trim();
+		layout.name = name ?? layout.name;
+		const by = (lines.find(line => line.startsWith('# by:')) ?? '').slice(5).trim();
 		layout.by = by || layout.by;
 		lines = lines.filter(line => !line.startsWith('h') && !line.startsWith('w') && !line.startsWith('d') && !line.startsWith('#'));
-		layout.mapping = await convertKmahjonggLines(lines, isNaN(h) ? 16 : h);
+		layout.mapping = await convertKmahjonggLines(lines, Number.isNaN(h) ? 16 : h);
 		return layout;
 	}
-	return Promise.reject(Error(`Unknown .layout format ${JSON.stringify((version || '').slice(0, 50))}`));
+	return Promise.reject(Error(`Unknown .layout format ${JSON.stringify((version ?? '').slice(0, 50))}`));
 }
 
 export async function convertKyodai(data: string, _: string): Promise<ImportLayout> {
@@ -112,35 +113,6 @@ export async function convertKyodai(data: string, _: string): Promise<ImportLayo
 	}
 	return Promise.reject(Error(`Unknown .lay format ${JSON.stringify((version || '').slice(0, 50))}`));
 }
-
-/*
-export function compactMappingDeprecated(mapping: Mapping): Mapping {
-	let maplist: Mapping = [];
-	mapping.forEach(o => {
-		const place: Array<number> = [];
-		for (let i = 0; i < 4; i++) {
-			place.push(o[i]);
-		}
-		maplist.push(place);
-	});
-	maplist = sortMapping(maplist);
-	const result: Mapping = [];
-	for (let i = maplist.length - 1; i >= 1; i--) {
-		const item = maplist[i];
-		const before = maplist[i - 1];
-		if (before && (item[0] === before[0]) && (item[2] === before[2]) && (item[1] - 2 === before[1])) {
-			before[3] = (before[3] || 1) + (item[3] || 1);
-		} else if ((item[3] || 1) === 1) {
-			result.unshift([item[0], item[1], item[2]]);
-		} else {
-			result.unshift(item);
-		}
-	}
-	const first = maplist[0];
-	result.unshift([first[0], first[1], first[2]]);
-	return result;
-}
-*/
 
 export function compactMapping(mapping: Mapping): CompactMapping {
 	const board: { [key: number]: { [key: number]: Array<number> } } = {};
@@ -191,7 +163,7 @@ export function cleanImportLayout(layout: ImportLayout): LoadLayout {
 	}
 	// Capitalize
 	layout.name = layout.name.trim().split(' ').map(s => s[0].toUpperCase() + s.slice(1)).join(' ').replace(/["']/g, '');
-	layout.by = layout.by ? layout.by.trim().split(' ').map(s => s[0].toUpperCase() + s.slice(1)).join(' ').replace(/["]/g, '') : undefined;
+	layout.by = layout.by ? layout.by.trim().split(' ').map(s => s[0].toUpperCase() + s.slice(1)).join(' ').replace(/"/g, '') : undefined;
 	const map = optimizeMapping(layout.mapping);
 	return {
 		id: mappingToID(map),
@@ -225,15 +197,15 @@ export async function readFile(file: File): Promise<string> {
 			resolve(reader.result as string);
 		};
 		reader.onerror = () => {
-			reject(Error(`Reading File failed: ${reader.error}`));
+			reject(Error(`Reading File failed: ${reader.error?.message ?? 'unknown error'}`));
 		};
-		reader.readAsBinaryString(file);
+		reader.readAsText(file);
 	});
 }
 
 export async function importLayouts(file: File): Promise<Array<LoadLayout>> {
 	const data = await readFile(file);
-	const ext = (file.name.split('.').pop() || '').toLowerCase();
+	const ext = (file.name.split('.').pop() ?? '').toLowerCase();
 	let layout: LoadLayout;
 	if (ext === 'lay') {
 		layout = cleanImportLayout(await convertKyodai(data, file.name));

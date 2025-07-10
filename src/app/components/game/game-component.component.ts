@@ -3,11 +3,11 @@ import { Game } from '../../model/game';
 import { Stone } from '../../model/stone';
 import { Layout, Place } from '../../model/types';
 import { AppService } from '../../service/app.service';
-import { BUILD_MODE_ID } from '../../model/builder';
-import { GAME_MODE_ID } from '../../model/consts';
+import type { BUILD_MODE_ID } from '../../model/builder';
+import type { GAME_MODE_ID } from '../../model/consts';
 import { WorkerService } from '../../service/worker.service';
 import { environment } from '../../../environments/environment';
-import { DialogComponent } from '../../modules/core/components/dialog/dialog.component';
+import type { DialogComponent } from '../../modules/core/components/dialog/dialog.component';
 
 interface DocEx extends Document {
 	fullScreen: boolean;
@@ -124,7 +124,7 @@ export class GameComponent {
 		if (event.key === 'Escape' && this.handleKeyDownDialogExit()) {
 			return;
 		}
-		const nodeName = ((event.target as { nodeName?: string })?.nodeName || '').toLocaleLowerCase();
+		const nodeName = ((event.target as { nodeName?: string })?.nodeName ?? '').toLocaleLowerCase();
 		if (nodeName === 'input') {
 			return;
 		}
@@ -158,7 +158,7 @@ export class GameComponent {
 			}
 			return;
 		}
-		const elem = document.body as ElemEx; // this.el.nativeElement;
+		const elem = document.body as ElemEx;
 		if (elem.requestFullscreen) {
 			elem.requestFullscreen()
 				.catch(e => {

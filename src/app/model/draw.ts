@@ -1,6 +1,6 @@
-import { Consts } from './consts';
+import { CONSTS } from './consts';
 import { Stone } from './stone';
-import { Mapping } from './types';
+import type { Mapping } from './types';
 
 export interface DrawPos {
 	x: number;
@@ -23,9 +23,9 @@ export interface Draw {
 
 export function calcDrawPos(z: number, x: number, y: number): DrawPos {
 	const pos = {
-		x: ((Consts.tileWidth + 2) * x / 2 - (z * 8)) + (Consts.tileWidth / 2),
-		y: ((Consts.tileHeight + 2) * y / 2 - (z * 8)) + (Consts.tileHeight / 2),
-		z: y + Consts.mY * (x + Consts.mX * z),
+		x: ((CONSTS.tileWidth + 2) * x / 2 - (z * 8)) + (CONSTS.tileWidth / 2),
+		y: ((CONSTS.tileHeight + 2) * y / 2 - (z * 8)) + (CONSTS.tileHeight / 2),
+		z: y + CONSTS.mY * (x + CONSTS.mX * z),
 		translate: ''
 	};
 	pos.translate = `translate(${pos.x},${pos.y})`;
@@ -47,19 +47,19 @@ export function sortDrawItems(items: Array<Draw>): Array<Draw> {
 	});
 }
 
-export function getDrawBoundsViewPort(bounds: Array<number>, width: number, height: number, rotate: boolean = false): string {
+export function getDrawBoundsViewPort(bounds: Array<number>, _width: number, _height: number, rotate: boolean = false): string {
 	const b: Array<number> = rotate ?
 		[
-			-bounds[3] - Consts.tileHeight - 10,
+			-bounds[3] - CONSTS.tileHeight - 10,
 			-bounds[0] - 30,
-			bounds[3] + Consts.tileHeight - 10,
-			bounds[2] + bounds[0] + Consts.tileWidth + 40
+			bounds[3] + CONSTS.tileHeight - 10,
+			bounds[2] + bounds[0] + CONSTS.tileWidth + 40
 		] :
 		[
 			bounds[0] - 40,
 			bounds[1] - 20,
-			bounds[2] + Consts.tileHeight + 40,
-			bounds[3] + Consts.tileHeight + 20
+			bounds[2] + CONSTS.tileHeight + 40,
+			bounds[3] + CONSTS.tileHeight + 20
 		];
 	return b.join(' ');
 }

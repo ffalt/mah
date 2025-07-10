@@ -1,7 +1,7 @@
-const fs = require('fs');
+const fs = require('node:fs');
 
 async function customBuildOptions(targetOptions, indexHtmlContent) {
-	let name = 'Mah Jong';
+	const name = 'Mah Jong';
 	let config = {};
 	if (fs.existsSync('./custom-build-config.json')) {
 		config = JSON.parse(fs.readFileSync('./custom-build-config.json').toString());

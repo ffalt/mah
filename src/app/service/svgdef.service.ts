@@ -9,8 +9,8 @@ interface CacheItem {
 
 @Injectable()
 export class SvgdefService {
-	private http = inject(HttpClient);
-	private cache: { [name: string]: CacheItem } = {};
+	private readonly http = inject(HttpClient);
+	private readonly cache: Record<string, CacheItem> = {};
 
 	async get(name: string, kyodaiUrl?: string): Promise<string> {
 		if (imageSetIsKyodai(name)) {
@@ -21,7 +21,7 @@ export class SvgdefService {
 			if (item.data) {
 				return item.data;
 			}
-			if (item.request) {
+			if (item.request !== undefined) {
 				return item.request;
 			}
 		}
@@ -35,7 +35,7 @@ export class SvgdefService {
 						resolve(res);
 					},
 					error: err => {
-						reject(err);
+						reject(err as Error);
 					}
 				});
 		});
@@ -43,5 +43,4 @@ export class SvgdefService {
 		this.cache[name] = item;
 		return request;
 	}
-
 }

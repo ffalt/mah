@@ -221,7 +221,7 @@ export const KyodaiTileSets: Array<Tileset> = [
 	}
 ];
 
-export async function loadImage(tileSetUrl: string): Promise<HTMLImageElement> {
+async function loadImage(tileSetUrl: string): Promise<HTMLImageElement> {
 	return new Promise((resolve, reject) => {
 		const newImg = new Image();
 		newImg.onload = () => {

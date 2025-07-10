@@ -1,6 +1,6 @@
-import { Component, inject, OnChanges, SimpleChanges, output, input } from '@angular/core';
+import { Component, inject, type OnChanges, SimpleChanges, output, input } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Layout } from '../../../../model/types';
+import type { Layout } from '../../../../model/types';
 import { LocalstorageService } from '../../../../service/localstorage.service';
 import { LayoutService } from '../../../../service/layout.service';
 
@@ -28,9 +28,9 @@ export class LayoutListComponent implements OnChanges {
 	readonly layouts = input<Array<Layout>>();
 	readonly startEvent = output<Layout>();
 	groups: Array<LayoutGroup> = [];
-	private storage = inject(LocalstorageService);
-	private translate = inject(TranslateService);
-	private layoutService = inject(LayoutService);
+	private readonly storage = inject(LocalstorageService);
+	private readonly translate = inject(TranslateService);
+	private readonly layoutService = inject(LayoutService);
 
 	constructor() {
 		if (this.layouts()) {
@@ -38,7 +38,7 @@ export class LayoutListComponent implements OnChanges {
 		}
 	}
 
-	ngOnChanges(changes: SimpleChanges): void {
+	ngOnChanges(_changes: SimpleChanges): void {
 		this.refresh();
 	}
 

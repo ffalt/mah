@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Mapping, Place } from '../model/types';
+import type { Mapping, Place } from '../model/types';
 import { solveGame, statsSolveMapping } from '../model/tasks';
 import { createStatsSolveWorker } from '../worker/create-stats-solve.worker';
-import { StonePosition } from '../model/stone';
+import type { StonePosition } from '../model/stone';
 import { createSolveWorker } from '../worker/create-solve.worker';
 
 @Injectable({ providedIn: 'root' })

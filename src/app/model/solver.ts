@@ -30,25 +30,25 @@ import { Place } from './types';
 	DEALINGS IN THE SOFTWARE.
  */
 
-interface tile {
+interface Tile {
 	// undefined-terminated arrays of neighbo(u)rs
-	left: Array<tile | undefined>;//[3]
-	right: Array<tile | undefined>;//[3]
-	above: Array<tile | undefined>;//[5]
-	below: Array<tile | undefined>;//[5]
+	left: [Tile | undefined, Tile | undefined, Tile | undefined];
+	right: [Tile | undefined, Tile | undefined, Tile | undefined];
+	above: [Tile | undefined, Tile | undefined, Tile | undefined, Tile | undefined, Tile | undefined];
+	below: [Tile | undefined, Tile | undefined, Tile | undefined, Tile | undefined, Tile | undefined];
 	// The group of the tile (0-35)
 	value: number;
 	// If the tile has been played already by the solver during the routine prune()
 	isPlayed: boolean;
 }
 
-// computes if a tile can be played by the solver
-function isplayable(t?: tile): boolean {
+// computes if the solver can play a tile
+function isPlayable(t?: Tile): boolean {
 	if (!t) {
 		return false;
 	}
 	let k = 0;
-// checks if there are no above neighbo(u)rs
+	// checks if there are no above neighbo(u)rs
 	let above = t.above[k];
 	while (above !== undefined) {
 		if (!above.isPlayed) {
@@ -59,11 +59,11 @@ function isplayable(t?: tile): boolean {
 	}
 	k = 0;
 	let left = t.left[k];
-// checks if there are no left neighbo(u)rs
+	// checks if there are no left neighbo(u)rs
 	while (left !== undefined) {
 		if (!left.isPlayed) {
 			k = 0;
-// checks if there are no right neighbo(u)rs
+			// checks if there are no right neighbo(u)rs
 			let right = t.right[k];
 			while (right !== undefined) {
 				if (!right.isPlayed) {
@@ -88,56 +88,55 @@ function int(i: number): number {
 	return Math.floor(i);
 }
 
-interface group {
-// the pairing of the four tiles (0-5): see prune() for
-// more info
+interface Group {
+	// the pairing of the four tiles (0-5): see prune() for more info
 	pairing: number;
-// number of tiles with the value of this group
-	nmembers: number;
-// array of tiles of this group
-	member: Array<tile | undefined>; //[4];
-// whether all tiles are already played
-	isplayed: boolean;
-// the pairing for the best partial solution found this far
-	bestpairing: number;
-// how often the last three tiles are cycled
+	// number of tiles with the value of this group
+	nMembers: number;
+	// array of tiles of this group
+	member: [Tile | undefined, Tile | undefined, Tile | undefined, Tile | undefined];
+	// whether all tiles are already played
+	isPlayed: boolean;
+	// the pairing for the best partial solution found this far
+	bestPairing: number;
+	// how often the last three tiles are cycled
 	rotation: number;
 }
 
-export class SolverWriter {
-	ntiles1: number;
-	ntiles2: number;
+class SolverWriter {
+	nTiles1: number;
+	nTiles2: number;
 	result: Array<Place> = [];
 
-	constructor(ntilesCount: number,
-							private qt: Array<group>,
-							private lo: Array<Array<Array<tile | undefined>>>,
-							private ngroups: number,
-							private maxheight: number,
-							private maxwidth: number,
-							private maxdepth: number
+	constructor(nTilesCount: number,
+							private readonly qt: Array<Group>,
+							private readonly lo: Array<Array<Array<Tile | undefined>>>,
+							private readonly nGroups: number,
+							private readonly maxHeight: number,
+							private readonly maxWidth: number,
+							private readonly maxDepth: number
 	) {
-		this.ntiles1 = ntilesCount;
-		this.ntiles2 = ntilesCount;
+		this.nTiles1 = nTilesCount;
+		this.nTiles2 = nTilesCount;
 	}
 
 	write() {
 		// play until no tiles can be removed anymore
 		do {
-			this.ntiles1 = this.ntiles2;
-			for (let k = 0; k < this.ngroups; k++) {
+			this.nTiles1 = this.nTiles2;
+			for (let k = 0; k < this.nGroups; k++) {
 				this.writeGroup(k);
 			}
-		} while (this.ntiles2 !== this.ntiles1);
+		} while (this.nTiles2 !== this.nTiles1);
 		return this.result;
 	}
 
 	private writePair(k: number, a: number, b: number) {
-		const t1: tile = this.qt[k].member[a] as tile;
-		const t2: tile = this.qt[k].member[b] as tile;
-		for (let row = 0; row < this.maxheight; row++) {
-			for (let col = 0; col < this.maxwidth; col++) {
-				for (let lev = 0; lev < this.maxdepth; lev++) {
+		const t1: Tile = this.qt[k].member[a] as Tile;
+		const t2: Tile = this.qt[k].member[b] as Tile;
+		for (let row = 0; row < this.maxHeight; row++) {
+			for (let col = 0; col < this.maxWidth; col++) {
+				for (let lev = 0; lev < this.maxDepth; lev++) {
 					if (this.lo[row][col][lev] === t1 || this.lo[row][col][lev] === t2) {
 						this.result.push([lev, col, row]);
 					}
@@ -146,14 +145,14 @@ export class SolverWriter {
 		}
 	}
 
-	private writePairing(k: number, qtk: group, a: number, b: number): boolean {
-		const qtmA = qtk.member[a] as tile;
-		const qtmB = qtk.member[b] as tile;
-		if (qtmA && qtmB && !(qtmA.isPlayed) && isplayable(qtmA) && isplayable(qtmB)) {
+	private writePairing(k: number, qtk: Group, a: number, b: number): boolean {
+		const qtmA = qtk.member[a] as Tile;
+		const qtmB = qtk.member[b] as Tile;
+		if (qtmA && qtmB && !(qtmA.isPlayed) && isPlayable(qtmA) && isPlayable(qtmB)) {
 			this.writePair(k, a, b);
 			qtmA.isPlayed = true;
 			qtmB.isPlayed = true;
-			this.ntiles2 -= 2;
+			this.nTiles2 -= 2;
 			return true;
 		}
 		return false;
@@ -161,11 +160,11 @@ export class SolverWriter {
 
 	private writeGroup(k: number) {
 		const qtk = this.qt[k];
-		switch (qtk.bestpairing) {
+		switch (qtk.bestPairing) {
 			case 1: // pairing 0-1, 2-3
 				if (this.writePairing(k, qtk, 0, 1)) {
-					const qtm2 = qtk.member[2] as tile;
-					qtk.isplayed = qtm2.isPlayed;
+					const qtm2 = qtk.member[2] as Tile;
+					qtk.isPlayed = qtm2.isPlayed;
 				}
 				this.writePairing(k, qtk, 2, 3);
 				break;
@@ -189,104 +188,104 @@ export class SolverWriter {
 
 export class Solver {
 	// number of tiles
-	ntilesCount: number;
-	// number of "game simulations" of randomsolve and suresolve
-	nplays: number;
-	nrplays: number;
+	nTilesCount: number;
+	// number of "game simulations" of randomSolve and sureSolve
+	nPlays: number;
+	nrPlays: number;
 	// tile array;
-	tl: Array<tile> = []; //[4*maxgroups];
+	tl: Array<Tile> = []; // [4 * maxGroups]
 	// group array, indexed by group value
-	qt: Array<group> = []; // [maxgroups];
+	qt: Array<Group> = []; // [maxGroups]
 	// pointers of grid positions to tile array, to describe layout
-	lo: Array<Array<Array<tile | undefined>>> = []; // [maxheight][maxwidth][maxdepth];
-	// array of pointers to groups, indexes in order of
-	// search path
-	qts: Array<group> = []; //[maxgroups];
+	lo: Array<Array<Array<Tile | undefined>>> = []; // [maxHeight][maxWidth][maxDepth]
+	// array of pointers to groups, indexes in order of search path
+	qts: Array<Group> = []; // [maxGroups]
 	// start index and bottom index of search path
-	qtsindex: number;
-	ngroups: number;
+	qtsIndex: number;
+	nGroups: number;
 	// search interval for the number of tiles that remains finally
 	remainMax: number;
 	remainMin: number;
-	aborted: boolean; // for aborting the solver
+	// for aborting the solver
+	aborted: boolean;
 
-	maxgroups: number = 80;
-	maxheight: number = 40;
-	maxwidth: number = 100;
-	maxdepth: number = 10;
+	maxGroups: number = 80;
+	maxHeight: number = 40;
+	maxWidth: number = 100;
+	maxDepth: number = 10;
 
 	solveLayout(stones: Array<StonePosition>): number {
 		// clear layout pointers
-		for (let row = 0; row < this.maxheight; row++) {
+		for (let row = 0; row < this.maxHeight; row++) {
 			this.lo[row] = [];
-			for (let col = 0; col < this.maxwidth; col++) {
+			for (let col = 0; col < this.maxWidth; col++) {
 				this.lo[row][col] = [];
-				for (let lev = 0; lev < this.maxdepth; lev++) {
+				for (let lev = 0; lev < this.maxDepth; lev++) {
 					this.lo[row][col][lev] = undefined;
 				}
 			}
 		}
 		stones.forEach(stone => {
-			const t: tile = {
-				left: [],
-				right: [],
-				above: [],
-				below: [],
+			const t: Tile = {
+				left: [undefined, undefined, undefined],
+				right: [undefined, undefined, undefined],
+				above: [undefined, undefined, undefined, undefined, undefined],
+				below: [undefined, undefined, undefined, undefined, undefined],
 				value: stone.groupnr,
-				// If the tile has been played already by the solver during the routine prune()
+				// If the solver has played the tile already during the routine prune()
 				isPlayed: false
 			};
 			this.lo[stone.y][stone.x][stone.z] = t;
 			this.tl.push(t);
 		});
 
-		this.ntilesCount = stones.length;
+		this.nTilesCount = stones.length;
 		return this.solve(0, 0);
 	}
 
 	writeGame(): Array<Place> {
 		this.unrotateGroups();
-		const writer = new SolverWriter(this.ntilesCount, this.qt, this.lo, this.ngroups, this.maxheight, this.maxwidth, this.maxdepth);
+		const writer = new SolverWriter(this.nTilesCount, this.qt, this.lo, this.nGroups, this.maxHeight, this.maxWidth, this.maxDepth);
 		return writer.write();
 	}
 
-	// play a tile for randomsolve
-	private static playTile(t: tile, nfree: Array<number>, ntiles2: number): number {
-		let ntiles3 = ntiles2;
+	// play a tile for randomSolve
+	private static playTile(t: Tile, nFree: Array<number>, nTiles2: number): number {
+		let nTiles3 = nTiles2;
 		for (let i = 0; t.left[i] !== undefined; i++) {
-			const tleft = t.left[i] as tile;
-			if (!tleft.isPlayed) {
-				nfree[tleft.value] -= isplayable(tleft) ? 1 : 0;
+			const tLeft = t.left[i] as Tile;
+			if (!tLeft.isPlayed) {
+				nFree[tLeft.value] -= isPlayable(tLeft) ? 1 : 0;
 			}
 		}
 		for (let i = 0; t.right[i] !== undefined; i++) {
-			const tright = t.right[i] as tile;
-			if (!tright.isPlayed) {
-				nfree[tright.value] -= isplayable(tright) ? 1 : 0;
+			const tRight = t.right[i] as Tile;
+			if (!tRight.isPlayed) {
+				nFree[tRight.value] -= isPlayable(tRight) ? 1 : 0;
 			}
 		}
 		t.isPlayed = true;
-		ntiles3--;
+		nTiles3--;
 		for (let i = 0; t.left[i] !== undefined; i++) {
-			const tleft = t.left[i] as tile;
-			if (!tleft.isPlayed) {
-				nfree[tleft.value] += isplayable(tleft) ? 1 : 0;
+			const tLeft = t.left[i] as Tile;
+			if (!tLeft.isPlayed) {
+				nFree[tLeft.value] += isPlayable(tLeft) ? 1 : 0;
 			}
 		}
 		for (let i = 0; t.right[i] !== undefined; i++) {
-			const tright = t.right[i] as tile;
-			if (!tright.isPlayed) {
-				nfree[tright.value] += isplayable(tright) ? 1 : 0;
+			const tRight = t.right[i] as Tile;
+			if (!tRight.isPlayed) {
+				nFree[tRight.value] += isPlayable(tRight) ? 1 : 0;
 			}
 		}
 		for (let i = 0; t.below[i] !== undefined; i++) {
-			const tbelow = t.below[i] as tile;
-			nfree[tbelow.value] += isplayable(tbelow) ? 1 : 0;
+			const tBelow = t.below[i] as Tile;
+			nFree[tBelow.value] += isPlayable(tBelow) ? 1 : 0;
 		}
-		return ntiles3;
+		return nTiles3;
 	}
 
-	// initializes both randomsolve and suresolve
+	// initializes both randomSolve and sureSolve
 	// eslint-disable-next-line complexity
 	private initSolve(): void {
 		// clear tile neighbours
@@ -310,13 +309,13 @@ export class Solver {
 			tlk.isPlayed = false;
 		});
 		// compute left and right neighbours
-		for (let row = 0; row < this.maxheight; row++) {
-			for (let col = 2; col < this.maxwidth; col++) {
-				for (let lev = 0; lev < this.maxdepth; lev++) {
+		for (let row = 0; row < this.maxHeight; row++) {
+			for (let col = 2; col < this.maxWidth; col++) {
+				for (let lev = 0; lev < this.maxDepth; lev++) {
 					const tile = this.lo[row][col][lev];
 					if (tile !== undefined) {
 						let k = 0;
-						for (let r = Math.max(row - 1, 0); r < Math.min(row + 2, this.maxheight); r++) {
+						for (let r = Math.max(row - 1, 0); r < Math.min(row + 2, this.maxHeight); r++) {
 							if (this.lo[r][col - 2][lev] !== undefined) {
 								tile.left[k] = this.lo[r][col - 2][lev];
 								k++;
@@ -326,7 +325,7 @@ export class Solver {
 					const tile2 = this.lo[row][col - 2][lev];
 					if (tile2 !== undefined) {
 						let k = 0;
-						for (let r = Math.max(row - 1, 0); r < Math.min(row + 2, this.maxheight); r++) {
+						for (let r = Math.max(row - 1, 0); r < Math.min(row + 2, this.maxHeight); r++) {
 							if (this.lo[r][col][lev] !== undefined) {
 								tile2.right[k] = this.lo[r][col][lev];
 								k++;
@@ -337,14 +336,14 @@ export class Solver {
 			}
 		}
 		// compute above and below neighbours
-		for (let row = 0; row < this.maxheight; row++) {
-			for (let col = 0; col < this.maxwidth; col++) {
-				for (let lev = 1; lev < this.maxdepth; lev++) {
+		for (let row = 0; row < this.maxHeight; row++) {
+			for (let col = 0; col < this.maxWidth; col++) {
+				for (let lev = 1; lev < this.maxDepth; lev++) {
 					const tile = this.lo[row][col][lev - 1];
 					if (tile !== undefined) {
 						let k = 0;
-						for (let r = Math.max(row - 1, 0); r < Math.min(row + 2, this.maxheight); r++) {
-							for (let c = Math.max(col - 1, 0); c < Math.min(col + 2, this.maxwidth); c++) {
+						for (let r = Math.max(row - 1, 0); r < Math.min(row + 2, this.maxHeight); r++) {
+							for (let c = Math.max(col - 1, 0); c < Math.min(col + 2, this.maxWidth); c++) {
 								if (this.lo[r][c][lev] !== undefined) {
 									tile.above[k] = this.lo[r][c][lev];
 									k++;
@@ -355,8 +354,8 @@ export class Solver {
 					const tile1 = this.lo[row][col][lev];
 					if (tile1 !== undefined) {
 						let k = 0;
-						for (let r = Math.max(row - 1, 0); r < Math.min(row + 2, this.maxheight); r++) {
-							for (let c = Math.max(col - 1, 0); c < Math.min(col + 2, this.maxwidth); c++) {
+						for (let r = Math.max(row - 1, 0); r < Math.min(row + 2, this.maxHeight); r++) {
+							for (let c = Math.max(col - 1, 0); c < Math.min(col + 2, this.maxWidth); c++) {
 								if (this.lo[r][c][lev - 1] !== undefined) {
 									tile1.below[k] = this.lo[r][c][lev - 1];
 									k++;
@@ -369,93 +368,93 @@ export class Solver {
 		}
 		// clear groups
 		this.qt = [];
-		for (let k = 0; k < this.maxgroups; k++) {
-			const qtk: group = {
+		for (let k = 0; k < this.maxGroups; k++) {
+			const qtk: Group = {
 				pairing: -1,
-				bestpairing: -1,
-				nmembers: 0,
-				member: [],
-				isplayed: false,
+				bestPairing: -1,
+				nMembers: 0,
+				member: [undefined, undefined, undefined, undefined],
+				isPlayed: false,
 				rotation: 0
 			};
 			this.qt.push(qtk);
 		}
 		// collect groups
-		for (let k = 0; k < this.ntilesCount; k++) {
+		for (let k = 0; k < this.nTilesCount; k++) {
 			const v = this.tl[k].value;
-			this.qt[v].member[this.qt[v].nmembers] = this.tl[k];
-			this.qt[v].nmembers++;
+			this.qt[v].member[this.qt[v].nMembers] = this.tl[k];
+			this.qt[v].nMembers++;
 		}
-		// initialize search system of suresolve
+		// initialize search system of sureSolve
 		let l = 0;
 		let lq = 0;
-		for (let k = 0; k < this.maxgroups; k++) {
+		for (let k = 0; k < this.maxGroups; k++) {
 			const gtk = this.qt[k];
-			if (gtk.nmembers === 2) {
+			if (gtk.nMembers === 2) {
 				this.qts[l] = gtk;
 				this.qts[l].pairing = 4;
 				l++;
 			}
-			if (gtk.nmembers !== 0) {
+			if (gtk.nMembers !== 0) {
 				lq = k;
 			}
 		}
 		for (let k = 0; k <= lq; k++) {
 			const gtk = this.qt[k];
-			if (gtk.nmembers === 0) {
+			if (gtk.nMembers === 0) {
 				this.qts[l] = gtk;
 				this.qts[l].pairing = -1;
 				l++;
 			}
 		}
-		this.qtsindex = l;
+		this.qtsIndex = l;
 		for (let k = 0; k <= lq; k++) {
 			const gtk = this.qt[k];
-			if (gtk.nmembers === 4) {
+			if (gtk.nMembers === 4) {
 				this.qts[l] = gtk;
 				this.qts[l].pairing = 0;
-				const d: group = this.qts[l];
-				const r = rand() % (l + 1 - this.qtsindex);
-				this.qts[l] = this.qts[this.qtsindex + r];
-				this.qts[this.qtsindex + r] = d;
+				const d: Group = this.qts[l];
+				const r = rand() % (l + 1 - this.qtsIndex);
+				this.qts[l] = this.qts[this.qtsIndex + r];
+				this.qts[this.qtsIndex + r] = d;
 				l++;
 			}
 		}
-		this.ngroups = l;
+		this.nGroups = l;
 		this.aborted = false;
 	}
 
 	// test solvability with the given pairing of all tiles
 	// eslint-disable-next-line complexity
 	private prune(): number {
-		let ntiles1 = this.ntilesCount;
-		let ntiles2 = this.ntilesCount;
-		this.nplays++;
+		let nTiles1 = this.nTilesCount;
+		let nTiles2 = this.nTilesCount;
+		this.nPlays++;
 		// play until no tiles can be removed anymore
 		do {
-			ntiles1 = ntiles2;
-			for (let k = 0; k < this.ngroups; k++) {
+			nTiles1 = nTiles2;
+			for (let k = 0; k < this.nGroups; k++) {
 				const qtk = this.qt[k];
-				if (!qtk.isplayed) {
-					const qtk0 = qtk.member[0] as tile;
-					const qtk1 = qtk.member[1] as tile;
-					const qtk2 = qtk.member[2] as tile;
-					const qtk3 = qtk.member[3] as tile;
-					const play = (t1: tile, t2: tile) => {
+				if (!qtk.isPlayed) {
+					const qtk0 = qtk.member[0] as Tile;
+					const qtk1 = qtk.member[1] as Tile;
+					const qtk2 = qtk.member[2] as Tile;
+					const qtk3 = qtk.member[3] as Tile;
+					const play = (t1: Tile, t2: Tile) => {
 						t1.isPlayed = true;
 						t2.isPlayed = true;
-						ntiles2 -= 2;
+						nTiles2 -= 2;
 					};
-					const check_free = (t: tile) => {
-						if (!(t.isPlayed) && isplayable(t)) {
+					const check_free = (t: Tile) => {
+						if (!(t.isPlayed) && isPlayable(t)) {
 							t.isPlayed = true;
-							ntiles1++;
+							nTiles1++;
 						}
 					};
-					const check_pair = (t1: tile, t2: tile, t3: tile) => {
-						if (!t1.isPlayed && isplayable(t1) && isplayable(t2)) {
+					const check_pair = (t1: Tile, t2: Tile, t3: Tile) => {
+						if (!t1.isPlayed && isPlayable(t1) && isPlayable(t2)) {
 							play(t1, t2);
-							qtk.isplayed = t3.isPlayed;
+							qtk.isPlayed = t3.isPlayed;
 						}
 					};
 					switch (qtk.pairing) {
@@ -463,28 +462,28 @@ export class Solver {
 							// first two played together,
 							// last two played separate
 							if (qtk0.isPlayed || qtk1.isPlayed || qtk2.isPlayed) {
-								qtk.member.forEach(t => check_free(t as tile));
+								qtk.member.forEach(t => check_free(t as Tile));
 								if (qtk0.isPlayed && qtk1.isPlayed && qtk2.isPlayed && qtk3.isPlayed) {
-									qtk.isplayed = true;
-									ntiles2 -= 2;
+									qtk.isPlayed = true;
+									nTiles2 -= 2;
 								}
 							} else {
-								if (!qtk0.isPlayed && isplayable(qtk0)) {
-									if (!qtk1.isPlayed && isplayable(qtk1)) {
+								if (!qtk0.isPlayed && isPlayable(qtk0)) {
+									if (!qtk1.isPlayed && isPlayable(qtk1)) {
 										play(qtk0, qtk1);
-									} else if (!qtk2.isPlayed && isplayable(qtk2)) {
+									} else if (!qtk2.isPlayed && isPlayable(qtk2)) {
 										play(qtk0, qtk2);
-									} else if (!(qtk3.isPlayed) && isplayable(qtk3)) {
+									} else if (!(qtk3.isPlayed) && isPlayable(qtk3)) {
 										play(qtk0, qtk3);
 									}
-								} else if (!qtk1.isPlayed && isplayable(qtk1)) {
-									if (!qtk2.isPlayed && isplayable(qtk2)) {
+								} else if (!qtk1.isPlayed && isPlayable(qtk1)) {
+									if (!qtk2.isPlayed && isPlayable(qtk2)) {
 										play(qtk1, qtk2);
-									} else if (!qtk3.isPlayed && isplayable(qtk.member[3])) {
+									} else if (!qtk3.isPlayed && isPlayable(qtk.member[3])) {
 										play(qtk1, qtk3);
 									}
-								} else if (!qtk2.isPlayed && isplayable(qtk2)) {
-									if (!qtk3.isPlayed && isplayable(qtk3)) {
+								} else if (!qtk2.isPlayed && isPlayable(qtk2)) {
+									if (!qtk3.isPlayed && isPlayable(qtk3)) {
 										play(qtk2, qtk3);
 									}
 								}
@@ -507,18 +506,18 @@ export class Solver {
 							break;
 						}
 						case 4: {// half a group, pairing 0-1
-							if (isplayable(qtk0) && isplayable(qtk1)) {
+							if (isPlayable(qtk0) && isPlayable(qtk1)) {
 								play(qtk0, qtk1);
-								qtk.isplayed = true;
+								qtk.isPlayed = true;
 							}
 							break;
 						}
 						case 5: {// all four removed simultaneously
 							// for heuristic to smell blockades
-							if (isplayable(qtk0) && isplayable(qtk1) && isplayable(qtk2) && isplayable(qtk3)) {
+							if (isPlayable(qtk0) && isPlayable(qtk1) && isPlayable(qtk2) && isPlayable(qtk3)) {
 								play(qtk0, qtk1);
 								play(qtk2, qtk3);
-								qtk.isplayed = true;
+								qtk.isPlayed = true;
 							}
 							break;
 						}
@@ -527,31 +526,31 @@ export class Solver {
 					}
 				}
 			}
-		} while (ntiles2 !== ntiles1);
+		} while (nTiles2 !== nTiles1);
 		// unplay all played tiles
-		for (let k = 0; k < this.ntilesCount; k++) {
+		for (let k = 0; k < this.nTilesCount; k++) {
 			this.tl[k].isPlayed = false;
 		}
-		for (let k = 0; k < this.ngroups; k++) {
-			this.qt[k].isplayed = false;
+		for (let k = 0; k < this.nGroups; k++) {
+			this.qt[k].isPlayed = false;
 		}
 		// test if all tiles were removed
-		return ntiles2;
+		return nTiles2;
 	}
 
 	// stores the solution found
 	private unrotateGroups(): void {
-		for (let i = 0; i < this.ngroups; i++) {
+		for (let i = 0; i < this.nGroups; i++) {
 			switch (this.qt[i].rotation) {
 				case 1: {
-					const t: tile | undefined = this.qt[i].member[1];
+					const t: Tile | undefined = this.qt[i].member[1];
 					this.qt[i].member[1] = this.qt[i].member[2];
 					this.qt[i].member[2] = this.qt[i].member[3];
 					this.qt[i].member[3] = t;
 					break;
 				}
 				case 2: {
-					const t: tile | undefined = this.qt[i].member[3];
+					const t: Tile | undefined = this.qt[i].member[3];
 					this.qt[i].member[3] = this.qt[i].member[2];
 					this.qt[i].member[2] = this.qt[i].member[1];
 					this.qt[i].member[1] = t;
@@ -566,14 +565,14 @@ export class Solver {
 
 	// recursive search routine to determine (un)solvability improves speed by changing search order backwards
 	private sureSolve(si: number): boolean {
-		const qts2: Array<group> = []; // [maxgroups];
+		const qts2: Array<Group> = []; // [maxGroups]
 		// test whether the current branch might still lead to a solution
 		if (this.prune() > this.remainMax) {
 			return false;
 		}
 		let k;
 		// descent left in search tree until on bottom or having found a prune
-		for (k = si; k < this.ngroups; k++) {
+		for (k = si; k < this.nGroups; k++) {
 			this.qts[k].pairing = 1;
 			// test whether a prune is found
 			if (this.prune() > this.remainMax) {
@@ -581,32 +580,31 @@ export class Solver {
 			}
 		}
 		// test whether on bottom of search tree
-		if (k === this.ngroups) {
+		if (k === this.nGroups) {
 			// solution found
-			for (let i = 0; i < this.ngroups; i++) {
-				this.qt[i].bestpairing = this.qt[i].pairing;
+			for (let i = 0; i < this.nGroups; i++) {
+				this.qt[i].bestPairing = this.qt[i].pairing;
 			}
-			for (let i = this.qtsindex; i < this.ngroups; i++) {
-				this.qts[i].bestpairing += 3 - this.qts[i].rotation;
-				if (this.qts[i].bestpairing > 3) {
-					this.qts[i].bestpairing -= 3;
+			for (let i = this.qtsIndex; i < this.nGroups; i++) {
+				this.qts[i].bestPairing += 3 - this.qts[i].rotation;
+				if (this.qts[i].bestPairing > 3) {
+					this.qts[i].bestPairing -= 3;
 				}
 			}
 			// redefine remain_max such that next solutions will be better
 			this.remainMax = this.prune() - 2;
 			if (this.remainMax < this.remainMin) {
 				// no need to search further: remain_min tiles remaining is good enough
-				for (let i = this.qtsindex; i < this.ngroups; i++) {
+				for (let i = this.qtsIndex; i < this.nGroups; i++) {
 					this.qts[i].pairing = 0;
 				}
 				return true;
-			} else {
+			}
 				// search for better solution: redo suresolve with smaller remain_max
-				for (k = si; k < this.ngroups; k++) {
+				for (k = si; k < this.nGroups; k++) {
 					this.qts[k].pairing = 0;
 				}
 				return this.sureSolve(si);
-			}
 		}
 		// prune found
 		let l = 0;
@@ -623,7 +621,7 @@ export class Solver {
 				// pairing of node not required for prune
 				// shake (rotate) node in order to get a prune from it later
 				if (rand() % 2) {
-					const t: tile | undefined = this.qts[i].member[3];
+					const t: Tile | undefined = this.qts[i].member[3];
 					this.qts[i].member[3] = this.qts[i].member[2];
 					this.qts[i].member[2] = this.qts[i].member[1];
 					this.qts[i].member[1] = t;
@@ -632,7 +630,7 @@ export class Solver {
 						this.qts[i].rotation = 0;
 					}
 				} else {
-					const t: tile | undefined = this.qts[i].member[1];
+					const t: Tile | undefined = this.qts[i].member[1];
 					this.qts[i].member[1] = this.qts[i].member[2];
 					this.qts[i].member[2] = this.qts[i].member[3];
 					this.qts[i].member[3] = t;
@@ -668,38 +666,37 @@ export class Solver {
 	// iterative search routine to determine solvability, but not unsolvability
 	// eslint-disable-next-line complexity
 	private randomSolve(count: number): boolean {
-		const nfree: Array<number> = []; // [maxgroups];
-		const nmatches: Array<number> = [0, 0, 1, 3, 6];
+		const nFree: Array<number> = []; // [maxGroups]
+		const nMatches: Array<number> = [0, 0, 1, 3, 6];
 		const p: Array<Array<number>> = [[0, 1, 2, 3], [1, 0, 3, 2], [2, 3, 0, 1], [3, 2, 1, 0]];
 		// play count games by randomly removing matches, until the  game is solved
 		for (let n = 0; n < count; n++) {
-			let ntiles2 = this.ntilesCount;
+			let nTiles2 = this.nTilesCount;
 			// count matches
-			for (let k = 0; k < this.ngroups; k++) {
-				nfree[k] = 0;
-				for (let l = 0; l < this.qt[k].nmembers; l++) {
-					if (isplayable(this.qt[k].member[l])) {
-						nfree[k]++;
+			for (let k = 0; k < this.nGroups; k++) {
+				nFree[k] = 0;
+				for (let l = 0; l < this.qt[k].nMembers; l++) {
+					if (isPlayable(this.qt[k].member[l])) {
+						nFree[k]++;
 					}
 				}
 				this.qt[k].pairing = -1;
-				if (this.qt[k].nmembers === 2) {
-					this.qt[k].isplayed = true;
+				if (this.qt[k].nMembers === 2) {
+					this.qt[k].isPlayed = true;
 				}
 			}
-			// eslint-disable-next-line no-constant-condition
-			while (1) {
-				let go_label = false;
+			while (true) {
+				let goLabel = false;
 				let r = 0;
-				for (let k1 = 0; k1 < this.ngroups; k1++) {
-					if ((this.qt[k1].isplayed ? 1 : 0) + nmatches[nfree[k1]] >= 5) {
+				for (let k1 = 0; k1 < this.nGroups; k1++) {
+					if ((this.qt[k1].isPlayed ? 1 : 0) + nMatches[nFree[k1]] >= 5) {
 						// last two tiles or four tiles of a group
-						go_label = true;// goto play_math;
+						goLabel = true;// goto play_math;
 						break;
 					}
-					r += nmatches[nfree[k1]];
+					r += nMatches[nFree[k1]];
 				}
-				if (!go_label) {
+				if (!goLabel) {
 					if (r === 0) {
 						// no tiles to remove
 						break;
@@ -709,72 +706,72 @@ export class Solver {
 				// play_match:
 				let k = 0;
 				do {
-					r -= nmatches[nfree[k]];
+					r -= nMatches[nFree[k]];
 					k++;
 				} while (r >= 0);
 				k--;
-				r += nmatches[nfree[k]];
+				r += nMatches[nFree[k]];
 				let i = 0;
 				const qtk = this.qt[k];
-				let j = qtk.nmembers - 1;
+				let j = qtk.nMembers - 1;
 				if (r <= 1) {
 					// play the first
-					let qtki = qtk.member[i] as tile;
-					while (qtki.isPlayed || !isplayable(qtki)) {
+					let qtki = qtk.member[i] as Tile;
+					while (qtki.isPlayed || !isPlayable(qtki)) {
 						i++;
-						qtki = qtk.member[i] as tile;
+						qtki = qtk.member[i] as Tile;
 					}
 					if (r === 0) {
 						j = i + 1;
 						// play the next
-						let qtkj = qtk.member[j] as tile;
-						while (qtkj.isPlayed || !isplayable(qtkj)) {
+						let qtkj = qtk.member[j] as Tile;
+						while (qtkj.isPlayed || !isPlayable(qtkj)) {
 							j++;
-							qtkj = qtk.member[j] as tile;
+							qtkj = qtk.member[j] as Tile;
 						}
 					}
 				}
 				if (r >= 1) {
 					// play the last
-					let qtkj = qtk.member[j] as tile;
-					while (qtkj.isPlayed || !isplayable(qtkj)) {
+					let qtkj = qtk.member[j] as Tile;
+					while (qtkj.isPlayed || !isPlayable(qtkj)) {
 						j--;
-						qtkj = qtk.member[j] as tile;
+						qtkj = qtk.member[j] as Tile;
 					}
 					if (r === 2) {
 						i = j - 1;
 						// play the previous
-						let qtki = qtk.member[i] as tile;
-						while (qtki.isPlayed || !isplayable(qtki)) {
+						let qtki = qtk.member[i] as Tile;
+						while (qtki.isPlayed || !isPlayable(qtki)) {
 							i--;
-							qtki = qtk.member[i] as tile;
+							qtki = qtk.member[i] as Tile;
 						}
 					}
 				}
-				ntiles2 = Solver.playTile(qtk.member[i] as tile, nfree, ntiles2);
-				ntiles2 = Solver.playTile(qtk.member[j] as tile, nfree, ntiles2);
-				qtk.isplayed = true;
+				nTiles2 = Solver.playTile(qtk.member[i] as Tile, nFree, nTiles2);
+				nTiles2 = Solver.playTile(qtk.member[j] as Tile, nFree, nTiles2);
+				qtk.isPlayed = true;
 				qtk.pairing = p[i][j];
-				nfree[k] -= 2;
+				nFree[k] -= 2;
 			}
-			for (let k = 0; k < this.ntilesCount; k++) {
+			for (let k = 0; k < this.nTilesCount; k++) {
 				this.tl[k].isPlayed = false;
 			}
-			for (let k = 0; k < this.ngroups; k++) {
-				this.qt[k].isplayed = false;
-				if (this.qt[k].nmembers === 2) {
+			for (let k = 0; k < this.nGroups; k++) {
+				this.qt[k].isPlayed = false;
+				if (this.qt[k].nMembers === 2) {
 					this.qt[k].pairing = 4;
 				}
 			}
-			this.nrplays++;
-			if (ntiles2 <= this.remainMax) {
-				for (let k = 0; k < this.ngroups; k++) {
-					this.qt[k].bestpairing = this.qt[k].pairing;
+			this.nrPlays++;
+			if (nTiles2 <= this.remainMax) {
+				for (let k = 0; k < this.nGroups; k++) {
+					this.qt[k].bestPairing = this.qt[k].pairing;
 				}
-				this.remainMax = ntiles2 - 2;
+				this.remainMax = nTiles2 - 2;
 				if (this.remainMax < this.remainMin) {
-					for (let k = 0; k < this.ngroups; k++) {
-						if (this.qt[k].nmembers === 4) {
+					for (let k = 0; k < this.nGroups; k++) {
+						if (this.qt[k].nMembers === 4) {
 							this.qt[k].pairing = 0;
 						}
 					}
@@ -782,8 +779,8 @@ export class Solver {
 				}
 			}
 		}
-		for (let k = 0; k < this.ngroups; k++) {
-			if (this.qt[k].nmembers === 4) {
+		for (let k = 0; k < this.nGroups; k++) {
+			if (this.qt[k].nMembers === 4) {
 				this.qt[k].pairing = 0;
 			}
 		}
@@ -792,17 +789,17 @@ export class Solver {
 
 	private solve(remain1: number, remain2: number): number {
 		this.initSolve();
-		this.nrplays = 0;
-		this.nplays = 0;
+		this.nrPlays = 0;
+		this.nPlays = 0;
 		this.remainMax = Math.max(remain1, remain2);
 		this.remainMin = Math.min(remain1, remain2);
 		if (this.prune() > this.remainMax) {
 			return this.remainMax + 2;
 		}
-		if (this.randomSolve(int(Math.pow(1.2, (this.ngroups - this.qtsindex))))) {
+		if (this.randomSolve(int(1.2 ** (this.nGroups - this.qtsIndex)))) {
 			return this.remainMax + 2;
 		}
-		this.sureSolve(this.qtsindex);
+		this.sureSolve(this.qtsIndex);
 		this.unrotateGroups();
 		return this.remainMax + 2;
 	}

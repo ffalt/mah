@@ -1,4 +1,4 @@
-import { Layout, LoadLayout, MahFormat, Mapping } from '../../../model/types';
+import type { Layout, LoadLayout, MahFormat, Mapping } from '../../../model/types';
 import { mappingBounds, mappingToID } from '../../../model/mapping';
 import { Matrix } from './matrix';
 import { compactMapping, optimizeMapping } from './import';

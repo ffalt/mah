@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { GameStateStore, LayoutScoreStore, LoadLayout, SettingsStore, StorageProvider } from '../model/types';
+import type { GameStateStore, LayoutScoreStore, LoadLayout, SettingsStore, StorageProvider } from '../model/types';
 
 @Injectable({
 	providedIn: 'root'
@@ -33,7 +33,7 @@ export class LocalstorageService implements StorageProvider {
 		}
 		try {
 			const result = localStorage.getItem('last');
-			return result || undefined;
+			return result ?? undefined;
 		} catch (e) {
 			console.error(e);
 		}
@@ -60,7 +60,7 @@ export class LocalstorageService implements StorageProvider {
 	}
 
 	clearScore(id: string): void {
-		this.set<LayoutScoreStore>(`score.${id}`, undefined);
+		this.set<LayoutScoreStore>(`score.${id}`);
 	}
 
 	storeSettings(store?: SettingsStore): void {
@@ -85,7 +85,7 @@ export class LocalstorageService implements StorageProvider {
 				return;
 			}
 			return JSON.parse(s);
-		} catch (e) {
+		} catch {
 			return;
 		}
 	}

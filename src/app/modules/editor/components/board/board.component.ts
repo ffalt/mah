@@ -1,8 +1,8 @@
 import { Component, OnChanges, OnInit, SimpleChanges, output, input } from '@angular/core';
 import { Stone } from '../../../../model/stone';
-import { Draw, DrawPos, getDrawViewPort, sortDrawItems } from '../../../../model/draw';
-import { Consts } from '../../../../model/consts';
-import { Matrix } from '../../model/matrix';
+import { type Draw, DrawPos, getDrawViewPort, sortDrawItems } from '../../../../model/draw';
+import { CONSTS } from '../../../../model/consts';
+import type { Matrix } from '../../model/matrix';
 
 interface Level {
 	z: number;
@@ -78,9 +78,9 @@ export class BoardComponent implements OnInit, OnChanges {
 
 	private calcDrawPos(z: number, x: number, y: number): DrawPos {
 		const pos = {
-			x: ((Consts.tileWidth + 2) * x / 2) + 4,
-			y: ((Consts.tileHeight + 2) * y / 2) + 4,
-			z: y + Consts.mY * (x + Consts.mX * z),
+			x: ((CONSTS.tileWidth + 2) * x / 2) + 4,
+			y: ((CONSTS.tileHeight + 2) * y / 2) + 4,
+			z: y + CONSTS.mY * (x + CONSTS.mX * z),
 			translate: ''
 		};
 		pos.translate = `translate(${pos.x},${pos.y})`;
@@ -90,7 +90,7 @@ export class BoardComponent implements OnInit, OnChanges {
 	private updateLevel(level: Level): void {
 		this.drawCells = [];
 		this.drawStones = [];
-		if (!level || !level.rows) {
+		if (!level?.rows) {
 			return;
 		}
 		const stones: Array<Draw> = [];

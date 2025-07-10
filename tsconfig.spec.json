@@ -1,14 +1,18 @@
 {
-  "extends": "./tsconfig.json",
-  "compilerOptions": {
-    "outDir": "./out-tsc/spec",
+	"extends": "./tsconfig.json",
+	"compilerOptions": {
+		"outDir": "./out-tsc/spec",
 		"esModuleInterop": true,
-    "types": ["jest", "node", "hammerjs"]
-  },
-  "include": [
-    "src/**/*.spec.ts",
-    "src/**/*.d.ts"
-  ],
+		"types": [
+			"jest",
+			"node",
+			"hammerjs"
+		]
+	},
+	"include": [
+		"src/**/*.spec.ts",
+		"src/**/*.d.ts"
+	],
 	"exclude": [
 		"local",
 		"resources",

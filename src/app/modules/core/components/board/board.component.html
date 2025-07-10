@@ -120,7 +120,7 @@
 				 [class.selected]="draw.source.selected"
 				 [class.hidden]="draw.source.picked"
 				 [class.hinted]="draw.source.hinted"
-				 [attr.transform]="draw.pos.translate" (mousedown)="onClickDown($event)" (mouseup)="onClickUp($event, draw)">
+				 [attr.transform]="draw.pos.translate" (mouseup)="onClickUp($event, draw)">
 				<g class="tile">
 					@if (draw.url) {
 						<title>{{ draw.url | translate }}</title>

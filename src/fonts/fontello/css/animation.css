@@ -2,56 +2,56 @@
    Animation example, for spinners
 */
 .animate-spin {
-  animation: spin 2s infinite linear;
-  display: inline-block;
+	animation: spin 2s infinite linear;
+	display: inline-block;
 }
 
 @keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
+	0% {
+		transform: rotate(0deg);
+	}
 
-  100% {
-    transform: rotate(359deg);
-  }
+	100% {
+		transform: rotate(359deg);
+	}
 }
 
 @keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
+	0% {
+		transform: rotate(0deg);
+	}
 
-  100% {
-    transform: rotate(359deg);
-  }
+	100% {
+		transform: rotate(359deg);
+	}
 }
 
 @keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
+	0% {
+		transform: rotate(0deg);
+	}
 
-  100% {
-    transform: rotate(359deg);
-  }
+	100% {
+		transform: rotate(359deg);
+	}
 }
 
 @keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
+	0% {
+		transform: rotate(0deg);
+	}
 
-  100% {
-    transform: rotate(359deg);
-  }
+	100% {
+		transform: rotate(359deg);
+	}
 }
 
 @keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
+	0% {
+		transform: rotate(0deg);
+	}
 
-  100% {
-    transform: rotate(359deg);
-  }
+	100% {
+		transform: rotate(359deg);
+	}
 }

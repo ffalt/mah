@@ -1,35 +1,35 @@
 {
-  "compileOnSave": false,
-  "compilerOptions": {
-    "baseUrl": "./",
-    "outDir": "./dist/out-tsc",
-    "sourceMap": true,
-    "declaration": false,
-    "esModuleInterop": true,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "module": "es2020",
-    "moduleResolution": "bundler",
-    "importHelpers": true,
-    "noImplicitReturns": true,
-    "noImplicitAny": true,
-    "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true,
-    "strict": true,
-    "strictPropertyInitialization": false,
-    "strictBindCallApply": true,
-    "strictFunctionTypes": true,
-    "strictNullChecks": true,
-    "target": "ES2022",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
-    "lib": [
-      "es2018",
-      "dom"
-    ],
-    "useDefineForClassFields": false
-  },
+	"compileOnSave": false,
+	"compilerOptions": {
+		"baseUrl": "./",
+		"outDir": "./dist/out-tsc",
+		"sourceMap": true,
+		"declaration": false,
+		"esModuleInterop": true,
+		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true,
+		"module": "es2020",
+		"moduleResolution": "bundler",
+		"importHelpers": true,
+		"noImplicitReturns": true,
+		"noImplicitAny": true,
+		"forceConsistentCasingInFileNames": true,
+		"resolveJsonModule": true,
+		"strict": true,
+		"strictPropertyInitialization": false,
+		"strictBindCallApply": true,
+		"strictFunctionTypes": true,
+		"strictNullChecks": true,
+		"target": "ES2022",
+		"typeRoots": [
+			"node_modules/@types"
+		],
+		"lib": [
+			"es2018",
+			"dom"
+		],
+		"useDefineForClassFields": false
+	},
 	"angularCompilerOptions": {
 		"enableIvy": true,
 		"fullTemplateTypeCheck": true,

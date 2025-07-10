@@ -1,19 +1,21 @@
 {
-  "extends": "./tsconfig.json",
-  "compilerOptions": {
-    "outDir": "./out-tsc/app",
-    "types": ["hammerjs"]
-  },
+	"extends": "./tsconfig.json",
+	"compilerOptions": {
+		"outDir": "./out-tsc/app",
+		"types": [
+			"hammerjs"
+		]
+	},
 	"files": [
 		"src/main.ts"
 	],
 	"include": [
 		"src/**/*.ts"
 	],
-  "exclude": [
+	"exclude": [
 		"src/**/*.worker.ts",
 		"src/environments/environment.prod.ts",
 		"src/environments/environment.capacitor.ts",
 		"src/**/*.spec.ts"
-  ]
+	]
 }

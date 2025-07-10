@@ -1,9 +1,9 @@
-import { Component, inject, output, input, model } from '@angular/core';
-import { BUILD_MODE_ID, BuilderModes, MODE_SOLVABLE } from '../../model/builder';
-import { Layout } from '../../model/types';
+import { Component, inject, output, model } from '@angular/core';
+import { type BUILD_MODE_ID, BuilderModes, MODE_SOLVABLE } from '../../model/builder';
+import type { Layout } from '../../model/types';
 import { LayoutService } from '../../service/layout.service';
 import { LocalstorageService } from '../../service/localstorage.service';
-import { GAME_MODE_ID, GAME_MODE_STANDARD, GameModes } from '../../model/consts';
+import { type GAME_MODE_ID, GameModes } from '../../model/consts';
 
 @Component({
 	selector: 'app-choose-layout',

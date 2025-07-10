@@ -1,7 +1,7 @@
 import { Component, ElementRef, inject, OnChanges, OnInit, SimpleChanges, output, input } from '@angular/core';
 import { Backgrounds } from '../../../../model/consts';
-import { calcDrawPos, Draw, getDrawBounds, getDrawBoundsViewPort, sortDrawItems } from '../../../../model/draw';
-import { Stone } from '../../../../model/stone';
+import { calcDrawPos, type Draw, getDrawBounds, getDrawBoundsViewPort, sortDrawItems } from '../../../../model/draw';
+import type { Stone } from '../../../../model/stone';
 import { AppService } from '../../../../service/app.service';
 import { Indicator, IndicatorAnimations } from '../../model/indicator';
 import { imageSetIsKyodai } from '../../model/tilesets';
@@ -129,10 +129,6 @@ export class BoardComponent implements OnInit, OnChanges {
 		this.clickEvent.emit(undefined);
 	}
 
-	onClickDown(_event: MouseEvent): void {
-		// this.onMouseDown(event);
-	}
-
 	onClickUp(event: MouseEvent, draw?: Draw): void {
 		this.clickEvent.emit(draw ? draw.source : undefined);
 		event.stopPropagation();
@@ -189,7 +185,8 @@ export class BoardComponent implements OnInit, OnChanges {
 	}
 
 	setTransform() {
-		this.transformSVG = `translate(${this.panX}px, ${this.panY}px)${this.scale > 1 ? ` scale(${this.scale})` : ''}`;
+		const scaling = this.scale > 1 ? ` scale(${this.scale})` : '';
+		this.transformSVG = `translate(${this.panX}px, ${this.panY}px)${scaling}`;
 		this.transformStage = this.rotate ? 'rotate(90)' : '';
 	}
 
@@ -237,7 +234,6 @@ export class BoardComponent implements OnInit, OnChanges {
 
 	private updateBackground(background: string): void {
 		const back = Backgrounds.find(b => b.img === background);
-		this.backgroundUrl = back && back.img ? `url("assets/img/${back.img}")` : undefined;
+		this.backgroundUrl = back?.img ? `url("assets/img/${back.img}")` : undefined;
 	}
-
 }

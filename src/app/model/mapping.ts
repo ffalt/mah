@@ -1,4 +1,4 @@
-import { CompactMapping, CompactMappingX, CompactMappingY, Mapping, Place } from './types';
+import type { CompactMapping, CompactMappingX, CompactMappingY, Mapping, Place } from './types';
 
 export function expandMapping(map: CompactMapping): Mapping {
 	const result: Mapping = [];
@@ -38,9 +38,7 @@ function hashString(s: string): number {
 	}
 	for (i = 0; i < s.length; i++) {
 		chr = s.charCodeAt(i);
-		// eslint-disable-next-line no-bitwise
 		hash = ((hash << 5) - hash) + chr;
-		// eslint-disable-next-line no-bitwise
 		hash |= 0; // Convert to 32bit integer
 	}
 	return hash + 2147483647;

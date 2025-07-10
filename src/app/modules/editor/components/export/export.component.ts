@@ -1,9 +1,9 @@
 import { Component, inject, output, OnChanges, OnInit, SimpleChanges, input } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Layout, LoadLayout } from '../../../../model/types';
+import type { Layout, LoadLayout } from '../../../../model/types';
 import { LayoutService } from '../../../../service/layout.service';
 import { downloadLayout, generateExportKmahjongg, generateExportKyodai, generateExportLayout, generateExportMah } from '../../model/export';
-import { EditLayout } from '../../model/edit-layout';
+import type { EditLayout } from '../../model/edit-layout';
 
 interface Format {
 	name: string;

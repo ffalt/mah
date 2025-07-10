@@ -1,6 +1,6 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 
-export interface GestureIndicator {
+interface GestureIndicator {
 	x: number;
 	y: number;
 	size: number;
@@ -14,22 +14,26 @@ export class Indicator {
 	gestureIndicators: Array<GestureIndicator> = [];
 
 	hide(gestureIndicator?: { state: string, x: number, y: number }) {
+		const gindicator = gestureIndicator;
+		if (!gindicator) {
+			return;
+		}
 		setTimeout(() => {
-			if (gestureIndicator) {
-				gestureIndicator.state = 'hidden';
-				setTimeout(() => {
-					if (gestureIndicator) {
-						for (let i = 0; i < this.gestureIndicators.length; i++) {
-							const indicator = this.gestureIndicators[i];
-							if (indicator.x === gestureIndicator.x && indicator.y === gestureIndicator.y) {
-								this.gestureIndicators.splice(i, 1);
-								break;
-							}
-						}
-					}
-				}, 250);
-			}
+			gindicator.state = 'hidden';
+			setTimeout(() => {
+				this.removeIndicator(gestureIndicator)
+			}, 250);
 		}, 500);
+	}
+
+	removeIndicator(gestureIndicator: { state: string, x: number, y: number }) {
+		for (let i = 0; i < this.gestureIndicators.length; i++) {
+			const indicator = this.gestureIndicators[i];
+			if (indicator.x === gestureIndicator.x && indicator.y === gestureIndicator.y) {
+				this.gestureIndicators.splice(i, 1);
+				break;
+			}
+		}
 	}
 
 	setSize(nr: number, size: number): void {

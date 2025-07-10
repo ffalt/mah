@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockComponent } from 'ng-mocks';
 import { TranslateModule } from '@ngx-translate/core';
 import { PrefixPipe } from '../../pipes/prefix.pipe';

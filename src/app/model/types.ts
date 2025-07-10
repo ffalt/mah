@@ -1,4 +1,4 @@
-import { GAME_MODE_ID } from './consts';
+import type { GAME_MODE_ID } from './consts';
 
 export type SafeUrlSVG = string;
 
@@ -90,6 +90,7 @@ export class GameStateStore {
 export class SettingsStore {
 	lang: string;
 	sounds: boolean;
+	music: boolean;
 	contrast: boolean;
 	dark: boolean;
 	tileset: string;

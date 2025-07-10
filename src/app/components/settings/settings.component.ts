@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, viewChild } from '@angular/core';
+import { Component, type ElementRef, inject, viewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Backgrounds, ImageSets, Themes } from '../../model/consts';
 import { AppService } from '../../service/app.service';
@@ -23,9 +23,9 @@ export class SettingsComponent {
 	themes = Themes;
 	languages = LANGUAGE_TITLES;
 	app = inject(AppService);
-	private storage = inject(LocalstorageService);
-	private layoutService = inject(LayoutService);
-	private translate = inject(TranslateService);
+	private readonly storage = inject(LocalstorageService);
+	private readonly layoutService = inject(LayoutService);
+	private readonly translate = inject(TranslateService);
 
 	updateKyodaiUrl(event: Event): void {
 		this.app.settings.kyodaiUrl = (event.target as HTMLInputElement).value;

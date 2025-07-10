@@ -1,3 +1,4 @@
+# Concept
 
 Mahjong Solitaire History
 <http://home.halden.net/vkp/vkp/history.html>

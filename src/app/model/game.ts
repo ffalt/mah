@@ -3,20 +3,21 @@ import { Clock } from './clock';
 import { GAME_MODE_EASY, GAME_MODE_EXPERT, GAME_MODE_ID, GAME_MODE_STANDARD, STATES } from './consts';
 import { Sound, SOUNDS } from './sound';
 import { Stone } from './stone';
-import { GameStateStore, Layout, StorageProvider } from './types';
-import { BUILD_MODE_ID } from './builder';
+import type { GameStateStore, Layout, StorageProvider } from './types';
+import type { BUILD_MODE_ID } from './builder';
+import { Music } from './music';
 
 export class Game {
 	clock: Clock = new Clock();
 	board: Board = new Board();
 	sound: Sound = new Sound();
-// music: Music = new Music();
+  music: Music = new Music();
 	state: number = STATES.idle;
 	message?: { msgID?: string; playTime?: number };
 	layoutID?: string = undefined;
 	mode: GAME_MODE_ID = GAME_MODE_STANDARD;
 
-	constructor(private storage: StorageProvider) {
+	constructor(private readonly storage: StorageProvider) {
 	}
 
 	init(): void {
@@ -53,10 +54,6 @@ export class Game {
 		return this.state === STATES.run;
 	}
 
-	isFrozen(): boolean {
-		return this.state === STATES.freeze;
-	}
-
 	isPaused(): boolean {
 		return this.state === STATES.pause;
 	}
@@ -68,22 +65,7 @@ export class Game {
 	resume(): void {
 		this.run();
 		this.clock.run();
-		// if (this.settings.music) {
-		// 	this.music.play();
-		// }
-	}
-
-	freeze(): void {
-		this.setState(STATES.freeze);
-		this.clock.pause();
-	}
-
-	unfreeze(): void {
-		this.setState(STATES.run);
-		this.clock.run();
-		// if (this.settings.music) {
-		// 	this.music.play();
-		// }
+		this.music.play();
 	}
 
 	run(): void {
@@ -104,9 +86,7 @@ export class Game {
 		this.clock.pause();
 		this.setState(STATES.pause, 'MSG_CONTINUE_PAUSE');
 		this.save();
-		// if (this.settings.music) {
-		// 	this.music.pause();
-		// }
+		this.music.pause();
 	}
 
 	reset(): void {
@@ -150,7 +130,7 @@ export class Game {
 	load(): boolean {
 		try {
 			const store: GameStateStore | undefined = this.storage.getState();
-			if (store && store.stones) {
+			if (store?.stones) {
 				this.clock.elapsed = store.elapsed || 0;
 				this.layoutID = store.layout;
 				this.mode = store.gameMode || GAME_MODE_STANDARD;
@@ -201,14 +181,6 @@ export class Game {
 		this.storage.storeScore(id, score);
 	}
 
-	// toggleMusic(): void {
-	// if (!this.settings.music) {
-	// 	this.music.stop();
-	// } else {
-	// 	this.music.play();
-	// }
-	// }
-
 	private delayedSave(): void {
 		setTimeout(() => {
 			this.save();
@@ -242,5 +214,4 @@ export class Game {
 		this.message = msgID ? { msgID, playTime } : undefined;
 		this.state = state;
 	}
-
 }

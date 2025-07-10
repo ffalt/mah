@@ -1,10 +1,10 @@
 import { isPlatformBrowser } from '@angular/common';
 import { EventEmitter, inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { merge, Observable, Subject } from 'rxjs';
+import { merge, type Observable, Subject } from 'rxjs';
 import { debounceTime, throttleTime } from 'rxjs/operators';
 import { Rect } from './rect';
 
-export interface ScrollEvent {
+interface ScrollEvent {
 	name: string;
 	element?: HTMLElement;
 }
@@ -22,10 +22,10 @@ export class DeferLoadService {
 	currentViewport: Rect = new Rect(0, 0, 0, 0);
 	readonly isBrowser: boolean;
 	readonly hasIntersectionObserver: boolean;
-	private scrollSubject = new Subject<ScrollNotifyEvent>();
-	private scrollObservable: Observable<ScrollNotifyEvent>;
+	private readonly scrollSubject = new Subject<ScrollNotifyEvent>();
+	private readonly scrollObservable: Observable<ScrollNotifyEvent>;
+	private readonly platformId = inject(PLATFORM_ID);
 	private intersectionObserver?: IntersectionObserver;
-	private platformId = inject(PLATFORM_ID);
 
 	constructor() {
 		this.isBrowser = isPlatformBrowser(this.platformId);
@@ -70,7 +70,7 @@ export class DeferLoadService {
 		const userAgent = window.navigator.userAgent;
 		const matches = userAgent.match(/Edge\/(\d*)\./i);
 		const isEdge = !!matches && matches.length > 1;
-		const isEdgeVersion16OrBetter = isEdge && (!!matches && parseInt(matches[1], 10) > 15);
+		const isEdgeVersion16OrBetter = isEdge && (!!matches && Number.parseInt(matches[1], 10) > 15);
 		return hasIntersectionObserver && (!isEdge || isEdgeVersion16OrBetter);
 	}
 }

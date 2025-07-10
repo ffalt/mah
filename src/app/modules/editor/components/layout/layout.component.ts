@@ -1,13 +1,13 @@
-import { Component, inject, OnChanges, OnDestroy, OnInit, SimpleChanges, input, model } from '@angular/core';
+import { Component, inject, OnChanges, OnDestroy, OnInit, SimpleChanges, model } from '@angular/core';
 import { Place, SafeUrlSVG } from '../../../../model/types';
 import { Matrix } from '../../model/matrix';
 import { Cell } from '../../model/cell';
-import { Consts } from '../../../../model/consts';
-import { Stone } from '../../../../model/stone';
+import { CONSTS } from '../../../../model/consts';
+import type { Stone } from '../../../../model/stone';
 import { WorkerService } from '../../../../service/worker.service';
 import { LayoutService } from '../../../../service/layout.service';
 import { optimizeMapping } from '../../model/import';
-import { EditLayout } from '../../model/edit-layout';
+import type { EditLayout } from '../../model/edit-layout';
 
 interface Stats {
 	name: string;
@@ -48,8 +48,8 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 	solveWorker?: Worker;
 	currentZ = 0;
 	totalZ = 1;
-	totalY = Consts.mY;
-	totalX = Consts.mX;
+	totalY = CONSTS.mY;
+	totalX = CONSTS.mX;
 	matrix: Matrix = new Matrix();
 	saveDialog: boolean = false;
 	hasChanged: boolean = false;
@@ -159,7 +159,7 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 	}
 
 	moveX(x: number): void {
-		if (this.stats.minX + x < 0 || this.stats.maxX + x >= Consts.mX - 1) {
+		if (this.stats.minX + x < 0 || this.stats.maxX + x >= CONSTS.mX - 1) {
 			return;
 		}
 		this.layout().mapping.forEach(m => m[1] = m[1] + x);
@@ -167,7 +167,7 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 	}
 
 	moveY(y: number): void {
-		if (this.stats.minY + y < 0 || this.stats.maxY + y >= Consts.mY - 1) {
+		if (this.stats.minY + y < 0 || this.stats.maxY + y >= CONSTS.mY - 1) {
 			return;
 		}
 		this.layout().mapping.forEach(m => m[2] = m[2] + y);
@@ -182,7 +182,7 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 			minx = Math.min(m[1], minx);
 			maxx = Math.max(m[1], maxx);
 		});
-		if (minx + deltaX < 0 || maxx + deltaX >= Consts.mX - 1) {
+		if (minx + deltaX < 0 || maxx + deltaX >= CONSTS.mX - 1) {
 			return;
 		}
 		list.forEach(m => m[1] = m[1] + deltaX);
@@ -197,7 +197,7 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 			miny = Math.min(m[2], miny);
 			maxy = Math.max(m[2], maxy);
 		});
-		if (miny + deltaY < 0 || maxy + deltaY >= Consts.mY - 1) {
+		if (miny + deltaY < 0 || maxy + deltaY >= CONSTS.mY - 1) {
 			return;
 		}
 		list.forEach(m => m[2] = m[2] + deltaY);

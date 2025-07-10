@@ -1,4 +1,4 @@
-export const Consts = {
+export const CONSTS = {
 	mY: 18, mX: 38, mZ: 7,
 	tileWidth: 75,
 	tileHeight: 100
@@ -7,8 +7,7 @@ export const Consts = {
 export const STATES = {
 	idle: 0,
 	run: 1,
-	pause: 2,
-	freeze: 3
+	pause: 2
 };
 
 export const GAME_MODE_EASY: GAME_MODE_ID = 'GAME_MODE_EASY';
@@ -77,7 +76,7 @@ export const ImageSets = [
 export const ImageSetDefault = 'riichi';
 export const ThemeDefault = 'ltgreen';
 export const LangAuto = 'auto';
-export const LangDefault = LangAuto;
+export const LangDefault = 'auto';
 
 export const TILES: Array<[string, string, string, string]> = [
 	['t_do1', 't_do1', 't_do1', 't_do1'],
@@ -164,50 +163,3 @@ export const TILES_INFOS = [
 		]
 	}
 ];
-
-/*
-export const TILES_INFO = {
-	t_do1: 'Chu',
-	t_do2: 'Sung',
-	t_do3: 'Feng',
-	t_do4: 'Yü',
-	t_do5: 'Lung',
-	t_do6: 'Tao',
-	t_do7: 'Ch\'ung',
-	t_do8: 'Hu',
-	t_do9: 'Ch\'i',
-	t_ba1: 'K\'ung',
-	t_ba2: 'Ya',
-	t_ba3: 'Min',
-	t_ba4: 'Li',
-	t_ba5: 'Lien',
-	t_ba6: 'Shui',
-	t_ba7: 'Kuei',
-	t_ba8: 'Chün',
-	t_ba9: 'Liu',
-	t_ch1: 'Ju',
-	t_ch2: 'Chien',
-	t_ch3: 'Ti',
-	t_ch4: 'Ch\'in',
-	t_ch5: 'Fang',
-	t_ch6: 'Huo',
-	t_ch7: 'Tuo',
-	t_ch8: 'Chieh',
-	t_ch9: 'Tien',
-	t_se_spring: 'Yu',
-	t_se_summer: 'Ch\'iao',
-	t_se_fall: 'Keng',
-	t_se_winter: 'Tu',
-	t_fl_bamboo: 'Chu',
-	t_fl_orchid: 'Lan',
-	t_fl_plum: 'Li',
-	t_fl_chrysanthemum: 'Chü',
-	t_wi_east: 'Tung',
-	t_wi_south: 'Nan',
-	t_wi_west: 'Hsi',
-	t_wi_north: 'Pei',
-	t_dr_red: 'Chung',
-	t_dr_green: 'Fa',
-	t_dr_white: 'Pai'
-};
-*/
