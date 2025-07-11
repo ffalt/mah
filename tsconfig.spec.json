@@ -5,8 +5,7 @@
 		"esModuleInterop": true,
 		"types": [
 			"jest",
-			"node",
-			"hammerjs"
+			"node"
 		]
 	},
 	"include": [

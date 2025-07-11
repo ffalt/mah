@@ -1,4 +1,4 @@
-import { Component, ElementRef, type OnChanges, type OnInit, type SimpleChanges, inject, input, output } from '@angular/core';
+import { Component, ElementRef, type OnChanges, type OnInit, type SimpleChanges, inject, input, output, HostListener } from '@angular/core';
 import { Backgrounds } from '../../../../model/consts';
 import { type Draw, calcDrawPos, getDrawBounds, getDrawBoundsViewPort, sortDrawItems } from '../../../../model/draw';
 import type { Stone } from '../../../../model/stone';
@@ -6,7 +6,12 @@ import { AppService } from '../../../../service/app.service';
 import { Indicator, IndicatorAnimations } from '../../model/indicator';
 import { imageSetIsKyodai } from '../../model/tilesets';
 
-type HammerEvent = HammerInput & Event;
+interface TouchPoint {
+	x: number;
+	y: number;
+	identifier: number;
+}
+
 const defaultW = 1470;
 const defaultH = 960;
 
@@ -22,13 +27,12 @@ function clamp(value: number, min: number, max: number): number {
 	standalone: false,
 	host: {
 		'[style.background-image]': 'backgroundUrl',
-		'(pinch)': 'onPinch($event)',
-		'(pinchstart)': 'onPinchStart($event)',
-		'(pinchend)': 'onPinchEnd($event)',
-		'(pan)': 'onPan($event)',
-		'(panend)': 'onPanEnd($event)',
 		'(wheel)': 'onWheel($event)',
-		'(window:resize)': 'onResize($event)'
+		'(window:resize)': 'onResize($event)',
+		'(mousedown)': 'onMouseDown($event)',
+		'(mousemove)': 'onMouseMove($event)',
+		'(mouseup)': 'onMouseUp($event)',
+		'(mouseleave)': 'onMouseUp($event)'
 	}
 })
 export class BoardComponent implements OnInit, OnChanges {
@@ -52,8 +56,143 @@ export class BoardComponent implements OnInit, OnChanges {
 	panX: number = 0;
 	panY: number = 0;
 	lastPinch: number = 0;
+	// Touch and mouse tracking properties
+	private touchPoints: Array<TouchPoint> = [];
+	private initialDistance: number = 0;
+	private initialScale: number = 1;
+	private lastTouchX: number = 0;
+	private lastTouchY: number = 0;
+	private lastMouseX: number = 0;
+	private lastMouseY: number = 0;
+	private initialMouseX: number = 0;
+	private initialMouseY: number = 0;
+	private isPanning: boolean = false;
+	private isPinching: boolean = false;
 	app = inject(AppService);
 	element = inject(ElementRef);
+
+	@HostListener('touchstart', ['$event'])
+	onTouchStart(event: TouchEvent): void {
+		event.preventDefault();
+		this.touchPoints = [];
+		const touches = Array.from(event.touches)
+		for (const touch of touches) {
+			this.touchPoints.push({
+				x: touch.clientX,
+				y: touch.clientY,
+				identifier: touch.identifier
+			});
+		}
+
+		if (this.touchPoints.length === 1) {
+			// Potential pan start
+			this.lastTouchX = this.touchPoints[0].x;
+			this.lastTouchY = this.touchPoints[0].y;
+			this.isPanning = true;
+		} else if (this.touchPoints.length === 2) {
+			// Potential pinch start
+			this.isPanning = false;
+			this.isPinching = true;
+			this.initialDistance = this.getDistance(this.touchPoints[0], this.touchPoints[1]);
+			this.initialScale = this.scale;
+
+			// Show pinch indicator
+			const centerX = (this.touchPoints[0].x + this.touchPoints[1].x) / 2;
+			const centerY = (this.touchPoints[0].y + this.touchPoints[1].y) / 2;
+			this.indicators.gestureIndicators = [];
+			this.indicators.display(centerX, centerY, 30);
+			this.lastPinch = Date.now();
+		}
+	}
+
+	@HostListener('touchmove', ['$event'])
+	onTouchMove(event: TouchEvent): void {
+		event.preventDefault();
+		this.touchPoints = [];
+		const touches = Array.from(event.touches)
+		for (const touch of touches) {
+			this.touchPoints.push({
+				x: touch.clientX,
+				y: touch.clientY,
+				identifier: touch.identifier
+			});
+		}
+
+		if (this.isPinching && this.touchPoints.length === 2) {
+			// Handle pinch
+			const currentDistance = this.getDistance(this.touchPoints[0], this.touchPoints[1]);
+			const scale = currentDistance / this.initialDistance;
+			// Update indicator size
+			this.indicators.setSize(0, Math.min(30 * scale, 80));
+			this.lastPinch = Date.now();
+		} else if (this.isPanning && this.touchPoints.length === 1 && this.scale > 1 && Date.now() - this.lastPinch > 600) {
+			// Handle pan
+			const deltaX = this.touchPoints[0].x - this.lastTouchX;
+			const deltaY = this.touchPoints[0].y - this.lastTouchY;
+
+			const indicator = this.indicators.display(this.touchPoints[0].x, this.touchPoints[0].y, 10);
+			this.indicators.hide(indicator);
+
+			this.setPanValue(this.panX + deltaX, this.panY + deltaY);
+
+			this.lastTouchX = this.touchPoints[0].x;
+			this.lastTouchY = this.touchPoints[0].y;
+		}
+	}
+
+	@HostListener('touchend', ['$event'])
+	@HostListener('touchcancel', ['$event'])
+	onTouchEnd(event: TouchEvent): void {
+		event.preventDefault();
+
+		if (this.isPinching) {
+			// Handle pinch end
+			this.indicators.hide(this.indicators.gestureIndicators[0]);
+
+			if (this.touchPoints.length === 2) {
+				const currentDistance = this.getDistance(this.touchPoints[0], this.touchPoints[1]);
+				const scale = currentDistance / this.initialDistance;
+
+				let newScale = this.initialScale;
+				if (scale > 1.1) {
+					newScale = this.initialScale + scale;
+				} else if (scale < 0.9) {
+					newScale = this.initialScale * scale;
+				}
+
+				// Center of the pinch
+				const centerX = (this.touchPoints[0].x + this.touchPoints[1].x) / 2;
+				const centerY = (this.touchPoints[0].y + this.touchPoints[1].y) / 2;
+
+				this.zoomSVGValue(newScale, centerX, centerY);
+			}
+
+			this.isPinching = false;
+			this.lastPinch = Date.now();
+		} else if (this.isPanning) {
+			// Handle pan end
+			this.updateTransform();
+			this.isPanning = false;
+		}
+
+		// Update touch points
+		this.touchPoints = [];
+		const touches = Array.from(event.touches)
+		for (const touch of touches) {
+			this.touchPoints.push({
+				x: touch.clientX,
+				y: touch.clientY,
+				identifier: touch.identifier
+			});
+		}
+	}
+
+	// Helper method to calculate distance between two touch points
+	private getDistance(p1: TouchPoint, p2: TouchPoint): number {
+		const dx = p2.x - p1.x;
+		const dy = p2.y - p1.y;
+		return Math.sqrt(dx * dx + dy * dy);
+	}
 
 	ngOnInit(): void {
 		this.resize(window);
@@ -71,39 +210,6 @@ export class BoardComponent implements OnInit, OnChanges {
 			this.urlPrefix = `#b_${changes.imageSet.currentValue}_`;
 			this.imagePos = imageSetIsKyodai(changes.imageSet.currentValue) ? [0, 0, 75, 100] : [6, 6, 63, 88];
 		}
-	}
-
-	onPinch(evt: HammerEvent) {
-		this.indicators.setSize(0, 40 * evt.scale);
-		evt.preventDefault();
-		this.lastPinch = Date.now();
-	}
-
-	onPinchStart(evt: HammerEvent) {
-		this.indicators.gestureIndicators = [];
-		this.indicators.display(evt.center.x, evt.center.y, 40);
-		evt.preventDefault();
-		this.lastPinch = Date.now();
-	}
-
-	onPinchEnd(evt: HammerEvent) {
-		this.indicators.hide(this.indicators.gestureIndicators[0]);
-		let scale = 1;
-		if (evt.scale > 1.1) {
-			scale = this.scale + (0.2 * evt.scale);
-		}
-		this.zoomSVGValue(scale, evt.center.x, evt.center.y);
-		evt.preventDefault();
-		this.lastPinch = Date.now();
-	}
-
-	onPan(evt: HammerEvent) {
-		this.setPan(evt);
-	}
-
-	onPanEnd(evt: HammerEvent) {
-		this.setPan(evt);
-		this.updateTransform();
 	}
 
 	onWheel($event: WheelEvent) {
@@ -125,24 +231,77 @@ export class BoardComponent implements OnInit, OnChanges {
 		}
 	}
 
-	onMouseUp(_event: MouseEvent): void {
-		this.clickEvent.emit(undefined);
+	onMouseDown(event: MouseEvent): void {
+		if (this.scale > 1) {
+			event.preventDefault();
+			this.lastMouseX = event.clientX;
+			this.lastMouseY = event.clientY;
+			this.initialMouseX = event.clientX;
+			this.initialMouseY = event.clientY;
+		}
+	}
+
+	onMouseMove(event: MouseEvent): void {
+		if (this.scale > 1) {
+			// Check if we're in a potential panning state (mouse down but not yet panning)
+			if (!this.isPanning && this.initialMouseX !== 0 && this.initialMouseY !== 0) {
+				// Calculate distance moved from initial position
+				const dx = event.clientX - this.initialMouseX;
+				const dy = event.clientY - this.initialMouseY;
+				const distance = Math.sqrt(dx * dx + dy * dy);
+
+				// Start panning only if moved at least 10px
+				if (distance >= 10) {
+					this.isPanning = true;
+				}
+			}
+
+			// Continue with panning if isPanning is true
+			if (this.isPanning) {
+				event.preventDefault();
+				this.updatePanning(event);
+			}
+		}
+	}
+
+	onMouseUp(event: MouseEvent): void {
+		if (this.isPanning) {
+			event.preventDefault();
+			this.updatePanning(event);
+		} else {
+			this.clickEvent.emit(undefined);
+		}
+		this.stopPanning();
 	}
 
 	onClickUp(event: MouseEvent, draw?: Draw): void {
-		this.clickEvent.emit(draw ? draw.source : undefined);
-		event.stopPropagation();
-	}
-
-	setPan(evt: HammerEvent) {
-		if (this.scale > 1 && evt.pointers.length === 1 && Date.now() - this.lastPinch > 600) {
-			const indicator = this.indicators.display(evt.center.x, evt.center.y, 10);
-			this.indicators.hide(indicator);
-			const limiter = 0.05;
-			this.setPanValue(this.panX + (evt.deltaX * limiter), this.panY + (evt.deltaY * limiter));
-			evt.preventDefault();
+		if (!this.isPanning) {
+			this.clickEvent.emit(draw ? draw.source : undefined);
+			event.stopPropagation();
+		} else {
+			this.updatePanning(event);
+			this.stopPanning();
 		}
 	}
+
+	updatePanning(event: MouseEvent) {
+		const deltaX = event.clientX - this.lastMouseX;
+		const deltaY = event.clientY - this.lastMouseY;
+		const indicator = this.indicators.display(event.clientX, event.clientY, 10);
+		this.indicators.hide(indicator);
+		this.setPanValue(this.panX + deltaX, this.panY + deltaY);
+		this.lastMouseX = event.clientX;
+		this.lastMouseY = event.clientY;
+		this.updateTransform();
+	}
+
+	stopPanning() {
+		this.isPanning = false;
+		this.initialMouseX = 0;
+		this.initialMouseY = 0;
+	}
+
+	// setPan method removed as it's no longer needed with native touch events
 
 	setPanValue(x: number, y: number) {
 		const minX = -this.element.nativeElement.offsetWidth;
