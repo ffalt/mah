@@ -1,4 +1,4 @@
-import { Directive, output, input } from '@angular/core';
+import { Directive, input, output } from '@angular/core';
 
 // Angular Drag and Drop File
 //

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, type OnChanges, SimpleChanges, input, model } from '@angular/core';
+import { ChangeDetectionStrategy, Component, type OnChanges, type SimpleChanges, input, model } from '@angular/core';
 import type { Layout, SafeUrlSVG } from '../../../../model/types';
 
 @Component({

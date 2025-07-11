@@ -228,7 +228,7 @@ async function loadImage(tileSetUrl: string): Promise<HTMLImageElement> {
 			resolve(newImg);
 		};
 		newImg.onerror = () => {
-			reject(`Image ${tileSetUrl} could not be loaded.`);
+			reject(Error(`Image ${tileSetUrl} could not be loaded.`));
 		};
 		newImg.src = tileSetUrl;
 	});

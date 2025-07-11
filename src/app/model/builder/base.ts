@@ -1,6 +1,6 @@
 import type { Mapping } from '../types';
 import type { Tile, Tiles } from '../tiles';
-import { safeGetStone, type Stone } from '../stone';
+import { type Stone, safeGetStone } from '../stone';
 
 export interface BuilderType {
 	build(mapping: Mapping, tiles: Tiles): Array<Stone>;

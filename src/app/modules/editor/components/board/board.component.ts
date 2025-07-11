@@ -1,6 +1,6 @@
-import { Component, OnChanges, OnInit, SimpleChanges, output, input } from '@angular/core';
+import { Component, type OnChanges, type OnInit, type SimpleChanges, input, output } from '@angular/core';
 import { Stone } from '../../../../model/stone';
-import { type Draw, DrawPos, getDrawViewPort, sortDrawItems } from '../../../../model/draw';
+import { type Draw, type DrawPos, getDrawViewPort, sortDrawItems } from '../../../../model/draw';
 import { CONSTS } from '../../../../model/consts';
 import type { Matrix } from '../../model/matrix';
 

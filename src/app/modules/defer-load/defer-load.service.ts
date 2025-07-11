@@ -1,6 +1,6 @@
 import { isPlatformBrowser } from '@angular/common';
-import { EventEmitter, inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { merge, type Observable, Subject } from 'rxjs';
+import { EventEmitter, Injectable, PLATFORM_ID, inject } from '@angular/core';
+import { type Observable, Subject, merge } from 'rxjs';
 import { debounceTime, throttleTime } from 'rxjs/operators';
 import { Rect } from './rect';
 

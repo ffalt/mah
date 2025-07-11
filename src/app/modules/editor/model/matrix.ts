@@ -1,4 +1,4 @@
-import type { Mapping, Place } from '../../../model/types';
+import type { Mapping } from '../../../model/types';
 import { mappingBounds } from '../../../model/mapping';
 
 interface Row extends Array<number> {
@@ -101,12 +101,12 @@ export class Matrix {
 	applyMapping(mapping: Mapping, minLevel: number, minX: number, minY: number) {
 		const bounds = mappingBounds(mapping, minLevel, minX, minY);
 		this.init(bounds.x + 1, bounds.y + 1, bounds.z);
-		mapping.forEach((place: Place) => {
+		for (const place of mapping) {
 			const z = place[0];
 			const x = place[1];
 			const y = place[2];
 			this.setValue(z, x, y, 1);
-		});
+		}
 	}
 
 }

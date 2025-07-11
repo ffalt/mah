@@ -4,10 +4,10 @@ import { LayoutService } from '../../../../service/layout.service';
 import { importLayouts } from '../../model/import';
 
 @Component({
-    selector: 'app-import-component',
-    templateUrl: './import.component.html',
-    styleUrls: ['./import.component.scss'],
-    standalone: false
+	selector: 'app-import-component',
+	templateUrl: './import.component.html',
+	styleUrls: ['./import.component.scss'],
+	standalone: false
 })
 export class ImportComponent {
 	readonly editEvent = output<Layout>();
@@ -28,22 +28,22 @@ export class ImportComponent {
 		for (const file of files) {
 			try {
 				const loadLayouts: Array<LoadLayout> = await importLayouts(file);
-				loadLayouts.forEach(loadLayout => {
+				for (const loadLayout of loadLayouts) {
 					const layout = this.layoutService.expandLayout(loadLayout, true);
 					if (
 						!this.layoutService.layouts.items.find(l => l.id === layout.id) &&
 						!imported.find(l => l.id === layout.id)
 					) {
 						imported.push(LayoutService.layout2loadLayout(layout, loadLayout.map));
-						this.logs.push({msg: `Imported: "${file.name}"`, id: layout.id});
+						this.logs.push({ msg: `Imported: "${file.name}"`, id: layout.id });
 					} else {
 						console.error(`Similar layout to "${layout.name}" already available. Import rejected`);
-						this.logs.push({msg: `Similar layout to "${layout.name}" already available. Import rejected.`, isError: true});
+						this.logs.push({ msg: `Similar layout to "${layout.name}" already available. Import rejected.`, isError: true });
 					}
-				});
+				}
 			} catch (e) {
 				console.error('Error importing', file, e);
-				this.logs.push({msg: `ERROR importing "${file.name}". Invalid file.`, isError: true});
+				this.logs.push({ msg: `ERROR importing "${file.name}". Invalid file.`, isError: true });
 			}
 		}
 		if (imported.length > 0) {

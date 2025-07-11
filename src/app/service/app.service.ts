@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Game } from '../model/game';
 import { DEFAULT_LANGUAGE, LANGUAGES } from '../i18n/languages';
@@ -53,9 +53,9 @@ export class AppService {
 	}
 
 	private setupTranslations(): void {
-		Object.keys(LANGUAGES).forEach(key => {
+		for (const key of Object.keys(LANGUAGES)) {
 			this.translate.setTranslation(key, LANGUAGES[key].data);
-		});
+		}
 		this.translate.setDefaultLang(DEFAULT_LANGUAGE);
 	}
 

@@ -1,4 +1,4 @@
-import { Stone } from './stone';
+import type { Stone } from './stone';
 import type { Tiles } from './tiles';
 import type { Mapping, StoneMapping } from './types';
 import { SolvableBoardBuilder } from './builder/solvable';

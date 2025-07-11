@@ -1,8 +1,8 @@
 import { Board } from './board';
 import { Clock } from './clock';
-import { GAME_MODE_EASY, GAME_MODE_EXPERT, GAME_MODE_ID, GAME_MODE_STANDARD, STATES } from './consts';
-import { Sound, SOUNDS } from './sound';
-import { Stone } from './stone';
+import { GAME_MODE_EASY, GAME_MODE_EXPERT, type GAME_MODE_ID, GAME_MODE_STANDARD, STATES } from './consts';
+import { SOUNDS, Sound } from './sound';
+import type { Stone } from './stone';
 import type { GameStateStore, Layout, StorageProvider } from './types';
 import type { BUILD_MODE_ID } from './builder';
 import { Music } from './music';

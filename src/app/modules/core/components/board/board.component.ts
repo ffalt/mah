@@ -1,6 +1,6 @@
-import { Component, ElementRef, inject, OnChanges, OnInit, SimpleChanges, output, input } from '@angular/core';
+import { Component, ElementRef, type OnChanges, type OnInit, type SimpleChanges, inject, input, output } from '@angular/core';
 import { Backgrounds } from '../../../../model/consts';
-import { calcDrawPos, type Draw, getDrawBounds, getDrawBoundsViewPort, sortDrawItems } from '../../../../model/draw';
+import { type Draw, calcDrawPos, getDrawBounds, getDrawBoundsViewPort, sortDrawItems } from '../../../../model/draw';
 import type { Stone } from '../../../../model/stone';
 import { AppService } from '../../../../service/app.service';
 import { Indicator, IndicatorAnimations } from '../../model/indicator';

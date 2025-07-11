@@ -1,5 +1,5 @@
 import { type BUILD_MODE_ID, Builder, MODE_SOLVABLE } from './builder';
-import { safeGetStone, Stone } from './stone';
+import { Stone, safeGetStone } from './stone';
 import type { Mapping, Place, StoneMapping, StonePlace } from './types';
 import { Tiles } from './tiles';
 import { BuilderBase } from './builder/base';

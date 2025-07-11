@@ -1,4 +1,4 @@
-import { Component, inject, output, model } from '@angular/core';
+import { Component, inject, model, output } from '@angular/core';
 import { type BUILD_MODE_ID, BuilderModes, MODE_SOLVABLE } from '../../model/builder';
 import type { Layout } from '../../model/types';
 import { LayoutService } from '../../service/layout.service';

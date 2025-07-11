@@ -31,7 +31,7 @@ export function generateExportKmahjongg(layout: Layout): string {
 	const matrix = new Matrix();
 	const bounds = mappingBounds(layout.mapping, 0, 0, 0);
 	matrix.init(bounds.x + 1, bounds.y + 1, bounds.z);
-	layout.mapping.forEach(place => {
+	for (const place of layout.mapping) {
 		const z = place[0];
 		const x = place[1];
 		const y = place[2];
@@ -39,7 +39,7 @@ export function generateExportKmahjongg(layout: Layout): string {
 		matrix.setValue(z, x + 1, y, 2);
 		matrix.setValue(z, x, y + 1, 4);
 		matrix.setValue(z, x + 1, y + 1, 3);
-	});
+	}
 	const result: Array<string> = [];
 	result.push('mahjongg-layout-v1.1');
 	result.push(`# name: ${layout.name}`);

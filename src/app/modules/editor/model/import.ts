@@ -116,11 +116,12 @@ export async function convertKyodai(data: string, _: string): Promise<ImportLayo
 
 export function compactMapping(mapping: Mapping): CompactMapping {
 	const board: { [key: number]: { [key: number]: Array<number> } } = {};
-	sortMapping(mapping).forEach(m => {
+	const list = sortMapping(mapping);
+	for (const m of list) {
 		board[m[0]] = board[m[0]] || {};
 		board[m[0]][m[2]] = board[m[0]][m[2]] || [];
 		board[m[0]][m[2]].push(m[1]);
-	});
+	}
 	const result: CompactMapping = [];
 	for (const z of Object.keys(board)) {
 		const rows: Array<CompactMappingY> = [];
@@ -128,7 +129,7 @@ export function compactMapping(mapping: Mapping): CompactMapping {
 			const a: Array<number> = board[Number(z)][Number(y)];
 			const entries: Array<{ start: number; current: number; count: number }> = [];
 			let entry = { start: -1, current: -1, count: 0 };
-			a.forEach(x => {
+			for (const x of a) {
 				if (x !== entry.current) {
 					entry = { start: x, current: x + 2, count: 1 };
 					entries.push(entry);
@@ -136,7 +137,7 @@ export function compactMapping(mapping: Mapping): CompactMapping {
 					entry.current += 2;
 					entry.count++;
 				}
-			});
+			}
 			const cells: CompactMappingX = entries.map(e => {
 				if (e.count === 1) {
 					return e.start;
@@ -182,11 +183,11 @@ export function optimizeMapping(mapping: Mapping): Mapping {
 	let minZ: number = mapping[0][0];
 	let minX: number = mapping[0][1];
 	let minY: number = mapping[0][2];
-	mapping.forEach(p => {
+	for (const p of mapping) {
 		minZ = Math.min(p[0], minZ);
 		minX = Math.min(p[1], minX);
 		minY = Math.min(p[2], minY);
-	});
+	}
 	return mapping.map(p => [p[0] - (minZ || 0), p[1] - (minX || 0), p[2] - (minY || 0)]);
 }
 

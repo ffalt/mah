@@ -1,5 +1,5 @@
-import { StonePosition } from './stone';
-import { Place } from './types';
+import type { StonePosition } from './stone';
+import type { Place } from './types';
 
 /*
 	MIT

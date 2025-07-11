@@ -1,4 +1,4 @@
-import { Component, inject, type OnInit, type OutputRefSubscription, ViewContainerRef, viewChild } from '@angular/core';
+import { Component, type OnInit, type OutputRefSubscription, ViewContainerRef, inject, viewChild } from '@angular/core';
 import { Meta } from '@angular/platform-browser';
 import { environment } from '../environments/environment';
 import { AppService } from './service/app.service';

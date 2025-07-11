@@ -1,12 +1,12 @@
-import { Component, inject, OnChanges, OnDestroy, OnInit, SimpleChanges, model } from '@angular/core';
-import { Place, SafeUrlSVG } from '../../../../model/types';
+import { Component, type OnChanges, type OnDestroy, type OnInit, type SimpleChanges, inject, model } from '@angular/core';
 import { Matrix } from '../../model/matrix';
-import { Cell } from '../../model/cell';
 import { CONSTS } from '../../../../model/consts';
-import type { Stone } from '../../../../model/stone';
 import { WorkerService } from '../../../../service/worker.service';
 import { LayoutService } from '../../../../service/layout.service';
 import { optimizeMapping } from '../../model/import';
+import type { Place, SafeUrlSVG } from '../../../../model/types';
+import type { Cell } from '../../model/cell';
+import type { Stone } from '../../../../model/stone';
 import type { EditLayout } from '../../model/edit-layout';
 
 interface Stats {
@@ -77,7 +77,7 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 			width: 0,
 			depth: 0
 		};
-		layout.mapping.forEach(m => {
+		for (const m of layout.mapping) {
 			if (m[0] < stats.minZ) {
 				stats.minZ = m[0];
 			}
@@ -96,7 +96,7 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 			if (m[2] > stats.maxY) {
 				stats.maxY = m[2];
 			}
-		});
+		}
 		stats.width = (stats.maxX - stats.minX);
 		stats.height = (stats.maxY - stats.minY);
 		stats.depth = (stats.maxZ - stats.minZ);
@@ -162,7 +162,10 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 		if (this.stats.minX + x < 0 || this.stats.maxX + x >= CONSTS.mX - 1) {
 			return;
 		}
-		this.layout().mapping.forEach(m => m[1] = m[1] + x);
+		const mapping = this.layout().mapping;
+		for (const m of mapping) {
+			m[1] = m[1] + x;
+		}
 		this.refresh();
 	}
 
@@ -170,7 +173,10 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 		if (this.stats.minY + y < 0 || this.stats.maxY + y >= CONSTS.mY - 1) {
 			return;
 		}
-		this.layout().mapping.forEach(m => m[2] = m[2] + y);
+		const mapping = this.layout().mapping;
+		for (const m of mapping) {
+			m[2] = m[2] + y;
+		}
 		this.refresh();
 	}
 

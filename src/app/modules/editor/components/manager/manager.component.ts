@@ -1,4 +1,4 @@
-import { Component, inject, type OnChanges, OnDestroy, SimpleChanges, output, input } from '@angular/core';
+import { Component, type OnChanges, type OnDestroy, type SimpleChanges, inject, input, output } from '@angular/core';
 import type { Layout } from '../../../../model/types';
 import { LayoutService } from '../../../../service/layout.service';
 import { WorkerService } from '../../../../service/worker.service';

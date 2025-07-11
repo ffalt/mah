@@ -1,7 +1,7 @@
 import { Component, inject, viewChild } from '@angular/core';
-import { Game } from '../../model/game';
-import { Stone } from '../../model/stone';
-import { Layout, Place } from '../../model/types';
+import type { Game } from '../../model/game';
+import type { Stone } from '../../model/stone';
+import type { Layout, Place } from '../../model/types';
 import { AppService } from '../../service/app.service';
 import type { BUILD_MODE_ID } from '../../model/builder';
 import type { GAME_MODE_ID } from '../../model/consts';

@@ -1,4 +1,4 @@
-import { Component, inject, type OnChanges, SimpleChanges, output, input } from '@angular/core';
+import { Component, type OnChanges, type SimpleChanges, inject, input, output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import type { Layout } from '../../../../model/types';
 import { LocalstorageService } from '../../../../service/localstorage.service';
@@ -44,7 +44,7 @@ export class LayoutListComponent implements OnChanges {
 
 	refresh(): void {
 		const layouts = this.layouts();
-  if (layouts) {
+		if (layouts) {
 			this.buildGroups();
 			let id = this.storage.getLastPlayed();
 			const boardID = this.layoutService.selectBoardID;
@@ -96,11 +96,11 @@ export class LayoutListComponent implements OnChanges {
 
 	select(id?: string): void {
 		if (id) {
-			this.groups.forEach(g => {
-				g.layouts.forEach(layout => {
+			for (const g of this.groups) {
+				for (const layout of g.layouts) {
 					layout.selected = layout.layout.id === id;
-				});
-			});
+				}
+			}
 			this.scrollToItem(id);
 		}
 	}

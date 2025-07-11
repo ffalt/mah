@@ -1,4 +1,4 @@
-import { Component, output, input, model } from '@angular/core';
+import { Component, input, model, output } from '@angular/core';
 
 @Component({
 	selector: 'app-dialog',

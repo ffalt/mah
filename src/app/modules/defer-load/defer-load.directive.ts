@@ -1,4 +1,4 @@
-import { AfterViewInit, Directive, ElementRef, inject, OnDestroy, output, input } from '@angular/core';
+import { type AfterViewInit, Directive, ElementRef, type OnDestroy, inject, input, output } from '@angular/core';
 import type { Subscription } from 'rxjs';
 import { DeferLoadService, type ScrollNotifyEvent } from './defer-load.service';
 import { Rect } from './rect';
@@ -85,11 +85,11 @@ export class DeferLoadDirective implements AfterViewInit, OnDestroy {
 	}
 
 	private checkForIntersection(entries: Array<IntersectionObserverEntry>) {
-		entries.forEach((entry: IntersectionObserverEntry) => {
+		for (const entry of entries) {
 			if (entry.target === this.elementRef.nativeElement) {
 				this.manageIntersection(entry);
 			}
-		});
+		}
 	}
 
 	private checkIfIntersecting(entry: IntersectionObserverEntry): boolean {

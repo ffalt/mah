@@ -1,4 +1,4 @@
-import { Component, inject, output, OnChanges, OnInit, SimpleChanges, input } from '@angular/core';
+import { Component, type OnChanges, type OnInit, type SimpleChanges, inject, input, output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import type { Layout, LoadLayout } from '../../../../model/types';
 import { LayoutService } from '../../../../service/layout.service';

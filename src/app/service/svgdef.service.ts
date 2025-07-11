@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
 import { buildKyodaiSVG, imageSetIsKyodai } from '../modules/core/model/tilesets';
+import { Injectable, inject } from '@angular/core';
 
 interface CacheItem {
 	data?: string;
