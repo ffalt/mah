@@ -39,9 +39,9 @@ export class Board {
 
 	clearHints(): void {
 		if (this.hints.current) {
-			this.hints.current.stones.forEach((stone: Stone) => {
+			for (const stone of this.hints.current.stones) {
 				stone.hinted = false;
-			});
+			}
 		}
 		this.hints = {
 			groups: [],
@@ -72,9 +72,9 @@ export class Board {
 		}
 		const current = groups[0];
 		this.hints = { groups, current };
-		current.stones.forEach((stone: Stone) => {
+		for (const stone of current.stones) {
 			stone.hinted = true;
-		});
+		}
 	}
 
 	reset(): void {
@@ -93,19 +93,19 @@ export class Board {
 	update(): void {
 		const free: Array<Stone> = [];
 		let count = 0;
-		this.stones.forEach((stone: Stone) => {
+		for (const stone of this.stones) {
 			stone.state = {
 				blocked: !stone.picked && stone.isBlocked(),
 				removable: false
 			};
 			count += stone.picked ? 0 : 1;
-		});
-		this.stones.forEach(stone => {
+		}
+		for (const stone of this.stones) {
 			stone.state.removable = !stone.picked && !stone.state.blocked && this.canRemove(stone);
 			if (stone.state.removable) {
 				free.push(stone);
 			}
-		});
+		}
 		this.free = free;
 		this.count = count;
 	}
@@ -121,14 +121,14 @@ export class Board {
 		if (!n1 || !n2) {
 			return;
 		}
-		this.stones.forEach(stone => {
+		for (const stone of this.stones) {
 			if (
 				(stone.z === n1[0]) && (stone.x === n1[1]) && (stone.y === n1[2]) ||
 				(stone.z === n2[0]) && (stone.x === n2[1]) && (stone.y === n2[2])
 			) {
 				stone.picked = false;
 			}
-		});
+		}
 		this.update();
 	}
 
@@ -137,25 +137,25 @@ export class Board {
 		this.clearHints();
 		const mapping: Mapping = [];
 		const tiles = new Tiles(this.stones.length);
-		this.stones.forEach(stone => {
+		for (const stone of this.stones) {
 			if (!stone.picked) {
 				mapping.push([stone.z, stone.x, stone.y]);
 			}
-		});
+		}
 		const builder: Builder = new Builder(tiles);
 		const stones = builder.build(MODE_SOLVABLE, mapping);
 		if (!stones) {
 			return;
 		}
 		const unusedTiles = tiles.list.filter(t => !stones.find(s => s.v === t.v));
-		this.undo.forEach(u => {
+		for (const u of this.undo) {
 			const tile = unusedTiles.shift();
 			if (tile) {
 				const stone = new Stone(u[0], u[1], u[2], tile.v, tile.groupnr);
 				stone.picked = true;
 				stones.push(stone);
 			}
-		});
+		}
 		BuilderBase.fillStones(stones, tiles);
 		this.stones = stones;
 		this.update();
@@ -171,12 +171,12 @@ export class Board {
 		if (!stones) {
 			return;
 		}
-		undos.forEach(undo => {
+		for (const undo of undos) {
 			const stone: Stone | undefined = safeGetStone(stones, undo[0], undo[1], undo[2]);
 			if (stone) {
 				stone.picked = true;
 			}
-		});
+		}
 		this.stones = stones;
 		this.update();
 	}
@@ -203,9 +203,9 @@ export class Board {
 		if (!this.hints.current) {
 			return false;
 		}
-		this.hints.current.stones.forEach((stone: Stone) => {
+		for (const stone of this.hints.current.stones) {
 			stone.hinted = false;
-		});
+		}
 		let i = this.hints.groups.indexOf(this.hints.current);
 		if (i >= 0) {
 			i++;
@@ -214,9 +214,9 @@ export class Board {
 			}
 			if (i < this.hints.groups.length) {
 				this.hints.current = this.hints.groups[i];
-				this.hints.current.stones.forEach(stone => {
+				for (const stone of this.hints.current.stones) {
 					stone.hinted = true;
-				});
+				}
 				return true;
 			}
 		}
@@ -225,11 +225,11 @@ export class Board {
 
 	private collectHints(): Array<StoneGroup> {
 		const hash: { [index: string]: Array<Stone> } = {};
-		this.free.forEach((stone: Stone) => {
+		for (const stone of this.free) {
 			const gn = stone.groupnr.toString();
 			hash[gn] = hash[gn] || [];
 			hash[gn].push(stone);
-		});
+		}
 		return Object.keys(hash).map((key: string) =>
 			({ group: hash[key][0].groupnr, stones: hash[key] }));
 	}

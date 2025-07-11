@@ -1,4 +1,4 @@
-import type { Mapping, Place } from '../types';
+import type { Mapping } from '../types';
 import type { Tile, Tiles } from '../tiles';
 import { Stone } from '../stone';
 import { BuilderBase } from './base';
@@ -8,19 +8,19 @@ export class SolvableBoardBuilder extends BuilderBase {
 	build(mapping: Mapping, tiles: Tiles): Array<Stone> {
 		// Initial a board with all matching faces
 		const stones: Array<Stone> = [];
-		mapping.forEach((st: Place) => {
+		for (const st of mapping) {
 			stones.push(new Stone(st[0], st[1], st[2], 0, 0));
-		});
+		}
 		BuilderBase.fillStones(stones, tiles); // grouping will be repaired later
 		let runs = 1;
 		// Play the board to get a solution until a valid pick is found
 		let pairs = this.solve(stones, tiles);
 		while (pairs.length === 0 && runs < 1000) {
-			stones.forEach((stone: Stone) => {
+			for (const stone of stones) {
 				stone.picked = false;
 				stone.v = 0;
 				stone.groupnr = 0;
-			});
+			}
 			pairs = this.solve(stones, tiles);
 			runs++;
 		}
@@ -28,9 +28,9 @@ export class SolvableBoardBuilder extends BuilderBase {
 			const fallback = new RandomBoardBuilder();
 			return fallback.build(mapping, tiles);
 		}
-		stones.forEach((stone: Stone) => {
+		for (const stone of stones) {
 			stone.picked = false;
-		});
+		}
 		BuilderBase.fillStones(stones, tiles); // repair grouping & images, etc
 		stones.sort((a, b) => a.v - b.v);
 		return stones;

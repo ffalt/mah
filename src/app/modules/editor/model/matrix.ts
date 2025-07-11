@@ -15,11 +15,11 @@ export class Matrix {
 	}
 
 	init(width: number, height: number, levels: number) {
-		const m = new Array(levels);
+		const m: Array<Level> = [];
 		for (let z = 0; z < levels; z++) {
-			m[z] = new Array(width);
+			m[z] = [];
 			for (let x = 0; x < width; x++) {
-				m[z][x] = new Array(height);
+				m[z][x] = [];
 				for (let y = 0; y < height; y++) {
 					m[z][x][y] = 0;
 				}

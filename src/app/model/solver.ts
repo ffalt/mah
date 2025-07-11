@@ -225,7 +225,7 @@ export class Solver {
 				}
 			}
 		}
-		stones.forEach(stone => {
+		for (const stone of stones) {
 			const t: Tile = {
 				left: [undefined, undefined, undefined],
 				right: [undefined, undefined, undefined],
@@ -237,7 +237,7 @@ export class Solver {
 			};
 			this.lo[stone.y][stone.x][stone.z] = t;
 			this.tl.push(t);
-		});
+		}
 
 		this.nTilesCount = stones.length;
 		return this.solve(0, 0);
@@ -289,7 +289,7 @@ export class Solver {
 	// eslint-disable-next-line complexity
 	private initSolve(): void {
 		// clear tile neighbours
-		this.tl.forEach(tlk => {
+		for (const tlk of this.tl) {
 			tlk.left[0] = undefined;
 			tlk.left[1] = undefined;
 			tlk.left[2] = undefined;
@@ -307,7 +307,7 @@ export class Solver {
 			tlk.below[3] = undefined;
 			tlk.below[4] = undefined;
 			tlk.isPlayed = false;
-		});
+		}
 		// compute left and right neighbours
 		for (let row = 0; row < this.maxHeight; row++) {
 			for (let col = 2; col < this.maxWidth; col++) {
@@ -462,30 +462,30 @@ export class Solver {
 							// first two played together,
 							// last two played separate
 							if (qtk0.isPlayed || qtk1.isPlayed || qtk2.isPlayed) {
-								qtk.member.forEach(t => check_free(t as Tile));
+								for (const t of qtk.member) {
+									check_free(t as Tile);
+								}
 								if (qtk0.isPlayed && qtk1.isPlayed && qtk2.isPlayed && qtk3.isPlayed) {
 									qtk.isPlayed = true;
 									nTiles2 -= 2;
 								}
-							} else {
-								if (!qtk0.isPlayed && isPlayable(qtk0)) {
-									if (!qtk1.isPlayed && isPlayable(qtk1)) {
-										play(qtk0, qtk1);
-									} else if (!qtk2.isPlayed && isPlayable(qtk2)) {
-										play(qtk0, qtk2);
-									} else if (!(qtk3.isPlayed) && isPlayable(qtk3)) {
-										play(qtk0, qtk3);
-									}
-								} else if (!qtk1.isPlayed && isPlayable(qtk1)) {
-									if (!qtk2.isPlayed && isPlayable(qtk2)) {
-										play(qtk1, qtk2);
-									} else if (!qtk3.isPlayed && isPlayable(qtk.member[3])) {
-										play(qtk1, qtk3);
-									}
+							} else if (!qtk0.isPlayed && isPlayable(qtk0)) {
+								if (!qtk1.isPlayed && isPlayable(qtk1)) {
+									play(qtk0, qtk1);
 								} else if (!qtk2.isPlayed && isPlayable(qtk2)) {
-									if (!qtk3.isPlayed && isPlayable(qtk3)) {
-										play(qtk2, qtk3);
-									}
+									play(qtk0, qtk2);
+								} else if (!(qtk3.isPlayed) && isPlayable(qtk3)) {
+									play(qtk0, qtk3);
+								}
+							} else if (!qtk1.isPlayed && isPlayable(qtk1)) {
+								if (!qtk2.isPlayed && isPlayable(qtk2)) {
+									play(qtk1, qtk2);
+								} else if (!qtk3.isPlayed && isPlayable(qtk.member[3])) {
+									play(qtk1, qtk3);
+								}
+							} else if (!qtk2.isPlayed && isPlayable(qtk2)) {
+								if (!qtk3.isPlayed && isPlayable(qtk3)) {
+									play(qtk2, qtk3);
 								}
 							}
 							break;
@@ -570,7 +570,7 @@ export class Solver {
 		if (this.prune() > this.remainMax) {
 			return false;
 		}
-		let k;
+		let k: number;
 		// descent left in search tree until on bottom or having found a prune
 		for (k = si; k < this.nGroups; k++) {
 			this.qts[k].pairing = 1;
@@ -600,11 +600,11 @@ export class Solver {
 				}
 				return true;
 			}
-				// search for better solution: redo suresolve with smaller remain_max
-				for (k = si; k < this.nGroups; k++) {
-					this.qts[k].pairing = 0;
-				}
-				return this.sureSolve(si);
+			// search for better solution: redo suresolve with smaller remain_max
+			for (k = si; k < this.nGroups; k++) {
+				this.qts[k].pairing = 0;
+			}
+			return this.sureSolve(si);
 		}
 		// prune found
 		let l = 0;

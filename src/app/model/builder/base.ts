@@ -66,19 +66,19 @@ export abstract class BuilderBase implements BuilderType {
 
 	static fillStones(stones: Array<Stone>, tiles: Tiles): Array<Stone> {
 		const groups: { [index: number]: Array<Stone> } = {};
-		stones.forEach(stone => {
+		for (const stone of stones) {
 			const tile = tiles.list[stone.v];
 			stone.img = tile ? tile.img : { id: undefined };
 			groups[stone.groupnr] = groups[stone.groupnr] || [];
 			groups[stone.groupnr].push(stone);
 			stone.nodes = BuilderBase.collectNodes(stones, stone);
-		});
-		Object.keys(groups).forEach(key => {
+		}
+		for (const key of Object.keys(groups)) {
 			const group: Array<Stone> = groups[Number(key)];
-			group.forEach(stone => {
+			for (const stone of group) {
 				stone.group = group.filter(s => s !== stone);
-			});
-		});
+			}
+		}
 		return stones;
 	}
 
@@ -88,11 +88,11 @@ export abstract class BuilderBase implements BuilderType {
 
 	getTilesInPairs(tiles: Tiles, _amount: number): Array<[Tile, Tile]> {
 		const result: Array<[Tile, Tile]> = [];
-		tiles.groups.forEach(group => {
+		for (const group of tiles.groups) {
 			for (let i = 0; i < group.tiles.length; i += 2) {
 				result.push([group.tiles[i], group.tiles[i + 1]]);
 			}
-		});
+		}
 		return result;
 	}
 }

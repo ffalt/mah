@@ -184,14 +184,16 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 		const list = this.layout().mapping.filter(m => m[0] === this.currentZ);
 		let minx = list[0][1];
 		let maxx = list[0][1];
-		list.forEach(m => {
+		for (const m of list) {
 			minx = Math.min(m[1], minx);
 			maxx = Math.max(m[1], maxx);
-		});
+		}
 		if (minx + deltaX < 0 || maxx + deltaX >= CONSTS.mX - 1) {
 			return;
 		}
-		list.forEach(m => m[1] = m[1] + deltaX);
+		for (const m of list) {
+			m[1] = m[1] + deltaX;
+		}
 		this.refresh();
 	}
 
@@ -199,29 +201,32 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 		const list = this.layout().mapping.filter(m => m[0] === this.currentZ);
 		let miny = list[0][2];
 		let maxy = list[0][2];
-		list.forEach(m => {
+		for (const m of list) {
 			miny = Math.min(m[2], miny);
 			maxy = Math.max(m[2], maxy);
-		});
+		}
 		if (miny + deltaY < 0 || maxy + deltaY >= CONSTS.mY - 1) {
 			return;
 		}
-		list.forEach(m => m[2] = m[2] + deltaY);
+		for (const m of list) {
+			m[2] = m[2] + deltaY;
+		}
 		this.refresh();
 	}
 
 	duplicateLayerZ(layer: number): void {
 		const dups: Array<Place> = [];
-		this.layout().mapping.forEach(m => {
+		const mapping = this.layout().mapping;
+		for (const m of mapping) {
 			if (m[0] > layer) {
 				m[0] = m[0] + 1;
 			} else if (m[0] === layer) {
 				dups.push(m);
 			}
-		});
-		dups.forEach(m => {
-			this.layout().mapping.push([layer + 1, m[1], m[2]]);
-		});
+		}
+		for (const m of dups) {
+			mapping.push([layer + 1, m[1], m[2]]);
+		}
 		this.refresh();
 	}
 
@@ -232,22 +237,23 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 
 	deleteLayerZ(layer: number): void {
 		this.layout().mapping = this.layout().mapping.filter(m => m[0] !== layer);
-		this.layout().mapping.forEach(m => {
+		for (const m of this.layout().mapping) {
 			if (m[0] > layer) {
 				m[0] = m[0] - 1;
 			}
-		});
+		}
 		this.totalZ = Math.max(this.totalZ - 1, 1);
 		this.refresh();
 	}
 
 	newLayerBelow(layer: number): void {
 		this.totalZ += 1;
-		this.layout().mapping.forEach(m => {
+		const mapping = this.layout().mapping;
+		for (const m of mapping) {
 			if (m[0] > layer) {
 				m[0] = m[0] + 1;
 			}
-		});
+		}
 		this.refresh();
 	}
 
@@ -255,13 +261,14 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 		if (layer + deltaZ < 0 || layer + deltaZ >= this.matrix.levels.length) {
 			return;
 		}
-		this.layout().mapping.forEach(m => {
+		const mapping = this.layout().mapping;
+		for (const m of mapping) {
 			if (m[0] === layer) {
 				m[0] = m[0] + deltaZ;
 			} else if (m[0] === layer + deltaZ) {
 				m[0] = layer;
 			}
-		});
+		}
 		if (layer === this.currentZ) {
 			this.currentZ = this.currentZ + deltaZ;
 		}

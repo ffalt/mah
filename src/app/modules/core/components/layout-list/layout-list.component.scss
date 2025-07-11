@@ -56,10 +56,11 @@
 				display: flex;
 				flex-flow: row wrap;
 				justify-content: space-evenly;
+				gap: 4px;
 			}
 
 			.preview {
-				margin-top: 10px;
+				margin-top: 8px;
 				width: 300px;
 				height: 200px;
 				cursor: pointer;

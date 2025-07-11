@@ -108,7 +108,7 @@ export class AppComponent implements OnInit {
 			const result: Array<string> = [];
 			const mah: MahFormat = JSON.parse(atob(base64jsonString));
 			const imported: Array<LoadLayout> = [];
-			mah.boards.forEach(custom => {
+			for (const custom of mah.boards) {
 				const layout = this.layoutService.expandLayout(custom, true);
 				result.push(layout.id);
 				if (
@@ -117,7 +117,7 @@ export class AppComponent implements OnInit {
 				) {
 					imported.push(LayoutService.layout2loadLayout(layout, custom.map));
 				}
-			});
+			}
 			if (imported.length > 0) {
 				this.layoutService.storeCustomBoards(imported);
 			}

@@ -131,11 +131,11 @@ export class Game {
 		try {
 			const store: GameStateStore | undefined = this.storage.getState();
 			if (store?.stones) {
-				this.clock.elapsed = store.elapsed || 0;
+				this.clock.elapsed = store.elapsed ?? 0;
 				this.layoutID = store.layout;
-				this.mode = store.gameMode || GAME_MODE_STANDARD;
-				this.state = store.state || STATES.idle;
-				this.board.load(store.stones, store.undo || []);
+				this.mode = store.gameMode ?? GAME_MODE_STANDARD;
+				this.state = store.state ?? STATES.idle;
+				this.board.load(store.stones, store.undo ?? []);
 				return true;
 			}
 		} catch (e) {
@@ -149,7 +149,7 @@ export class Game {
 			this.storage.storeState({
 				elapsed: this.clock.elapsed,
 				state: this.state,
-				layout: this.layoutID || '',
+				layout: this.layoutID ?? '',
 				gameMode: this.mode,
 				undo: this.board.undo,
 				stones: this.board.save()
@@ -160,18 +160,18 @@ export class Game {
 	}
 
 	private gameOverLoosing(): void {
-		const id = this.layoutID || 'unknown';
-		const score = this.storage.getScore(id) || {};
-		score.playCount = (score.playCount || 0) + 1;
+		const id = this.layoutID ?? 'unknown';
+		const score = this.storage.getScore(id) ?? {};
+		score.playCount = (score.playCount ?? 0) + 1;
 		this.storage.storeScore(id, score);
 		this.gameOver('MSG_FAIL');
 	}
 
 	private gameOverWining(): void {
-		const id = this.layoutID || 'unknown';
+		const id = this.layoutID ?? 'unknown';
 		const playTime = this.clock.elapsed;
-		const score = this.storage.getScore(id) || {};
-		score.playCount = (score.playCount || 0) + 1;
+		const score = this.storage.getScore(id) ?? {};
+		score.playCount = (score.playCount ?? 0) + 1;
 		if (!score.bestTime || score.bestTime > playTime) {
 			score.bestTime = playTime;
 			this.gameOver('MSG_BEST', playTime);

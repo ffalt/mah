@@ -38,11 +38,13 @@ export async function convertMatrix(
 		const matrix = board.slice(z * matrixLength, (z + 1) * matrixLength);
 		for (let y = 0; y < rowCount; y++) {
 			const row = matrix.slice(y * cellCount, (y + 1) * cellCount);
-			row.split('').forEach((cell, x) => {
+			const cells = row.split('');
+			for (let x = 0; x < cells.length; x++) {
+				const cell = cells[x];
 				if (cell === '1') {
 					layout.mapping.push([z, x, y]);
 				}
-			});
+			}
 		}
 	}
 	return layout;

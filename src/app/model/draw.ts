@@ -53,7 +53,7 @@ export function getDrawBoundsViewPort(bounds: Array<number>, _width: number, _he
 			-bounds[3] - CONSTS.tileHeight - 10,
 			-bounds[0] - 30,
 			bounds[3] + CONSTS.tileHeight - 10,
-			bounds[2] + bounds[0] + CONSTS.tileWidth + 40
+			bounds[2] + bounds[0] + CONSTS.tileWidth + 120
 		] :
 		[
 			bounds[0] - 40,
@@ -72,12 +72,12 @@ export function getDrawViewPort(items: Array<Draw>, width: number, height: numbe
 export function getDrawBounds(items: Array<Draw>, width: number, height: number): Array<number> {
 	const m = Math.max(width, height);
 	const bounds = [m, m, 0, 0];
-	items.forEach(draw => {
+	for (const draw of items) {
 		bounds[0] = Math.min(bounds[0], draw.pos.x);
 		bounds[1] = Math.min(bounds[1], draw.pos.y);
 		bounds[2] = Math.max(bounds[2], draw.pos.x);
 		bounds[3] = Math.max(bounds[3], draw.pos.y);
-	});
+	}
 	return bounds;
 }
 

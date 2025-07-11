@@ -16,7 +16,8 @@ describe('ExportComponent', () => {
 			imports: [CoreModule, TranslateModule.forRoot()],
 			providers: [provideHttpClient(), provideHttpClientTesting(), LayoutService]
 		})
-			.compileComponents());
+			.compileComponents()
+	);
 
 	beforeEach(() => {
 		fixture = TestBed.createComponent(ExportComponent);

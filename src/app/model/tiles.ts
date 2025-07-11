@@ -29,12 +29,12 @@ export class Tiles {
 		tilesMapping.forEach((group, groupnr) => {
 			const g: TileGroup = { v: groupnr, tiles: [] };
 			this.groups.push(g);
-			group.forEach(img => {
+			for (const img of group) {
 				v++;
 				const tile = { groupnr, v, img };
 				g.tiles.push(tile);
 				this.list[v] = tile;
-			});
+			}
 		});
 	}
 }

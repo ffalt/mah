@@ -219,9 +219,9 @@ export class GameComponent {
 				(s.z === t2[0]) && (s.x === t2[1]) && (s.y === t2[2]))
 			);
 			if (stones.length > 1) {
-				stones.forEach(stone => {
+				for (const stone of stones) {
 					stone.selected = true;
-				});
+				}
 				setTimeout(() => {
 					this.game.board.pick(stones[0], stones[1]);
 					play(index + 2, list);
