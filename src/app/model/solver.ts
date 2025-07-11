@@ -231,7 +231,7 @@ export class Solver {
 				right: [undefined, undefined, undefined],
 				above: [undefined, undefined, undefined, undefined, undefined],
 				below: [undefined, undefined, undefined, undefined, undefined],
-				value: stone.groupnr,
+				value: stone.groupNr,
 				// If the solver has played the tile already during the routine prune()
 				isPlayed: false
 			};

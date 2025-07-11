@@ -11,7 +11,7 @@ export class RandomBoardBuilder extends BuilderBase {
 		while (remainingPlaces.length > 0) {
 			const tile = BuilderBase.randomExtract(remainingTiles);
 			const place = BuilderBase.randomExtract(remainingPlaces);
-			stones.push(new Stone(place[0], place[1], place[2], tile.v, tile.groupnr));
+			stones.push(new Stone(place[0], place[1], place[2], tile.v, tile.groupNr));
 		}
 		BuilderBase.fillStones(stones, tiles);
 		return stones;

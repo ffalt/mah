@@ -19,7 +19,7 @@ export class SolvableBoardBuilder extends BuilderBase {
 			for (const stone of stones) {
 				stone.picked = false;
 				stone.v = 0;
-				stone.groupnr = 0;
+				stone.groupNr = 0;
 			}
 			pairs = this.solve(stones, tiles);
 			runs++;
@@ -68,11 +68,11 @@ export class SolvableBoardBuilder extends BuilderBase {
 			const place2 = BuilderBase.randomExtract(freestones);
 			place1.v = pair[0].v;
 			place1.img = pair[0].img;
-			place1.groupnr = pair[0].groupnr;
+			place1.groupNr = pair[0].groupNr;
 			place1.picked = true;
 			place2.v = pair[1].v;
 			place2.img = pair[1].img;
-			place2.groupnr = pair[1].groupnr;
+			place2.groupNr = pair[1].groupNr;
 			place2.picked = true;
 			pairs.push(pair);
 		}

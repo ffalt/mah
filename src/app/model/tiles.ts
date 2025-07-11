@@ -2,7 +2,7 @@ import { TILES, TILES_EXT } from './consts';
 
 export interface Tile {
 	v: number;
-	groupnr: number;
+	groupNr: number;
 	img: { id: string };
 }
 
@@ -18,20 +18,20 @@ export class Tiles {
 	constructor(amount: number) {
 		let v = 0;
 		let tilesMapping = TILES.map(row => row.map(id => ({ id })));
-		const groups_needed = Math.ceil(amount / 4);
-		if (groups_needed > tilesMapping.length) {
+		const groupsNeeded = Math.ceil(amount / 4);
+		if (groupsNeeded > tilesMapping.length) {
 			const tilesExtraMapping = TILES_EXT.map(row => row.map(id => ({ id })));
 			tilesMapping = tilesMapping.concat(tilesExtraMapping);
-			while (tilesMapping.length < groups_needed) {
+			while (tilesMapping.length < groupsNeeded) {
 				tilesMapping.push([{ id: `_${tilesMapping.length}a` }, { id: `_${tilesMapping.length}b` }, { id: `_${tilesMapping.length}c` }, { id: `_${tilesMapping.length}d` }]);
 			}
 		}
-		tilesMapping.forEach((group, groupnr) => {
-			const g: TileGroup = { v: groupnr, tiles: [] };
+		tilesMapping.forEach((group, groupNr) => {
+			const g: TileGroup = { v: groupNr, tiles: [] };
 			this.groups.push(g);
 			for (const img of group) {
 				v++;
-				const tile = { groupnr, v, img };
+				const tile: Tile = { groupNr, v, img };
 				g.tiles.push(tile);
 				this.list[v] = tile;
 			}

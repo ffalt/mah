@@ -360,7 +360,7 @@ export class BoardComponent implements OnInit, OnChanges {
 	}
 
 	private setViewPort(): void {
-		this.viewport = getDrawBoundsViewPort(this.bounds, defaultW, defaultH, this.rotate);
+		this.viewport = getDrawBoundsViewPort(this.bounds, this.rotate);
 	}
 
 	private updateStones(stones: Array<Stone>): void {

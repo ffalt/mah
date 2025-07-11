@@ -40,7 +40,7 @@ const expectWinnable = (mode: BUILD_MODE_ID, layout: Layout) => {
 	if (unsolvable.length) {
 		console.log(`Fail "${mode}" "${layout.name}": ${unsolvable.join(',')}`);
 	}
-	expect(unsolvable.length).toBe(0);
+	expect(unsolvable).toHaveLength(0);
 };
 
 describe('builder', () => {

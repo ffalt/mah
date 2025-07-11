@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { buildKyodaiSVG, imageSetIsKyodai } from '../modules/core/model/tilesets';
 import { Injectable, inject } from '@angular/core';
 
-interface CacheItem {
+export interface CacheItem {
 	data?: string;
 	request?: Promise<string>;
 }
@@ -27,17 +27,19 @@ export class SvgdefService {
 		}
 		item = {};
 		const request = new Promise<string>((resolve, reject) => {
-			this.http.get(`assets/svg/${name}.svg`, { responseType: 'text' })
-				.subscribe({
-					next: res => {
-						item.data = res;
-						item.request = undefined;
-						resolve(res);
-					},
-					error: err => {
-						reject(err as Error);
-					}
-				});
+			setTimeout(() => {
+				this.http.get(`assets/svg/${name}.svg`, { responseType: 'text' })
+					.subscribe({
+						next: res => {
+							item.data = res;
+							item.request = undefined;
+							resolve(res);
+						},
+						error: err => {
+							reject(err as Error);
+						}
+					});
+			});
 		});
 		item.request = request;
 		this.cache[name] = item;

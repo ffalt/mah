@@ -135,29 +135,38 @@ export class GameComponent {
 		this.game.click(stone);
 	}
 
-	canFullscreen(): boolean {
-		if (environment.mobile) {
-			return false;
-		}
+	isFullscreenEnabled(): boolean {
 		const doc = window.document as DocEx;
 		return doc.fullscreenEnabled || doc.mozFullscreenEnabled || doc.webkitFullscreenEnabled;
 	}
 
-	enterFullScreen(): void {
-		const doc = window.document as DocEx;
-		if (doc.fullScreen || doc.fullscreen || doc.mozFullScreen || doc.webkitIsFullScreen) {
-			if (doc.exitFullscreen) {
-				doc.exitFullscreen()
-					.catch(e => {
-						console.error(e);
-					});
-			} else if (doc.mozCancelFullScreen) {
-				doc.mozCancelFullScreen();
-			} else if (doc.webkitExitFullscreen) {
-				doc.webkitExitFullscreen();
-			}
-			return;
+	canFullscreen(): boolean {
+		if (environment.mobile) {
+			return false;
 		}
+		return this.isFullscreenEnabled();
+	}
+
+	isFullscreen(): boolean {
+		const doc = window.document as DocEx;
+		return !!(doc.fullScreen || doc.fullscreen || doc.mozFullScreen || doc.webkitIsFullScreen);
+	}
+
+	exitFullscreen(): void {
+		const doc = window.document as DocEx;
+		if (doc.exitFullscreen) {
+			doc.exitFullscreen()
+				.catch(e => {
+					console.error(e);
+				});
+		} else if (doc.mozCancelFullScreen) {
+			doc.mozCancelFullScreen();
+		} else if (doc.webkitExitFullscreen) {
+			doc.webkitExitFullscreen();
+		}
+	}
+
+	requestFullscreen(): void {
 		const elem = document.body as ElemEx;
 		if (elem.requestFullscreen) {
 			elem.requestFullscreen()
@@ -168,6 +177,14 @@ export class GameComponent {
 			elem.webkitRequestFullScreen();
 		} else if (elem.mozRequestFullScreen) {
 			elem.mozRequestFullScreen();
+		}
+	}
+
+	enterFullScreen(): void {
+		if (this.isFullscreen()) {
+			this.exitFullscreen();
+		} else {
+			this.requestFullscreen();
 		}
 	}
 

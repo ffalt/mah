@@ -3,7 +3,7 @@ export interface StonePosition {
 	y: number;
 	z: number;
 	v: number;
-	groupnr: number;
+	groupNr: number;
 }
 
 export class Stone implements StonePosition {
@@ -11,7 +11,7 @@ export class Stone implements StonePosition {
 	y: number;
 	z: number;
 	v: number;
-	groupnr: number;
+	groupNr: number;
 	hinted: boolean;
 	selected: boolean;
 	picked: boolean = false;
@@ -30,16 +30,16 @@ export class Stone implements StonePosition {
 		bottom: Array<Stone>;
 	};
 
-	constructor(z: number, x: number, y: number, v: number, groupnr: number) {
+	constructor(z: number, x: number, y: number, v: number, groupNr: number) {
 		this.z = z;
 		this.x = x;
 		this.y = y;
 		this.v = v;
-		this.groupnr = groupnr;
+		this.groupNr = groupNr;
 	}
 
 	toPosition(): StonePosition {
-		return {z: this.z, x: this.x, y: this.y, v: this.v, groupnr: this.groupnr};
+		return {z: this.z, x: this.x, y: this.y, v: this.v, groupNr: this.groupNr};
 	}
 
 	isBlocked(): boolean {

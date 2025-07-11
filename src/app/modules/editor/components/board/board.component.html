@@ -54,7 +54,7 @@
 		}
 	</g>
 	<g class="stage" [attr.transform]="translate">
-		@for (draw of drawStones; track draw.source.groupnr + '/' + draw.source.v) {
+		@for (draw of drawStones; track draw.source.groupNr + '/' + draw.source.v) {
 			<g class="draw"
 				 [class.selected]="draw.source.selected"
 				 [class.hidden]="draw.source.picked"

@@ -59,7 +59,7 @@ export class Board {
 		}
 		const groups: Array<StoneGroup> = this.collectHints();
 		if (this.selected) {
-			const prefer = this.selected.groupnr;
+			const prefer = this.selected.groupNr;
 			groups.sort((a: StoneGroup, b: StoneGroup) => {
 				if (a.group === prefer) {
 					return -1;
@@ -151,7 +151,7 @@ export class Board {
 		for (const u of this.undo) {
 			const tile = unusedTiles.shift();
 			if (tile) {
-				const stone = new Stone(u[0], u[1], u[2], tile.v, tile.groupnr);
+				const stone = new Stone(u[0], u[1], u[2], tile.v, tile.groupNr);
 				stone.picked = true;
 				stones.push(stone);
 			}
@@ -226,11 +226,11 @@ export class Board {
 	private collectHints(): Array<StoneGroup> {
 		const hash: { [index: string]: Array<Stone> } = {};
 		for (const stone of this.free) {
-			const gn = stone.groupnr.toString();
+			const gn = stone.groupNr.toString();
 			hash[gn] = hash[gn] || [];
 			hash[gn].push(stone);
 		}
 		return Object.keys(hash).map((key: string) =>
-			({ group: hash[key][0].groupnr, stones: hash[key] }));
+			({ group: hash[key][0].groupNr, stones: hash[key] }));
 	}
 }

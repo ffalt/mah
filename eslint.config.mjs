@@ -1,6 +1,7 @@
 import eslint from '@eslint/js';
 import angular from "angular-eslint";
 import ts from "typescript-eslint";
+import pluginJest from "eslint-plugin-jest";
 import globals from "globals";
 
 export default ts.config(
@@ -120,22 +121,36 @@ export default ts.config(
 		languageOptions: {
 			ecmaVersion: 2020,
 			sourceType: "script",
-			globals: {
-				...globals.browser,
-				...globals.jest
-			},
+			globals: pluginJest.environments.globals.globals,
 			parserOptions: {
 				project: ["tsconfig.json", "tsconfig.worker.json"],
 				createDefaultProgram: true
 			}
 		},
+		plugins: { jest: pluginJest },
 		extends: [
 			eslint.configs.recommended,
 			...ts.configs.recommended,
 			...ts.configs.stylistic,
-			...angular.configs.tsRecommended
+			...angular.configs.tsRecommended,
+			pluginJest.configs['flat/recommended']
 		],
 		rules: {
+			'jest/no-disabled-tests': 'warn',
+			'jest/no-focused-tests': 'error',
+			'jest/no-identical-title': 'error',
+			'jest/prefer-to-have-length': 'warn',
+			'jest/valid-expect': 'error',
+			"jest/expect-expect": [
+				"error",
+				{
+					"assertFunctionNames": [
+						"expect", "expectNoBlankTiles", "expectWinnable", "expectNoBlankTiles"
+					],
+					"additionalTestBlockFunctions": []
+				}
+			],
+
 			"arrow-body-style": ["error", "as-needed"],
 			"arrow-parens": ["error", "as-needed"],
 			"brace-style": ["error", "1tbs"],
@@ -165,6 +180,7 @@ export default ts.config(
 			"space-in-parens": ["error", "never"],
 			"yoda": "error",
 
+			"@typescript-eslint/unbound-method": "off",
 			"@typescript-eslint/array-type": ["error", { default: "generic" }],
 			"@typescript-eslint/await-thenable": "error",
 			"@typescript-eslint/ban-ts-comment": "error",
@@ -188,7 +204,6 @@ export default ts.config(
 			"@typescript-eslint/prefer-readonly": "error",
 			"@typescript-eslint/promise-function-async": "error",
 			"@typescript-eslint/restrict-plus-operands": "error",
-			"@typescript-eslint/unbound-method": "error",
 			"@typescript-eslint/no-unused-vars": [
 				"error",
 				{

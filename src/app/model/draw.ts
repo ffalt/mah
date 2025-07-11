@@ -47,7 +47,7 @@ export function sortDrawItems(items: Array<Draw>): Array<Draw> {
 	});
 }
 
-export function getDrawBoundsViewPort(bounds: Array<number>, _width: number, _height: number, rotate: boolean = false): string {
+export function getDrawBoundsViewPort(bounds: Array<number>, rotate: boolean = false): string {
 	const b: Array<number> = rotate ?
 		[
 			-bounds[3] - CONSTS.tileHeight - 10,
@@ -66,7 +66,7 @@ export function getDrawBoundsViewPort(bounds: Array<number>, _width: number, _he
 
 export function getDrawViewPort(items: Array<Draw>, width: number, height: number, rotate: boolean = false): string {
 	const bounds = getDrawBounds(items, width, height);
-	return getDrawBoundsViewPort(bounds, width, height, rotate);
+	return getDrawBoundsViewPort(bounds, rotate);
 }
 
 export function getDrawBounds(items: Array<Draw>, width: number, height: number): Array<number> {
