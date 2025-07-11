@@ -1,4 +1,4 @@
-import { Component, ElementRef, type OnChanges, type OnInit, type SimpleChanges, inject, input, output, HostListener } from '@angular/core';
+import { Component, ElementRef, type OnChanges, type OnInit, type SimpleChanges, inject, input, output } from '@angular/core';
 import { Backgrounds } from '../../../../model/consts';
 import { type Draw, calcDrawPos, getDrawBounds, getDrawBoundsViewPort, sortDrawItems } from '../../../../model/draw';
 import type { Stone } from '../../../../model/stone';
@@ -32,7 +32,11 @@ function clamp(value: number, min: number, max: number): number {
 		'(mousedown)': 'onMouseDown($event)',
 		'(mousemove)': 'onMouseMove($event)',
 		'(mouseup)': 'onMouseUp($event)',
-		'(mouseleave)': 'onMouseUp($event)'
+		'(mouseleave)': 'onMouseUp($event)',
+		'(touchstart)': 'onTouchStart($event)',
+		'(touchmove)': 'onTouchMove($event)',
+		'(touchend)': 'onTouchEnd($event)',
+		'(touchcancel)': 'onTouchEnd($event)'
 	}
 })
 export class BoardComponent implements OnInit, OnChanges {
@@ -70,129 +74,6 @@ export class BoardComponent implements OnInit, OnChanges {
 	private isPinching: boolean = false;
 	app = inject(AppService);
 	element = inject(ElementRef);
-
-	@HostListener('touchstart', ['$event'])
-	onTouchStart(event: TouchEvent): void {
-		event.preventDefault();
-		this.touchPoints = [];
-		const touches = Array.from(event.touches)
-		for (const touch of touches) {
-			this.touchPoints.push({
-				x: touch.clientX,
-				y: touch.clientY,
-				identifier: touch.identifier
-			});
-		}
-
-		if (this.touchPoints.length === 1) {
-			// Potential pan start
-			this.lastTouchX = this.touchPoints[0].x;
-			this.lastTouchY = this.touchPoints[0].y;
-			this.isPanning = true;
-		} else if (this.touchPoints.length === 2) {
-			// Potential pinch start
-			this.isPanning = false;
-			this.isPinching = true;
-			this.initialDistance = this.getDistance(this.touchPoints[0], this.touchPoints[1]);
-			this.initialScale = this.scale;
-
-			// Show pinch indicator
-			const centerX = (this.touchPoints[0].x + this.touchPoints[1].x) / 2;
-			const centerY = (this.touchPoints[0].y + this.touchPoints[1].y) / 2;
-			this.indicators.gestureIndicators = [];
-			this.indicators.display(centerX, centerY, 30);
-			this.lastPinch = Date.now();
-		}
-	}
-
-	@HostListener('touchmove', ['$event'])
-	onTouchMove(event: TouchEvent): void {
-		event.preventDefault();
-		this.touchPoints = [];
-		const touches = Array.from(event.touches)
-		for (const touch of touches) {
-			this.touchPoints.push({
-				x: touch.clientX,
-				y: touch.clientY,
-				identifier: touch.identifier
-			});
-		}
-
-		if (this.isPinching && this.touchPoints.length === 2) {
-			// Handle pinch
-			const currentDistance = this.getDistance(this.touchPoints[0], this.touchPoints[1]);
-			const scale = currentDistance / this.initialDistance;
-			// Update indicator size
-			this.indicators.setSize(0, Math.min(30 * scale, 80));
-			this.lastPinch = Date.now();
-		} else if (this.isPanning && this.touchPoints.length === 1 && this.scale > 1 && Date.now() - this.lastPinch > 600) {
-			// Handle pan
-			const deltaX = this.touchPoints[0].x - this.lastTouchX;
-			const deltaY = this.touchPoints[0].y - this.lastTouchY;
-
-			const indicator = this.indicators.display(this.touchPoints[0].x, this.touchPoints[0].y, 10);
-			this.indicators.hide(indicator);
-
-			this.setPanValue(this.panX + deltaX, this.panY + deltaY);
-
-			this.lastTouchX = this.touchPoints[0].x;
-			this.lastTouchY = this.touchPoints[0].y;
-		}
-	}
-
-	@HostListener('touchend', ['$event'])
-	@HostListener('touchcancel', ['$event'])
-	onTouchEnd(event: TouchEvent): void {
-		event.preventDefault();
-
-		if (this.isPinching) {
-			// Handle pinch end
-			this.indicators.hide(this.indicators.gestureIndicators[0]);
-
-			if (this.touchPoints.length === 2) {
-				const currentDistance = this.getDistance(this.touchPoints[0], this.touchPoints[1]);
-				const scale = currentDistance / this.initialDistance;
-
-				let newScale = this.initialScale;
-				if (scale > 1.1) {
-					newScale = this.initialScale + scale;
-				} else if (scale < 0.9) {
-					newScale = this.initialScale * scale;
-				}
-
-				// Center of the pinch
-				const centerX = (this.touchPoints[0].x + this.touchPoints[1].x) / 2;
-				const centerY = (this.touchPoints[0].y + this.touchPoints[1].y) / 2;
-
-				this.zoomSVGValue(newScale, centerX, centerY);
-			}
-
-			this.isPinching = false;
-			this.lastPinch = Date.now();
-		} else if (this.isPanning) {
-			// Handle pan end
-			this.updateTransform();
-			this.isPanning = false;
-		}
-
-		// Update touch points
-		this.touchPoints = [];
-		const touches = Array.from(event.touches)
-		for (const touch of touches) {
-			this.touchPoints.push({
-				x: touch.clientX,
-				y: touch.clientY,
-				identifier: touch.identifier
-			});
-		}
-	}
-
-	// Helper method to calculate distance between two touch points
-	private getDistance(p1: TouchPoint, p2: TouchPoint): number {
-		const dx = p2.x - p1.x;
-		const dy = p2.y - p1.y;
-		return Math.sqrt(dx * dx + dy * dy);
-	}
 
 	ngOnInit(): void {
 		this.resize(window);
@@ -284,6 +165,118 @@ export class BoardComponent implements OnInit, OnChanges {
 		}
 	}
 
+	onTouchStart(event: TouchEvent): void {
+		event.preventDefault();
+		this.touchPoints = [];
+		const touches = Array.from(event.touches)
+		for (const touch of touches) {
+			this.touchPoints.push({
+				x: touch.clientX,
+				y: touch.clientY,
+				identifier: touch.identifier
+			});
+		}
+
+		if (this.touchPoints.length === 1) {
+			// Potential pan start
+			this.lastTouchX = this.touchPoints[0].x;
+			this.lastTouchY = this.touchPoints[0].y;
+			this.isPanning = true;
+		} else if (this.touchPoints.length === 2) {
+			// Potential pinch start
+			this.isPanning = false;
+			this.isPinching = true;
+			this.initialDistance = this.getDistance(this.touchPoints[0], this.touchPoints[1]);
+			this.initialScale = this.scale;
+
+			// Show pinch indicator
+			const centerX = (this.touchPoints[0].x + this.touchPoints[1].x) / 2;
+			const centerY = (this.touchPoints[0].y + this.touchPoints[1].y) / 2;
+			this.indicators.gestureIndicators = [];
+			this.indicators.display(centerX, centerY, 30);
+			this.lastPinch = Date.now();
+		}
+	}
+
+	onTouchMove(event: TouchEvent): void {
+		event.preventDefault();
+		this.touchPoints = [];
+		const touches = Array.from(event.touches)
+		for (const touch of touches) {
+			this.touchPoints.push({
+				x: touch.clientX,
+				y: touch.clientY,
+				identifier: touch.identifier
+			});
+		}
+
+		if (this.isPinching && this.touchPoints.length === 2) {
+			// Handle pinch
+			const currentDistance = this.getDistance(this.touchPoints[0], this.touchPoints[1]);
+			const scale = currentDistance / this.initialDistance;
+			// Update indicator size
+			this.indicators.setSize(0, Math.min(30 * scale, 80));
+			this.lastPinch = Date.now();
+		} else if (this.isPanning && this.touchPoints.length === 1 && this.scale > 1 && Date.now() - this.lastPinch > 600) {
+			// Handle pan
+			const deltaX = this.touchPoints[0].x - this.lastTouchX;
+			const deltaY = this.touchPoints[0].y - this.lastTouchY;
+
+			const indicator = this.indicators.display(this.touchPoints[0].x, this.touchPoints[0].y, 10);
+			this.indicators.hide(indicator);
+
+			this.setPanValue(this.panX + deltaX, this.panY + deltaY);
+
+			this.lastTouchX = this.touchPoints[0].x;
+			this.lastTouchY = this.touchPoints[0].y;
+		}
+	}
+
+	onTouchEnd(event: TouchEvent): void {
+		event.preventDefault();
+
+		if (this.isPinching) {
+			// Handle pinch end
+			this.indicators.hide(this.indicators.gestureIndicators[0]);
+
+			if (this.touchPoints.length === 2) {
+				const currentDistance = this.getDistance(this.touchPoints[0], this.touchPoints[1]);
+				const scale = currentDistance / this.initialDistance;
+
+				let newScale = this.initialScale;
+				if (scale > 1.1) {
+					newScale = this.initialScale + scale;
+				} else if (scale < 0.9) {
+					newScale = this.initialScale * scale;
+				}
+
+				// Center of the pinch
+				const centerX = (this.touchPoints[0].x + this.touchPoints[1].x) / 2;
+				const centerY = (this.touchPoints[0].y + this.touchPoints[1].y) / 2;
+
+				this.zoomSVGValue(newScale, centerX, centerY);
+			}
+
+			this.isPinching = false;
+			this.lastPinch = Date.now();
+		} else if (this.isPanning) {
+			// Handle pan end
+			this.updateTransform();
+			this.isPanning = false;
+		}
+
+		// Update touch points
+		this.touchPoints = [];
+		const touches = Array.from(event.touches)
+		for (const touch of touches) {
+			this.touchPoints.push({
+				x: touch.clientX,
+				y: touch.clientY,
+				identifier: touch.identifier
+			});
+		}
+	}
+
 	updatePanning(event: MouseEvent) {
 		const deltaX = event.clientX - this.lastMouseX;
 		const deltaY = event.clientY - this.lastMouseY;
@@ -300,8 +293,6 @@ export class BoardComponent implements OnInit, OnChanges {
 		this.initialMouseX = 0;
 		this.initialMouseY = 0;
 	}
-
-	// setPan method removed as it's no longer needed with native touch events
 
 	setPanValue(x: number, y: number) {
 		const minX = -this.element.nativeElement.offsetWidth;
@@ -347,6 +338,13 @@ export class BoardComponent implements OnInit, OnChanges {
 		const scaling = this.scale > 1 ? ` scale(${this.scale})` : '';
 		this.transformSVG = `translate(${this.panX}px, ${this.panY}px)${scaling}`;
 		this.transformStage = this.rotate ? 'rotate(90)' : '';
+	}
+
+	// Helper method to calculate distance between two touch points
+	private getDistance(p1: TouchPoint, p2: TouchPoint): number {
+		const dx = p2.x - p1.x;
+		const dy = p2.y - p1.y;
+		return Math.sqrt(dx * dx + dy * dy);
 	}
 
 	private resize(element: { innerHeight: number; innerWidth: number }): void {
