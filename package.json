@@ -42,7 +42,6 @@
     "@angular/platform-browser-dynamic": "20.0.5",
     "@angular/platform-server": "20.0.5",
     "@ngx-translate/core": "16.0.4",
-    "hammerjs": "2.0.8",
     "rxjs": "7.8.2",
     "zone.js": "0.15.1"
   },
@@ -53,7 +52,6 @@
     "@angular/compiler-cli": "20.0.5",
     "@angular/language-service": "20.0.5",
     "@eslint/js": "9.30.1",
-    "@types/hammerjs": "2.0.46",
     "@types/jest": "29.5.14",
     "@types/node": "24.0.7",
 		"@types/webpack": "5.28.5",
@@ -74,7 +72,7 @@
 		"webpack": "5.99.9"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=22"
   },
   "contributors": [
     {
