@@ -6,8 +6,8 @@ import { Settings } from '../model/settings';
 import { LocalstorageService } from './localstorage.service';
 import { DEFAULT_LANGUAGE, LANGUAGES } from '../i18n/languages';
 import { LangAuto } from '../model/consts';
-import { Sound } from '../model/sound';
-import { Music } from '../model/music';
+import type { Sound } from '../model/sound';
+import type { Music } from '../model/music';
 
 // Mock modules
 jest.mock('../model/game');

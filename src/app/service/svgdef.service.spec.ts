@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClient } from '@angular/common/http';
-import { CacheItem, SvgdefService } from './svgdef.service';
+import { type CacheItem, SvgdefService } from './svgdef.service';
 import { of, throwError } from 'rxjs';
 import * as tilesets from '../model/tilesets';
 

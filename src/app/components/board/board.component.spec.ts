@@ -105,8 +105,8 @@ describe('BoardComponent', () => {
 		it('should render SVG element with correct attributes', () => {
 			const svgElement = fixture.debugElement.query(By.css('svg.board-svg'));
 			expect(svgElement).toBeTruthy();
-			expect(svgElement.attributes['preserveAspectRatio']).toBe('xMidYMid meet');
-			expect(svgElement.attributes['viewBox']).toBe(component.viewport);
+			expect(svgElement.attributes.preserveAspectRatio).toBe('xMidYMid meet');
+			expect(svgElement.attributes.viewBox).toBe(component.viewport);
 		});
 
 		it('should render stones when provided', () => {

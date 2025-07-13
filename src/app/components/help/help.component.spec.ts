@@ -94,7 +94,7 @@ describe('HelpComponent', () => {
 			.filter(item => item.shortcut.icon);
 
 		// Check that shortcuts with icons have the correct icon elements
-		shortcutsWithIcons.forEach(({ shortcut, index }) => {
+		for (const { shortcut, index } of shortcutsWithIcons) {
 			const shortcutElement = shortcutItems[index];
 			const keyElement = shortcutElement.query(By.css('.key'));
 			expect(keyElement.nativeElement.textContent).toBe(shortcut.key);
@@ -102,7 +102,7 @@ describe('HelpComponent', () => {
 			const iconElement = shortcutElement.query(By.css('i'));
 			expect(iconElement).toBeTruthy();
 			expect(iconElement.nativeElement.className).toContain(shortcut.icon);
-		});
+		}
 	});
 
 	it('should render shortcuts with emoji correctly', () => {
@@ -115,7 +115,7 @@ describe('HelpComponent', () => {
 			.filter(item => !item.shortcut.icon);
 
 		// Check that shortcuts without icons have the correct emoji elements
-		shortcutsWithEmoji.forEach(({ shortcut, index }) => {
+		for (const { shortcut, index } of shortcutsWithEmoji) {
 			const shortcutElement = shortcutItems[index];
 			const keyElement = shortcutElement.query(By.css('.key'));
 			expect(keyElement.nativeElement.textContent).toBe(shortcut.key);
@@ -123,7 +123,7 @@ describe('HelpComponent', () => {
 			const emojiElement = shortcutElement.query(By.css('.icon'));
 			expect(emojiElement).toBeTruthy();
 			expect(emojiElement.nativeElement.textContent).toBe('🀄️');
-		});
+		}
 	});
 
 	it('should render the last shortcut (Help) with emoji instead of icon', () => {

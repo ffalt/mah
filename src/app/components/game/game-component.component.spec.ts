@@ -8,7 +8,7 @@ import { GameComponent } from './game-component.component';
 import { By } from '@angular/platform-browser';
 import { WorkerService } from '../../service/worker.service';
 import { GAME_MODE_EASY } from '../../model/consts';
-import { BUILD_MODE_ID, MODE_SOLVABLE } from '../../model/builder';
+import { type BUILD_MODE_ID, MODE_SOLVABLE } from '../../model/builder';
 import { environment } from '../../../environments/environment';
 import { Stone } from '../../model/stone';
 

@@ -93,7 +93,7 @@ describe('TilesInfoComponent', () => {
 		it('should render checkbox for dark mode', () => {
 			const checkbox = fixture.debugElement.query(By.css('input[type="checkbox"]'));
 			expect(checkbox).toBeTruthy();
-			expect(checkbox.properties['checked']).toBe(component.isDark);
+			expect(checkbox.properties.checked).toBe(component.isDark);
 		});
 
 		it('should render Wikipedia reference link', () => {
