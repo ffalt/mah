@@ -1,26 +1,24 @@
-import type { CompactMapping, CompactMappingX, CompactMappingY, Mapping } from './types';
+import type { CompactMapping, Mapping } from './types';
 
 export function expandMapping(map: CompactMapping): Mapping {
 	const result: Mapping = [];
-	for (const matrix of map) {
-		const z = matrix[0] as number;
-		const rows = matrix[1] as Array<CompactMappingY>;
-		for (const row of rows) {
-			const y = row[0] as number;
-			const cells = row[1] as CompactMappingX;
+	for (const [z, rows] of map) {
+		for (const [y, cells] of rows) {
+			// Handle single cell case
 			if (!Array.isArray(cells)) {
 				result.push([z, cells, y]);
-			} else {
-				for (const cell of cells) {
-					if (Array.isArray(cell)) {
-						let x = cell[0];
-						const count = cell[1];
-						for (let i = 0; i < count; i++) {
-							result.push([z, x, y]);
-							x += 2;
-						}
-					} else {
-						result.push([z, cell, y]);
+				continue;
+			}
+			// Handle array of cells
+			for (const cell of cells) {
+				if (!Array.isArray(cell)) {
+					// Simple cell
+					result.push([z, cell, y]);
+				} else {
+					// Repeated cells with pattern [startX, count]
+					const [startX, count] = cell;
+					for (let i = 0, x = startX; i < count; i++, x += 2) {
+						result.push([z, x, y]);
 					}
 				}
 			}

@@ -16,7 +16,7 @@ Object.defineProperty(document.body.style, 'transform', {
 	})
 });
 
-const mock = () => {
+const mockBrowser = () => {
 	const storage = new Map<string, unknown>();
 	return {
 		getItem: (key: string) => storage.get(key),
@@ -25,8 +25,8 @@ const mock = () => {
 		clear: () => (storage.clear())
 	};
 };
-Object.defineProperty(window, 'localStorage', {value: mock()});
-Object.defineProperty(window, 'sessionStorage', {value: mock()});
+Object.defineProperty(window, 'localStorage', {value: mockBrowser()});
+Object.defineProperty(window, 'sessionStorage', {value: mockBrowser()});
 
 jest.mock('./src/app/worker/create-stats-solve.worker.ts', () => ({
 	createStatsSolveWorker: () => {

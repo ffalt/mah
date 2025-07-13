@@ -9,6 +9,7 @@ export default ts.config(
 		ignores: [
 			"**/dist/**/*",
 			"**/local/**/*",
+			"**/coverage/**/*",
 			"**/resources/mobile/**/*"
 		]
 	},

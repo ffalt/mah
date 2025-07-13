@@ -3,32 +3,18 @@ import type { GAME_MODE_ID } from './consts';
 export type SafeUrlSVG = string;
 
 // [x, [x, amount (with 2 steps each) ]]
-export interface CompactMappingX extends Array<number | Array<number>> {
-}
-
-// [y, [SuperCompactMappingX]]
-export interface CompactMappingY extends Array<number | CompactMappingX> {
-}
-
-// [z, [SuperCompactMappingY]]
-export interface CompactMappingZ extends Array<number | Array<CompactMappingY>> {
-}
-
-// [SuperCompactMappingZ]
-export interface CompactMapping extends Array<CompactMappingZ> {
-}
+export type CompactMappingX = number | Array<number | Array<number>>;
+export type CompactMappingY = [number, CompactMappingX];
+export type CompactMappingZ = [number, Array<CompactMappingY>];
+export type CompactMapping = Array<CompactMappingZ>;
 
 // [z, x, y]
 export type Place = [number, number, number];
-
-export interface Mapping extends Array<Place> {
-}
+export type Mapping = Array<Place>;
 
 // [z, x, y, value]
 export type StonePlace = [number, number, number, number];
-
-export interface StoneMapping extends Array<StonePlace> {
-}
+export type StoneMapping = Array<StonePlace>;
 
 export interface Layout {
 	id: string;
@@ -71,10 +57,15 @@ export interface LayoutScoreStore {
 
 export interface StorageProvider {
 	getScore(id: string): LayoutScoreStore | undefined;
+
 	getSettings(): SettingsStore | undefined;
+
 	getState(): GameStateStore | undefined;
+
 	storeScore(id: string, store?: LayoutScoreStore): void;
+
 	storeSettings(store?: SettingsStore): void;
+
 	storeState(store?: GameStateStore): void;
 }
 
