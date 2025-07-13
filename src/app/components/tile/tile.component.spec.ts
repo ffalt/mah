@@ -3,7 +3,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { SvgdefService } from '../../service/svgdef.service';
-import { CoreModule } from '../../modules/core/core.module';
 import { TileComponent } from './tile.component';
 import { By } from '@angular/platform-browser';
 
@@ -13,8 +12,7 @@ describe('TileComponent', () => {
 
 	beforeEach(async () =>
 		TestBed.configureTestingModule({
-			declarations: [TileComponent],
-			imports: [CoreModule, TranslateModule.forRoot()],
+			imports: [TileComponent, TranslateModule.forRoot()],
 			providers: [provideHttpClient(), provideHttpClientTesting(), SvgdefService]
 		})
 			.compileComponents());

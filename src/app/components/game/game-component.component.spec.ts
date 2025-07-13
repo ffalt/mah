@@ -4,7 +4,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { provideHttpClient } from '@angular/common/http';
 import { AppService } from '../../service/app.service';
 import { SvgdefService } from '../../service/svgdef.service';
-import { CoreModule } from '../../modules/core/core.module';
 import { GameComponent } from './game-component.component';
 import { By } from '@angular/platform-browser';
 import { WorkerService } from '../../service/worker.service';
@@ -20,10 +19,7 @@ describe('GameComponent', () => {
 
 	beforeEach(async () =>
 		TestBed.configureTestingModule({
-			declarations: [
-				GameComponent
-			],
-			imports: [CoreModule, TranslateModule.forRoot()],
+			imports: [GameComponent, TranslateModule.forRoot()],
 			providers: [provideHttpClient(), provideHttpClientTesting(), SvgdefService, AppService, WorkerService]
 		})
 			.compileComponents());

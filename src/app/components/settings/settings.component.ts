@@ -1,18 +1,18 @@
 import { Component, type ElementRef, inject, viewChild } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { Backgrounds, ImageSets, Themes } from '../../model/consts';
 import { AppService } from '../../service/app.service';
 import { LayoutService } from '../../service/layout.service';
 import { LocalstorageService } from '../../service/localstorage.service';
 import { LANGUAGE_TITLES } from '../../i18n/languages';
-import { KyodaiTileSets } from '../../modules/core/model/tilesets';
+import { KyodaiTileSets } from '../../model/tilesets';
 import { environment } from '../../../environments/environment';
 
 @Component({
-	selector: 'app-settings',
-	templateUrl: './settings.component.html',
-	styleUrls: ['./settings.component.scss'],
-	standalone: false
+    selector: 'app-settings',
+    templateUrl: './settings.component.html',
+    styleUrls: ['./settings.component.scss'],
+    imports: [TranslatePipe]
 })
 export class SettingsComponent {
 	readonly kyodaiInput = viewChild.required<ElementRef<HTMLInputElement>>('kyodaiInput');

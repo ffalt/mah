@@ -2,12 +2,14 @@ import { Component, type OnChanges, type OnDestroy, type SimpleChanges, inject, 
 import type { Layout } from '../../../../model/types';
 import { LayoutService } from '../../../../service/layout.service';
 import { WorkerService } from '../../../../service/worker.service';
+import { LayoutPreviewComponent } from '../../../../components/layout-preview/layout-preview.component';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
 	selector: 'app-manager-component',
 	templateUrl: './manager.component.html',
 	styleUrls: ['./manager.component.scss'],
-	standalone: false
+	imports: [LayoutPreviewComponent, TranslatePipe]
 })
 export class ManagerComponent implements OnChanges, OnDestroy {
 	readonly inputLayouts = input<Array<Layout>>();

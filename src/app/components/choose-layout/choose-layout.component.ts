@@ -4,12 +4,14 @@ import type { Layout } from '../../model/types';
 import { LayoutService } from '../../service/layout.service';
 import { LocalstorageService } from '../../service/localstorage.service';
 import { type GAME_MODE_ID, GameModes } from '../../model/consts';
+import { TranslatePipe } from '@ngx-translate/core';
+import { LayoutListComponent } from '../layout-list/layout-list.component';
 
 @Component({
-	selector: 'app-choose-layout',
-	templateUrl: './choose-layout.component.html',
-	styleUrls: ['./choose-layout.component.scss'],
-	standalone: false
+    selector: 'app-choose-layout',
+    templateUrl: './choose-layout.component.html',
+    styleUrls: ['./choose-layout.component.scss'],
+    imports: [LayoutListComponent, TranslatePipe]
 })
 export class ChooseLayoutComponent {
 	readonly startEvent = output<{

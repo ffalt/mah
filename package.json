@@ -63,7 +63,6 @@
     "globals": "16.3.0",
     "jest": "29.7.0",
     "jest-preset-angular": "14.6.0",
-    "ng-mocks": "14.13.5",
     "rimraf": "6.0.1",
     "source-map-explorer": "2.5.3",
     "stylelint": "16.21.1",

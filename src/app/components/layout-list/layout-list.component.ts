@@ -1,8 +1,12 @@
 import { Component, type OnChanges, type SimpleChanges, inject, input, output } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import type { Layout } from '../../../../model/types';
-import { LocalstorageService } from '../../../../service/localstorage.service';
-import { LayoutService } from '../../../../service/layout.service';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import type { Layout } from '../../model/types';
+import { LocalstorageService } from '../../service/localstorage.service';
+import { LayoutService } from '../../service/layout.service';
+import { LayoutPreviewComponent } from '../layout-preview/layout-preview.component';
+import { DurationPipe } from '../../pipes/duration.pipe';
+import { DeferLoadScrollHostDirective } from '../../directives/defer-load/defer-load-scroll-host.directive';
+import { DeferLoadDirective } from '../../directives/defer-load/defer-load.directive';
 
 export interface LayoutItem {
 	layout: Layout;
@@ -22,7 +26,7 @@ export interface LayoutGroup {
 	selector: 'app-layout-list',
 	templateUrl: './layout-list.component.html',
 	styleUrls: ['./layout-list.component.scss'],
-	standalone: false
+	imports: [LayoutPreviewComponent, DurationPipe, TranslatePipe, DeferLoadScrollHostDirective, DeferLoadDirective]
 })
 export class LayoutListComponent implements OnChanges {
 	readonly layouts = input<Array<Layout>>();

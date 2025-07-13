@@ -5,8 +5,7 @@ function pad(num: number): string {
 }
 
 @Pipe({
-    name: 'duration',
-    standalone: false
+	name: 'duration'
 })
 export class DurationPipe implements PipeTransform {
 	transform(value: number): string {
@@ -17,7 +16,7 @@ export class DurationPipe implements PipeTransform {
 		const hours = Math.floor(secNum / 3600);
 		const minutes = Math.floor((secNum - (hours * 3600)) / 60);
 		const seconds = secNum - (hours * 3600) - (minutes * 60);
-		const hoursS = (hours > 0) ? `${pad(hours)  }:` : '';
+		const hoursS = (hours > 0) ? `${pad(hours)}:` : '';
 		return `${hoursS}${pad(minutes)}:${pad(seconds)}`;
 	}
 }

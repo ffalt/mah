@@ -1,12 +1,11 @@
 import { Component, ElementRef, type OnChanges, type SimpleChanges, inject, input } from '@angular/core';
-import { SvgdefService } from '../../../../service/svgdef.service';
-import { TILES } from '../../../../model/consts';
+import { SvgdefService } from '../../service/svgdef.service';
+import { TILES } from '../../model/consts';
 import { svg_error_icon, svg_spinner_icon } from './svg';
 
 @Component({
 	selector: '[app-image-set-loader]',
-	template: '<svg:defs></svg:defs>',
-	standalone: false
+	template: '<svg:defs></svg:defs>'
 })
 export class ImageSetLoaderComponent implements OnChanges {
 	readonly imageSet = input<string>();

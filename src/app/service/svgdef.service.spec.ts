@@ -2,10 +2,10 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClient } from '@angular/common/http';
 import { CacheItem, SvgdefService } from './svgdef.service';
 import { of, throwError } from 'rxjs';
-import * as tilesets from '../modules/core/model/tilesets';
+import * as tilesets from '../model/tilesets';
 
 // Mock the tilesets module
-jest.mock('../modules/core/model/tilesets', () => ({
+jest.mock('../model/tilesets', () => ({
 	imageSetIsKyodai: jest.fn(),
 	buildKyodaiSVG: jest.fn()
 }));

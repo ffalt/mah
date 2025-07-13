@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-help',
     templateUrl: './help.component.html',
     styleUrls: ['./help.component.scss'],
-    standalone: false
+    imports: [TranslatePipe]
 })
 export class HelpComponent {
 	shortcuts = [

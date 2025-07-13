@@ -2,7 +2,6 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { provideHttpClient } from '@angular/common/http';
-import { CoreModule } from '../../../core/core.module';
 import { LayoutService } from '../../../../service/layout.service';
 import { WorkerService } from '../../../../service/worker.service';
 import { ManagerComponent } from './manager.component';
@@ -13,8 +12,7 @@ describe('ManagerComponent', () => {
 
 	beforeEach(async () =>
 		TestBed.configureTestingModule({
-			declarations: [ManagerComponent],
-			imports: [CoreModule, TranslateModule.forRoot()],
+			imports: [ManagerComponent, TranslateModule.forRoot()],
 			providers: [provideHttpClient(), provideHttpClientTesting(), LayoutService, WorkerService]
 		})
 			.compileComponents());

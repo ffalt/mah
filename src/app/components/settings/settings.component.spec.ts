@@ -8,7 +8,7 @@ import { SettingsComponent } from './settings.component';
 import { By } from '@angular/platform-browser';
 import { LocalstorageService } from '../../service/localstorage.service';
 import { Backgrounds, ImageSets, Themes } from '../../model/consts';
-import { KyodaiTileSets } from '../../modules/core/model/tilesets';
+import { KyodaiTileSets } from '../../model/tilesets';
 import { environment } from '../../../environments/environment';
 import { ElementRef } from '@angular/core';
 
@@ -19,8 +19,7 @@ describe('SettingsComponent', () => {
 
 	beforeEach(async () =>
 		TestBed.configureTestingModule({
-			declarations: [SettingsComponent],
-			imports: [TranslateModule.forRoot()],
+			imports: [SettingsComponent, TranslateModule.forRoot()],
 			providers: [provideHttpClient(), provideHttpClientTesting(), AppService, LayoutService, LocalstorageService]
 		})
 			.compileComponents());

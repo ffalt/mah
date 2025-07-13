@@ -1,5 +1,5 @@
 import { GameModeEasyPipe, GameModeStandardPipe } from './game-mode.pipe';
-import { GAME_MODE_EASY, GAME_MODE_STANDARD, GAME_MODE_EXPERT } from '../../../model/consts';
+import { GAME_MODE_EASY, GAME_MODE_STANDARD, GAME_MODE_EXPERT } from '../model/consts';
 
 describe('GameModeEasyPipe', () => {
   it('create an instance', () => {

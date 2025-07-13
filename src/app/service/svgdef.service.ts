@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { buildKyodaiSVG, imageSetIsKyodai } from '../modules/core/model/tilesets';
+import { buildKyodaiSVG, imageSetIsKyodai } from '../model/tilesets';
 import { Injectable, inject } from '@angular/core';
 
 export interface CacheItem {

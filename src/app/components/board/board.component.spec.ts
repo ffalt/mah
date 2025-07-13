@@ -1,14 +1,13 @@
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
-import { MockComponent } from 'ng-mocks';
 import { TranslateModule } from '@ngx-translate/core';
-import { PrefixPipe } from '../../pipes/prefix.pipe';
-import { ImageSetLoaderComponent } from '../image-set-loader/image-set-loader.component';
-import { SvgdefService } from '../../../../service/svgdef.service';
-import { AppService } from '../../../../service/app.service';
+import { SvgdefService } from '../../service/svgdef.service';
+import { AppService } from '../../service/app.service';
 import { BoardComponent } from './board.component';
 import { By } from '@angular/platform-browser';
-import { Stone } from '../../../../model/stone';
-import { Backgrounds } from '../../../../model/consts';
+import { Stone } from '../../model/stone';
+import { Backgrounds } from '../../model/consts';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 interface HackBoardComponent {
 	resize(element: { innerHeight: number; innerWidth: number }): void;
@@ -21,10 +20,8 @@ describe('BoardComponent', () => {
 
 	beforeEach(async () =>
 		TestBed.configureTestingModule({
-			declarations: [BoardComponent, PrefixPipe, MockComponent(ImageSetLoaderComponent)
-			],
-			imports: [TranslateModule.forRoot()],
-			providers: [SvgdefService, AppService]
+			imports: [BoardComponent, TranslateModule.forRoot()],
+			providers: [provideHttpClient(), provideHttpClientTesting(), SvgdefService, AppService]
 		})
 			.compileComponents());
 

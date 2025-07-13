@@ -71,7 +71,6 @@ export default ts.config(
 			"@angular-eslint/no-pipe-impure": "error",
 			"@angular-eslint/no-queries-metadata-property": "error",
 			"@angular-eslint/prefer-output-readonly": "error",
-			"@angular-eslint/prefer-standalone": "off",
 			"@angular-eslint/relative-url-prefix": "error",
 			"@angular-eslint/use-component-view-encapsulation": "error",
 

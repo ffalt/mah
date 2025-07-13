@@ -1,10 +1,13 @@
 import { Component, ElementRef, type OnChanges, type OnInit, type SimpleChanges, inject, input, output } from '@angular/core';
-import { Backgrounds } from '../../../../model/consts';
-import { type Draw, calcDrawPos, getDrawBounds, getDrawBoundsViewPort, sortDrawItems } from '../../../../model/draw';
-import type { Stone } from '../../../../model/stone';
-import { AppService } from '../../../../service/app.service';
-import { Indicator, IndicatorAnimations } from '../../model/indicator';
+import { Backgrounds } from '../../model/consts';
+import { type Draw, calcDrawPos, getDrawBounds, getDrawBoundsViewPort, sortDrawItems } from '../../model/draw';
+import type { Stone } from '../../model/stone';
+import { AppService } from '../../service/app.service';
 import { imageSetIsKyodai } from '../../model/tilesets';
+import { ImageSetLoaderComponent } from '../image-set-loader/image-set-loader.component';
+import { Indicator, IndicatorAnimations } from '../../model/indicator';
+import { PrefixPipe } from '../../pipes/prefix.pipe';
+import { TranslatePipe } from '@ngx-translate/core';
 
 interface TouchPoint {
 	x: number;
@@ -24,7 +27,6 @@ function clamp(value: number, min: number, max: number): number {
 	templateUrl: './board.component.html',
 	styleUrls: ['./board.component.scss'],
 	animations: IndicatorAnimations,
-	standalone: false,
 	host: {
 		'[style.background-image]': 'backgroundUrl',
 		'(wheel)': 'onWheel($event)',
@@ -37,7 +39,8 @@ function clamp(value: number, min: number, max: number): number {
 		'(touchmove)': 'onTouchMove($event)',
 		'(touchend)': 'onTouchEnd($event)',
 		'(touchcancel)': 'onTouchEnd($event)'
-	}
+	},
+	imports: [ImageSetLoaderComponent, PrefixPipe, TranslatePipe]
 })
 export class BoardComponent implements OnInit, OnChanges {
 	readonly background = input<string>();

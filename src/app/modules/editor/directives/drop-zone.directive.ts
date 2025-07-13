@@ -16,7 +16,6 @@ import { Directive, input, output } from '@angular/core';
 
 @Directive({
 	selector: '[appDropZone]',
-	standalone: false,
 	host: {
 		'[class.drop-zone-active]': 'active',
 		'(drop)': 'onDrop($event)',

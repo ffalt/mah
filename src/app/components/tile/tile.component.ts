@@ -1,10 +1,12 @@
 import { Component, input } from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
+import { ImageSetLoaderComponent } from '../image-set-loader/image-set-loader.component';
 
 @Component({
-	selector: 'app-tile',
-	templateUrl: './tile.component.html',
-	styleUrls: ['./tile.component.scss'],
-	standalone: false
+    selector: 'app-tile',
+    templateUrl: './tile.component.html',
+    styleUrls: ['./tile.component.scss'],
+    imports: [ImageSetLoaderComponent, TranslatePipe]
 })
 export class TileComponent {
 	readonly imageSet = input<string>();

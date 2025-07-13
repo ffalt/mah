@@ -3,10 +3,7 @@ import type { Subscription } from 'rxjs';
 import { DeferLoadService, type ScrollNotifyEvent } from './defer-load.service';
 import { Rect } from './rect';
 
-@Directive({
-	selector: '[appDeferLoad]',
-	standalone: false
-})
+@Directive({ selector: '[appDeferLoad]' })
 export class DeferLoadDirective implements AfterViewInit, OnDestroy {
 	readonly preRender = input<boolean>(false);
 	readonly appDeferLoad = output();

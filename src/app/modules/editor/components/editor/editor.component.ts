@@ -1,16 +1,18 @@
 import { Component, inject, output, viewChild } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { LayoutService } from '../../../../service/layout.service';
 import { LayoutComponent } from '../layout/layout.component';
 import { downloadMahLayouts } from '../../model/export';
 import type { EditLayout } from '../../model/edit-layout';
 import type { Layout } from '../../../../model/types';
+import { ImportComponent } from '../import/import.component';
+import { ManagerComponent } from '../manager/manager.component';
 
 @Component({
 	selector: 'app-editor-component',
 	templateUrl: './editor.component.html',
 	styleUrls: ['./editor.component.scss'],
-	standalone: false
+	imports: [LayoutComponent, ImportComponent, ManagerComponent, TranslatePipe]
 })
 export class EditorComponent {
 	readonly closeEvent = output();

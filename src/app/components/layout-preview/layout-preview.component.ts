@@ -1,12 +1,11 @@
 import { ChangeDetectionStrategy, Component, type OnChanges, type SimpleChanges, input, model } from '@angular/core';
-import type { Layout, SafeUrlSVG } from '../../../../model/types';
+import type { Layout, SafeUrlSVG } from '../../model/types';
 
 @Component({
 	selector: 'app-layout-preview',
 	templateUrl: './layout-preview.component.html',
 	styleUrls: ['./layout-preview.component.scss'],
-	changeDetection: ChangeDetectionStrategy.OnPush,
-	standalone: false
+	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LayoutPreviewComponent implements OnChanges {
 	readonly layout = input<Layout>();

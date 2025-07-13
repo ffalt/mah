@@ -8,6 +8,11 @@ import type { Place, SafeUrlSVG } from '../../../../model/types';
 import type { Cell } from '../../model/cell';
 import type { Stone } from '../../../../model/stone';
 import type { EditLayout } from '../../model/edit-layout';
+import { ExportComponent } from '../export/export.component';
+import { TranslatePipe } from '@ngx-translate/core';
+import { LayoutPreviewComponent } from '../../../../components/layout-preview/layout-preview.component';
+import { BoardComponent } from '../board/board.component';
+import { CommonModule } from '@angular/common';
 
 interface Stats {
 	name: string;
@@ -34,7 +39,7 @@ interface SolveStats {
 	selector: 'app-editor-layout-component',
 	templateUrl: './layout.component.html',
 	styleUrls: ['./layout.component.scss'],
-	standalone: false
+	imports: [CommonModule, BoardComponent, LayoutPreviewComponent, ExportComponent, TranslatePipe]
 })
 export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 	readonly layout = model.required<EditLayout>();

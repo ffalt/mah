@@ -2,9 +2,8 @@ import { Directive, ElementRef, type OnChanges, type SimpleChange, inject, input
 import { DeferLoadService } from './defer-load.service';
 
 @Directive({
-	selector: '[appDeferLoadScrollHost]',
-	standalone: false,
-	host: { '(scroll)': 'scrollTrack($event)' }
+    selector: '[appDeferLoadScrollHost]',
+    host: { '(scroll)': 'scrollTrack($event)' }
 })
 export class DeferLoadScrollHostDirective implements OnChanges {
 	readonly scrollTo = input<HTMLElement>();

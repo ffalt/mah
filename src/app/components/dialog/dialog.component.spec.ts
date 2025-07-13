@@ -9,9 +9,7 @@ describe('DialogComponent', () => {
 
 	beforeEach(async () =>
 		TestBed.configureTestingModule({
-			declarations: [DialogComponent],
-			imports: [TranslateModule.forRoot()],
-			providers: []
+			imports: [DialogComponent, TranslateModule.forRoot()]
 		})
 			.compileComponents());
 

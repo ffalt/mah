@@ -1,9 +1,10 @@
 import { Component, type OnChanges, type OnInit, type SimpleChanges, inject, input, output } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import type { Layout, LoadLayout } from '../../../../model/types';
 import { LayoutService } from '../../../../service/layout.service';
 import { downloadLayout, generateExportKmahjongg, generateExportKyodai, generateExportLayout, generateExportMah } from '../../model/export';
 import type { EditLayout } from '../../model/edit-layout';
+import { LayoutPreviewComponent } from '../../../../components/layout-preview/layout-preview.component';
 
 interface Format {
 	name: string;
@@ -16,7 +17,7 @@ interface Format {
 	selector: 'app-editor-export-component',
 	templateUrl: './export.component.html',
 	styleUrls: ['./export.component.scss'],
-	standalone: false
+	imports: [LayoutPreviewComponent, TranslatePipe]
 })
 export class ExportComponent implements OnInit, OnChanges {
 	readonly layout = input.required<EditLayout>();

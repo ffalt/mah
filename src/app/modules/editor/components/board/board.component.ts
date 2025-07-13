@@ -13,8 +13,7 @@ interface Level {
 @Component({
 	selector: 'app-editor-board',
 	templateUrl: './board.component.html',
-	styleUrls: ['./board.component.scss'],
-	standalone: false
+	styleUrls: ['./board.component.scss']
 })
 export class BoardComponent implements OnInit, OnChanges {
 	readonly imageSet = input<string>();

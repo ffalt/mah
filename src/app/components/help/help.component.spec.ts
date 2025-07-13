@@ -11,8 +11,7 @@ describe('HelpComponent', () => {
 
 	beforeEach(async () =>
 		TestBed.configureTestingModule({
-			declarations: [HelpComponent],
-			imports: [TranslateModule.forRoot()],
+			imports: [HelpComponent, TranslateModule.forRoot()],
 			providers: [AppService]
 		})
 			.compileComponents());

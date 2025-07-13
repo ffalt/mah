@@ -7,7 +7,15 @@ import type { BUILD_MODE_ID } from '../../model/builder';
 import type { GAME_MODE_ID } from '../../model/consts';
 import { WorkerService } from '../../service/worker.service';
 import { environment } from '../../../environments/environment';
-import type { DialogComponent } from '../../modules/core/components/dialog/dialog.component';
+import { DialogComponent } from '../dialog/dialog.component';
+import { HelpComponent } from '../help/help.component';
+import { TilesInfoComponent } from '../tiles-info/tiles-info.component';
+import { SettingsComponent } from '../settings/settings.component';
+import { ChooseLayoutComponent } from '../choose-layout/choose-layout.component';
+import { TranslatePipe } from '@ngx-translate/core';
+import { BoardComponent } from '../board/board.component';
+import { DurationPipe } from '../../pipes/duration.pipe';
+import { GameModeEasyPipe, GameModeStandardPipe } from '../../pipes/game-mode.pipe';
 
 interface DocEx extends Document {
 	fullScreen: boolean;
@@ -32,8 +40,11 @@ interface ElemEx extends HTMLElement {
 	selector: 'app-game-component',
 	templateUrl: './game-component.component.html',
 	styleUrls: ['./game-component.component.scss'],
-	standalone: false,
-	host: { '(document:keydown)': 'handleKeyDownEvent($event)' }
+	host: { '(document:keydown)': 'handleKeyDownEvent($event)' },
+	imports: [
+		BoardComponent, DurationPipe, GameModeStandardPipe, GameModeEasyPipe,
+		HelpComponent, TilesInfoComponent, SettingsComponent, ChooseLayoutComponent, TranslatePipe, DialogComponent
+	]
 })
 export class GameComponent {
 	readonly info = viewChild.required<DialogComponent>('info');

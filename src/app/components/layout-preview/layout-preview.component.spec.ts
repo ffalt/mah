@@ -7,9 +7,7 @@ describe('LayoutPreviewComponent', () => {
 
 	beforeEach(async () =>
 		TestBed.configureTestingModule({
-			declarations: [LayoutPreviewComponent],
-			imports: [],
-			providers: []
+			imports: [LayoutPreviewComponent]
 		})
 			.compileComponents());
 

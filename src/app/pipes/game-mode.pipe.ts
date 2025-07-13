@@ -1,9 +1,8 @@
 import { Pipe, type PipeTransform } from '@angular/core';
-import { GAME_MODE_EASY, GAME_MODE_STANDARD } from '../../../model/consts';
+import { GAME_MODE_EASY, GAME_MODE_STANDARD } from '../model/consts';
 
 @Pipe({
-    name: 'gameModeEasy',
-    standalone: false
+	name: 'gameModeEasy'
 })
 export class GameModeEasyPipe implements PipeTransform {
 	transform(value: string | undefined): boolean {
@@ -12,8 +11,7 @@ export class GameModeEasyPipe implements PipeTransform {
 }
 
 @Pipe({
-    name: 'gameModeStandard',
-    standalone: false
+	name: 'gameModeStandard'
 })
 export class GameModeStandardPipe implements PipeTransform {
 	transform(value: string | undefined): boolean {

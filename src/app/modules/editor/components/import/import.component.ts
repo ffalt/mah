@@ -2,12 +2,14 @@ import { Component, inject, output } from '@angular/core';
 import type { Layout, LoadLayout } from '../../../../model/types';
 import { LayoutService } from '../../../../service/layout.service';
 import { importLayouts } from '../../model/import';
+import { TranslatePipe } from '@ngx-translate/core';
+import { DropZoneDirective } from '../../directives/drop-zone.directive';
 
 @Component({
 	selector: 'app-import-component',
 	templateUrl: './import.component.html',
 	styleUrls: ['./import.component.scss'],
-	standalone: false
+	imports: [TranslatePipe, DropZoneDirective]
 })
 export class ImportComponent {
 	readonly editEvent = output<Layout>();

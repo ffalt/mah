@@ -1,6 +1,6 @@
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideHttpClient, HttpClient } from '@angular/common/http';
-import { SvgdefService } from '../../../../service/svgdef.service';
+import { SvgdefService } from '../../service/svgdef.service';
 import { ImageSetLoaderComponent } from './image-set-loader.component';
 import { ElementRef } from '@angular/core';
 

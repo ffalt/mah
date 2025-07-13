@@ -4,14 +4,14 @@ import { environment } from '../environments/environment';
 import { AppService } from './service/app.service';
 import { LayoutService } from './service/layout.service';
 import type { LoadLayout, MahFormat } from './model/types';
-import type { GameComponent } from './components/game/game-component.component';
+import { GameComponent } from './components/game/game-component.component';
 
 @Component({
 	selector: 'app-root',
 	templateUrl: './app.component.html',
 	styleUrls: ['./app.component.scss'],
-	standalone: false,
-	host: { '(document:keydown)': 'handleKeyDownEvent($event)' }
+	host: { '(document:keydown)': 'handleKeyDownEvent($event)' },
+	imports: [GameComponent]
 })
 export class AppComponent implements OnInit {
 	readonly gameComponent = viewChild.required<GameComponent>('gameComponent');
@@ -49,9 +49,8 @@ export class AppComponent implements OnInit {
 
 	loadEditor(): void {
 		if (environment.editor) {
-			import('./modules/editor/editor.module')
-				.then(({ EditorModule }) => {
-					const EditorComponent = EditorModule.getEditorComponentComponent();
+			import('./modules/editor/components/editor/editor.component')
+				.then(({ EditorComponent }) => {
 					const component = this.editorPlaceholder().createComponent(EditorComponent);
 					this.editorSubscription = component.instance.closeEvent.subscribe(() => {
 						this.toggleEditor();

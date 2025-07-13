@@ -2,8 +2,6 @@ import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { provideHttpClient } from '@angular/common/http';
 import { SvgdefService } from '../../service/svgdef.service';
-import { TileComponent } from '../tile/tile.component';
-import { CoreModule } from '../../modules/core/core.module';
 import { AppService } from '../../service/app.service';
 import { TilesInfoComponent } from './tiles-info.component';
 import { By } from '@angular/platform-browser';
@@ -16,12 +14,8 @@ describe('TilesInfoComponent', () => {
 
 	beforeEach(async () =>
 		TestBed.configureTestingModule({
-			declarations: [
-				TilesInfoComponent,
-				TileComponent
-			],
-			providers: [provideHttpClient(), SvgdefService, AppService],
-			imports: [CoreModule, TranslateModule.forRoot()]
+			imports: [TilesInfoComponent, TranslateModule.forRoot()],
+			providers: [provideHttpClient(), SvgdefService, AppService]
 		})
 			.compileComponents());
 
