@@ -1,41 +1,36 @@
 name: test
 
+permissions:
+  contents: read
+
 on:
   workflow_dispatch:
   push:
     branches: [ main ]
     tags-ignore:
-      - 'v*'
-  pull_request:
-    branches: [ main ]
-
-permissions:
-  contents: read
+      - '**'
+    paths-ignore:
+      - 'README.md'
 
 jobs:
-  build:
+  test:
     name: Test
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Install node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 22.x
+          cache: 'npm'
 
-      - name: Cache npm
-        uses: actions/cache@v4
+      - run: npm ci
+
+      - run: npm run build:prod
+
+      - run: npm run coverage
+
+      - uses: qltysh/qlty-action/coverage@v1
         with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-test-${{ hashFiles('**/package-lock.json') }}
-
-      - name: Install mah build dependencies
-        run: npm install
-
-      - name: Test
-        run: npm run test
-
-      - name: Make a production build
-        run: npm run build:prod
+          token: ${{ secrets.QLTY_COVERAGE_TOKEN }}
+          files: coverage/lcov.info

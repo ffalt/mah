@@ -2,7 +2,6 @@ name: release
 
 on:
   push:
-    # Sequence of patterns matched against refs/tags
     tags:
       - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
 
@@ -10,16 +9,16 @@ permissions:
   contents: write
 
 jobs:
-  build:
+  release:
     name: Release
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Install node.js
+      - name: Setup node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22.x
@@ -29,19 +28,16 @@ jobs:
           echo "{\"url\": \"https://ffalt.github.io/mah/\", \"name\": \"Mah\", \"title\": \"Mah - Mahjong\", \"category\": \"A Mahjong Solitaire Board Game\", \"description\": \"The original open source version of many Mahjong games out there. Completely free, no ads, no tracking.\", \"kyodai\":true, \"editor\":true}" > custom-build-config.json
 
       - name: Install dependencies
-        run: |
-          npm install
+        run: npm install
 
       - name: Test
         run: npm run test
 
       - name: Build GH Pages release
-        run: |
-          npm run build:deploy-ghpages
+        run: npm run build:deploy-ghpages
 
       - name: Build GH Pages settings
-        run: |
-          touch ./dist/.nojekyll
+        run: touch ./dist/.nojekyll
 
       - name: Deploy to GH Pages branch 🚀
         uses: JamesIves/github-pages-deploy-action@v4
@@ -55,19 +51,15 @@ jobs:
           echo "{\"name\": \"Mah\"}" > custom-build-config.json
 
       - name: Build
-        run: |
-          npm run build:deploy-release
+        run: npm run build:deploy-release
 
       - name: Create release package
-        run: |
-          cd dist && zip -r ./mah-release.zip .
+        run: cd dist && zip -r ./mah-release.zip .
 
       - name: Generate release log
-        run: |
-          npm run build:releaselog
+        run: npm run build:releaselog
 
       - name: Create release
-        id: create_release
         uses: ncipollo/release-action@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}

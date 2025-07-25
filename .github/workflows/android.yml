@@ -7,11 +7,11 @@ permissions:
   contents: write
 
 jobs:
-  build:
+  android:
     name: Build APK and AAB
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout source
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Setup java
@@ -24,12 +24,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22.x
-
-      - name: Cache npm
-        uses: actions/cache@v4
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-android-${{ hashFiles('**/package-lock.json') }}
+          cache: 'npm'
 
       - name: Install mah build dependencies
         run: npm install
