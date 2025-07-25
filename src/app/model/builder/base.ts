@@ -24,8 +24,8 @@ export abstract class BuilderBase implements BuilderType {
 	}
 
 	static randomExtract<T>(array: Array<T>): T {
-		const i = BuilderBase.random(array);
-		return array.splice(i, 1)[0];
+		const index = BuilderBase.random(array);
+		return array.splice(index, 1)[0];
 	}
 
 	static collectNodes(stones: Array<Stone>, stone: Stone): {
@@ -89,8 +89,8 @@ export abstract class BuilderBase implements BuilderType {
 	getTilesInPairs(tiles: Tiles, _amount: number): Array<[Tile, Tile]> {
 		const result: Array<[Tile, Tile]> = [];
 		for (const group of tiles.groups) {
-			for (let i = 0; i < group.tiles.length; i += 2) {
-				result.push([group.tiles[i], group.tiles[i + 1]]);
+			for (let index = 0; index < group.tiles.length; index += 2) {
+				result.push([group.tiles[index], group.tiles[index + 1]]);
 			}
 		}
 		return result;

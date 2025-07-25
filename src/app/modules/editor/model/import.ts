@@ -31,16 +31,15 @@ export async function convertMatrix(
 	const matrixLength: number = rowCount * cellCount;
 	const totalLength: number = matrixLength * matrixCount;
 	if (board.length !== totalLength) {
-		return Promise.reject(Error('Invalid Matrix Pattern length'));
+		return Promise.reject(new Error('Invalid Matrix Pattern length'));
 	}
 	const layout: ImportLayout = { name, cat: 'Kyodai', mapping: [] };
 	for (let z = 0; z < matrixCount; z++) {
 		const matrix = board.slice(z * matrixLength, (z + 1) * matrixLength);
 		for (let y = 0; y < rowCount; y++) {
 			const row = matrix.slice(y * cellCount, (y + 1) * cellCount);
-			const cells = row.split('');
-			for (let x = 0; x < cells.length; x++) {
-				const cell = cells[x];
+			const cells = [...row];
+			for (const [x, cell] of cells.entries()) {
 				if (cell === '1') {
 					layout.mapping.push([z, x, y]);
 				}
@@ -60,15 +59,15 @@ export async function convert2805Matrix(name: string, board: string): Promise<Im
 
 export async function convertKmahjonggLines(lines: Array<string>, height: number): Promise<Mapping> {
 	const result: Mapping = [];
-	lines.forEach((line, index) => {
+	for (const [index, line] of lines.entries()) {
 		const z = Math.floor(index / height);
 		const y = (index % height);
-		line.split('').forEach((c, x) => {
+		for (const [x, c] of [...line].entries()) {
 			if (c === '1') {
 				result.push([z, x, y]);
 			}
-		});
-	});
+		}
+	}
 	return result;
 }
 
@@ -88,32 +87,34 @@ export async function convertKmahjongg(data: string, filename: string): Promise<
 		return layout;
 	}
 	if (['kmahjongg-layout-v1.1'].includes(version)) {
+		// eslint-disable-next-line unicorn/prefer-spread
 		const h = Number((lines.find(line => line.startsWith('h')) ?? 'h16').split('').slice().join(''));
 		const name = (lines.find(line => line.startsWith('# name:')) ?? '').slice(7).trim();
 		layout.name = name ?? layout.name;
+		layout.name = layout.name.length === 0 ? filename.split('.')[0] : layout.name;
 		const by = (lines.find(line => line.startsWith('# by:')) ?? '').slice(5).trim();
 		layout.by = by || layout.by;
 		lines = lines.filter(line => !line.startsWith('h') && !line.startsWith('w') && !line.startsWith('d') && !line.startsWith('#'));
 		layout.mapping = await convertKmahjonggLines(lines, Number.isNaN(h) ? 16 : h);
 		return layout;
 	}
-	return Promise.reject(Error(`Unknown .layout format ${JSON.stringify((version ?? '').slice(0, 50))}`));
+	return Promise.reject(new Error(`Unknown .layout format ${JSON.stringify((version ?? '').slice(0, 50))}`));
 }
 
-export async function convertKyodai(data: string, _: string): Promise<ImportLayout> {
+export async function convertKyodai(data: string, filename: string): Promise<ImportLayout> {
 	// unify line endings
 	const lines = data.replace(/\r\n/g, '\n').split('\n');
 	const version = lines[0] || '';
 	if (['Kyodai 3.0', 'Kyodai 6.0'].includes(version)) {
 		const nameCat = (lines[1] || '').split('::');
-		const name = nameCat[0] || '';
+		const name = nameCat[0].length === 0 ? filename.split('.')[0] : nameCat[0];
 		const cat = nameCat[1] || 'uncategorized';
 		const board = lines[2] || '';
 		const layout = await convert3400Matrix(name, board);
 		layout.cat = cat || layout.cat;
 		return layout;
 	}
-	return Promise.reject(Error(`Unknown .lay format ${JSON.stringify((version || '').slice(0, 50))}`));
+	return Promise.reject(new Error(`Unknown .lay format ${JSON.stringify((version || '').slice(0, 50))}`));
 }
 
 export function compactMapping(mapping: Mapping): CompactMapping {
@@ -132,19 +133,19 @@ export function compactMapping(mapping: Mapping): CompactMapping {
 			const entries: Array<{ start: number; current: number; count: number }> = [];
 			let entry = { start: -1, current: -1, count: 0 };
 			for (const x of a) {
-				if (x !== entry.current) {
-					entry = { start: x, current: x + 2, count: 1 };
-					entries.push(entry);
-				} else {
+				if (x === entry.current) {
 					entry.current += 2;
 					entry.count++;
+				} else {
+					entry = { start: x, current: x + 2, count: 1 };
+					entries.push(entry);
 				}
 			}
-			const cells: CompactMappingX = entries.map(e => {
-				if (e.count === 1) {
-					return e.start;
+			const cells: CompactMappingX = entries.map(mappingEntry => {
+				if (mappingEntry.count === 1) {
+					return mappingEntry.start;
 				}
-				return [e.start, e.count];
+				return [mappingEntry.start, mappingEntry.count];
 			});
 			if (cells.length === 1 && !Array.isArray(cells[0])) {
 				rows.push([Number(y), cells[0]]);
@@ -157,6 +158,12 @@ export function compactMapping(mapping: Mapping): CompactMapping {
 	return result;
 }
 
+export function cleanNameCapitalized(s: string): string {
+	return s.trim().split(' ').map(s => s[0].toUpperCase() + s.slice(1)).join(' ')
+		.replace(/"/g, '')
+		.replace(/(^'|'$)/gm, '')
+}
+
 export function cleanImportLayout(layout: ImportLayout): LoadLayout {
 	// split author
 	const sl = layout.name.split(' by ');
@@ -165,13 +172,13 @@ export function cleanImportLayout(layout: ImportLayout): LoadLayout {
 		layout.by = sl[1].trim();
 	}
 	// Capitalize
-	layout.name = layout.name.trim().split(' ').map(s => s[0].toUpperCase() + s.slice(1)).join(' ').replace(/["']/g, '');
-	layout.by = layout.by ? layout.by.trim().split(' ').map(s => s[0].toUpperCase() + s.slice(1)).join(' ').replace(/"/g, '') : undefined;
+	layout.name = cleanNameCapitalized(layout.name || '');
+	layout.by = layout.by ? cleanNameCapitalized(layout.by) : undefined;
 	const map = optimizeMapping(layout.mapping);
 	return {
 		id: mappingToID(map),
 		name: layout.name.trim(),
-		cat: layout.cat,
+		cat: layout.cat.trim(),
 		by: layout.by,
 		map: compactMapping(map)
 	};
@@ -196,23 +203,23 @@ export function optimizeMapping(mapping: Mapping): Mapping {
 export async function readFile(file: File): Promise<string> {
 	const reader = new FileReader();
 	return new Promise<string>((resolve, reject) => {
-		reader.onload = () => {
+		reader.addEventListener('load', () => {
 			resolve(reader.result as string);
-		};
-		reader.onerror = () => {
-			reject(Error(`Reading File failed: ${reader.error?.message ?? 'unknown error'}`));
-		};
-		reader.readAsText(file);
+		});
+		reader.addEventListener('error', error => {
+			reject(new Error(`Reading File failed: ${error ?? 'unknown error'}`));
+		});
+		reader.readAsText(file, 'ascii');
 	});
 }
 
 export async function importLayouts(file: File): Promise<Array<LoadLayout>> {
 	const data = await readFile(file);
-	const ext = (file.name.split('.').pop() ?? '').toLowerCase();
+	const extension = (file.name.split('.').pop() ?? '').toLowerCase();
 	let layout: LoadLayout;
-	if (ext === 'lay') {
+	if (extension === 'lay') {
 		layout = cleanImportLayout(await convertKyodai(data, file.name));
-	} else if (ext === 'layout') {
+	} else if (extension === 'layout') {
 		layout = cleanImportLayout(await convertKmahjongg(data, file.name));
 	} else {
 		const mah: MahFormat = JSON.parse(data);

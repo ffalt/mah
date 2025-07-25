@@ -1,4 +1,5 @@
 import type { CompactMapping, Mapping } from './types';
+import { hashString } from './hash';
 
 export function expandMapping(map: CompactMapping): Mapping {
 	const result: Mapping = [];
@@ -11,35 +12,20 @@ export function expandMapping(map: CompactMapping): Mapping {
 			}
 			// Handle array of cells
 			for (const cell of cells) {
-				if (!Array.isArray(cell)) {
-					// Simple cell
-					result.push([z, cell, y]);
-				} else {
+				if (Array.isArray(cell)) {
 					// Repeated cells with pattern [startX, count]
 					const [startX, count] = cell;
-					for (let i = 0, x = startX; i < count; i++, x += 2) {
+					for (let index = 0, x = startX; index < count; index++, x += 2) {
 						result.push([z, x, y]);
 					}
+				} else {
+					// Simple cell
+					result.push([z, cell, y]);
 				}
 			}
 		}
 	}
 	return result;
-}
-
-function hashString(s: string): number {
-	let hash = 0;
-	let i: number;
-	let chr: number;
-	if (s.length === 0) {
-		return hash;
-	}
-	for (i = 0; i < s.length; i++) {
-		chr = s.charCodeAt(i);
-		hash = ((hash << 5) - hash) + chr;
-		hash |= 0; // Convert to 32bit integer
-	}
-	return hash + 2147483647;
 }
 
 export function mappingToID(mapping: Mapping): string {

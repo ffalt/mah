@@ -21,12 +21,12 @@ export class Tiles {
 		const groupsNeeded = Math.ceil(amount / 4);
 		if (groupsNeeded > tilesMapping.length) {
 			const tilesExtraMapping = TILES_EXT.map(row => row.map(id => ({ id })));
-			tilesMapping = tilesMapping.concat(tilesExtraMapping);
+			tilesMapping = [...tilesMapping, ...tilesExtraMapping];
 			while (tilesMapping.length < groupsNeeded) {
 				tilesMapping.push([{ id: `_${tilesMapping.length}a` }, { id: `_${tilesMapping.length}b` }, { id: `_${tilesMapping.length}c` }, { id: `_${tilesMapping.length}d` }]);
 			}
 		}
-		tilesMapping.forEach((group, groupNr) => {
+		for (const [groupNr, group] of tilesMapping.entries()) {
 			const g: TileGroup = { v: groupNr, tiles: [] };
 			this.groups.push(g);
 			for (const img of group) {
@@ -35,6 +35,6 @@ export class Tiles {
 				g.tiles.push(tile);
 				this.list[v] = tile;
 			}
-		});
+		}
 	}
 }

@@ -59,9 +59,9 @@ export class ImageSetLoaderComponent implements OnChanges {
 			.then(svg => {
 				this.setImageSet(svg);
 			})
-			.catch(e => {
+			.catch(error => {
 				this.setError();
-				console.error(e);
+				console.error(error);
 			});
 	}
 

@@ -17,7 +17,7 @@ import { BoardComponent } from '../board/board.component';
 import { DurationPipe } from '../../pipes/duration.pipe';
 import { GameModeEasyPipe, GameModeStandardPipe } from '../../pipes/game-mode.pipe';
 
-interface DocEx extends Document {
+interface DocumentExtended extends Document {
 	fullScreen: boolean;
 	fullscreen: boolean;
 	mozFullScreen: boolean;
@@ -30,7 +30,7 @@ interface DocEx extends Document {
 	webkitExitFullscreen(): void;
 }
 
-interface ElemEx extends HTMLElement {
+interface HTMLElementExtended extends HTMLElement {
 	webkitRequestFullScreen(): void;
 
 	mozRequestFullScreen(): void;
@@ -69,41 +69,51 @@ export class GameComponent {
 
 	handleKeyDownEventKey(key: string): void {
 		switch (key) {
-			case 'h':
+			case 'h': {
 				this.help().toggle();
 				break;
-			case 'i':
+			}
+			case 'i': {
 				this.info().toggle();
 				break;
-			case 's':
+			}
+			case 's': {
 				this.settings().toggle();
 				break;
-			case 't':
+			}
+			case 't': {
 				this.game.hint();
 				break;
-			case 'm':
+			}
+			case 'm': {
 				this.game.shuffle();
 				break;
-			case 'g':
+			}
+			case 'g': {
 				this.debugSolve();
 				break;
-			case 'u':
+			}
+			case 'u': {
 				this.game.back();
 				break;
-			case 'n':
+			}
+			case 'n': {
 				this.game.pause();
 				this.newgame().toggle();
 				break;
+			}
 			case ' ': // space
-			case 'p':
+			case 'p': {
 				if (this.game.isRunning()) {
 					this.game.pause();
 				} else if (this.game.isPaused()) {
 					this.game.resume();
 				}
 				break;
-			default:
+			}
+			default: {
 				break;
+			}
 		}
 	}
 
@@ -147,7 +157,7 @@ export class GameComponent {
 	}
 
 	isFullscreenEnabled(): boolean {
-		const doc = window.document as DocEx;
+		const doc = window.document as DocumentExtended;
 		return doc.fullscreenEnabled || doc.mozFullscreenEnabled || doc.webkitFullscreenEnabled;
 	}
 
@@ -159,16 +169,16 @@ export class GameComponent {
 	}
 
 	isFullscreen(): boolean {
-		const doc = window.document as DocEx;
+		const doc = window.document as DocumentExtended;
 		return !!(doc.fullScreen || doc.fullscreen || doc.mozFullScreen || doc.webkitIsFullScreen);
 	}
 
 	exitFullscreen(): void {
-		const doc = window.document as DocEx;
+		const doc = window.document as DocumentExtended;
 		if (doc.exitFullscreen) {
 			doc.exitFullscreen()
-				.catch(e => {
-					console.error(e);
+				.catch(error => {
+					console.error(error);
 				});
 		} else if (doc.mozCancelFullScreen) {
 			doc.mozCancelFullScreen();
@@ -178,16 +188,16 @@ export class GameComponent {
 	}
 
 	requestFullscreen(): void {
-		const elem = document.body as ElemEx;
-		if (elem.requestFullscreen) {
-			elem.requestFullscreen()
-				.catch(e => {
-					console.error(e);
+		const element = document.body as HTMLElementExtended;
+		if (element.requestFullscreen) {
+			element.requestFullscreen()
+				.catch(error => {
+					console.error(error);
 				});
-		} else if (elem.webkitRequestFullScreen) {
-			elem.webkitRequestFullScreen();
-		} else if (elem.mozRequestFullScreen) {
-			elem.mozRequestFullScreen();
+		} else if (element.webkitRequestFullScreen) {
+			element.webkitRequestFullScreen();
+		} else if (element.mozRequestFullScreen) {
+			element.mozRequestFullScreen();
 		}
 	}
 

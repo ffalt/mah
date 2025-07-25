@@ -126,10 +126,10 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 		if (this.matrix.isTilePosBlocked(z, x, y) || this.matrix.isTilePosInvalid(z, x, y)) {
 			return;
 		}
-		if (!this.matrix.isTile(z, x, y)) {
-			this.layout().mapping.push([z, x, y]);
-		} else {
+		if (this.matrix.isTile(z, x, y)) {
 			this.layout().mapping = this.layout().mapping.filter(m => ((m[0] !== z) || (m[1] !== x) || (m[2] !== y)));
+		} else {
+			this.layout().mapping.push([z, x, y]);
 		}
 		this.refresh();
 	}

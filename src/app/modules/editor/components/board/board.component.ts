@@ -32,7 +32,7 @@ export class BoardComponent implements OnInit, OnChanges {
 
 	ngOnInit(): void {
 		const level = this.level();
-  if (level) {
+		if (level) {
 			this.updateLevel(level);
 		}
 	}
@@ -40,7 +40,7 @@ export class BoardComponent implements OnInit, OnChanges {
 	drawClass(z: number, x: number, y: number): string {
 		let s = '';
 		const matrix = this.matrix();
-  if (!matrix.inBounds(z, x, y)) {
+		if (!matrix.inBounds(z, x, y)) {
 			s = 'invalid';
 		}
 		if (matrix.isTile(z, x, y) || matrix.isTilePosBlocked(z, x, y)) {
@@ -93,8 +93,8 @@ export class BoardComponent implements OnInit, OnChanges {
 			return;
 		}
 		const stones: Array<Draw> = [];
-		level.rows.forEach((row: Array<number>, x: number) => {
-			row.forEach((value: number, y: number) => {
+		for (const [x, row] of level.rows.entries()) {
+			for (const [y, value] of row.entries()) {
 				const draw: Draw = {
 					x,
 					y,
@@ -109,8 +109,8 @@ export class BoardComponent implements OnInit, OnChanges {
 				if (draw.v > 0) {
 					stones.push(draw);
 				}
-			});
-		});
+			}
+		}
 		this.drawStones = sortDrawItems(stones);
 		this.viewport = getDrawViewPort(this.drawCells, 1470, 960, false);
 	}

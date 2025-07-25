@@ -34,8 +34,8 @@ export class LocalstorageService implements StorageProvider {
 		try {
 			const result = localStorage.getItem('last');
 			return result ?? undefined;
-		} catch (e) {
-			console.error(e);
+		} catch (error) {
+			console.error(error);
 		}
 		return;
 	}
@@ -45,13 +45,13 @@ export class LocalstorageService implements StorageProvider {
 			return;
 		}
 		try {
-			if (!id) {
-				localStorage.removeItem('last');
-			} else {
+			if (id) {
 				localStorage.setItem('last', id);
+			} else {
+				localStorage.removeItem('last');
 			}
-		} catch (e) {
-			console.error(e);
+		} catch (error) {
+			console.error(error);
 		}
 	}
 
@@ -116,9 +116,8 @@ export class LocalstorageService implements StorageProvider {
 				localStorage.removeItem('settings');
 				this.set<unknown>('settings', JSON.parse(old));
 			}
-		} catch (e) {
-			console.error(e);
+		} catch (error) {
+			console.error(error);
 		}
 	}
-
 }

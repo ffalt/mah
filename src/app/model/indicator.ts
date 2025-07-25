@@ -27,10 +27,10 @@ export class Indicator {
 	}
 
 	removeIndicator(gestureIndicator: { state: string, x: number, y: number }) {
-		for (let i = 0; i < this.gestureIndicators.length; i++) {
-			const indicator = this.gestureIndicators[i];
+		for (let index = 0; index < this.gestureIndicators.length; index++) {
+			const indicator = this.gestureIndicators[index];
 			if (indicator.x === gestureIndicator.x && indicator.y === gestureIndicator.y) {
-				this.gestureIndicators.splice(i, 1);
+				this.gestureIndicators.splice(index, 1);
 				break;
 			}
 		}

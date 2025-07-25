@@ -12,11 +12,11 @@ export class WorkerService {
 		if (typeof Worker !== 'undefined') {
 			const worker = createSolveWorker();
 			if (worker) {
-				worker.onmessage = ({ data }) => {
-					if (data.result) {
-						finish(data.result);
+				worker.addEventListener('message', message => {
+					if (message.data.result) {
+						finish(message.data.result);
 					}
-				};
+				});
 				worker.postMessage({ stones });
 			}
 			return worker;
@@ -29,14 +29,14 @@ export class WorkerService {
 		if (typeof Worker !== 'undefined') {
 			const worker = createStatsSolveWorker();
 			if (worker) {
-				worker.onmessage = ({ data }) => {
-					if (data.progress) {
-						callback(data.progress);
+				worker.addEventListener('message', message => {
+					if (message.data.progress) {
+						callback(message.data.progress);
 					}
-					if (data.result) {
-						finish(data.result);
+					if (message.data.result) {
+						finish(message.data.result);
 					}
-				};
+				});
 				worker.postMessage({ mapping, rounds });
 			}
 			return worker;

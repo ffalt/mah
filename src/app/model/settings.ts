@@ -34,8 +34,8 @@ export class Settings {
 				this.kyodaiUrl = store.kyodaiUrl;
 			}
 			return true;
-		} catch (e) {
-			console.error('load settings failed', e);
+		} catch (error) {
+			console.error('load settings failed', error);
 		}
 		return false;
 	}
@@ -54,8 +54,8 @@ export class Settings {
 				kyodaiUrl: this.kyodaiUrl
 			});
 			return true;
-		} catch (e) {
-			console.error('storing settings failed', e);
+		} catch (error) {
+			console.error('storing settings failed', error);
 		}
 		return false;
 	}

@@ -26,13 +26,11 @@ export class AppService {
 	}
 
 	setLang(): void {
-		let userLang: string;
-		if (!this.settings.lang || this.settings.lang === LangAuto) {
-			userLang = (navigator.language.split('-')[0] || DEFAULT_LANGUAGE).toLowerCase(); // use navigator lang if available
-		} else {
-			userLang = this.settings.lang;
-		}
-		if (Object.keys(LANGUAGES).indexOf(userLang) >= 0) {
+		const userLang =
+			(!this.settings.lang || this.settings.lang === LangAuto) ?
+				(navigator.language.split('-')[0] || DEFAULT_LANGUAGE).toLowerCase() : // use navigator lang if available
+				this.settings.lang;
+		if (Object.keys(LANGUAGES).includes(userLang)) {
 			this.translate.use(userLang);
 		} else {
 			this.translate.use(DEFAULT_LANGUAGE);

@@ -3,13 +3,18 @@ import angular from "angular-eslint";
 import ts from "typescript-eslint";
 import pluginJest from "eslint-plugin-jest";
 import globals from "globals";
+import rxjsX from "eslint-plugin-rxjs-x";
+import unicorn from "eslint-plugin-unicorn";
 
 export default ts.config(
 	{
 		ignores: [
+			"**/.angular/**/*",
+			"**/.qlty/**/*",
 			"**/dist/**/*",
 			"**/local/**/*",
 			"**/coverage/**/*",
+			"**/node_modules/**/*",
 			"**/resources/mobile/**/*"
 		]
 	},
@@ -32,7 +37,9 @@ export default ts.config(
 			eslint.configs.recommended,
 			...ts.configs.recommended,
 			...ts.configs.stylistic,
-			...angular.configs.tsRecommended
+			...angular.configs.tsRecommended,
+			unicorn.configs.recommended,
+			rxjsX.configs.recommended
 		],
 		processor: angular.processInlineTemplates,
 		rules: {
@@ -64,6 +71,27 @@ export default ts.config(
 			"prefer-template": "error",
 			"space-in-parens": ["error", "never"],
 			"yoda": "error",
+
+			"unicorn/prefer-top-level-await": "off",
+			"unicorn/relative-url-style": "off",
+			"unicorn/no-useless-promise-resolve-reject": "off",
+			"unicorn/consistent-function-scoping": "off",
+			"unicorn/empty-brace-spaces": "off",
+			"unicorn/prefer-query-selector": "off",
+			"unicorn/prefer-global-this": "off",
+			"unicorn/no-null": "off",
+			"unicorn/prefer-string-replace-all": "off",
+			"unicorn/no-useless-undefined": "off",
+			"unicorn/prevent-abbreviations": [
+				"error",
+				{
+					"replacements": {
+						"env": false,
+						"doc": false,
+						"num": false
+					}
+				}
+			],
 
 			"@angular-eslint/component-max-inline-declarations": "error",
 			"@angular-eslint/directive-selector": ["error", { type: "attribute", prefix: "app", style: "camelCase" }],

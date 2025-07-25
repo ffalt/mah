@@ -87,7 +87,7 @@ export class Board {
 	}
 
 	canRemove(stone: Stone): boolean {
-		return stone.group.filter((_stone: Stone) => !_stone.picked && !_stone.isBlocked()).length > 0;
+		return stone.group.some((groupStone: Stone) => !groupStone.picked && !groupStone.isBlocked());
 	}
 
 	update(): void {
@@ -147,7 +147,7 @@ export class Board {
 		if (!stones) {
 			return;
 		}
-		const unusedTiles = tiles.list.filter(t => !stones.find(s => s.v === t.v));
+		const unusedTiles = tiles.list.filter(t => !stones.some(s => s.v === t.v));
 		for (const u of this.undo) {
 			const tile = unusedTiles.shift();
 			if (tile) {
@@ -206,14 +206,14 @@ export class Board {
 		for (const stone of this.hints.current.stones) {
 			stone.hinted = false;
 		}
-		let i = this.hints.groups.indexOf(this.hints.current);
-		if (i >= 0) {
-			i++;
-			if (i >= this.hints.groups.length) {
-				i = 0;
+		let index = this.hints.groups.indexOf(this.hints.current);
+		if (index >= 0) {
+			index++;
+			if (index >= this.hints.groups.length) {
+				index = 0;
 			}
-			if (i < this.hints.groups.length) {
-				this.hints.current = this.hints.groups[i];
+			if (index < this.hints.groups.length) {
+				this.hints.current = this.hints.groups[index];
 				for (const stone of this.hints.current.stones) {
 					stone.hinted = true;
 				}

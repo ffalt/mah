@@ -143,8 +143,8 @@ export class DeferLoadDirective implements AfterViewInit, OnDestroy {
 	}
 
 	private checkInView(rect: Rect): boolean {
-		const elemRect = Rect.fromElement(this.elementRef.nativeElement);
-		return elemRect.intersectsWithY(rect);
+		const elementRect = Rect.fromElement(this.elementRef.nativeElement);
+		return elementRect.intersectsWithY(rect);
 	}
 
 	private isVisible(): boolean {

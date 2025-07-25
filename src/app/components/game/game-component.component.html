@@ -85,8 +85,8 @@
 <app-dialog (clickEvent)="clickMessage()" [visible]="!!game.message" className="overlay-message" [noClose]="true">
 	@if (game.message) {
 		<div class="overlay-message-message" (click)="clickMessage()">
-			@if (game.message.msgID) {
-				<div>{{ game.message.msgID | translate }}</div>
+			@if (game.message.messageID) {
+				<div>{{ game.message.messageID | translate }}</div>
 			}
 			@if (game.message.playTime) {
 				<div>{{ game.message.playTime | duration }}</div>

@@ -30,12 +30,10 @@ export class Matrix {
 
 	clear() {
 		const m = this.levels;
-		// eslint-disable-next-line @typescript-eslint/prefer-for-of
-		for (let z = 0; z < m.length; z++) {
-			// eslint-disable-next-line @typescript-eslint/prefer-for-of
-			for (let x = 0; x < m[z].length; x++) {
-				for (let y = 0; y < m[z][x].length; y++) {
-					m[z][x][y] = 0;
+		for (const level of m) {
+			for (const row of level) {
+				for (let y = 0; y < row.length; y++) {
+					row[y] = 0;
 				}
 			}
 		}

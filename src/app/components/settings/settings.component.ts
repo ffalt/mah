@@ -63,8 +63,8 @@ export class SettingsComponent {
 
 	clearTimesClick(): void {
 		if (confirm(this.translate.instant('BEST_TIMES_CLEAR_SURE'))) {
-			this.clearTimes().catch(e => {
-				console.error(e);
+			this.clearTimes().catch(error => {
+				console.error(error);
 			});
 		}
 	}

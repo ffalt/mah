@@ -84,20 +84,25 @@ export class ManagerComponent implements OnChanges, OnDestroy {
 		this.layouts = this.layouts.sort((a, b) => {
 			let result: number;
 			switch (column) {
-				case 1:
+				case 1: {
 					result = a.name.localeCompare(b.name);
 					break;
-				case 2:
+				}
+				case 2: {
 					result = (a.by ?? '').localeCompare((b.by ?? ''));
 					break;
-				case 3:
+				}
+				case 3: {
 					result = (a.category ?? '').localeCompare((b.category ?? ''));
 					break;
-				case 4:
+				}
+				case 4: {
 					result = a.mapping.length - b.mapping.length;
 					break;
-				default:
+				}
+				default: {
 					result = 0;
+				}
 			}
 			return (this.sortDesc ? 1 : -1) * result;
 		});

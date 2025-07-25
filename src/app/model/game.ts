@@ -13,7 +13,7 @@ export class Game {
 	sound: Sound = new Sound();
   music: Music = new Music();
 	state: number = STATES.idle;
-	message?: { msgID?: string; playTime?: number };
+	message?: { messageID?: string; playTime?: number };
 	layoutID?: string = undefined;
 	mode: GAME_MODE_ID = GAME_MODE_STANDARD;
 
@@ -26,7 +26,7 @@ export class Game {
 		if (this.state === STATES.run) {
 			this.pause();
 		}
-		this.message = { msgID: this.isPaused() ? 'MSG_CONTINUE_SAVE' : 'MSG_START' };
+		this.message = { messageID: this.isPaused() ? 'MSG_CONTINUE_SAVE' : 'MSG_START' };
 	}
 
 	click(stone?: Stone): boolean {
@@ -45,7 +45,7 @@ export class Game {
 			this.resolveMatchingStone(stone);
 			return true;
 		}
-		this.board.setStoneSelected(this.board.selected !== stone ? stone : undefined);
+		this.board.setStoneSelected(this.board.selected === stone ? undefined : stone);
 		this.sound.play(SOUNDS.SELECT);
 		return true;
 	}
@@ -138,8 +138,8 @@ export class Game {
 				this.board.load(store.stones, store.undo ?? []);
 				return true;
 			}
-		} catch (e) {
-			console.error('load state failed', e);
+		} catch (error) {
+			console.error('load state failed', error);
 		}
 		return false;
 	}
@@ -154,8 +154,8 @@ export class Game {
 				undo: this.board.undo,
 				stones: this.board.save()
 			});
-		} catch (e) {
-			console.error('storing state failed', e);
+		} catch (error) {
+			console.error('storing state failed', error);
 		}
 	}
 
@@ -195,7 +195,7 @@ export class Game {
 		this.board.pick(sel, stone);
 		if (this.board.count < 2) {
 			this.gameOverWining();
-		} else if (this.board.free.length < 1) {
+		} else if (this.board.free.length === 0) {
 			this.gameOverLoosing();
 		} else {
 			this.sound.play(SOUNDS.MATCH);
@@ -210,8 +210,8 @@ export class Game {
 		this.delayedSave();
 	}
 
-	private setState(state: number, msgID?: string, playTime?: number): void {
-		this.message = msgID ? { msgID, playTime } : undefined;
+	private setState(state: number, messageID?: string, playTime?: number): void {
+		this.message = messageID ? { messageID, playTime } : undefined;
 		this.state = state;
 	}
 }

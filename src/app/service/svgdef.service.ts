@@ -30,13 +30,13 @@ export class SvgdefService {
 			setTimeout(() => {
 				this.http.get(`assets/svg/${name}.svg`, { responseType: 'text' })
 					.subscribe({
-						next: res => {
-							item.data = res;
+						next: result => {
+							item.data = result;
 							item.request = undefined;
-							resolve(res);
+							resolve(result);
 						},
-						error: err => {
-							reject(err as Error);
+						error: (error: unknown) => {
+							reject(error as Error);
 						}
 					});
 			});

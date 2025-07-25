@@ -80,8 +80,8 @@ export class LayoutService {
 
 	storeCustomBoards(list: Array<LoadLayout>) {
 		const customLayouts = this.loadCustomLayouts();
-		this.storage.storeCustomLayouts(customLayouts.concat(list));
-		this.layouts.items = this.layouts.items.concat(list.map(layout => this.expandLayout(layout, true)));
+		this.storage.storeCustomLayouts([...customLayouts, ...list]);
+		this.layouts.items = [...this.layouts.items, ...list.map(layout => this.expandLayout(layout, true))];
 	}
 
 	generatePreview(mapping: Mapping): SafeUrlSVG {
@@ -91,5 +91,4 @@ export class LayoutService {
 	private async requestBoards(): Promise<Array<LoadLayout>> {
 		return firstValueFrom(this.http.get<Array<LoadLayout>>('assets/data/boards.json'));
 	}
-
 }

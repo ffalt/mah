@@ -70,7 +70,7 @@ export class ExportComponent implements OnInit, OnChanges {
 	}
 
 	save(): void {
-		if (this.layoutService.layouts.items.find(l => !l.custom && l.id === this.exportLayout.id)) {
+		if (this.layoutService.layouts.items.some(l => !l.custom && l.id === this.exportLayout.id)) {
 			alert(this.translate.instant('EDITOR_BUILD_IN_EXISTS'));
 			return;
 		}

@@ -20,6 +20,7 @@ export class ImportComponent {
 		const element = event.currentTarget as HTMLInputElement;
 		const fileList: FileList | null = element.files;
 		if (fileList) {
+			// eslint-disable-next-line unicorn/prefer-spread
 			this.importFiles(Array.from(fileList));
 		}
 	}
@@ -33,8 +34,8 @@ export class ImportComponent {
 				for (const loadLayout of loadLayouts) {
 					const layout = this.layoutService.expandLayout(loadLayout, true);
 					if (
-						!this.layoutService.layouts.items.find(l => l.id === layout.id) &&
-						!imported.find(l => l.id === layout.id)
+						!this.layoutService.layouts.items.some(l => l.id === layout.id) &&
+						!imported.some(l => l.id === layout.id)
 					) {
 						imported.push(LayoutService.layout2loadLayout(layout, loadLayout.map));
 						this.logs.push({ msg: `Imported: "${file.name}"`, id: layout.id });
@@ -43,8 +44,8 @@ export class ImportComponent {
 						this.logs.push({ msg: `Similar layout to "${layout.name}" already available. Import rejected.`, isError: true });
 					}
 				}
-			} catch (e) {
-				console.error('Error importing', file, e);
+			} catch (error) {
+				console.error('Error importing', file, error);
 				this.logs.push({ msg: `ERROR importing "${file.name}". Invalid file.`, isError: true });
 			}
 		}
@@ -62,8 +63,8 @@ export class ImportComponent {
 
 	importFiles(files: Array<File>): void {
 		this.importLayouts(files)
-			.catch(e => {
-				console.error(e);
+			.catch(error => {
+				console.error(error);
 			});
 	}
 

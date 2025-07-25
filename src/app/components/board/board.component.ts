@@ -132,7 +132,7 @@ export class BoardComponent implements OnInit, OnChanges {
 				// Calculate distance moved from initial position
 				const dx = event.clientX - this.initialMouseX;
 				const dy = event.clientY - this.initialMouseY;
-				const distance = Math.sqrt(dx * dx + dy * dy);
+				const distance = Math.hypot(dx, dy);
 
 				// Start panning only if moved at least 10px
 				if (distance >= 10) {
@@ -159,18 +159,19 @@ export class BoardComponent implements OnInit, OnChanges {
 	}
 
 	onClickUp(event: MouseEvent, draw?: Draw): void {
-		if (!this.isPanning) {
-			this.clickEvent.emit(draw ? draw.source : undefined);
-			event.stopPropagation();
-		} else {
+		if (this.isPanning) {
 			this.updatePanning(event);
 			this.stopPanning();
+		} else {
+			this.clickEvent.emit(draw ? draw.source : undefined);
+			event.stopPropagation();
 		}
 	}
 
 	onTouchStart(event: TouchEvent): void {
 		event.preventDefault();
 		this.touchPoints = [];
+		// eslint-disable-next-line unicorn/prefer-spread
 		const touches = Array.from(event.touches)
 		for (const touch of touches) {
 			this.touchPoints.push({
@@ -204,6 +205,7 @@ export class BoardComponent implements OnInit, OnChanges {
 	onTouchMove(event: TouchEvent): void {
 		event.preventDefault();
 		this.touchPoints = [];
+		// eslint-disable-next-line unicorn/prefer-spread
 		const touches = Array.from(event.touches)
 		for (const touch of touches) {
 			this.touchPoints.push({
@@ -270,6 +272,7 @@ export class BoardComponent implements OnInit, OnChanges {
 
 		// Update touch points
 		this.touchPoints = [];
+		// eslint-disable-next-line unicorn/prefer-spread
 		const touches = Array.from(event.touches)
 		for (const touch of touches) {
 			this.touchPoints.push({
@@ -347,7 +350,7 @@ export class BoardComponent implements OnInit, OnChanges {
 	private getDistance(p1: TouchPoint, p2: TouchPoint): number {
 		const dx = p2.x - p1.x;
 		const dy = p2.y - p1.y;
-		return Math.sqrt(dx * dx + dy * dy);
+		return Math.hypot(dx, dy);
 	}
 
 	private resize(element: { innerHeight: number; innerWidth: number }): void {

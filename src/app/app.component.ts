@@ -30,8 +30,8 @@ export class AppComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.init()
-			.catch(e => {
-				console.error(e);
+			.catch(error => {
+				console.error(error);
 			});
 	}
 
@@ -40,10 +40,8 @@ export class AppComponent implements OnInit {
 		if (nodeName === 'input') {
 			return;
 		}
-		if (environment.editor) {
-			if (event.key === 'e') {
-				this.toggleEditor();
-			}
+		if (environment.editor && event.key === 'e') {
+			this.toggleEditor();
 		}
 	}
 
@@ -55,9 +53,10 @@ export class AppComponent implements OnInit {
 					this.editorSubscription = component.instance.closeEvent.subscribe(() => {
 						this.toggleEditor();
 					});
-				}).catch(e => {
-				console.error(e);
-			});
+				})
+				.catch(error => {
+					console.error(error);
+				});
 		}
 	}
 
@@ -80,9 +79,9 @@ export class AppComponent implements OnInit {
 	private async init(): Promise<void> {
 		await this.layoutService.get();
 		this.loading = false;
-		const params = new URLSearchParams(window.location.search);
-		const layoutIDs = await this.checkImport(params.get('mah'));
-		this.layoutService.selectBoardID = layoutIDs[0] || params.get('board');
+		const parameters = new URLSearchParams(window.location.search);
+		const layoutIDs = await this.checkImport(parameters.get('mah'));
+		this.layoutService.selectBoardID = layoutIDs[0] || parameters.get('board');
 		if (window.location.search) {
 			this.clearSearchParameters();
 		}
@@ -94,8 +93,8 @@ export class AppComponent implements OnInit {
 	private clearSearchParameters() {
 		try {
 			window.history.replaceState(null, '', window.location.pathname);
-		} catch (e) {
-			console.error(e);
+		} catch (error) {
+			console.error(error);
 		}
 	}
 
@@ -111,8 +110,8 @@ export class AppComponent implements OnInit {
 				const layout = this.layoutService.expandLayout(custom, true);
 				result.push(layout.id);
 				if (
-					!this.layoutService.layouts.items.find(l => l.id === layout.id) &&
-					!imported.find(l => l.id === layout.id)
+					!this.layoutService.layouts.items.some(l => l.id === layout.id) &&
+					!imported.some(l => l.id === layout.id)
 				) {
 					imported.push(LayoutService.layout2loadLayout(layout, custom.map));
 				}
@@ -121,8 +120,8 @@ export class AppComponent implements OnInit {
 				this.layoutService.storeCustomBoards(imported);
 			}
 			return result;
-		} catch (e) {
-			console.error(e);
+		} catch (error) {
+			console.error(error);
 			return [];
 		}
 	}

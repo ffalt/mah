@@ -1,7 +1,6 @@
 import { isPlatformBrowser } from '@angular/common';
 import { EventEmitter, Injectable, PLATFORM_ID, inject } from '@angular/core';
-import { type Observable, Subject, merge } from 'rxjs';
-import { debounceTime, throttleTime } from 'rxjs/operators';
+import { type Observable, Subject, merge, debounceTime, throttleTime } from 'rxjs';
 import { Rect } from './rect';
 
 interface ScrollEvent {

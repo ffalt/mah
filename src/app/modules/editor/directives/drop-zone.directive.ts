@@ -48,6 +48,7 @@ export class DropZoneDirective {
 		const { dataTransfer } = event;
 		if (dataTransfer?.items) {
 			const files: Array<File> = [];
+			// eslint-disable-next-line unicorn/prefer-spread
 			const items = Array.from(dataTransfer.items);
 			for (const item of items) {
 				// If dropped items aren't files, reject them
@@ -64,6 +65,7 @@ export class DropZoneDirective {
 			const files = dataTransfer?.files;
 			dataTransfer.clearData();
 			if (files) {
+				// eslint-disable-next-line unicorn/prefer-spread
 				this.appDropZone.emit(Array.from(files));
 			}
 		}

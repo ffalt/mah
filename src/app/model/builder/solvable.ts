@@ -40,10 +40,10 @@ export class SolvableBoardBuilder extends BuilderBase {
 		const pairs: Array<[Tile, Tile]> = [];
 		const allPairs: Array<[Tile, Tile]> = [];
 		const maxPairs = stones.length / 2;
-		const groups = tiles.groups.slice();
+		const groups = [...tiles.groups];
 		while (groups.length > 0) {
 			const group = BuilderBase.randomExtract(groups);
-			const g: Array<Tile> = group.tiles.slice();
+			const g: Array<Tile> = [...group.tiles];
 			const tile1 = BuilderBase.randomExtract(g);
 			const tile2 = BuilderBase.randomExtract(g);
 			const tile3 = BuilderBase.randomExtract(g);

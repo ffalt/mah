@@ -16,8 +16,8 @@ export function generateExportLayout(layout: Layout): LoadLayout {
 	return {
 		id: mappingToID(mapping),
 		name: layout.name,
-		by: layout.by ? layout.by : undefined,
-		cat: layout.category ? layout.category : undefined,
+		by: !layout.by || layout.by.length === 0 ? undefined : layout.by,
+		cat: layout.category.length === 0 ? undefined : layout.category,
 		map: compactMapping(mapping)
 	};
 }
@@ -41,16 +41,18 @@ export function generateExportKmahjongg(layout: Layout): string {
 		matrix.setValue(z, x + 1, y + 1, 3);
 	}
 	const result: Array<string> = [];
-	result.push('mahjongg-layout-v1.1');
-	result.push(`# name: ${layout.name}`);
-	result.push(`# by: ${layout.by}`);
-	result.push(`# category: ${layout.category}`);
-	result.push('# Board size in quarter tiles');
-	result.push(`w${bounds.x + 1}`);
-	result.push(`h${bounds.y + 1}`);
-	result.push('# Board depth');
-	result.push(`d${bounds.z}`);
-	matrix.levels.forEach((level, z) => {
+	result.push(
+		'mahjongg-layout-v1.1',
+		`# name: ${layout.name}`,
+		`# by: ${layout.by}`,
+		`# category: ${layout.category}`,
+		'# Board size in quarter tiles',
+		`w${bounds.x + 1}`,
+		`h${bounds.y + 1}`,
+		'# Board depth',
+		`d${bounds.z}`
+	);
+	for (const [z, level] of matrix.levels.entries()) {
 		const t = `# Level ${z} `;
 		result.push(`${t}${'-'.repeat(Math.max(bounds.x - t.length, 0))}`);
 		for (let y = 0; y <= bounds.y; y++) {
@@ -60,7 +62,7 @@ export function generateExportKmahjongg(layout: Layout): string {
 			}
 			result.push(line.join(''));
 		}
-	});
+	}
 	return result.join('\n');
 }
 

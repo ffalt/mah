@@ -15,7 +15,7 @@ export function statsSolveMapping(mapping: Mapping, rounds: number, progress: (p
 	const builder = new Builder(new Tiles(mapping.length));
 	let fail = 0;
 	let won = 0;
-	for (let i = 0; i < rounds; i++) {
+	for (let index = 0; index < rounds; index++) {
 		const stones = builder.build(MODE_SOLVABLE, mapping);
 		if (stones) {
 			if (solver.solveLayout(stones) > 0) {

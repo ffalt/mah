@@ -1,3 +1,5 @@
+import { hashCode } from './hash';
+
 export function imageSetIsKyodai(name: string): boolean {
 	return ['kyodai', 'kyodai-black'].includes(name);
 }
@@ -224,24 +226,15 @@ export const KyodaiTileSets: Array<Tileset> = [
 async function loadImage(tileSetUrl: string): Promise<HTMLImageElement> {
 	return new Promise((resolve, reject) => {
 		const newImg = new Image();
-		newImg.onload = () => {
+		newImg.addEventListener('load', () => {
 			resolve(newImg);
-		};
-		newImg.onerror = () => {
-			reject(Error(`Image ${tileSetUrl} could not be loaded.`));
-		};
+		});
+		newImg.addEventListener('error', error => {
+			console.error(error);
+			reject(new Error(`Image ${tileSetUrl} could not be loaded.`));
+		});
 		newImg.src = tileSetUrl;
 	});
-}
-
-function hashCode(str: string) {
-	let hash = 0;
-	for (let i = 0, len = str.length; i < len; i++) {
-		const chr = str.charCodeAt(i);
-		hash = (hash << 5) - hash + chr;
-		hash |= 0; // Convert to 32bit integer
-	}
-	return hash;
 }
 
 const kyodai = [
@@ -261,13 +254,13 @@ export async function buildKyodaiSVG(tileSetUrl?: string): Promise<string> {
 	const colWidth = image.width / 9;
 	const image_id = hashCode(tileSetUrl);
 	let data = `<svg><defs><image id="${image_id}" xlink:href="${tileSetUrl}" x="0" y="0" height="${image.height}" width="${image.width}"/>`;
-	kyodai.forEach(((row, nr) => {
+	for (const [nr, row] of kyodai.entries()) {
 		const y = nr * rowHeight;
-		row.forEach((id, col) => {
+		for (const [col, id] of row.entries()) {
 			const x = col * colWidth;
 			data += `<svg preserveAspectRatio="xMidYMid slice" id="${id}" width="75" height="100" viewBox="${x} ${y} ${colWidth} ${rowHeight}"><use xlink:href="#${image_id}"></use></svg>`;
-		});
-	}));
+		}
+	}
 	data += '</defs></svg>';
 	return data;
 }

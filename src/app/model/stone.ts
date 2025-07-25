@@ -61,9 +61,9 @@ export class Stone implements StonePosition {
 }
 
 export const safeGetStone = (stones: Array<Stone>, z: number, x: number, y: number): Stone | undefined => {
-	for (let i = 0, il = stones.length; i < il; i++) {
-		if (stones[i].z === z && stones[i].x === x && stones[i].y === y) {
-			return stones[i];
+	for (const stone of stones) {
+		if (stone.z === z && stone.x === x && stone.y === y) {
+			return stone;
 		}
 	}
 	return;

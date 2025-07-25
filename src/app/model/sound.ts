@@ -22,8 +22,8 @@ export class Sound {
 			this.audioplayers[sound] = audio;
 		}
 		this.audioplayers[sound].play()
-			.catch(e => {
-				console.error(e);
+			.catch(error => {
+				console.error(error);
 			});
 	}
 

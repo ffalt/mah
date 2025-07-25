@@ -7,7 +7,7 @@ export class RandomBoardBuilder extends BuilderBase {
 	build(mapping: Mapping, tiles: Tiles): Array<Stone> {
 		const remainingTiles = this.getTilesInGame(tiles, mapping.length);
 		const stones: Array<Stone> = [];
-		const remainingPlaces = mapping.slice(0);
+		const remainingPlaces = [...mapping];
 		while (remainingPlaces.length > 0) {
 			const tile = BuilderBase.randomExtract(remainingTiles);
 			const place = BuilderBase.randomExtract(remainingPlaces);

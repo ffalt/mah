@@ -53,7 +53,7 @@ export class LayoutListComponent implements OnChanges {
 			let id = this.storage.getLastPlayed();
 			const boardID = this.layoutService.selectBoardID;
 			this.layoutService.selectBoardID = undefined;
-			if (boardID && layouts.find(l => l.id === boardID)) {
+			if (boardID && layouts.some(l => l.id === boardID)) {
 				id = boardID;
 			}
 			if (id) {
