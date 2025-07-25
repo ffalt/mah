@@ -15,7 +15,7 @@ export default ts.config(
 			"**/local/**/*",
 			"**/coverage/**/*",
 			"**/node_modules/**/*",
-			"**/resources/mobile/**/*"
+			"**/resources/mobile/android/**/*"
 		]
 	},
 	{
@@ -29,7 +29,7 @@ export default ts.config(
 			sourceType: "script",
 			globals: globals.browser,
 			parserOptions: {
-				project: ["tsconfig.json", "tsconfig.worker.json"],
+				project: ["tsconfig.json", "tsconfig.worker.json", "tsconfig.capacitor.json"],
 				createDefaultProgram: true
 			}
 		},

@@ -150,6 +150,7 @@ match.rules = [
 	"radarlint-js:typescript:S125", # Remove this commented out code.
 	"biome:lint/complexity/noStaticOnlyClass", #  Avoid classes that contain only static members.
 	"biome:lint/style/noInferrableTypes", # This type annotation is trivially inferred from its initialization.
+	"biome:lint/suspicious/noExplicitAny", #  Unexpected any. Specify a different type.
 	"radarlint-js:typescript:S4138", # Expected a `for-of` loop instead of a `for` loop with this simple iteration.
 	"radarlint-js:typescript:S4335", # Remove this type without members or change this type intersection.
 	"radarlint-js:typescript:S6564", # Remove this redundant type alias

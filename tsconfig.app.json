@@ -1,8 +1,7 @@
 {
 	"extends": "./tsconfig.json",
 	"compilerOptions": {
-		"outDir": "./out-tsc/app",
-		"types": []
+		"outDir": "./out-tsc/app"
 	},
 	"files": [
 		"src/main.ts"
@@ -12,8 +11,6 @@
 	],
 	"exclude": [
 		"src/**/*.worker.ts",
-		"src/environments/environment.production.ts",
-		"src/environments/environment.capacitor.ts",
 		"src/**/*.spec.ts"
 	]
 }

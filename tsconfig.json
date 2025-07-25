@@ -37,8 +37,6 @@
 		"strictInjectionParameters": true
 	},
 	"exclude": [
-		"src/**/*.worker.ts",
-		"local",
-		"resources"
+		"local"
 	]
 }

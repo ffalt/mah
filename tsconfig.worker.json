@@ -5,15 +5,12 @@
 		"lib": [
 			"es2018",
 			"webworker"
-		],
-		"types": []
+		]
 	},
 	"include": [
 		"src/**/*.worker.ts"
 	],
 	"exclude": [
-		"local",
-		"resources",
 		"src/**/*.spec.ts"
 	]
 }

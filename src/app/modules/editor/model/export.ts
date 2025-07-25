@@ -17,7 +17,7 @@ export function generateExportLayout(layout: Layout): LoadLayout {
 		id: mappingToID(mapping),
 		name: layout.name,
 		by: !layout.by || layout.by.length === 0 ? undefined : layout.by,
-		cat: layout.category.length === 0 ? undefined : layout.category,
+		cat: !layout.category || layout.category.length === 0 ? undefined : layout.category,
 		map: compactMapping(mapping)
 	};
 }

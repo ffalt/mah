@@ -2,7 +2,6 @@
 	"extends": "./tsconfig.json",
 	"compilerOptions": {
 		"outDir": "./out-tsc/spec",
-		"esModuleInterop": true,
 		"types": [
 			"jest",
 			"node"
@@ -11,13 +10,5 @@
 	"include": [
 		"src/**/*.spec.ts",
 		"src/**/*.d.ts"
-	],
-	"exclude": [
-		"local",
-		"resources",
-		"src/**/*.worker.ts",
-		"test-config.helper.ts",
-		"src/environments/environment.capacitor.ts",
-		"src/environments/environment.production.ts"
 	]
 }

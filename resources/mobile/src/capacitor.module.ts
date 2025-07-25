@@ -7,10 +7,14 @@ import { AppService } from '../../../src/app/service/app.service';
 	providers: []
 })
 export class CapacitorModule {
-	private ngZone = inject(NgZone);
-	private app = inject(AppService);
+	private readonly ngZone = inject(NgZone);
+	private readonly app = inject(AppService);
 
 	constructor() {
+		this.init();
+	}
+
+	init() {
 		App.addListener('appStateChange', ({ isActive }) => {
 			if (!isActive) {
 				this.ngZone.run(() => {
@@ -19,7 +23,7 @@ export class CapacitorModule {
 					}
 				});
 			}
-		});
+		}).catch(error => console.error(error));
 	}
 
 	static forRoot(): ModuleWithProviders<CapacitorModule> {

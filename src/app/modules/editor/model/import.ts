@@ -206,8 +206,8 @@ export async function readFile(file: File): Promise<string> {
 		reader.addEventListener('load', () => {
 			resolve(reader.result as string);
 		});
-		reader.addEventListener('error', error => {
-			reject(new Error(`Reading File failed: ${error ?? 'unknown error'}`));
+		reader.addEventListener('error', event => {
+			reject(new Error(`Reading File failed: ${event?.target?.error?.message ?? 'unknown error'}`));
 		});
 		reader.readAsText(file, 'ascii');
 	});
