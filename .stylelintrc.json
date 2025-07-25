@@ -4,6 +4,7 @@
 		"./angular/**",
 		"./src/fonts/**",
 		"./dist/**",
+		"./coverage/**",
 		"./resources/mobile/android/app/**",
 		"./local/**"
 	]
