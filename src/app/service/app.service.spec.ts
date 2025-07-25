@@ -47,7 +47,8 @@ describe('AppService', () => {
 			enabled: false,
 			toggle: jest.fn(),
 			play: jest.fn(),
-			pause: jest.fn()
+			pause: jest.fn(),
+			toggleMusic: jest.fn()
 		} as jest.Mocked<Music>;
 
 		mockSettings = new Settings(mockStorage) as jest.Mocked<Settings>;
