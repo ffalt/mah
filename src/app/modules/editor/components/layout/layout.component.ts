@@ -187,38 +187,31 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 		this.refresh();
 	}
 
-	moveLayerX(deltaX: number): void {
+	moveLayer(xAxis: boolean, delta: number): void {
 		const list = this.layout().mapping.filter(m => m[0] === this.currentZ);
-		let minx = list[0][1];
-		let maxx = list[0][1];
+		const index = xAxis ? 1 : 2;
+		const maxBound = xAxis ? CONSTS.mX : CONSTS.mY;
+		let min = list[0][index];
+		let max = list[0][index];
 		for (const m of list) {
-			minx = Math.min(m[1], minx);
-			maxx = Math.max(m[1], maxx);
+			min = Math.min(m[index], min);
+			max = Math.max(m[index], max);
 		}
-		if (minx + deltaX < 0 || maxx + deltaX >= CONSTS.mX - 1) {
+		if (min + delta < 0 || max + delta >= maxBound - 1) {
 			return;
 		}
 		for (const m of list) {
-			m[1] = m[1] + deltaX;
+			m[index] = m[index] + delta;
 		}
 		this.refresh();
 	}
 
+	moveLayerX(deltaX: number): void {
+		this.moveLayer(true, deltaX);
+	}
+
 	moveLayerY(deltaY: number): void {
-		const list = this.layout().mapping.filter(m => m[0] === this.currentZ);
-		let miny = list[0][2];
-		let maxy = list[0][2];
-		for (const m of list) {
-			miny = Math.min(m[2], miny);
-			maxy = Math.max(m[2], maxy);
-		}
-		if (miny + deltaY < 0 || maxy + deltaY >= CONSTS.mY - 1) {
-			return;
-		}
-		for (const m of list) {
-			m[2] = m[2] + deltaY;
-		}
-		this.refresh();
+		this.moveLayer(false, deltaY);
 	}
 
 	duplicateLayerZ(layer: number): void {
