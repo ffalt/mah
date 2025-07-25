@@ -253,8 +253,8 @@ export class GameComponent {
 				return;
 			}
 			const stones = this.game.board.stones.filter(s => (
-				(s.z === t1[0]) && (s.x === t1[1]) && (s.y === t1[2]) ||
-				(s.z === t2[0]) && (s.x === t2[1]) && (s.y === t2[2]))
+				((s.z === t1[0]) && (s.x === t1[1]) && (s.y === t1[2])) ||
+				((s.z === t2[0]) && (s.x === t2[1]) && (s.y === t2[2])))
 			);
 			if (stones.length > 1) {
 				for (const stone of stones) {
@@ -271,9 +271,4 @@ export class GameComponent {
 			play(0, data.order);
 		});
 	}
-
-	// debugCheat(): void {
-	// 	this.game.gameOverWining();
-	// }
-
 }

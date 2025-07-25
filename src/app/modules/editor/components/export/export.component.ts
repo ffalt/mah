@@ -13,6 +13,27 @@ interface Format {
 	type: string;
 }
 
+const EXPORT_FORMATS = [
+	{
+		name: 'Mah',
+		ext: 'mah',
+		func: generateExportMah,
+		type: 'text/json'
+	},
+	{
+		name: 'Kyodai',
+		ext: 'lay',
+		func: generateExportKyodai,
+		type: 'text/lay'
+	},
+	{
+		name: 'Kmahjongg',
+		ext: 'layout',
+		func: generateExportKmahjongg,
+		type: 'text/layout'
+	}
+];
+
 @Component({
 	selector: 'app-editor-export-component',
 	templateUrl: './export.component.html',
@@ -22,26 +43,7 @@ interface Format {
 export class ExportComponent implements OnInit, OnChanges {
 	readonly layout = input.required<EditLayout>();
 	readonly savedEvent = output<boolean>();
-	exportFormats: Array<Format> = [
-		{
-			name: 'Mah',
-			ext: 'mah',
-			func: generateExportMah,
-			type: 'text/json'
-		},
-		{
-			name: 'Kyodai',
-			ext: 'lay',
-			func: generateExportKyodai,
-			type: 'text/lay'
-		},
-		{
-			name: 'Kmahjongg',
-			ext: 'layout',
-			func: generateExportKmahjongg,
-			type: 'text/layout'
-		}
-	];
+	readonly exportFormats: Array<Format> = EXPORT_FORMATS;
 	format: Format = this.exportFormats[0];
 	exportLayout: LoadLayout;
 	layoutName: string;

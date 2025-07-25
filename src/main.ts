@@ -34,5 +34,4 @@ bootstrapApplication(AppComponent, {
 		provideHttpClient(withInterceptorsFromDi()),
 		provideAnimations()
 	]
-})
-	.catch(console.error);
+}).catch(console.error);

@@ -144,8 +144,7 @@ export class ManagerComponent implements OnChanges, OnDestroy {
 		if (next) {
 			this.startTestLayout(next, () => {
 				this.testNextLayout();
-			})
+			});
 		}
 	}
-
 }

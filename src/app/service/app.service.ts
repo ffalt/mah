@@ -56,5 +56,4 @@ export class AppService {
 		}
 		this.translate.setDefaultLang(DEFAULT_LANGUAGE);
 	}
-
 }

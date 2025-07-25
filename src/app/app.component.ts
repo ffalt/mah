@@ -143,5 +143,4 @@ export class AppComponent implements OnInit {
 		const tag = this.meta.getTag('name=application-name');
 		this.app.name = tag ? tag.content : this.app.name;
 	}
-
 }

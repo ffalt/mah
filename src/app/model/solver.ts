@@ -111,13 +111,14 @@ class SolverWriter {
 	nTiles2: number;
 	result: Array<Place> = [];
 
-	constructor(nTilesCount: number,
-							private readonly qt: Array<Group>,
-							private readonly lo: Array<Array<Array<Tile | undefined>>>,
-							private readonly nGroups: number,
-							private readonly maxHeight: number,
-							private readonly maxWidth: number,
-							private readonly maxDepth: number
+	constructor(
+		nTilesCount: number,
+		private readonly qt: Array<Group>,
+		private readonly lo: Array<Array<Array<Tile | undefined>>>,
+		private readonly nGroups: number,
+		private readonly maxHeight: number,
+		private readonly maxWidth: number,
+		private readonly maxDepth: number
 	) {
 		this.nTiles1 = nTilesCount;
 		this.nTiles2 = nTilesCount;
@@ -191,7 +192,6 @@ class SolverWriter {
 			}
 		}
 	}
-
 }
 
 export class Solver {
@@ -753,7 +753,7 @@ export class Solver {
 			}
 		};
 
-		const findMatchToPlay = (): { groupIndex: number, matchIndex: number } | null => {
+		const findMatchToPlay = (): { groupIndex: number; matchIndex: number } | null => {
 			let totalMatches = 0;
 
 			// Check for forced plays
@@ -910,5 +910,4 @@ export class Solver {
 		this.unrotateGroups();
 		return this.remainMax + 2;
 	}
-
 }

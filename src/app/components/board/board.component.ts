@@ -172,7 +172,7 @@ export class BoardComponent implements OnInit, OnChanges {
 		event.preventDefault();
 		this.touchPoints = [];
 		// eslint-disable-next-line unicorn/prefer-spread
-		const touches = Array.from(event.touches)
+		const touches = Array.from(event.touches);
 		for (const touch of touches) {
 			this.touchPoints.push({
 				x: touch.clientX,
@@ -206,7 +206,7 @@ export class BoardComponent implements OnInit, OnChanges {
 		event.preventDefault();
 		this.touchPoints = [];
 		// eslint-disable-next-line unicorn/prefer-spread
-		const touches = Array.from(event.touches)
+		const touches = Array.from(event.touches);
 		for (const touch of touches) {
 			this.touchPoints.push({
 				x: touch.clientX,
@@ -273,7 +273,7 @@ export class BoardComponent implements OnInit, OnChanges {
 		// Update touch points
 		this.touchPoints = [];
 		// eslint-disable-next-line unicorn/prefer-spread
-		const touches = Array.from(event.touches)
+		const touches = Array.from(event.touches);
 		for (const touch of touches) {
 			this.touchPoints.push({
 				x: touch.clientX,

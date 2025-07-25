@@ -106,5 +106,4 @@ export class Matrix {
 			this.setValue(z, x, y, 1);
 		}
 	}
-
 }

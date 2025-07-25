@@ -17,7 +17,6 @@ export const BuilderModes = [
 export type BUILD_MODE_ID = 'MODE_SOLVABLE' | 'MODE_RANDOM';
 
 export class Builder {
-
 	constructor(private readonly tiles: Tiles) {
 	}
 

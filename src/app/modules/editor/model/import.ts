@@ -161,7 +161,7 @@ export function compactMapping(mapping: Mapping): CompactMapping {
 export function cleanNameCapitalized(s: string): string {
 	return s.trim().split(' ').map(s => s[0].toUpperCase() + s.slice(1)).join(' ')
 		.replace(/"/g, '')
-		.replace(/(^'|'$)/gm, '')
+		.replace(/(^'|'$)/gm, '');
 }
 
 export function cleanImportLayout(layout: ImportLayout): LoadLayout {

@@ -13,7 +13,7 @@ interface GestureIndicator {
 export class Indicator {
 	gestureIndicators: Array<GestureIndicator> = [];
 
-	hide(gestureIndicator?: { state: string, x: number, y: number }) {
+	hide(gestureIndicator?: { state: string; x: number; y: number }) {
 		const gindicator = gestureIndicator;
 		if (!gindicator) {
 			return;
@@ -21,12 +21,12 @@ export class Indicator {
 		setTimeout(() => {
 			gindicator.state = 'hidden';
 			setTimeout(() => {
-				this.removeIndicator(gestureIndicator)
+				this.removeIndicator(gestureIndicator);
 			}, 250);
 		}, 500);
 	}
 
-	removeIndicator(gestureIndicator: { state: string, x: number, y: number }) {
+	removeIndicator(gestureIndicator: { state: string; x: number; y: number }) {
 		for (let index = 0; index < this.gestureIndicators.length; index++) {
 			const indicator = this.gestureIndicators[index];
 			if (indicator.x === gestureIndicator.x && indicator.y === gestureIndicator.y) {

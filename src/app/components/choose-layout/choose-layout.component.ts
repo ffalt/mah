@@ -7,18 +7,20 @@ import { type GAME_MODE_ID, GameModes } from '../../model/consts';
 import { TranslatePipe } from '@ngx-translate/core';
 import { LayoutListComponent } from '../layout-list/layout-list.component';
 
+export interface StartEvent {
+	layout: Layout;
+	buildMode: BUILD_MODE_ID;
+	gameMode: GAME_MODE_ID;
+}
+
 @Component({
-    selector: 'app-choose-layout',
-    templateUrl: './choose-layout.component.html',
-    styleUrls: ['./choose-layout.component.scss'],
-    imports: [LayoutListComponent, TranslatePipe]
+	selector: 'app-choose-layout',
+	templateUrl: './choose-layout.component.html',
+	styleUrls: ['./choose-layout.component.scss'],
+	imports: [LayoutListComponent, TranslatePipe]
 })
 export class ChooseLayoutComponent {
-	readonly startEvent = output<{
-		layout: Layout;
-		buildMode: BUILD_MODE_ID;
-		gameMode: GAME_MODE_ID;
-	}>();
+	readonly startEvent = output<StartEvent>();
 	readonly gameMode = model.required<GAME_MODE_ID>();
 	buildMode: BUILD_MODE_ID = MODE_SOLVABLE;
 	buildModes = BuilderModes;

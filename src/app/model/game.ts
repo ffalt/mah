@@ -11,7 +11,7 @@ export class Game {
 	clock: Clock = new Clock();
 	board: Board = new Board();
 	sound: Sound = new Sound();
-  music: Music = new Music();
+	music: Music = new Music();
 	state: number = STATES.idle;
 	message?: { messageID?: string; playTime?: number };
 	layoutID?: string = undefined;

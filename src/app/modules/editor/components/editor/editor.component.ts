@@ -75,5 +75,4 @@ export class EditorComponent {
 	onDragFiles(): void {
 		this.mode = 'import';
 	}
-
 }

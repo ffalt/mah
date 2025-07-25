@@ -9,10 +9,10 @@ import { KyodaiTileSets } from '../../model/tilesets';
 import { environment } from '../../../environments/environment';
 
 @Component({
-    selector: 'app-settings',
-    templateUrl: './settings.component.html',
-    styleUrls: ['./settings.component.scss'],
-    imports: [TranslatePipe]
+	selector: 'app-settings',
+	templateUrl: './settings.component.html',
+	styleUrls: ['./settings.component.scss'],
+	imports: [TranslatePipe]
 })
 export class SettingsComponent {
 	readonly kyodaiInput = viewChild.required<ElementRef<HTMLInputElement>>('kyodaiInput');
@@ -34,7 +34,7 @@ export class SettingsComponent {
 
 	clearKyodaiUrl(): void {
 		this.app.settings.kyodaiUrl = undefined;
-		this.app.settings.save()
+		this.app.settings.save();
 	}
 
 	setKyodaiUrl(event: Event): void {

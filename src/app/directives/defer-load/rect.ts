@@ -55,15 +55,11 @@ export class Rect {
 	}
 
 	intersectsWith(rect: Rect): boolean {
-		return (rect.left < this.right) &&
-			(this.left < rect.right) &&
-			(rect.top < this.bottom) &&
-			(this.top < rect.bottom);
+		return (rect.left < this.right) && (this.left < rect.right) && (rect.top < this.bottom) && (this.top < rect.bottom);
 	}
 
 	intersectsWithY(rect: Rect): boolean {
-		return (rect.top < this.bottom) &&
-			(this.top < rect.bottom);
+		return (rect.top < this.bottom) && (this.top < rect.bottom);
 	}
 
 	getIntersectionWith(rect: Rect): Rect {
@@ -77,5 +73,4 @@ export class Rect {
 		}
 		return Rect.empty;
 	}
-
 }

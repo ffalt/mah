@@ -35,6 +35,12 @@ interface SolveStats {
 	won: number;
 }
 
+interface EditLevel {
+	z: number;
+	rows: Array<Array<number>>;
+	showTiles: boolean;
+}
+
 @Component({
 	selector: 'app-editor-layout-component',
 	templateUrl: './layout.component.html',
@@ -43,11 +49,7 @@ interface SolveStats {
 })
 export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 	readonly layout = model.required<EditLayout>();
-	level: {
-		z: number;
-		rows: Array<Array<number>>;
-		showTiles: boolean;
-	};
+	level: EditLevel;
 	stats: Stats;
 	solveStats?: SolveStats;
 	solveWorker?: Worker;
@@ -312,5 +314,4 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 			});
 		this.solveStats = solveStats;
 	}
-
 }

@@ -114,5 +114,4 @@ export class BoardComponent implements OnInit, OnChanges {
 		this.drawStones = sortDrawItems(stones);
 		this.viewport = getDrawViewPort(this.drawCells, 1470, 960, false);
 	}
-
 }

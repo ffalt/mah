@@ -5,10 +5,10 @@ import { TileComponent } from '../tile/tile.component';
 import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
-    selector: 'app-tiles-info',
-    templateUrl: './tiles-info.component.html',
-    styleUrls: ['./tiles-info.component.scss'],
-    imports: [TileComponent, TranslatePipe]
+	selector: 'app-tiles-info',
+	templateUrl: './tiles-info.component.html',
+	styleUrls: ['./tiles-info.component.scss'],
+	imports: [TileComponent, TranslatePipe]
 })
 export class TilesInfoComponent {
 	TILES_INFOS = TILES_INFOS;

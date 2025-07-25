@@ -2,25 +2,18 @@ export class Music {
 	enabled: boolean = false;
 
 	play() {
-		// if (!this.enabled) {
-		// 	return;
-		// }
+		// not yet implemented
 	}
 
 	pause() {
-		// if (!this.enabled) {
-		// 	return;
-		// }
+		// not yet implemented
 	}
 
 	toggle() {
-		// if (!this.settings.music) {
-		// 	this.stop();
-		// } else {
-		// 	this.play();
-		// }
-		// toggleMusic(): void {
-		// 	this.music.toggle();
-		// }
+		// not yet implemented
+	}
+
+	toggleMusic(): void {
+		// not yet implemented
 	}
 }

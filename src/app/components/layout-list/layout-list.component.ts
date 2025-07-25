@@ -125,5 +125,4 @@ export class LayoutListComponent implements OnChanges {
 			this.refresh();
 		}
 	}
-
 }

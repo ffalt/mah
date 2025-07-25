@@ -71,5 +71,4 @@ export class ImportComponent {
 	onDropFiles(files: Array<File>): void {
 		this.importFiles(files);
 	}
-
 }

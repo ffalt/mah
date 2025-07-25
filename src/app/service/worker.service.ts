@@ -7,7 +7,6 @@ import { createSolveWorker } from '../worker/create-solve.worker';
 
 @Injectable({ providedIn: 'root' })
 export class WorkerService {
-
 	solveGame(stones: Array<StonePosition>, finish: (data: { result: number; order: Array<Place> }) => void): Worker | undefined {
 		if (typeof Worker !== 'undefined') {
 			const worker = createSolveWorker();

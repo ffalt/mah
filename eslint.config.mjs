@@ -5,6 +5,7 @@ import pluginJest from "eslint-plugin-jest";
 import globals from "globals";
 import rxjsX from "eslint-plugin-rxjs-x";
 import unicorn from "eslint-plugin-unicorn";
+import stylistic from '@stylistic/eslint-plugin';
 
 export default ts.config(
 	{
@@ -39,7 +40,8 @@ export default ts.config(
 			...ts.configs.stylistic,
 			...angular.configs.tsRecommended,
 			unicorn.configs.recommended,
-			rxjsX.configs.recommended
+			rxjsX.configs.recommended,
+			stylistic.configs.recommended
 		],
 		processor: angular.processInlineTemplates,
 		rules: {
@@ -71,6 +73,28 @@ export default ts.config(
 			"prefer-template": "error",
 			"space-in-parens": ["error", "never"],
 			"yoda": "error",
+
+			"@stylistic/semi": ["error", "always"],
+			"@stylistic/comma-dangle": ["error", "never"],
+			"@stylistic/arrow-parens": ["error", "as-needed"],
+			"@stylistic/indent": ["error", "tab"],
+			"@stylistic/no-tabs": ["error", { allowIndentationTabs: true }],
+			"@stylistic/member-delimiter-style": ["error", {
+				"multiline": {
+					"delimiter": "semi",
+					"requireLast": true
+				},
+				"singleline": {
+					"delimiter": "semi",
+					"requireLast": false
+				},
+				"multilineDetection": "brackets"
+			}],
+			"@stylistic/brace-style": ["error", "1tbs", { "allowSingleLine": true }],
+			"@stylistic/operator-linebreak": ["error", "after"],
+			"@stylistic/type-annotation-spacing": "error",
+			"@stylistic/linebreak-style": ["error", "unix"],
+			"@stylistic/no-trailing-spaces": "error",
 
 			"unicorn/prefer-top-level-await": "off",
 			"unicorn/relative-url-style": "off",

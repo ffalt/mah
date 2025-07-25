@@ -123,8 +123,8 @@ export class Board {
 		}
 		for (const stone of this.stones) {
 			if (
-				(stone.z === n1[0]) && (stone.x === n1[1]) && (stone.y === n1[2]) ||
-				(stone.z === n2[0]) && (stone.x === n2[1]) && (stone.y === n2[2])
+				((stone.z === n1[0]) && (stone.x === n1[1]) && (stone.y === n1[2])) ||
+				((stone.z === n2[0]) && (stone.x === n2[1]) && (stone.y === n2[2]))
 			) {
 				stone.picked = false;
 			}
