@@ -40,7 +40,9 @@ export class Matrix {
 	}
 
 	inBounds(z: number, x: number, y: number): boolean {
-		return (z >= 0) && (x >= 0) && (y >= 0) && (z < this.levels.length) && (x < this.levels[0].length) && (y < this.levels[0][0].length);
+		const hasPositiveCoords = (z >= 0) && (x >= 0) && (y >= 0);
+		const withinLevelBounds = (z < this.levels.length) && (x < this.levels[0].length) && (y < this.levels[0][0].length);
+		return hasPositiveCoords && withinLevelBounds;
 	}
 
 	isTile(z: number, x: number, y: number): boolean {

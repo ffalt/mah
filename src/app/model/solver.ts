@@ -152,7 +152,10 @@ class SolverWriter {
 	private writePairing(k: number, qtk: Group, a: number, b: number): boolean {
 		const qtmA = qtk.member[a] as Tile;
 		const qtmB = qtk.member[b] as Tile;
-		if (qtmA && qtmB && !(qtmA.isPlayed) && isPlayable(qtmA) && isPlayable(qtmB)) {
+		const tilesExist = qtmA && qtmB;
+		const tilesNotPlayed = tilesExist && !qtmA.isPlayed;
+		const tilesPlayable = tilesExist && isPlayable(qtmA) && isPlayable(qtmB);
+		if (tilesExist && tilesNotPlayed && tilesPlayable) {
 			this.writePair(k, a, b);
 			qtmA.isPlayed = true;
 			qtmB.isPlayed = true;
