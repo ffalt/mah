@@ -24,5 +24,4 @@ describe('BoardComponent', () => {
 	it('should create', async () => {
 		expect(component).toBeTruthy();
 	});
-
 });

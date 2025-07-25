@@ -8,17 +8,17 @@ async function convertMP3(source, dest) {
 	return new Promise((resolve, reject) => {
 		console.log(`convert to mp3 ${source}`);
 		ffmpeg(source)
-		.format("mp3")
-		.audioBitrate("128k")
-		.audioChannels(2)
-		.audioCodec("libmp3lame")
-		.on("end", () => {
-			resolve();
-		})
-		.on("error", err => {
-			reject(err);
-		})
-		.save(dest);
+			.format("mp3")
+			.audioBitrate("128k")
+			.audioChannels(2)
+			.audioCodec("libmp3lame")
+			.on("end", () => {
+				resolve();
+			})
+			.on("error", err => {
+				reject(err);
+			})
+			.save(dest);
 	});
 }
 
@@ -26,16 +26,16 @@ async function convertOgg(source, dest) {
 	return new Promise((resolve, reject) => {
 		console.log(`convert to ogg ${source}`);
 		ffmpeg(source)
-		.format("ogg")
-		.audioBitrate("128k")
-		.audioChannels(2)
-		.on("end", () => {
-			resolve();
-		})
-		.on("error", err => {
-			reject(err);
-		})
-		.save(dest);
+			.format("ogg")
+			.audioBitrate("128k")
+			.audioChannels(2)
+			.on("end", () => {
+				resolve();
+			})
+			.on("error", err => {
+				reject(err);
+			})
+			.save(dest);
 	});
 }
 

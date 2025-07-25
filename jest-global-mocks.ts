@@ -1,4 +1,4 @@
-Object.defineProperty(window, 'CSS', {value: null});
+Object.defineProperty(window, 'CSS', { value: null });
 
 Object.defineProperty(document, 'doctype', { value: '<!DOCTYPE html>' });
 
@@ -25,8 +25,8 @@ const mockBrowserStorage = () => {
 		clear: () => (storage.clear())
 	};
 };
-Object.defineProperty(window, 'localStorage', {value: mockBrowserStorage()});
-Object.defineProperty(window, 'sessionStorage', {value: mockBrowserStorage()});
+Object.defineProperty(window, 'localStorage', { value: mockBrowserStorage() });
+Object.defineProperty(window, 'sessionStorage', { value: mockBrowserStorage() });
 
 jest.mock('./src/app/worker/create-stats-solve.worker.ts', () => ({
 	createStatsSolveWorker: () => {

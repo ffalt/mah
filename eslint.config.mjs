@@ -1,11 +1,11 @@
-import eslint from '@eslint/js';
+import eslint from "@eslint/js";
 import angular from "angular-eslint";
 import ts from "typescript-eslint";
 import pluginJest from "eslint-plugin-jest";
 import globals from "globals";
 import rxjsX from "eslint-plugin-rxjs-x";
 import unicorn from "eslint-plugin-unicorn";
-import stylistic from '@stylistic/eslint-plugin';
+import stylistic from "@stylistic/eslint-plugin";
 
 export default ts.config(
 	{
@@ -179,20 +179,20 @@ export default ts.config(
 				createDefaultProgram: true
 			}
 		},
-		plugins: { jest: pluginJest },
 		extends: [
 			eslint.configs.recommended,
 			...ts.configs.recommended,
 			...ts.configs.stylistic,
 			...angular.configs.tsRecommended,
-			pluginJest.configs['flat/recommended']
+			pluginJest.configs["flat/recommended"],
+			stylistic.configs.recommended
 		],
 		rules: {
-			'jest/no-disabled-tests': 'warn',
-			'jest/no-focused-tests': 'error',
-			'jest/no-identical-title': 'error',
-			'jest/prefer-to-have-length': 'warn',
-			'jest/valid-expect': 'error',
+			"jest/no-disabled-tests": "warn",
+			"jest/no-focused-tests": "error",
+			"jest/no-identical-title": "error",
+			"jest/prefer-to-have-length": "warn",
+			"jest/valid-expect": "error",
 			"jest/expect-expect": [
 				"error",
 				{
@@ -231,6 +231,28 @@ export default ts.config(
 			"prefer-template": "error",
 			"space-in-parens": ["error", "never"],
 			"yoda": "error",
+
+			"@stylistic/semi": ["error", "always"],
+			"@stylistic/comma-dangle": ["error", "never"],
+			"@stylistic/arrow-parens": ["error", "as-needed"],
+			"@stylistic/indent": ["error", "tab"],
+			"@stylistic/no-tabs": ["error", { allowIndentationTabs: true }],
+			"@stylistic/member-delimiter-style": ["error", {
+				"multiline": {
+					"delimiter": "semi",
+					"requireLast": true
+				},
+				"singleline": {
+					"delimiter": "semi",
+					"requireLast": false
+				},
+				"multilineDetection": "brackets"
+			}],
+			"@stylistic/brace-style": ["error", "1tbs", { "allowSingleLine": true }],
+			"@stylistic/operator-linebreak": ["error", "after"],
+			"@stylistic/type-annotation-spacing": "error",
+			"@stylistic/linebreak-style": ["error", "unix"],
+			"@stylistic/no-trailing-spaces": "error",
 
 			"@typescript-eslint/unbound-method": "off",
 			"@typescript-eslint/array-type": ["error", { default: "generic" }],
@@ -271,7 +293,7 @@ export default ts.config(
 		}
 	},
 	{
-		files: ['**/*.html'],
+		files: ["**/*.html"],
 		extends: [
 			...angular.configs.templateRecommended,
 			...angular.configs.templateAccessibility
@@ -285,7 +307,8 @@ export default ts.config(
 	{
 		files: ["**/*.{js,mjs,cjs}"],
 		extends: [
-			eslint.configs.recommended
+			eslint.configs.recommended,
+			stylistic.configs.recommended
 		],
 		languageOptions: {
 			globals: globals.node
@@ -295,10 +318,10 @@ export default ts.config(
 			"arrow-parens": ["error", "as-needed"],
 			"brace-style": ["error", "1tbs"],
 			"comma-dangle": "error",
-			"complexity": ["error", { max: 20 }],
+			"complexity": ["error", { "max": 20 }],
 			"default-case": "error",
 			"max-classes-per-file": ["error", 2],
-			"max-len": ["error", { code: 240 }],
+			"max-len": ["error", { "code": 240 }],
 			"max-lines": ["error", 1000],
 			"newline-per-chained-call": "off",
 			"no-duplicate-case": "error",
@@ -306,7 +329,7 @@ export default ts.config(
 			"no-empty": "error",
 			"no-extra-bind": "error",
 			"no-invalid-this": "error",
-			"no-multiple-empty-lines": ["error", { max: 1 }],
+			"no-multiple-empty-lines": ["error", { "max": 1 }],
 			"no-new-func": "error",
 			"no-param-reassign": "error",
 			"no-redeclare": "error",
@@ -319,7 +342,31 @@ export default ts.config(
 			"prefer-object-spread": "error",
 			"prefer-template": "error",
 			"space-in-parens": ["error", "never"],
-			"yoda": "error"
+			"yoda": "error",
+
+			"@stylistic/semi": ["error", "always"],
+			"@stylistic/comma-dangle": ["error", "never"],
+			"@stylistic/arrow-parens": ["error", "as-needed"],
+			"@stylistic/indent": ["error", "tab"],
+			"@stylistic/no-tabs": ["error", { "allowIndentationTabs": true }],
+			"@stylistic/member-delimiter-style": ["error", {
+				"multiline": {
+					"delimiter": "semi",
+					"requireLast": true
+				},
+				"singleline": {
+					"delimiter": "semi",
+					"requireLast": false
+				},
+				"multilineDetection": "brackets"
+			}],
+			"@stylistic/brace-style": ["error", "1tbs", { "allowSingleLine": true }],
+			"@stylistic/operator-linebreak": ["error", "after"],
+			"@stylistic/type-annotation-spacing": "error",
+			"@stylistic/linebreak-style": ["error", "unix"],
+			"@stylistic/no-trailing-spaces": "error",
+			"@stylistic/quotes": ["error", "double"],
+			"@stylistic/quote-props": ["error", "consistent"]
 		}
 	}
 );

@@ -146,11 +146,11 @@ describe('HelpComponent', () => {
 	it('should use translation service for text content', () => {
 		// Set up the translation service with some test translations
 		const translations = {
-			'HOW_TO_PLAY': 'How to Play',
-			'LICENSE': 'License',
-			'SHORTCUTS': 'Keyboard Shortcuts',
-			'HINT': 'Hint',
-			'HINT_LONG': 'Show a hint'
+			HOW_TO_PLAY: 'How to Play',
+			LICENSE: 'License',
+			SHORTCUTS: 'Keyboard Shortcuts',
+			HINT: 'Hint',
+			HINT_LONG: 'Show a hint'
 		};
 		translateService.setTranslation('en', translations);
 		translateService.use('en');

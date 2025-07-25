@@ -25,5 +25,4 @@ describe('ImportComponent', () => {
 	it('should create', async () => {
 		expect(component).toBeTruthy();
 	});
-
 });

@@ -40,7 +40,7 @@ describe('Solver', () => {
 				{ x: 0, y: 1, z: 1, v: 1, groupNr: 1 }, // This stone is above and blocks the first one
 				// Second pair (group 2)
 				{ x: 2, y: 0, z: 0, v: 2, groupNr: 2 },
-				{ x: 2, y: 1, z: 1, v: 2, groupNr: 2 }  // This stone is above and blocks the third one
+				{ x: 2, y: 1, z: 1, v: 2, groupNr: 2 } // This stone is above and blocks the third one
 			];
 
 			const result = solver.solveLayout(stones);

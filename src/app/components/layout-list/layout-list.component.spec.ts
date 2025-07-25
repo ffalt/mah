@@ -25,5 +25,4 @@ describe('ChooseLayoutComponent', () => {
 	it('should create', async () => {
 		expect(component).toBeTruthy();
 	});
-
 });
