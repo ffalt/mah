@@ -1,5 +1,5 @@
 import type { Mapping, Place } from './types';
-import { Solver } from './solver';
+import { Solver } from './solver/solver';
 import { Builder, MODE_SOLVABLE } from './builder';
 import { Tiles } from './tiles';
 import type { StonePosition } from './stone';

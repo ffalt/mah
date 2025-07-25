@@ -1,12 +1,12 @@
 import { solveGame, statsSolveMapping } from './tasks';
-import { Solver } from './solver';
+import { Solver } from './solver/solver';
 import { Builder, MODE_SOLVABLE } from './builder';
 import { Tiles } from './tiles';
 import type { StonePosition } from './stone';
 import type { Mapping, Place } from './types';
 
 // Mock dependencies
-jest.mock('./solver');
+jest.mock('./solver/solver');
 jest.mock('./builder');
 jest.mock('./tiles');
 

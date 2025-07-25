@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 import type { Layout, LoadLayout } from './types';
 import { type BUILD_MODE_ID, Builder } from './builder';
 import { expandMapping, mappingToID } from './mapping';
-import { Solver } from './solver';
+import { Solver } from './solver/solver';
 import { Tiles } from './tiles';
 
 const filepath = './src/assets/data/boards.json';

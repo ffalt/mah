@@ -1,5 +1,5 @@
 import { Solver } from './solver';
-import type { StonePosition } from './stone';
+import type { StonePosition } from '../stone';
 
 describe('Solver', () => {
 	let solver: Solver;

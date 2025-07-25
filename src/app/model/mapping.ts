@@ -1,31 +1,31 @@
-import type { CompactMapping, Mapping } from './types';
+import type { CompactMapping, CompactMappingX, Mapping, Place } from './types';
 import { hashString } from './hash';
 
 export function expandMapping(map: CompactMapping): Mapping {
-	const result: Mapping = [];
-	for (const [z, rows] of map) {
-		for (const [y, cells] of rows) {
-			// Handle single cell case
-			if (!Array.isArray(cells)) {
-				result.push([z, cells, y]);
-				continue;
-			}
-			// Handle array of cells
-			for (const cell of cells) {
-				if (Array.isArray(cell)) {
-					// Repeated cells with pattern [startX, count]
-					const [startX, count] = cell;
-					for (let index = 0, x = startX; index < count; index++, x += 2) {
-						result.push([z, x, y]);
-					}
-				} else {
-					// Simple cell
-					result.push([z, cell, y]);
-				}
-			}
-		}
+	return map.flatMap(([z, rows]) =>
+		rows.flatMap(([y, cells]) =>
+			expandCells(z, y, cells)
+		)
+	);
+}
+
+function expandCells(z: number, y: number, cells: CompactMappingX): Array<Place> {
+	// Handle single cell case
+	if (!Array.isArray(cells)) {
+		return [[z, cells, y]];
 	}
-	return result;
+
+	// Handle array of cells
+	return cells.flatMap(cell =>
+		Array.isArray(cell) ? expandRepeatedCells(z, y, cell[0], cell[1]) : [[z, cell, y]]
+	);
+}
+
+function expandRepeatedCells(z: number, y: number, startX: number, count: number): Array<Place> {
+	return Array.from(
+		{ length: count },
+		(_, index) => [z, startX + (index * 2), y] as Place
+	);
 }
 
 export function mappingToID(mapping: Mapping): string {

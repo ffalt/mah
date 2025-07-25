@@ -118,11 +118,11 @@ export async function convertKyodai(data: string, filename: string): Promise<Imp
 }
 
 interface MappingBoard {
-	[key: number]: { [key: number]: Array<number> }
+	[key: number]: { [key: number]: Array<number> };
 }
 
 function createCompactMappingBoard(mapping: Mapping): MappingBoard {
-	const board: { [key: number]: { [key: number]: Array<number> } } = {};
+	const board: MappingBoard = {};
 	const list = sortMapping(mapping);
 	for (const m of list) {
 		board[m[0]] = board[m[0]] || {};

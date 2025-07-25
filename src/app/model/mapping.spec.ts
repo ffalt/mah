@@ -107,7 +107,7 @@ describe('Mapping', () => {
 			const id = mappingToID(mapping);
 
 			expect(typeof id).toBe('string');
-			expect(id).toBe(mappingToID(mapping)); // Same mapping should produce same ID
+			expect(id).toBe('1268543847'); // Same mapping should produce same ID
 		});
 
 		it('should generate different IDs for different mappings', () => {
