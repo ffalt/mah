@@ -44,17 +44,15 @@ const expectWinnable = (mode: BUILD_MODE_ID, layout: Layout) => {
 };
 
 describe('builder', () => {
-	for (const layout of layouts) {
-		describe(`Layout ${layout.name} ${layout.mapping.length}`, () => {
-			it('with solvable build should not have blank tiles', async () => {
-				expectNoBlankTiles('MODE_SOLVABLE', layout);
-			});
-			it('with solvable build should be solvable', async () => {
-				expectWinnable('MODE_SOLVABLE', layout);
-			});
-			it('with random build should not have blank tiles', async () => {
-				expectNoBlankTiles('MODE_RANDOM', layout);
-			});
+	describe.each(layouts)('Layout $name $mapping.length', layout => {
+		it('with solvable build should not have blank tiles', async () => {
+			expectNoBlankTiles('MODE_SOLVABLE', layout);
 		});
-	}
+		it('with solvable build should be solvable', async () => {
+			expectWinnable('MODE_SOLVABLE', layout);
+		});
+		it('with random build should not have blank tiles', async () => {
+			expectNoBlankTiles('MODE_RANDOM', layout);
+		});
+	});
 });

@@ -1,5 +1,10 @@
 import { expandMapping, mappingToID, mappingBounds } from './mapping';
-import type { CompactMapping, Mapping } from './types';
+import type { CompactMapping, LoadLayout, Mapping } from './types';
+import { readFileSync } from 'node:fs';
+import { compactMapping } from '../modules/editor/model/import';
+
+const filepath = './src/assets/data/boards.json';
+const loadLayouts: Array<LoadLayout> = JSON.parse(readFileSync(filepath).toString());
 
 describe('Mapping', () => {
   describe('expandMapping', () => {
@@ -9,7 +14,6 @@ describe('Mapping', () => {
       ];
 
       const expanded = expandMapping(compactMapping);
-
       expect(expanded).toEqual([[0, 1, 0]]);
     });
 
@@ -85,7 +89,15 @@ describe('Mapping', () => {
     });
   });
 
-  describe('mappingToID', () => {
+	describe('expandMapping-compactMapping', () => {
+		test.each(loadLayouts)('$name', ({ map }) => {
+			const expanded = expandMapping(map);
+			const testMap = compactMapping(expanded);
+			expect(testMap).toEqual(map);
+		});
+	});
+
+	describe('mappingToID', () => {
     it('should generate a consistent ID for a mapping', () => {
       const mapping: Mapping = [
         [0, 1, 0],
