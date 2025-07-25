@@ -117,7 +117,11 @@ export async function convertKyodai(data: string, filename: string): Promise<Imp
 	return Promise.reject(new Error(`Unknown .lay format ${JSON.stringify((version || '').slice(0, 50))}`));
 }
 
-export function compactMapping(mapping: Mapping): CompactMapping {
+interface MappingBoard {
+	[key: number]: { [key: number]: Array<number> }
+}
+
+function createCompactMappingBoard(mapping: Mapping): MappingBoard {
 	const board: { [key: number]: { [key: number]: Array<number> } } = {};
 	const list = sortMapping(mapping);
 	for (const m of list) {
@@ -125,33 +129,38 @@ export function compactMapping(mapping: Mapping): CompactMapping {
 		board[m[0]][m[2]] = board[m[0]][m[2]] || [];
 		board[m[0]][m[2]].push(m[1]);
 	}
+	return board;
+}
+
+export function compactY(z: number, y: number, board: MappingBoard): CompactMappingY {
+	const a: Array<number> = board[z][y];
+	const entries: Array<{ start: number; current: number; count: number }> = [];
+	let entry = { start: -1, current: -1, count: 0 };
+	for (const x of a) {
+		if (x === entry.current) {
+			entry.current += 2;
+			entry.count++;
+		} else {
+			entry = { start: x, current: x + 2, count: 1 };
+			entries.push(entry);
+		}
+	}
+	const cells: CompactMappingX = entries.map(mappingEntry => {
+		if (mappingEntry.count === 1) {
+			return mappingEntry.start;
+		}
+		return [mappingEntry.start, mappingEntry.count];
+	});
+	return [Number(y), (cells.length === 1 && !Array.isArray(cells[0])) ? cells[0] : cells];
+}
+
+export function compactMapping(mapping: Mapping): CompactMapping {
+	const board = createCompactMappingBoard(mapping);
 	const result: CompactMapping = [];
 	for (const z of Object.keys(board)) {
 		const rows: Array<CompactMappingY> = [];
 		for (const y of Object.keys(board[Number(z)])) {
-			const a: Array<number> = board[Number(z)][Number(y)];
-			const entries: Array<{ start: number; current: number; count: number }> = [];
-			let entry = { start: -1, current: -1, count: 0 };
-			for (const x of a) {
-				if (x === entry.current) {
-					entry.current += 2;
-					entry.count++;
-				} else {
-					entry = { start: x, current: x + 2, count: 1 };
-					entries.push(entry);
-				}
-			}
-			const cells: CompactMappingX = entries.map(mappingEntry => {
-				if (mappingEntry.count === 1) {
-					return mappingEntry.start;
-				}
-				return [mappingEntry.start, mappingEntry.count];
-			});
-			if (cells.length === 1 && !Array.isArray(cells[0])) {
-				rows.push([Number(y), cells[0]]);
-			} else {
-				rows.push([Number(y), cells]);
-			}
+			rows.push(compactY(Number(z), Number(y), board));
 		}
 		result.push([Number(z), rows]);
 	}

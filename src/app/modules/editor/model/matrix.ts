@@ -50,31 +50,29 @@ export class Matrix {
 	}
 
 	isTilePosInvalid(z: number, x: number, y: number): boolean {
-		if (!this.levels[z][x + 1]) {
-			return true;
-		}
-		if (this.levels[z][x].length - 1 === y) {
-			return true;
-		}
-		if (this.levels[z][x][y + 1] > 0) {
-			return true;
-		}
-		if ((this.levels[z][x - 1] ? this.levels[z][x - 1][y + 1] : 0) > 0) {
-			return true;
-		}
-		if ((this.levels[z][x - 1] ? this.levels[z][x - 1][y - 1] : 0) > 0) {
-			return true;
-		}
-		if ((this.levels[z][x + 1] ? this.levels[z][x + 1][y] : 0) > 0) {
-			return true;
-		}
-		if ((this.levels[z][x + 1] ? this.levels[z][x + 1][y - 1] : 0) > 0) {
-			return true;
-		}
-		if ((this.levels[z][x + 1] ? this.levels[z][x + 1][y - 1] : 0) > 0) {
-			return true;
-		}
-		return (this.levels[z][x + 1] ? this.levels[z][x + 1][y + 1] : 0) > 0;
+		const currentLevel = this.levels[z];
+
+		// Check if position is out of bounds
+		if (!currentLevel[x + 1]) return true;
+		if (currentLevel[x].length - 1 === y) return true;
+
+		// Helper function to safely check tile value
+		const getTileValue = (dx: number, dy: number): number => {
+			const row = currentLevel[x + dx];
+			return row ? row[y + dy] || 0 : 0;
+		};
+
+		// Check surrounding tiles
+		const surroundingPositions = [
+			[0, 1], // current column, next row
+			[-1, 1], // left column, next row
+			[-1, -1], // left column, previous row
+			[1, 0], // right column, same row
+			[1, -1], // right column, previous row
+			[1, 1] // right column, next row
+		];
+
+		return surroundingPositions.some(([dx, dy]) => getTileValue(dx, dy) > 0);
 	}
 
 	isTilePosBlocked(z: number, x: number, y: number): boolean {
