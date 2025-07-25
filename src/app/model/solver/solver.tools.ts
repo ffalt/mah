@@ -1,4 +1,4 @@
-import { Tile } from './solver.types';
+import type { Tile } from './solver.types';
 
 export function rand(): number {
 	return Math.floor(Math.random() * 100);

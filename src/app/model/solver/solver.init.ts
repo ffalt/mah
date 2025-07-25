@@ -1,4 +1,4 @@
-import { Group, Tile } from './solver.types';
+import type { Group, Tile } from './solver.types';
 import { rand } from './solver.tools';
 
 export class SolveInit {

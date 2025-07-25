@@ -1,4 +1,4 @@
-import { Group, Tile } from './solver.types';
+import type { Group, Tile } from './solver.types';
 import { isPlayable } from './solver.tools';
 
 export class SolverPrune {
@@ -79,8 +79,8 @@ export class SolverPrune {
 		if (result) {
 			return [previous, playCount];
 		}
-		[result, played] = this.tryPlayWith(t2, [t3]);
-		playCount += played;
+		const [_result, played_] = this.tryPlayWith(t2, [t3]);
+		playCount += played_;
 		return [previous, playCount];
 	};
 
@@ -141,7 +141,7 @@ export class SolverPrune {
 
 	prune(): number {
 		let currentTiles = this.nTilesCount;
-		let previousTiles = this.nTilesCount;
+		let previousTiles: number;
 		do {
 			previousTiles = currentTiles;
 			for (let k = 0; k < this.nGroups; k++) {

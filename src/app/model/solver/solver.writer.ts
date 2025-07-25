@@ -1,5 +1,5 @@
-import { Group, Tile } from './solver.types';
-import { Place } from '../types';
+import type { Group, Tile } from './solver.types';
+import type { Place } from '../types';
 import { isPlayable } from './solver.tools';
 
 export class SolverWriter {

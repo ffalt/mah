@@ -1,5 +1,5 @@
 import { isPlayable, rand } from './solver.tools';
-import { Group, Tile, TileNeighboursAboveBelow, TileNeighboursLeftRight } from './solver.types';
+import type { Group, Tile, TileNeighboursAboveBelow, TileNeighboursLeftRight } from './solver.types';
 
 export class SolverRandomSolve {
 	nrPlays: number = 0;

@@ -12,7 +12,7 @@ build with html5, svg, angular
 ![test](https://github.com/ffalt/mah/workflows/test/badge.svg)
 [![developer](https://img.shields.io/badge/developer-awesome-brightgreen.svg)](https://github.com/ffalt/mah)
 [![known vulnerabilities](https://snyk.io/test/github/ffalt/mah/badge.svg)](https://snyk.io/test/github/ffalt/mah)
-[![codebeat badge](https://codebeat.co/badges/021d3bc7-e512-473b-b99e-80e7650ba57f)](https://codebeat.co/projects/github-com-ffalt-mah-main)
+[![Maintainability](https://qlty.sh/gh/ffalt/projects/mah/maintainability.svg)](https://qlty.sh/gh/ffalt/projects/mah)
 
 ## Features
 

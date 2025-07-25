@@ -1,6 +1,6 @@
 import type { StonePosition } from '../stone';
 import type { Place } from '../types';
-import { Group, Tile } from './solver.types';
+import type { Group, Tile } from './solver.types';
 import { SolveInit } from './solver.init';
 import { SolverWriter } from './solver.writer';
 import { SolverPrune } from './solver.prune';

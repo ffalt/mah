@@ -120,7 +120,7 @@ name = "oxc"
 #name = "knip"
 
 [[triage]]
-match.file_patterns = ["src/app/model/solver.*"]
+match.file_patterns = ["src/app/model/solver/*"]
 match.rules = [
 	"radarlint-js:typescript:S4325" # This assertion is unnecessary since it does not change the type of the expression.
 ]
