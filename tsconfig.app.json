@@ -10,6 +10,7 @@
 		"src/**/*.ts"
 	],
 	"exclude": [
+		"src/environments/environment.capacitor.ts",
 		"src/**/*.worker.ts",
 		"src/**/*.spec.ts"
 	]
