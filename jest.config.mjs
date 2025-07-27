@@ -1,6 +1,6 @@
-module.exports = {
+export default {
 	preset: "jest-preset-angular",
-	transformIgnorePatterns: ["node_modules/(?!.*\\.mjs$)"],
+	transformIgnorePatterns: [String.raw`node_modules/(?!.*\.mjs$)`],
 	setupFilesAfterEnv: ["<rootDir>/setup-jest.ts"],
 	globals: {
 		APP_VERSION: "TEST",

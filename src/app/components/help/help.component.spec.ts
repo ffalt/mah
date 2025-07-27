@@ -128,6 +128,7 @@ describe('HelpComponent', () => {
 
 	it('should render the last shortcut (Help) with emoji instead of icon', () => {
 		const shortcutItems = fixture.debugElement.queryAll(By.css('.keyboard-list li'));
+		// eslint-disable-next-line unicorn/prefer-at
 		const lastShortcut = shortcutItems[shortcutItems.length - 1];
 
 		// Verify it's the Help shortcut
@@ -171,9 +172,9 @@ describe('HelpComponent', () => {
 		const shortcutItems = fixture.debugElement.queryAll(By.css('.keyboard-list li'));
 		const firstShortcut = shortcutItems[0]; // This should be the HINT shortcut
 		const nameElement = firstShortcut.query(By.css('.name')).nativeElement;
-		const funcElement = firstShortcut.query(By.css('.func')).nativeElement;
+		const functionElement = firstShortcut.query(By.css('.func')).nativeElement;
 
 		expect(nameElement.textContent).toBe('Hint');
-		expect(funcElement.textContent).toBe('Show a hint');
+		expect(functionElement.textContent).toBe('Show a hint');
 	});
 });

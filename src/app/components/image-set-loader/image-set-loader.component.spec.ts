@@ -177,14 +177,14 @@ describe('ImageSetLoaderComponent', () => {
 	describe('DOM manipulation', () => {
 		it('should update innerHTML when setImageSet is called', () => {
 			const testSvg = '<svg><defs><use id="test"></use></defs></svg>';
-			const mockElementRef = {
+			const mockElementReference = {
 				nativeElement: {
 					innerHTML: ''
 				}
 			};
 
 			jest.spyOn(component as unknown as HackImageSetLoaderComponent, 'prepareDefs').mockReturnValue('<use id="test"></use>');
-			(component as unknown as HackImageSetLoaderComponent).elementRef = mockElementRef as ElementRef;
+			(component as unknown as HackImageSetLoaderComponent).elementRef = mockElementReference as ElementRef;
 
 			jest.useFakeTimers();
 
@@ -193,7 +193,7 @@ describe('ImageSetLoaderComponent', () => {
 			// We need to wait for the setTimeout
 			jest.advanceTimersByTime(2);
 
-			expect(mockElementRef.nativeElement.innerHTML).toBe('<use id="test"></use>');
+			expect(mockElementReference.nativeElement.innerHTML).toBe('<use id="test"></use>');
 
 			jest.useRealTimers();
 		});

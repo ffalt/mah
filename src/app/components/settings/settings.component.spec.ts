@@ -69,8 +69,8 @@ describe('SettingsComponent', () => {
 		it('should set Kyodai URL from dropdown', () => {
 			// Mock the kyodaiInput viewChild
 			const mockNativeElement = { value: '' };
-			const mockElementRef = { nativeElement: mockNativeElement };
-			jest.spyOn(component, 'kyodaiInput').mockReturnValue(mockElementRef as ElementRef<HTMLInputElement>);
+			const mockElementReference = { nativeElement: mockNativeElement };
+			jest.spyOn(component, 'kyodaiInput').mockReturnValue(mockElementReference as ElementRef<HTMLInputElement>);
 
 			const testUrl = 'https://example.com/tileset';
 			const event = {
@@ -92,8 +92,8 @@ describe('SettingsComponent', () => {
 
 			// Mock the kyodaiInput viewChild
 			const mockNativeElement = { value: testUrl };
-			const mockElementRef = { nativeElement: mockNativeElement };
-			jest.spyOn(component, 'kyodaiInput').mockReturnValue(mockElementRef as ElementRef<HTMLInputElement>);
+			const mockElementReference = { nativeElement: mockNativeElement };
+			jest.spyOn(component, 'kyodaiInput').mockReturnValue(mockElementReference as ElementRef<HTMLInputElement>);
 
 			component.applyKyodaiUrl();
 

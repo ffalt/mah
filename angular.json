@@ -20,7 +20,7 @@
 						"aot": true,
 						"outputPath": "dist",
 						"index": "src/index.html",
-						"indexTransform": "./index-html-transform.js",
+						"indexTransform": "./index-html-transform.mjs",
 						"main": "src/main.ts",
 						"polyfills": [
 							"zone.js"
@@ -31,7 +31,7 @@
 							"src/assets"
 						],
 						"customWebpackConfig": {
-							"path": "./custom-build.js",
+							"path": "./custom-build.mjs",
 							"mergeRules": {
 								"module": {
 									"rules": "prepend"

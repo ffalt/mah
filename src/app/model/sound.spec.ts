@@ -8,7 +8,7 @@ describe('Sound', () => {
 		play: jest.Mock;
 		pause: jest.Mock;
 	};
-	let originalAudio: new(src?: string) => HTMLAudioElement;
+	let originalAudio: new(source?: string) => HTMLAudioElement;
 
 	beforeEach(() => {
 		// Mock Audio API

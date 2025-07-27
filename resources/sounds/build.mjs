@@ -1,10 +1,10 @@
-const destFolder = "../../src/assets/sounds/";
+import path from "node:path";
+import ffmpeg from "fluent-ffmpeg";
+
+const destinationFolder = "../../src/assets/sounds/";
 const sourceFolder = "./sounds_org/";
 
-const path = require("node:path");
-const ffmpeg = require("fluent-ffmpeg");
-
-async function convertMP3(source, dest) {
+async function convertMP3(source, destination) {
 	return new Promise((resolve, reject) => {
 		console.log(`convert to mp3 ${source}`);
 		ffmpeg(source)
@@ -15,14 +15,14 @@ async function convertMP3(source, dest) {
 			.on("end", () => {
 				resolve();
 			})
-			.on("error", err => {
-				reject(err);
+			.on("error", error => {
+				reject(error);
 			})
-			.save(dest);
+			.save(destination);
 	});
 }
 
-async function convertOgg(source, dest) {
+async function convertOgg(source, destination) {
 	return new Promise((resolve, reject) => {
 		console.log(`convert to ogg ${source}`);
 		ffmpeg(source)
@@ -32,18 +32,18 @@ async function convertOgg(source, dest) {
 			.on("end", () => {
 				resolve();
 			})
-			.on("error", err => {
-				reject(err);
+			.on("error", error => {
+				reject(error);
 			})
-			.save(dest);
+			.save(destination);
 	});
 }
 
-async function convert(entry, destName) {
+async function convert(entry, destinationName) {
 	const source = path.resolve(sourceFolder, entry);
-	const dest = path.resolve(destFolder, path.basename(destName, path.extname(destName)));
-	await convertMP3(source, `${dest}.mp3`);
-	await convertOgg(source, `${dest}.ogg`);
+	const destination = path.resolve(destinationFolder, path.basename(destinationName, path.extname(destinationName)));
+	await convertMP3(source, `${destination}.mp3`);
+	await convertOgg(source, `${destination}.ogg`);
 }
 
 const files = {
@@ -61,6 +61,6 @@ async function run() {
 
 run().then(() => {
 	console.log("done");
-}).catch(e => {
-	console.log(`an error happened: ${e.message}`);
+}).catch(error => {
+	console.log(`an error happened: ${error.message}`);
 });

@@ -63,20 +63,20 @@ describe('Tiles', () => {
 			const group0 = tiles.groups[0];
 			expect(group0.v).toBe(0);
 
-			for (let i = 0; i < 4; i++) {
-				const tile = group0.tiles[i];
+			for (let index = 0; index < 4; index++) {
+				const tile = group0.tiles[index];
 				expect(tile.groupNr).toBe(0);
-				expect(tile.v).toBe(i + 1);
+				expect(tile.v).toBe(index + 1);
 			}
 
 			// Check second group
 			const group1 = tiles.groups[1];
 			expect(group1.v).toBe(1);
 
-			for (let i = 0; i < 4; i++) {
-				const tile = group1.tiles[i];
+			for (let index = 0; index < 4; index++) {
+				const tile = group1.tiles[index];
 				expect(tile.groupNr).toBe(1);
-				expect(tile.v).toBe(i + 5);
+				expect(tile.v).toBe(index + 5);
 			}
 		});
 	});

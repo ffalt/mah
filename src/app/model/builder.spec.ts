@@ -10,17 +10,17 @@ const filepath = './src/assets/data/boards.json';
 const loadLayouts: Array<LoadLayout> = JSON.parse(readFileSync(filepath).toString());
 const layouts: Array<Layout> = loadLayouts.map(o => {
 	const mapping = expandMapping(o.map || []);
-	return { id: o.id ? o.id : mappingToID(mapping), name: o.name, category: o.cat ?? 'Classic', mapping };
+	return { id: o.id ?? mappingToID(mapping), name: o.name, category: o.cat ?? 'Classic', mapping };
 });
 
 const expectNoBlankTiles = (mode: BUILD_MODE_ID, layout: Layout) => {
 	const builder = new Builder(new Tiles(layout.mapping.length));
 	const fails: Array<number> = [];
-	for (let i = 0; i < 100; i++) {
+	for (let index = 0; index < 100; index++) {
 		const stones = builder.build(mode, layout.mapping) || [];
 		const empty = stones.filter(stone => stone.v === 0 || !stone.img?.id);
 		if (empty.length > 0) {
-			fails.push(i);
+			fails.push(index);
 		}
 	}
 	expect(fails.join(',')).toBe([].join(','));
@@ -29,7 +29,7 @@ const expectNoBlankTiles = (mode: BUILD_MODE_ID, layout: Layout) => {
 const expectWinnable = (mode: BUILD_MODE_ID, layout: Layout) => {
 	const builder = new Builder(new Tiles(layout.mapping.length));
 	const unsolvable: Array<number> = [];
-	for (let i = 0; i < 100; i++) {
+	for (let index = 0; index < 100; index++) {
 		const stones = builder.build(mode, layout.mapping) || [];
 		const solver = new Solver();
 		const result = solver.solveLayout(stones);
@@ -37,7 +37,7 @@ const expectWinnable = (mode: BUILD_MODE_ID, layout: Layout) => {
 			unsolvable.push(result);
 		}
 	}
-	if (unsolvable.length) {
+	if (unsolvable.length > 0) {
 		console.log(`Fail "${mode}" "${layout.name}": ${unsolvable.join(',')}`);
 	}
 	expect(unsolvable).toHaveLength(0);

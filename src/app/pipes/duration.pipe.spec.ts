@@ -14,6 +14,6 @@ describe('DurationPipe', () => {
 		expect(pipe.transform(60 * 1000)).toEqual('01:00');
 		expect(pipe.transform(60 * 60 * 1000)).toEqual('01:00:00');
 		expect(pipe.transform(60 * 60 * 60 * 1000)).toEqual('60:00:00');
-		expect(pipe.transform(55555 * 60 * 60 * 1000)).toEqual('55555:00:00');
+		expect(pipe.transform(55_555 * 60 * 60 * 1000)).toEqual('55555:00:00');
 	});
 });

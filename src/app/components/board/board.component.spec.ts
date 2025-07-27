@@ -29,8 +29,8 @@ describe('BoardComponent', () => {
 		fixture = TestBed.createComponent(BoardComponent);
 		component = fixture.componentInstance;
 		appService = TestBed.inject(AppService);
-		jest.spyOn(window, 'requestAnimationFrame').mockImplementation(cb => {
-			cb(0);
+		jest.spyOn(window, 'requestAnimationFrame').mockImplementation(callback => {
+			callback(0);
 			return 0;
 		});
 		TestBed.runInInjectionContext(() => {

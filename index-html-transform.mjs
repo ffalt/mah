@@ -1,6 +1,6 @@
-const fs = require("node:fs");
+import fs from "node:fs";
 
-async function customBuildOptions(targetOptions, indexHtmlContent) {
+export default async function customBuildOptions(targetOptions, indexHtmlContent) {
 	const name = "Mah Jong";
 	let config = {};
 	if (fs.existsSync("./custom-build-config.json")) {
@@ -13,5 +13,3 @@ async function customBuildOptions(targetOptions, indexHtmlContent) {
 		.replace(/APP_TITLE/g, config.title || name)
 		.replace(/APP_URL/g, config.url || "");
 }
-
-module.exports = customBuildOptions;
