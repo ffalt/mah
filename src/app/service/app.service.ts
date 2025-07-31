@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Game } from '../model/game';
-import { DEFAULT_LANGUAGE, LANGUAGES } from '../i18n/languages';
+import { DEFAULT_LANGUAGE, LANGUAGES } from '../model/languages';
 import { Settings } from '../model/settings';
 import { LangAuto } from '../model/consts';
 import { LocalstorageService } from './localstorage.service';
@@ -18,7 +18,6 @@ export class AppService {
 		this.game = new Game(this.storage);
 		this.settings = new Settings(this.storage);
 		this.settings.load();
-		this.setupTranslations();
 		this.setLang();
 		this.game.init();
 		this.game.sound.enabled = this.settings.sounds;
@@ -48,12 +47,5 @@ export class AppService {
 		this.game.music.enabled = this.settings.music;
 		this.game.music.toggle();
 		this.settings.save();
-	}
-
-	private setupTranslations(): void {
-		for (const key of Object.keys(LANGUAGES)) {
-			this.translate.setTranslation(key, LANGUAGES[key].data);
-		}
-		this.translate.setFallbackLang(DEFAULT_LANGUAGE);
 	}
 }

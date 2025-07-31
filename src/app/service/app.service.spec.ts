@@ -4,7 +4,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Game } from '../model/game';
 import { Settings } from '../model/settings';
 import { LocalstorageService } from './localstorage.service';
-import { DEFAULT_LANGUAGE, LANGUAGES } from '../i18n/languages';
+import { DEFAULT_LANGUAGE, LANGUAGES } from '../model/languages';
 import { LangAuto } from '../model/consts';
 import type { Sound } from '../model/sound';
 import type { Music } from '../model/music';

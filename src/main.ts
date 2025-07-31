@@ -3,7 +3,7 @@ import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
+import { provideTranslateService } from '@ngx-translate/core';
 
 import { environment } from './environments/environment';
 import { AppComponent } from './app/app.component';
@@ -13,6 +13,7 @@ import { LayoutService } from './app/service/layout.service';
 import { WorkerService } from './app/service/worker.service';
 import { DeferLoadService } from './app/directives/defer-load/defer-load.service';
 import { SvgdefService } from './app/service/svgdef.service';
+import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 
 if (environment.production) {
 	enableProdMode();
@@ -22,10 +23,14 @@ bootstrapApplication(AppComponent, {
 	providers: [
 		importProvidersFrom(
 			BrowserModule,
-			TranslateModule.forRoot(),
+			// TranslateModule.forRoot(),
 			CommonModule,
 			...environment.modules
 		),
+		provideTranslateService({
+			loader: provideTranslateHttpLoader({ prefix: './assets/i18n/', suffix: '.json' }),
+			fallbackLang: 'en'
+		}),
 		AppService,
 		LayoutService,
 		WorkerService,
