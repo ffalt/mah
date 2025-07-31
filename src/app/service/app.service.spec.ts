@@ -35,7 +35,7 @@ describe('AppService', () => {
 		translateService = {
 			use: jest.fn(),
 			setTranslation: jest.fn(),
-			setDefaultLang: jest.fn()
+			setFallbackLang: jest.fn()
 		} as unknown as jest.Mocked<TranslateService>;
 
 		mockStorage = {} as jest.Mocked<LocalstorageService>;
@@ -126,7 +126,7 @@ describe('AppService', () => {
 			expect(newService).toBeTruthy();
 
 			// Verify translations were set up
-			expect(translateService.setDefaultLang).toHaveBeenCalledWith(DEFAULT_LANGUAGE);
+			expect(translateService.setFallbackLang).toHaveBeenCalledWith(DEFAULT_LANGUAGE);
 
 			// Verify each language was set up
 			for (const key of Object.keys(LANGUAGES)) {

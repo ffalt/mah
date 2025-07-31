@@ -54,6 +54,6 @@ export class AppService {
 		for (const key of Object.keys(LANGUAGES)) {
 			this.translate.setTranslation(key, LANGUAGES[key].data);
 		}
-		this.translate.setDefaultLang(DEFAULT_LANGUAGE);
+		this.translate.setFallbackLang(DEFAULT_LANGUAGE);
 	}
 }
