@@ -9,9 +9,8 @@ Object.defineProperty(window, 'getComputedStyle', {
 	})
 });
 
-// @ts-expect-error we just test the existence of getContext, no need to mock more
-window.HTMLCanvasElement.prototype.getContext = () => ({});
-window.HTMLCanvasElement.prototype.toDataURL = () => '';
+window.HTMLCanvasElement.prototype.getContext = jest.fn();
+window.HTMLCanvasElement.prototype.toDataURL = jest.fn();
 
 Object.defineProperty(document.body.style, 'transform', {
 	value: () => ({
