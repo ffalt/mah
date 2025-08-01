@@ -395,8 +395,17 @@ export class BoardComponent implements OnInit, OnChanges {
 		this.setTransform();
 	}
 
+	private webpSupported() {
+		const element = document.createElement('canvas');
+		return (element.getContext && element.getContext('2d') && element.toDataURL('image/webp').indexOf('data:image/webp') == 0);
+	}
+
+	private backgroundFormat(): string {
+		return this.webpSupported() ? 'webp' : 'jpg';
+	}
+
 	private updateBackground(background: string): void {
-		const back = Backgrounds.find(b => b.img === background);
-		this.backgroundUrl = back?.img ? `url("assets/img/${back.img}")` : undefined;
+		const image = Backgrounds.find(b => b.img === background)?.img;
+		this.backgroundUrl = image ? `url("assets/img/${image}.${this.backgroundFormat()}")` : undefined;
 	}
 }

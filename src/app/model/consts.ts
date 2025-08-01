@@ -48,13 +48,13 @@ export const Themes: Array<{ id?: string; name: string }> = [
 
 export const Backgrounds: Array<{ img?: string; name: string; small?: boolean }> = [
 	{ img: undefined, name: 'BACK_NONE' },
-	{ img: 'bamboo.jpg', name: 'BACK_BAMBOO' },
-	{ img: 'blueclouds.jpg', name: 'BACK_BLUE_CLOUDS' },
-	{ img: 'grayclouds.jpg', name: 'BACK_GRAY_CLOUDS' },
-	{ img: 'grass-1.jpg', name: 'BACK_GRAY_GRASS' },
-	{ img: 'stones-1.jpg', name: 'BACK_GRAY_STONES' },
-	{ img: 'wood.jpg', name: 'BACK_GRAY_WOOD' },
-	{ img: 'wood-grain-1.jpg', name: 'BACK_GRAY_WOOD_GRAIN' }
+	{ img: 'bamboo', name: 'BACK_BAMBOO' },
+	{ img: 'blueclouds', name: 'BACK_BLUE_CLOUDS' },
+	{ img: 'grayclouds', name: 'BACK_GRAY_CLOUDS' },
+	{ img: 'grass-1', name: 'BACK_GRAY_GRASS' },
+	{ img: 'stones-1', name: 'BACK_GRAY_STONES' },
+	{ img: 'wood', name: 'BACK_GRAY_WOOD' },
+	{ img: 'wood-grain-1', name: 'BACK_GRAY_WOOD_GRAIN' }
 ];
 
 export const ImageSets = [
