@@ -19,7 +19,7 @@
     "build:deploy-root": "npm run build:prebuild && ng build --configuration production --aot --base-href \"/\"",
     "build:deploy-ghpages": "npm run build:prebuild && ng build --configuration production --aot --base-href \"https://ffalt.github.io/mah/\"",
     "build:releaselog": "conventional-changelog -p angular -r 2 -o RELEASELOG.md",
-    "analyze": "npm run build:stats && npx -y @angular-experts/hawkeye dist/stats.json",
+		"analyze": "npm run build:stats && npx -y @angular-experts/hawkeye dist/stats.json",
     "release": "commit-and-tag-version -a",
     "update:angular": "ng update @angular/cli @angular/core",
     "clean": "rimraf dist",
