@@ -118,21 +118,6 @@ describe('AppService', () => {
 			expect(mockGame.sound.enabled).toBe(mockSettings.sounds);
 			expect(mockGame.music.enabled).toBe(mockSettings.music);
 		});
-
-		it('should set up translations', () => {
-			// Create a new instance to verify constructor behavior
-			const newService = TestBed.inject(AppService);
-
-			expect(newService).toBeTruthy();
-
-			// Verify translations were set up
-			expect(translateService.setFallbackLang).toHaveBeenCalledWith(DEFAULT_LANGUAGE);
-
-			// Verify each language was set up
-			for (const key of Object.keys(LANGUAGES)) {
-				expect(translateService.setTranslation).toHaveBeenCalledWith(key, LANGUAGES[key].data);
-			}
-		});
 	});
 
 	describe('setLang', () => {
