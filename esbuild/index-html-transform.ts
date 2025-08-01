@@ -8,10 +8,10 @@ const indexHtmlTransform = (indexHtml: string): string => {
 		config = JSON.parse(fs.readFileSync(filenameJSON).toString());
 	}
 	return indexHtml
-		.replace(/APP_NAME/g, config.name || name)
-		.replace(/APP_DESC/g, config.description || name)
-		.replace(/APP_CAT/g, config.category || name)
-		.replace(/APP_TITLE/g, config.title || name)
-		.replace(/APP_URL/g, config.url || '');
+		.replace(/APP_NAME/g, config.name ?? name)
+		.replace(/APP_DESC/g, config.description ?? name)
+		.replace(/APP_CAT/g, config.category ?? name)
+		.replace(/APP_TITLE/g, config.title ?? name)
+		.replace(/APP_URL/g, config.url ?? '');
 };
 export default indexHtmlTransform;

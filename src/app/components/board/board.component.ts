@@ -397,7 +397,7 @@ export class BoardComponent implements OnInit, OnChanges {
 
 	private webpSupported() {
 		const element = document.createElement('canvas');
-		return (element.getContext && element.getContext('2d') && element.toDataURL('image/webp').indexOf('data:image/webp') == 0);
+		return (element.getContext?.('2d') && element.toDataURL('image/webp').startsWith('data:image/webp'));
 	}
 
 	private backgroundFormat(): string {
