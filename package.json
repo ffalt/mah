@@ -45,6 +45,11 @@
     "rxjs": "7.8.2",
     "zone.js": "0.15.1"
   },
+	"overrides": {
+		"test-exclude": {
+			"glob": "^10.3.10"
+		}
+	},
   "devDependencies": {
     "@angular-builders/custom-esbuild": "20.0.0",
     "@angular/build": "20.1.3",
