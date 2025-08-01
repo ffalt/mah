@@ -9,6 +9,10 @@ Object.defineProperty(window, 'getComputedStyle', {
 	})
 });
 
+// @ts-expect-error we just test the existence of getContext, no need to mock more
+window.HTMLCanvasElement.prototype.getContext = () => ({});
+window.HTMLCanvasElement.prototype.toDataURL = () => '';
+
 Object.defineProperty(document.body.style, 'transform', {
 	value: () => ({
 		enumerable: true,
