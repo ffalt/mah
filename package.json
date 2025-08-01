@@ -46,8 +46,8 @@
     "zone.js": "0.15.1"
   },
 	"overrides": {
-		"test-exclude": {
-			"glob": "^10.3.10"
+		"babel-plugin-istanbul": {
+			"test-exclude": "7.0.1"
 		}
 	},
   "devDependencies": {
