@@ -29,6 +29,19 @@ describe('BoardComponent', () => {
 		fixture = TestBed.createComponent(BoardComponent);
 		component = fixture.componentInstance;
 		appService = TestBed.inject(AppService);
+
+		const createElement = document.createElement.bind(document);
+		document.createElement = (tagName: any) => {
+			if (tagName === 'canvas') {
+				return {
+					getContext: () => ({}),
+					toDataURL: () => ''
+				};
+			}
+			return createElement(tagName);
+		};
+
+
 		jest.spyOn(window, 'requestAnimationFrame').mockImplementation(callback => {
 			callback(0);
 			return 0;
