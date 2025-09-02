@@ -1,4 +1,4 @@
-import { Component, type OnChanges, type SimpleChanges, inject, input, output } from '@angular/core';
+import { Component, type OnChanges, type SimpleChanges, inject, input, output, viewChild, ElementRef } from '@angular/core';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import type { Layout } from '../../model/types';
 import { LocalstorageService } from '../../service/localstorage.service';
@@ -19,7 +19,6 @@ export interface LayoutItem {
 export interface LayoutGroup {
 	name: string;
 	layouts: Array<LayoutItem>;
-	visible: boolean;
 }
 
 @Component({
@@ -31,6 +30,8 @@ export interface LayoutGroup {
 export class LayoutListComponent implements OnChanges {
 	readonly layouts = input<Array<Layout>>();
 	readonly startEvent = output<Layout>();
+	readonly scrollHost = viewChild.required<ElementRef<HTMLElement>>('scrollHost');
+
 	groups: Array<LayoutGroup> = [];
 	private readonly storage = inject(LocalstorageService);
 	private readonly translate = inject(TranslateService);
@@ -75,7 +76,7 @@ export class LayoutListComponent implements OnChanges {
 		const g: { [name: string]: LayoutGroup } = {};
 		for (const layout of this.layoutService.layouts.items) {
 			if (!g[layout.category]) {
-				g[layout.category] = { name: layout.category, layouts: [], visible: false };
+				g[layout.category] = { name: layout.category, layouts: [] };
 				groups.push(g[layout.category]);
 			}
 			const score = this.storage.getScore(layout.id) || {};
@@ -84,17 +85,30 @@ export class LayoutListComponent implements OnChanges {
 		this.groups = groups;
 	}
 
+	scrollToElement(element: HTMLElement, container: HTMLElement): void {
+		if (!element || !container) return;
+
+		const elementRect = element.getBoundingClientRect();
+		const containerRect = container.getBoundingClientRect();
+		const targetTop = elementRect.top - containerRect.top + container.scrollTop;
+
+		container.scrollTo({
+			top: targetTop,
+			behavior: 'instant'
+		});
+	}
+
 	scrollToGroup(index: number): void {
-		const elements = document.getElementById(`group-${index}`);
-		if (elements) {
-			elements.scrollIntoView();
+		const element = document.getElementById(`group-${index}`);
+		if (element) {
+			this.scrollToElement(element, this.scrollHost().nativeElement);
 		}
 	}
 
 	scrollToItem(id: string): void {
-		const elements = document.getElementById(`item-${id}`);
-		if (elements) {
-			elements.scrollIntoView();
+		const element = document.getElementById(`item-${id}`);
+		if (element) {
+			this.scrollToElement(element, this.scrollHost().nativeElement);
 		}
 	}
 

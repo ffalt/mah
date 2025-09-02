@@ -165,6 +165,11 @@
 
 		}
 
+		@include mixins.respond-to(small-up) {
+			.ctrl.ctrl-game {
+				padding-right: 8px;
+			}
+		}
 		@include mixins.respond-to(medium-up) {
 			font-size: variables.$base-font-size * 1.2;
 		}
