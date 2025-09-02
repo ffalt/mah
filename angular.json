@@ -4,15 +4,15 @@
 	"newProjectRoot": "projects",
 	"projects": {
 		"mah": {
+			"root": "",
+			"sourceRoot": "src",
 			"projectType": "application",
+			"prefix": "app",
 			"schematics": {
 				"@schematics/angular:component": {
 					"style": "scss"
 				}
 			},
-			"root": "",
-			"sourceRoot": "src",
-			"prefix": "app",
 			"architect": {
 				"build": {
 					"builder": "@angular-builders/custom-esbuild:application",
