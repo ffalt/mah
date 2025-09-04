@@ -47,7 +47,7 @@ jobs:
         if: matrix.platform == 'windows-latest'
         shell: powershell
         run: |
-          '{"name": "Mah", "mobile": true}' | Set-Content -Encoding UTF8 -NoNewline custom-build-config.json
+          {"name": "Mah", "mobile": true} | Set-Content -Encoding UTF8 -NoNewline custom-build-config.json
 
       - name: install mah dependencies
         run: npm install
