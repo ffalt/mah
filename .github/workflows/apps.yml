@@ -39,8 +39,15 @@ jobs:
           sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
 
       - name: Write mah build config
+        if: matrix.platform != 'windows-latest'
         run: |
           echo "{\"name\": \"Mah\", \"mobile\":true}" > custom-build-config.json
+
+      - name: Write mah build config
+        if: matrix.platform == 'windows-latest'
+        shell: powershell
+        run: |
+          '{"name": "Mah", "mobile": true}' | Set-Content -Encoding UTF8 -NoNewline custom-build-config.json
 
       - name: install mah dependencies
         run: npm install
