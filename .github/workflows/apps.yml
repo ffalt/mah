@@ -141,4 +141,4 @@ jobs:
         with:
           name: android-app
           retention-days: 10
-          path: resources/apps/gen/android/app/build/outputs/
+          path: resources/apps/tauri/gen/android/app/build/outputs/
