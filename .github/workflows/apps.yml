@@ -1,10 +1,10 @@
-name: 'publish'
+name: 'apps'
 
 on:
   workflow_dispatch:
 
 jobs:
-  publish-tauri:
+  build-tauri:
     permissions:
       contents: write
     strategy:
@@ -59,7 +59,7 @@ jobs:
           name: ${{ matrix.platform }}
           path: "${{ join(fromJSON(steps.build_os.outputs.artifactPaths), '\n') }}"
 
-  publish-android:
+  build-android:
     runs-on: ubuntu-latest
     permissions:
       contents: write
