@@ -129,7 +129,7 @@ jobs:
           echo "keyAlias=${{ secrets.SIGNING_KEY_ALIAS }}" > keystore.properties
           echo "password=${{ secrets.SIGNING_KEY_PASSWORD }}" >> keystore.properties
           echo "storePassword=${{ secrets.SIGNING_STORE_PASSWORD }}" >> keystore.properties
-          echo "storeFile=resources/apps/tauri/gen/android/app/mah_keystore.jks" >> keystore.properties
+          echo "storeFile=mah_keystore.jks" >> keystore.properties
 
       - name: Build Android app
         run: |
