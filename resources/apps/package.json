@@ -1,0 +1,20 @@
+{
+  "name": "tauri-mah",
+  "version": "1.7.8",
+  "scripts": {
+    "build": "tauri build",
+		"macois": "tauri build --bundles app",
+		"android:aab": "tauri android build --aab",
+		"android:apk": "tauri android build --apk --split-per-abi",
+    "tauri": "tauri",
+		"icons": "tauri icon ./logo.svg"
+  },
+  "private": true,
+  "dependencies": {
+    "@tauri-apps/api": "^2.8.0",
+    "@tauri-apps/plugin-opener": "^2.5.0"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.8.4"
+  }
+}

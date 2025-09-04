@@ -1,6 +1,6 @@
 {
   "name": "mah",
-  "version": "1.7.7",
+  "version": "1.7.8",
   "author": "ffalt",
   "license": "MIT",
   "description": "a html5 mahjong solitaire game",
@@ -15,7 +15,7 @@
     "build:stats": "ng build --named-chunks --configuration production --aot --stats-json --output-hashing=none",
     "build:prebuild": "npm run clean",
     "build:deploy-release": "npm run build:prebuild && ng build --configuration production --aot --base-href \".\"",
-    "build:capacitor": "npm run build:prebuild && ng build --configuration capacitor --aot --base-href \".\"",
+    "build:apps": "npm run build:prebuild && ng build --configuration apps --aot --base-href \".\"",
     "build:deploy-root": "npm run build:prebuild && ng build --configuration production --aot --base-href \"/\"",
     "build:deploy-ghpages": "npm run build:prebuild && ng build --configuration production --aot --base-href \"https://ffalt.github.io/mah/\"",
     "build:releaselog": "conventional-changelog -p angular -r 2 -o RELEASELOG.md",

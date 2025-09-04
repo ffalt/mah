@@ -1,0 +1,121 @@
+name: 'publish'
+
+on:
+  workflow_dispatch:
+
+jobs:
+  publish-tauri:
+    permissions:
+      contents: write
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: 'macos-latest'
+            args: '--target aarch64-apple-darwin'
+          - platform: 'ubuntu-22.04'
+            args: ''
+          - platform: 'windows-latest'
+            args: ''
+
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+
+      - name: install Rust stable
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
+
+      - name: install dependencies (ubuntu only)
+        if: matrix.platform == 'ubuntu-22.04' # This must match the platform value defined above.
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
+
+      - name: Write mah build config
+        run: |
+          echo "{\"name\": \"Mah\", \"mobile\":true}" > custom-build-config.json
+
+      - name: install mah dependencies
+        run: npm install
+
+      - uses: tauri-apps/tauri-action@v0
+        id: build_os
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          projectPath: resources/apps
+          args: ${{ matrix.args }}
+
+      - name: upload ${{ matrix.platform }} artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.platform }}
+          path: "${{ join(fromJSON(steps.build_os.outputs.artifactPaths), '\n') }}"
+
+  publish-android:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: 21
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install Rust stable
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install node
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+
+      - name: Write mah build config
+        run: |
+          echo "{\"name\": \"Mah\", \"mobile\":true}" > custom-build-config.json
+
+      - name: install mah dependencies
+        run: npm install
+
+      - name: Install tauri dependencies
+        run: cd resources/apps && npm install
+
+      - name: Decode Keystore
+        env:
+          ENCODED_STRING: ${{ secrets.KEYSTORE }}
+        run: |
+          echo $ENCODED_STRING | base64 -di > resources/apps/tauri/gen/android/app/mah_keystore.jks
+
+      - name: setup Android signing
+        run: |
+          cd resources/apps/tauri/gen/android
+          echo "keyAlias=${{ secrets.SIGNING_KEY_ALIAS }}" > keystore.properties
+          echo "password=${{ secrets.SIGNING_KEY_PASSWORD }}" >> keystore.properties
+          echo "storePassword=${{ secrets.SIGNING_STORE_PASSWORD }}" >> keystore.properties
+          echo "storeFile=resources/apps/tauri/gen/android/app/mah_keystore.jks" >> keystore.properties
+
+      - name: Build Android app
+        run: |
+          cd resources/apps
+          npm run android:apk
+
+      - name: Upload Android artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-app
+          retention-days: 10
+          path: resources/apps/gen/android/app/build/outputs/

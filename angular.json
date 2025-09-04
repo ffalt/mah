@@ -70,11 +70,11 @@
 								}
 							]
 						},
-						"capacitor": {
+						"apps": {
 							"fileReplacements": [
 								{
 									"replace": "src/environments/environment.ts",
-									"with": "src/environments/environment.capacitor.ts"
+									"with": "src/environments/environment.apps.ts"
 								}
 							],
 							"optimization": true,
@@ -117,8 +117,8 @@
 						"development": {
 							"buildTarget": "mah:build:development"
 						},
-						"capacitor": {
-							"buildTarget": "mah:build:capacitor"
+						"apps": {
+							"buildTarget": "mah:build:apps"
 						}
 					}
 				},
