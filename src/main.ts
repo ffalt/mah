@@ -23,7 +23,6 @@ bootstrapApplication(AppComponent, {
 	providers: [
 		importProvidersFrom(
 			BrowserModule,
-			// TranslateModule.forRoot(),
 			CommonModule,
 			...environment.modules
 		),

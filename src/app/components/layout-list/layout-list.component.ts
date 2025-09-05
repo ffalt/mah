@@ -1,4 +1,4 @@
-import { Component, type OnChanges, type SimpleChanges, inject, input, output, viewChild, ElementRef } from '@angular/core';
+import { Component, type OnChanges, type SimpleChanges, inject, input, output, viewChild, type ElementRef } from '@angular/core';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import type { Layout } from '../../model/types';
 import { LocalstorageService } from '../../service/localstorage.service';
