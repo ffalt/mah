@@ -32,16 +32,14 @@ jobs:
       - name: Install tauri dependencies
         run: cd resources/apps && npm install
 
-      - uses: tauri-apps/tauri-action@v0
-        id: build_os
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          projectPath: resources/apps
+      - name: Build linux app
+        run: |
+          cd resources/apps
+          npm run linux
 
-      - name: upload ubuntu artifacts
+      - name: upload linux artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: 'ubuntu'
+          name: 'linux'
           path: "${{ join(fromJSON(steps.build_os.outputs.artifactPaths), '\n') }}"
 

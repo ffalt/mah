@@ -28,12 +28,10 @@ jobs:
       - name: Install tauri dependencies
         run: cd resources/apps && npm install
 
-      - uses: tauri-apps/tauri-action@v0
-        id: build_os
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          projectPath: resources/apps
+      - name: Build windows app
+        run: |
+          cd resources/apps
+          npm run windows
 
       - name: upload windows artifacts
         uses: actions/upload-artifact@v4
