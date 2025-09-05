@@ -119,29 +119,7 @@ describe('HelpComponent', () => {
 			const shortcutElement = shortcutItems[index];
 			const keyElement = shortcutElement.query(By.css('.key'));
 			expect(keyElement.nativeElement.textContent).toBe(shortcut.key);
-
-			const emojiElement = shortcutElement.query(By.css('.icon'));
-			expect(emojiElement).toBeTruthy();
-			expect(emojiElement.nativeElement.textContent).toBe('🀄️');
 		}
-	});
-
-	it('should render the last shortcut (Help) with emoji instead of icon', () => {
-		const shortcutItems = fixture.debugElement.queryAll(By.css('.keyboard-list li'));
-		// eslint-disable-next-line unicorn/prefer-at
-		const lastShortcut = shortcutItems[shortcutItems.length - 1];
-
-		// Verify it's the Help shortcut
-		const keyElement = lastShortcut.query(By.css('.key'));
-		expect(keyElement.nativeElement.textContent).toBe('H');
-
-		// Verify it has an emoji instead of an icon
-		const iconElement = lastShortcut.query(By.css('i'));
-		expect(iconElement).toBeFalsy(); // Should not have an icon element
-
-		const emojiElement = lastShortcut.query(By.css('.icon'));
-		expect(emojiElement).toBeTruthy();
-		expect(emojiElement.nativeElement.textContent).toBe('🀄️');
 	});
 
 	it('should use translation service for text content', () => {

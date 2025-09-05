@@ -37,12 +37,9 @@
 	<ul class="keyboard-list icon-">
 		@for (shortcut of shortcuts; track shortcut; let i = $index) {
 			<li>
-				<div><span class="key">{{ shortcut.key }}</span>@if (shortcut.icon) {
+				<div><span class="key">{{ shortcut.key }}</span>
 					<i [class]="shortcut.icon"></i>
-				}
-					@if (!shortcut.icon) {
-						<span class="icon">🀄️</span>
-					}<span class="name">{{ shortcut.name|translate }}</span></div>
+					<span class="name">{{ shortcut.name|translate }}</span></div>
 				<span class="func">{{ (shortcut.name + '_LONG')|translate }}</span>
 			</li>
 		}

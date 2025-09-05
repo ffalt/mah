@@ -176,6 +176,10 @@ p {
 		border-radius: 12px;
 		box-shadow: var(--overlay-popup-shadow);
 
+		.icon-logo {
+			color: red;
+		}
+
 		@include mixins.respond-to(jumbo-up) {
 			border-radius: 30px;
 		}

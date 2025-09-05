@@ -16,6 +16,6 @@ export class HelpComponent {
 		{ icon: 'icon-pause', key: 'P', name: 'PAUSE' },
 		{ icon: 'icon-calendar', key: 'I', name: 'INFO' },
 		{ icon: 'icon-cog', key: 'S', name: 'SETTINGS' },
-		{ key: 'H', name: 'HELP' }
+		{ icon: 'icon-logo', key: 'H', name: 'HELP' }
 	];
 }

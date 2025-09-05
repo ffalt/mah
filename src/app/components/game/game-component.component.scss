@@ -116,6 +116,10 @@
 				font-weight: 600;
 				cursor: pointer;
 
+				.icon-logo {
+					color: red;
+				}
+
 				span.name {
 					margin-left: 6px;
 				}
@@ -137,6 +141,7 @@
 				cursor: default;
 				float: right;
 				padding-right: 12px;
+				padding-top: 2px;
 
 				.text {
 					margin-right: 26px;
@@ -157,6 +162,10 @@
 
 			&.ctrl-stats {
 				cursor: default;
+
+				.menu-button {
+					display: none;
+				}
 
 				.label {
 					margin-left: 10px;
@@ -207,13 +216,6 @@
 
 		@include mixins.respond-to(small-down) {
 			padding: 0 6px;
-
-			.ctrl .link {
-				margin-left: 2px;
-				padding: 0.1em;
-			}
-
-			font-size: 20px;
 		}
 
 		@include mixins.respond-to(tiny-down) {
@@ -240,12 +242,51 @@
 		@include mixins.respond-to(pico-down) {
 			font-size: 18px;
 
+			.ctrl-game {
+				.link {
+					padding-left: 0.1em;
+					padding-right: 0.1em;
+				}
+			}
+
 			.ctrl.ctrl-time .time {
 				min-width: 0;
 			}
 
 			span.name {
 				display: none;
+			}
+
+			.ctrl.ctrl-stats {
+				position: relative;
+
+				.menu-button {
+					display: block;
+				}
+
+				.menu {
+					display: none;
+					position: absolute;
+					bottom: 100%;
+					right: 0;
+					background: var(--dialog-background-color);
+					border: 1px solid var(--dialog-border-color);
+					border-radius: 8px;
+					flex-direction: column;
+					z-index: 10;
+
+					.button {
+						padding: 0.5em;
+						margin-left: 0;
+					}
+				}
+
+				&:hover,
+				&:focus-within {
+					.menu {
+						display: flex;
+					}
+				}
 			}
 		}
 	}
@@ -256,6 +297,7 @@
 
 	.controls-bottom {
 		border-top: 1px solid var(--main-bg-color-lt);
+		margin-bottom: 4px;
 	}
 
 	.board {
@@ -273,7 +315,7 @@
 				float: unset !important;
 				text-align: center;
 
-				.symbol, i {
+				i {
 					font-size: 32px;
 				}
 
@@ -390,11 +432,10 @@
 
 		.controls {
 			.ctrl {
-				.symbol, i {
+				i {
 					font-size: 20px;
 				}
 			}
 		}
-
 	}
 }

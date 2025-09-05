@@ -1,6 +1,9 @@
 <div class="controls controls-top">
 	<div class="ctrl ctrl-name">
-		<button class="link button" (click)="help.toggle()" title="{{'OPEN_HELP' | translate}}"><span class="symbol">🀄️</span><span class="name">{{ app.name }}</span></button>
+		<button class="link button" (click)="help.toggle()" title="{{'OPEN_HELP' | translate}}">
+			<i class="icon-logo"></i>
+			<span class="name">{{ app.name }}</span>
+		</button>
 	</div>
 	<div class="ctrl ctrl-game">
 		<button class="link button" (click)="game.toggle()" title="{{'PAUSE_LONG' | translate}}">
@@ -29,21 +32,25 @@
 />
 <div class="controls controls-bottom">
 	<div class="ctrl ctrl-stats">
-		<button class="link button" (click)="settings.toggle()" title="{{'OPEN_SETTINGS' | translate}}">
-			<i class="icon-cog"></i>
+		<button class="link button menu-button" title="Menu" aria-haspopup="true" aria-expanded="false">
+			<i class="icon-menu"></i>
 		</button>
-		<button class="link button" [class.inactive]="!app.settings.sounds" (click)="app.toggleSound()" title="{{'AUDIO_SOUNDS' | translate}}">
-			<i class="icon-volume-low"></i>
-		</button>
-		<button class="link button" (click)="info.toggle()" title="{{'TILES_INFO' | translate}}">
-			<i class="icon-calendar"></i>
-		</button>
-		@if (fullScreenEnabled) {
-			<button class="link button" (click)="enterFullScreen()" title="{{'FULLSCREEN' | translate}}">
-				<i class="icon-resize-full-alt"></i>
+		<div class="menu" role="menu">
+			<button class="link button" (click)="settings.toggle()" title="{{'OPEN_SETTINGS' | translate}}" role="menuitem">
+				<i class="icon-cog"></i>
 			</button>
-		}
-		<!--		<span class="label button" (click)="debugCheat()">CHEAT</span>-->
+			<button class="link button" [class.inactive]="!app.settings.sounds" (click)="app.toggleSound()" title="{{'AUDIO_SOUNDS' | translate}}" role="menuitem">
+				<i class="icon-volume-low"></i>
+			</button>
+			<button class="link button" (click)="info.toggle()" title="{{'TILES_INFO' | translate}}" role="menuitem">
+				<i class="icon-calendar"></i>
+			</button>
+			@if (fullScreenEnabled) {
+				<button class="link button" (click)="enterFullScreen()" title="{{'FULLSCREEN' | translate}}" role="menuitem">
+					<i class="icon-resize-full-alt"></i>
+				</button>
+			}
+		</div>
 	</div>
 	<div class="ctrl ctrl-time">
 		<span class="label button text"><small>{{ 'STONES' | translate }}:</small> <span>{{ game.board.count }}</span></span>
