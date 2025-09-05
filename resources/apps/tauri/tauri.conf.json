@@ -11,10 +11,6 @@
     "frontendDist": "../../../dist/"
   },
   "app": {
-		"macOS": {
-			"title": "Mah",
-			"signingIdentity": "-"
-		},
     "windows": [
       {
         "title": "Mah",
@@ -38,7 +34,9 @@
       "icons/icon.icns",
       "icons/icon.ico"
     ],
-		"macOS": {},
+		"macOS": {
+			"signingIdentity": "-"
+		},
 		"windows": {
 			"certificateThumbprint": null,
 			"digestAlgorithm": "sha256",
