@@ -30,7 +30,7 @@
 		transform: scale(0, 0);
 		transition: transform 150ms ease-in-out;
 		&.visible {
-			transform: scale(2, 2);
+			transform: scale(1.5, 1.5);
 		}
 	}
 }
