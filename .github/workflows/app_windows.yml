@@ -6,10 +6,11 @@ on:
     tags:
       - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
 
+permissions:
+  contents: write
+
 jobs:
   build-tauri:
-    permissions:
-      contents: write
     runs-on: 'windows-latest'
     steps:
       - uses: actions/checkout@v4
