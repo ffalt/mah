@@ -1,7 +1,6 @@
 import { enableProdMode, importProvidersFrom } from '@angular/core';
 import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { provideAnimations } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { provideTranslateService } from '@ngx-translate/core';
 
@@ -35,7 +34,6 @@ bootstrapApplication(AppComponent, {
 		WorkerService,
 		DeferLoadService,
 		SvgdefService,
-		provideHttpClient(withInterceptorsFromDi()),
-		provideAnimations()
+		provideHttpClient(withInterceptorsFromDi())
 	]
 }).catch(console.error);

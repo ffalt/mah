@@ -1,5 +1,3 @@
-import { animate, state, style, transition, trigger } from '@angular/animations';
-
 interface GestureIndicator {
 	x: number;
 	y: number;
@@ -14,12 +12,12 @@ export class Indicator {
 	gestureIndicators: Array<GestureIndicator> = [];
 
 	hide(gestureIndicator?: { state: string; x: number; y: number }) {
-		const gindicator = gestureIndicator;
-		if (!gindicator) {
+		const indicator = gestureIndicator;
+		if (!indicator) {
 			return;
 		}
 		setTimeout(() => {
-			gindicator.state = 'hidden';
+			indicator.state = 'hidden';
 			setTimeout(() => {
 				this.removeIndicator(gestureIndicator);
 			}, 250);
@@ -55,21 +53,3 @@ export class Indicator {
 	}
 }
 
-export const IndicatorAnimations = [
-	trigger('indicatorState', [
-		state(
-			'hidden',
-			style({
-				transform: 'scale(0, 0)'
-			})
-		),
-		state(
-			'visible',
-			style({
-				transform: 'scale(1, 1)'
-			})
-		),
-		transition('hidden => visible', animate('150ms ease-in')),
-		transition('visible => hidden', animate('150ms ease-out'))
-	])
-];
