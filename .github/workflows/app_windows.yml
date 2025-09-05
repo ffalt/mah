@@ -1,0 +1,42 @@
+name: 'app-windows'
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-tauri:
+    permissions:
+      contents: write
+    runs-on: 'windows-latest'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+
+      - name: Write mah build config
+        shell: powershell
+        run: |
+          $data = @{ name = 'Mah'; mobile = true }
+          $data | ConvertTo-Json | Set-Content -Path custom-build-config.json
+
+      - name: install mah dependencies
+        run: npm install
+
+      - name: Install tauri dependencies
+        run: cd resources/apps && npm install
+
+      - uses: tauri-apps/tauri-action@v0
+        id: build_os
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          projectPath: resources/apps
+
+      - name: upload windows artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: 'windows'
+          path: "${{ join(fromJSON(steps.build_os.outputs.artifactPaths), '\n') }}"

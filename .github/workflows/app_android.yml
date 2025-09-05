@@ -1,75 +1,9 @@
-name: 'apps'
+name: 'app-android'
 
 on:
   workflow_dispatch:
 
 jobs:
-  build-tauri:
-    permissions:
-      contents: write
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - platform: 'macos-latest'
-            args: '--target aarch64-apple-darwin'
-          - platform: 'ubuntu-22.04'
-            args: ''
-          - platform: 'windows-latest'
-            args: ''
-
-    runs-on: ${{ matrix.platform }}
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: setup node
-        uses: actions/setup-node@v4
-        with:
-          node-version: lts/*
-
-      - name: install Rust stable
-        uses: dtolnay/rust-toolchain@stable
-        with:
-          targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
-
-      - name: install dependencies (ubuntu only)
-        if: matrix.platform == 'ubuntu-22.04' # This must match the platform value defined above.
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
-
-      - name: Write mah build config
-        if: matrix.platform != 'windows-latest'
-        run: |
-          echo "{\"name\": \"Mah\", \"mobile\":true}" > custom-build-config.json
-
-      - name: Write mah build config
-        if: matrix.platform == 'windows-latest'
-        shell: powershell
-        run: |
-          $data = @{ name = 'Mah'; mobile = true }
-          $data | ConvertTo-Json | Set-Content -Path custom-build-config.json
-
-      - name: install mah dependencies
-        run: npm install
-
-      - name: Install tauri dependencies
-        run: cd resources/apps && npm install
-
-      - uses: tauri-apps/tauri-action@v0
-        id: build_os
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          projectPath: resources/apps
-          args: ${{ matrix.args }}
-
-      - name: upload ${{ matrix.platform }} artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ matrix.platform }}
-          path: "${{ join(fromJSON(steps.build_os.outputs.artifactPaths), '\n') }}"
-
   build-android:
     runs-on: ubuntu-latest
     permissions:

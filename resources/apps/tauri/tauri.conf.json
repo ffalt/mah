@@ -11,6 +11,10 @@
     "frontendDist": "../../../dist/"
   },
   "app": {
+		"macOS": {
+			"title": "Mah",
+			"signingIdentity": "-"
+		},
     "windows": [
       {
         "title": "Mah",
