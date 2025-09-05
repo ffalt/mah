@@ -3,7 +3,7 @@
   "version": "1.7.8",
   "scripts": {
     "build": "tauri build",
-		"macois": "tauri build --bundles app",
+		"macos": "tauri build --bundles app --target universal-apple-darwin",
 		"android:aab": "tauri android build --aab",
 		"android:apk": "tauri android build --apk --split-per-abi",
     "tauri": "tauri",

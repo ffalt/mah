@@ -30,13 +30,10 @@ jobs:
       - name: Install tauri dependencies
         run: cd resources/apps && npm install
 
-      - uses: tauri-apps/tauri-action@v0
-        id: build_os
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          projectPath: resources/apps
-          args: '--target aarch64-apple-darwin'
+      - name: Build macos app
+        run: |
+          cd resources/apps
+          npm run macos
 
       - name: upload macos artifacts
         uses: actions/upload-artifact@v4
