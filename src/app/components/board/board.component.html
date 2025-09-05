@@ -26,6 +26,31 @@
 			opacity: 1;
 		}
 
+		@keyframes mah-wiggle {
+			0% {
+				transform: rotate(0deg);
+			}
+			20% {
+				transform: rotate(-3deg);
+			}
+			40% {
+				transform: rotate(3deg);
+			}
+			60% {
+				transform: rotate(-1deg);
+			}
+			80% {
+				transform: rotate(1deg);
+			}
+			100% {
+				transform: rotate(0deg);
+			}
+		}
+
+		g.wiggle g.tile {
+			animation: mah-wiggle 250ms ease-in-out;
+		}
+
 		g.hinted g.tile {
 			transform: scale(1.12);
 		}
@@ -120,6 +145,7 @@
 				 [class.selected]="draw.source.selected"
 				 [class.hidden]="draw.source.picked"
 				 [class.hinted]="draw.source.hinted"
+				 [class.wiggle]="draw.source.effects?.wiggle"
 				 [attr.transform]="draw.pos.translate" (mouseup)="onClickUp($event, draw)">
 				<g class="tile">
 					@if (draw.url) {

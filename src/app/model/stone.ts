@@ -11,6 +11,10 @@ export interface StoneState {
 	removable: boolean;
 }
 
+export interface StoneEffects {
+	wiggle?: boolean;
+}
+
 export interface StoneImg {
 	id?: string;
 }
@@ -23,6 +27,7 @@ export interface StoneNodes {
 }
 
 export class Stone implements StonePosition {
+	effects?: StoneEffects;
 	x: number;
 	y: number;
 	z: number;

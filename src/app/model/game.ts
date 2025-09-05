@@ -36,6 +36,7 @@ export class Game {
 		}
 		if (!this.isRunning() || stone.state.blocked) {
 			this.sound.play(SOUNDS.NOPE);
+			this.wiggleStone(stone);
 			return true;
 		}
 		if (this.clock.elapsed === 0) {
@@ -48,6 +49,19 @@ export class Game {
 		this.board.setStoneSelected(this.board.selected === stone ? undefined : stone);
 		this.sound.play(SOUNDS.SELECT);
 		return true;
+	}
+
+	wiggleStone(stone: Stone): void {
+		if (!stone) {
+			return;
+		}
+		stone.effects = stone.effects || {};
+		stone.effects.wiggle = true;
+		setTimeout(() => {
+			if (stone.effects) {
+				stone.effects.wiggle = false;
+			}
+		}, 300);
 	}
 
 	isRunning(): boolean {

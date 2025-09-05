@@ -386,7 +386,8 @@ export class BoardComponent implements OnInit, OnChanges {
 					visible: true,
 					url: stone.img?.id,
 					pos: calcDrawPos(stone.z, stone.x, stone.y),
-					source: stone
+					source: stone,
+					className: stone.effects?.wiggle ? 'wiggle' : undefined
 				}));
 		this.bounds = getDrawBounds(items, defaultW, defaultH);
 		this.drawStones = sortDrawItems(items);
