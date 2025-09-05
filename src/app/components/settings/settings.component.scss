@@ -13,6 +13,7 @@
 
 		@include mixins.respond-to(medium-down) {
 			width: 100%;
+			padding-right: 8px;
 		}
 
 		> div {

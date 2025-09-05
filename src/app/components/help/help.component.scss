@@ -5,6 +5,7 @@
 	flex-flow: row wrap;
 	flex: 1;
 	overflow-y: auto;
+	overflow-x: hidden;
 
 	h2 {
 		padding-bottom: 3px;
@@ -123,12 +124,26 @@
 	}
 
 	@include mixins.respond-to(medium-down) {
+
 		.top {
 			flex-flow: column nowrap;
 		}
 
 		.help, .license {
 			width: 100%;
+		}
+
+		.license {
+
+			.license-list > div {
+				flex-wrap: wrap;
+				margin-bottom: 8px;
+			}
+
+			.name {
+				min-width: 100%;
+				max-width: 100%;
+			}
 		}
 	}
 }

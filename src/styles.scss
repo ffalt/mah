@@ -16,7 +16,7 @@ html {
 	--main-content-text-color: #000;
 	--main-content-link-color: #2e4856;
 	--main-content-link-hover-color: #22353f;
-	--dialog-headline-color: #47b00a;
+	--dialog-headline-color: #2e8c02;
 	--dialog-text-color: #000;
 	--dialog-background-color: #f5f1e4;
 	--dialog-border-color: #0d1417;
@@ -46,6 +46,7 @@ html {
 	--preview-overlay-text: #fff;
 	--preview-overlay-text-shadow: #000;
 	--gesture-indicator: #42a5f5;
+	--overlay-popup-shadow:5px 5px 5px 0px rgba(0,0,0,0.75);
 
 	width: 100%;
 	background-color: var(--main-bg-color);
@@ -55,6 +56,7 @@ html {
 
 @media (prefers-color-scheme: dark) {
 	html {
+		--dialog-headline-color: #47b00a;
 		--dialog-background-color: #1b1b1b;
 		--dialog-border-color: #2f444d;
 		--card-layout-color-border: #353535;
@@ -66,6 +68,7 @@ html {
 		--main-content-link-hover-color: #3e617a;
 		--close-color: #ececec;
 		--close-color-hover: #bdbdbd;
+		--overlay-popup-shadow:5px 5px 5px 0px rgba(0,0,0,0.75);
 	}
 }
 
@@ -170,8 +173,8 @@ p {
 		padding: 1.5em 2em;
 		display: flex;
 		flex-direction: column;
-		box-shadow: 12px 14px 16px, rgb(0 0 0 / 50%);
 		border-radius: 12px;
+		box-shadow: var(--overlay-popup-shadow);
 
 		@include mixins.respond-to(jumbo-up) {
 			border-radius: 30px;
@@ -183,11 +186,15 @@ p {
 		}
 
 		@include mixins.respond-to(large-down) {
-			padding: 1.5em;
+			padding: 1.3em;
+		}
+
+		@include mixins.respond-to(small-down) {
+			padding: 1.5em 1em;
 		}
 
 		@include mixins.respond-to(pico-down) {
-			padding: 1.5em 1em;
+			padding: 1.5em 0.5em 1.5em 1em;
 		}
 	}
 
