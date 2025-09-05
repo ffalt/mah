@@ -41,5 +41,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: 'linux'
-          path: "${{ join(fromJSON(steps.build_os.outputs.artifactPaths), '\n') }}"
-
+          path: resources/apps/tauri/target/release/bundle/
