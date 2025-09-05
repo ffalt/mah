@@ -15,7 +15,7 @@ describe('Draw', () => {
 			expect(pos.translate).toBe(`translate(${pos.x},${pos.y})`);
 
 			// Check z calculation specifically
-			expect(pos.z).toBe(3 + CONSTS.mY * (2 + CONSTS.mX * 1));
+			expect(pos.z).toBe(3 + CONSTS.mY * (2 + CONSTS.mX));
 		});
 	});
 

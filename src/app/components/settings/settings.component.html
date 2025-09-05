@@ -89,7 +89,7 @@
 				</button>
 				<select class="example-kyodai" (change)="setKyodaiUrl($event)">
 					<option value="">{{ 'KYODAI_TILESET_EXAMPLES' | translate }}</option>
-					@for (k of kyodaiTileSets; track k.source; let i = $index) {
+					@for (k of kyodaiTileSets; track k.source) {
 						<option [value]="k.source">{{ k.name }} - {{ k.author }}</option>
 					}
 				</select>

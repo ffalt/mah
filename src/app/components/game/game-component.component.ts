@@ -170,7 +170,7 @@ export class GameComponent {
 
 	isFullscreen(): boolean {
 		const doc = window.document as DocumentExtended;
-		return !!(doc.fullScreen || doc.fullscreen || doc.mozFullScreen || doc.webkitIsFullScreen);
+		return (doc.fullScreen || doc.fullscreen || doc.mozFullScreen || doc.webkitIsFullScreen);
 	}
 
 	exitFullscreen(): void {

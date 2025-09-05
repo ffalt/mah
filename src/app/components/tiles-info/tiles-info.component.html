@@ -20,7 +20,7 @@
 <div class="tiles-header">
 	<form>
 		<select (change)="tileset = $any($event.target).value">
-			@for (imageset of sets; track imageset; let i = $index) {
+			@for (imageset of sets; track imageset) {
 				<option [value]="imageset.id" [selected]="tileset === imageset.id">{{ imageset.name }}</option>
 			}
 		</select>

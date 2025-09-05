@@ -35,7 +35,7 @@
 <div class="keyboard">
 	<h2>{{ 'SHORTCUTS' | translate }}</h2>
 	<ul class="keyboard-list icon-">
-		@for (shortcut of shortcuts; track shortcut; let i = $index) {
+		@for (shortcut of shortcuts; track shortcut) {
 			<li>
 				<div><span class="key">{{ shortcut.key }}</span>
 					<i [class]="shortcut.icon"></i>
