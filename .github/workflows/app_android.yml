@@ -2,6 +2,9 @@ name: 'app-android'
 
 on:
   workflow_dispatch:
+  push:
+    tags:
+      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
 
 jobs:
   build-android:
@@ -73,7 +76,14 @@ jobs:
 
       - name: Upload Android artifacts
         uses: actions/upload-artifact@v4
+        if: github.ref_type != 'tag'
         with:
           name: android-app
           retention-days: 10
           path: resources/apps/tauri/gen/android/app/build/outputs/
+
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        if: github.ref_type == 'tag'
+        with:
+          files: resources/apps/tauri/gen/android/app/build/outputs/**/*
