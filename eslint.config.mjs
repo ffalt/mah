@@ -130,7 +130,7 @@ export default ts.config(
 			"**/local/**/*",
 			"**/coverage/**/*",
 			"**/node_modules/**/*",
-			"**/resources/mobile/android/**/*"
+			"**/resources/apps/**/*"
 		]
 	},
 	{

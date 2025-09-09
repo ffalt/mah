@@ -14,6 +14,7 @@ html {
 	--main-text-color-lt: #51ca0a;
 	--main-text-color-dk: #358808;
 	--main-content-text-color: #000;
+	--main-content-text-color-muted: #272727;
 	--main-content-link-color: #2e4856;
 	--main-content-link-hover-color: #22353f;
 	--dialog-headline-color: #2e8c02;
@@ -32,6 +33,7 @@ html {
 	--card-text-color: #fff;
 	--input-text-color: #000;
 	--input-background-color: #ddd;
+	--input-background-color-hover: #fff;
 	--input-border-color: #8f8f8f;
 	--text-fail-color: #cc919f;
 	--text-disabled-color: #8d8d8d;
@@ -46,7 +48,7 @@ html {
 	--preview-overlay-text: #fff;
 	--preview-overlay-text-shadow: #000;
 	--gesture-indicator: #42a5f5;
-	--overlay-popup-shadow:5px 5px 5px 0px rgba(0,0,0,0.75);
+	--overlay-popup-shadow: 5px 5px 5px 0px rgb(0 0 0 / 75%);
 
 	width: 100%;
 	background-color: var(--main-bg-color);
@@ -61,14 +63,16 @@ html {
 		--dialog-border-color: #2f444d;
 		--card-layout-color-border: #353535;
 		--main-content-text-color: #ddd;
+		--main-content-text-color-muted: #959494;
 		--input-text-color: #ddd;
 		--input-background-color: #000;
+		--input-background-color-hover: #151515;
 		--input-border-color: #353535;
 		--main-content-link-color: #5685a8;
 		--main-content-link-hover-color: #3e617a;
 		--close-color: #ececec;
 		--close-color-hover: #bdbdbd;
-		--overlay-popup-shadow:5px 5px 5px 0px rgba(0,0,0,0.75);
+		--overlay-popup-shadow: 5px 5px 5px 0px rgb(0 0 0 / 75%);
 	}
 }
 
@@ -136,6 +140,11 @@ p {
 		text-overflow: ellipsis;
 		padding: 8px 12px;
 		font-size: 0.9em;
+		cursor: pointer;
+
+		&:hover, &:active {
+			background-color: var(--input-background-color-hover);
+		}
 	}
 
 	@include mixins.respond-to(medium-up) {

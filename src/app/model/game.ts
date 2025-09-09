@@ -6,6 +6,7 @@ import type { Stone } from './stone';
 import type { GameStateStore, Layout, StorageProvider } from './types';
 import type { BUILD_MODE_ID } from './builder';
 import { Music } from './music';
+import { RANDOM_LAYOUT_ID_PREFIX } from './random-layout';
 
 export class Game {
 	clock: Clock = new Clock();
@@ -173,17 +174,27 @@ export class Game {
 		}
 	}
 
+	private isStorableLayoutId(): boolean {
+		return !this.layoutID?.startsWith(RANDOM_LAYOUT_ID_PREFIX);
+	}
+
 	private gameOverLoosing(): void {
-		const id = this.layoutID ?? 'unknown';
-		const score = this.storage.getScore(id) ?? {};
-		score.playCount = (score.playCount ?? 0) + 1;
-		this.storage.storeScore(id, score);
+		if (this.isStorableLayoutId()) {
+			const id = this.layoutID ?? 'unknown';
+			const score = this.storage.getScore(id) ?? {};
+			score.playCount = (score.playCount ?? 0) + 1;
+			this.storage.storeScore(id, score);
+		}
 		this.gameOver('MSG_FAIL');
 	}
 
 	private gameOverWining(): void {
-		const id = this.layoutID ?? 'unknown';
 		const playTime = this.clock.elapsed;
+		if (!this.isStorableLayoutId()) {
+			this.gameOver('MSG_GOOD', playTime);
+			return;
+		}
+		const id = this.layoutID ?? 'unknown';
 		const score = this.storage.getScore(id) ?? {};
 		score.playCount = (score.playCount ?? 0) + 1;
 		if (!score.bestTime || score.bestTime > playTime) {

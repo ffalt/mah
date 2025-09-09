@@ -37,6 +37,10 @@ export class BoardComponent implements OnInit, OnChanges {
 		}
 	}
 
+	gridID(draw: Draw): string {
+		return `${draw.z}-${draw.x}-${draw.y}`;
+	}
+
 	drawClass(z: number, x: number, y: number): string {
 		let s = '';
 		const matrix = this.matrix();

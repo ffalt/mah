@@ -29,6 +29,7 @@
 		background-color: var(--gesture-indicator);
 		transform: scale(0, 0);
 		transition: transform 150ms ease-in-out;
+
 		&.visible {
 			transform: scale(1.5, 1.5);
 		}

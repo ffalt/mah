@@ -47,14 +47,14 @@
 
 	</style>
 	<g class="stage" [attr.transform]="translate">
-		@for (draw of drawCells; track draw) {
+		@for (draw of drawCells; track gridID(draw)) {
 			<rect stroke="black" stroke-width="1" class="draw"
 						[class]="draw.className" [attr.x]="draw.pos.x" [attr.y]="draw.pos.y"
 						width="37.5px" height="50px" (click)="onClickDraw($event, draw);"></rect>
 		}
 	</g>
 	<g class="stage" [attr.transform]="translate">
-		@for (draw of drawStones; track draw.source.groupNr + '/' + draw.source.v) {
+		@for (draw of drawStones; track gridID(draw)) {
 			<g class="draw"
 				 [class.selected]="draw.source.selected"
 				 [class.hidden]="draw.source.picked"
