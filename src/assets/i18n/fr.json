@@ -26,6 +26,14 @@
 	"MODE": "Algorithme de remplissage",
 	"MODE_SOLVABLE": "Résoluble",
 	"MODE_RANDOM": "Aléatoire",
+	"RANDOM_GROUP": "Aléatoire",
+	"RANDOM_LAYOUT": "Aléatoire",
+	"MIRROR_X": "Mirroir vertical",
+	"MIRROR_Y": "Mirroir horizontal",
+	"GENERATE": "Générer",
+	"RANDOM_MIRROR": "Aléatoire",
+	"YES": "Oui",
+	"NO": "Non",
 	"AUDIO": "Audio",
 	"AUDIO_SOUNDS": "Sons activés/désactivés",
 	"AUDIO_MUSIC": "Musique",
@@ -58,7 +66,7 @@
 	"HIGHER_CONTRAST": "Contraste élevé",
 	"SOURCE": "Source",
 	"GAME": "Jeu",
-	"DESIGNS": "Designs",
+	"DESIGNS": "Modèles",
 	"SOUNDS": "Sons",
 	"FONTS": "Polices",
 	"BACKGROUNDS": "Arrière-plans",
@@ -225,8 +233,8 @@
 	"EDITOR_TEST_SOLVED": "Résolu",
 	"EDITOR_TEST_FAILED": "Échec",
 	"CLOSE": "Fermer",
-	"KYODAI_TILESET_LOAD": "Charger l'image",
-	"KYODAI_TILESET_SETTINGS": "URL du tileset Kyodai",
-	"KYODAI_TILESET_EXAMPLES": "Exemples de tilesets Kyodai",
-	"KYODAI_TILESET": "Tileset Kyodai"
-} 
+	"KYODAI_TILESET_LOAD": "Charger les images",
+	"KYODAI_TILESET_SETTINGS": "URL de l'image de Kyodai",
+	"KYODAI_TILESET_EXAMPLES": "Exemples de jeux de tuiles Kyodai",
+	"KYODAI_TILESET": "Ensemble de tuiles Kyodai"
+}

@@ -232,5 +232,9 @@
 	"EDITOR_TEST_CANCEL": "Abbrechen",
 	"EDITOR_TEST_SOLVED": "Gelöst",
 	"EDITOR_TEST_FAILED": "Gescheitert",
-	"CLOSE": "Schließen"
+	"CLOSE": "Schließen",
+	"KYODAI_TILESET_LOAD": "Bild laden",
+	"KYODAI_TILESET_SETTINGS": "Kyodai Bild-URL",
+	"KYODAI_TILESET_EXAMPLES": "Kyodai Tileset Beispiele",
+	"KYODAI_TILESET": "Kyodai Tileset"
 }

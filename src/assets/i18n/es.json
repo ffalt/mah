@@ -26,6 +26,14 @@
 	"MODE": "Algoritmo de relleno del tablero",
 	"MODE_SOLVABLE": "Resoluble",
 	"MODE_RANDOM": "Aleatorio",
+	"RANDOM_GROUP": "Aleatorio",
+	"RANDOM_LAYOUT": "Aleatorio",
+	"MIRROR_X": "Espejo vertical",
+	"MIRROR_Y": "Espejo horizontal",
+	"GENERATE": "Generar",
+	"RANDOM_MIRROR": "Aleatorio",
+	"YES": "Si",
+	"NO": "No",
 	"AUDIO": "Áudio",
 	"AUDIO_SOUNDS": "Activar/Desactivar sonido",
 	"AUDIO_MUSIC": "Música",
@@ -224,5 +232,9 @@
 	"EDITOR_TEST_CANCEL": "Cancelar",
 	"EDITOR_TEST_SOLVED": "Hecho",
 	"EDITOR_TEST_FAILED": "Fallido",
-	"CLOSE": "Cerrar"
+	"CLOSE": "Cerrar",
+	"KYODAI_TILESET_LOAD": "Cargar imagen",
+	"KYODAI_TILESET_SETTINGS": "URL de la imagen de Kyodai",
+	"KYODAI_TILESET_EXAMPLES": "Ejemplos de conjuntos de fichas Kyodai",
+	"KYODAI_TILESET": "Juego de fichas Kyodai"
 }

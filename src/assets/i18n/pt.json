@@ -26,6 +26,14 @@
 	"MODE": "Algoritmo de preenchimento de placa",
 	"MODE_SOLVABLE": "Solúvel",
 	"MODE_RANDOM": "Aleatoriamente",
+	"RANDOM_GROUP": "Aleatório",
+	"RANDOM_LAYOUT": "Aleatório",
+	"MIRROR_X": "Espelho vertical",
+	"MIRROR_Y": "Espelho horizontal",
+	"GENERATE": "Gerar",
+	"RANDOM_MIRROR": "Aleatório",
+	"YES": "Sim",
+	"NO": "Não",
 	"AUDIO": "Áudio",
 	"AUDIO_SOUNDS": "Sons",
 	"AUDIO_MUSIC": "Música",
@@ -224,5 +232,9 @@
 	"EDITOR_TEST_CANCEL": "Cancelar",
 	"EDITOR_TEST_SOLVED": "Resolvido",
 	"EDITOR_TEST_FAILED": "Falhou",
-	"CLOSE": "Fechar"
+	"CLOSE": "Fechar",
+	"KYODAI_TILESET_LOAD": "Carregar imagem",
+	"KYODAI_TILESET_SETTINGS": "URL da imagem Kyodai",
+	"KYODAI_TILESET_EXAMPLES": "Exemplos de conjuntos de mosaicos Kyodai",
+	"KYODAI_TILESET": "Conjunto de azulejos Kyodai"
 }

@@ -26,6 +26,14 @@
 	"MODE": "Taula betetzeko algoritmoa",
 	"MODE_SOLVABLE": "Ebazgarria",
 	"MODE_RANDOM": "Ausaz",
+	"RANDOM_GROUP": "Ausaz",
+	"RANDOM_LAYOUT": "Ausaz",
+	"MIRROR_X": "Ispilu bertikala",
+	"MIRROR_Y": "Ispilu horizontala",
+	"GENERATE": "Sortu",
+	"RANDOM_MIRROR": "Ausaz",
+	"YES": "Bai",
+	"NO": "Ez",
 	"AUDIO": "Audioa",
 	"AUDIO_SOUNDS": "Soinuak on/off",
 	"AUDIO_MUSIC": "Musika",
@@ -224,5 +232,9 @@
 	"EDITOR_TEST_CANCEL": "Ezeztatu",
 	"EDITOR_TEST_SOLVED": "Ebatzita",
 	"EDITOR_TEST_FAILED": "Huts egin du",
-	"CLOSE": "Itxi"
+	"CLOSE": "Itxi",
+	"KYODAI_TILESET_LOAD": "Kargatu irudia",
+	"KYODAI_TILESET_SETTINGS": "Kyodai irudiaren URLa",
+	"KYODAI_TILESET_EXAMPLES": "Kyodai fitxa-sorten adibideak",
+	"KYODAI_TILESET": "Kyodai Fitxa-sorten"
 }
