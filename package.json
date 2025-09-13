@@ -6,7 +6,6 @@
   "description": "a html5 mahjong solitaire game",
   "repository": "https://github.com/ffalt/mah.git",
   "scripts": {
-    "gen:new-layouts": "npx -y tsx ./bin/generate-boards-new.ts --out ./src/assets/data/boards.json",
     "ng": "ng",
     "start": "ng serve",
     "start:development": "ng serve -c development",
