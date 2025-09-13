@@ -5,7 +5,7 @@
 		"./src/fonts/**",
 		"./dist/**",
 		"./coverage/**",
-		"./resources/mobile/android/app/**",
+		"./resources/apps/**",
 		"./local/**"
 	]
 }
