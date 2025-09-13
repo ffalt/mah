@@ -4,8 +4,7 @@
 	display: flex;
 	flex-flow: row wrap;
 	flex: 1;
-	overflow-y: auto;
-	overflow-x: hidden;
+	overflow: hidden auto;
 
 	h2 {
 		padding-bottom: 3px;
@@ -124,7 +123,6 @@
 	}
 
 	@include mixins.respond-to(medium-down) {
-
 		.top {
 			flex-flow: column nowrap;
 		}
@@ -134,7 +132,6 @@
 		}
 
 		.license {
-
 			.license-list > div {
 				flex-wrap: wrap;
 				margin-bottom: 8px;

@@ -60,6 +60,8 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 	matrix: Matrix = new Matrix();
 	saveDialog: boolean = false;
 	hasChanged: boolean = false;
+	mirrorX: boolean = false;
+	mirrorY: boolean = false;
 	svg: SafeUrlSVG;
 	worker = inject(WorkerService);
 	layoutService = inject(LayoutService);
@@ -124,14 +126,70 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 		}
 	}
 
+	removeStone(z: number, x: number, y: number): void {
+		this.layout().mapping = this.layout().mapping.filter(m => ((m[0] !== z) || (m[1] !== x) || (m[2] !== y)));
+		this.matrix.applyMapping(this.layout().mapping, this.totalZ, this.totalX, this.totalY);
+	}
+
+	addStone(z: number, x: number, y: number): void {
+		this.layout().mapping.push([z, x, y]);
+		this.matrix.applyMapping(this.layout().mapping, this.totalZ, this.totalX, this.totalY);
+	}
+
+	mirrorXValue(x: number): number {
+		return this.totalX - 2 - x;
+	}
+
+	mirrorYValue(y: number): number {
+		return this.totalY - 2 - y;
+	}
+
 	onPosClick(z: number, x: number, y: number): void {
 		if (this.matrix.isTilePosBlocked(z, x, y) || this.matrix.isTilePosInvalid(z, x, y)) {
 			return;
 		}
 		if (this.matrix.isTile(z, x, y)) {
-			this.layout().mapping = this.layout().mapping.filter(m => ((m[0] !== z) || (m[1] !== x) || (m[2] !== y)));
+			this.removeStone(z, x, y);
+			const toRemove: Array<[number, number, number]> = [];
+			if (this.mirrorX) {
+				toRemove.push([z, this.mirrorXValue(x), y]);
+			}
+			if (this.mirrorY) {
+				toRemove.push([z, x, this.mirrorYValue(y)]);
+			}
+			if (this.mirrorX && this.mirrorY) {
+				toRemove.push([z, this.mirrorXValue(x), this.mirrorYValue(y)]);
+			}
+			for (const [zz, xx, yy] of toRemove) {
+				if (this.matrix.isTile(zz, xx, yy)) {
+					this.removeStone(zz, xx, yy);
+				}
+			}
 		} else {
-			this.layout().mapping.push([z, x, y]);
+			this.addStone(z, x, y);
+			const toAdd: Array<[number, number, number]> = [];
+			if (this.mirrorX) {
+				const xM = this.mirrorXValue(x);
+				toAdd.push([z, xM, y]);
+			}
+			if (this.mirrorY) {
+				const yM = this.mirrorYValue(y);
+				toAdd.push([z, x, yM]);
+			}
+			if (this.mirrorX && this.mirrorY) {
+				const xM = this.mirrorXValue(x);
+				const yM = this.mirrorYValue(y);
+				toAdd.push([z, xM, yM]);
+			}
+			for (const [zz, xx, yy] of toAdd) {
+				if (
+					!this.matrix.isTilePosBlocked(zz, xx, yy) &&
+					!this.matrix.isTilePosInvalid(zz, xx, yy) &&
+					!this.matrix.isTile(zz, xx, yy)
+				) {
+					this.addStone(zz, xx, yy);
+				}
+			}
 		}
 		this.refresh();
 	}
@@ -204,6 +262,14 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 			m[index] = m[index] + delta;
 		}
 		this.refresh();
+	}
+
+	toggleMirrorX(): void {
+		this.mirrorX = !this.mirrorX;
+	}
+
+	toggleMirrorY(): void {
+		this.mirrorY = !this.mirrorY;
 	}
 
 	moveLayerX(deltaX: number): void {

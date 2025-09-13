@@ -137,26 +137,28 @@ set.ignored = true
 
 [[triage]]
 match.rules = [
-	"radarlint-js:typescript:S4043", # Move this array "sort" operation to a separate statement or replace it with "toSorted".
-	"markdownlint:MD024", # Multiple headings with the same content
-	"yamllint:quoted-strings", # string value is redundantly quoted with any quotes
-	"stylelint:fmt", # stylelint:fmt
 	"biome:fmt", #  biome:fmt
-	"ripgrep:TODO", # TODOs
-	"markdownlint:MD013", # Line length
 	"biome:lint/a11y/useGenericFontNames", # Generic font family missing.
-	"radarlint-js:typescript:S3776", #  Refactor this function to reduce its Cognitive Complexity
-	"biome:lint/suspicious/noDuplicateTestHooks", # Disallow duplicate setup and teardown hooks.
-	"radarlint-js:typescript:S125", # Remove this commented out code.
 	"biome:lint/complexity/noStaticOnlyClass", #  Avoid classes that contain only static members.
 	"biome:lint/style/noInferrableTypes", # This type annotation is trivially inferred from its initialization.
+	"biome:lint/style/noNonNullAssertion", # Forbidden non-null assertion.
+	"biome:lint/suspicious/noDuplicateTestHooks", # Disallow duplicate setup and teardown hooks.
 	"biome:lint/suspicious/noExplicitAny", #  Unexpected any. Specify a different type.
+	"markdownlint:MD013", # Line length
+	"markdownlint:MD024", # Multiple headings with the same content
+	"radarlint-js:typescript:S1135", # Complete the task associated to this "TODO" comment.
+	"radarlint-js:typescript:S125", # Remove this commented out code.
+	"radarlint-js:typescript:S2301", # Provide multiple methods instead of using "x" to determine which action to take.
+	"radarlint-js:typescript:S3626", # Remove this redundant jump.
+	"radarlint-js:typescript:S3776", #  Refactor this function to reduce its Cognitive Complexity
+	"radarlint-js:typescript:S4043", # Move this array "sort" operation to a separate statement or replace it with "toSorted".
 	"radarlint-js:typescript:S4138", # Expected a `for-of` loop instead of a `for` loop with this simple iteration.
+	"radarlint-js:typescript:S4325", # This assertion is unnecessary since it does not change the type of the expression.
 	"radarlint-js:typescript:S4335", # Remove this type without members or change this type intersection.
 	"radarlint-js:typescript:S6564", # Remove this redundant type alias
-	"radarlint-js:typescript:S3626", # Remove this redundant jump.
-	"radarlint-js:typescript:S1135", # Complete the task associated to this "TODO" comment.
-	"radarlint-js:typescript:S2301" # Provide multiple methods instead of using "x" to determine which action to take.
+	"ripgrep:TODO", # TODOs
+	"stylelint:fmt", # stylelint:fmt
+	"yamllint:quoted-strings" # string value is redundantly quoted with any quotes
 ]
 set.ignored = true
 

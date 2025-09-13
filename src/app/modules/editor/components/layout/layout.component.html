@@ -1,7 +1,7 @@
 @if (this.layout()) {
 	<div class="editor-matrix-list">
 		<ul class="matrix-list">
-			@for (z of this.matrix.levels; track z; let i = $index) {
+			@for (z of this.matrix.levels; track i; let i = $index) {
 				<li [ngClass]="{selected:i===this.currentZ}" (click)="this.selectLevel(i)">
 					<div>Level {{ i }}</div>
 					<div class="matrix-level">
@@ -38,6 +38,12 @@
 						</button>
 						<button (click)="this.deleteLayerZ(this.currentZ)" title="{{'EDITOR_DELETE_LAYER_LONG' | translate}}">
 							<i class="icon-editor-trash"></i>
+						</button>
+						<button [class.checked]="this.mirrorX" (click)="this.toggleMirrorX()" title="{{'MIRROR_X' | translate}}">
+							︱
+						</button>
+						<button [class.checked]="this.mirrorY" (click)="this.toggleMirrorY()" title="{{'MIRROR_X' | translate}}">
+							⎯
 						</button>
 					</div>
 					<div class="buttons">

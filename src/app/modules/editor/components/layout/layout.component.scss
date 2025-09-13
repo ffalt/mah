@@ -44,6 +44,11 @@
 				border: 1px solid var(--main-bg-color-lt);
 			}
 
+			&.checked {
+				background-color: rgb(0 0 0 / 30%);
+				border: 1px solid var(--main-bg-color-lt);
+			}
+
 			&.text-button {
 				padding: 10px 16px;
 			}

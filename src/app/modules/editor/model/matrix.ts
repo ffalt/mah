@@ -76,16 +76,17 @@ export class Matrix {
 	}
 
 	isTilePosBlocked(z: number, x: number, y: number): boolean {
-		if (this.levels[z][x][y - 1] > 0) {
+		const level = this.levels[z];
+		if (level[x][y - 1] > 0) {
 			return true;
 		}
-		if (!this.levels[z][x - 1]) {
+		if (!level[x - 1]) {
 			return false;
 		}
-		if (this.levels[z][x - 1][y] > 0) {
+		if (level[x - 1][y] > 0) {
 			return true;
 		}
-		return (this.levels[z][x - 1][y - 1] > 0);
+		return (level[x - 1][y - 1] > 0);
 	}
 
 	get(z: number, x: number, y: number): number {

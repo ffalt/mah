@@ -27,6 +27,22 @@ export class LocalstorageService implements StorageProvider {
 		return this.get<Array<LoadLayout>>('boards');
 	}
 
+	setLastMirrorX(value: string): void {
+		this.set('mirrorx', value);
+	}
+
+	setLastMirrorY(value: string): void {
+		this.set('mirrory', value);
+	}
+
+	getLastMirrorX(): string | undefined {
+		return this.get<string | undefined>('mirrorx');
+	}
+
+	getLastMirrorY(): string | undefined {
+		return this.get<string | undefined>('mirrory');
+	}
+
 	getLastPlayed(): string | undefined {
 		if (!localStorage) {
 			return;

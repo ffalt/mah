@@ -26,6 +26,14 @@
 	"MODE": "Legwijze",
 	"MODE_SOLVABLE": "Oplosbaar",
 	"MODE_RANDOM": "Willekeurig",
+	"RANDOM_GROUP": "Willekeurig",
+	"RANDOM_LAYOUT": "Willekeurig",
+	"MIRROR_X": "Spiegel verticaal",
+	"MIRROR_Y": "Spiegel horizontaal",
+	"GENERATE": "Genereren",
+	"RANDOM_MIRROR": "Willekeurig",
+	"YES": "Ja",
+	"NO": "Nee",
 	"AUDIO": "Geluid",
 	"AUDIO_SOUNDS": "Geluid aan/uit",
 	"AUDIO_MUSIC": "Muziek",
@@ -224,5 +232,9 @@
 	"EDITOR_TEST_CANCEL": "Annuleren",
 	"EDITOR_TEST_SOLVED": "Opgelost",
 	"EDITOR_TEST_FAILED": "Mislukt",
-	"CLOSE": "Sluiten"
+	"CLOSE": "Sluiten",
+	"KYODAI_TILESET_LOAD": "Afbeelding laden",
+	"KYODAI_TILESET_SETTINGS": "Kyodai afbeelding URL",
+	"KYODAI_TILESET_EXAMPLES": "Voorbeelden van Kyodai-tegelsets",
+	"KYODAI_TILESET": "Kyodai-tegelsets"
 }

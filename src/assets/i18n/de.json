@@ -26,6 +26,14 @@
 	"MODE": "Spielbrett-Algorithmus",
 	"MODE_SOLVABLE": "Lösbar",
 	"MODE_RANDOM": "Zufällig",
+	"RANDOM_GROUP": "Zufall",
+	"RANDOM_LAYOUT": "Zufall",
+	"MIRROR_X": "Vertikal spiegeln",
+	"MIRROR_Y": "Horizontal spiegeln",
+	"GENERATE": "Generieren",
+	"RANDOM_MIRROR": "Zufällig",
+	"YES": "Ja",
+	"NO": "Nein",
 	"AUDIO": "Audio",
 	"AUDIO_SOUNDS": "Töne an/aus",
 	"AUDIO_MUSIC": "Musik",
@@ -224,5 +232,9 @@
 	"EDITOR_TEST_CANCEL": "Abbrechen",
 	"EDITOR_TEST_SOLVED": "Gelöst",
 	"EDITOR_TEST_FAILED": "Gescheitert",
-	"CLOSE": "Schließen"
+	"CLOSE": "Schließen",
+	"KYODAI_TILESET_LOAD": "Bild laden",
+	"KYODAI_TILESET_SETTINGS": "Kyodai Bild-URL",
+	"KYODAI_TILESET_EXAMPLES": "Kyodai Tileset Beispiele",
+	"KYODAI_TILESET": "Kyodai Tileset"
 }
