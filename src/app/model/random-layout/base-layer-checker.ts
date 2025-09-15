@@ -1,6 +1,6 @@
 import type { Mapping, Place } from '../types';
 import { blocksOverlap, key, randChoice, randInt, shuffleArray, buildUnitGrids, buildMappingFromSetZ0 } from './utilities';
-import { BaseLayerOptions } from './consts';
+import type { BaseLayerOptions } from './consts';
 
 function punchHoles(base: Set<string>, baseZ: number, xs: Array<number>, ys: Array<number>, minHoles: number, maxHoles: number): void {
 	const holes = randInt(minHoles, maxHoles);
@@ -52,7 +52,6 @@ function punchHoles(base: Set<string>, baseZ: number, xs: Array<number>, ys: Arr
 // eslint-disable-next-line complexity
 export function generateBaseLayerChecker({ minTarget, maxTarget, xMax, yMax }: BaseLayerOptions): Mapping {
 	const present = new Set<string>();
-	const mapping: Mapping = [];
 
 	// Use step of 1 for both x and y for fine granularity
 	const { xs, ys } = buildUnitGrids(xMax, yMax, 1);
@@ -65,7 +64,6 @@ export function generateBaseLayerChecker({ minTarget, maxTarget, xMax, yMax }: B
 			}
 			const k = key(0, x, y);
 			present.add(k);
-			mapping.push([0, x, y]);
 		}
 	}
 

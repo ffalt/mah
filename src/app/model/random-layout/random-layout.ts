@@ -1,6 +1,6 @@
 import type { Mapping } from '../types';
 import { optimizeMapping } from '../../modules/editor/model/import';
-import { RandomBaseLayerMode, RandomSymmetry, TARGET_COUNT } from './consts';
+import { type RandomBaseLayerMode, type RandomSymmetry, TARGET_COUNT } from './consts';
 import { getRandomMode } from './utilities';
 import { generateBaseLayer } from './base-layer';
 import { fillLayout } from './upper-layers';

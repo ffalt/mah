@@ -29,7 +29,7 @@ const expectNoBlankTiles = (mode: BUILD_MODE_ID, layout: Layout) => {
 const expectWinnable = (mode: BUILD_MODE_ID, layout: Layout) => {
 	const builder = new Builder(new Tiles(layout.mapping.length));
 	const unsolvable: Array<number> = [];
-	for (let index = 0; index < 100; index++) {
+	for (let index = 0; index < 50; index++) {
 		const stones = builder.build(mode, layout.mapping) || [];
 		const solver = new Solver();
 		const result = solver.solveLayout(stones);

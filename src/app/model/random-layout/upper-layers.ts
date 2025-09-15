@@ -194,45 +194,67 @@ export function fillLayout(baseLayer: Mapping, mirrorX: boolean, mirrorY: boolea
 				const candidates: Array<[number, number]> = [];
 				for (let y = 0; y <= Y_MAX; y++) {
 					for (let x = 0; x <= X_MAX; x++) {
-						if (!inBounds(x, y, z)) continue;
-						if (present.has(key(z, x, y))) continue;
+						if (!inBounds(x, y, z)) {
+							continue;
+						}
+						if (present.has(key(z, x, y))) {
+							continue;
+						}
 						candidates.push([x, y]);
 					}
 				}
 				// Shuffle candidates to avoid deterministic stripes
-				for (let i = candidates.length - 1; i > 0; i--) {
-					const j = Math.floor(Math.random() * (i + 1));
-					[candidates[i], candidates[j]] = [candidates[j], candidates[i]];
+				for (let index = candidates.length - 1; index > 0; index--) {
+					const index_ = Math.floor(Math.random() * (index + 1));
+					[candidates[index], candidates[index_]] = [candidates[index_], candidates[index]];
 				}
 				// Try to place candidates, honoring symmetry by placing mirrored positions together when valid
 				for (const [x, y] of candidates) {
-					if (mapping.length >= TARGET_COUNT) break;
+					if (mapping.length >= TARGET_COUNT) {
+						break;
+					}
 					const tryPlaceWithMirrors = (): boolean => {
 						// Build the orbit of mirrors (unique positions only)
 						const orbit: Array<[number, number]> = [[x, y]];
 						if (mirrorX) {
 							const mx = mirX(x);
-							if (mx !== x) orbit.push([mx, y]);
+							if (mx !== x) {
+								orbit.push([mx, y]);
+							}
 						}
 						if (mirrorY) {
 							const my = mirY(y);
-							if (!orbit.some(p => p[0] === x && p[1] === my)) orbit.push([x, my]);
+							if (!orbit.some(p => p[0] === x && p[1] === my)) {
+								orbit.push([x, my]);
+							}
 							if (mirrorX) {
 								const mx = mirX(x);
 								const my2 = mirY(y);
-								if (!orbit.some(p => p[0] === mx && p[1] === my2)) orbit.push([mx, my2]);
+								if (!orbit.some(p => p[0] === mx && p[1] === my2)) {
+									orbit.push([mx, my2]);
+								}
 							}
 						}
 						// Validate all points in orbit before placing any to keep symmetry consistent
 						for (const [ox, oy] of orbit) {
-							if (!inBounds(ox, oy, z)) return false;
+							if (!inBounds(ox, oy, z)) {
+								return false;
+							}
 							const kk = key(z, ox, oy);
-							if (present.has(kk)) return false;
-							if (!isSupported(present, z, ox, oy)) return false;
-							if (blocksOverlap(present, z, ox, oy)) return false;
+							if (present.has(kk)) {
+								return false;
+							}
+							if (!isSupported(present, z, ox, oy)) {
+								return false;
+							}
+							if (blocksOverlap(present, z, ox, oy)) {
+								return false;
+							}
 						}
 						// Ensure we have space
-						if (mapping.length + orbit.length > TARGET_COUNT) return false;
+						if (mapping.length + orbit.length > TARGET_COUNT) {
+							return false;
+						}
 						// Place all
 						for (const [ox, oy] of orbit) {
 							const kk = key(z, ox, oy);
@@ -258,7 +280,10 @@ export function fillLayout(baseLayer: Mapping, mirrorX: boolean, mirrorY: boolea
 		const present = new Set<string>(mapping.map(p => key(p[0], p[1], p[2])));
 		let adjusted = false;
 		// Determine extents to limit search
-		let minX = X_MAX, maxX = 0, minY = Y_MAX, maxY = 0;
+		let minX = X_MAX;
+		let maxX = 0;
+		let minY = Y_MAX;
+		let maxY = 0;
 		for (const [_z, xx, yy] of mapping) {
 			minX = Math.min(minX, xx);
 			maxX = Math.max(maxX, xx);
@@ -270,8 +295,8 @@ export function fillLayout(baseLayer: Mapping, mirrorX: boolean, mirrorY: boolea
 		minY = Math.max(0, minY - 2);
 		maxY = Math.min(Y_MAX, maxY + 2);
 		// Try from top layer down to base to place one more tile
-		outer: for (let z = Z_MAX; z >= 0; z--) {
-			for (let y = minY; y <= maxY; y++) {
+		for (let z = Z_MAX; z >= 0 && !adjusted; z--) {
+			for (let y = minY; y <= maxY && !adjusted; y++) {
 				for (let x = minX; x <= maxX; x++) {
 					if (!inBounds(x, y, z)) {
 						continue;
@@ -290,7 +315,7 @@ export function fillLayout(baseLayer: Mapping, mirrorX: boolean, mirrorY: boolea
 					present.add(k);
 					mapping.push([z, x, y]);
 					adjusted = true;
-					break outer;
+					break;
 				}
 			}
 		}

@@ -8,7 +8,7 @@ import { DurationPipe } from '../../pipes/duration.pipe';
 import { DeferLoadScrollHostDirective } from '../../directives/defer-load/defer-load-scroll-host.directive';
 import { DeferLoadDirective } from '../../directives/defer-load/defer-load.directive';
 import { generateRandomMapping } from '../../model/random-layout/random-layout';
-import { RANDOM_LAYOUT_ID_PREFIX, RandomSymmetry } from '../../model/random-layout/consts';
+import { RANDOM_LAYOUT_ID_PREFIX, type RandomSymmetry } from '../../model/random-layout/consts';
 
 export interface LayoutItem {
 	layout: Layout;

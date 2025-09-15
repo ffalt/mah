@@ -1,5 +1,5 @@
 import type { Mapping } from '../types';
-import { RandomBaseLayerMode, X_MAX, Y_MAX, Z_MAX } from './consts';
+import { type RandomBaseLayerMode, X_MAX, Y_MAX, Z_MAX } from './consts';
 
 export function key(z: number, x: number, y: number): string {
 	return `${z}|${x}|${y}`;

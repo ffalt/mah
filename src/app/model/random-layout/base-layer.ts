@@ -1,5 +1,5 @@
 import type { Mapping } from '../types';
-import { BaseLayerOptions, X_MAX, Y_MAX } from './consts';
+import { type BaseLayerOptions, X_MAX, Y_MAX } from './consts';
 import { generateBaseLayerChecker } from './base-layer-checker';
 import { generateBaseLayerLines } from './base-layer-lines';
 import { generateBaseLayerRings } from './base-layer-rings';
@@ -53,7 +53,14 @@ function mirrorBaseLayer(mirrorX: boolean, mirrorY: boolean, baseLayer: Mapping)
 function splitArea(baseMin: number, baseMax: number, mirrorX: boolean, mirrorY: boolean): BaseLayerOptions {
 	const both = mirrorX && mirrorY;
 	const either = (mirrorX && !mirrorY) || (!mirrorX && mirrorY);
-	const factor = both ? 0.3 : (either ? 0.5 : 1);
+	let factor: number;
+	if (both) {
+		factor = 0.3;
+	} else if (either) {
+		factor = 0.5;
+	} else {
+		factor = 1;
+	}
 	const minTarget = Math.max(1, Math.floor(baseMin * factor));
 	const maxTarget = Math.max(minTarget, Math.floor(baseMax * factor));
 	const xMax = mirrorX ? Math.floor(X_MAX / 2) : X_MAX;

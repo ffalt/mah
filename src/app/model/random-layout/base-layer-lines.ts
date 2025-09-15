@@ -1,6 +1,6 @@
 import type { Mapping, Place } from '../types';
 import { blocksOverlap, inBounds, key, randChoice, randInt, shuffleArray, buildUnitGrids, buildMappingFromSetZ0 } from './utilities';
-import { BaseLayerOptions } from './consts';
+import type { BaseLayerOptions } from './consts';
 
 function addBaseLine(present: Set<string>, mapping: Mapping, snakeKeys: Set<string>, x: number, y: number, markSnake = false): boolean {
 	if ((x % 2 !== 0) || (y % 2 !== 0)) {

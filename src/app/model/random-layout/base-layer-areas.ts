@@ -1,6 +1,6 @@
 import type { Mapping } from '../types';
 import { blocksOverlap, inBounds, key, shuffleArray, buildEvenAnchors, markBufferPoints, placeSizesGeneric, buildMappingFromSetZ0 } from './utilities';
-import { BaseLayerOptions } from './consts';
+import type { BaseLayerOptions } from './consts';
 
 function areaCells(x0: number, y0: number, w: number, h: number): Array<[number, number]> {
 	const x1 = x0 + (w - 1) * 2;

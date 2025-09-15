@@ -1,6 +1,6 @@
 import { generateRandomMapping, generateRandomMappingOne } from './random-layout';
 import { isOdd, isSupported } from './utilities';
-import { RandomBaseLayerMode } from './consts';
+import type { RandomBaseLayerMode } from './consts';
 
 function hasMultipleLevels(mapping: Array<[number, number, number]>): boolean {
 	const levels = new Set(mapping.map(p => p[0]));

@@ -39,6 +39,7 @@ exclude_patterns = [
 	"**/target/**",
 	"**/templates/**",
 	"**/testdata/**",
+	"**/resources/apps/tauri/**",
 	"**/vendor/**",
 ]
 
