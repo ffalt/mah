@@ -16,7 +16,9 @@ build with html5, svg, angular
 
 ## Features
 
-* 56 boards to play
+* 63 boards to play
+
+* Random boards generator for much more and challenging games
 
 * 12 different tile/piece image sets; light & dark
 
@@ -24,7 +26,7 @@ build with html5, svg, angular
 
 * 3 difficulties
 
-* Automatic save & restore of game state
+* Automatic save and restore of game state
 
 * English, Deutsch, Nederlands, Português, русский, Español, Euskara, 日本語, Français
 
