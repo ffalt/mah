@@ -13,6 +13,7 @@ const commonRules = {
 	"arrow-parens": ["error", "as-needed"],
 	"brace-style": ["error", "1tbs"],
 	"class-methods-use-this": "off",
+	"curly": ["error", "all"],
 	"comma-dangle": "error",
 	"complexity": ["error", { max: 20 }],
 	"default-case": "error",

@@ -7,7 +7,8 @@ import { LayoutPreviewComponent } from '../layout-preview/layout-preview.compone
 import { DurationPipe } from '../../pipes/duration.pipe';
 import { DeferLoadScrollHostDirective } from '../../directives/defer-load/defer-load-scroll-host.directive';
 import { DeferLoadDirective } from '../../directives/defer-load/defer-load.directive';
-import { generateRandomMapping, RANDOM_LAYOUT_ID_PREFIX, type RandomSymmetry } from '../../model/random-layout';
+import { generateRandomMapping } from '../../model/random-layout/random-layout';
+import { RANDOM_LAYOUT_ID_PREFIX, RandomSymmetry } from '../../model/random-layout/consts';
 
 export interface LayoutItem {
 	layout: Layout;
@@ -153,7 +154,9 @@ export class LayoutListComponent implements OnInit, OnChanges {
 	}
 
 	scrollToElement(element: HTMLElement, container: HTMLElement): void {
-		if (!element || !container) return;
+		if (!element || !container) {
+			return;
+		}
 
 		const elementRect = element.getBoundingClientRect();
 		const containerRect = container.getBoundingClientRect();

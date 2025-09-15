@@ -6,7 +6,7 @@ import type { Stone } from './stone';
 import type { GameStateStore, Layout, StorageProvider } from './types';
 import type { BUILD_MODE_ID } from './builder';
 import { Music } from './music';
-import { RANDOM_LAYOUT_ID_PREFIX } from './random-layout';
+import { RANDOM_LAYOUT_ID_PREFIX } from './random-layout/consts';
 
 export class Game {
 	clock: Clock = new Clock();

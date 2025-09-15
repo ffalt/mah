@@ -52,7 +52,9 @@ export class SolverRandomSolve {
 				totalMatches += nMatches[nFree[k]];
 			}
 
-			if (totalMatches === 0) return null;
+			if (totalMatches === 0) {
+				return null;
+			}
 
 			// Select random match
 			let remainingMatches = rand() % totalMatches;
@@ -60,7 +62,9 @@ export class SolverRandomSolve {
 
 			while (remainingMatches >= 0) {
 				remainingMatches -= nMatches[nFree[groupIndex]];
-				if (remainingMatches < 0) break;
+				if (remainingMatches < 0) {
+					break;
+				}
 				groupIndex++;
 			}
 
@@ -130,7 +134,9 @@ export class SolverRandomSolve {
 		};
 
 		const handleSolution = (remainingTiles: number): boolean => {
-			if (remainingTiles > this.remainMax) return false;
+			if (remainingTiles > this.remainMax) {
+				return false;
+			}
 
 			for (let k = 0; k < this.nGroups; k++) {
 				this.tileGroups[k].bestPairing = this.tileGroups[k].pairing;
@@ -157,7 +163,9 @@ export class SolverRandomSolve {
 
 			while (true) {
 				const match = findMatchToPlay();
-				if (!match) break;
+				if (!match) {
+					break;
+				}
 
 				const group = this.tileGroups[match.groupIndex];
 				const tileIndices = findPlayableTiles(group, match.matchIndex);

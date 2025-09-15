@@ -173,10 +173,14 @@ export class Solver {
 	private sureSolve_tryAdvancedPairings(prunePoint: number, startIndex: number): boolean {
 		for (let index = prunePoint; index >= startIndex; index--) {
 			this.qts[index].pairing = 2;
-			if (this.sureSolve(index + 1)) return true;
+			if (this.sureSolve(index + 1)) {
+				return true;
+			}
 
 			this.qts[index].pairing = 3;
-			if (this.sureSolve(index + 1)) return true;
+			if (this.sureSolve(index + 1)) {
+				return true;
+			}
 
 			this.qts[index].pairing = 0;
 		}
@@ -185,7 +189,9 @@ export class Solver {
 
 	private sureSolve(startIndex: number): boolean {
 		// recursive search routine to determine (un)solvability improves speed by changing search order backwards
-		if (this.sureSolve_checkInitialPrune()) return false;
+		if (this.sureSolve_checkInitialPrune()) {
+			return false;
+		}
 
 		const prunePoint = this.sureSolve_findPrunePoint(startIndex);
 

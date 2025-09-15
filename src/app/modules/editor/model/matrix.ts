@@ -53,8 +53,12 @@ export class Matrix {
 		const currentLevel = this.levels[z];
 
 		// Check if position is out of bounds
-		if (!currentLevel[x + 1]) return true;
-		if (currentLevel[x].length - 1 === y) return true;
+		if (!currentLevel[x + 1]) {
+			return true;
+		}
+		if (currentLevel[x].length - 1 === y) {
+			return true;
+		}
 
 		// Helper function to safely check tile value
 		const getTileValue = (dx: number, dy: number): number => {

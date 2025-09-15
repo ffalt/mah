@@ -85,7 +85,9 @@ export class SolverPrune {
 	};
 
 	private processGroup(group: Group): [number, number] {
-		if (group.isPlayed) return [0, 0];
+		if (group.isPlayed) {
+			return [0, 0];
+		}
 
 		const tiles = group.member as Array<Tile>;
 		const [t0, t1, t2, t3] = tiles;

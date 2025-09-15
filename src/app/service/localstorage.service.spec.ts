@@ -499,8 +499,12 @@ describe('LocalstorageService', () => {
 			it('should migrate old data to new format', () => {
 				// Setup old data
 				localStorageMock.getItem.mockImplementation((key: string) => {
-					if (key === 'state') return JSON.stringify({ test: 'state' });
-					if (key === 'settings') return JSON.stringify({ test: 'settings' });
+					if (key === 'state') {
+						return JSON.stringify({ test: 'state' });
+					}
+					if (key === 'settings') {
+						return JSON.stringify({ test: 'settings' });
+					}
 					return null;
 				});
 
