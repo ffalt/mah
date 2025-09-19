@@ -19,7 +19,7 @@
 			}
 			@if (group.expanded) {
 				@if (group.isRandom) {
-					<div class="previews">
+					<div class="previews" appDeferLoadScrollHost>
 						@for (item of group.layouts; track item) {
 							<div class="preview"
 									 tabindex="0"
@@ -27,6 +27,7 @@
 									 [class.selected]="item.selected"
 									 (keydown.enter)="onStart(item)"
 									 (click)="onStart(item)"
+									 (appDeferLoad)="item.visible=true"
 							>
 								@if (item.visible) {
 									<app-layout-preview class="svg-board" [svg]="item.layout.previewSVG" [alt]="item.layout.name"></app-layout-preview>

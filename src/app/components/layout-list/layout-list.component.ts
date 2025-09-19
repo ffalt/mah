@@ -91,7 +91,6 @@ export class LayoutListComponent implements OnInit, OnChanges {
 	}
 
 	generateRandomLayout(layoutItem: LayoutItem): void {
-		layoutItem.visible = false;
 		const mapping = generateRandomMapping(
 			this.randomMirrorX as RandomSymmetry,
 			this.randomMirrorY as RandomSymmetry,
@@ -99,7 +98,6 @@ export class LayoutListComponent implements OnInit, OnChanges {
 		);
 		layoutItem.layout.previewSVG = this.layoutService.generatePreview(mapping);
 		layoutItem.layout.mapping = mapping;
-		layoutItem.visible = true;
 	}
 
 	generateRandomLayouts(): void {
