@@ -30,7 +30,11 @@ export class ImageSetLoaderComponent implements OnChanges {
 	}
 
 	private prepareDefs(svg: string): string {
-		const s = svg.split('<defs>')[1].split('</defs>')[0];
+		const startIndex = svg.indexOf('<defs>');
+		const endIndex = svg.lastIndexOf('</defs>');
+		const s = startIndex !== -1 && endIndex !== -1 && endIndex > startIndex + 6 ?
+			svg.slice(startIndex + 6, endIndex) :
+			'';
 		return s.replace(/xlink:href="\./g, 'xlink:href="assets/svg')
 			.replace(/ id="t_/g, ` id="${this.prefix()}t_`);
 	}

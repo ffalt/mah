@@ -57,7 +57,8 @@ export class BoardComponent implements OnInit, OnChanges {
 	prefix: string;
 	urlPrefix: string;
 	bounds: Array<number> = [0, 0, defaultW, defaultH];
-	imagePos: Array<number> = [6, 6, 63, 88];
+	imagePos: Array<number> = [1, 1, 69, 88];
+	imageCut: Array<number> = [0, 0, 65, 90];
 	scale: number = 1;
 	panX: number = 0;
 	panY: number = 0;
@@ -91,7 +92,9 @@ export class BoardComponent implements OnInit, OnChanges {
 		if (changes.imageSet) {
 			this.prefix = `b_${changes.imageSet.currentValue}_`;
 			this.urlPrefix = `#b_${changes.imageSet.currentValue}_`;
-			this.imagePos = imageSetIsKyodai(changes.imageSet.currentValue) ? [0, 0, 75, 100] : [6, 6, 63, 88];
+			const isKyodai = imageSetIsKyodai(changes.imageSet.currentValue);
+			this.imagePos = isKyodai ? [0, 0, 75, 100] : [6, 6, 63, 88];
+			this.imageCut = isKyodai ? [0, 0, 75, 100] : [0, 0, 65, 90];
 		}
 	}
 
