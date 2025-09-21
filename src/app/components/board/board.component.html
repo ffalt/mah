@@ -167,7 +167,7 @@
 				 [class.wiggle]="draw.source.effects?.wiggle"
 				 [attr.transform]="draw.pos.translate"
 				 (mouseup)="onClickUp($event, draw)"
-				 (touchend)="onTouchTile($event, draw)">
+				 (touchstart)="onTouchTile($event, draw)">
 				<g class="tile">
 					@if (draw.url) {
 						<title>{{ draw.url | translate }}</title>
