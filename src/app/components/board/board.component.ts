@@ -160,6 +160,11 @@ export class BoardComponent implements OnInit, OnChanges {
 		this.stopPanning();
 	}
 
+	onTouchTile(event: TouchEvent, draw?: Draw): void {
+		event.stopPropagation();
+		this.clickEvent.emit(draw ? draw.source : undefined);
+	}
+
 	onClickUp(event: MouseEvent, draw?: Draw): void {
 		if (this.isPanning) {
 			this.updatePanning(event);
