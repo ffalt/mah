@@ -1,6 +1,6 @@
 import { generateRandomMapping } from './random-layout';
 import { isSupported } from './utilities';
-import { RandomBaseLayerMode, RandomSymmetry } from './consts';
+import type { RandomBaseLayerMode, RandomSymmetry } from './consts';
 
 function hasFloatingTiles(mapping: Array<[number, number, number]>): Array<[number, number, number]> {
 	const set = new Set(mapping.map(([z, x, y]) => `${z}|${x}|${y}`));
