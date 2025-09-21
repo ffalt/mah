@@ -178,3 +178,7 @@ export function placeSizesGeneric(
 	}
 	return total;
 }
+
+export function hasMultipleLevels(mapping: Array<[number, number, number]>): boolean {
+	return mapping.some(entry => entry[0] > 0);
+}

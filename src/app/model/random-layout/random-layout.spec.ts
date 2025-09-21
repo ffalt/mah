@@ -1,11 +1,6 @@
-import { generateRandomMapping, generateRandomMappingOne } from './random-layout';
-import { isOdd, isSupported } from './utilities';
-import type { RandomBaseLayerMode } from './consts';
-
-function hasMultipleLevels(mapping: Array<[number, number, number]>): boolean {
-	const levels = new Set(mapping.map(p => p[0]));
-	return levels.size > 1 && [...levels].some(z => z > 0);
-}
+import { generateRandomMapping } from './random-layout';
+import { isSupported } from './utilities';
+import { RandomBaseLayerMode, RandomSymmetry } from './consts';
 
 function hasFloatingTiles(mapping: Array<[number, number, number]>): Array<[number, number, number]> {
 	const set = new Set(mapping.map(([z, x, y]) => `${z}|${x}|${y}`));
@@ -61,55 +56,36 @@ function hasOverlap(mapping: Array<[number, number, number]>): Array<[[number, n
 
 describe('random-layout generator', () => {
 	const runs = Array.from({ length: 100 }, (_, index) => index + 1);
-	const mirrorSettings = [true, false];
+	const mirrorSettings = ['true', 'false'];
 	const modes: Array<RandomBaseLayerMode> = ['lines', 'checker', 'rings', 'areas'];
-
-	describe.each(mirrorSettings)('mirrorX=%s', mirrorX => {
-		describe.each(mirrorSettings)('mirrorY=%s', mirrorY => {
-			describe.each(modes)('modes=%s', mode => {
-				it.each(runs)('creates a layout with even tiles (run #%s)', () => {
-					const mapping = generateRandomMappingOne(mirrorX, mirrorY, mode);
-					if (isOdd(mapping.length)) {
-						// Log length only when the expectation would fail
-						console.error(`Base layer produced an odd tile count: ${mapping.length}`);
-					}
-
-					expect(isOdd(mapping.length)).toBe(false);
-				});
-
-				it.each(runs)(`creates mappings with exactly 144 tiles (mirrorX=${mirrorX}, mirrorY=${mirrorY}, mode=${mode}) (run #%s)`, () => {
-					const mapping = generateRandomMappingOne(mirrorX, mirrorY, mode);
+	describe.each(modes)('modes=%s', mode => {
+		describe.each(mirrorSettings)('mirrorX=%s', mirrorX => {
+			describe.each(mirrorSettings)('mirrorY=%s', mirrorY => {
+				it.each(runs)('creates mappings with exactly 144 tiles (run #%s)', () => {
+					const mapping = generateRandomMapping(mirrorX as RandomSymmetry, mirrorY as RandomSymmetry, mode);
 					expect(mapping).toBeDefined();
 					expect(Array.isArray(mapping)).toBe(true);
 					expect(mapping).toHaveLength(144);
+					// uniqueness and support sanity checks
+					const set = new Set(mapping.map(([z, x, y]) => `${z}|${x}|${y}`));
+					expect(set.size).toBe(144);
+					for (const [z, x, y] of mapping) {
+						expect(isSupported(set, z, x, y)).toBe(true);
+					}
+				});
+
+				it.each(runs)('creates mappings without overlapping & floating (run #%s)', () => {
+					const mapping = generateRandomMapping(mirrorX as RandomSymmetry, mirrorY as RandomSymmetry, mode);
+
+					// explicit floating check for better diagnostics
+					const floats = hasFloatingTiles(mapping);
+					expect(floats).toHaveLength(0);
+
+					// no overlapping tiles on the same level: (x,y) blocks (x+1,y), (x,y+1), (x+1,y+1)
+					const overlaps = hasOverlap(mapping);
+					expect(overlaps).toHaveLength(0);
 				});
 			});
 		});
-	});
-
-	it.each(runs)('creates mappings with exactly 144 tiles and several levels (run #%s)', () => {
-		const mapping = generateRandomMapping('random', 'random', 'random');
-		expect(mapping).toBeDefined();
-		expect(Array.isArray(mapping)).toBe(true);
-		expect(mapping).toHaveLength(144);
-
-		// uniqueness and support sanity checks
-		const set = new Set(mapping.map(([z, x, y]) => `${z}|${x}|${y}`));
-		expect(set.size).toBe(144);
-
-		for (const [z, x, y] of mapping) {
-			expect(isSupported(set, z, x, y)).toBe(true);
-		}
-
-		// explicit floating check for better diagnostics
-		const floats = hasFloatingTiles(mapping);
-		expect(floats).toHaveLength(0);
-
-		// no overlapping tiles on the same level: (x,y) blocks (x+1,y), (x,y+1), (x+1,y+1)
-		const overlaps = hasOverlap(mapping);
-		expect(overlaps).toHaveLength(0);
-
-		// must have multiple levels with at least one tile at z>0
-		expect(hasMultipleLevels(mapping)).toBe(true);
 	});
 });
