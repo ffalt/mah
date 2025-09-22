@@ -44,6 +44,11 @@ testem.log
 
 # System Files
 .DS_Store
+**/.DS_Store
+._*
+.AppleDouble
+.LSOverride
+Icon?
 Thumbs.db
 
 # neutralino

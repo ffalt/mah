@@ -44,7 +44,7 @@ export class LocalstorageService implements StorageProvider {
 	}
 
 	getLastPlayed(): string | undefined {
-		if (!localStorage) {
+		if (typeof localStorage === 'undefined') {
 			return;
 		}
 		try {
@@ -57,7 +57,7 @@ export class LocalstorageService implements StorageProvider {
 	}
 
 	storeLastPlayed(id: string): void {
-		if (!localStorage) {
+		if (typeof localStorage === 'undefined') {
 			return;
 		}
 		try {
@@ -92,33 +92,46 @@ export class LocalstorageService implements StorageProvider {
 	}
 
 	private get<T>(key: string): T | undefined {
-		if (!localStorage) {
+		if (typeof localStorage === 'undefined') {
 			return;
 		}
+		const fullKey = `${this.prefix}${key}`;
 		try {
-			const s = localStorage.getItem(`${this.prefix}${key}`);
+			const s = localStorage.getItem(fullKey);
 			if (!s) {
 				return;
 			}
-			return JSON.parse(s);
-		} catch {
+			return JSON.parse(s) as T;
+		} catch (error) {
+			// Remove corrupted entry to prevent repeated parse errors
+			try {
+				localStorage.removeItem(fullKey);
+			} catch {
+				// ignore removal errors
+			}
+			console.error('Failed to parse localStorage item', fullKey, error);
 			return;
 		}
 	}
 
 	private set<T>(key: string, data?: T): void {
-		if (!localStorage) {
+		if (typeof localStorage === 'undefined') {
 			return;
 		}
-		if (data === undefined) {
-			localStorage.removeItem(`${this.prefix}${key}`);
-		} else {
-			localStorage.setItem(this.prefix + key, JSON.stringify(data));
+		const fullKey = `${this.prefix}${key}`;
+		try {
+			if (data === undefined) {
+				localStorage.removeItem(fullKey);
+			} else {
+				localStorage.setItem(fullKey, JSON.stringify(data));
+			}
+		} catch (error) {
+			console.error('Failed to write localStorage item', fullKey, error);
 		}
 	}
 
 	private updateData(): void {
-		if (!localStorage) {
+		if (typeof localStorage === 'undefined') {
 			return;
 		}
 		try {

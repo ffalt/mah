@@ -23,14 +23,14 @@ export class Settings {
 		try {
 			const store: SettingsStore | undefined = this.storageProvider.getSettings();
 			if (store) {
-				this.lang = store.lang || LangDefault;
-				this.tileset = store.tileset || ImageSetDefault;
-				this.background = store.background;
-				this.theme = store.theme || ThemeDefault;
-				this.contrast = store.contrast || false;
-				this.dark = store.dark || false;
-				this.sounds = store.sounds || false;
-				this.music = store.music || false;
+				this.lang = store.lang ?? LangDefault;
+				this.tileset = store.tileset ?? ImageSetDefault;
+				this.background = store.background ?? this.background;
+				this.theme = store.theme ?? ThemeDefault;
+				this.contrast = store.contrast ?? false;
+				this.dark = store.dark ?? false;
+				this.sounds = store.sounds ?? this.sounds;
+				this.music = store.music ?? this.music;
 				this.kyodaiUrl = store.kyodaiUrl;
 			}
 			return true;

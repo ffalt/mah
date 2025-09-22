@@ -17,6 +17,7 @@ export class Game {
 	message?: { messageID?: string; playTime?: number };
 	layoutID?: string = undefined;
 	mode: GAME_MODE_ID = GAME_MODE_STANDARD;
+	private saveTimer?: ReturnType<typeof setTimeout> = undefined;
 
 	constructor(private readonly storage: StorageProvider) {
 	}
@@ -52,7 +53,7 @@ export class Game {
 		return true;
 	}
 
-	wiggleStone(stone: Stone): void {
+	wiggleStone(stone?: Stone): void {
 		if (!stone) {
 			return;
 		}
@@ -160,11 +161,14 @@ export class Game {
 	}
 
 	save(): void {
+		if (!this.layoutID) {
+			return;
+		}
 		try {
 			this.storage.storeState({
 				elapsed: this.clock.elapsed,
 				state: this.state,
-				layout: this.layoutID ?? '',
+				layout: this.layoutID,
 				gameMode: this.mode,
 				undo: this.board.undo,
 				stones: this.board.save()
@@ -175,10 +179,10 @@ export class Game {
 	}
 
 	private isStorableLayoutId(): boolean {
-		return !this.layoutID?.startsWith(RANDOM_LAYOUT_ID_PREFIX);
+		return this.layoutID != undefined && !this.layoutID.startsWith(RANDOM_LAYOUT_ID_PREFIX);
 	}
 
-	private gameOverLoosing(): void {
+	private gameOverLosing(): void {
 		if (this.isStorableLayoutId()) {
 			const id = this.layoutID ?? 'unknown';
 			const score = this.storage.getScore(id) ?? {};
@@ -188,7 +192,7 @@ export class Game {
 		this.gameOver('MSG_FAIL');
 	}
 
-	private gameOverWining(): void {
+	private gameOverWinning(): void {
 		const playTime = this.clock.elapsed;
 		if (!this.isStorableLayoutId()) {
 			this.gameOver('MSG_GOOD', playTime);
@@ -207,9 +211,10 @@ export class Game {
 	}
 
 	private delayedSave(): void {
-		setTimeout(() => {
+		clearTimeout(this.saveTimer);
+		this.saveTimer = setTimeout(() => {
 			this.save();
-		}, 500);
+		}, 300);
 	}
 
 	private resolveMatchingStone(stone: Stone): void {
@@ -219,9 +224,9 @@ export class Game {
 		}
 		this.board.pick(sel, stone);
 		if (this.board.count < 2) {
-			this.gameOverWining();
+			this.gameOverWinning();
 		} else if (this.board.free.length === 0) {
-			this.gameOverLoosing();
+			this.gameOverLosing();
 		} else {
 			this.sound.play(SOUNDS.MATCH);
 			this.delayedSave();

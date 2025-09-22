@@ -7,7 +7,7 @@ import { generateBase64SVG } from '../model/layout-svg';
 import type { CompactMapping, Layout, Layouts, LoadLayout, Mapping, SafeUrlSVG } from '../model/types';
 import { LocalstorageService } from './localstorage.service';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class LayoutService {
 	layouts: Layouts = { items: [] };
 	loaded = false;
@@ -68,7 +68,7 @@ export class LayoutService {
 			name: o.name,
 			by: o.by,
 			category: o.cat ?? 'Classic',
-			mapping: expandMapping(o.map),
+			mapping,
 			previewSVG: this.generatePreview(mapping),
 			custom
 		};

@@ -31,7 +31,7 @@ interface DocumentExtended extends Document {
 }
 
 interface HTMLElementExtended extends HTMLElement {
-	webkitRequestFullScreen(): void;
+	webkitRequestFullscreen(): void;
 
 	mozRequestFullScreen(): void;
 }
@@ -67,7 +67,7 @@ export class GameComponent {
 		this.newgame().visible.set(true);
 	}
 
-	handleKeyDownEventKey(key: string): void {
+	handleKeyDownEventKey(key: string): boolean {
 		switch (key) {
 			case 'h': {
 				this.help().toggle();
@@ -103,6 +103,10 @@ export class GameComponent {
 				break;
 			}
 			case ' ': // space
+			case 'space': // space
+			case 'Space': // space
+			case 'spacebar': // space
+			case 'Spacebar': // space
 			case 'p': {
 				if (this.game.isRunning()) {
 					this.game.pause();
@@ -112,9 +116,10 @@ export class GameComponent {
 				break;
 			}
 			default: {
-				break;
+				return false;
 			}
 		}
+		return true;
 	}
 
 	handleKeyDownDialogExit(): boolean {
@@ -149,7 +154,9 @@ export class GameComponent {
 		if (nodeName === 'input') {
 			return;
 		}
-		this.handleKeyDownEventKey(event.key);
+		if (this.handleKeyDownEventKey(event.key)) {
+			event.preventDefault();
+		}
 	}
 
 	stoneClick(stone?: Stone): void {
@@ -158,7 +165,13 @@ export class GameComponent {
 
 	isFullscreenEnabled(): boolean {
 		const doc = window.document as DocumentExtended;
-		return doc.fullscreenEnabled || doc.mozFullscreenEnabled || doc.webkitFullscreenEnabled;
+		// Prefer the standard property when available
+		if (typeof doc.fullscreenEnabled === 'boolean') {
+			return doc.fullscreenEnabled;
+		}
+		// Fallback: detect support via requestFullscreen on the document element or vendor-prefixed methods
+		const element = document.documentElement as HTMLElementExtended;
+		return !!(element.requestFullscreen || element.webkitRequestFullscreen || element.mozRequestFullScreen);
 	}
 
 	canFullscreen(): boolean {
@@ -170,7 +183,8 @@ export class GameComponent {
 
 	isFullscreen(): boolean {
 		const doc = window.document as DocumentExtended;
-		return (doc.fullScreen || doc.fullscreen || doc.mozFullScreen || doc.webkitIsFullScreen);
+		// Prefer the standard property; fall back to vendor-specific flags
+		return !!(doc.fullscreenElement || doc.webkitIsFullScreen || doc.mozFullScreen);
 	}
 
 	exitFullscreen(): void {
@@ -194,8 +208,8 @@ export class GameComponent {
 				.catch(error => {
 					console.error(error);
 				});
-		} else if (element.webkitRequestFullScreen) {
-			element.webkitRequestFullScreen();
+		} else if (element.webkitRequestFullscreen) {
+			element.webkitRequestFullscreen();
 		} else if (element.mozRequestFullScreen) {
 			element.mozRequestFullScreen();
 		}

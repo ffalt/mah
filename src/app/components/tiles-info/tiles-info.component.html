@@ -9,7 +9,7 @@
 							<div>
 								<app-tile [tile]="tile" [imageSet]="tileset" [kyodaiUrl]="kyodaiUrl" [index]="i" [isDark]="isDark"></app-tile>
 							</div>
-							<div [innerHtml]="tile | translate"></div>
+							<div [innerHTML]="tile | translate"></div>
 						</div>
 					}
 				</div>
@@ -22,6 +22,9 @@
 		<select (change)="tileset = $any($event.target).value">
 			@for (imageset of sets; track imageset) {
 				<option [value]="imageset.id" [selected]="tileset === imageset.id">{{ imageset.name }}</option>
+			}
+			@if (canKyodai && kyodaiUrl) {
+				<option value="kyodai" [selected]="tileset === 'kyodai'">{{ 'KYODAI_TILESET' | translate }}</option>
 			}
 		</select>
 		<label><input type="checkbox" [checked]="isDark" (change)="isDark = !isDark;">{{ 'TILES_DARK' | translate }}</label>

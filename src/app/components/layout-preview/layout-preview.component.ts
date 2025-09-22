@@ -18,7 +18,7 @@ export class LayoutPreviewComponent implements OnChanges {
 		}
 	}
 
-	private updateLayout(layout: Layout): void {
-		this.svg.set(layout.previewSVG);
+	private updateLayout(layout?: Layout): void {
+		this.svg.set(layout?.previewSVG);
 	}
 }

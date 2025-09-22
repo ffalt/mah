@@ -7,7 +7,9 @@ export interface CacheItem {
 	request?: Promise<string>;
 }
 
-@Injectable()
+@Injectable({
+	providedIn: 'root'
+})
 export class SvgdefService {
 	private readonly http = inject(HttpClient);
 	private readonly cache: Record<string, CacheItem> = {};

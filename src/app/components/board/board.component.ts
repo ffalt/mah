@@ -54,21 +54,24 @@ export class BoardComponent implements OnInit, OnChanges {
 	transformSVG: string = '';
 	transformStage: string = '';
 	viewport: string = `0 0 ${defaultW} ${defaultH}`;
-	prefix: string;
-	urlPrefix: string;
-	bounds: Array<number> = [0, 0, defaultW, defaultH];
+	prefix: string = '';
+	urlPrefix: string = '';
 	imagePos: Array<number> = [1, 1, 69, 88];
 	imageCut: Array<number> = [0, 0, 65, 90];
 	scale: number = 1;
 	panX: number = 0;
 	panY: number = 0;
-	lastPinch: number = 0;
-	// Touch and mouse tracking properties
+	private bounds: Array<number> = [0, 0, defaultW, defaultH];
+	private lastPinch: number = 0;
 	private touchPoints: Array<TouchPoint> = [];
 	private initialDistance: number = 0;
 	private initialScale: number = 1;
 	private lastTouchX: number = 0;
 	private lastTouchY: number = 0;
+	private initialTouchX: number = 0;
+	private initialTouchY: number = 0;
+	private hasTouchPanMoved: boolean = false;
+	private hasPinchChanged: boolean = false;
 	private lastMouseX: number = 0;
 	private lastMouseY: number = 0;
 	private initialMouseX: number = 0;
@@ -101,10 +104,7 @@ export class BoardComponent implements OnInit, OnChanges {
 	onWheel($event: WheelEvent) {
 		$event.preventDefault();
 		const wheel = $event.deltaY < 0 ? 1 : -1;
-		let scale = 1;
-		if (wheel === 1) {
-			scale = this.scale + 0.15;
-		}
+		const scale = wheel === 1 ? this.scale + 0.15 : this.scale - 0.15;
 		this.zoomSVGValue(scale, $event.clientX, $event.clientY);
 		const indicator = this.indicators.display($event.clientX, $event.clientY, scale * 10);
 		this.indicators.hide(indicator);
@@ -151,17 +151,22 @@ export class BoardComponent implements OnInit, OnChanges {
 	}
 
 	onMouseUp(event: MouseEvent): void {
+		// Avoid treating mouseleave as a click; only emit on an actual mouseup
+		const isMouseLeave = event.type === 'mouseleave';
 		if (this.isPanning) {
 			event.preventDefault();
 			this.updatePanning(event);
-		} else {
+		} else if (!isMouseLeave) {
 			this.clickEvent.emit(undefined);
 		}
 		this.stopPanning();
 	}
 
-	onTouchTile(_event: TouchEvent, draw?: Draw): void {
-		this.clickEvent.emit(draw ? draw.source : undefined);
+	onTouchTileEnd(_event: TouchEvent, draw?: Draw): void {
+		if (this.hasPinchChanged || this.hasTouchPanMoved) {
+			return;
+		}
+		this.clickEvent.emit(draw?.source);
 	}
 
 	onClickUp(event: MouseEvent, draw?: Draw): void {
@@ -169,7 +174,7 @@ export class BoardComponent implements OnInit, OnChanges {
 			this.updatePanning(event);
 			this.stopPanning();
 		} else {
-			this.clickEvent.emit(draw ? draw.source : undefined);
+			this.clickEvent.emit(draw?.source);
 			event.stopPropagation();
 		}
 	}
@@ -177,6 +182,8 @@ export class BoardComponent implements OnInit, OnChanges {
 	onTouchStart(event: TouchEvent): void {
 		event.preventDefault();
 		this.touchPoints = [];
+		this.hasTouchPanMoved = false;
+		this.hasPinchChanged = false;
 		// eslint-disable-next-line unicorn/prefer-spread
 		const touches = Array.from(event.touches);
 		for (const touch of touches) {
@@ -191,6 +198,8 @@ export class BoardComponent implements OnInit, OnChanges {
 			// Potential pan start
 			this.lastTouchX = this.touchPoints[0].x;
 			this.lastTouchY = this.touchPoints[0].y;
+			this.initialTouchX = this.touchPoints[0].x;
+			this.initialTouchY = this.touchPoints[0].y;
 			this.isPanning = true;
 		} else if (this.touchPoints.length === 2) {
 			// Potential pinch start
@@ -224,9 +233,13 @@ export class BoardComponent implements OnInit, OnChanges {
 		if (this.isPinching && this.touchPoints.length === 2) {
 			// Handle pinch
 			const currentDistance = this.getDistance(this.touchPoints[0], this.touchPoints[1]);
-			const scale = currentDistance / this.initialDistance;
+			const relativeScale = currentDistance / this.initialDistance;
 			// Update indicator size
-			this.indicators.setSize(0, Math.min(30 * scale, 80));
+			this.indicators.setSize(0, Math.min(30 * relativeScale, 80));
+			// Mark as a real pinch if scale changed more than 10%
+			if (Math.abs(relativeScale - 1) >= 0.1) {
+				this.hasPinchChanged = true;
+			}
 			this.lastPinch = Date.now();
 		} else if (this.isPanning && this.touchPoints.length === 1 && this.scale > 1 && Date.now() - this.lastPinch > 600) {
 			// Handle pan
@@ -240,6 +253,11 @@ export class BoardComponent implements OnInit, OnChanges {
 
 			this.lastTouchX = this.touchPoints[0].x;
 			this.lastTouchY = this.touchPoints[0].y;
+			// Mark as a real pan after 10px movement from initial touch point
+			const moved = Math.hypot(this.lastTouchX - this.initialTouchX, this.lastTouchY - this.initialTouchY);
+			if (moved >= 10) {
+				this.hasTouchPanMoved = true;
+			}
 		}
 	}
 
@@ -248,22 +266,46 @@ export class BoardComponent implements OnInit, OnChanges {
 
 		if (this.isPinching) {
 			// Handle pinch end
-			this.indicators.hide(this.indicators.gestureIndicators[0]);
+			const indicator = this.indicators.gestureIndicators.at(0);
+			if (indicator) {
+				this.indicators.hide(indicator);
+			}
 
-			if (this.touchPoints.length === 2) {
-				const currentDistance = this.getDistance(this.touchPoints[0], this.touchPoints[1]);
-				const scale = currentDistance / this.initialDistance;
+			// Compute final pinch points using current and changed touches
+			// eslint-disable-next-line unicorn/prefer-spread
+			const remaining = Array.from(event.touches).map(t => ({
+				x: t.clientX,
+				y: t.clientY,
+				identifier: t.identifier
+			}));
+			// eslint-disable-next-line unicorn/prefer-spread
+			const changed = Array.from(event.changedTouches).map(t => ({
+				x: t.clientX,
+				y: t.clientY,
+				identifier: t.identifier
+			}));
+
+			const finalPoints: Array<TouchPoint> = [];
+			if (remaining.length >= 2) {
+				finalPoints.push(remaining[0], remaining[1]);
+			} else if (remaining.length === 1 && changed.length > 0) {
+				finalPoints.push(remaining[0], changed[0]);
+			} else if (changed.length >= 2) {
+				finalPoints.push(changed[0], changed[1]);
+			}
+
+			if (finalPoints.length === 2) {
+				const currentDistance = this.getDistance(finalPoints[0], finalPoints[1]);
+				const relativeScale = currentDistance / this.initialDistance;
 
 				let newScale = this.initialScale;
-				if (scale > 1.1) {
-					newScale = this.initialScale + scale;
-				} else if (scale < 0.9) {
-					newScale = this.initialScale * scale;
+				if (Math.abs(relativeScale - 1) >= 0.1) {
+					newScale = this.initialScale * relativeScale;
 				}
 
 				// Center of the pinch
-				const centerX = (this.touchPoints[0].x + this.touchPoints[1].x) / 2;
-				const centerY = (this.touchPoints[0].y + this.touchPoints[1].y) / 2;
+				const centerX = (finalPoints[0].x + finalPoints[1].x) / 2;
+				const centerY = (finalPoints[0].y + finalPoints[1].y) / 2;
 
 				this.zoomSVGValue(newScale, centerX, centerY);
 			}
@@ -287,6 +329,13 @@ export class BoardComponent implements OnInit, OnChanges {
 				identifier: touch.identifier
 			});
 		}
+		// If all touches ended, reset gesture tracking helpers
+		if (this.touchPoints.length === 0) {
+			this.hasTouchPanMoved = false;
+			this.hasPinchChanged = false;
+			this.initialTouchX = 0;
+			this.initialTouchY = 0;
+		}
 	}
 
 	updatePanning(event: MouseEvent) {
@@ -307,10 +356,24 @@ export class BoardComponent implements OnInit, OnChanges {
 	}
 
 	setPanValue(x: number, y: number) {
-		const minX = -this.element.nativeElement.offsetWidth;
-		const minY = -this.element.nativeElement.offsetHeight;
-		this.panX = clamp(x, minX - 50, 50);
-		this.panY = clamp(y, minY - 50, 50);
+		// Compute pan bounds relative to the scaled content size within the container.
+		// Allow a small visual margin to avoid hard edges during interactions.
+		const containerWidth = this.element.nativeElement.offsetWidth || 0;
+		const containerHeight = this.element.nativeElement.offsetHeight || 0;
+		const margin = 50;
+
+		// Extra size introduced by scaling (when scale <= 1, extra is 0 and panning is effectively disabled elsewhere)
+		const extraWidth = Math.max(0, (this.scale - 1) * containerWidth);
+		const extraHeight = Math.max(0, (this.scale - 1) * containerHeight);
+
+		// Clamp so that content cannot be panned beyond its scaled bounds (with a small margin)
+		const minX = -extraWidth - margin;
+		const maxX = margin;
+		const minY = -extraHeight - margin;
+		const maxY = margin;
+
+		this.panX = clamp(x, minX, maxX);
+		this.panY = clamp(y, minY, maxY);
 	}
 
 	zoomSVGValue(scale: number, x: number, y: number) {
@@ -402,9 +465,18 @@ export class BoardComponent implements OnInit, OnChanges {
 		this.setTransform();
 	}
 
-	private webpSupported() {
-		const element = document.createElement('canvas');
-		return (element.getContext?.('2d') && element.toDataURL('image/webp').startsWith('data:image/webp'));
+	private webpSupported(): boolean {
+		try {
+			const element = document.createElement('canvas');
+			const has2d = !!element.getContext?.('2d');
+			if (!has2d) {
+				return false;
+			}
+			const dataUrl = element.toDataURL('image/webp');
+			return dataUrl.startsWith('data:image/webp');
+		} catch {
+			return false;
+		}
 	}
 
 	private backgroundFormat(): string {

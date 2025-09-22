@@ -3,6 +3,7 @@ import { ImageSetDefault, ImageSets, TILES_INFOS } from '../../model/consts';
 import { AppService } from '../../service/app.service';
 import { TileComponent } from '../tile/tile.component';
 import { TranslatePipe } from '@ngx-translate/core';
+import { environment } from '../../../environments/environment';
 
 @Component({
 	selector: 'app-tiles-info',
@@ -15,6 +16,7 @@ export class TilesInfoComponent {
 	sets = ImageSets;
 	tileset = ImageSetDefault;
 	isDark = false;
+	canKyodai = environment.kyodai;
 	kyodaiUrl?: string;
 
 	constructor() {

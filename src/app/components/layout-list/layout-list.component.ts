@@ -47,16 +47,10 @@ export class LayoutListComponent implements OnInit, OnChanges {
 	private readonly translate = inject(TranslateService);
 	private readonly layoutService = inject(LayoutService);
 
-	constructor() {
-		this.buildRandomGroup();
-		if (this.layouts()) {
-			this.buildGroups();
-		}
-	}
-
 	ngOnInit(): void {
 		this.randomMirrorX = this.storage.getLastMirrorX() ?? 'random';
 		this.randomMirrorY = this.storage.getLastMirrorY() ?? 'random';
+		this.buildRandomGroup();
 	}
 
 	buildRandomGroup() {
@@ -139,7 +133,8 @@ export class LayoutListComponent implements OnInit, OnChanges {
 	buildGroups(): void {
 		const groups: Array<LayoutGroup> = [];
 		const g: { [name: string]: LayoutGroup } = {};
-		for (const layout of this.layoutService.layouts.items) {
+		const source = this.layouts() ?? this.layoutService.layouts.items;
+		for (const layout of source) {
 			if (!g[layout.category]) {
 				g[layout.category] = { name: layout.category, layouts: [], expanded: true };
 				groups.push(g[layout.category]);
@@ -162,7 +157,7 @@ export class LayoutListComponent implements OnInit, OnChanges {
 
 		container.scrollTo({
 			top: targetTop,
-			behavior: 'instant'
+			behavior: 'auto'
 		});
 	}
 

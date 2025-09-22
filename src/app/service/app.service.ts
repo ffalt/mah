@@ -6,7 +6,7 @@ import { Settings } from '../model/settings';
 import { LangAuto } from '../model/consts';
 import { LocalstorageService } from './localstorage.service';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class AppService {
 	name: string = 'Mah Jong';
 	game: Game;

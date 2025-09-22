@@ -159,7 +159,7 @@
 	</style>
 	<defs app-image-set-loader [imageSet]="imageSet()" [kyodaiUrl]="kyodaiUrl()" [dark]="app.settings.dark" [prefix]="prefix"></defs>
 	<g class="stage" [attr.transform]="transformStage" [class.dark]="app.settings.dark" [class.contrast]="app.settings.contrast">
-		@for (draw of drawStones; track draw.source.groupNr + '/' + draw.source.v) {
+		@for (draw of drawStones; track draw.source.z + ':' + draw.source.x + ':' + draw.source.y) {
 			<g class="draw"
 				 [class.selected]="draw.source.selected"
 				 [class.hidden]="draw.source.picked"
@@ -167,7 +167,7 @@
 				 [class.wiggle]="draw.source.effects?.wiggle"
 				 [attr.transform]="draw.pos.translate"
 				 (mouseup)="onClickUp($event, draw)"
-				 (touchstart)="onTouchTile($event, draw)">
+				 (touchend)="onTouchTileEnd($event, draw)">
 				<g class="tile">
 					@if (draw.url) {
 						<title>{{ draw.url | translate }}</title>

@@ -143,7 +143,7 @@ export default ts.config(
 			sourceType: "script",
 			globals: globals.browser,
 			parserOptions: {
-				project: ["tsconfig.json", "tsconfig.worker.json", "tsconfig.apps.json"],
+				project: ["tsconfig.json", "tsconfig.worker.json", "tsconfig.app.json"],
 				createDefaultProgram: true
 			}
 		},

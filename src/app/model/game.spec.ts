@@ -129,6 +129,7 @@ describe('Game', () => {
 		});
 
 		it('should pause the game', () => {
+			game.layoutID = 'test';
 			game.pause();
 
 			expect(mockClock.pause).toHaveBeenCalled();

@@ -42,6 +42,7 @@ export class AppComponent implements OnInit {
 		}
 		if (environment.editor && event.key === 'e') {
 			this.toggleEditor();
+			event.preventDefault();
 		}
 	}
 
