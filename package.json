@@ -32,13 +32,13 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/common": "20.3.1",
-    "@angular/compiler": "20.3.1",
-    "@angular/core": "20.3.1",
-    "@angular/forms": "20.3.1",
-    "@angular/platform-browser": "20.3.1",
-    "@angular/platform-browser-dynamic": "20.3.1",
-    "@angular/platform-server": "20.3.1",
+    "@angular/common": "20.3.2",
+    "@angular/compiler": "20.3.2",
+    "@angular/core": "20.3.2",
+    "@angular/forms": "20.3.2",
+    "@angular/platform-browser": "20.3.2",
+    "@angular/platform-browser-dynamic": "20.3.2",
+    "@angular/platform-server": "20.3.2",
     "@ngx-translate/core": "17.0.0",
     "@ngx-translate/http-loader": "^17.0.0",
     "rxjs": "7.8.2",
@@ -51,10 +51,10 @@
   },
   "devDependencies": {
     "@angular-builders/custom-esbuild": "20.0.0",
-    "@angular/build": "20.3.2",
-    "@angular/cli": "20.3.2",
-    "@angular/compiler-cli": "20.3.1",
-    "@angular/language-service": "20.3.1",
+    "@angular/build": "20.3.3",
+    "@angular/cli": "20.3.3",
+    "@angular/compiler-cli": "20.3.2",
+    "@angular/language-service": "20.3.2",
     "@eslint/js": "9.36.0",
     "@stylistic/eslint-plugin": "5.4.0",
     "@types/jest": "30.0.0",
@@ -74,8 +74,8 @@
     "stylelint": "16.24.0",
     "stylelint-config-standard-scss": "16.0.0",
     "tslib": "2.8.1",
-    "typescript": "5.8.3",
-    "typescript-eslint": "8.44.0"
+    "typescript": "5.9.2",
+    "typescript-eslint": "8.44.1"
   },
   "engines": {
     "node": ">=22"
