@@ -2,6 +2,9 @@ name: 'app-windows'
 
 on:
   workflow_dispatch:
+  push:
+    tags:
+      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
 
 permissions:
   contents: write
@@ -45,6 +48,6 @@ jobs:
         uses: softprops/action-gh-release@v2
         if: github.ref_type == 'tag'
         with:
-          files: resources\apps\tauri\target\x86_64-pc-windows-msvc\release\bundle\**\*
-
-
+          files: |
+            resources\apps\tauri\target\x86_64-pc-windows-msvc\release\bundle\**\*.msi
+            resources\apps\tauri\target\x86_64-pc-windows-msvc\release\bundle\**\*.exe
