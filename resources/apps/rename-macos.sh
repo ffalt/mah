@@ -1,9 +1,4 @@
-
 #!/bin/bash
-
-# Script to rename Tauri DMG output files
-# From: mah_1.8.1_aarch64.dmg or mah_1.8.1_x64.dmg
-# To: macos-mah-1_8_1-aarch64.dmg or macos-mah-1_8_1-x64.dmg
 
 # Set the base directory where the DMG files are located
 DMG_BASE_DIR="./tauri/target"

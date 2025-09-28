@@ -2,6 +2,9 @@ name: 'app-linux'
 
 on:
   workflow_dispatch:
+  push:
+    tags:
+      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
 
 permissions:
   contents: write
@@ -42,10 +45,16 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: 'linux'
-          path: resources/apps/tauri/target/release/bundle/
+          path:  |
+            resources/apps/tauri/target/release/bundle/**/*.rpm
+            resources/apps/tauri/target/release/bundle/**/*.deb
+            resources/apps/tauri/target/release/bundle/**/*.AppImage
 
       - name: Release
         uses: softprops/action-gh-release@v2
         if: github.ref_type == 'tag'
         with:
-          files: resources/apps/tauri/target/release/bundle/**/*
+          files: |
+            resources/apps/tauri/target/release/bundle/**/*.rpm
+            resources/apps/tauri/target/release/bundle/**/*.deb
+            resources/apps/tauri/target/release/bundle/**/*.AppImage
