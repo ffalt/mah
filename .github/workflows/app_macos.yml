@@ -2,6 +2,9 @@ name: 'app-macos'
 
 on:
   workflow_dispatch:
+  push:
+    tags:
+      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
 
 permissions:
   contents: write
@@ -31,19 +34,19 @@ jobs:
       - name: Install tauri dependencies
         run: cd resources/apps && npm install
 
-      - name: Build macos app
+      - name: Build macOS DMG
         run: |
           cd resources/apps
           npm run macos
 
-      - name: upload macos artifacts
+      - name: upload macOS artifacts
         uses: actions/upload-artifact@v4
         with:
           name: 'macos'
-          path: resources/apps/tauri/target/aarch64-apple-darwin/release/bundle/macos/
+          path: resources/apps/tauri/target/**/*.dmg
 
       - name: Release
         uses: softprops/action-gh-release@v2
         if: github.ref_type == 'tag'
         with:
-          files: resources/apps/tauri/target/aarch64-apple-darwin/release/bundle/macos/**/*
+          files: resources/apps/tauri/target/**/*.dmg

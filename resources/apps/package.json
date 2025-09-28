@@ -5,9 +5,10 @@
     "build": "tauri build",
 		"windows": "tauri build --target x86_64-pc-windows-msvc",
 		"linux": "tauri build",
-		"macos": "tauri build --bundles app --target aarch64-apple-darwin",
+		"macos": "tauri build --bundles dmg --target aarch64-apple-darwin && ./rename-dmg.sh",
 		"android:aab": "tauri android build --aab",
 		"android:apk": "tauri android build --apk --split-per-abi",
+		"rename-dmg": "./rename-dmg.sh",
     "tauri": "tauri",
 		"icons": "tauri icon ./logo.svg"
   },
