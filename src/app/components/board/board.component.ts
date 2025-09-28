@@ -157,7 +157,17 @@ export class BoardComponent implements OnInit, OnChanges {
 			event.preventDefault();
 			this.updatePanning(event);
 		} else if (!isMouseLeave) {
-			this.clickEvent.emit(undefined);
+			if (this.scale === 1) {
+				this.clickEvent.emit(undefined);
+			} else if (this.initialMouseX !== 0 && this.initialMouseY !== 0) {
+				const dx = event.clientX - this.initialMouseX;
+				const dy = event.clientY - this.initialMouseY;
+				const distance = Math.hypot(dx, dy);
+				// only unselect draw if it was a panning (or a panning try)
+				if (distance < 4) {
+					this.clickEvent.emit(undefined);
+				}
+			}
 		}
 		this.stopPanning();
 	}
