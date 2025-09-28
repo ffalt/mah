@@ -170,6 +170,8 @@ export class BoardComponent implements OnInit, OnChanges {
 	}
 
 	onClickUp(event: MouseEvent, draw?: Draw): void {
+		this.initialMouseX = 0;
+		this.initialMouseY = 0;
 		if (this.isPanning) {
 			this.updatePanning(event);
 			this.stopPanning();
