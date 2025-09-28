@@ -1,7 +1,11 @@
-# `bzhmaddog.svg`
+# `animals.svg`
 
-svg tiles build on https://github.com/bzhmaddog/html5-mahjong-solitaire/tree/master/res/skins/default/tiles
-by https://github.com/bzhmaddog 
+svg tiles build on https://www.figma.com/community/file/996834837432309369
+and https://www.figma.com/community/file/971858608510421966
+and https://www.figma.com/community/file/979478202048533337
+by https://www.figma.com/@yanliu
+
+(additional tiles from https://www.figma.com/community/file/1253367719553048712 by https://www.figma.com/@HRK04)
 
 ## `cheshire137.svg`
 svg tiles build on https://github.com/cheshire137/Mahjong/tree/master/app/assets/images/tiles
