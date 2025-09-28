@@ -81,7 +81,9 @@ android {
     applicationVariants.all {
         val appName = "android-mah"
         val vName = mergedFlavor.versionName ?: "0.0.0"
-        val versionSafe = vName.replace(".", "_")
+        val versionSafe = vName.replace('.', '_')
+
+        // Rename APK outputs
         this.outputs
             .map { it as com.android.build.gradle.internal.api.ApkVariantOutputImpl }
             .forEach { output ->
@@ -90,6 +92,26 @@ android {
                 val apkName = "${appName}-${versionSafe}-${variantName}.${fileExtension}"
                 output.outputFileName = apkName
             }
+
+        // Rename AAB (App Bundle) output to match the APK naming scheme
+        val variantName = name
+        val capitalizedVariant = variantName.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }
+        val bundleTaskName = "bundle${capitalizedVariant}"
+
+        tasks.named(bundleTaskName).configure {
+            doLast {
+                val bundleDir = file("${buildDir}/outputs/bundle/${variantName}")
+                if (bundleDir.exists()) {
+                    val from = bundleDir.listFiles { _, s -> s.endsWith(".aab") }?.firstOrNull()
+                    if (from != null) {
+                        val to = file("${bundleDir}/${appName}-${versionSafe}-universal.aab")
+                        if (from.name != to.name) {
+                            from.renameTo(to)
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 
