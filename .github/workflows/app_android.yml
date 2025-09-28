@@ -2,6 +2,9 @@ name: 'app-android'
 
 on:
   workflow_dispatch:
+  push:
+    tags:
+      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
 
 permissions:
   contents: write
@@ -78,10 +81,12 @@ jobs:
         with:
           name: android-app
           retention-days: 10
-          path: resources/apps/tauri/gen/android/app/build/outputs/
+          path: resources/apps/tauri/gen/android/app/build/outputs/apk/
 
       - name: Release
         uses: softprops/action-gh-release@v2
         if: github.ref_type == 'tag'
         with:
-          files: resources/apps/tauri/gen/android/app/build/outputs/**/*
+          files: |
+            resources/apps/tauri/gen/android/app/build/outputs/apk/**/*.apk
+            resources/apps/tauri/gen/android/app/build/outputs/bundle/**/*.aab

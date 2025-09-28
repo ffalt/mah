@@ -77,6 +77,20 @@ android {
     buildFeatures {
         buildConfig = true
     }
+    
+    applicationVariants.all {
+        val appName = "android-mah"
+        val vName = mergedFlavor.versionName ?: "0.0.0"
+        val versionSafe = vName.replace(".", "_")
+        this.outputs
+            .map { it as com.android.build.gradle.internal.api.ApkVariantOutputImpl }
+            .forEach { output ->
+                val fileExtension = output.outputFileName.substringAfterLast('.', "")
+                val variantName = output.outputFile?.parentFile?.parentFile?.name
+                val apkName = "${appName}-${versionSafe}-${variantName}.${fileExtension}"
+                output.outputFileName = apkName
+            }
+    }
 }
 
 rust {
