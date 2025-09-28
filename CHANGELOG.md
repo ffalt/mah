@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [1.8.0](https://github.com/ffalt/mah/compare/v1.7.7...v1.8.0) (2025-09-28)
+
+
+### Features
+
+* **images:** add webp variants ([69848c6](https://github.com/ffalt/mah/commit/69848c60d749d374ac26868f3e34dfe1e56457bf))
+* **imageset:** add animals ([8c67d37](https://github.com/ffalt/mah/commit/8c67d375564b0f39ad817366681135eaa3cd569a))
+* **images:** reduce png files sizes ([ace93a6](https://github.com/ffalt/mah/commit/ace93a63d4347ce83ef3ce3921c9518aff3047d5))
+* **layouts:** random layout generator ([a503275](https://github.com/ffalt/mah/commit/a5032752de0fa50c9b4f8ab1d3a5c10cb89bb53b))
+* **locales:** load languages on demand instead of including in the build ([1d5d3a1](https://github.com/ffalt/mah/commit/1d5d3a18887f0960460a18c63704d4e08f0971eb))
+
+
+### Bug Fixes
+
+* **layout-list:** do not use elements.scrollIntoView() as it may scroll the parent page if embedded with iframe ([a087564](https://github.com/ffalt/mah/commit/a0875647ea9d649869762e1b5d813dcd587dbb45))
+
 ## [1.7.7](https://github.com/ffalt/mah/compare/v1.7.6...v1.7.7) (2025-02-22)
 
 * **i18n**: add French
