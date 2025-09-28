@@ -54,7 +54,7 @@ jobs:
         run: npm run build:deploy-release
 
       - name: Create release package
-        run: cd dist && zip -r ./mah-release.zip .
+        run: cd dist && zip -r ./webapp-mah-release.zip .
 
       - name: Generate release log
         run: npm run build:releaselog
@@ -68,6 +68,6 @@ jobs:
           bodyFile: ./RELEASELOG.md
           draft: false
           prerelease: false
-          artifacts: ./dist/mah-release.zip
+          artifacts: ./dist/webapp-mah-release.zip
           artifactContentType: application/zip
           makeLatest: true
