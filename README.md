@@ -34,14 +34,14 @@ build with html5, svg, angular
 
   Want to help translate Mah? Please use <https://crowdin.com/project/mahjong>
 
-## Additional boards
+## Additional boards/layouts
 
 Visit the 
 
-### [Mahseum](https://ffalt.github.io/mahseum/) 
+### [Mahjong Solitaire Layout Museum](https://ffalt.github.io/mahseum/) 
 
-Where you can find an archive of boards nice people created for Kyodai Mahjongg.  
-Click on a board and select "Play it with Mah" to import it. 
+Browse a curated archive of custom board layouts created by the Kyodai Mahjongg community.
+Simply click on any layout and select "Play it with Mah" to import it into your game.
 
 ## Acknowledgements
 
