@@ -31,7 +31,7 @@ Built with HTML5, SVG, and Angular.
 * Automatic saving and restoring of game state and best times.   
   In your browser only - nothing is stored in the cloud!
 
-* English, Deutsch, Nederlands, Português, Русский, Español, Euskara, 日本語, Français
+* English, Deutsch, Nederlands, Português, Русский, Español, Euskara, 日本語, Français  
   Want to help translate Mah? Please use <https://crowdin.com/project/mahjong>
 
 ## Additional boards/layouts
