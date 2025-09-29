@@ -40,7 +40,9 @@ https://github.com/ffalt/mah/releases
 
 Currently provided artifacts include installers and package builds for Android, Windows, macOS, and Linux.
 
-> [!IMPORTANT] Unsigned apps/installers (macOS and Windows)
+> [!IMPORTANT]
+>
+> Unsigned apps/installers (macOS and Windows)
 > At the moment, the macOS and Windows builds are not code-signed (and macOS builds are not notarized). 
 > Because of this, the operating system may warn or block the app the first time you try to run it. 
 > This is expected behavior for unsigned software and does not mean the files are malicious.
