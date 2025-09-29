@@ -29,7 +29,7 @@ Built with HTML5, SVG, and Angular.
 * 3 difficulty levels and 2 game setup generators
 
 * Automatic saving and restoring of game state and best times.   
-  In your browser only—nothing is stored in the cloud!
+  In your browser only - nothing is stored in the cloud!
 
 * English, Deutsch, Nederlands, Português, Русский, Español, Euskara, 日本語, Français
   Want to help translate Mah? Please use <https://crowdin.com/project/mahjong>
@@ -56,7 +56,7 @@ Please have a look at the credits for [artwork](src/assets/svg/README.md), [back
 
 You can download pre-built desktop/mobile binaries from the project’s GitHub Releases page:
 
-https://github.com/ffalt/mah/releases
+<https://github.com/ffalt/mah/releases>
 
 Currently provided artifacts include installers and package builds for Android, Windows, macOS, and Linux.
 
