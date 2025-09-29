@@ -6,7 +6,7 @@
 
 Development repository of the original open source version of many Mahjong games out there.
 
-[Play it here](https://ffalt.github.io/mah/) - Completely free, no ads, no tracking.
+[Play Mahjong here](https://ffalt.github.io/mah/) - Completely free, no ads, no tracking.
 
 build with html5, svg, angular
 
@@ -34,6 +34,11 @@ build with html5, svg, angular
 
   Want to help translate Mah? Please use <https://crowdin.com/project/mahjong>
 
+## Additional boards
+
+Visit the <span style="font-size:1.5em;"> [Mahseum](https://ffalt.github.io/mahseum/) </span> where you can find an archive of boards nice people created for Kyodai Mahjongg. 
+Click on a board and select "Play it with Mah" to import it. 
+
 ## Acknowledgements
 
 The art in Mah is based on other open source creating work.
@@ -41,7 +46,7 @@ Please have a look at the credits for [Artwork](src/assets/svg/README.md), [Back
 
 ## Web releases
 
-[Play it in your browser](https://ffalt.github.io/mah/)
+[Play Mah in your browser](https://ffalt.github.io/mah/)
 
 ## Binary releases
 
