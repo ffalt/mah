@@ -53,8 +53,17 @@ jobs:
       - name: Build
         run: npm run build:deploy-release
 
+      - name: Compute version and zip name
+        id: version
+        run: |
+          RAW=${GITHUB_REF_NAME}
+          VERSION=${RAW#v}
+          SAFE=${VERSION//./_}
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "zip=webapp-mah-$SAFE.zip" >> $GITHUB_OUTPUT
+
       - name: Create release package
-        run: cd dist && zip -r ./webapp-mah-release.zip .
+        run: cd dist && zip -r "./${{ steps.version.outputs.zip }}" .
 
       - name: Build Releaselog
         id: github_release
@@ -69,6 +78,6 @@ jobs:
           body: ${{steps.github_release.outputs.changelog}}
           draft: false
           prerelease: false
-          artifacts: ./dist/webapp-mah-release.zip
+          artifacts: ./dist/${{ steps.version.outputs.zip }}
           artifactContentType: application/zip
           makeLatest: true
