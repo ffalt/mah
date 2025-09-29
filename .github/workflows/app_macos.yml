@@ -13,22 +13,24 @@ jobs:
   build-tauri:
     runs-on: 'macos-latest'
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: setup node
+      - name: Setup node
         uses: actions/setup-node@v4
         with:
           node-version: lts/*
           cache: 'npm'
 
-      - name: install Rust stable
+      - name: Install Rust stable
         uses: dtolnay/rust-toolchain@stable
 
       - name: Write mah build config
         run: |
           echo "{\"name\": \"Mah\", \"mobile\":true}" > custom-build-config.json
 
-      - name: install mah dependencies
+
+      - name: Install mah dependencies
         run: npm install
 
       - name: Install tauri dependencies
@@ -39,13 +41,16 @@ jobs:
           cd resources/apps
           npm run macos
 
-      - name: upload macOS artifacts
+
+      - name: Upload macOS artifacts
         uses: actions/upload-artifact@v4
+        if: github.ref_type != 'tag'
         with:
           name: 'macos'
+          retention-days: 10
           path: resources/apps/tauri/target/**/*.dmg
 
-      - name: Release
+      - name: Upload release
         uses: softprops/action-gh-release@v2
         if: github.ref_type == 'tag'
         with:

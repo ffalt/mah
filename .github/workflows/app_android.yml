@@ -31,11 +31,13 @@ jobs:
           packages: |
             ndk;26.1.10909125
 
+
       - name: Setup Android Environment
         run: |
           echo "$ANDROID_HOME/platform-tools" >> $GITHUB_PATH
           echo "$ANDROID_HOME/ndk/26.1.10909125/toolchains/llvm/prebuilt/linux-x86_64/bin" >> $GITHUB_PATH
           echo "NDK_HOME=$ANDROID_HOME/ndk/26.1.10909125/" > $GITHUB_ENV
+
 
       - name: Install Rust stable
         uses: dtolnay/rust-toolchain@stable
@@ -50,7 +52,8 @@ jobs:
         run: |
           echo "{\"name\": \"Mah\", \"mobile\":true}" > custom-build-config.json
 
-      - name: install mah dependencies
+
+      - name: Install mah dependencies
         run: npm install
 
       - name: Install tauri dependencies
@@ -62,7 +65,8 @@ jobs:
         run: |
           echo $ENCODED_STRING | base64 -di > resources/apps/tauri/gen/android/app/mah_keystore.jks
 
-      - name: setup Android signing
+
+      - name: Setup Android signing
         run: |
           cd resources/apps/tauri/gen/android
           echo "keyAlias=${{ secrets.SIGNING_KEY_ALIAS }}" > keystore.properties
@@ -70,22 +74,25 @@ jobs:
           echo "storePassword=${{ secrets.SIGNING_STORE_PASSWORD }}" >> keystore.properties
           echo "storeFile=mah_keystore.jks" >> keystore.properties
 
+
       - name: Build Android app
         run: |
           cd resources/apps
           npm run android:apk
 
+
       - name: Upload Android artifacts
         uses: actions/upload-artifact@v4
         if: github.ref_type != 'tag'
         with:
-          name: android-app
+          name: android
           retention-days: 10
           path:  |
             resources/apps/tauri/gen/android/app/build/outputs/apk/**/*.apk
             resources/apps/tauri/gen/android/app/build/outputs/bundle/**/*.aab
 
-      - name: Release
+
+      - name: Upload release
         uses: softprops/action-gh-release@v2
         if: github.ref_type == 'tag'
         with:

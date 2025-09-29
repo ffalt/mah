@@ -13,24 +13,27 @@ jobs:
   build-tauri:
     runs-on: 'ubuntu-22.04'
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: setup node
+      - name: Setup node
         uses: actions/setup-node@v4
         with:
           node-version: lts/*
           cache: 'npm'
 
-      - name: install dependencies
+      - name: Install dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
+
 
       - name: Write mah build config
         run: |
           echo "{\"name\": \"Mah\", \"mobile\":true}" > custom-build-config.json
 
-      - name: install mah dependencies
+
+      - name: Install mah dependencies
         run: npm install
 
       - name: Install tauri dependencies
@@ -41,16 +44,20 @@ jobs:
           cd resources/apps
           npm run linux
 
-      - name: upload linux artifacts
+
+      - name: Upload linux artifacts
         uses: actions/upload-artifact@v4
+        if: github.ref_type != 'tag'
         with:
           name: 'linux'
+          retention-days: 10
           path:  |
             resources/apps/tauri/target/release/bundle/**/*.rpm
             resources/apps/tauri/target/release/bundle/**/*.deb
             resources/apps/tauri/target/release/bundle/**/*.AppImage
 
-      - name: Release
+
+      - name: Upload release
         uses: softprops/action-gh-release@v2
         if: github.ref_type == 'tag'
         with:
@@ -58,3 +65,4 @@ jobs:
             resources/apps/tauri/target/release/bundle/**/*.rpm
             resources/apps/tauri/target/release/bundle/**/*.deb
             resources/apps/tauri/target/release/bundle/**/*.AppImage
+
