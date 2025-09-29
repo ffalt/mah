@@ -1,6 +1,8 @@
-# Mah
+<div align="center">
+	<img width="500" height="350" src="logo.svg" alt="Mah">
+</div>
 
-A Mahjong Solitaire Game
+# Mah - A Mahjong Solitaire Game
 
 Development repository of the original open source version of many Mahjong games out there.
 
@@ -20,21 +22,30 @@ build with html5, svg, angular
 
 * Random boards generator for much more and challenging games
 
-* 12 different tile/piece image sets; light & dark
+* 13 tile/piece image sets; light & dark themes
 
-* 8 game backgrounds, themes; light & dark
+* 8 game backgrounds, 7 background colors
 
-* 3 difficulties
+* 3 difficulties, 2 game setup generators
 
-* Automatic save and restore of game state
+* Automatic save and restore of game state and your best times in your browser, not in any cloud
 
 * English, Deutsch, Nederlands, Português, русский, Español, Euskara, 日本語, Français
 
   Want to help translate Mah? Please use <https://crowdin.com/project/mahjong>
 
+## Acknowledgements
+
+The art in Mah is based on other open source creating work.
+Please have a look at the credits for [Artwork](src/assets/svg/README.md), [Backgrounds](src/assets/img/README.md), [Sounds](src/assets/sounds/README.md) and [Fonts](src/assets/fonts/README.md).
+
+## Web releases
+
+[Play it in your browser](https://ffalt.github.io/mah/)
+
 ## Binary releases
 
-You can download pre-built desktop binaries from the project’s GitHub Releases page:
+You can download pre-built desktop/mobile binaries from the project’s GitHub Releases page:
 
 https://github.com/ffalt/mah/releases
 
@@ -56,7 +67,7 @@ A scare note might say something about the app to be broken or unsafe, this is n
 To bypass Apples Gatekeeper, remove the quarantine attribute.
 
 ```shell
-xattr -dr com.apple.quarantine /Applications/Mah.app
+xattr -dr com.apple.quarantine /Applications/mah.app
 ```
 
 There may be other ways to bypass depending on your MacOS, please search for your installed version.
@@ -97,4 +108,4 @@ Run `npm run build` to build the project. The build artifacts will be stored in 
 
 ### Running tests
 
-Run `npm run test` to execute the unit tests via [Jest](https://jestjs.io/).
+Run `npm run test` to execute the unit tests.
