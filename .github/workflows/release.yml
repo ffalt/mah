@@ -56,8 +56,9 @@ jobs:
       - name: Create release package
         run: cd dist && zip -r ./webapp-mah-release.zip .
 
-      - name: Generate release log
-        run: npm run build:releaselog
+      - name: Build Releaselog
+        id: github_release
+        uses: mikepenz/release-changelog-builder-action@v5
 
       - name: Create release
         uses: ncipollo/release-action@v1
@@ -65,7 +66,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ github.ref }}
           name: Release ${{ github.ref_name }}
-          bodyFile: ./RELEASELOG.md
+          body: ${{steps.github_release.outputs.changelog}}
           draft: false
           prerelease: false
           artifacts: ./dist/webapp-mah-release.zip
