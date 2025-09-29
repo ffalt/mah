@@ -1,0 +1,24 @@
+{
+	"bumpFiles": [
+		{
+			"filename": "package.json",
+			"type": "json"
+		},
+		{
+			"filename": "package-lock.json",
+			"type": "json"
+		},
+		{
+			"filename": "resources/apps/package.json",
+			"type": "json"
+		},
+		{
+			"filename": "resources/apps/package-lock.json",
+			"type": "json"
+		},
+		{
+			"filename": "resources/apps/tauri/tauri.conf.json",
+			"type": "json"
+		}
+	]
+}
