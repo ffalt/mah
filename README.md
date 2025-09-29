@@ -36,7 +36,11 @@ build with html5, svg, angular
 
 ## Additional boards
 
-Visit the <span style="font-size:1.5em;"> [Mahseum](https://ffalt.github.io/mahseum/) </span> where you can find an archive of boards nice people created for Kyodai Mahjongg. 
+Visit the 
+
+### [Mahseum](https://ffalt.github.io/mahseum/) 
+
+Where you can find an archive of boards nice people created for Kyodai Mahjongg.  
 Click on a board and select "Play it with Mah" to import it. 
 
 ## Acknowledgements
