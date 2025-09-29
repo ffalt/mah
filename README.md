@@ -72,7 +72,11 @@ In the SmartScreen dialog, click “More info” and then “Run anyway”.
 Why you see a warning: Google blocks apps to be installed from unknown sources by default.
 
 To install apps from unknown sources on an Android device, go to Settings, then Security or Apps, 
-and enable the option for Unknown Sources. This allows you to install apps from outside the Google Play Store
+and enable the option for Unknown Sources. This allows you to install apps from outside the Google Play Store.
+
+You need to know which processor family your device is running on. If you don't know, you can download all apk versions and safely try them out.
+Chances are it is `arm64` as it is the most used in current phones, so you can download `android-mah-x_y_z-arm64.apk` first, then `arm`, then `x86_64`, then `x86`.
+
 
 ## Development
 
