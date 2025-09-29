@@ -4,11 +4,11 @@
 
 # Mah - A Mahjong Solitaire Game
 
-Development repository of the original open source version of many Mahjong games out there.
+Development repository of the original open-source version behind many Mahjong games on the web.
 
 [Play Mahjong here](https://ffalt.github.io/mah/) - Completely free, no ads, no tracking.
 
-build with html5, svg, angular
+Built with HTML5, SVG, and Angular.
 
 [![license](https://img.shields.io/github/license/ffalt/mah.svg)](http://opensource.org/licenses/MIT)
 ![test](https://github.com/ffalt/mah/workflows/test/badge.svg)
@@ -18,35 +18,35 @@ build with html5, svg, angular
 
 ## Features
 
-* 63 boards to play
+* 63 built-in boards
 
-* Random boards generator for much more and challenging games
+* Random board generator for countless and more challenging games
 
-* 13 tile/piece image sets; light & dark themes
+* 13 tile/piece image sets; light and dark themes
 
-* 8 game backgrounds, 7 background colors
+* 8 game backgrounds and 7 background colors
 
-* 3 difficulties, 2 game setup generators
+* 3 difficulty levels and 2 game setup generators
 
-* Automatic save and restore of game state and your best times in your browser, not in any cloud
+* Automatic saving and restoring of game state and best times.   
+  In your browser only—nothing is stored in the cloud!
 
-* English, Deutsch, Nederlands, Português, русский, Español, Euskara, 日本語, Français
-
+* English, Deutsch, Nederlands, Português, Русский, Español, Euskara, 日本語, Français
   Want to help translate Mah? Please use <https://crowdin.com/project/mahjong>
 
 ## Additional boards/layouts
 
-Visit the 
+Visit the
 
-### [Mahjong Solitaire Layout Museum](https://ffalt.github.io/mahseum/) 
+### [Mahjong Solitaire Layout Museum](https://ffalt.github.io/mahseum/)
 
 Browse a curated archive of custom board layouts created by the Kyodai Mahjongg community.
-Simply click on any layout and select "Play it with Mah" to import it into your game.
+Click any layout and select “Play it with Mah” to import it into your game.
 
 ## Acknowledgements
 
-The art in Mah is based on other open source creating work.
-Please have a look at the credits for [Artwork](src/assets/svg/README.md), [Backgrounds](src/assets/img/README.md), [Sounds](src/assets/sounds/README.md) and [Fonts](src/assets/fonts/README.md).
+The art in Mah is based on other open-source creative work.
+Please have a look at the credits for [artwork](src/assets/svg/README.md), [backgrounds](src/assets/img/README.md), [sounds](src/assets/sounds/README.md), and [fonts](src/assets/fonts/README.md).
 
 ## Web releases
 
@@ -62,7 +62,7 @@ Currently provided artifacts include installers and package builds for Android, 
 
 > [!IMPORTANT]
 >
-> Unsigned apps/installers (macOS and Windows)
+> Unsigned apps/installers (macOS and Windows)  
 > At the moment, the macOS and Windows builds are not code-signed (and macOS builds are not notarized). 
 > Because of this, the operating system may warn or block the app the first time you try to run it. 
 > This is expected behavior for unsigned software and does not mean the files are malicious.
@@ -70,16 +70,16 @@ Currently provided artifacts include installers and package builds for Android, 
 
 #### macOS
 
-Why you see a warning: Gatekeeper blocks apps from unidentified developers (unsigned/not notarized).
-A scare note might say something about the app to be broken or unsafe, this is not true.
+Why you see a warning: Apple’s Gatekeeper blocks apps from unidentified developers (unsigned/not notarized).
+You might see a message claiming the app is damaged or unsafe - this is not true.
 
-To bypass Apples Gatekeeper, remove the quarantine attribute.
+To bypass Apple’s Gatekeeper, remove the quarantine attribute:
 
 ```shell
 xattr -dr com.apple.quarantine /Applications/mah.app
 ```
 
-There may be other ways to bypass depending on your MacOS, please search for your installed version.
+There may be other ways to proceed depending on your macOS version; please search for instructions specific to your version.
 
 #### Windows
 
@@ -89,23 +89,23 @@ In the SmartScreen dialog, click “More info” and then “Run anyway”.
 
 #### Android
 
-Why you see a warning: Google blocks apps to be installed from unknown sources by default.
+Why you see a warning: Android blocks installation from unknown sources by default.
 
 To install apps from unknown sources on an Android device, go to Settings, then Security or Apps, 
 and enable the option for Unknown Sources. This allows you to install apps from outside the Google Play Store.
 
-You need to know which processor family your device is running on. If you don't know, you can download all apk versions and safely try them out.
-Chances are it is `arm64` as it is the most used in current phones, so you can download `android-mah-x_y_z-arm64.apk` first, then `arm`, then `x86_64`, then `x86`.
+You need to know which processor architecture your device uses. If you don't know, you can safely try the APK variants.
+Most modern phones are `arm64`, so try `android-mah-x_y_z-arm64.apk` first, then `arm`, then `x86_64`, then `x86`. 
 
 
 ## Development
 
 ### Build Config
 
-The default game name is "Mah Jong", to change it
+The default game name is "Mah Jong". To change it:
 
-* copy file `custom-build-config.json.dist` to `custom-build-config.json`
-* edit the name in `custom-build-config.json` to your desired app name
+* Copy the file `custom-build-config.json.dist` to `custom-build-config.json`
+* Edit the name in `custom-build-config.json` to your desired app name
 
 ### Development server
 
@@ -113,7 +113,7 @@ Run `npm run start` for a dev server. Navigate to `http://localhost:4200/`. The 
 
 ### Build
 
-Run `npm run build` to build the project. The build artifacts will be stored in the `dist/` directory. Use `npm run build:prod` for a production build.
+Run `npm run build` to build the project. The build artifacts will be stored in the `dist/` directory. For a production build, use `npm run build:prod`.
 
 ### Running tests
 

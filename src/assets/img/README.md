@@ -1,3 +1,5 @@
+# Background images
+
 `grass-1.jpg`
 `stones-1.jpg`
 `wood-grain-1.jpg`
