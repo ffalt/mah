@@ -1,11 +1,11 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
   "productName": "mah",
-  "version": "1.8.1",
+  "version": "1.8.2",
   "identifier": "io.github.ffalt.mah",
   "build": {
-		"removeUnusedCommands": true,
-		"beforeDevCommand": "cd ../../ && npm run start",
+    "removeUnusedCommands": true,
+    "beforeDevCommand": "cd ../../ && npm run start",
     "devUrl": "http://localhost:1420",
     "beforeBuildCommand": "cd ../../ && npm run build:apps",
     "frontendDist": "../../../dist/"
@@ -16,8 +16,8 @@
         "title": "Mah",
         "width": 1024,
         "height": 800,
-				"maximized": true,
-				"center": true
+        "maximized": true,
+        "center": true
       }
     ],
     "security": {
@@ -34,13 +34,13 @@
       "icons/icon.icns",
       "icons/icon.ico"
     ],
-		"macOS": {
-			"signingIdentity": "-"
-		},
-		"windows": {
-			"certificateThumbprint": null,
-			"digestAlgorithm": "sha256",
-			"timestampUrl": ""
-		}
-	}
+    "macOS": {
+      "signingIdentity": "-"
+    },
+    "windows": {
+      "certificateThumbprint": null,
+      "digestAlgorithm": "sha256",
+      "timestampUrl": ""
+    }
+  }
 }

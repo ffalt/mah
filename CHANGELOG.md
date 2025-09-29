@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [1.8.2](https://github.com/ffalt/mah/compare/v1.8.1...v1.8.2) (2025-09-29)
+
+
+### Bug Fixes
+
+* **board:** if zoomed, avoid unselecting stone on panning ([c45bdff](https://github.com/ffalt/mah/commit/c45bdff4a9189211d4c76161dc0b2b490f7af0a7))
+
 ## [1.8.1](https://github.com/ffalt/mah/compare/v1.8.0...v1.8.1) (2025-09-28)
 
 

@@ -1,18 +1,18 @@
 {
   "name": "tauri-mah",
-  "version": "1.8.1",
+  "version": "1.8.2",
   "scripts": {
     "build": "tauri build",
-		"windows": "tauri build --target x86_64-pc-windows-msvc && npm run rename-windows",
-		"linux": "tauri build && npm run rename-linux",
-		"macos": "tauri build --bundles dmg --target aarch64-apple-darwin && npm run rename-macos",
-		"android:aab": "tauri android build --aab",
-		"android:apk": "tauri android build --apk --split-per-abi",
-		"rename-linux": "./rename-linux.sh",
-		"rename-macos": "./rename-macos.sh",
-		"rename-windows": "powershell -ExecutionPolicy Bypass -File ./rename-win.ps1",
-		"tauri": "tauri",
-		"icons": "tauri icon ./logo.svg"
+    "windows": "tauri build --target x86_64-pc-windows-msvc && npm run rename-windows",
+    "linux": "tauri build && npm run rename-linux",
+    "macos": "tauri build --bundles dmg --target aarch64-apple-darwin && npm run rename-macos",
+    "android:aab": "tauri android build --aab",
+    "android:apk": "tauri android build --apk --split-per-abi",
+    "rename-linux": "./rename-linux.sh",
+    "rename-macos": "./rename-macos.sh",
+    "rename-windows": "powershell -ExecutionPolicy Bypass -File ./rename-win.ps1",
+    "tauri": "tauri",
+    "icons": "tauri icon ./logo.svg"
   },
   "private": true,
   "dependencies": {
