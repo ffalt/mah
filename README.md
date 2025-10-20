@@ -46,7 +46,7 @@ Click any layout and select “Play it with Mah” to import it into your game.
 ## Acknowledgements
 
 The art in Mah is based on open-source creative work.
-Please have a look at the credits for [artwork](src/assets/svg/README.md), [backgrounds](src/assets/img/README.md), [sounds](src/assets/sounds/README.md), and [fonts](src/fonts/README.md).
+Please have a look at the credits for [artwork](src/assets/svg/README.md), [backgrounds](src/assets/img/README.md), [sounds](src/assets/sounds/README.md) and [fonts](src/fonts/README.md).
 
 ## Web releases
 
