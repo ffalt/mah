@@ -40,8 +40,7 @@ export function generateExportKmahjongg(layout: Layout): string {
 		matrix.setValue(z, x, y + 1, 4);
 		matrix.setValue(z, x + 1, y + 1, 3);
 	}
-	const result: Array<string> = [];
-	result.push(
+	const result: Array<string> = [
 		'mahjongg-layout-v1.1',
 		`# name: ${layout.name}`,
 		`# by: ${layout.by}`,
@@ -51,7 +50,7 @@ export function generateExportKmahjongg(layout: Layout): string {
 		`h${bounds.y + 1}`,
 		'# Board depth',
 		`d${bounds.z}`
-	);
+	];
 	for (const [z, level] of matrix.levels.entries()) {
 		const t = `# Level ${z} `;
 		result.push(`${t}${'-'.repeat(Math.max(bounds.x - t.length, 0))}`);
