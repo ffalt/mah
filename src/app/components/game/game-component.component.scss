@@ -5,9 +5,8 @@
 	display: flex;
 	flex-flow: column nowrap;
 	width: 100%;
+	height: 100%;
 	background-color: var(--main-bg-color);
-
-	@include mixins.full-height;
 
 	&.dkgreen {
 		--main-bg-color: #19262e;
@@ -338,8 +337,8 @@
 			}
 		}
 
-		padding-left: 52px;
-		padding-right: 52px;
+		padding-left: calc(52px + env(safe-area-inset-left));
+		padding-right: calc(52px + env(safe-area-inset-right));
 
 		.controls-top {
 			min-width: unset;
@@ -347,9 +346,9 @@
 			padding: 0;
 			display: flex;
 			flex-direction: column;
-			height: 100%;
+			height: calc(100% - env(safe-area-inset-top) - env(safe-area-inset-bottom));
 			position: absolute;
-			left: 0;
+			left: env(safe-area-inset-left);
 			justify-content: space-between;
 
 			.ctrl.ctrl-name {
@@ -380,9 +379,9 @@
 			max-width: 98px;
 			display: flex;
 			flex-direction: column;
-			height: 100%;
+			height: calc(100% - env(safe-area-inset-top) - env(safe-area-inset-bottom));
 			position: absolute;
-			right: 0;
+			right: env(safe-area-inset-right);
 			padding: 0;
 			align-items: flex-end;
 

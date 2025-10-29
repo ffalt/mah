@@ -8,6 +8,7 @@
     "macos": "tauri build --bundles dmg --target aarch64-apple-darwin && npm run rename-macos",
     "android:aab": "tauri android build --aab",
     "android:apk": "tauri android build --apk --split-per-abi",
+    "android:dev": "tauri android dev",
     "rename-linux": "./rename-linux.sh",
     "rename-macos": "./rename-macos.sh",
     "rename-windows": "powershell -ExecutionPolicy Bypass -File ./rename-win.ps1",

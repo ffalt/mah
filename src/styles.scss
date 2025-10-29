@@ -49,11 +49,7 @@ html {
 	--preview-overlay-text-shadow: #000;
 	--gesture-indicator: #42a5f5;
 	--overlay-popup-shadow: 5px 5px 5px 0px rgb(0 0 0 / 75%);
-
-	width: 100%;
 	background-color: var(--main-bg-color);
-
-	@include mixins.full-height;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -79,13 +75,8 @@ html {
 body {
 	font-family: variables.$text-font;
 	background-color: var(--main-bg-color);
-	padding: 0;
-	margin: 0;
-	width: 100%;
 	font-size: variables.$base-font-size;
 	line-height: variables.$base-line-height;
-
-	@include mixins.full-height;
 }
 
 button, select {
@@ -124,13 +115,14 @@ p {
 
 .overlay {
 	height: 100svh;
-	width: 100%;
+	width: 100svw;
 	position: fixed;
 	top: 0;
 	left: 0;
 	z-index: 10000;
 	background-color: rgb(0 0 0 / 20%);
 	max-height: 100%;
+	max-width: 100%;
 	font-size: variables.$base-font-size * 0.9;
 
 	button, select {
@@ -172,8 +164,8 @@ p {
 		top: 50%;
 		left: 50%;
 		transform: translate(-50%, -50%);
-		max-height: 98%;
-		max-width: 98%;
+		max-height: calc(98% - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+		max-width: calc(98% - env(safe-area-inset-left) - env(safe-area-inset-right));
 		margin-left: auto;
 		margin-right: auto;
 		border: 1px solid var(--dialog-border-color);
