@@ -1,6 +1,6 @@
 [package]
 name = "mah"
-version = "0.1.0"
+version = "1.9.0"
 description = "A Tauri App"
 authors = ["ffalt"]
 edition = "2021"

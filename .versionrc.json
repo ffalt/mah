@@ -19,6 +19,10 @@
 		{
 			"filename": "resources/apps/tauri/tauri.conf.json",
 			"type": "json"
+		},
+		{
+			"filename": "resources/apps/tauri/Cargo.toml",
+			"updater": "resources/apps/cargo-updater.js"
 		}
 	]
 }
