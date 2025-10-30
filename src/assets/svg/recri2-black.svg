@@ -1,14 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="675" height="800">
 	<defs>
 		<style>
-			.r-r2b {fill: #fc3a3a;}
+			.r-r2b {fill: #f0a023;}
 			.g-r2b {fill: #03c203;}
 			.b-r2b {fill: #dbdbff;}
-			.db-r2b {fill: #2626ff;}
+			.db-r2b {fill: #568fb8;}
 			.o-r2b {fill: #BFAA52;}
 			.n {fill: none;}
-			.s-r-r2b {stroke: #fc3a3a;}
-			.s-db-r2b {stroke: #2626ff;}
+			.s-r-r2b {stroke: #f0a023;}
+			.s-db-r2b {stroke: #568fb8;}
 			.s-g-r2b {stroke: #03c203;}
 
 			.s-o1-r2b {stroke: #678ED3;}

@@ -237,30 +237,49 @@ async function loadImage(tileSetUrl: string): Promise<HTMLImageElement> {
 	});
 }
 
-const kyodai = [
-	['t_do1', 't_do2', 't_do3', 't_do4', 't_do5', 't_do6', 't_do7', 't_do8', 't_do9'],
-	['t_ba1', 't_ba2', 't_ba3', 't_ba4', 't_ba5', 't_ba6', 't_ba7', 't_ba8', 't_ba9'],
-	['t_ch1', 't_ch2', 't_ch3', 't_ch4', 't_ch5', 't_ch6', 't_ch7', 't_ch8', 't_ch9'],
-	['t_se_winter', 't_se_spring', 't_se_summer', 't_se_fall', 't_wi_north', 't_wi_south', 't_wi_east', 't_wi_west'],
-	['t_fl_bamboo', 't_fl_plum', 't_fl_orchid', 't_fl_chrysanthemum', 't_dr_green', 't_dr_white', 't_dr_red']
-];
+export function buildTiles(tiles: Array<Array<string>>, imageID: number, rowHeight: number, colWidth: number): string {
+	let result = '';
+	for (const [nr, row] of tiles.entries()) {
+		const y = nr * rowHeight;
+		for (const [col, id] of row.entries()) {
+			const x = col * colWidth;
+			result += `<svg preserveAspectRatio="xMidYMid slice" id="${id}" width="75" height="100" viewBox="${x} ${y} ${colWidth} ${rowHeight}"><use xlink:href="#${imageID}"></use></svg>`;
+		}
+	}
+	return result;
+}
 
 export async function buildKyodaiSVG(tileSetUrl?: string): Promise<string> {
 	if (!tileSetUrl) {
 		return '<svg><defs></defs></svg>';
 	}
+
+	const range = (start: number, end: number) => [...(Array.from({ length: end })).keys()].map(x => x + start);
+
+	const kyodai = [
+		range(1, 9).map(nr => `do${nr}`),
+		range(1, 9).map(nr => `ba${nr}`),
+		range(1, 9).map(nr => `ch${nr}`),
+		['se_winter', 'se_spring', 'se_summer', 'se_fall', 'wi_north', 'wi_south', 'wi_east', 'wi_west'],
+		['fl_bamboo', 'fl_plum', 'fl_orchid', 'fl_chrysanthemum', 'dr_green', 'dr_white', 'dr_red']
+	].map(row => row.map(id => `t_${id}`));
+
+	const kyodaiExtra = [
+		range(1, 9).map(nr => `g${nr}`),
+		range(10, 9).map(nr => `g${nr}`),
+		range(1, 9).map(nr => `e${nr}`)
+	].map(row => row.map(id => `t_${id}`));
+
 	const image = await loadImage(tileSetUrl);
 	const rowHeight = image.height / 5;
 	const colWidth = image.width / 9;
-	const image_id = hashCode(tileSetUrl);
-	let data = `<svg><defs><image id="${image_id}" xlink:href="${tileSetUrl}" x="0" y="0" height="${image.height}" width="${image.width}"/>`;
-	for (const [nr, row] of kyodai.entries()) {
-		const y = nr * rowHeight;
-		for (const [col, id] of row.entries()) {
-			const x = col * colWidth;
-			data += `<svg preserveAspectRatio="xMidYMid slice" id="${id}" width="75" height="100" viewBox="${x} ${y} ${colWidth} ${rowHeight}"><use xlink:href="#${image_id}"></use></svg>`;
-		}
-	}
-	data += '</defs></svg>';
-	return data;
+	const imageID = hashCode(tileSetUrl);
+	const extraID = hashCode('kyodai-extra');
+	return `<svg><defs>
+<image id="${imageID}" xlink:href="${tileSetUrl}" x="0" y="0" height="${image.height}" width="${image.width}"/>
+<image id="${extraID}" xlink:href="/assets/svg/kyodai-extra.png" x="0" y="0" height="300" width="675"/>
+${buildTiles(kyodai, imageID, rowHeight, colWidth)}
+${buildTiles(kyodaiExtra, extraID, 100, 75)}
+</defs></svg>
+`;
 }

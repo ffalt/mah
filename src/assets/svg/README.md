@@ -11,11 +11,6 @@ by https://www.figma.com/@yanliu
 svg tiles build on https://github.com/cheshire137/Mahjong/tree/master/app/assets/images/tiles  
 by https://github.com/cheshire137
 
-## `gleitz.svg`
-based on images from https://github.com/gleitz/mahjong/tree/master/public/img/tiles  
-MIT https://github.com/gleitz/mahjong/blob/master/LICENSE  
-by https://github.com/gleitz
-
 ## `recri.svg`
 images used from https://github.com/recri/mahjong  
 by https://github.com/recri  

@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="675" height="800">
     <defs>
-        <image id="recri_image" xlink:href="./recri/recri.png" x="0" y="0" width="7128" height="216"/>
+        <image id="recri_image" xlink:href="./recri.png" x="0" y="0" width="7128" height="216"/>
         <svg id="t_do1" viewBox="0 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#recri_image"/></svg>
         <svg id="t_do2" viewBox="170 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#recri_image"/></svg>
         <svg id="t_do3" viewBox="340 0 170 215" x="0" y="0" height="100" width="75"><use xlink:href="#recri_image"/></svg>

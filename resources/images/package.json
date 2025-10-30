@@ -1,0 +1,34 @@
+{
+  "name": "images",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+		"cheshire": "node stitch-pngs.mjs --cellWidth 120 --cellHeight 160 --svg cheshire137.svg --dir ./cheshire137 --out ../../src/assets/svg/cheshire137.png --colors256 --oxipng",
+		"cheshire:parts": "node svg-to-png.mjs --src ./cheshire137.svg --png cheshire137.png --out cheshire137",
+		"cheshire-black": "node stitch-pngs.mjs --cellWidth 120 --cellHeight 160 --svg cheshire137-black.svg --dir ./cheshire137-black --out ../../src/assets/svg/cheshire137-black.png --colors256 --oxipng",
+		"cheshire-black:parts": "node svg-to-png.mjs --src ./cheshire137-black.svg --png cheshire137-black.png --out cheshire137-black",
+		"modern": "node stitch-pngs.mjs --cellWidth 160 --cellHeight 213 --svg modern.svg --dir ./modern --out ../../src/assets/svg/modern.png --colors256 --oxipng",
+		"modern:parts": "node svg-to-png.mjs --src ./modern.svg --png modern.png --out modern",
+		"modern-black": "node stitch-pngs.mjs --cellWidth 160 --cellHeight 213 --svg modern-black.svg --dir ./modern-black --out ../../src/assets/svg/modern-black.png --colors256 --oxipng",
+		"modern-black:parts": "node svg-to-png.mjs --src ./modern-black.svg --png modern.png --out modern-black",
+		"picasso": "node stitch-pngs.mjs --cellWidth 160 --cellHeight 213 --svg picasso.svg --dir ./picasso --out ../../src/assets/svg/picasso.png --colors256 --oxipng",
+		"picasso:parts": "node svg-to-png.mjs --src ./picasso.svg --png picasso.png --out picasso",
+		"picasso-black": "node stitch-pngs.mjs --cellWidth 160 --cellHeight 213 --svg picasso-black.svg --dir ./picasso --out ../../src/assets/svg/picasso-black.png --colors256 --oxipng",
+		"picasso-black:parts": "node svg-to-png.mjs --src ./picasso-black.svg --png picasso-black.png --out picasso-black",
+    "animals": "node svg-to-png.mjs --src ./animals.svg --png ../../src/assets/svg/animals.png --colors256 --oxipng",
+    "animals:parts": "node svg-to-png.mjs --src ./animals.svg --png ../../src/assets/svg/animals/animals.png --out ../../src/assets/svg/animals/images --colors256 --oxipng",
+    "classic": "node stitch-pngs.mjs --cellWidth 160 --cellHeight 213 --svg classic.svg --dir ./classic --out ../../src/assets/svg/classic.png --colors256 --oxipng",
+    "classic:parts": "node svg-to-png.mjs --src ./classic.svg --png classic.png --out classic",
+    "classic-black": "node stitch-pngs.mjs --cellWidth 160 --cellHeight 213 --svg classic-black.svg --dir ./classic-black --out ../../src/assets/svg/classic-black.png --colors256 --oxipng",
+    "classic-black:parts": "node svg-to-png.mjs --src ./classic-black.svg --png classic.png --out classic-black",
+    "fruits": "node stitch-pngs.mjs --cellWidth 80 --cellHeight 106 --svg open-fruits.svg --dir ./open-fruits --out ../../src/assets/svg/open-fruits.png --colors256 --oxipng",
+		"kyodai": "node svg-to-png.mjs --src ./kyodai.svg --png ../../src/assets/svg/kyodai-extra.png --colors256 --oxipng --cellWidth 75 --cellHeight 100 --start-row 6"
+  },
+  "dependencies": {
+    "sharp": "^0.34.4"
+  }
+}

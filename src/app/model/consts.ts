@@ -68,8 +68,7 @@ export const ImageSets = [
 	{ id: 'uni', type: 'SVG', name: 'Uni' },
 	{ id: 'cheshire137', type: 'SVG', name: 'Cheshire' },
 	{ id: 'recri2', type: 'SVG', name: 'Recri 2' },
-	{ id: 'unib', type: 'SVG', name: 'Black' },
-	{ id: 'gleitz', type: 'PNG', name: 'Gleitz' },
+	{ id: 'unib', type: 'SVG', name: 'Black & White' },
 	{ id: 'recri', type: 'PNG', name: 'Recri' },
 	{ id: 'classic', type: 'PNG', name: 'Classic' }
 ];

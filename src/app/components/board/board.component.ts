@@ -97,7 +97,7 @@ export class BoardComponent implements OnInit, OnChanges {
 			this.urlPrefix = `#b_${changes.imageSet.currentValue}_`;
 			const isKyodai = imageSetIsKyodai(changes.imageSet.currentValue);
 			this.imagePos = isKyodai ? [0, 0, 75, 100] : [6, 6, 63, 88];
-			this.imageCut = isKyodai ? [0, 0, 75, 100] : [0, 0, 65, 90];
+			this.imageCut = isKyodai ? [1, 1, 73, 98] : [0, 0, 65, 90];
 		}
 	}
 
