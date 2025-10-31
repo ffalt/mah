@@ -5,8 +5,8 @@
   "identifier": "io.github.ffalt.mah",
   "build": {
     "removeUnusedCommands": true,
-    "beforeDevCommand": "cd ../../ && npm run start",
-    "devUrl": "http://localhost:1420",
+    "beforeDevCommand": "cd ../../ && npm run start:development:apps",
+    "devUrl": "http://0.0.0.0:4200",
     "beforeBuildCommand": "cd ../../ && npm run build:apps",
     "frontendDist": "../../../dist/"
   },
