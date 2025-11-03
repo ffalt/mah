@@ -23,6 +23,14 @@
 		flex-direction: row;
 		justify-content: space-between;
 		padding-top: 14px;
+
+		label {
+			margin-left: 8px;
+
+			checkbox {
+				margin-left: 4px;
+			}
+		}
 	}
 
 	.tiles-content {
