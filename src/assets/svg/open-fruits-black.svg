@@ -82,6 +82,7 @@
 		<svg id="t_e9" x="0" y="0" height="106px" width="80px" viewBox="640 742 80 106"><use xlink:href="#fruits"/></svg>
 	</defs>
 	<g id="t_preview">
+		<path d="M0 0h675v800H0z"/>
 		<use x="0" y="0" height="100px" width="75px" xlink:href="#t_do1"/>
 		<use x="75" y="0" height="100px" width="75px" xlink:href="#t_do2"/>
 		<use x="150" y="0" height="100px" width="75px" xlink:href="#t_do3"/>
