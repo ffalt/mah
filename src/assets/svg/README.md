@@ -7,6 +7,11 @@ and https://www.figma.com/community/file/971858608510421966
 and https://www.figma.com/community/file/979478202048533337  
 by https://www.figma.com/@yanliu
 
+## `space.svg`
+svg tiles build on https://goodstuffnononsense.com/hand-drawn-icons/space-icons/
+Creative Commons Attribution 4.0 International License. https://creativecommons.org/licenses/by/4.0/  
+by Good Stuff No Nonsense https://goodstuffnononsense.com/
+
 ## `cheshire137.svg`
 svg tiles build on https://github.com/cheshire137/Mahjong/tree/master/app/assets/images/tiles  
 by https://github.com/cheshire137
