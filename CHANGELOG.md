@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [1.10.0](https://github.com/ffalt/mah/compare/v1.9.0...v1.10.0) (2025-11-09)
+
+
+### Features
+
+* **svg:** add space svgs ([69ed442](https://github.com/ffalt/mah/commit/69ed442ea11e6ec538071929d98ad9b1cfd89dc5))
+* **svg:** cleanup, remove low-resolution sets and support low-performance devices ([e78e981](https://github.com/ffalt/mah/commit/e78e9817f64bcfcf8ec07717c2c58a5df18ffe0a))
+
+
+### Bug Fixes
+
+* **mobile:** don't show pinch indicator on touch start ([494b7ab](https://github.com/ffalt/mah/commit/494b7ab45b072796cbb752bbee6a7e22d528fbb0))
+
 ## [1.9.0](https://github.com/ffalt/mah/compare/v1.8.2...v1.9.0) (2025-10-29)
 
 ### Features
