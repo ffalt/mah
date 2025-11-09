@@ -58,20 +58,27 @@ export const Backgrounds: Array<{ img?: string; name: string; small?: boolean }>
 	{ img: 'wood-grain-1', name: 'BACK_GRAY_WOOD_GRAIN' }
 ];
 
+export const Licenses: Record<string, string> = {
+	cca: 'Creative Commons Attribution 4.0 International License',
+	gpl: 'GNU General Public License 3',
+	free: 'License free',
+	per: 'Personal projects',
+	pub: 'Public domain'
+};
+
 export const ImageSets = [
-	{ id: 'riichi', type: 'SVG', name: 'Riichi 2' },
-	{ id: 'picasso', type: 'PNG', name: 'Picasso' },
-	{ id: 'modern', type: 'PNG', name: 'Modern' },
-	{ id: 'animals', type: 'SVG', name: 'Animals' },
-	{ id: 'open-fruits', type: 'PNG', name: 'Fruits' },
-	{ id: 'space', type: 'SVG', name: 'Space' },
-	{ id: 'riichi-old', type: 'SVG', name: 'Riichi' },
-	{ id: 'uni', type: 'SVG', name: 'Uni' },
-	{ id: 'cheshire137', type: 'SVG', name: 'Cheshire' },
-	{ id: 'unib', type: 'SVG', name: 'Black & White' },
-	{ id: 'recri2', type: 'SVG', name: 'Recri 2' },
-	{ id: 'recri', type: 'PNG', name: 'Recri' },
-	{ id: 'classic', type: 'PNG', name: 'Classic' }
+	{ id: 'riichi', type: 'SVG', name: 'Riichi 2', license: 'cca' },
+	{ id: 'picasso', type: 'PNG', name: 'Picasso', license: 'gpl' },
+	{ id: 'modern', type: 'PNG', name: 'Modern', license: 'gpl' },
+	{ id: 'animals', type: 'SVG', name: 'Animals', license: 'per' },
+	{ id: 'open-fruits', type: 'PNG', name: 'Fruits', license: 'free' },
+	{ id: 'space', type: 'SVG', name: 'Space', license: 'cca' },
+	{ id: 'riichi-old', type: 'SVG', name: 'Riichi', license: 'cca' },
+	{ id: 'uni', type: 'SVG', name: 'Uni', license: 'pub' },
+	{ id: 'cheshire137', type: 'SVG', name: 'Taksuyu', license: 'free' },
+	{ id: 'unib', type: 'SVG', name: 'Black & White', license: 'pub' },
+	{ id: 'recri2', type: 'SVG', name: 'Recri 2', license: 'free' },
+	{ id: 'classic', type: 'PNG', name: 'Classic', license: 'gpl' }
 ];
 
 export const ImageSetDefault = 'riichi';

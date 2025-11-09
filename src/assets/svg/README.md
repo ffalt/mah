@@ -1,7 +1,6 @@
 # Mahjong tiles
 
 ## `animals.svg`
-
 svg tiles build on https://www.figma.com/community/file/996834837432309369  
 and https://www.figma.com/community/file/971858608510421966  
 and https://www.figma.com/community/file/979478202048533337  
@@ -14,14 +13,10 @@ by Good Stuff No Nonsense https://goodstuffnononsense.com/
 
 ## `cheshire137.svg`
 svg tiles build on https://github.com/cheshire137/Mahjong/tree/master/app/assets/images/tiles  
-by https://github.com/cheshire137
-
-## `recri.svg`
-images used from https://github.com/recri/mahjong  
-by https://github.com/recri  
+by https://github.com/taksuyu/tile-art
 
 ## `recri2.svg`
-svg tiles build on https://github.com/recri/mahjong  
+svg tiles build on https://github.com/recri/mahjong-pwa-old  
 by https://github.com/recri
 
 ## `riichi-old.svg`
@@ -48,11 +43,21 @@ Public Domain. https://en.wikipedia.org/wiki/en:public_domain
 by https://commons.wikimedia.org/wiki/User:Shizhao  
 
 ## `open-fruits.svg`
-based on images from https://github.com/xunkar/open-mahjong/tree/master/resources/tiles/fruits  
+based on images from https://web.archive.org/web/20180611020103/https://github.com/xunkar/open-mahjong/  
 by https://github.com/xunkar  
 
-## `picasso.svg` `classic.svg` `modern.svg`
-based on images from http://star.physics.yale.edu/~ullrich/software/SolitaireMahjong/  
+## `picasso.svg`
+based on images from https://star.physics.yale.edu/~ullrich/software/SolitaireMahjong/
+GNU General Public License 3 http://www.gnu.org/licenses/  
+by Thomas S. Ullrich
+
+## `classic.svg`
+based on images from https://star.physics.yale.edu/~ullrich/software/SolitaireMahjong/
+GNU General Public License 3 http://www.gnu.org/licenses/  
+by Thomas S. Ullrich
+
+## `modern.svg`
+based on images from https://star.physics.yale.edu/~ullrich/software/SolitaireMahjong/
 GNU General Public License 3 http://www.gnu.org/licenses/  
 by Thomas S. Ullrich
 
@@ -71,3 +76,19 @@ based on images from https://commons.wikimedia.org/wiki/Category:SVG_Oblique_ill
 by https://commons.wikimedia.org/wiki/User:Cangjie6  
 
 https://creativecommons.org/licenses/by-sa/4.0/deed.en
+
+
+### removed - no longer used
+
+## `recri.svg`
+images used from https://github.com/recri/mahjong-pwa-old  
+by https://github.com/recri
+
+#### `gleitz.svg`
+based on images from https://github.com/gleitz/mahjong/tree/master/public/img/tiles  
+MIT https://github.com/gleitz/mahjong/blob/master/LICENSE  
+by https://github.com/gleitz
+
+#### `bzhmaddog.svg`
+svg tiles build on https://github.com/bzhmaddog/html5-mahjong-solitaire/tree/master/res/skins/default/tiles
+by https://github.com/bzhmaddog 
