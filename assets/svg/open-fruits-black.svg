@@ -1,83 +1,88 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="675" height="800">
-    <defs>
-			<image id="t_do1" xlink:href="./open-fruits/orange.png" x="0" y="0" height="88px" width="63px"/>
-			<image id="t_do2" xlink:href="./open-fruits/peach.png" x="0" y="0" height="88px" width="63px"/>
-			<image id="t_do3" xlink:href="./open-fruits/lime.png" x="0" y="0" height="88px" width="63px"/>
-			<image id="t_do4" xlink:href="./open-fruits/lemon.png" x="0" y="0" height="88px" width="63px"/>
-			<image id="t_do5" xlink:href="./open-fruits/tangerine.png" x="0" y="0" height="88px" width="63px"/>
-			<image id="t_do6" xlink:href="./open-fruits/plum.png" x="0" y="0" height="88px" width="63px"/>
-			<image id="t_do7" xlink:href="./open-fruits/papaya.png" x="0" y="0" height="88px" width="63px"/>
-			<image id="t_do8" xlink:href="./open-fruits/mango.png" x="0" y="0" height="88px" width="63px"/>
-			<image id="t_do9" xlink:href="./open-fruits/apricot.png" x="0" y="0" height="88px" width="63px"/>
+	<defs>
+		<image id="fruits" xlink:href="./open-fruits.png" x="0" y="0" width="720" height="848"/>
 
-        <image id="t_ba1" xlink:href="./open-fruits/apple.png" x="0" y="0" height="88px" width="63px"/>
-        <image id="t_ba2" xlink:href="./open-fruits/applegreen.png" x="0" y="0" height="88px" width="63px"/>
-        <image id="t_ba3" xlink:href="./open-fruits/pear.png" x="0" y="0" height="88px" width="63px"/>
-        <image id="t_ba4" xlink:href="./open-fruits/asianpear.png" x="0" y="0" height="88px" width="63px"/>
-        <image id="t_ba5" xlink:href="./open-fruits/guava.png" x="0" y="0" height="88px" width="63px"/>
-        <image id="t_ba6" xlink:href="./open-fruits/cantaloupe.png" x="0" y="0" height="88px" width="63px"/>
-        <image id="t_ba7" xlink:href="./open-fruits/pomegranate.png" x="0" y="0" height="88px" width="63px"/>
-        <image id="t_ba8" xlink:href="./open-fruits/coconut.png" x="0" y="0" height="88px" width="63px"/>
-        <image id="t_ba9" xlink:href="./open-fruits/kiwi.png" x="0" y="0" height="88px" width="63px"/>
+		<svg id="t_do1" x="0" y="0" height="106px" width="80px" viewBox="0 0 80 106"><use xlink:href="#fruits"/></svg>
+		<svg id="t_do2" x="0" y="0" height="106px" width="80px" viewBox="80 0 80 106"><use xlink:href="#fruits"/></svg>
+		<svg id="t_do3" x="0" y="0" height="106px" width="80px" viewBox="160 0 80 106"><use xlink:href="#fruits"/></svg>
+		<svg id="t_do4" x="0" y="0" height="106px" width="80px" viewBox="240 0 80 106"><use xlink:href="#fruits"/></svg>
+		<svg id="t_do5" x="0" y="0" height="106px" width="80px" viewBox="320 0 80 106"><use xlink:href="#fruits"/></svg>
+		<svg id="t_do6" x="0" y="0" height="106px" width="80px" viewBox="400 0 80 106"><use xlink:href="#fruits"/></svg>
+		<svg id="t_do7" x="0" y="0" height="106px" width="80px" viewBox="480 0 80 106"><use xlink:href="#fruits"/></svg>
+		<svg id="t_do8" x="0" y="0" height="106px" width="80px" viewBox="560 0 80 106"><use xlink:href="#fruits"/></svg>
+		<svg id="t_do9" x="0" y="0" height="106px" width="80px" viewBox="640 0 80 106"><use xlink:href="#fruits"/></svg>
 
-				<image id="t_ch1" xlink:href="./open-fruits/strawberry.png" x="0" y="0" height="88px" width="63px"/>
-        <image id="t_ch2" xlink:href="./open-fruits/raspberry.png" x="0" y="0" height="88px" width="63px"/>
-        <image id="t_ch3" xlink:href="./open-fruits/blackberry.png" x="0" y="0" height="88px" width="63px"/>
-        <image id="t_ch4" xlink:href="./open-fruits/blueberries.png" x="0" y="0" height="88px" width="63px"/>
-        <image id="t_ch5" xlink:href="./open-fruits/pineapple.png" x="0" y="0" height="88px" width="63px"/>
-        <image id="t_ch6" xlink:href="./open-fruits/cherries2.png" x="0" y="0" height="88px" width="63px"/>
-        <image id="t_ch7" xlink:href="./open-fruits/banana.png" x="0" y="0" height="88px" width="63px"/>
-        <image id="t_ch8" xlink:href="./open-fruits/mangosteen.png" x="0" y="0" height="88px" width="63px"/>
-        <image id="t_ch9" xlink:href="./open-fruits/fig.png" x="0" y="0" height="88px" width="63px"/>
+		<svg id="t_ch1" x="0" y="0" height="106px" width="80px" viewBox="0 106 80 106"><use xlink:href="#fruits"/></svg>
+		<svg id="t_ch2" x="0" y="0" height="106px" width="80px" viewBox="80 106 80 106"><use xlink:href="#fruits"/></svg>
+		<svg id="t_ch3" x="0" y="0" height="106px" width="80px" viewBox="160 106 80 106"><use xlink:href="#fruits"/></svg>
+		<svg id="t_ch4" x="0" y="0" height="106px" width="80px" viewBox="240 106 80 106"><use xlink:href="#fruits"/></svg>
+		<svg id="t_ch5" x="0" y="0" height="106px" width="80px" viewBox="320 106 80 106"><use xlink:href="#fruits"/></svg>
+		<svg id="t_ch6" x="0" y="0" height="106px" width="80px" viewBox="400 106 80 106"><use xlink:href="#fruits"/></svg>
+		<svg id="t_ch7" x="0" y="0" height="106px" width="80px" viewBox="480 106 80 106"><use xlink:href="#fruits"/></svg>
+		<svg id="t_ch8" x="0" y="0" height="106px" width="80px" viewBox="560 106 80 106"><use xlink:href="#fruits"/></svg>
+		<svg id="t_ch9" x="0" y="0" height="106px" width="80px" viewBox="640 106 80 106"><use xlink:href="#fruits"/></svg>
 
-        <image id="t_se_spring" xlink:href="./open-fruits/cocktail.png" x="0" y="0" height="88px" width="63px"/>
-        <image id="t_se_summer" xlink:href="./open-fruits/cocktail.png" x="0" y="0" height="88px" width="63px"/>
-        <image id="t_se_fall" xlink:href="./open-fruits/cocktail.png" x="0" y="0" height="88px" width="63px"/>
-        <image id="t_se_winter" xlink:href="./open-fruits/cocktail.png" x="0" y="0" height="88px" width="63px"/>
+		<svg id="t_ba1" x="0" y="0" height="106px" width="80px" viewBox="0 212 80 106"><use xlink:href="#fruits"/></svg>
+		<svg id="t_ba2" x="0" y="0" height="106px" width="80px" viewBox="80 212 80 106"><use xlink:href="#fruits"/></svg>
+		<svg id="t_ba3" x="0" y="0" height="106px" width="80px" viewBox="160 212 80 106"><use xlink:href="#fruits"/></svg>
+		<svg id="t_ba4" x="0" y="0" height="106px" width="80px" viewBox="240 212 80 106"><use xlink:href="#fruits"/></svg>
+		<svg id="t_ba5" x="0" y="0" height="106px" width="80px" viewBox="320 212 80 106"><use xlink:href="#fruits"/></svg>
+		<svg id="t_ba6" x="0" y="0" height="106px" width="80px" viewBox="400 212 80 106"><use xlink:href="#fruits"/></svg>
+		<svg id="t_ba7" x="0" y="0" height="106px" width="80px" viewBox="480 212 80 106"><use xlink:href="#fruits"/></svg>
+		<svg id="t_ba8" x="0" y="0" height="106px" width="80px" viewBox="560 212 80 106"><use xlink:href="#fruits"/></svg>
+		<svg id="t_ba9" x="0" y="0" height="106px" width="80px" viewBox="640 212 80 106"><use xlink:href="#fruits"/></svg>
 
-        <image id="t_wi_north" xlink:href="./open-fruits/melon.png" x="0" y="0" height="88px" width="63px"/>
-        <image id="t_wi_south" xlink:href="./open-fruits/melon2.png" x="0" y="0" height="88px" width="63px"/>
-        <image id="t_wi_east" xlink:href="./open-fruits/melon3.png" x="0" y="0" height="88px" width="63px"/>
-        <image id="t_wi_west" xlink:href="./open-fruits/watermelon.png" x="0" y="0" height="88px" width="63px"/>
+		<svg id="t_fl_plum" x="0" y="0" height="106px" width="80px" viewBox="400 318 80 106"><use xlink:href="#fruits"/></svg>
+		<svg id="t_fl_orchid" x="0" y="0" height="106px" width="80px" viewBox="480 318 80 106"><use xlink:href="#fruits"/></svg>
+		<svg id="t_fl_chrysanthemum" x="0" y="0" height="106px" width="80px" viewBox="560 318 80 106"><use xlink:href="#fruits"/></svg>
+		<svg id="t_fl_bamboo" x="0" y="0" height="106px" width="80px" viewBox="640 318 80 106"><use xlink:href="#fruits"/></svg>
 
-        <image id="t_fl_bamboo" xlink:href="./open-fruits/drink.png" x="0" y="0" height="88px" width="63px"/>
-        <image id="t_fl_chrysanthemum" xlink:href="./open-fruits/drink.png" x="0" y="0" height="88px" width="63px"/>
-        <image id="t_fl_orchid" xlink:href="./open-fruits/drink.png" x="0" y="0" height="88px" width="63px"/>
-        <image id="t_fl_plum" xlink:href="./open-fruits/drink.png" x="0" y="0" height="88px" width="63px"/>
+		<svg id="t_wi_east" x="0" y="0" height="106px" width="80px" viewBox="240 318 80 106"><use xlink:href="#fruits"/></svg>
+		<svg id="t_wi_south" x="0" y="0" height="106px" width="80px" viewBox="160 318 80 106"><use xlink:href="#fruits"/></svg>
+		<svg id="t_wi_north" x="0" y="0" height="106px" width="80px" viewBox="0 318 80 106"><use xlink:href="#fruits"/></svg>
+		<svg id="t_wi_west" x="0" y="0" height="106px" width="80px" viewBox="80 318 80 106"><use xlink:href="#fruits"/></svg>
 
-        <image id="t_dr_green" xlink:href="./open-fruits/cranberry.png" x="0" y="0" height="88px" width="63px"/>
-        <image id="t_dr_white" xlink:href="./open-fruits/olives.png" x="0" y="0" height="88px" width="63px"/>
-        <image id="t_dr_red" xlink:href="./open-fruits/blackcurrant.png" x="0" y="0" height="88px" width="63px"/>
+		<svg id="t_se_spring" x="0" y="0" height="106px" width="80px" viewBox="0 424 80 106"><use xlink:href="#fruits"/></svg>
+		<svg id="t_se_summer" x="0" y="0" height="106px" width="80px" viewBox="80 424 80 106"><use xlink:href="#fruits"/></svg>
+		<svg id="t_se_fall" x="0" y="0" height="106px" width="80px" viewBox="160 424 80 106"><use xlink:href="#fruits"/></svg>
+		<svg id="t_se_winter" x="0" y="0" height="106px" width="80px" viewBox="240 424 80 106"><use xlink:href="#fruits"/></svg>
 
-        <image id="t_g1" xlink:href="./open-fruits/avocado.png" x="0" y="0" height="88px" width="63px"/>
-				<image id="t_g2" xlink:href="./open-fruits/papayaslice.png" x="0" y="0" height="88px" width="63px"/>
-        <image id="t_g3" xlink:href="./open-fruits/melonhalf.png" x="0" y="0" height="88px" width="63px"/>
-        <image id="t_g4" xlink:href="./open-fruits/apricots.png" x="0" y="0" height="88px" width="63px"/>
-        <image id="t_g5" xlink:href="./open-fruits/plums.png" x="0" y="0" height="88px" width="63px"/>
-        <image id="t_g6" xlink:href="./open-fruits/lemons.png" x="0" y="0" height="88px" width="63px"/>
-        <image id="t_g7" xlink:href="./open-fruits/pears.png" x="0" y="0" height="88px" width="63px"/>
-        <image id="t_g8" xlink:href="./open-fruits/pineapples.png" x="0" y="0" height="88px" width="63px"/>
-        <image id="t_g9" xlink:href="./open-fruits/grapes.png" x="0" y="0" height="88px" width="63px"/>
-        <image id="t_g10" xlink:href="./open-fruits/bananas.png" x="0" y="0" height="88px" width="63px"/>
-        <image id="t_g11" xlink:href="./open-fruits/apples.png" x="0" y="0" height="88px" width="63px"/>
-        <image id="t_g12" xlink:href="./open-fruits/raspberries.png" x="0" y="0" height="88px" width="63px"/>
-        <image id="t_g13" xlink:href="./open-fruits/cocos.png" x="0" y="0" height="88px" width="63px"/>
-        <image id="t_g14" xlink:href="./open-fruits/melonhalves.png" x="0" y="0" height="88px" width="63px"/>
-        <image id="t_g15" xlink:href="./open-fruits/peaches.png" x="0" y="0" height="88px" width="63px"/>
-        <image id="t_g16" xlink:href="./open-fruits/strawberries.png" x="0" y="0" height="88px" width="63px"/>
-        <image id="t_g17" xlink:href="./open-fruits/kiwis.png" x="0" y="0" height="88px" width="63px"/>
-        <image id="t_g18" xlink:href="./open-fruits/redcurrant.png" x="0" y="0" height="88px" width="63px"/>
-        <image id="t_e1" xlink:href="./open-fruits/walnut.png" x="0" y="0" height="88px" width="63px"/>
-        <image id="t_e2" xlink:href="./open-fruits/melonpiece.png" x="0" y="0" height="88px" width="63px"/>
-        <image id="t_e3" xlink:href="./open-fruits/melonpieces.png" x="0" y="0" height="88px" width="63px"/>
-        <image id="t_e4" xlink:href="./open-fruits/orangeslice.png" x="0" y="0" height="88px" width="63px"/>
-        <image id="t_e5" xlink:href="./open-fruits/orangeslices.png" x="0" y="0" height="88px" width="63px"/>
-        <image id="t_e6" xlink:href="./open-fruits/kiwislice.png" x="0" y="0" height="88px" width="63px"/>
-        <image id="t_e7" xlink:href="./open-fruits/cherries3.png" x="0" y="0" height="88px" width="63px"/>
-        <image id="t_e8" xlink:href="./open-fruits/grape.png" x="0" y="0" height="88px" width="63px"/>
-        <image id="t_e9" xlink:href="./open-fruits/avocado2.png" x="0" y="0" height="88px" width="63px"/>
-    </defs>
-		<g id="t_preview">
+		<svg id="t_dr_green" x="0" y="0" height="106px" width="80px" viewBox="480 424 80 106"><use xlink:href="#fruits"/></svg>
+		<svg id="t_dr_white" x="0" y="0" height="106px" width="80px" viewBox="640 424 80 106"><use xlink:href="#fruits"/></svg>
+		<svg id="t_dr_red" x="0" y="0" height="106px" width="80px" viewBox="560 424 80 106"><use xlink:href="#fruits"/></svg>
+
+		<svg id="t_g1" x="0" y="0" height="106px" width="80px" viewBox="0 530 80 106"><use xlink:href="#fruits"/></svg>
+		<svg id="t_g2" x="0" y="0" height="106px" width="80px" viewBox="80 530 80 106"><use xlink:href="#fruits"/></svg>
+		<svg id="t_g3" x="0" y="0" height="106px" width="80px" viewBox="160 530 80 106"><use xlink:href="#fruits"/></svg>
+		<svg id="t_g4" x="0" y="0" height="106px" width="80px" viewBox="240 530 80 106"><use xlink:href="#fruits"/></svg>
+		<svg id="t_g5" x="0" y="0" height="106px" width="80px" viewBox="320 530 80 106"><use xlink:href="#fruits"/></svg>
+		<svg id="t_g6" x="0" y="0" height="106px" width="80px" viewBox="400 530 80 106"><use xlink:href="#fruits"/></svg>
+		<svg id="t_g7" x="0" y="0" height="106px" width="80px" viewBox="480 530 80 106"><use xlink:href="#fruits"/></svg>
+		<svg id="t_g8" x="0" y="0" height="106px" width="80px" viewBox="560 530 80 106"><use xlink:href="#fruits"/></svg>
+		<svg id="t_g9" x="0" y="0" height="106px" width="80px" viewBox="640 530 80 106"><use xlink:href="#fruits"/></svg>
+
+		<svg id="t_g10" x="0" y="0" height="106px" width="80px" viewBox="0 636 80 106"><use xlink:href="#fruits"/></svg>
+		<svg id="t_g11" x="0" y="0" height="106px" width="80px" viewBox="80 636 80 106"><use xlink:href="#fruits"/></svg>
+		<svg id="t_g12" x="0" y="0" height="106px" width="80px" viewBox="160 636 80 106"><use xlink:href="#fruits"/></svg>
+		<svg id="t_g13" x="0" y="0" height="106px" width="80px" viewBox="240 636 80 106"><use xlink:href="#fruits"/></svg>
+		<svg id="t_g14" x="0" y="0" height="106px" width="80px" viewBox="320 636 80 106"><use xlink:href="#fruits"/></svg>
+		<svg id="t_g15" x="0" y="0" height="106px" width="80px" viewBox="400 636 80 106"><use xlink:href="#fruits"/></svg>
+		<svg id="t_g16" x="0" y="0" height="106px" width="80px" viewBox="480 636 80 106"><use xlink:href="#fruits"/></svg>
+		<svg id="t_g17" x="0" y="0" height="106px" width="80px" viewBox="560 636 80 106"><use xlink:href="#fruits"/></svg>
+		<svg id="t_g18" x="0" y="0" height="106px" width="80px" viewBox="640 636 80 106"><use xlink:href="#fruits"/></svg>
+
+		<svg id="t_e1" x="0" y="0" height="106px" width="80px" viewBox="0 742 80 106"><use xlink:href="#fruits"/></svg>
+		<svg id="t_e2" x="0" y="0" height="106px" width="80px" viewBox="80 742 80 106"><use xlink:href="#fruits"/></svg>
+		<svg id="t_e3" x="0" y="0" height="106px" width="80px" viewBox="160 742 80 106"><use xlink:href="#fruits"/></svg>
+		<svg id="t_e4" x="0" y="0" height="106px" width="80px" viewBox="240 742 80 106"><use xlink:href="#fruits"/></svg>
+		<svg id="t_e5" x="0" y="0" height="106px" width="80px" viewBox="320 742 80 106"><use xlink:href="#fruits"/></svg>
+		<svg id="t_e6" x="0" y="0" height="106px" width="80px" viewBox="400 742 80 106"><use xlink:href="#fruits"/></svg>
+		<svg id="t_e7" x="0" y="0" height="106px" width="80px" viewBox="480 742 80 106"><use xlink:href="#fruits"/></svg>
+		<svg id="t_e8" x="0" y="0" height="106px" width="80px" viewBox="560 742 80 106"><use xlink:href="#fruits"/></svg>
+		<svg id="t_e9" x="0" y="0" height="106px" width="80px" viewBox="640 742 80 106"><use xlink:href="#fruits"/></svg>
+	</defs>
+	<g id="t_preview">
+		<path d="M0 0h675v800H0z"/>
 		<use x="0" y="0" height="100px" width="75px" xlink:href="#t_do1"/>
 		<use x="75" y="0" height="100px" width="75px" xlink:href="#t_do2"/>
 		<use x="150" y="0" height="100px" width="75px" xlink:href="#t_do3"/>
@@ -151,4 +156,3 @@
 		<use x="600" y="700" height="100px" width="75px" xlink:href="#t_e9"/>
 	</g>
 </svg>
-
