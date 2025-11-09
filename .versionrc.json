@@ -23,6 +23,14 @@
 		{
 			"filename": "resources/apps/tauri/Cargo.toml",
 			"updater": "resources/apps/cargo-updater.js"
+		},
+		{
+			"filename": "resources/apps/tauri/Cargo.lock",
+			"updater": "resources/apps/cargo-updater.js"
 		}
-	]
+	],
+	"scripts": {
+		"postbump": "cd resources/apps/ && cargo generate-lockfile --offline",
+		"precommit": "git add resources/apps/Cargo.lock"
+	}
 }
