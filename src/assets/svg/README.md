@@ -80,7 +80,7 @@ https://creativecommons.org/licenses/by-sa/4.0/deed.en
 
 ### removed - no longer used
 
-## `recri.svg`
+### `recri.svg`
 images used from https://github.com/recri/mahjong-pwa-old  
 by https://github.com/recri
 
