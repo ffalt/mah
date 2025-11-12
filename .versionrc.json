@@ -30,7 +30,7 @@
 		}
 	],
 	"scripts": {
-		"postbump": "cd resources/apps/ && cargo generate-lockfile --offline",
+		"postbump": "cd resources/apps/tauri && cargo generate-lockfile --offline",
 		"precommit": "git add resources/apps/Cargo.lock"
 	}
 }
