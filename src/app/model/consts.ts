@@ -71,6 +71,7 @@ export const ImageSets = [
 	{ id: 'picasso', type: 'PNG', name: 'Picasso', license: 'gpl' },
 	{ id: 'modern', type: 'PNG', name: 'Modern', license: 'gpl' },
 	{ id: 'animals', type: 'SVG', name: 'Animals', license: 'per' },
+	{ id: 'birds', type: 'SVG', name: 'Birds', license: 'cca' },
 	{ id: 'open-fruits', type: 'PNG', name: 'Fruits', license: 'free' },
 	{ id: 'space', type: 'SVG', name: 'Space', license: 'cca' },
 	{ id: 'riichi-old', type: 'SVG', name: 'Riichi', license: 'cca' },
