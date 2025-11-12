@@ -59,7 +59,7 @@
 
 		label {
 			vertical-align: middle;
-			line-height: 24px;
+			line-height: 30px;
 			white-space: nowrap;
 			text-overflow: ellipsis;
 			flex: 1;
@@ -68,11 +68,13 @@
 		svg {
 			width: 24px;
 			height: 24px;
-			vertical-align: text-bottom;
+			object-fit: contain;
+			vertical-align: middle;
 		}
 
 		a {
 			margin-left: 3px;
+			line-height: 30px;
 			font-size: 0.8em;
 		}
 
@@ -81,18 +83,28 @@
 			line-height: 30px;
 			display: flex;
 			gap: 3px;
+			height: 30ox;
+			align-items: center;
 
 			&:hover {
-				background-color: var(--card-layout-color-bg-hover);
+				background-color: var(--dialog-background-color-hover);
 			}
 		}
 
 		input {
-			margin-left: -19px;
+			margin-left: -14px;
 		}
 
 		@include mixins.respond-to(pico-down) {
 			columns: 1;
+		}
+	}
+
+	.check {
+		padding: 2px;
+
+		&:hover {
+			background-color: var(--dialog-background-color-hover);
 		}
 	}
 

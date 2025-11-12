@@ -124,14 +124,14 @@
 
 	<p>{{ 'TILES' | translate }}</p>
 	<div>
-		<label>
+		<label class="check">
 			<input type="checkbox"
 						 [checked]="app.settings.contrast"
 						 (change)="app.settings.contrast = !app.settings.contrast;app.settings.save();"
 			>
 			{{ 'HIGHER_CONTRAST' | translate }}
 		</label><br/>
-		<label>
+		<label class="check">
 			<input type="checkbox"
 						 [checked]="app.settings.dark"
 						 (change)="app.settings.dark = !app.settings.dark;app.settings.save();"
