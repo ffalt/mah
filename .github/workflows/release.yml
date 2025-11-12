@@ -65,11 +65,9 @@ jobs:
       - name: Create release package
         run: cd dist && zip -r "./${{ steps.version.outputs.zip }}" .
 
-      - name: Build Releaselog
-        id: github_release
-        uses: mikepenz/release-changelog-builder-action@v5
-        with:
-          mode: HYBRID
+      - name: Generate Releaselog
+        run: |
+          npm run build:releaselog
 
       - name: Create release
         uses: ncipollo/release-action@v1
@@ -77,7 +75,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ github.ref }}
           name: Release ${{ github.ref_name }}
-          body: ${{steps.github_release.outputs.changelog}}
+          bodyFile: ./RELEASELOG.md
           draft: false
           prerelease: false
           artifacts: ./dist/${{ steps.version.outputs.zip }}
