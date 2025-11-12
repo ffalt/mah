@@ -7,13 +7,12 @@ import { LocalstorageService } from '../../service/localstorage.service';
 import { LANGUAGES } from '../../model/languages';
 import { KyodaiTileSets } from '../../model/tilesets';
 import { environment } from '../../../environments/environment';
-import { NgOptimizedImage } from '@angular/common';
 
 @Component({
 	selector: 'app-settings',
 	templateUrl: './settings.component.html',
 	styleUrls: ['./settings.component.scss'],
-	imports: [TranslatePipe, NgOptimizedImage]
+	imports: [TranslatePipe]
 })
 export class SettingsComponent {
 	readonly kyodaiInput = viewChild.required<ElementRef<HTMLInputElement>>('kyodaiInput');
