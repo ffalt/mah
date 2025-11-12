@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [1.11.0](https://github.com/ffalt/mah/compare/v1.10.0...v1.11.0) (2025-11-12)
+
+
+### Features
+
+* **svg:** add birds svgs ([3d20de7](https://github.com/ffalt/mah/commit/3d20de7c99961ebb389176da8ffb3ba29946a180))
+
+
+### Bug Fixes
+
+* **settings:** adjust hover color in light theme ([b94ba96](https://github.com/ffalt/mah/commit/b94ba96ed4eeebf8bb5963c80b8594640ddc457e))
+
 ## [1.10.0](https://github.com/ffalt/mah/compare/v1.9.0...v1.10.0) (2025-11-09)
 
 
