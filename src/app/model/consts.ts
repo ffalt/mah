@@ -35,7 +35,7 @@ export const GameModes = [
 	}
 ];
 export type GAME_MODE_ID = 'GAME_MODE_EASY' | 'GAME_MODE_STANDARD' | 'GAME_MODE_EXPERT';
-export const GAME_MODE_ID_DEFAULT: GAME_MODE_ID = 'GAME_MODE_EXPERT';
+export const GAME_MODE_ID_DEFAULT: GAME_MODE_ID = 'GAME_MODE_STANDARD';
 
 export const Themes: Array<{ id?: string; name: string }> = [
 	{ id: 'ltgreen', name: 'THEME_LIGHT_GREEN' },
