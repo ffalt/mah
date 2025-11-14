@@ -1,0 +1,16 @@
+@use "../../style/mixins";
+
+:host {
+	svg {
+		width: 24px;
+		height: 24px;
+		object-fit: contain;
+		vertical-align: middle;
+	}
+
+	a {
+		margin-left: 3px;
+		line-height: 30px;
+		font-size: 0.8em;
+	}
+}

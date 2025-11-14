@@ -1,18 +1,19 @@
 import { Component, type ElementRef, inject, viewChild } from '@angular/core';
 import { TranslateService, TranslatePipe } from '@ngx-translate/core';
-import { Backgrounds, ImageSets, Themes, Licenses } from '../../model/consts';
+import { Backgrounds, ImageSets, Themes } from '../../model/consts';
 import { AppService } from '../../service/app.service';
 import { LayoutService } from '../../service/layout.service';
 import { LocalstorageService } from '../../service/localstorage.service';
 import { LANGUAGES } from '../../model/languages';
 import { KyodaiTileSets } from '../../model/tilesets';
 import { environment } from '../../../environments/environment';
+import { LicenseLinkComponent } from '../license-link/license-link.component';
 
 @Component({
 	selector: 'app-settings',
 	templateUrl: './settings.component.html',
 	styleUrls: ['./settings.component.scss'],
-	imports: [TranslatePipe]
+	imports: [TranslatePipe, LicenseLinkComponent]
 })
 export class SettingsComponent {
 	readonly kyodaiInput = viewChild.required<ElementRef<HTMLInputElement>>('kyodaiInput');
@@ -21,7 +22,6 @@ export class SettingsComponent {
 	sets = ImageSets;
 	backs = Backgrounds;
 	themes = Themes;
-	licenses = Licenses;
 	languages = Object.keys(LANGUAGES).map(key => ({ key, title: LANGUAGES[key].title }));
 	app = inject(AppService);
 	private readonly storage = inject(LocalstorageService);
