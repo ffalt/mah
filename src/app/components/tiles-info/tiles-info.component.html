@@ -19,6 +19,9 @@
 </div>
 <div class="tiles-header">
 	<form>
+		@if (selectedSet) {
+			<app-license-link [imagesetId]="selectedSet.id" [licenseKey]="selectedSet.license"></app-license-link>
+		}
 		<select (change)="tileset = $any($event.target).value">
 			@for (imageset of sets; track imageset) {
 				<option [value]="imageset.id" [selected]="tileset === imageset.id">{{ imageset.name }}</option>
@@ -28,6 +31,12 @@
 			}
 		</select>
 		<label><input type="checkbox" [checked]="isDark" (change)="isDark = !isDark;">{{ 'TILES_DARK' | translate }}</label>
+		@if (selectedSet && (
+		(selectedSet.id !== app.settings.tileset) ||
+		(isDark !== app.settings.dark)
+		)) {
+			<button type="button" (click)="applyTileset()">{{ 'USE_NOW' | translate }}</button>
+		}
 	</form>
 	<div class="tiles-reference">
 		<a rel="noopener" target="_blank" href="{{'READ_MORE_WIKIPEDIA_URL' | translate}}">{{ 'READ_MORE_WIKIPEDIA' | translate }}</a>

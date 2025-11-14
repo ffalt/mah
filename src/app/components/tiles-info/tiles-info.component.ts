@@ -4,12 +4,13 @@ import { AppService } from '../../service/app.service';
 import { TileComponent } from '../tile/tile.component';
 import { TranslatePipe } from '@ngx-translate/core';
 import { environment } from '../../../environments/environment';
+import { LicenseLinkComponent } from '../license-link/license-link.component';
 
 @Component({
 	selector: 'app-tiles-info',
 	templateUrl: './tiles-info.component.html',
 	styleUrls: ['./tiles-info.component.scss'],
-	imports: [TileComponent, TranslatePipe]
+	imports: [TileComponent, TranslatePipe, LicenseLinkComponent]
 })
 export class TilesInfoComponent {
 	TILES_INFOS = TILES_INFOS;
@@ -18,11 +19,21 @@ export class TilesInfoComponent {
 	isDark = false;
 	canKyodai = environment.kyodai;
 	kyodaiUrl?: string;
+	app = inject(AppService);
+
+	get selectedSet() {
+		return this.sets.find(s => s.id === this.tileset);
+	}
+
+	applyTileset(): void {
+		this.app.settings.tileset = this.tileset;
+		this.app.settings.dark = this.isDark;
+		this.app.settings.save();
+	}
 
 	constructor() {
-		const app = inject(AppService);
-		this.tileset = app.settings.tileset;
-		this.isDark = app.settings.dark;
-		this.kyodaiUrl = app.settings.kyodaiUrl;
+		this.tileset = this.app.settings.tileset;
+		this.isDark = this.app.settings.dark;
+		this.kyodaiUrl = this.app.settings.kyodaiUrl;
 	}
 }
