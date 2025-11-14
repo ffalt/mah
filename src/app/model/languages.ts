@@ -8,5 +8,6 @@ export const LANGUAGES: { [name: string]: { title: string } } = {
 	es: { title: 'Español' },
 	eu: { title: 'Euskara' },
 	jp: { title: '日本語' },
-	fr: { title: 'Français' }
+	fr: { title: 'Français' },
+	zh: { title: '中文' }
 };
