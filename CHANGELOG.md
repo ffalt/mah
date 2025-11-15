@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [1.12.0](https://github.com/ffalt/mah/compare/v1.11.0...v1.12.0) (2025-11-15)
+
+
+### Features
+
+* **languages:** add chinese ([325f95c](https://github.com/ffalt/mah/commit/325f95cf0b48bc76873a1d6fa666bdf1d2bacb24))
+* **tiles-info:** allow setting the tileset in the tilesinfo-dialog ([3090f8e](https://github.com/ffalt/mah/commit/3090f8e994e29b4a33f571d5f3340ae9fe10da21))
+
+
+### Bug Fixes
+
+* **android:** remove internet permission [skip ci] ([4544c36](https://github.com/ffalt/mah/commit/4544c36d7a696249819ed51203cb66864aab713a))
+
 ## [1.11.0](https://github.com/ffalt/mah/compare/v1.10.0...v1.11.0) (2025-11-12)
 
 
