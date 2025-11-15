@@ -65,17 +65,13 @@ jobs:
       - name: Create release package
         run: cd dist && zip -r "./${{ steps.version.outputs.zip }}" .
 
-      - name: Generate Releaselog
-        run: |
-          npm run build:releaselog
-
       - name: Create release
         uses: ncipollo/release-action@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ github.ref }}
           name: Release ${{ github.ref_name }}
-          bodyFile: ./RELEASELOG.md
+          generateReleaseNotes: true
           draft: false
           prerelease: false
           artifacts: ./dist/${{ steps.version.outputs.zip }}
