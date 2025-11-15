@@ -3,7 +3,7 @@ import type { Mapping } from './types';
 
 export function generateSVG(mapping: Mapping): string {
 	const items = mappingToDrawItems(mapping);
-	const viewport = getDrawViewPort(items, 1470, 960);
+	const viewport = getDrawViewPort(items);
 	const sl: Array<string> = [
 		`<svg xmlns="http://www.w3.org/2000/svg" viewBox="${viewport}" preserveAspectRatio="xMidYMid meet" height="100%" width="100%">`
 	];

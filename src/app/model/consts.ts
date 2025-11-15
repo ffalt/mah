@@ -1,7 +1,8 @@
 export const CONSTS = {
 	mY: 18, mX: 38, mZ: 7,
 	tileWidth: 75,
-	tileHeight: 100
+	tileHeight: 100,
+	levelOffset: 16
 };
 
 export const STATES = {

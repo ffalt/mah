@@ -5,7 +5,9 @@ import type { Mapping } from './types';
 export interface DrawPos {
 	x: number;
 	y: number;
-	z: number;
+	w: number;
+	h: number;
+	sort: number;
 	translate: string;
 }
 
@@ -23,9 +25,11 @@ export interface Draw {
 
 export function calcDrawPos(z: number, x: number, y: number): DrawPos {
 	const pos = {
-		x: ((CONSTS.tileWidth + 2) * x / 2 - (z * 8)) + (CONSTS.tileWidth / 2),
-		y: ((CONSTS.tileHeight + 2) * y / 2 - (z * 8)) + (CONSTS.tileHeight / 2),
-		z: y + CONSTS.mY * (x + CONSTS.mX * z),
+		x: ((CONSTS.tileWidth + 2) * x - (z * CONSTS.levelOffset)) / 2,
+		y: ((CONSTS.tileHeight + 2) * y - (z * CONSTS.levelOffset)) / 2,
+		w: (CONSTS.tileWidth + 2) + (z * CONSTS.levelOffset),
+		h: (CONSTS.tileHeight + 2) + (z * CONSTS.levelOffset),
+		sort: y + CONSTS.mY * (x + CONSTS.mX) * z,
 		translate: ''
 	};
 	pos.translate = `translate(${pos.x},${pos.y})`;
@@ -33,10 +37,9 @@ export function calcDrawPos(z: number, x: number, y: number): DrawPos {
 }
 
 export function sortDrawItems(items: Array<Draw>): Array<Draw> {
-	const sortToDraw = (draw: Draw) => draw.pos.z;
 	return items.sort((ad: Draw, bd: Draw) => {
-		const a = sortToDraw(ad);
-		const b = sortToDraw(bd);
+		const a = ad.pos.sort;
+		const b = bd.pos.sort;
 		if (a < b) {
 			return -1;
 		}
@@ -47,36 +50,35 @@ export function sortDrawItems(items: Array<Draw>): Array<Draw> {
 	});
 }
 
-export function getDrawBoundsViewPort(bounds: Array<number>, rotate: boolean = false): string {
-	const b: Array<number> = rotate ?
-		[
-			-bounds[3] - CONSTS.tileHeight - 20,
-			-bounds[0] - 30,
-			bounds[3] + CONSTS.tileHeight - 10,
-			bounds[2] + bounds[0] + CONSTS.tileWidth + 120
-		] :
-		[
-			bounds[0] - 30,
-			bounds[1] - 30,
-			bounds[2] + CONSTS.tileHeight + 10,
-			bounds[3] + CONSTS.tileHeight + 40
-		];
-	return b.join(' ');
+export function getDrawBoundsViewPortBounds(bounds: Array<number>): Array<number> {
+	const border = 20;
+	return [
+		bounds[0] - border,
+		bounds[1] - border,
+		bounds[2] + (border * 2),
+		bounds[3] + (border * 2)
+	];
 }
 
-export function getDrawViewPort(items: Array<Draw>, width: number, height: number, rotate: boolean = false): string {
-	const bounds = getDrawBounds(items, width, height);
-	return getDrawBoundsViewPort(bounds, rotate);
+export function getDrawBoundsViewPort(bounds: Array<number>): string {
+	return getDrawBoundsViewPortBounds(bounds).join(' ');
 }
 
-export function getDrawBounds(items: Array<Draw>, width: number, height: number): Array<number> {
-	const m = Math.max(width, height);
-	const bounds = [m, m, 0, 0];
+export function getDrawViewPort(items: Array<Draw>): string {
+	const bounds = getDrawBounds(items);
+	return getDrawBoundsViewPort(bounds);
+}
+
+export function getDrawBounds(items: Array<Draw>): Array<number> {
+	if (items.length === 0) {
+		return [0, 0, 0, 0];
+	}
+	const bounds = [5000, 5000, 0, 0];
 	for (const draw of items) {
 		bounds[0] = Math.min(bounds[0], draw.pos.x);
 		bounds[1] = Math.min(bounds[1], draw.pos.y);
-		bounds[2] = Math.max(bounds[2], draw.pos.x);
-		bounds[3] = Math.max(bounds[3], draw.pos.y);
+		bounds[2] = Math.max(bounds[2], draw.pos.x + draw.pos.w);
+		bounds[3] = Math.max(bounds[3], draw.pos.y + draw.pos.h);
 	}
 	return bounds;
 }

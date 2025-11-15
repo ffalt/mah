@@ -1,6 +1,6 @@
 import { Component, ElementRef, type OnChanges, type OnInit, type SimpleChanges, inject, input, output } from '@angular/core';
 import { Backgrounds } from '../../model/consts';
-import { type Draw, calcDrawPos, getDrawBounds, getDrawBoundsViewPort, sortDrawItems } from '../../model/draw';
+import { type Draw, calcDrawPos, getDrawBounds, sortDrawItems, getDrawBoundsViewPortBounds } from '../../model/draw';
 import type { Stone } from '../../model/stone';
 import { AppService } from '../../service/app.service';
 import { imageSetIsKyodai } from '../../model/tilesets';
@@ -420,10 +420,16 @@ export class BoardComponent implements OnInit, OnChanges {
 	setTransform() {
 		const scaling = this.scale > 1 ? ` scale(${this.scale})` : '';
 		this.transformSVG = `translate(${this.panX}px, ${this.panY}px)${scaling}`;
-		this.transformStage = this.rotate ? 'rotate(90)' : '';
+		if (this.rotate) {
+			const [minX, minY, width, height] = getDrawBoundsViewPortBounds(this.bounds);
+			const cx = minX + width / 2;
+			const cy = minY + height / 2;
+			this.transformStage = `rotate(90 ${cx} ${cy})`;
+		} else {
+			this.transformStage = '';
+		}
 	}
 
-	// Helper method to calculate distance between two touch points
 	private getDistance(p1: TouchPoint, p2: TouchPoint): number {
 		const dx = p2.x - p1.x;
 		const dy = p2.y - p1.y;
@@ -438,12 +444,23 @@ export class BoardComponent implements OnInit, OnChanges {
 		this.updateTransform();
 		if (r !== this.rotate) {
 			this.rotate = r;
-			this.updateViewPort();
 		}
+		this.updateViewPort();
 	}
 
 	private setViewPort(): void {
-		this.viewport = getDrawBoundsViewPort(this.bounds, this.rotate);
+		let [minX, minY, width, height] = getDrawBoundsViewPortBounds(this.bounds);
+		if (this.rotate) {
+			const cx = minX + width / 2;
+			const cy = minY + height / 2;
+			const rW = height;
+			const rH = width;
+			minX = cx - rW / 2;
+			minY = cy - rH / 2;
+			width = rW;
+			height = rH;
+		}
+		this.viewport = `${minX} ${minY} ${width} ${height}`;
 	}
 
 	private updateStones(stones: Array<Stone>): void {
@@ -467,7 +484,7 @@ export class BoardComponent implements OnInit, OnChanges {
 					source: stone,
 					className: stone.effects?.wiggle ? 'wiggle' : undefined
 				}));
-		this.bounds = getDrawBounds(items, defaultW, defaultH);
+		this.bounds = getDrawBounds(items);
 		this.drawStones = sortDrawItems(items);
 		this.setViewPort();
 		this.setTransform();

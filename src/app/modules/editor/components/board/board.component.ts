@@ -1,7 +1,6 @@
 import { Component, type OnChanges, type OnInit, type SimpleChanges, input, output } from '@angular/core';
 import { Stone } from '../../../../model/stone';
-import { type Draw, type DrawPos, getDrawViewPort, sortDrawItems } from '../../../../model/draw';
-import { CONSTS } from '../../../../model/consts';
+import { type Draw, calcDrawPos, getDrawViewPort, sortDrawItems } from '../../../../model/draw';
 import type { Matrix } from '../../model/matrix';
 
 interface Level {
@@ -79,17 +78,6 @@ export class BoardComponent implements OnInit, OnChanges {
 		event.stopPropagation();
 	}
 
-	private calcDrawPos(z: number, x: number, y: number): DrawPos {
-		const pos = {
-			x: ((CONSTS.tileWidth + 2) * x / 2) + 4,
-			y: ((CONSTS.tileHeight + 2) * y / 2) + 4,
-			z: y + CONSTS.mY * (x + CONSTS.mX * z),
-			translate: ''
-		};
-		pos.translate = `translate(${pos.x},${pos.y})`;
-		return pos;
-	}
-
 	private updateLevel(level: Level): void {
 		this.drawCells = [];
 		this.drawStones = [];
@@ -105,7 +93,7 @@ export class BoardComponent implements OnInit, OnChanges {
 					z: level.z,
 					v: value,
 					visible: true,
-					pos: this.calcDrawPos(level.z, x, y),
+					pos: calcDrawPos(level.z, x, y),
 					className: this.drawClass(level.z, x, y),
 					source: value > 0 ? new Stone(level.z, x, y, value, 0) : this.emptySource
 				};
@@ -116,6 +104,6 @@ export class BoardComponent implements OnInit, OnChanges {
 			}
 		}
 		this.drawStones = sortDrawItems(stones);
-		this.viewport = getDrawViewPort(this.drawCells, 1470, 960, false);
+		this.viewport = getDrawViewPort(this.drawCells);
 	}
 }

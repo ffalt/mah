@@ -11,11 +11,13 @@ describe('Draw', () => {
 			expect(pos).toBeDefined();
 			expect(pos.x).toBeDefined();
 			expect(pos.y).toBeDefined();
-			expect(pos.z).toBeDefined();
+			expect(pos.sort).toBeDefined();
+			expect(pos.w).toBeDefined();
+			expect(pos.h).toBeDefined();
 			expect(pos.translate).toBe(`translate(${pos.x},${pos.y})`);
 
 			// Check z calculation specifically
-			expect(pos.z).toBe(3 + CONSTS.mY * (2 + CONSTS.mX));
+			expect(pos.sort).toBe(3 + CONSTS.mY * (2 + CONSTS.mX));
 		});
 	});
 
@@ -25,26 +27,26 @@ describe('Draw', () => {
 			const items: Array<Draw> = [
 				{
 					x: 0, y: 0, z: 0, v: 0, visible: true,
-					pos: { x: 0, y: 0, z: 3, translate: '' },
+					pos: { x: 0, y: 0, w: 0, h: 0, sort: 3, translate: '' },
 					source: stone
 				},
 				{
 					x: 0, y: 0, z: 0, v: 0, visible: true,
-					pos: { x: 0, y: 0, z: 1, translate: '' },
+					pos: { x: 0, y: 0, w: 0, h: 0, sort: 1, translate: '' },
 					source: stone
 				},
 				{
 					x: 0, y: 0, z: 0, v: 0, visible: true,
-					pos: { x: 0, y: 0, z: 2, translate: '' },
+					pos: { x: 0, y: 0, w: 0, h: 0, sort: 2, translate: '' },
 					source: stone
 				}
 			];
 
 			const sorted = sortDrawItems(items);
 
-			expect(sorted[0].pos.z).toBe(1);
-			expect(sorted[1].pos.z).toBe(2);
-			expect(sorted[2].pos.z).toBe(3);
+			expect(sorted[0].pos.sort).toBe(1);
+			expect(sorted[1].pos.sort).toBe(2);
+			expect(sorted[2].pos.sort).toBe(3);
 		});
 	});
 
@@ -54,26 +56,26 @@ describe('Draw', () => {
 			const items: Array<Draw> = [
 				{
 					x: 0, y: 0, z: 0, v: 0, visible: true,
-					pos: { x: 10, y: 20, z: 0, translate: '' },
+					pos: { x: 10, y: 20, w: 10, h: 10, sort: 0, translate: '' },
 					source: stone
 				},
 				{
 					x: 0, y: 0, z: 0, v: 0, visible: true,
-					pos: { x: 30, y: 40, z: 0, translate: '' },
+					pos: { x: 30, y: 40, w: 10, h: 10, sort: 0, translate: '' },
 					source: stone
 				}
 			];
 
-			const bounds = getDrawBounds(items, 100, 100);
+			const bounds = getDrawBounds(items);
 
-			expect(bounds).toEqual([10, 20, 30, 40]);
+			expect(bounds).toEqual([10, 20, 40, 50]);
 		});
 
 		it('should handle empty items array', () => {
-			const bounds = getDrawBounds([], 100, 100);
+			const bounds = getDrawBounds([]);
 
-			expect(bounds[0]).toBe(100);
-			expect(bounds[1]).toBe(100);
+			expect(bounds[0]).toBe(0);
+			expect(bounds[1]).toBe(0);
 			expect(bounds[2]).toBe(0);
 			expect(bounds[3]).toBe(0);
 		});
@@ -82,14 +84,8 @@ describe('Draw', () => {
 	describe('getDrawBoundsViewPort', () => {
 		it('should calculate viewport from bounds correctly', () => {
 			const bounds = [10, 20, 30, 40];
-			const viewport = getDrawBoundsViewPort(bounds, false);
-			expect(viewport).toBe('-30 0 170 160');
-		});
-
-		it('should calculate rotated viewport from bounds correctly', () => {
-			const bounds = [10, 20, 30, 40];
-			const viewport = getDrawBoundsViewPort(bounds, true);
-			expect(viewport).toBe('-150 -40 130 235');
+			const viewport = getDrawBoundsViewPort(bounds);
+			expect(viewport).toBe('-10 0 70 80');
 		});
 	});
 
@@ -99,18 +95,16 @@ describe('Draw', () => {
 			const items: Array<Draw> = [
 				{
 					x: 0, y: 0, z: 0, v: 0, visible: true,
-					pos: { x: 10, y: 20, z: 0, translate: '' },
+					pos: { x: 10, y: 20, w: 10, h: 10, sort: 0, translate: '' },
 					source: stone
 				},
 				{
 					x: 0, y: 0, z: 0, v: 0, visible: true,
-					pos: { x: 30, y: 40, z: 0, translate: '' },
+					pos: { x: 30, y: 40, w: 10, h: 10, sort: 0, translate: '' },
 					source: stone
 				}
 			];
-
-			const viewport = getDrawViewPort(items, 100, 100, false);
-
+			const viewport = getDrawViewPort(items);
 			expect(viewport).toBeDefined();
 			expect(typeof viewport).toBe('string');
 		});
@@ -134,7 +128,7 @@ describe('Draw', () => {
 			expect(items[1].y).toBe(mapping[1][2]);
 
 			// Items should be sorted
-			expect(items[0].pos.z <= items[1].pos.z).toBe(true);
+			expect(items[0].pos.sort <= items[1].pos.sort).toBe(true);
 		});
 	});
 });
