@@ -9,14 +9,15 @@
 	.headline-anchors {
 		border-bottom: 1px solid var(--card-layout-color-border);
 		width: 100%;
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+		display: flex;
+		flex-wrap: wrap;
 		padding-bottom: 10px;
 		color: var(--dialog-text-color);
 		white-space: nowrap;
 
 		a {
 			display: block;
+			flex: 1 1 140px;
 			padding: 2px 4px;
 			font-size: 0.9em;
 			cursor: pointer;
@@ -28,9 +29,11 @@
 		}
 
 		@include mixins.respond-to(large-down) {
-			display: flex;
-			flex-wrap: wrap;
 			justify-content: center;
+		}
+
+		@include mixins.respond-to-horizontal-device(pad) {
+			display: none;
 		}
 	}
 
@@ -55,7 +58,7 @@
 				cursor: pointer;
 
 				&:hover {
-					background-color: var(--card-layout-color-bg-hover);
+					background-color: var(--dialog-background-color-hover);
 				}
 
 				.group-expander {
