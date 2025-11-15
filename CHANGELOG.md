@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [1.12.1](https://github.com/ffalt/mah/compare/v1.12.0...v1.12.1) (2025-11-15)
+
+
+### Bug Fixes
+
+* **apps:** open external links in the default browser ([223bf25](https://github.com/ffalt/mah/commit/223bf25f3fe0be830b9985fe0698806f60b1e5cc))
+* **board:** better viewport calculations ([f53e64a](https://github.com/ffalt/mah/commit/f53e64a826efb2e26fee3e87319e1a6776d2aa26))
+* **hint-dialog:** icon colors on light theme ([8f7fde9](https://github.com/ffalt/mah/commit/8f7fde91730152d1b3c24dc4dc1e1f7c11a6665b))
+* **new-game-dialog:** hide anchor-links on horizontal phones ([a9d83b0](https://github.com/ffalt/mah/commit/a9d83b02afa085e3bd3b236bf6f12981debbfc02))
+
 ## [1.12.0](https://github.com/ffalt/mah/compare/v1.11.0...v1.12.0) (2025-11-15)
 
 
