@@ -250,6 +250,7 @@ p {
 			width: 98%;
 			height: 98%;
 			overflow: hidden;
+			max-width: 1400px;
 
 			@include mixins.respond-to-height(small-down) {
 				padding: 10px;
