@@ -50,16 +50,16 @@ export function sortDrawItems(items: Array<Draw>): Array<Draw> {
 export function getDrawBoundsViewPort(bounds: Array<number>, rotate: boolean = false): string {
 	const b: Array<number> = rotate ?
 		[
-			-bounds[3] - CONSTS.tileHeight - 10,
+			-bounds[3] - CONSTS.tileHeight - 20,
 			-bounds[0] - 30,
 			bounds[3] + CONSTS.tileHeight - 10,
 			bounds[2] + bounds[0] + CONSTS.tileWidth + 120
 		] :
 		[
-			bounds[0] - 40,
-			bounds[1] - 20,
-			bounds[2] + CONSTS.tileHeight + 40,
-			bounds[3] + CONSTS.tileHeight + 20
+			bounds[0] - 30,
+			bounds[1] - 30,
+			bounds[2] + CONSTS.tileHeight + 10,
+			bounds[3] + CONSTS.tileHeight + 40
 		];
 	return b.join(' ');
 }
