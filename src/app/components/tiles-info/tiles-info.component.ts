@@ -5,6 +5,7 @@ import { TileComponent } from '../tile/tile.component';
 import { TranslatePipe } from '@ngx-translate/core';
 import { environment } from '../../../environments/environment';
 import { LicenseLinkComponent } from '../license-link/license-link.component';
+import { clickExternalHref } from '../../model/external-links';
 
 @Component({
 	selector: 'app-tiles-info',
@@ -36,4 +37,6 @@ export class TilesInfoComponent {
 		this.isDark = this.app.settings.dark;
 		this.kyodaiUrl = this.app.settings.kyodaiUrl;
 	}
+
+	protected readonly clickExternalHref = clickExternalHref;
 }

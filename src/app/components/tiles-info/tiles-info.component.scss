@@ -22,10 +22,19 @@
 		display: flex;
 		flex-direction: row;
 		justify-content: space-between;
+		align-items: center;
 		padding-top: 14px;
+
+		select {
+			margin-left: 8px;
+		}
 
 		label {
 			margin-left: 8px;
+			display: inline-flex;
+			flex-direction: row;
+			align-items: center;
+			height: 100%;
 
 			checkbox {
 				margin-left: 4px;

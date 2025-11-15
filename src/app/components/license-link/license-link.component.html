@@ -2,6 +2,7 @@
 	href="https://github.com/ffalt/mah/blob/main/src/assets/svg/README.md#{{ imagesetId() }}svg"
 	target="_blank"
 	rel="noopener"
+	(click)="clickExternalHref($event)"
 	[title]="licenses[licenseKey()] || '?'"
 >
 	<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" fill-rule="evenodd" stroke-linecap="round" clip-rule="evenodd" viewBox="0 0 1067 1067">

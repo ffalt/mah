@@ -9,7 +9,7 @@
     "ng": "ng",
     "start": "ng serve",
     "start:development": "ng serve -c development",
-    "start:development:apps": "ng serve -c development --host 0.0.0.0",
+    "start:development:apps": "ng serve -c development-apps --host 0.0.0.0",
     "check": "qlty check --all",
     "build": "ng build",
     "build:prod": "npm run build:deploy-release",
@@ -42,6 +42,7 @@
     "@angular/platform-server": "20.3.10",
     "@ngx-translate/core": "17.0.0",
     "@ngx-translate/http-loader": "^17.0.0",
+    "@tauri-apps/plugin-opener": "^2.5.2",
     "audit": "^0.0.6",
     "rxjs": "7.8.2",
     "zone.js": "0.15.1"

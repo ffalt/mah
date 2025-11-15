@@ -39,6 +39,6 @@
 		}
 	</form>
 	<div class="tiles-reference">
-		<a rel="noopener" target="_blank" href="{{'READ_MORE_WIKIPEDIA_URL' | translate}}">{{ 'READ_MORE_WIKIPEDIA' | translate }}</a>
+		<a (click)="clickExternalHref($event)" rel="noopener" target="_blank" href="{{'READ_MORE_WIKIPEDIA_URL' | translate}}">{{ 'READ_MORE_WIKIPEDIA' | translate }}</a>
 	</div>
 </div>

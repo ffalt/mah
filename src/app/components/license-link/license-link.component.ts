@@ -1,5 +1,6 @@
 import { Component, input } from '@angular/core';
 import { Licenses } from '../../model/consts';
+import { clickExternalHref } from '../../model/external-links';
 
 @Component({
 	selector: 'app-license-link',
@@ -11,4 +12,5 @@ export class LicenseLinkComponent {
 	licenseKey = input.required<string>();
 
 	protected readonly licenses = Licenses;
+	protected readonly clickExternalHref = clickExternalHref;
 }

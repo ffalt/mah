@@ -1,4 +1,5 @@
 import { env } from './env';
+import { openUrl } from '@tauri-apps/plugin-opener';
 
 export const environment = {
 	production: true,
@@ -7,5 +8,10 @@ export const environment = {
 	mobile: true,
 	editor: env.APP_FEATURE_EDITOR,
 	kyodai: env.APP_FEATURE_KYODAI,
-	modules: []
+	modules: [],
+	openExternal: openExternal
 };
+
+export function openExternal(url: string): void {
+	openUrl(url).catch(error => console.error('openUrl failed', error));
+}

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
+import { clickExternalHref } from '../../model/external-links';
 
 @Component({
 	selector: 'app-help',
@@ -18,4 +19,6 @@ export class HelpComponent {
 		{ icon: 'icon-cog', key: 'S', name: 'SETTINGS' },
 		{ icon: 'icon-logo', key: 'H', name: 'HELP' }
 	];
+
+	protected readonly clickExternalHref = clickExternalHref;
 }

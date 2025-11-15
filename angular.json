@@ -101,6 +101,18 @@
 							"extractLicenses": false,
 							"sourceMap": true,
 							"namedChunks": true
+						},
+						"development-apps": {
+							"fileReplacements": [
+								{
+									"replace": "src/environments/environment.ts",
+									"with": "src/environments/environment.apps.ts"
+								}
+							],
+							"optimization": false,
+							"extractLicenses": false,
+							"sourceMap": true,
+							"namedChunks": true
 						}
 					}
 				},
@@ -118,6 +130,9 @@
 						},
 						"apps": {
 							"buildTarget": "mah:build:apps"
+						},
+						"development-apps": {
+							"buildTarget": "mah:build:development-apps"
 						}
 					}
 				},
