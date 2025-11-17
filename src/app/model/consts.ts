@@ -49,7 +49,7 @@ export const Themes: Array<{ id?: string; name: string }> = [
 ];
 
 export const Backgrounds: Array<{ img?: string; name: string; small?: boolean }> = [
-	{ img: undefined, name: 'BACK_NONE' },
+	{ img: '', name: 'BACK_NONE' },
 	{ img: 'bamboo', name: 'BACK_BAMBOO' },
 	{ img: 'blueclouds', name: 'BACK_BLUE_CLOUDS' },
 	{ img: 'grayclouds', name: 'BACK_GRAY_CLOUDS' },

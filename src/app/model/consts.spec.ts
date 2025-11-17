@@ -87,7 +87,7 @@ describe('Constants', () => {
 			const background = Backgrounds[0];
 			expect(background).toHaveProperty('name');
 			// First one should be "no background"
-			expect(background.img).toBeUndefined();
+			expect(background.img).toBe('');
 		});
 	});
 

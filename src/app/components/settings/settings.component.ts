@@ -1,6 +1,6 @@
 import { Component, type ElementRef, inject, viewChild } from '@angular/core';
 import { TranslateService, TranslatePipe } from '@ngx-translate/core';
-import { Backgrounds, ImageSets, Themes } from '../../model/consts';
+import { Backgrounds, ImageSetDefault, ImageSets, Themes } from '../../model/consts';
 import { AppService } from '../../service/app.service';
 import { LayoutService } from '../../service/layout.service';
 import { LocalstorageService } from '../../service/localstorage.service';
@@ -16,7 +16,7 @@ import { LicenseLinkComponent } from '../license-link/license-link.component';
 	imports: [TranslatePipe, LicenseLinkComponent]
 })
 export class SettingsComponent {
-	readonly kyodaiInput = viewChild.required<ElementRef<HTMLInputElement>>('kyodaiInput');
+	readonly kyodaiInput = viewChild.required<ElementRef<HTMLInputElement | HTMLTextAreaElement>>('kyodaiInput');
 	canKyodai = environment.kyodai;
 	kyodaiTileSets = KyodaiTileSets;
 	sets = ImageSets;
@@ -29,12 +29,13 @@ export class SettingsComponent {
 	private readonly translate = inject(TranslateService);
 
 	updateKyodaiUrl(event: Event): void {
-		this.app.settings.kyodaiUrl = (event.target as HTMLInputElement).value;
+		this.app.settings.kyodaiUrl = (event.target as HTMLTextAreaElement | HTMLInputElement).value;
 		this.app.settings.save();
 	}
 
 	clearKyodaiUrl(): void {
 		this.app.settings.kyodaiUrl = undefined;
+		this.app.settings.tileset = ImageSetDefault;
 		this.app.settings.save();
 	}
 
