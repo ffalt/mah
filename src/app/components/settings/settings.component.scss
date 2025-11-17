@@ -2,35 +2,40 @@
 
 :host {
 	display: flex;
-	flex-flow: row wrap;
+	flex-flow: row nowrap;
 	justify-content: space-between;
 	flex: 1;
 	overflow-y: auto;
+	gap: 16px;
 
-	> div {
+	@include mixins.respond-to(large-down) {
+		flex-flow: column;
+		gap: unset;
+	}
+
+	.settings {
 		width: 50%;
-		padding-right: 20px;
+		flex-flow: column;
+		display: flex;
+		gap: 16px;
 
-		@include mixins.respond-to(medium-down) {
+		@include mixins.respond-to(large-down) {
 			width: 100%;
-			padding-right: 8px;
 		}
 
-		> div {
-			width: 100%;
+		@include mixins.respond-to(medium-down) {
+			gap: 8px;
+		}
+	}
 
-			> div {
-				display: flex;
-				flex-direction: row;
+	fieldset {
+		border: 1px solid var(--main-bg-color-lt);
+		border-radius: 8px;
+		padding: 8px 12px 12px;
 
-				> div {
-					flex: 1;
-				}
-
-				.name {
-					max-width: 40%;
-				}
-			}
+		legend {
+			padding: 0 6px;
+			font-weight: bold;
 		}
 	}
 
@@ -43,10 +48,18 @@
 		cursor: pointer;
 	}
 
-	p {
-		margin: 1em 0 4px;
-		font-weight: bold;
-		border-bottom: 1px solid var(--main-bg-color-lt);
+	li {
+		padding-left: 19px;
+		line-height: 34px;
+		display: flex;
+		gap: 3px;
+		height: 34px;
+		align-items: center;
+		border-radius: 8px;
+
+		&:hover {
+			background-color: var(--dialog-background-color-hover);
+		}
 	}
 
 	.radio {
@@ -59,47 +72,37 @@
 
 		label {
 			vertical-align: middle;
-			line-height: 30px;
+			line-height: 34px;
 			white-space: nowrap;
 			text-overflow: ellipsis;
 			flex: 1;
-		}
-
-		li {
-			padding-left: 19px;
-			line-height: 30px;
-			display: flex;
-			gap: 3px;
-			height: 30ox;
-			align-items: center;
-
-			&:hover {
-				background-color: var(--dialog-background-color-hover);
-			}
 		}
 
 		input {
 			margin-left: -14px;
 		}
 
-		@include mixins.respond-to(pico-down) {
+		@include mixins.respond-to(small-down) {
 			columns: 1;
 		}
 	}
 
-	.check {
-		padding: 2px;
-		line-height: 30px;
-		height: 30ox;
+	.checks {
+		list-style: none;
+		padding: 0;
+		margin: 0;
 
-		&:hover {
-			background-color: var(--dialog-background-color-hover);
+		li {
+			padding-left: 0;
 		}
-	}
 
-	.clear-times {
-		margin-top: 10px;
-		padding: 12px 20px;
+		label {
+			width: 100%;
+		}
+
+		.check {
+			padding: 2px;
+		}
 	}
 
 	.close {
@@ -148,14 +151,14 @@
 			background-color: var(--input-background-color);
 			color: var(--input-background-color);
 			border: none;
-			width: 30px;
+			width: 34px;
 		}
 
 		.clear-kyodai {
 			background-color: var(--input-background-color);
 			color: var(--input-text-color);
 			border: none;
-			width: 30px;
+			width: 34px;
 
 			svg {
 				fill: var(--input-text-color);

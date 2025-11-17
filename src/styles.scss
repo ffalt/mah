@@ -133,9 +133,10 @@ p {
 		border-color: var(--input-border-color);
 		color: var(--input-text-color);
 		text-overflow: ellipsis;
-		padding: 8px 12px;
 		font-size: 0.9em;
 		cursor: pointer;
+		padding: 10px 16px;
+		border-radius: 8px;
 
 		&:hover, &:active {
 			background-color: var(--input-background-color-hover);
