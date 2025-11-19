@@ -35,6 +35,10 @@
 		@include mixins.respond-to-horizontal-device(pad) {
 			display: none;
 		}
+
+		@include mixins.respond-to(tiny-down) {
+			display: none;
+		}
 	}
 
 	.groups {
@@ -131,6 +135,7 @@
 				justify-content: space-evenly;
 				gap: 4px;
 				padding-bottom: 12px;
+				box-sizing: border-box;
 			}
 
 			.preview {
@@ -143,10 +148,11 @@
 				display: block;
 				position: relative;
 				overflow: clip;
+				box-sizing: border-box;
 
 				app-layout-preview {
 					display: block;
-					width: 300px;
+					width: 100%;
 					height: 200px;
 					text-align: center;
 					padding-bottom: 1.5em;
@@ -246,6 +252,121 @@
 						width: 100%;
 						height: 100%;
 					}
+				}
+			}
+
+
+			@include mixins.respond-to(tiny-down) {
+				#item-random-1, #item-random-2, #item-random-3 {
+					display: none;
+				}
+			}
+		}
+	}
+}
+
+@supports (display: grid) {
+	:host {
+		.groups .group {
+
+			.previews {
+				display: grid;
+				gap: 4px;
+				padding-right: 4px;
+				padding-bottom: 12px;
+				align-content: start;
+				grid-template-columns: repeat(6, 1fr);
+				justify-items: stretch;
+				align-items: stretch;
+			}
+
+			.previews-random {
+				grid-template-columns: 1fr 1fr 1fr 1fr 2fr;
+			}
+
+			.preview {
+				margin-top: 0;
+				width: 100%;
+				max-width: none;
+				min-width: 0;
+				box-sizing: border-box;
+				height: 200px;
+
+				app-layout-preview {
+					width: 100%;
+					height: 200px;
+				}
+			}
+
+			@include mixins.respond-to(jumbo-down) {
+				.preview {
+					height: 190px;
+
+					app-layout-preview {
+						height: 190px;
+					}
+				}
+			}
+
+			@include mixins.respond-to(large-down) {
+				.previews {
+					grid-template-columns: repeat(4, 1fr);
+				}
+
+				.previews-random {
+					grid-template-columns: repeat(4, 1fr);
+				}
+
+				.preview-random {
+					grid-column: 1 / -1;
+				}
+			}
+
+			@include mixins.respond-to(medium-down) {
+				.previews {
+					grid-template-columns: repeat(3, 1fr);
+				}
+
+				.previews-random {
+					grid-template-columns: repeat(3, 1fr);
+				}
+
+				#item-random-3 {
+					display: none;
+				}
+			}
+
+			@include mixins.respond-to(small-down) {
+				.previews {
+					grid-template-columns: repeat(2, 1fr);
+				}
+
+				.previews-random {
+					grid-template-columns: 1fr 1fr;
+				}
+
+				#item-random-2 {
+					display: none;
+				}
+			}
+
+			@include mixins.respond-to-height(small-down) {
+				.preview {
+					height: 120px;
+
+					app-layout-preview {
+						height: 100%;
+					}
+				}
+			}
+
+			@include mixins.respond-to(tiny-down) {
+				.previews {
+					grid-template-columns: 1fr;
+				}
+
+				.previews-random {
+					grid-template-columns: 1fr;
 				}
 			}
 		}
