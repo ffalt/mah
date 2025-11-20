@@ -267,6 +267,11 @@
 
 @supports (display: grid) {
 	:host {
+		.headline-anchors {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+		}
+
 		.groups .group {
 
 			.previews {
