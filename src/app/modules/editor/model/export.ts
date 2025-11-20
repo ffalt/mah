@@ -1,5 +1,5 @@
 import type { Layout, LoadLayout, MahFormat, Mapping } from '../../../model/types';
-import { mappingBounds, mappingToID } from '../../../model/mapping';
+import { expandMapping, mappingBounds, mappingToID } from '../../../model/mapping';
 import { Matrix } from './matrix';
 import { compactMapping, optimizeMapping } from './import';
 
@@ -12,7 +12,7 @@ export function generateExportMahLayouts(layouts: Array<Layout>): string {
 }
 
 export function generateExportLayout(layout: Layout): LoadLayout {
-	const mapping = optimizeMapping(layout.mapping);
+	const mapping = expandMapping(compactMapping(optimizeMapping(layout.mapping)));
 	return {
 		id: mappingToID(mapping),
 		name: layout.name,
