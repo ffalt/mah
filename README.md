@@ -18,20 +18,20 @@ Built with HTML5, SVG, and Angular.
 
 ## Features
 
-* 63 built-in boards
+* 84 built-in boards
 
 * Random board generator for countless and more challenging games
 
 * 13 tile/piece image sets; light and dark themes
 
-* 8 game backgrounds and 7 background colors
+* 7 game backgrounds and 7 background colors
 
 * 3 difficulty levels and 2 game setup generators
 
 * Automatic saving and restoring of game state and best times.   
   In your browser only - nothing is stored in the cloud!
 
-* English, Deutsch, Nederlands, Português, Русский, Español, Euskara, 日本語, Français  
+* English, Deutsch, Nederlands, Português, Русский, Español, Euskara, 日本語, Français, 中文  
   Want to help translate Mah? Please use <https://crowdin.com/project/mahjong>
 
 ## Additional boards/layouts
