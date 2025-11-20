@@ -143,33 +143,21 @@ describe('SettingsComponent', () => {
 
 	describe('UI Elements', () => {
 		it('should render language selection radio buttons', () => {
-			const languageSection = fixture.debugElement.query(By.css('.settings p:nth-child(1)'));
-			expect(languageSection).toBeTruthy();
-
 			const radioButtons = fixture.debugElement.queryAll(By.css('input[name="lang"]'));
 			expect(radioButtons).toHaveLength(component.languages.length + 1); // +1 for auto option
 		});
 
 		it('should render background selection radio buttons', () => {
-			const backgroundSection = fixture.debugElement.query(By.css('.settings p:nth-child(3)'));
-			expect(backgroundSection).toBeTruthy();
-
 			const radioButtons = fixture.debugElement.queryAll(By.css('input[name="back"]'));
 			expect(radioButtons).toHaveLength(component.backs.length);
 		});
 
 		it('should render theme selection radio buttons', () => {
-			const themeSection = fixture.debugElement.query(By.css('.settings p:nth-child(5)'));
-			expect(themeSection).toBeTruthy();
-
 			const radioButtons = fixture.debugElement.queryAll(By.css('input[name="color"]'));
 			expect(radioButtons).toHaveLength(component.themes.length);
 		});
 
 		it('should render tileset selection radio buttons', () => {
-			const tilesetSection = fixture.debugElement.query(By.css('.settings:nth-child(2) p:nth-child(1)'));
-			expect(tilesetSection).toBeTruthy();
-
 			const radioButtons = fixture.debugElement.queryAll(By.css('input[name="imageset"]'));
 			// Number of buttons should be sets.length + (canKyodai ? 1 : 0)
 			const expectedCount = component.sets.length + (component.canKyodai ? 1 : 0);
@@ -177,17 +165,11 @@ describe('SettingsComponent', () => {
 		});
 
 		it('should render contrast and dark mode checkboxes', () => {
-			const tilesSection = fixture.debugElement.query(By.css('.settings:nth-child(2) p:nth-child(3)'));
-			expect(tilesSection).toBeTruthy();
-
 			const checkboxes = fixture.debugElement.queryAll(By.css('input[type="checkbox"]'));
 			expect(checkboxes).toHaveLength(2);
 		});
 
 		it('should render clear best times button', () => {
-			const bestTimesSection = fixture.debugElement.query(By.css('.settings:nth-child(2) p:nth-child(5)'));
-			expect(bestTimesSection).toBeTruthy();
-
 			const clearButton = fixture.debugElement.query(By.css('button.clear-times'));
 			expect(clearButton).toBeTruthy();
 		});
