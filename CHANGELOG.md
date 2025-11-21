@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [1.13.0](https://github.com/ffalt/mah/compare/v1.12.1...v1.13.0) (2025-11-21)
+
+
+### Features
+
+* **layouts:** add layout categories; add new layouts to fill up categories ([a66d826](https://github.com/ffalt/mah/commit/a66d826ca42ff27f7976d4aee3bb2e3db6d8117f))
+
+
+### Bug Fixes
+
+* **css:** better component layout on small screens ([85fe6cd](https://github.com/ffalt/mah/commit/85fe6cd10610ad9736b71f1401f359338f5df313))
+* **dark theme:** solve contrast issue on background hover ([57ebaa4](https://github.com/ffalt/mah/commit/57ebaa4d0ceb3198de18f869e23c4700dfd39c7a))
+* **editor:** on saving, compact & expand to restore sorting for ID ([ece6372](https://github.com/ffalt/mah/commit/ece6372b38922841961b97ded49bfe5994ebb663))
+* **layout-list:** better row layouting with css grid ([21841cb](https://github.com/ffalt/mah/commit/21841cbb7159cc50644f7b214ab38bb18a8a4a05))
+* **layout-list:** use grid for anchors if available ([e589a50](https://github.com/ffalt/mah/commit/e589a5083a54f871025432d5c0f3832e1eee4923))
+* **settings-dialog:** ensure background [none] is marked as selected ([030c7dd](https://github.com/ffalt/mah/commit/030c7ddd24910cc9f6689f08aed18ca5bb98d7f3))
+* **settings-dialog:** gap on single column layout ([be8b573](https://github.com/ffalt/mah/commit/be8b573e104c2536db65c82712324224298e31e2))
+* **settings-dialog:** more spacing; fix form structure ([d4b6127](https://github.com/ffalt/mah/commit/d4b61277aa8d5b7198cb6a543e8692372dc84efd))
+
 ## [1.12.1](https://github.com/ffalt/mah/compare/v1.12.0...v1.12.1) (2025-11-15)
 
 
