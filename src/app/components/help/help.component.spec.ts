@@ -39,7 +39,7 @@ describe('HelpComponent', () => {
 		const howToPlaySection = fixture.debugElement.query(By.css('.help'));
 		expect(howToPlaySection).toBeTruthy();
 
-		const heading = howToPlaySection.query(By.css('h2'));
+		const heading = howToPlaySection.query(By.css('legend'));
 		expect(heading).toBeTruthy();
 	});
 
@@ -47,7 +47,7 @@ describe('HelpComponent', () => {
 		const licenseSection = fixture.debugElement.query(By.css('.license'));
 		expect(licenseSection).toBeTruthy();
 
-		const heading = licenseSection.query(By.css('h2'));
+		const heading = licenseSection.query(By.css('legend'));
 		expect(heading).toBeTruthy();
 
 		const licenseList = licenseSection.query(By.css('.license-list'));
@@ -61,7 +61,7 @@ describe('HelpComponent', () => {
 		const shortcutsSection = fixture.debugElement.query(By.css('.keyboard'));
 		expect(shortcutsSection).toBeTruthy();
 
-		const heading = shortcutsSection.query(By.css('h2'));
+		const heading = shortcutsSection.query(By.css('legend'));
 		expect(heading).toBeTruthy();
 
 		const shortcutsList = shortcutsSection.query(By.css('.keyboard-list'));
@@ -138,9 +138,9 @@ describe('HelpComponent', () => {
 		fixture.detectChanges();
 
 		// Check that translations are applied to headings
-		const howToPlayHeading = fixture.debugElement.query(By.css('.help h2')).nativeElement;
-		const licenseHeading = fixture.debugElement.query(By.css('.license h2')).nativeElement;
-		const shortcutsHeading = fixture.debugElement.query(By.css('.keyboard h2')).nativeElement;
+		const howToPlayHeading = fixture.debugElement.query(By.css('.help legend')).nativeElement;
+		const licenseHeading = fixture.debugElement.query(By.css('.license legend')).nativeElement;
+		const shortcutsHeading = fixture.debugElement.query(By.css('.keyboard legend')).nativeElement;
 
 		expect(howToPlayHeading.textContent).toBe('How to Play');
 		expect(licenseHeading.textContent).toBe('License');
