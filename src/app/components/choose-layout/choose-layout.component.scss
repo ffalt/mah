@@ -15,10 +15,7 @@
 		display: flex;
 		flex-flow: row nowrap;
 		align-items: flex-end;
-
-		@include mixins.respond-to-height(small-down) {
-			padding-top: 4px;
-		}
+		gap: 8px;
 
 		.start-links {
 			text-align: right;
@@ -26,7 +23,6 @@
 
 			.link {
 				color: var(--input-text-color);
-				margin-left: 8px;
 				text-decoration: none;
 				padding: 8px 12px;
 			}
@@ -46,8 +42,46 @@
 		}
 
 		.mode {
-			margin-left: 8px;
 			max-width: 30%;
+		}
+
+		@include mixins.respond-to-height(medium-down) {
+			.mode {
+				max-width: 50%;
+			}
+		}
+
+		@include mixins.respond-to-height(small-down) {
+			padding-top: 4px;
+		}
+
+		@include mixins.respond-to(small-down) {
+			select {
+				padding: 5px;
+			}
+		}
+
+		@include mixins.respond-to-horizontal-device(pad) {
+			.start-links {
+				display: none;
+			}
+		}
+
+		@include mixins.respond-to(tiny-down) {
+			flex-direction: column;
+			align-items: unset;
+
+			label {
+				font-size: 0.7em;
+			}
+
+			.mode {
+				max-width: unset;
+			}
+
+			.start-links {
+				display: none;
+			}
 		}
 	}
 }

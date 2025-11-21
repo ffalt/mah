@@ -17,26 +17,26 @@
 		}
 	}
 </div>
-<div class="tiles-header">
-	<form>
-		@if (selectedSet) {
-			<app-license-link [imagesetId]="selectedSet.id" [licenseKey]="selectedSet.license"></app-license-link>
-		}
-		<select (change)="tileset = $any($event.target).value">
-			@for (imageset of sets; track imageset) {
-				<option [value]="imageset.id" [selected]="tileset === imageset.id">{{ imageset.name }}</option>
+<div class="tiles-footer">
+	<form class="tiles-form">
+		<div class="tiles-select">
+			@if (selectedSet) {
+				<app-license-link [imagesetId]="selectedSet.id" [licenseKey]="selectedSet.license"></app-license-link>
 			}
-			@if (canKyodai && kyodaiUrl) {
-				<option value="kyodai" [selected]="tileset === 'kyodai'">{{ 'KYODAI_TILESET' | translate }}</option>
-			}
-		</select>
+			<select (change)="tileset = $any($event.target).value">
+				@for (imageset of sets; track imageset) {
+					<option [value]="imageset.id" [selected]="tileset === imageset.id">{{ imageset.name }}</option>
+				}
+				@if (canKyodai && kyodaiUrl) {
+					<option value="kyodai" [selected]="tileset === 'kyodai'">{{ 'KYODAI_TILESET' | translate }}</option>
+				}
+			</select>
+		</div>
 		<label><input type="checkbox" [checked]="isDark" (change)="isDark = !isDark;">{{ 'TILES_DARK' | translate }}</label>
-		@if (selectedSet && (
-		(selectedSet.id !== app.settings.tileset) ||
-		(isDark !== app.settings.dark)
-		)) {
-			<button type="button" (click)="applyTileset()">{{ 'USE_NOW' | translate }}</button>
-		}
+		<button type="button"
+						[disabled]="!selectedSet || ((selectedSet.id === app.settings.tileset) && (isDark === app.settings.dark))"
+						(click)="applyTileset()">{{ 'USE_NOW' | translate }}
+		</button>
 	</form>
 	<div class="tiles-reference">
 		<a (click)="clickExternalHref($event)" rel="noopener" target="_blank" href="{{'READ_MORE_WIKIPEDIA_URL' | translate}}">{{ 'READ_MORE_WIKIPEDIA' | translate }}</a>

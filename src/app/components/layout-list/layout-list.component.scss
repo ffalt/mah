@@ -270,6 +270,14 @@
 		.headline-anchors {
 			display: grid;
 			grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+
+			@include mixins.respond-to-horizontal-device(pad) {
+				display: none;
+			}
+
+			@include mixins.respond-to(tiny-down) {
+				display: none;
+			}
 		}
 
 		.groups .group {

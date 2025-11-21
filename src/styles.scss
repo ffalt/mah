@@ -141,6 +141,11 @@ p {
 		&:hover, &:active {
 			background-color: var(--input-background-color-hover);
 		}
+
+		&:disabled {
+			cursor: default;
+			color: var(--text-disabled-color);
+		}
 	}
 
 	@include mixins.respond-to(medium-up) {
