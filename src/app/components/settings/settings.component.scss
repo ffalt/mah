@@ -10,7 +10,7 @@
 
 	@include mixins.respond-to(large-down) {
 		flex-flow: column;
-		gap: unset;
+		gap: 8px;
 	}
 
 	.settings {
