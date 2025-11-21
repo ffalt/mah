@@ -1,1 +1,0 @@
-var E={APP_VERSION:"1.12.1",APP_NAME:"Mah",APP_FEATURE_EDITOR:!0,APP_FEATURE_KYODAI:!0,APP_FEATURE_MOBILE:!1};var _={production:!0,version:E.APP_VERSION,name:E.APP_NAME,mobile:E.APP_FEATURE_MOBILE,editor:E.APP_FEATURE_EDITOR,kyodai:E.APP_FEATURE_KYODAI,modules:[],openExternal:void 0};export{_ as a};
