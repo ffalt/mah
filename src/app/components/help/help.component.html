@@ -1,13 +1,13 @@
 <div class="top">
-	<div class="help">
-		<h2>{{ 'HOW_TO_PLAY' | translate }}</h2>
+	<fieldset class="help">
+		<legend>{{ 'HOW_TO_PLAY' | translate }}</legend>
 		<p>{{ 'HOW_GOAL' | translate }}</p>
 		<p><b>{{ 'HOW_OPEN' | translate }}</b>: {{ 'HOW_OPEN_DESC' | translate }}</p>
 		<p><b>{{ 'HOW_PAIR' | translate }}</b>: {{ 'HOW_PAIR_DESC' | translate }}</p>
 		<p>{{ 'HOW_DO' | translate }}</p>
-	</div>
-	<div class="license">
-		<h2>{{ 'LICENSE' | translate }}</h2>
+	</fieldset>
+	<fieldset class="license">
+		<legend>{{ 'LICENSE' | translate }}</legend>
 		<div class="license-list">
 			<div>
 				<div class="name">{{ 'GAME' | translate }}</div>
@@ -30,10 +30,10 @@
 				<div class="info"><a (click)="clickExternalHref($event)" rel="noopener" target="_blank" href="https://github.com/ffalt/mah/blob/main/src/assets/img/README.md">Public Domain</a></div>
 			</div>
 		</div>
-	</div>
+	</fieldset>
 </div>
-<div class="keyboard">
-	<h2>{{ 'SHORTCUTS' | translate }}</h2>
+<fieldset class="keyboard">
+	<legend>{{ 'SHORTCUTS' | translate }}</legend>
 	<ul class="keyboard-list">
 		@for (shortcut of shortcuts; track shortcut) {
 			<li>
@@ -44,4 +44,4 @@
 			</li>
 		}
 	</ul>
-</div>
+</fieldset>

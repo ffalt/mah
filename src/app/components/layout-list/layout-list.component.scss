@@ -5,13 +5,16 @@
 	overflow: hidden;
 	flex-direction: column;
 	flex: 1;
+	border: 1px solid var(--card-layout-color-border);
+	border-radius: 4px;
 
 	.headline-anchors {
 		border-bottom: 1px solid var(--card-layout-color-border);
 		width: 100%;
 		display: flex;
 		flex-wrap: wrap;
-		padding-bottom: 10px;
+		padding-top: 2px;
+		padding-bottom: 2px;
 		color: var(--dialog-text-color);
 		white-space: nowrap;
 

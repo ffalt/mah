@@ -2,25 +2,28 @@
 
 :host {
 	display: flex;
-	flex-flow: row wrap;
+	flex-direction: row;
 	flex: 1;
 	overflow: hidden auto;
+	gap: 8px;
 
-	h2 {
-		padding-bottom: 3px;
-		margin: 10px 0 4px;
-		font-weight: bold;
-		border-bottom: 1px solid var(--main-bg-color-lt);
-		font-size: 1.1em;
-	}
-
-	> div {
+	fieldset {
+		border: 1px solid var(--main-bg-color-lt);
+		border-radius: 8px;
+		padding: 8px 12px 12px;
 		flex: 1;
-		margin-right: 10px;
+		legend {
+			padding: 0 6px;
+			font-weight: bold;
+		}
 	}
 
-	.help, .license {
-		padding-right: 10px;
+	.top {
+		flex: 1;
+		padding-right: 6px;
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
 	}
 
 	.help {
