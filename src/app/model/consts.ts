@@ -39,13 +39,20 @@ export type GAME_MODE_ID = 'GAME_MODE_EASY' | 'GAME_MODE_STANDARD' | 'GAME_MODE_
 export const GAME_MODE_ID_DEFAULT: GAME_MODE_ID = 'GAME_MODE_STANDARD';
 
 export const Themes: Array<{ id?: string; name: string }> = [
-	{ id: 'ltgreen', name: 'THEME_LIGHT_GREEN' },
-	{ id: 'dkgreen', name: 'THEME_DARK_GREEN' },
-	{ id: 'ltblue', name: 'THEME_LIGHT_BLUE' },
-	{ id: 'dkblue', name: 'THEME_DARK_BLUE' },
-	{ id: 'brown', name: 'THEME_BROWN' },
-	{ id: 'black', name: 'THEME_BLACK' },
-	{ id: 'white', name: 'THEME_WHITE' }
+	{ id: 'ltgreen', name: 'THEME_SAGE' },
+	{ id: 'dkgreen', name: 'THEME_FOREST' },
+	{ id: 'ltblue', name: 'THEME_SKY' },
+	{ id: 'ice', name: 'THEME_ICE' },
+	{ id: 'dkblue', name: 'THEME_NAVY' },
+	{ id: 'ocean', name: 'THEME_OCEAN' },
+	{ id: 'cyberpunk', name: 'THEME_CYBERPUNK' },
+	{ id: 'desert', name: 'THEME_DESERT' },
+	{ id: 'brown', name: 'THEME_MAHOGANY' },
+	{ id: 'medieval', name: 'THEME_MEDIEVAL' },
+	{ id: 'lava', name: 'THEME_LAVA' },
+	{ id: 'space', name: 'THEME_SPACE' },
+	{ id: 'black', name: 'THEME_ONYX' },
+	{ id: 'white', name: 'THEME_PEARL' }
 ];
 
 export const Backgrounds: Array<{ img?: string; name: string; small?: boolean }> = [
@@ -84,7 +91,7 @@ export const ImageSets = [
 ];
 
 export const ImageSetDefault = 'riichi';
-export const ThemeDefault = 'ltgreen';
+export const ThemeDefault = 'sage';
 export const LangAuto = 'auto';
 export const LangDefault = 'auto';
 

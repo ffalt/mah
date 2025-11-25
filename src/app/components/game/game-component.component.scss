@@ -60,6 +60,76 @@
 		--main-bg-color-dk: #171717;
 	}
 
+	&.cyberpunk {
+		--main-bg-color: #0a0e27;
+		--main-bg-color-lt: #1a1f3a;
+		--main-bg-color-dk: #050710;
+		--main-text-color: #00ff9f;
+		--main-text-color-lt: #00ffff;
+		--main-text-color-dk: #ff00ff;
+		--dialog-text-color: #0a0e27;
+	}
+
+	&.desert {
+		--main-bg-color: #c9a961;
+		--main-bg-color-lt: #ddb892;
+		--main-bg-color-dk: #9d7e52;
+		--main-text-color: #2c1810;
+		--main-text-color-lt: #4a2c1a;
+		--main-text-color-dk: #1a0f08;
+		--dialog-text-color: #2c1810;
+	}
+
+	&.ice {
+		--main-bg-color: #b3e5fc;
+		--main-bg-color-lt: #e1f5fe;
+		--main-bg-color-dk: #81d4fa;
+		--main-text-color: #004471;
+		--main-text-color-lt: #01579b;
+		--main-text-color-dk: #0d47a1;
+		--dialog-text-color: #004471;
+	}
+
+	&.lava {
+		--main-bg-color: #5d1f1a;
+		--main-bg-color-lt: #8b2e2a;
+		--main-bg-color-dk: #3d120f;
+		--main-text-color: #ffb74d;
+		--main-text-color-lt: #ffeb3b;
+		--main-text-color-dk: #ff6f00;
+		--dialog-text-color: #5d1f1a;
+	}
+
+	&.space {
+		--main-bg-color: #0d1b2a;
+		--main-bg-color-lt: #1b2d42;
+		--main-bg-color-dk: #050d15;
+		--main-text-color: #e0aaff;
+		--main-text-color-lt: #ffc8ff;
+		--main-text-color-dk: #c77dff;
+		--dialog-text-color: #0d1b2a;
+	}
+
+	&.ocean {
+		--main-bg-color: #0a3d62;
+		--main-bg-color-lt: #1b5e75;
+		--main-bg-color-dk: #051e3e;
+		--main-text-color: #a8dadc;
+		--main-text-color-lt: #f1faee;
+		--main-text-color-dk: #457b9d;
+		--dialog-text-color: #0a3d62;
+	}
+
+	&.medieval {
+		--main-bg-color: #3d2817;
+		--main-bg-color-lt: #5c4033;
+		--main-bg-color-dk: #2c1810;
+		--main-text-color: #daa520;
+		--main-text-color-lt: #ffd700;
+		--main-text-color-dk: #b8860b;
+		--dialog-text-color: #3d2817;
+	}
+
 	.controls {
 		min-width: 170px;
 
