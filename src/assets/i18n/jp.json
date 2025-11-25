@@ -237,5 +237,7 @@
 	"KYODAI_TILESET_LOAD": "画像を読み込む",
 	"KYODAI_TILESET_SETTINGS": "京大画像URL",
 	"KYODAI_TILESET_EXAMPLES": "京大タイルセットの例",
-	"KYODAI_TILESET": "京大タイルセット"
+	"KYODAI_TILESET": "京大タイルセット",
+	"KYODAI_TILESET_URL_PLACEHOLDER": "京大タイルセットのURLを入力してください",
+	"KYODAI_TILESET_CLEAR": "URLをクリア"
 }

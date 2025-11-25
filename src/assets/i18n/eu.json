@@ -237,5 +237,7 @@
 	"KYODAI_TILESET_LOAD": "Kargatu irudia",
 	"KYODAI_TILESET_SETTINGS": "Kyodai irudiaren URLa",
 	"KYODAI_TILESET_EXAMPLES": "Kyodai fitxa-sorten adibideak",
-	"KYODAI_TILESET": "Kyodai Fitxa-sorten"
+	"KYODAI_TILESET": "Kyodai Fitxa-sorten",
+	"KYODAI_TILESET_URL_PLACEHOLDER": "Sartu Kyodai fitxen URL-a",
+	"KYODAI_TILESET_CLEAR": "Garbitu URL-a"
 }

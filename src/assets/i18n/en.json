@@ -237,5 +237,7 @@
 	"KYODAI_TILESET_LOAD": "Load Image",
 	"KYODAI_TILESET_SETTINGS": "Kyodai Image URL",
 	"KYODAI_TILESET_EXAMPLES": "Kyodai Tileset Examples",
-	"KYODAI_TILESET": "Kyodai Tileset"
+	"KYODAI_TILESET": "Kyodai Tileset",
+	"KYODAI_TILESET_URL_PLACEHOLDER": "Enter Kyodai tileset URL",
+	"KYODAI_TILESET_CLEAR": "Clear URL"
 }
