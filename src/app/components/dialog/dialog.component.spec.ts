@@ -42,15 +42,15 @@ describe('DialogComponent', () => {
 			expect(component.className()).toBe(testClassName);
 		});
 
-		it('should have default value for noClose input', () => {
-			expect(component.noClose()).toBe(false);
+		it('should have default value for noCloseButton input', () => {
+			expect(component.noCloseButton()).toBe(false);
 		});
 
-		it('should accept noClose input override', () => {
-			fixture.componentRef.setInput('noClose', true);
+		it('should accept noCloseButton input override', () => {
+			fixture.componentRef.setInput('noCloseButton', true);
 			fixture.detectChanges();
 
-			expect(component.noClose()).toBe(true);
+			expect(component.noCloseButton()).toBe(true);
 		});
 	});
 
@@ -152,8 +152,8 @@ describe('DialogComponent', () => {
 			expect(closeButton).toBeTruthy();
 		});
 
-		it('should not render close button when noClose is true', () => {
-			fixture.componentRef.setInput('noClose', true);
+		it('should not render close button when noCloseButton is true', () => {
+			fixture.componentRef.setInput('noCloseButton', true);
 			component.visible.set(true);
 			fixture.detectChanges();
 

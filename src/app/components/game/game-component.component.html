@@ -89,7 +89,7 @@
 	}
 </app-dialog>
 
-<app-dialog (clickEvent)="clickMessage()" [visible]="!!game.message" className="overlay-message" [noClose]="true">
+<app-dialog (clickEvent)="clickMessage()" [visible]="!!game.message" className="overlay-message" [noCloseButton]="true">
 	@if (game.message) {
 		<div class="overlay-message-message" (click)="clickMessage()">
 			@if (game.message.messageID) {
@@ -97,6 +97,18 @@
 			}
 			@if (game.message.playTime) {
 				<div>{{ game.message.playTime | duration }}</div>
+			}
+			@if (game.mode === 'GAME_MODE_EASY' && game.message?.messageID === 'MSG_FAIL') {
+				<div class="overlay-message-actions">
+					<button class="link button feature"
+							(click)="onShuffleContinue($event)">
+						<i class="icon-spin1"></i> <span class="label">{{ 'SHUFFLE' | translate }}</span>
+					</button>
+					<button class="link button"
+							(click)="onSurrenderGame($event)">
+						<i class="icon-loop"></i> <span class="label">{{ 'RESTART' | translate }}</span>
+					</button>
+				</div>
 			}
 		</div>
 	}

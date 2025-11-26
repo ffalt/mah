@@ -269,6 +269,10 @@ p {
 			padding: 2em;
 		}
 
+		.overlay-message-actions {
+			margin-top: 20px;
+		}
+
 		.overlay-popup {
 			cursor: pointer;
 			font-weight: 600;
@@ -276,7 +280,6 @@ p {
 			color: var(--dialog-headline-color);
 			padding: 0;
 			user-select: none;
-			pointer-events: none;
 		}
 	}
 

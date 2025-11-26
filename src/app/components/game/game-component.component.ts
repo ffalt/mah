@@ -249,11 +249,26 @@ export class GameComponent {
 
 	clickMessage(): void {
 		if (this.game.isPaused()) {
-			this.game.resume();
+			if (this.game.mode === 'GAME_MODE_EASY' && this.game.message?.messageID === 'MSG_FAIL') {
+				return;
+			} else {
+				this.game.resume();
+			}
 		} else {
 			this.game.reset();
 			this.showNewGame();
 		}
+	}
+
+	onShuffleContinue(event: Event): void {
+		event.stopPropagation();
+		this.game.gameOverEasyModeShuffle();
+	}
+
+	onSurrenderGame(event: Event): void {
+		event.stopPropagation();
+		this.game.surrender();
+		this.showNewGame();
 	}
 
 	debugSolve(): void {

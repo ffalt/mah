@@ -182,14 +182,34 @@ export class Game {
 		return this.layoutID != undefined && !this.layoutID.startsWith(RANDOM_LAYOUT_ID_PREFIX);
 	}
 
-	private gameOverLosing(): void {
+	private storeLostGame(): void {
 		if (this.isStorableLayoutId()) {
 			const id = this.layoutID ?? 'unknown';
 			const score = this.storage.getScore(id) ?? {};
 			score.playCount = (score.playCount ?? 0) + 1;
 			this.storage.storeScore(id, score);
 		}
+	}
+
+	private gameOverLosing(): void {
+		this.storeLostGame();
 		this.gameOver('MSG_FAIL');
+	}
+
+	gameOverEasyModeShuffle(): void {
+		this.shuffle();
+		if (this.board.free.length === 0) {
+			this.gameOverEasyMode();
+		} else {
+			this.resume();
+		}
+	}
+
+	surrender(): void {
+		this.storeLostGame();
+		this.sound.play(SOUNDS.OVER);
+		this.setState(STATES.idle);
+		this.clock.reset();
 	}
 
 	private gameOverWinning(): void {
@@ -217,6 +237,13 @@ export class Game {
 		}, 300);
 	}
 
+	private gameOverEasyMode() {
+		this.clock.pause();
+		this.setState(STATES.pause, 'MSG_FAIL');
+		this.delayedSave();
+		this.music.pause();
+	}
+
 	private resolveMatchingStone(stone: Stone): void {
 		const sel = this.board.selected;
 		if (!sel) {
@@ -226,6 +253,10 @@ export class Game {
 		if (this.board.count < 2) {
 			this.gameOverWinning();
 		} else if (this.board.free.length === 0) {
+			if (this.mode === GAME_MODE_EASY) {
+				this.gameOverEasyMode();
+				return;
+			}
 			this.gameOverLosing();
 		} else {
 			this.sound.play(SOUNDS.MATCH);
@@ -233,7 +264,7 @@ export class Game {
 		}
 	}
 
-	private gameOver(message: string, playTime?: number): void {
+	private gameOver(message?: string, playTime?: number): void {
 		this.sound.play(SOUNDS.OVER);
 		this.setState(STATES.idle, message, playTime);
 		this.clock.reset();

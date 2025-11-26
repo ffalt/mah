@@ -11,7 +11,7 @@ export class DialogComponent {
 	readonly title = input<string>();
 	readonly className = input<string>();
 	readonly visible = model<boolean>(false);
-	readonly noClose = input<boolean>(false);
+	readonly noCloseButton = input<boolean>(false);
 	readonly clickEvent = output<boolean>();
 
 	toggle() {
