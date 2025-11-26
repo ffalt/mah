@@ -386,4 +386,30 @@
 			}
 		}
 	}
+
+	.radio-themes {
+
+		label {
+			@include mixins.respond-to(tiny-down) {
+				hyphens: auto;
+				word-break: break-word;
+			}
+		}
+
+		.theme-preview-wrapper {
+			display: block;
+			border: 1px solid #000;
+
+			@media (prefers-color-scheme: dark) {
+				border-color: #6e6e6e;
+			}
+		}
+
+		.theme-preview {
+			background-color: var(--main-bg-color);
+			display: block;
+			width: 20px;
+			height: 20px;
+		}
+	}
 }

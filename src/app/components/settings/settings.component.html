@@ -24,7 +24,7 @@
 
 		<fieldset>
 			<legend id="theme-legend">{{ 'THEME' | translate }}</legend>
-			<ul class="radio" role="group" aria-labelledby="theme-legend">
+			<ul class="radio radio-themes" role="group" aria-labelledby="theme-legend">
 				@for (theme of themes; track theme; let i = $index) {
 					<li>
 						<input type="radio" name="color" id="color{{i}}" [value]="theme.id"
@@ -32,6 +32,10 @@
 									 (change)="app.settings.theme = theme.id || '';app.settings.save();"
 									 [attr.aria-label]="theme.name | translate"
 						/><label for="color{{i}}">{{ theme.name | translate }}</label>
+
+						<div class="theme-preview-wrapper">
+							<div class="theme-preview" [class]="'theme-'+theme.id"></div>
+						</div>
 					</li>
 				}
 			</ul>
@@ -90,11 +94,11 @@
 				<legend id="kyodai-legend">{{ 'KYODAI_TILESET_SETTINGS' | translate }}</legend>
 				<div class="input-wrapper">
 					<textarea #kyodaiInput type="text" name="kyodai"
-									[value]="app.settings.kyodaiUrl ? app.settings.kyodaiUrl : ''"
-									(change)="updateKyodaiUrl($event)"
-									aria-labelledby="kyodai-legend"
-									aria-describedby="kyodai-help"
-									placeholder="{{ 'KYODAI_TILESET_URL_PLACEHOLDER' | translate }}"
+										[value]="app.settings.kyodaiUrl ? app.settings.kyodaiUrl : ''"
+										(change)="updateKyodaiUrl($event)"
+										aria-labelledby="kyodai-legend"
+										aria-describedby="kyodai-help"
+										placeholder="{{ 'KYODAI_TILESET_URL_PLACEHOLDER' | translate }}"
 					></textarea>
 					<button class="clear-kyodai"
 									(click)="clearKyodaiUrl()"

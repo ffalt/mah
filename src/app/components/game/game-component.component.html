@@ -98,7 +98,7 @@
 			@if (game.message.playTime) {
 				<div>{{ game.message.playTime | duration }}</div>
 			}
-			@if (game.mode === 'GAME_MODE_EASY' && game.message?.messageID === 'MSG_FAIL') {
+			@if (game.mode === 'GAME_MODE_EASY' && game.message.messageID === 'MSG_FAIL') {
 				<div class="overlay-message-actions">
 					<button class="link button feature"
 							(click)="onShuffleContinue($event)">
