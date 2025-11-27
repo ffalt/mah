@@ -20,7 +20,7 @@ html {
 	--dialog-headline-color: #2e8c02;
 	--dialog-text-color: #000;
 	--dialog-background-color: #f5f1e4;
-	--dialog-background-color-hover: #ddd8ce;
+	--dialog-background-color-hover: #f0e8d0;
 	--dialog-border-color: #0d1417;
 	--dialog-border-color-hover: #2e4856;
 	--dialog-border-color-selected: yellow;
@@ -248,24 +248,198 @@ p {
 	max-width: 100%;
 	font-size: variables.$base-font-size * 0.9;
 
-	button, select {
+	button,
+	select {
+		-webkit-appearance: none;
+		appearance: none;
 		background-color: var(--input-background-color);
-		border-color: var(--input-border-color);
+		border: 2px solid var(--input-border-color);
 		color: var(--input-text-color);
 		text-overflow: ellipsis;
-		font-size: 0.9em;
+		font-size: 0.95em;
 		cursor: pointer;
-		padding: 10px 16px;
-		border-radius: 8px;
+		padding: 12px 16px;
+		border-radius: 12px;
 		font-family: variables.$text-font;
+		transition: all 140ms cubic-bezier(0.34, 1.56, 0.64, 1);
+		outline: none;
+		min-height: 44px;
+		line-height: 1.4;
+		font-weight: 500;
 
-		&:hover, &:active {
+		&:hover {
 			background-color: var(--input-background-color-hover);
+			border-color: var(--dialog-headline-color);
+		}
+
+		&:focus, &:focus-visible {
+			border-color: var(--gesture-indicator);
 		}
 
 		&:disabled {
-			cursor: default;
+			cursor: not-allowed;
+			opacity: 0.5;
 			color: var(--text-disabled-color);
+			background-color: var(--input-background-color);
+			border-color: var(--input-border-color);
+		}
+
+		@include mixins.respond-to(medium-down) {
+			min-height: 32px;
+			padding: 6px 8px;
+		}
+	}
+
+	select {
+		padding-right: 20px;
+		background-repeat: no-repeat;
+		background-position: right 4px center;
+		background-size: 18px 18px;
+		background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%23000000' d='M7 10l5 5 5-5z'/></svg>");
+		@media (prefers-color-scheme: dark) {
+			background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%23FFFFFF' d='M7 10l5 5 5-5z'/></svg>");
+		}
+		@include mixins.respond-to(medium-down) {
+			background-position: right 2px center;
+		}
+	}
+
+	input[type="checkbox"],
+	input[type="radio"] {
+		appearance: none;
+		-webkit-appearance: none;
+		width: 18px;
+		height: 18px;
+		min-width: 18px;
+		min-height: 18px;
+		cursor: pointer;
+		border: 1.5px solid var(--input-border-color);
+		background-color: var(--input-background-color);
+		position: relative;
+		transition: all 200ms cubic-bezier(0.2, 0.85, 0.5, 1.1);
+		box-shadow: none;
+		flex-shrink: 0;
+		margin: 0;
+		padding: 0;
+
+		@include mixins.respond-to(tiny-down) {
+			width: 22px;
+			height: 22px;
+			min-width: 22px;
+			min-height: 22px;
+		}
+
+		&:hover:not(:disabled) {
+			border-color: var(--dialog-headline-color);
+			background-color: var(--input-background-color-hover);
+		}
+
+		&:checked {
+			background: linear-gradient(135deg, var(--dialog-headline-color) 0%, var(--text-highlight-color) 100%);
+			border-color: var(--dialog-headline-color);
+		}
+
+		&:checked:hover:not(:disabled) {
+			background: linear-gradient(135deg, var(--text-highlight-color) 0%, var(--dialog-headline-color) 100%);
+		}
+
+		&:focus-visible {
+			border-color: var(--gesture-indicator);
+			outline: 2px solid var(--gesture-indicator);
+			outline-offset: 2px;
+		}
+
+		&:active:not(:disabled) {
+			transform: scale(0.88);
+		}
+
+		&:disabled {
+			cursor: not-allowed;
+			opacity: 0.35;
+			border-color: var(--input-border-color);
+		}
+
+		&[type="checkbox"]:checked::after {
+			content: '';
+			position: absolute;
+			left: 4px;
+			top: 1px;
+			width: 5px;
+			height: 9px;
+			border: solid #fff;
+			border-width: 0 1.5px 1.5px 0;
+			transform: rotate(45deg);
+			animation: checkmarkPop 200ms cubic-bezier(0.34, 1.56, 0.64, 1);
+		}
+
+		&[type="radio"]:checked::after {
+			content: '';
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			width: 6px;
+			height: 6px;
+			background-color: #fff;
+			border-radius: 50%;
+			transform: translate(-50%, -50%);
+			animation: radioPop 200ms cubic-bezier(0.34, 1.56, 0.64, 1);
+		}
+	}
+
+	input[type="checkbox"] {
+		border-radius: 3px;
+	}
+
+	input[type="radio"] {
+		border-radius: 50%;
+	}
+
+	@media (prefers-color-scheme: dark) {
+		input[type="checkbox"],
+		input[type="radio"] {
+			border-color: var(--input-border-color);
+
+			&:hover:not(:disabled) {
+				border-color: var(--dialog-headline-color);
+				background-color: var(--input-background-color-hover);
+			}
+
+			&:checked {
+				background: linear-gradient(135deg, var(--dialog-headline-color) 0%, var(--main-text-color) 100%);
+				border-color: var(--dialog-headline-color);
+			}
+
+			&:checked:hover:not(:disabled) {
+				background: linear-gradient(135deg, var(--main-text-color) 0%, var(--dialog-headline-color) 100%);
+			}
+
+			&:focus-visible {
+				border-color: var(--gesture-indicator);
+				outline: 2px solid var(--gesture-indicator);
+				outline-offset: 2px;
+			}
+		}
+	}
+
+	@keyframes checkmarkPop {
+		0% {
+			opacity: 0;
+			transform: rotate(45deg) scale(0.4);
+		}
+		100% {
+			opacity: 1;
+			transform: rotate(45deg) scale(1);
+		}
+	}
+
+	@keyframes radioPop {
+		0% {
+			opacity: 0;
+			transform: translate(-50%, -50%) scale(0.3);
+		}
+		100% {
+			opacity: 1;
+			transform: translate(-50%, -50%) scale(1);
 		}
 	}
 

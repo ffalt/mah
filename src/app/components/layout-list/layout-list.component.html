@@ -43,28 +43,28 @@
 						}
 						<div class="preview-random">
 							<div class="random-options">
-								<label>
+								<label for="random-setting-vertical">
 									<!-- https://www.svgrepo.com/svg/512271/focus-vertical-842 Public Domain-->
 									<svg width="20px" height="20px" viewBox="-2 0 20 20">
 										<path id="focus_vertical-[#842]" d="M7,20 L7,0 L9,0 L9,20 Z M0,2 L5,2 L5,4 L2,4 L2,7 L0,7 Z M11,2 L16,2 L16,7 L14,7 L14,4 L11,4 Z M0,18 L0,13 L2,13 L2,16 L5,16 L5,18 Z M16,18 L11,18 L11,16 L14,16 L14,13 L16,13 Z"/>
 									</svg>
 									{{ 'MIRROR_X' | translate }}
 								</label>
-								<select (change)="this.randomMirrorXSet($any($event.target).value)">
+								<select id="random-setting-vertical" (change)="this.randomMirrorXSet($any($event.target).value)">
 									<option value="random" [selected]="this.randomMirrorX ==='random'">{{ 'RANDOM_MIRROR' | translate }}</option>
 									<option value="true" [selected]="this.randomMirrorX ==='true'">{{ 'YES' | translate }}</option>
 									<option value="false" [selected]="this.randomMirrorX ==='false'">{{ 'NO' | translate }}</option>
 								</select>
 							</div>
 							<div class="random-options">
-								<label>
+								<label for="random-setting-horizontal">
 									<!-- https://www.svgrepo.com/svg/512262/focus-horizontal-838 Public Domain-->
 									<svg width="20px" height="20px" viewBox="0 -2 20 20">
 										<path d="M0,9 L0,7 L20,7 L20,9 Z M2,5 L2,0 L7,0 L7,2 L4,2 L4,5 Z M18,0 L18,5 L16,5 L16,2 L13,2 L13,0 Z M2,16 L2,11 L4,11 L4,14 L7,14 L7,16 Z M18,16 L13,16 L13,14 L16,14 L16,11 L18,11 Z"/>
 									</svg>
 									{{ 'MIRROR_Y' | translate }}
 								</label>
-								<select (change)="this.randomMirrorYSet($any($event.target).value)">
+								<select id="random-setting-horizontal" (change)="this.randomMirrorYSet($any($event.target).value)">
 									<option value="random" [selected]="this.randomMirrorY ==='random'">{{ 'RANDOM_MIRROR' | translate }}</option>
 									<option value="true" [selected]="this.randomMirrorY ==='true'">{{ 'YES' | translate }}</option>
 									<option value="false" [selected]="this.randomMirrorY ==='false'">{{ 'NO' | translate }}</option>

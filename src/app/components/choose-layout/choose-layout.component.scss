@@ -19,12 +19,6 @@
 		.start-links {
 			text-align: right;
 			display: inline-block;
-
-			.link {
-				color: var(--input-text-color);
-				text-decoration: none;
-				padding: 8px 12px;
-			}
 		}
 
 		.generator, .mode {
@@ -66,7 +60,7 @@
 			}
 		}
 
-		@include mixins.respond-to(tiny-down) {
+		@include mixins.respond-to(small-down) {
 			flex-direction: column;
 			align-items: unset;
 

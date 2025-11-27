@@ -27,7 +27,8 @@
 			text-align: center;
 
 			&:hover {
-				color: var(--main-text-color-lt);
+				color: var(--dialog-headline-color);
+				background-color: var(--dialog-background-color-hover);
 			}
 		}
 
@@ -65,6 +66,7 @@
 				cursor: pointer;
 
 				&:hover {
+					color: var(--dialog-headline-color);
 					background-color: var(--dialog-background-color-hover);
 				}
 
@@ -100,17 +102,21 @@
 
 			.preview-random {
 				padding: 20px 10px 10px;
+				display: flex;
+				flex-direction: column;
+				gap: 10px;
 
 				.random-options {
 					display: flex;
 					flex-direction: row;
 					align-items: center;
+					gap: 8px;
 
 					label {
 						flex: 1;
-						margin-right: 20px;
 						align-items: center;
 						flex-direction: row;
+						font-size: 0.9em;
 						display: flex;
 					}
 
@@ -125,7 +131,6 @@
 
 				button {
 					display: block;
-					margin-top: 20px;
 					margin-left: auto;
 					margin-right: auto;
 				}
@@ -258,7 +263,6 @@
 				}
 			}
 
-
 			@include mixins.respond-to(tiny-down) {
 				#item-random-1, #item-random-2, #item-random-3 {
 					display: none;
@@ -335,6 +339,8 @@
 
 				.preview-random {
 					grid-column: 1 / -1;
+					flex-direction: row;
+					justify-content: space-around;
 				}
 			}
 
@@ -355,6 +361,10 @@
 			@include mixins.respond-to(small-down) {
 				.previews {
 					grid-template-columns: repeat(2, 1fr);
+				}
+
+				.preview-random {
+					flex-direction: column;
 				}
 
 				.previews-random {
