@@ -11,6 +11,12 @@
 	.controls {
 		min-width: 170px;
 
+		button, select {
+			border: 1px solid var(--main-bg-color-lt);
+			font-family: variables.$text-font;
+			font-size: inherit;
+		}
+
 		.feature {
 			display: none;
 
