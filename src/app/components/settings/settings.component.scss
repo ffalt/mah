@@ -36,20 +36,17 @@
 		}
 
 		li {
-			padding-left: 19px;
-			line-height: 36px;
+			padding: 0;
 			display: flex;
 			gap: 6px;
-			height: auto;
-			min-height: 36px;
+			height: 40px;
+			min-height: 40px;
+			line-height: 40px;
 			align-items: center;
 			border-radius: 6px;
 			transition: background-color 0.15s ease;
-
-			@include mixins.respond-to(tiny-down) {
-				min-height: 40px;
-				line-height: 40px;
-			}
+			box-sizing: border-box;
+			break-inside: avoid;
 
 			&:hover {
 				background-color: var(--dialog-background-color-hover);
@@ -78,11 +75,10 @@
 			}
 
 			input {
-				margin-left: -14px;
 				flex-shrink: 0;
 			}
 
-			@include mixins.respond-to(tiny-down) {
+			@include mixins.respond-to(femto-down) {
 				columns: 1;
 			}
 		}
@@ -256,7 +252,6 @@
 		}
 
 		.radio-tilesets {
-
 			columns: 2;
 
 			@include mixins.respond-to(small-down) {
@@ -280,6 +275,10 @@
 		}
 
 		.radio-themes {
+
+			@include mixins.respond-to(small-down) {
+				columns: 1;
+			}
 
 			label {
 				@include mixins.respond-to(tiny-down) {

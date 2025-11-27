@@ -21,7 +21,14 @@
 		@media only screen and (min-height: variables.$bp-pico) {
 			@content;
 		}
-	} @else if $media == tiny-down {
+	} @else if $media == femto-down {
+		@media only screen and (max-height: variables.$bp-femto) {
+			@content;
+		}
+	} @else if $media == femto-up {
+		@media only screen and (min-height: variables.$bp-femto) {
+			@content;
+		}	} @else if $media == tiny-down {
 		@media only screen and (max-height: variables.$bp-tiny) {
 			@content;
 		}
@@ -91,6 +98,14 @@
 		}
 	} @else if $media == pico-up {
 		@media only screen and (min-width: variables.$bp-pico) {
+			@content;
+		}
+	} @else if $media == femto-down {
+		@media only screen and (max-width: variables.$bp-femto) {
+			@content;
+		}
+	} @else if $media == femto-up {
+		@media only screen and (min-width: variables.$bp-femto) {
 			@content;
 		}
 	} @else if $media == tiny-down {
