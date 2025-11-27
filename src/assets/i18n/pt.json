@@ -246,5 +246,6 @@
 	"KYODAI_TILESET_EXAMPLES": "Exemplos de conjuntos de mosaicos Kyodai",
 	"KYODAI_TILESET": "Conjunto de azulejos Kyodai",
 	"KYODAI_TILESET_URL_PLACEHOLDER": "Insira a URL do conjunto de azulejos Kyodai",
-	"KYODAI_TILESET_CLEAR": "Limpar URL"
+	"KYODAI_TILESET_CLEAR": "Limpar URL",
+	"DATA": "Dados"
 }

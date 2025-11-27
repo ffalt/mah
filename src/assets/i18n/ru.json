@@ -246,5 +246,6 @@
 	"KYODAI_TILESET_EXAMPLES": "Примеры наборов плиток Kyodai",
 	"KYODAI_TILESET": "Набор плиток Kyodai",
 	"KYODAI_TILESET_URL_PLACEHOLDER": "Введите URL набора плиток Kyodai",
-	"KYODAI_TILESET_CLEAR": "Очистить URL"
+	"KYODAI_TILESET_CLEAR": "Очистить URL",
+	"DATA": "Данные"
 }

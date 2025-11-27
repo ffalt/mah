@@ -208,12 +208,6 @@ body {
 	line-height: variables.$base-line-height;
 }
 
-button, select {
-	border: 1px solid #afafaf;
-	font-family: variables.$text-font;
-	font-size: inherit;
-}
-
 input[type="radio"] {
 	font-size: inherit;
 	width: 0.9em;
@@ -242,6 +236,10 @@ p {
 	cursor: pointer;
 }
 
+button, select {
+	font-family: variables.$text-font;
+}
+
 .overlay {
 	height: 100svh;
 	width: 100svw;
@@ -268,11 +266,18 @@ p {
 			background-color: var(--input-background-color-hover);
 		}
 
+		&:focus-visible {
+			outline: 2px solid var(--primary-text-color);
+			outline-offset: 2px;
+		}
+
 		&:disabled {
-			cursor: default;
+			cursor: not-allowed;
+			opacity: 0.6;
 			color: var(--text-disabled-color);
 		}
 	}
+
 
 	@include mixins.respond-to(medium-up) {
 		font-size: variables.$base-font-size * 1.1;
@@ -346,6 +351,7 @@ p {
 		cursor: pointer;
 		padding: 3px;
 		border-radius: 6px;
+		float: right;
 
 		i {
 			font-size: 1.2em;
@@ -369,9 +375,25 @@ p {
 		z-index: 10010;
 
 		.overlay-popup {
-			width: 90%;
-			max-height: 90%;
-			max-width: 1400px;
+			width: 100%;
+			min-height: 600px;
+			max-height: 80svh;
+			min-width: 800px;
+			max-width: 800px;
+
+			@include mixins.respond-to-height(medium-down) {
+				min-height: 100svh;
+				max-height: 100svh;
+			}
+
+			@include mixins.respond-to(large-down) {
+				min-width: 700px;
+				max-width: 700px;
+			}
+
+			@include mixins.respond-to(medium-down) {
+				min-width: 100%;
+			}
 		}
 	}
 

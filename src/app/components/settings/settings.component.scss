@@ -1,51 +1,17 @@
 @use "../../style/mixins";
 
 :host {
-	display: flex;
-	flex-flow: row nowrap;
-	justify-content: space-between;
 	flex: 1;
 	overflow-y: auto;
-	gap: 16px;
-	padding: 8px;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	position: relative;
 
 	@include mixins.respond-to(large-down) {
-		flex-flow: column;
 		gap: 8px;
 		padding: 4px;
-	}
-
-	.settings {
-		width: 50%;
-		flex-flow: column;
-		display: flex;
-		gap: 16px;
-
-		@include mixins.respond-to(large-down) {
-			width: 100%;
-		}
-
-		@include mixins.respond-to(medium-down) {
-			gap: 8px;
-		}
-	}
-
-	.settings-section {
-		display: flex;
-		flex-direction: column;
-		gap: 12px;
-	}
-
-	.settings-section-title {
-		margin: 0 0 8px 0;
-		padding: 0;
-		font-size: 1.1em;
-		font-weight: 600;
-		color: var(--primary-text-color);
-		text-transform: uppercase;
-		letter-spacing: 0.5px;
-		border-bottom: 2px solid var(--main-bg-color-lt);
-		padding-bottom: 8px;
 	}
 
 	fieldset {
@@ -68,18 +34,11 @@
 		legend {
 			padding: 0 8px;
 			font-weight: 600;
-			color: var(--primary-text-color);
+			color: var(--primary-text-colddor);
 			margin-left: -4px;
 			font-size: 0.95em;
+			display: none;
 		}
-	}
-
-	.field-help {
-		font-size: 0.8em;
-		color: var(--secondary-text-color);
-		margin: 6px 0 8px 0;
-		line-height: 1.4;
-		font-style: italic;
 	}
 
 	input[type="checkbox"],
@@ -213,46 +172,6 @@
 
 		button {
 			flex: 1;
-		}
-	}
-
-	button {
-		padding: 10px 16px;
-		border: 1px solid transparent;
-		border-radius: 6px;
-		font-size: 0.95em;
-		font-weight: 500;
-		min-height: 44px;
-		min-width: 44px;
-		transition: all 0.2s ease;
-		white-space: nowrap;
-
-		@include mixins.respond-to(tiny-down) {
-			padding: 12px 16px;
-			min-height: 48px;
-		}
-
-		&:focus-visible {
-			outline: 2px solid var(--primary-text-color);
-			outline-offset: 2px;
-		}
-
-		&:disabled {
-			opacity: 0.6;
-			cursor: not-allowed;
-		}
-	}
-
-	.primary-button {
-		background-color: var(--primary-text-color);
-		color: var(--dialog-background-color);
-
-		&:hover:not(:disabled) {
-			opacity: 0.85;
-		}
-
-		&:active:not(:disabled) {
-			opacity: 0.7;
 		}
 	}
 
@@ -412,4 +331,125 @@
 			height: 20px;
 		}
 	}
+
+	.tabs-input {
+		/* keep focusable but visually hidden */
+		position: absolute;
+		opacity: 0;
+		width: 1px;
+		height: 1px;
+		margin: -1px;
+		padding: 0;
+		border: 0;
+		clip: rect(0 0 0 0);
+		overflow: hidden;
+		white-space: nowrap;
+	}
+
+	.tabs-labels {
+		display: flex;
+		gap: 8px;
+		flex-wrap: wrap;
+		justify-content: center;
+		margin-top: 2px;
+		margin-bottom: 8px;
+
+		label[role="tab"] {
+			background: var(--input-background-color);
+			color: var(--input-text-color);
+			padding: 8px 14px;
+			border-radius: 8px;
+			border: 1px solid var(--main-bg-color-lt);
+			font-weight: 600;
+			cursor: pointer;
+			transition: all 0.15s ease;
+			min-width: 88px;
+			text-align: center;
+		}
+
+		label[role="tab"]:hover {
+			transform: translateY(-2px);
+		}
+
+		label[role="tab"]:focus-visible {
+			outline: 2px solid var(--primary-text-color);
+			outline-offset: 2px;
+		}
+	}
+
+	.tabs-panels {
+		flex: 1;
+		padding-right: 8px;
+	}
+
+	.panel {
+		background: var(--dialog-background-color);
+		display: none;
+		width: 100%;
+		height: 100%;
+		flex-direction: column;
+		justify-content: center;
+		gap: 8px;
+	}
+
+	#tab-language:checked ~ .tabs-labels label[for="tab-language"],
+	#tab-stones:checked ~ .tabs-labels label[for="tab-stones"],
+	#tab-theme:checked ~ .tabs-labels label[for="tab-theme"],
+	#tab-background:checked ~ .tabs-labels label[for="tab-background"],
+	#tab-data:checked ~ .tabs-labels label[for="tab-data"] {
+		background: var(--dialog-background-color);
+		border-color: var(--dialog-border-color-selected);
+	}
+
+	#tab-language:checked ~ .tabs-panels #panel-language,
+	#tab-background:checked ~ .tabs-panels #panel-background,
+	#tab-stones:checked ~ .tabs-panels #panel-stones,
+	#tab-theme:checked ~ .tabs-panels #panel-theme,
+	#tab-data:checked ~ .tabs-panels #panel-data {
+		display: flex;
+	}
+
+	@media (prefers-color-scheme: dark) {
+		.tabs-labels label[role="tab"] {
+			background: var(--input-background-color);
+			color: var(--input-text-color);
+		}
+	}
+
+	@include mixins.respond-to-height(tiny-down) {
+		.tabs-panels {
+			display: flex;
+			flex-direction: column;
+			gap: 8px;
+		}
+
+		fieldset legend {
+			display: block;
+		}
+		.panel {
+			display: flex;
+		}
+		.tabs-labels {
+			display: none;
+		}
+	}
+
+	@include mixins.respond-to(medium-down) {
+		.tabs-panels {
+			display: flex;
+			flex-direction: column;
+			gap: 8px;
+		}
+
+		fieldset legend {
+			display: block;
+		}
+		.panel {
+			display: flex;
+		}
+		.tabs-labels {
+			display: none;
+		}
+	}
+
 }

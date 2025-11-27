@@ -246,5 +246,6 @@
 	"KYODAI_TILESET_EXAMPLES": "Voorbeelden van Kyodai-tegelsets",
 	"KYODAI_TILESET": "Kyodai-tegelsets",
 	"KYODAI_TILESET_URL_PLACEHOLDER": "Voer de Kyodai-tegels-URL in",
-	"KYODAI_TILESET_CLEAR": "URL wissen"
+	"KYODAI_TILESET_CLEAR": "URL wissen",
+	"DATA": "Gegevens"
 }

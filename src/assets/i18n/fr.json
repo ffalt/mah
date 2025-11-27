@@ -246,5 +246,6 @@
 	"KYODAI_TILESET_EXAMPLES": "Exemples de jeux de tuiles Kyodai",
 	"KYODAI_TILESET": "Ensemble de tuiles Kyodai",
 	"KYODAI_TILESET_URL_PLACEHOLDER": "Entrez l'URL du tileset Kyodai",
-	"KYODAI_TILESET_CLEAR": "Effacer l'URL"
+	"KYODAI_TILESET_CLEAR": "Effacer l'URL",
+	"DATA": "Données"
 }

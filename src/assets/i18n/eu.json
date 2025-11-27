@@ -246,5 +246,6 @@
 	"KYODAI_TILESET_EXAMPLES": "Kyodai fitxa-sorten adibideak",
 	"KYODAI_TILESET": "Kyodai Fitxa-sorten",
 	"KYODAI_TILESET_URL_PLACEHOLDER": "Sartu Kyodai fitxen URL-a",
-	"KYODAI_TILESET_CLEAR": "Garbitu URL-a"
+	"KYODAI_TILESET_CLEAR": "Garbitu URL-a",
+	"DATA": "Datuak"
 }

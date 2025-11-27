@@ -246,5 +246,6 @@
 	"KYODAI_TILESET_EXAMPLES": "Kyodai Tileset Beispiele",
 	"KYODAI_TILESET": "Kyodai Tileset",
 	"KYODAI_TILESET_URL_PLACEHOLDER": "Geben Sie die Kyodai-Tileset-URL ein",
-	"KYODAI_TILESET_CLEAR": "URL löschen"
+	"KYODAI_TILESET_CLEAR": "URL löschen",
+	"DATA": "Daten"
 }

@@ -246,5 +246,6 @@
 	"KYODAI_TILESET_EXAMPLES": "Ejemplos de conjuntos de fichas Kyodai",
 	"KYODAI_TILESET": "Juego de fichas Kyodai",
 	"KYODAI_TILESET_URL_PLACEHOLDER": "Introduzca la URL del tileset Kyodai",
-	"KYODAI_TILESET_CLEAR": "Borrar URL"
+	"KYODAI_TILESET_CLEAR": "Borrar URL",
+	"DATA": "Datos"
 }

@@ -1,5 +1,19 @@
-<div class="settings">
-	<div class="settings-section">
+<input class="tabs-input" type="radio" name="settings-tab" id="tab-language" checked/>
+<input class="tabs-input" type="radio" name="settings-tab" id="tab-stones"/>
+<input class="tabs-input" type="radio" name="settings-tab" id="tab-theme"/>
+<input class="tabs-input" type="radio" name="settings-tab" id="tab-background"/>
+<input class="tabs-input" type="radio" name="settings-tab" id="tab-data"/>
+
+<div class="tabs-labels" role="tablist" aria-label="Settings Tabs">
+	<label role="tab" id="tab-lang-label" for="tab-language">{{ 'LANG' | translate }}</label>
+	<label role="tab" id="tab-stones-label" for="tab-stones">{{ 'TILESET' | translate }}</label>
+	<label role="tab" id="tab-theme-label" for="tab-theme">{{ 'THEME' | translate }}</label>
+	<label role="tab" id="tab-background-label" for="tab-background">{{ 'BACKGROUND' | translate }}</label>
+	<label role="tab" id="tab-data-label" for="tab-data">{{ 'DATA' | translate }}</label>
+</div>
+
+<div class="tabs-panels panels">
+	<section id="panel-language" class="panel" role="tabpanel" aria-labelledby="tab-lang-label">
 		<fieldset>
 			<legend id="lang-legend">{{ 'LANG' | translate }}</legend>
 			<ul class="radio" role="group" aria-labelledby="lang-legend">
@@ -8,7 +22,8 @@
 								 [checked]="( app.settings.lang === 'auto' )"
 								 (change)="app.settings.lang = 'auto'; app.setLang();"
 								 [attr.aria-label]="'LANG_AUTO' | translate"
-					/><label for="lang0">{{ 'LANG_AUTO' | translate }}</label>
+					/>
+					<label for="lang0">{{ 'LANG_AUTO' | translate }}</label>
 				</li>
 				@for (lang of languages; track lang; let i = $index) {
 					<li>
@@ -16,50 +31,15 @@
 									 [checked]="( app.settings.lang === lang.key )"
 									 (change)="app.settings.lang = lang.key;app.setLang();"
 									 [attr.aria-label]="lang.title"
-						/><label [for]="'lang'+(i+1)">{{ lang.title }}</label>
+						/>
+						<label [for]="'lang'+(i+1)">{{ lang.title }}</label>
 					</li>
 				}
 			</ul>
 		</fieldset>
+	</section>
 
-		<fieldset>
-			<legend id="theme-legend">{{ 'THEME' | translate }}</legend>
-			<ul class="radio radio-themes" role="group" aria-labelledby="theme-legend">
-				@for (theme of themes; track theme; let i = $index) {
-					<li>
-						<input type="radio" name="color" id="color{{i}}" [value]="theme.id"
-									 [checked]="app.settings.theme === theme.id"
-									 (change)="app.settings.theme = theme.id || '';app.settings.save();"
-									 [attr.aria-label]="theme.name | translate"
-						/><label for="color{{i}}">{{ theme.name | translate }}</label>
-
-						<div class="theme-preview-wrapper">
-							<div class="theme-preview" [class]="'theme-'+theme.id"></div>
-						</div>
-					</li>
-				}
-			</ul>
-		</fieldset>
-
-		<fieldset>
-			<legend id="background-legend">{{ 'BACKGROUND' | translate }}</legend>
-			<ul class="radio" role="group" aria-labelledby="background-legend">
-				@for (back of backs; track back; let i = $index) {
-					<li>
-						<input type="radio" name="back" id="back{{i}}" [value]="back.img"
-									 [checked]="app.settings.background === back.img"
-									 (change)="app.settings.background = back.img || '';app.settings.save();"
-									 [attr.aria-label]="back.name | translate"
-						/><label for="back{{i}}">{{ back.name | translate }}</label>
-					</li>
-				}
-			</ul>
-		</fieldset>
-	</div>
-</div>
-
-<div class="settings">
-	<div class="settings-section">
+	<section id="panel-stones" class="panel" role="tabpanel" aria-labelledby="tab-stones-label">
 		<fieldset>
 			<legend id="tileset-legend">{{ 'TILESET' | translate }}</legend>
 			<ul class="radio radio-tilesets" role="group" aria-labelledby="tileset-legend">
@@ -93,13 +73,13 @@
 			<fieldset class="kyodai-settings">
 				<legend id="kyodai-legend">{{ 'KYODAI_TILESET_SETTINGS' | translate }}</legend>
 				<div class="input-wrapper">
-					<textarea #kyodaiInput type="text" name="kyodai"
-										[value]="app.settings.kyodaiUrl ? app.settings.kyodaiUrl : ''"
-										(change)="updateKyodaiUrl($event)"
-										aria-labelledby="kyodai-legend"
-										aria-describedby="kyodai-help"
-										placeholder="{{ 'KYODAI_TILESET_URL_PLACEHOLDER' | translate }}"
-					></textarea>
+								<textarea #kyodaiInput type="text" name="kyodai"
+													[value]="app.settings.kyodaiUrl ? app.settings.kyodaiUrl : ''"
+													(change)="updateKyodaiUrl($event)"
+													aria-labelledby="kyodai-legend"
+													aria-describedby="kyodai-help"
+													placeholder="{{ 'KYODAI_TILESET_URL_PLACEHOLDER' | translate }}"
+								></textarea>
 					<button class="clear-kyodai"
 									(click)="clearKyodaiUrl()"
 									title="{{ 'KYODAI_TILESET_CLEAR' | translate }}"
@@ -150,9 +130,49 @@
 				</li>
 			</ul>
 		</fieldset>
-	</div>
+	</section>
 
-	<div class="settings-section">
+	<section id="panel-theme" class="panel" role="tabpanel" aria-labelledby="tab-theme-label">
+		<fieldset>
+			<legend id="theme-legend">{{ 'THEME' | translate }}</legend>
+			<ul class="radio radio-themes" role="group" aria-labelledby="theme-legend">
+				@for (theme of themes; track theme; let i = $index) {
+					<li>
+						<input type="radio" name="color" id="color{{i}}" [value]="theme.id"
+									 [checked]="app.settings.theme === theme.id"
+									 (change)="app.settings.theme = theme.id || '';app.settings.save();"
+									 [attr.aria-label]="theme.name | translate"
+						/>
+						<label for="color{{i}}">{{ theme.name | translate }}</label>
+
+						<div class="theme-preview-wrapper">
+							<div class="theme-preview" [class]="'theme-'+theme.id"></div>
+						</div>
+					</li>
+				}
+			</ul>
+		</fieldset>
+	</section>
+
+	<section id="panel-background" class="panel" role="tabpanel" aria-labelledby="tab-background-label">
+		<fieldset>
+			<legend id="background-legend">{{ 'BACKGROUND' | translate }}</legend>
+			<ul class="radio" role="group" aria-labelledby="background-legend">
+				@for (back of backs; track back; let i = $index) {
+					<li>
+						<input type="radio" name="back" id="back{{i}}" [value]="back.img"
+									 [checked]="app.settings.background === back.img"
+									 (change)="app.settings.background = back.img || '';app.settings.save();"
+									 [attr.aria-label]="back.name | translate"
+						/>
+						<label for="back{{i}}">{{ back.name | translate }}</label>
+					</li>
+				}
+			</ul>
+		</fieldset>
+	</section>
+
+	<section id="panel-data" class="panel" role="tabpanel" aria-labelledby="tab-data-label">
 		<fieldset>
 			<legend id="times-legend">{{ 'BEST_TIMES' | translate }}</legend>
 			<div class="button-group">
@@ -161,5 +181,5 @@
 				</button>
 			</div>
 		</fieldset>
-	</div>
+	</section>
 </div>
