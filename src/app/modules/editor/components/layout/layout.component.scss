@@ -7,12 +7,6 @@
 	color: var(--main-text-color);
 	overflow: hidden;
 
-	.save-button {
-		position: fixed;
-		right: 50px;
-		top: 6px;
-	}
-
 	.overlay-save {
 		.overlay-popup {
 			width: 98%;
@@ -126,24 +120,6 @@
 		display: flex;
 		flex-direction: column;
 		overflow: auto;
-
-		.editor-commands {
-			border-bottom: 1px solid #ececec;
-			padding-bottom: 10px;
-
-			> div {
-				font-size: 0.9em;
-				display: inline-block;
-				vertical-align: top;
-				margin-right: 10px;
-			}
-
-			span {
-				cursor: pointer;
-				text-decoration: underline;
-				user-select: none;
-			}
-		}
 
 		.matrix-edit {
 			height: 100%;
