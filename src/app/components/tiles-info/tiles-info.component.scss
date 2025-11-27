@@ -132,10 +132,9 @@
 
 		.tiles-form {
 			display: flex;
-			flex-direction: row;
+			flex-flow: row wrap;
 			justify-content: space-between;
 			align-items: center;
-			flex-wrap: wrap;
 			gap: 8px;
 			width: 100%;
 			margin-bottom: 8px;
@@ -146,8 +145,7 @@
 
 			.tiles-select {
 				display: flex;
-				flex-direction: row;
-				flex-wrap: nowrap;
+				flex-flow: row nowrap;
 				align-items: center;
 				gap: 8px;
 			}

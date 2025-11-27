@@ -288,7 +288,6 @@
 		}
 
 		.groups .group {
-
 			.previews {
 				display: grid;
 				gap: 4px;
@@ -296,8 +295,7 @@
 				padding-bottom: 12px;
 				align-content: start;
 				grid-template-columns: repeat(6, 1fr);
-				justify-items: stretch;
-				align-items: stretch;
+				place-items: stretch stretch;
 			}
 
 			.previews-random {

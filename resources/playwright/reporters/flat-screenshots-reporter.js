@@ -125,28 +125,28 @@ class FlatScreenshotsReporter {
 			return;
 		}
 
-  const specFile = test.location?.file || (test.titlePath?.()[0] ?? "spec");
-  const specBase = sanitizeSegment(path.basename(specFile));
-  // Normalize the title path and remove any segments that duplicate the project name
-  // or the spec file name, regardless of their position. This prevents prefixes like
-  // "desktop-dialogs.spec.ts" from appearing twice when we also add [projectName, specBase].
-  const rawTitlePath = typeof test.titlePath === "function" ? test.titlePath() : (test.titlePath || []);
-  const normalizedTitleSegments = (Array.isArray(rawTitlePath) ? rawTitlePath : [])
-      .map(p => sanitizeSegment(path.basename(String(p))))
-      .filter(seg => Boolean(seg))
-      .filter(seg => seg !== specBase && seg !== (projectName || ""));
+		const specFile = test.location?.file || (test.titlePath?.()[0] ?? "spec");
+		const specBase = sanitizeSegment(path.basename(specFile));
+		// Normalize the title path and remove any segments that duplicate the project name
+		// or the spec file name, regardless of their position. This prevents prefixes like
+		// "desktop-dialogs.spec.ts" from appearing twice when we also add [projectName, specBase].
+		const rawTitlePath = typeof test.titlePath === "function" ? test.titlePath() : (test.titlePath || []);
+		const normalizedTitleSegments = (Array.isArray(rawTitlePath) ? rawTitlePath : [])
+			.map(p => sanitizeSegment(path.basename(String(p))))
+			.filter(Boolean)
+			.filter(seg => seg !== specBase && seg !== (projectName || ""));
 
-  // Collapse duplicates while preserving order
-  const seen = new Set();
-  const dedupedTitleSegments = [];
-  for (const seg of normalizedTitleSegments) {
-      if (!seen.has(seg)) {
-          seen.add(seg);
-          dedupedTitleSegments.push(seg);
-      }
-  }
+		// Collapse duplicates while preserving order
+		const seen = new Set();
+		const dedupedTitleSegments = [];
+		for (const seg of normalizedTitleSegments) {
+			if (!seen.has(seg)) {
+				seen.add(seg);
+				dedupedTitleSegments.push(seg);
+			}
+		}
 
-  const testTitle = sanitizeSegment(dedupedTitleSegments.join("-")) || sanitizeSegment(test.title);
+		const testTitle = sanitizeSegment(dedupedTitleSegments.join("-")) || sanitizeSegment(test.title);
 
 		for (const att of result.attachments || []) {
 			const isImage = (att.contentType && att.contentType.startsWith("image/")) || /\.png$/i.test(att.name || "");
@@ -162,18 +162,17 @@ class FlatScreenshotsReporter {
 					// Use only the final segment (original filename without extension) to avoid
 					// duplicating project/spec names which are already included above.
 					const relativeName = relativeParts.length > 0 ? path.parse(relativeParts.at(-1)).name : undefined;
-     // Build filename parts and remove duplicates across the full list
-                    const parts = [projectName, specBase, testTitle, sanitizeSegment(relativeName || "")]
-                        .filter(Boolean);
-                    const partsSeen = new Set();
-                    const ordered = [];
-                    for (const p of parts) {
-                        if (!partsSeen.has(p)) {
-                            partsSeen.add(p);
-                            ordered.push(p);
-                        }
-                    }
-                    const preferredBase = ordered.join("-");
+					// Build filename parts and remove duplicates across the full list
+					const parts = [projectName, specBase, testTitle, sanitizeSegment(relativeName || "")].filter(Boolean);
+					const partsSeen = new Set();
+					const ordered = [];
+					for (const p of parts) {
+						if (!partsSeen.has(p)) {
+							partsSeen.add(p);
+							ordered.push(p);
+						}
+					}
+					const preferredBase = ordered.join("-");
 					const extension = path.extname(att.path) || ".png";
 					const target = await makeFlatTargetPath(outDirectory, [], extension, preferredBase);
 
@@ -207,17 +206,17 @@ class FlatScreenshotsReporter {
 					const parsed = path.parse(att.name || "attachment");
 					const hasPng = att.contentType === "image/png" || /\.png$/i.test(parsed.ext || "");
 					const extension = hasPng ? ".png" : (att.contentType?.split("/")[1] ? `.${att.contentType.split("/")[1]}` : ".bin");
-     const cleanName = sanitizeSegment(parsed.name || "attachment");
-     const parts = [projectName, specBase, testTitle, cleanName].filter(Boolean);
-     const partsSeen = new Set();
-     const ordered = [];
-     for (const p of parts) {
-         if (!partsSeen.has(p)) {
-             partsSeen.add(p);
-             ordered.push(p);
-         }
-     }
-     const preferredBase = ordered.join("-");
+					const cleanName = sanitizeSegment(parsed.name || "attachment");
+					const parts = [projectName, specBase, testTitle, cleanName].filter(Boolean);
+					const partsSeen = new Set();
+					const ordered = [];
+					for (const p of parts) {
+						if (!partsSeen.has(p)) {
+							partsSeen.add(p);
+							ordered.push(p);
+						}
+					}
+					const preferredBase = ordered.join("-");
 					const target = await makeFlatTargetPath(outDirectory, [], extension, preferredBase);
 					const buf = Buffer.isBuffer(att.body) ? att.body : Buffer.from(att.body);
 					await fsp.writeFile(target, buf);
