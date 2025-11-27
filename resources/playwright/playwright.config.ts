@@ -98,6 +98,14 @@ export default defineConfig({
 				...devices['Pixel 5'],
 				colorScheme: 'dark'
 			}
+		},
+		{
+			name: 'mini',
+			outputDir: outputDirectory,
+			use: {
+				...devices['Galaxy S9+'],
+				colorScheme: 'light'
+			}
 		}
 	]
 });

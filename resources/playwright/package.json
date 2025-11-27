@@ -1,13 +1,13 @@
 {
-  "name": "playwright",
-  "version": "1.0.0",
-  "scripts": {
-		"play": "playwright test",
-		"play:headed": "playwright test --headed",
-		"play:update-snapshots": "playwright test -u",
-		"play:install-browsers": "playwright install --with-deps"
-  },
-	"dependencies": {
-		"@playwright/test": "1.56.1"
-	}
+		"name": "playwright",
+		"version": "1.0.0",
+		"scripts": {
+				"play": "playwright test",
+				"play:headed": "playwright test --headed",
+				"play:update-snapshots": "playwright test -u",
+				"play:install-browsers": "playwright install --with-deps"
+		},
+		"dependencies": {
+				"@playwright/test": "1.57.0"
+		}
 }
