@@ -1,24 +1,24 @@
 <div class="controls controls-top">
 	<div class="ctrl ctrl-name">
-		<button class="link button" (click)="help.toggle()" title="{{'OPEN_HELP' | translate}}">
+		<button class="button" (click)="help.toggle()" title="{{'OPEN_HELP' | translate}}">
 			<i class="icon-logo"></i>
 			<span class="name">{{ app.name }}</span>
 		</button>
 	</div>
 	<div class="ctrl ctrl-game">
-		<button class="link button" (click)="game.toggle()" title="{{'PAUSE_LONG' | translate}}">
+		<button class="button" (click)="game.toggle()" title="{{'PAUSE_LONG' | translate}}">
 			<i class="icon-pause"></i> <span class="label">{{ 'PAUSE' | translate }}</span>
 		</button>
-		<button class="link button feature" [class.enabled]="game.mode | gameModeEasy" (click)="game.shuffle()" title="{{'SHUFFLE_LONG' | translate}}">
+		<button class="button feature" [class.enabled]="game.mode | gameModeEasy" (click)="game.shuffle()" title="{{'SHUFFLE_LONG' | translate}}">
 			<i class="icon-spin1"></i> <span class="label">{{ 'SHUFFLE' | translate }}</span>
 		</button>
-		<button class="link button feature" [class.enabled]="game.mode | gameModeStandard" (click)="game.back()" title="{{'UNDO_LONG' | translate}}" [attr.disabled]="game.board.undo.length===0 ? true : null">
+		<button class="button feature" [class.enabled]="game.mode | gameModeStandard" (click)="game.back()" title="{{'UNDO_LONG' | translate}}" [attr.disabled]="game.board.undo.length===0 ? true : null">
 			<i class="icon-undo"></i> <span class="label">{{ 'UNDO' | translate }}</span>
 		</button>
-		<button class="link button feature" [class.enabled]="game.mode | gameModeStandard" (click)="game.hint()" title="{{'HINT_LONG' | translate}}">
+		<button class="button feature" [class.enabled]="game.mode | gameModeStandard" (click)="game.hint()" title="{{'HINT_LONG' | translate}}">
 			<i class="icon-lightbulb"></i> <span class="label">{{ 'HINT' | translate }}</span>
 		</button>
-		<button class="link button" (click)="newGame()" title="{{'RESTART_LONG' | translate}}">
+		<button class="button" (click)="newGame()" title="{{'RESTART_LONG' | translate}}">
 			<i class="icon-loop"></i> <span class="label">{{ 'RESTART' | translate }}</span>
 		</button>
 	</div>
@@ -32,29 +32,29 @@
 />
 <div class="controls controls-bottom">
 	<div class="ctrl ctrl-stats">
-		<button class="link button menu-button" title="Menu" aria-haspopup="true">
+		<button class="button menu-button" title="Menu" aria-haspopup="true">
 			<i class="icon-menu"></i>
 		</button>
 		<div class="menu" role="menu">
-			<button class="link button" (click)="settings.toggle()" title="{{'OPEN_SETTINGS' | translate}}" role="menuitem">
+			<button class="button" (click)="settings.toggle()" title="{{'OPEN_SETTINGS' | translate}}" role="menuitem">
 				<i class="icon-cog"></i>
 			</button>
-			<button class="link button" [class.inactive]="!app.settings.sounds" (click)="app.toggleSound()" title="{{'AUDIO_SOUNDS' | translate}}" role="menuitem">
+			<button class="button" [class.inactive]="!app.settings.sounds" (click)="app.toggleSound()" title="{{'AUDIO_SOUNDS' | translate}}" role="menuitem">
 				<i class="icon-volume-low"></i>
 			</button>
-			<button class="link button" (click)="info.toggle()" title="{{'TILES_INFO' | translate}}" role="menuitem">
+			<button class="button" (click)="info.toggle()" title="{{'TILES_INFO' | translate}}" role="menuitem">
 				<i class="icon-calendar"></i>
 			</button>
 			@if (fullScreenEnabled) {
-				<button class="link button" (click)="enterFullScreen()" title="{{'FULLSCREEN' | translate}}" role="menuitem">
+				<button class="button" (click)="enterFullScreen()" title="{{'FULLSCREEN' | translate}}" role="menuitem">
 					<i class="icon-resize-full-alt"></i>
 				</button>
 			}
 		</div>
 	</div>
 	<div class="ctrl ctrl-time">
-		<span class="label button text"><small>{{ 'STONES' | translate }}:</small> <span>{{ game.board.count }}</span></span>
-		<span class="label button text"><small>{{ 'FREE' | translate }}:</small> <span>{{ game.board.free.length }}</span></span>
+		<span class="label text"><small>{{ 'STONES' | translate }}:</small> <span>{{ game.board.count }}</span></span>
+		<span class="label text"><small>{{ 'FREE' | translate }}:</small> <span>{{ game.board.free.length }}</span></span>
 		<span class="time">{{ game.clock.elapsed | duration }}</span>
 	</div>
 </div>
@@ -100,11 +100,11 @@
 			}
 			@if (game.mode === 'GAME_MODE_EASY' && game.message.messageID === 'MSG_FAIL') {
 				<div class="overlay-message-actions">
-					<button class="link button feature"
+					<button class="button feature"
 							(click)="onShuffleContinue($event)">
 						<i class="icon-spin1"></i> <span class="label">{{ 'SHUFFLE' | translate }}</span>
 					</button>
-					<button class="link button"
+					<button class="button"
 							(click)="onSurrenderGame($event)">
 						<i class="icon-loop"></i> <span class="label">{{ 'RESTART' | translate }}</span>
 					</button>

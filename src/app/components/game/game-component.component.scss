@@ -10,12 +10,10 @@
 
 	.controls {
 		min-width: 170px;
-
-		button, select {
-			border: 1px solid var(--main-bg-color-lt);
-			font-family: variables.$text-font;
-			font-size: inherit;
-		}
+		display: flex;
+		justify-content: space-between;
+		padding-left: 12px;
+		padding-right: 12px;
 
 		.feature {
 			display: none;
@@ -25,20 +23,35 @@
 			}
 		}
 
+		.ctrl, .menu {
+			display: flex;
+			align-items: center;
+			gap: 4px;
+		}
+
 		.ctrl {
-			display: inline-block;
 			color: var(--main-text-color);
 			user-select: none;
 
+			.time {
+				padding: 0.35em 0.9em;
+			}
+
 			.link {
 				text-decoration: none;
-				font-weight: normal;
+				font-weight: 500;
 				color: var(--main-text-color);
-				margin-left: 16px;
-				padding: 0.2em 0.8em;
+				padding: 0.35em 0.9em;
+				border-radius: 10px;
+				transition: color .15s ease, background-color .15s ease, border-color .15s ease, box-shadow .15s ease, transform .05s ease;
 
 				i {
-					margin-right: 2px;
+					margin-right: 0;
+				}
+
+				i + .label,
+				i + span {
+					margin-left: 6px;
 				}
 
 				&:hover {
@@ -48,20 +61,52 @@
 				&[disabled] {
 					color: var(--main-text-color-dk);
 				}
-
-				@include mixins.respond-to(tiny-up) {
-					margin-left: 10px;
-				}
 			}
 
 			.button {
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				gap: 6px;
+				border-radius: 10px;
+				font-family: variables.$text-font;
+				color: var(--main-text-color);
+				padding: 0.35em 0.9em;
+				cursor: pointer;
+				border: 1px solid transparent;
+				background-clip: padding-box;
+				transition: color .15s ease, background-color .15s ease, border-color .15s ease, box-shadow .15s ease, transform .05s ease;
 				background-color: transparent;
-				background-image: none;
-				border-color: transparent;
-				border-radius: 3px;
+				font-size: inherit;
 
 				&:hover {
-					border-color: var(--main-bg-color-lt);
+					background-image: linear-gradient(
+							to bottom,
+							color-mix(in oklab, var(--main-bg-color-lt) 35%, transparent),
+							color-mix(in oklab, var(--main-bg-color) 90%, transparent)
+					);
+					border: 1px solid color-mix(in oklab, var(--main-bg-color-lt) 70%, transparent);
+					background-color: color-mix(in oklab, var(--main-bg-color) 78%, transparent);
+					color: var(--main-text-color-lt);
+				}
+
+				&:active {
+					transform: translateY(1px);
+					box-shadow: inset 0 1px 1px rgba(0, 0, 0, .15),
+					0 0 0 rgba(0, 0, 0, 0);
+				}
+
+				&:focus-visible {
+					outline: none;
+					box-shadow: 0 0 0 2px var(--main-bg-color),
+					0 0 0 4px var(--main-bg-color-lt);
+				}
+
+				&[disabled] {
+					opacity: .55;
+					cursor: not-allowed;
+					pointer-events: none;
+					filter: saturate(.75);
 				}
 			}
 
@@ -71,10 +116,6 @@
 
 				.icon-logo {
 					color: red;
-				}
-
-				span.name {
-					margin-left: 6px;
 				}
 			}
 
@@ -86,18 +127,11 @@
 				}
 			}
 
-			&.ctrl-game {
-				float: right;
-			}
-
 			&.ctrl-time {
 				cursor: default;
-				float: right;
-				padding-right: 12px;
-				padding-top: 2px;
+				gap: 16px;
 
 				.text {
-					margin-right: 26px;
 					font-variant-numeric: lining-nums;
 				}
 
@@ -106,6 +140,7 @@
 				}
 
 				.time {
+					font-family: variables.$text-font;
 					min-width: 98px;
 					display: inline-block;
 					text-align: right;
@@ -118,99 +153,104 @@
 
 				.menu-button {
 					display: none;
-				}
+					width: 2.2em;
+					height: 2.2em;
+					padding: 0;
+					border-radius: 999px;
+					justify-content: center;
+					align-items: center;
 
-				.label {
-					margin-left: 10px;
+					i {
+						font-size: 1.05em;
+					}
 				}
 			}
-
 		}
+	}
 
-		@include mixins.respond-to(small-up) {
-			.ctrl.ctrl-game {
-				padding-right: 8px;
-			}
-		}
+	.controls-top {
+		border-bottom: 1px solid var(--main-bg-color-lt);
+	}
 
-		@include mixins.respond-to(medium-up) {
+	.controls-bottom {
+		border-top: 1px solid var(--main-bg-color-lt);
+	}
+
+	.board {
+		display: flex;
+		flex-direction: row;
+		flex: 1;
+		overflow: hidden;
+	}
+
+	@include mixins.respond-to(ludicrous-up) {
+		font-size: variables.$base-font-size * 4;
+	}
+
+	@include mixins.respond-to(ludicrous-down) {
+		font-size: variables.$base-font-size * 1.6;
+	}
+
+	@include mixins.respond-to(huge-down) {
+		font-size: variables.$base-font-size * 1.3;
+	}
+
+	@include mixins.respond-to(large-down) {
+		font-size: variables.$base-font-size * 1.2;
+
+		.controls .ctrl .button {
 			font-size: variables.$base-font-size * 1.2;
+			padding: 0.3em;
+		}
+		.time {
+			padding: 0.3em;
+		}
+		.button .label {
+			display: none;
+		}
+	}
+
+	@include mixins.respond-to(medium-down) {
+		.controls .ctrl .button {
+			font-size: variables.$base-font-size * 1.1;
 		}
 
-		@include mixins.respond-to(large-up) {
-			font-size: variables.$base-font-size * 1.3;
+		.label {
+			display: none;
 		}
 
-		@include mixins.respond-to(huge-up) {
-			font-size: variables.$base-font-size * 1.6;
+		.ctrl.ctrl-time .time {
+			min-width: unset;
+		}
+	}
+
+	@include mixins.respond-to(small-down) {
+		.controls .ctrl .button {
+			font-size: variables.$base-font-size * 1.0;
+		}
+	}
+
+	@include mixins.respond-to(tiny-down) {
+		.controls .ctrl .button, .controls .ctrl .text {
+			font-size: variables.$base-font-size * 0.9;
+		}
+	}
+
+	@include mixins.respond-to(femto-down) {
+		.controls .ctrl .button, .controls .ctrl .text {
+			font-size: variables.$base-font-size * 0.8;
 		}
 
-		@include mixins.respond-to(jumbo-up) {
-			font-size: variables.$base-font-size * 2.3;
+		span.name {
+			display: none;
 		}
+	}
 
-		@include mixins.respond-to(ludicrous-up) {
-			font-size: variables.$base-font-size * 4;
-		}
+	@include mixins.respond-to(pico-down) {
+		.controls .ctrl {
+			gap: 2px;
 
-		@include mixins.respond-to(large-down) {
-			font-size: variables.$base-font-size * 1.3;
-
-			.ctrl .link {
-				padding: 0.2em;
-			}
-		}
-
-		@include mixins.respond-to(medium-down) {
-			span.label {
-				display: none;
-			}
-		}
-
-		@include mixins.respond-to(small-down) {
-			padding: 0 6px;
-		}
-
-		@include mixins.respond-to(tiny-down) {
-			.ctrl .link {
-				padding: 0.2em;
-				margin-left: 2px;
-			}
-
-			span.name {
-				display: none;
-			}
-
-			.ctrl.ctrl-time .time {
-				min-width: 80px;
-			}
-
-			.ctrl {
-				span:first-of-type {
-					margin-left: 0;
-				}
-			}
-		}
-
-		@include mixins.respond-to(pico-down) {
-			font-size: 18px;
-
-			.ctrl-game {
-				.link {
-					padding-left: 0.1em;
-					padding-right: 0.1em;
-				}
-			}
-
-			.ctrl.ctrl-time .time {
-				min-width: 0;
-			}
-
-			span.name {
-				display: none;
-			}
-
-			.ctrl.ctrl-stats {
+			&.ctrl-stats {
 				position: relative;
 
 				.menu-button {
@@ -227,10 +267,19 @@
 					border-radius: 8px;
 					flex-direction: column;
 					z-index: 10;
+					gap: 6px;
 
 					.button {
-						padding: 0.5em;
+						/* square icon buttons inside the menu */
+						padding: 0;
 						margin-left: 0;
+						width: 2.2em;
+						height: 2.2em;
+						border-radius: 8px;
+
+						i {
+							font-size: 1.05em;
+						}
 					}
 				}
 
@@ -244,151 +293,73 @@
 		}
 	}
 
-	.controls-top {
-		border-bottom: 1px solid var(--main-bg-color-lt);
-	}
-
-	.controls-bottom {
-		border-top: 1px solid var(--main-bg-color-lt);
-		margin-bottom: 4px;
-	}
-
-	.board {
-		display: flex;
-		flex-direction: row;
-		flex: 1;
-		overflow: hidden;
-	}
-
 	@include mixins.respond-to-horizontal-device(pad) {
 		flex-direction: row;
-
-		.controls {
-			.ctrl {
-				float: unset !important;
-				text-align: center;
-
-				i {
-					font-size: 32px;
-				}
-
-				.link {
-					display: block;
-					margin-left: 0;
-					margin-bottom: 10px;
-					padding-left: 0;
-					padding-right: 0;
-				}
-
-				.feature {
-					display: none;
-
-					&.enabled {
-						display: block;
-					}
-				}
-
-			}
-		}
-
+		position: relative;
 		padding-left: calc(52px + env(safe-area-inset-left));
 		padding-right: calc(52px + env(safe-area-inset-right));
 
-		.controls-top {
-			min-width: unset;
-			max-width: 52px;
+		.controls {
 			padding: 0;
-			display: flex;
-			flex-direction: column;
-			height: calc(100% - env(safe-area-inset-top) - env(safe-area-inset-bottom));
-			position: absolute;
-			left: env(safe-area-inset-left);
-			justify-content: space-between;
 
-			.ctrl.ctrl-name {
-				display: flex;
+			.ctrl, .menu {
 				flex-direction: column;
 			}
 
-			.ctrl.ctrl-game {
-				display: flex;
-				flex-direction: column-reverse;
-
-				span:first-of-type {
-					margin-bottom: 2px;
-				}
-			}
-
-			span.name {
+			.label {
 				display: none;
 			}
 
-			span.label {
-				display: none;
-			}
-		}
-
-		.controls-bottom {
-			min-width: 98px;
-			max-width: 98px;
-			display: flex;
-			flex-direction: column;
-			height: calc(100% - env(safe-area-inset-top) - env(safe-area-inset-bottom));
-			position: absolute;
-			right: env(safe-area-inset-right);
-			padding: 0;
-			align-items: flex-end;
-
-			.ctrl {
-				flex: 1;
+			.ctrl-name {
 				display: flex;
 				flex-direction: column;
-				text-align: right;
 
-				.label {
-					margin-left: 0;
-				}
-			}
-
-			.ctrl.ctrl-time {
-				text-align: right;
-				justify-content: flex-end;
-				padding-right: 6px;
-				padding-left: 6px;
-
-				.time {
-					text-align: right;
-					min-width: 0;
-				}
-
-				.text {
-					text-align: right;
-					margin-right: 0;
-					margin-bottom: 8px;
-
-					small {
-						display: block;
-						margin-right: 0;
-						line-height: 0.9em;
+				.button {
+					span {
+						display: none;
 					}
 				}
 			}
+		}
 
+		.controls-top {
+			flex-direction: column;
+			min-width: unset;
+			max-width: 52px;
+			height: calc(100% - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+			position: absolute;
+			left: env(safe-area-inset-left);
+			border-bottom: unset;
+		}
 
+		.controls-bottom {
+			flex-direction: column;
+			min-width: 98px;
+			max-width: 98px;
+			height: calc(100% - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+			position: absolute;
+			right: env(safe-area-inset-right);
+			align-items: flex-end;
+			border-top: unset;
+
+			.ctrl {
+				align-items: flex-end;
+
+				.text {
+					display: none;
+				}
+
+				&.ctrl-time .time {
+					padding-right: 0.3em;
+					min-width: unset;
+				}
+			}
 		}
 	}
 
-	@include mixins.respond-to-horizontal-device(phone) {
-		.controls .ctrl .link {
-			margin-bottom: 0;
-		}
-
-		.controls {
-			.ctrl {
-				i {
-					font-size: 20px;
-				}
-			}
+	@include mixins.respond-to-horizontal-device(mini) {
+		.controls .ctrl .button {
+			padding: 0.1em;
 		}
 	}
 }

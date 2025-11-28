@@ -9,6 +9,10 @@
 		@media only screen and (width >= 400px) and (height <= 300px) {
 			@content;
 		}
+	} @else if $device == mini {
+		@media only screen and (width >= 400px) and (height <= 260px) {
+			@content;
+		}
 	}
 }
 
