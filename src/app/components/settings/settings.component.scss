@@ -47,6 +47,7 @@
 			transition: background-color 0.15s ease;
 			box-sizing: border-box;
 			break-inside: avoid;
+			flex: 1;
 
 			&:hover {
 				background-color: var(--dialog-background-color-hover);
@@ -72,6 +73,11 @@
 				text-overflow: ellipsis;
 				flex: 1;
 				font-size: 0.95em;
+
+				@include mixins.respond-to(tiny-down) {
+					hyphens: auto;
+					word-break: break-all;
+				}
 			}
 
 			input {
@@ -263,10 +269,6 @@
 				align-items: center;
 				gap: 8px;
 
-				label {
-					flex: 1;
-				}
-
 				app-license-link {
 					margin-left: auto;
 					flex-shrink: 0;
@@ -277,13 +279,6 @@
 		.radio-themes {
 			@include mixins.respond-to(small-down) {
 				columns: 1;
-			}
-
-			label {
-				@include mixins.respond-to(tiny-down) {
-					hyphens: auto;
-					word-break: break-all;
-				}
 			}
 
 			.theme-preview-wrapper {
@@ -338,12 +333,6 @@
 			text-align: center;
 			position: relative;
 
-			&:hover:not(:disabled) {
-				color: var(--dialog-headline-color);
-				border-bottom-color: var(--dialog-headline-color);
-				opacity: 0.9;
-			}
-
 			&:focus-visible {
 				color: var(--dialog-headline-color);
 				outline: none;
@@ -353,6 +342,12 @@
 			&:disabled {
 				cursor: not-allowed;
 				opacity: 0.35;
+			}
+
+			&:hover:not(:disabled) {
+				color: var(--dialog-headline-color);
+				border-bottom-color: var(--dialog-headline-color);
+				opacity: 0.9;
 			}
 		}
 	}
