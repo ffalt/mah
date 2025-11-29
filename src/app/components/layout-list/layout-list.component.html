@@ -91,11 +91,7 @@
 								@if (item.visible) {
 									<app-layout-preview class="svg-board" [svg]="item.layout.previewSVG" [alt]="item.layout.name"></app-layout-preview>
 								} @else {
-									<div class="preview-placeholder"
-											 [id]="'item-'+item.layout.id"
-											 [class.selected]="item.selected"
-									>
-									</div>
+									<div class="preview-placeholder" [class.selected]="item.selected"></div>
 								}
 								@if (item.bestTime) {
 									<div class="preview-best-time">
