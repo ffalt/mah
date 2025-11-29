@@ -351,7 +351,7 @@ async function main() {
 		}
 
 		// If either the <use> or its referenced <image> requested inversion, invert RGB but respect alpha
-		const shouldInvert = !!(u.invert || (imageDefinition && imageDefinition.invert));
+		const shouldInvert = !!(u.invert || (imageDefinition?.invert));
 		if (debug) {
 			const source = [u.invert ? "use" : null, imageDefinition?.invert ? "image" : null].filter(Boolean).join("+") || "none";
 			console.log(`[tile] ${u.id} invert=${shouldInvert} (source: ${source})`);
@@ -449,7 +449,10 @@ async function applyDarkBgColormap(inputBuf, options = {}) {
 	const meanArray = new Float32Array(W * H);
 	for (let y = 0; y < H; y++) {
 		for (let x = 0; x < W; x++) {
-			let lo = 1, hi = 0, sum = 0, count = 0;
+			let lo = 1;
+			let hi = 0;
+			let sum = 0;
+			let count = 0;
 			for (let dy = -1; dy <= 1; dy++) {
 				const yy = y + dy;
 				if (yy < 0 || yy >= H) {
@@ -478,7 +481,8 @@ async function applyDarkBgColormap(inputBuf, options = {}) {
 	}
 
 	function rgbToHsv(r, g, b) {
-		const max = Math.max(r, g, b), min = Math.min(r, g, b);
+		const max = Math.max(r, g, b);
+		const min = Math.min(r, g, b);
 		const d = max - min;
 		let h = 0;
 		const s = max === 0 ? 0 : d / max;
@@ -498,7 +502,7 @@ async function applyDarkBgColormap(inputBuf, options = {}) {
 					break;
 				}
 				default:
-					// nop
+				// nop
 			}
 			h /= 6;
 		}
@@ -542,7 +546,7 @@ async function applyDarkBgColormap(inputBuf, options = {}) {
 	}
 
 	function linearToSrgb(u) {
-		return u <= 0.003_130_8 ? 12.92 * u : 1.055 * Math.pow(u, 1 / 2.4) - 0.055;
+		return u <= 0.003_130_8 ? 12.92 * u : 1.055 * u ** (1 / 2.4) - 0.055;
 	}
 
 	function rgbToOklab(r, g, b) {
@@ -614,7 +618,8 @@ async function applyDarkBgColormap(inputBuf, options = {}) {
 			out[index + 2] = 255;
 			// alpha unchanged
 			continue;
-		} else if (s < 0.25) {
+		}
+		if (s < 0.25) {
 			// Grayscale-ish: map to pleasant hues but preserve nearby tone differences
 			const t = lum; // 0..1
 			// Choose a gentle hue based on brightness; reduce saturation where detail is high
@@ -661,13 +666,15 @@ async function applyDarkBgColormap(inputBuf, options = {}) {
 				} else if (s >= 0.5) {
 					if (v < 0.6 || lum < 0.28) {
 						// Very dark reds: keep near pure red and lift brightness a lot
-						const minH = 0 / 360, maxH = 10 / 360; // keep within 0°..10°
+						const minH = 0 / 360;
+						const maxH = 10 / 360; // keep within 0°..10°
 						h = clamp01(Math.min(maxH, Math.max(minH, h)));
 						s = Math.max(s, 0.92);
 						v = Math.max(v, 0.86);
 					} else if (v < 0.8) {
 						// Mid reds: preserve hue, increase saturation and raise V
-						const minH = 0 / 360, maxH = 10 / 360;
+						const minH = 0 / 360;
+						const maxH = 10 / 360;
 						h = clamp01(Math.min(maxH, Math.max(minH, h)));
 						s = Math.max(s, 0.9);
 						v = Math.max(v, 0.8);
@@ -695,7 +702,8 @@ async function applyDarkBgColormap(inputBuf, options = {}) {
 					v = Math.max(v, 0.88);
 				} else if (v < 0.8) {
 					// Mid blues: keep in electric blue range, boost S/V
-					const minH = 205 / 360, maxH = 225 / 360;
+					const minH = 205 / 360;
+					const maxH = 225 / 360;
 					// Clamp hue into [205°,225°]
 					h = clamp01(Math.min(maxH, Math.max(minH, h)));
 					s = Math.max(s, 0.95);
@@ -776,13 +784,14 @@ async function applyDarkBgColormap(inputBuf, options = {}) {
 				const tooDark = fv < 0.62 || Lk2 < 0.55;
 				if (tooDark) {
 					// Nudge hue depending on side and option: with avoidDarkRed, push reds to orange (~30°)
-					const targetH = (((options && options.avoidDarkRed) || hueDeg >= 26) ? 30 : 16) / 360;
+					const targetH = (((options?.avoidDarkRed) || hueDeg >= 26) ? 30 : 16) / 360;
 					fh = clamp01(fh * 0.3 + targetH * 0.7);
 					fs = Math.max(fs, 0.95);
 					fv = Math.max(fv, 0.93);
 				} else if (fv < 0.8) {
 					// Mid browns/oranges: clamp into vivid amber band and boost
-					const minH = 28 / 360, maxH = 36 / 360;
+					const minH = 28 / 360;
+					const maxH = 36 / 360;
 					fh = clamp01(Math.min(maxH, Math.max(minH, fh)));
 					fs = Math.max(fs, 0.95);
 					fv = Math.max(fv, 0.92);
@@ -797,7 +806,7 @@ async function applyDarkBgColormap(inputBuf, options = {}) {
 
 		// Green-band safeguard (optional via --avoid-dark-green): lighten dark/muddy greens on black
 		{
-			if (options && options.avoidDarkGreen) {
+			if (options?.avoidDarkGreen) {
 				let [fh, fs, fv] = rgbToHsv(clamp01(cr), clamp01(cg), clamp01(callback));
 				const hueDeg = fh * 360;
 				const inGreenBand = (hueDeg >= 80 && hueDeg <= 170); // yellow-green → emerald → spring green
@@ -812,7 +821,8 @@ async function applyDarkBgColormap(inputBuf, options = {}) {
 						fv = Math.max(fv, 0.93);
 					} else if (fv < 0.82) {
 						// Mid greens: clamp into vivid safe band and boost
-						const minH = 110 / 360, maxH = 130 / 360;
+						const minH = 110 / 360;
+						const maxH = 130 / 360;
 						fh = clamp01(Math.min(maxH, Math.max(minH, fh)));
 						fs = Math.max(fs, 0.94);
 						fv = Math.max(fv, 0.9);
@@ -833,8 +843,7 @@ async function applyDarkBgColormap(inputBuf, options = {}) {
 	}
 
 	// Re-encode to PNG
-	const buf = await sharp(out, { raw: { width: info.width, height: info.height, channels: info.channels } })
+	return await sharp(out, { raw: { width: info.width, height: info.height, channels: info.channels } })
 		.png()
 		.toBuffer();
-	return buf;
 }

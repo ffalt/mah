@@ -1,4 +1,4 @@
-import { expect, Locator, Page, test } from '@playwright/test';
+import { expect, type Locator, type Page, test } from '@playwright/test';
 import path from 'node:path';
 import fs from 'node:fs';
 
@@ -38,7 +38,7 @@ export async function ensureOrientation(page: Page, orientation: 'portrait' | 'l
 	}
 	const isPortrait = size.height >= size.width;
 	const needPortrait = orientation === 'portrait';
-	if ((needPortrait && !isPortrait) || (!needPortrait && isPortrait)) {
+	if ((needPortrait && !isPortrait) ?? (!needPortrait && isPortrait)) {
 		await page.setViewportSize({ width: size.height, height: size.width });
 	}
 }
@@ -128,7 +128,7 @@ export async function captureSettingsScreenshots(page: Page) {
 		for (let index = 0; index < count; index++) {
 			const overlaySettings = await openSettingsDialog(page);
 			const input = overlaySettings.locator('.tabs-input').nth(index);
-			const tabId = (await input.getAttribute('id')) || `tab-${index}`;
+			const tabId = (await input.getAttribute('id')) ?? `tab-${index}`;
 			const tabLabel = overlaySettings.locator(`.tabs-labels label[for="${tabId}"]`);
 			await tabLabel.waitFor({ state: 'visible' });
 			await tabLabel.click();

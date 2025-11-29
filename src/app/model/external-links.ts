@@ -13,7 +13,7 @@ export function clickExternalHref(event: MouseEvent): void {
 			element = element.parentElement;
 		}
 		if (element && element instanceof HTMLAnchorElement) {
-			const href = element.getAttribute('href') || '';
+			const href = element.getAttribute('href') ?? '';
 			(environment.openExternal as openExternal)(href);
 		}
 	} catch (error) {

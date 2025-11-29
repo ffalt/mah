@@ -144,12 +144,12 @@ function addNearSnake(present: Set<string>, snakeKeys: Set<string>, xs: Array<nu
 
 function adjustDensityToTarget(present: Set<string>, snakeKeys: Set<string>, xs: Array<number>, ys: Array<number>, minTarget: number, maxTarget: number, xMax: number, yMax: number): void {
 	const baseMapping: Mapping = buildMappingFromSetZ0(present, xMax, yMax, 1);
-	let baseCount = baseMapping.length;
+	const baseCount = baseMapping.length;
 	const targetBase = Math.min(Math.max(minTarget, Math.floor(baseCount * 0.9)), maxTarget);
 	if (baseCount > targetBase) {
-		baseCount = reduceNonSnake(present, baseMapping, snakeKeys, targetBase);
+		reduceNonSnake(present, baseMapping, snakeKeys, targetBase);
 	} else if (baseCount < targetBase) {
-		baseCount = addNearSnake(present, snakeKeys, xs, ys, baseCount, targetBase);
+		addNearSnake(present, snakeKeys, xs, ys, baseCount, targetBase);
 	}
 }
 
@@ -172,7 +172,8 @@ export function generateBaseLayerLines({ minTarget, maxTarget, xMax, yMax }: Bas
 	const { xs, ys } = buildUnitGrids(xMax, yMax, 1);
 
 	const { sx, sy } = seedStart(present, mapping, snakeKeys, xMax, yMax);
-	let x = sx, y = sy;
+	let x = sx;
+	let y = sy;
 	const directionsAll: Array<[number, number]> = [[1, 0], [-1, 0], [0, 1], [0, -1]];
 	let direction: [number, number] = directionsAll[Math.floor(Math.random() * 4)];
 	const targetLength = computeSnakeTargetLength(xMax, yMax);

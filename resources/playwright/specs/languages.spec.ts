@@ -31,7 +31,7 @@ test.describe('languages', () => {
 				await captureHelpScreenshots(page);
 				await captureInfoScreenshots(page);
 				await captureSettingsScreenshots(page);
-				await screenshot(page, `layout`);
+				await screenshot(page, 'layout');
 			});
 		}
 	}

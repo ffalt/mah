@@ -222,7 +222,8 @@ function extractTPPreviewEntries(svgText) {
 			const ry = parseNum(getAttribute(attributes, "y"));
 
 			// accumulate transforms and choose first available name in stack
-			let tx = 0, ty = 0;
+			let tx = 0;
+			let ty = 0;
 			let name = "";
 			for (const g of stack) {
 				const t = parseTransform(g.attrs);
@@ -259,7 +260,8 @@ function extractTPPreviewEntries(svgText) {
 			const uy = parseNum(getAttribute(attributes, "y"));
 
 			// accumulate transforms from ancestor groups and the element itself
-			let tx = 0, ty = 0;
+			let tx = 0;
+			let ty = 0;
 			for (const g of stack) {
 				const t = parseTransform(g.attrs);
 				tx += t.x;
@@ -318,7 +320,7 @@ function assignGridIndices(entries) {
 
 	function closestIndex(value, bands) {
 		let bestIndex = 0;
-		let bestDistance = Infinity;
+		let bestDistance = Number.POSITIVE_INFINITY;
 		for (const [index, band] of bands.entries()) {
 			const d = Math.abs(value - band);
 			if (d < bestDistance) {
@@ -495,7 +497,7 @@ async function main() {
 
 		// Build naming map: either from t_preview order or numeric
 		let nameGrid = null;
-		if (detected && detected.entries) {
+		if (detected?.entries) {
 			// Prepare a cols x rows name grid
 			nameGrid = Array.from({ length: rows }, () => Array.from({ length: cols }).fill(null));
 			for (const entry of detected.entries) {

@@ -3,7 +3,10 @@ import { TARGET_COUNT, X_MAX, Y_MAX, Z_MAX } from './consts';
 import { blocksOverlap, inBounds, isOdd, isSupported, key, randChoice, tryAdd } from './utilities';
 
 function computeBelowWindow(current: Mapping, z: number): { minX: number; maxX: number; minY: number; maxY: number } | null {
-	let minX = X_MAX, maxX = 0, minY = Y_MAX, maxY = 0;
+	let minX = X_MAX;
+	let maxX = 0;
+	let minY = Y_MAX;
+	let maxY = 0;
 	for (const [zz, xx, yy] of current) {
 		if (zz === z - 1) {
 			minX = Math.min(minX, xx);
@@ -71,7 +74,8 @@ function maybeProposeOverhangs(present: Set<string>, z: number, win: { minX: num
 				}
 				const directions: Array<[number, number]> = [[-1, 0], [1, 0], [0, -1], [0, 1]];
 				const [dx, dy] = randChoice(directions);
-				const ox = x + dx, oy = y + dy;
+				const ox = x + dx;
+				const oy = y + dy;
 				if (!inBounds(ox, oy, z)) {
 					continue;
 				}
@@ -291,7 +295,10 @@ function symmetricFill(mapping: Mapping, mirrorX: boolean, mirrorY: boolean): Ma
 
 // Helper: compute search window around existing mapping
 function computeWindow(mapping: Mapping): { minX: number; maxX: number; minY: number; maxY: number } {
-	let minX = X_MAX, maxX = 0, minY = Y_MAX, maxY = 0;
+	let minX = X_MAX;
+	let maxX = 0;
+	let minY = Y_MAX;
+	let maxY = 0;
 	for (const [, xx, yy] of mapping) {
 		minX = Math.min(minX, xx);
 		maxX = Math.max(maxX, xx);

@@ -143,13 +143,13 @@ export function generateBaseLayerChecker({ minTarget, maxTarget, xMax, yMax }: B
 	const mapping0: Mapping = buildMappingFromSetZ0(present, xMax, yMax, 1);
 
 	// ensure not too few or too many in base; adjust by removing/adding randomly
-	let baseCount = mapping0.length;
+	const baseCount = mapping0.length;
 	const targetBase = computeTargetBaseLength(baseCount, minTarget, maxTarget);
 	if (baseCount > targetBase) {
-		baseCount = removeDownToTarget(present, mapping0, targetBase);
+		removeDownToTarget(present, mapping0, targetBase);
 	} else if (baseCount < targetBase) {
 		const candidates = buildMissingCandidates(present, xs, ys);
-		baseCount = addUpToTarget(present, candidates, baseCount, targetBase);
+		addUpToTarget(present, candidates, baseCount, targetBase);
 	}
 	return buildMappingFromSetZ0(present, xMax, yMax, 1);
 }

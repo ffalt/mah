@@ -3,7 +3,7 @@ import path from 'node:path';
 import fs from 'node:fs';
 
 function getStableRunDirectory(): string {
-	if (process.env.PW_RESULTS_SUBDIR && process.env.PW_RESULTS_SUBDIR.trim()) {
+	if (process.env.PW_RESULTS_SUBDIR?.trim()) {
 		return process.env.PW_RESULTS_SUBDIR.trim();
 	}
 	const resultsRoot = path.join(process.cwd(), 'results');

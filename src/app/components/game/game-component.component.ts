@@ -251,9 +251,8 @@ export class GameComponent {
 		if (this.game.isPaused()) {
 			if (this.game.mode === 'GAME_MODE_EASY' && this.game.message?.messageID === 'MSG_FAIL') {
 				return;
-			} else {
-				this.game.resume();
 			}
+			this.game.resume();
 		} else {
 			this.game.reset();
 			this.showNewGame();

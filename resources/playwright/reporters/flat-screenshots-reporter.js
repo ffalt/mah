@@ -80,7 +80,7 @@ async function removeEmptyDirectoriesUnder(root) {
 
 async function makeFlatTargetPath(outputDirectory, parts, extension, preferredBase) {
 	const base = sanitizeSegment(preferredBase || parts.filter(Boolean).map(element => sanitizeSegment(element)).join("-")) || "attachment";
-	const finalExtension = extension && extension.startsWith(".") ? extension : (extension ? `.${extension}` : "");
+	const finalExtension = extension?.startsWith(".") ? extension : (extension ? `.${extension}` : "");
 	let candidate = path.join(outputDirectory, `${base}${finalExtension}`);
 	let index = 1;
 	while (fs.existsSync(candidate)) {
@@ -146,7 +146,7 @@ class FlatScreenshotsReporter {
 		const testTitle = sanitizeSegment(dedupedTitleSegments.join("-")) || sanitizeSegment(test.title);
 
 		for (const att of result.attachments || []) {
-			const isImage = (att.contentType && att.contentType.startsWith("image/")) || /\.png$/i.test(att.name || "");
+			const isImage = (att.contentType?.startsWith("image/")) || /\.png$/i.test(att.name || "");
 			if (!isImage) {
 				continue;
 			}

@@ -179,7 +179,7 @@ export class Game {
 	}
 
 	private isStorableLayoutId(): boolean {
-		return this.layoutID != undefined && !this.layoutID.startsWith(RANDOM_LAYOUT_ID_PREFIX);
+		return this.layoutID !== undefined && !this.layoutID.startsWith(RANDOM_LAYOUT_ID_PREFIX);
 	}
 
 	private storeLostGame(): void {
