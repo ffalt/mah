@@ -543,8 +543,8 @@ p {
 			width: 100%;
 			min-height: 600px;
 			max-height: 80svh;
-			min-width: 800px;
-			max-width: 800px;
+			min-width: 860px;
+			max-width: 860px;
 
 			@include mixins.respond-to-height(medium-down) {
 				min-height: 100svh;
