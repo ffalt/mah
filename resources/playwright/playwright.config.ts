@@ -68,6 +68,15 @@ export default defineConfig({
 			}
 		},
 		{
+			name: 'embed',
+			outputDir: outputDirectory,
+			use: {
+				...devices['Desktop Firefox'],
+				viewport: { width: 1000, height: 780 },
+				colorScheme: 'light'
+			}
+		},
+		{
 			name: 'tablet-light',
 			outputDir: outputDirectory,
 			use: {

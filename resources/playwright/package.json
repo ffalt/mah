@@ -3,6 +3,7 @@
 		"version": "1.0.0",
 		"scripts": {
 				"play": "playwright test",
+				"play:help": "playwright test -h",
 				"play:headed": "playwright test --headed",
 				"play:update-snapshots": "playwright test -u",
 				"play:install-browsers": "playwright install --with-deps"

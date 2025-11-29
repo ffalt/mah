@@ -127,9 +127,6 @@ class FlatScreenshotsReporter {
 
 		const specFile = test.location?.file || (test.titlePath?.()[0] ?? "spec");
 		const specBase = sanitizeSegment(path.basename(specFile));
-		// Normalize the title path and remove any segments that duplicate the project name
-		// or the spec file name, regardless of their position. This prevents prefixes like
-		// "desktop-dialogs.spec.ts" from appearing twice when we also add [projectName, specBase].
 		const rawTitlePath = typeof test.titlePath === "function" ? test.titlePath() : (test.titlePath || []);
 		const normalizedTitleSegments = (Array.isArray(rawTitlePath) ? rawTitlePath : [])
 			.map(p => sanitizeSegment(path.basename(String(p))))
@@ -163,7 +160,7 @@ class FlatScreenshotsReporter {
 					// duplicating project/spec names which are already included above.
 					const relativeName = relativeParts.length > 0 ? path.parse(relativeParts.at(-1)).name : undefined;
 					// Build filename parts and remove duplicates across the full list
-					const parts = [projectName, specBase, testTitle, sanitizeSegment(relativeName || "")].filter(Boolean);
+					const parts = [projectName, testTitle, sanitizeSegment(relativeName || "")].filter(Boolean);
 					const partsSeen = new Set();
 					const ordered = [];
 					for (const p of parts) {
@@ -207,7 +204,7 @@ class FlatScreenshotsReporter {
 					const hasPng = att.contentType === "image/png" || /\.png$/i.test(parsed.ext || "");
 					const extension = hasPng ? ".png" : (att.contentType?.split("/")[1] ? `.${att.contentType.split("/")[1]}` : ".bin");
 					const cleanName = sanitizeSegment(parsed.name || "attachment");
-					const parts = [projectName, specBase, testTitle, cleanName].filter(Boolean);
+					const parts = [projectName, testTitle, cleanName].filter(Boolean);
 					const partsSeen = new Set();
 					const ordered = [];
 					for (const p of parts) {
