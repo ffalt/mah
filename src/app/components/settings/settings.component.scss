@@ -107,6 +107,7 @@
 				margin: -8px;
 				border-radius: 6px;
 				transition: background-color 0.15s ease;
+				user-select: none;
 
 				&:hover {
 					background-color: var(--dialog-background-color-hover);
@@ -333,6 +334,7 @@
 			text-align: center;
 			position: relative;
 			font-size: 0.8em;
+			user-select: none;
 
 			&:focus-visible {
 				color: var(--dialog-headline-color);

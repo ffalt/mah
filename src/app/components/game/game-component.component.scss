@@ -34,14 +34,14 @@
 			user-select: none;
 
 			.time {
-				padding: 0.35em 0.9em;
+				padding: 0.3em 0.9em;
 			}
 
 			.link {
 				text-decoration: none;
 				font-weight: 500;
 				color: var(--main-text-color);
-				padding: 0.35em 0.9em;
+				padding: 0.3em 0.9em;
 				border-radius: 10px;
 				transition: color .15s ease, background-color .15s ease, border-color .15s ease, box-shadow .15s ease, transform .05s ease;
 
@@ -71,7 +71,7 @@
 				border-radius: 10px;
 				font-family: variables.$text-font;
 				color: var(--main-text-color);
-				padding: 0.35em 0.9em;
+				padding: 0.3em 0.9em;
 				cursor: pointer;
 				border: 1px solid transparent;
 				background-clip: padding-box;
@@ -143,7 +143,7 @@
 					font-family: variables.$text-font;
 					min-width: 98px;
 					display: inline-block;
-					text-align: right;
+					text-align: center;
 					font-variant-numeric: slashed-zero tabular-nums;
 				}
 			}
@@ -188,6 +188,10 @@
 	}
 
 	@include mixins.respond-to(ludicrous-down) {
+		font-size: variables.$base-font-size * 2.3;
+	}
+
+	@include mixins.respond-to(jumbo-down) {
 		font-size: variables.$base-font-size * 1.6;
 	}
 
