@@ -9,6 +9,7 @@ import { DeferLoadScrollHostDirective } from '../../directives/defer-load/defer-
 import { DeferLoadDirective } from '../../directives/defer-load/defer-load.directive';
 import { generateRandomMapping } from '../../model/random-layout/random-layout';
 import { RANDOM_LAYOUT_ID_PREFIX, type RandomSymmetry } from '../../model/random-layout/consts';
+import { TranslateGroupPipe } from '../../pipes/translate-group.pipe';
 
 export interface LayoutItem {
 	layout: Layout;
@@ -29,7 +30,7 @@ export interface LayoutGroup {
 	selector: 'app-layout-list',
 	templateUrl: './layout-list.component.html',
 	styleUrls: ['./layout-list.component.scss'],
-	imports: [LayoutPreviewComponent, DurationPipe, TranslatePipe, DeferLoadScrollHostDirective, DeferLoadDirective]
+	imports: [LayoutPreviewComponent, DurationPipe, TranslatePipe, TranslateGroupPipe, DeferLoadScrollHostDirective, DeferLoadDirective]
 })
 export class LayoutListComponent implements OnInit, OnChanges {
 	readonly layouts = input<Array<Layout>>();

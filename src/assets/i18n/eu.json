@@ -247,5 +247,11 @@
 	"KYODAI_TILESET": "Kyodai Fitxa-sorten",
 	"KYODAI_TILESET_URL_PLACEHOLDER": "Sartu Kyodai fitxen URL-a",
 	"KYODAI_TILESET_CLEAR": "Garbitu URL-a",
-	"DATA": "Datuak"
+	"DATA": "Datuak",
+	"CAT_ANIMALS": "Animaliak",
+	"CAT_ARCHITECTURE": "Arkitektura",
+	"CAT_PLANTS": "Landareak",
+	"CAT_SHAPES": "Formak",
+	"CAT_SYMBOLS": "Ikurrak",
+	"CAT_CUSTOM": "Pertsonalizatua"
 }

@@ -247,5 +247,11 @@
 	"KYODAI_TILESET": "Набор плиток Kyodai",
 	"KYODAI_TILESET_URL_PLACEHOLDER": "Введите URL набора плиток Kyodai",
 	"KYODAI_TILESET_CLEAR": "Очистить URL",
-	"DATA": "Данные"
+	"DATA": "Данные",
+	"CAT_ANIMALS": "Животные",
+	"CAT_ARCHITECTURE": "Архитектура",
+	"CAT_PLANTS": "Растения",
+	"CAT_SHAPES": "Фигуры",
+	"CAT_SYMBOLS": "Символы",
+	"CAT_CUSTOM": "Пользовательское"
 }

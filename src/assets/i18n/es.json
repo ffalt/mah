@@ -247,5 +247,11 @@
 	"KYODAI_TILESET": "Juego de fichas Kyodai",
 	"KYODAI_TILESET_URL_PLACEHOLDER": "Introduzca la URL del tileset Kyodai",
 	"KYODAI_TILESET_CLEAR": "Borrar URL",
-	"DATA": "Datos"
+	"DATA": "Datos",
+	"CAT_ANIMALS": "Animales",
+	"CAT_ARCHITECTURE": "Arquitectura",
+	"CAT_PLANTS": "Plantas",
+	"CAT_SHAPES": "Formas",
+	"CAT_SYMBOLS": "Símbolos",
+	"CAT_CUSTOM": "Personalizado"
 }

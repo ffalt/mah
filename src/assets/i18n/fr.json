@@ -247,5 +247,11 @@
 	"KYODAI_TILESET": "Ensemble de tuiles Kyodai",
 	"KYODAI_TILESET_URL_PLACEHOLDER": "Entrez l'URL du tileset Kyodai",
 	"KYODAI_TILESET_CLEAR": "Effacer l'URL",
-	"DATA": "Données"
+	"DATA": "Données",
+	"CAT_ANIMALS": "Animaux",
+	"CAT_ARCHITECTURE": "Architecture",
+	"CAT_PLANTS": "Plantes",
+	"CAT_SHAPES": "Formes",
+	"CAT_SYMBOLS": "Symboles",
+	"CAT_CUSTOM": "Personnalisé"
 }

@@ -247,5 +247,11 @@
 	"KYODAI_TILESET": "Kyodai Tileset",
 	"KYODAI_TILESET_URL_PLACEHOLDER": "Geben Sie die Kyodai-Tileset-URL ein",
 	"KYODAI_TILESET_CLEAR": "URL löschen",
-	"DATA": "Daten"
+	"DATA": "Daten",
+	"CAT_ANIMALS": "Tiere",
+	"CAT_ARCHITECTURE": "Architektur",
+	"CAT_PLANTS": "Pflanzen",
+	"CAT_SHAPES": "Formen",
+	"CAT_SYMBOLS": "Symbole",
+	"CAT_CUSTOM": "Persönliche"
 }

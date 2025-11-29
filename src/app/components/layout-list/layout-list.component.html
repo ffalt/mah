@@ -1,7 +1,7 @@
 @if (groups.length > 1) {
 	<div class="headline-anchors">
 		@for (group of groups; track group; let i = $index) {
-			<a (click)="scrollToGroup(i)">{{ group.name }}</a>
+			<a (click)="scrollToGroup(i)">{{ group.name | translateGroup }}</a>
 		}
 	</div>
 }
@@ -11,7 +11,7 @@
 			@if (groups.length > 1) {
 				<div class="group-name" (click)="group.expanded = !group.expanded">
 					<span class="group-expander" [class.expanded]="group.expanded"></span>
-					{{ group.name }}
+					{{ group.name | translateGroup }}
 					<span class="group-count">@if (!group.isRandom) {
 						[{{ group.layouts.length }}]
 					}</span>

@@ -247,5 +247,11 @@
 	"KYODAI_TILESET": "Conjunto de azulejos Kyodai",
 	"KYODAI_TILESET_URL_PLACEHOLDER": "Insira a URL do conjunto de azulejos Kyodai",
 	"KYODAI_TILESET_CLEAR": "Limpar URL",
-	"DATA": "Dados"
+	"DATA": "Dados",
+	"CAT_ANIMALS": "Animais",
+	"CAT_ARCHITECTURE": "Arquitetura",
+	"CAT_PLANTS": "Plantas",
+	"CAT_SHAPES": "Formas",
+	"CAT_SYMBOLS": "Símbolos",
+	"CAT_CUSTOM": "Personalizado"
 }

@@ -247,5 +247,11 @@
 	"KYODAI_TILESET": "Kyodai牌组",
 	"KYODAI_TILESET_URL_PLACEHOLDER": "输入 Kyodai 牌组的 URL",
 	"KYODAI_TILESET_CLEAR": "清除 URL",
-	"DATA": "数据"
+	"DATA": "数据",
+	"CAT_ANIMALS": "动物",
+	"CAT_ARCHITECTURE": "建筑",
+	"CAT_PLANTS": "植物",
+	"CAT_SHAPES": "形状",
+	"CAT_SYMBOLS": "符号",
+	"CAT_CUSTOM": "自定义"
 }
