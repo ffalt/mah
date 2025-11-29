@@ -1,5 +1,5 @@
 import { test } from '@playwright/test';
-import { captureDialogScreenshots, captureHelpScreenshots, captureInfoScreenshots, captureSettingsScreenshots, closeOverlay, openHelpDialog, openInfoDialog, openSettingsDialog, ORIENTATIONS, startFirstLayout, startGame } from './common';
+import { captureDialogScreenshots, captureHelpScreenshots, captureInfoScreenshots, captureSettingsScreenshots, ORIENTATIONS, startFirstLayout, startGame } from './common';
 
 test.describe('dialogs', () => {
 	test.beforeEach(async ({ page, baseURL }) => {
