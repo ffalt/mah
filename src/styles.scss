@@ -248,22 +248,6 @@ p {
 	max-width: 100%;
 	font-size: variables.$base-font-size * 0.9;
 
-	select {
-		padding-right: 20px;
-		background-repeat: no-repeat;
-		background-position: right 4px center;
-		background-size: 18px 18px;
-		background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%23000000' d='M7 10l5 5 5-5z'/></svg>");
-
-		@media (prefers-color-scheme: dark) {
-			background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%23FFFFFF' d='M7 10l5 5 5-5z'/></svg>");
-		}
-
-		@include mixins.respond-to(medium-down) {
-			background-position: right 2px center;
-		}
-	}
-
 	button, select {
 		appearance: none;
 		background-color: var(--input-background-color);
@@ -301,6 +285,22 @@ p {
 		@include mixins.respond-to(medium-down) {
 			min-height: 32px;
 			padding: 6px 8px;
+		}
+	}
+
+	select {
+		padding-right: 24px;
+		background-repeat: no-repeat;
+		background-position: right 4px center;
+		background-size: 18px 18px;
+		background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%23000000' d='M7 10l5 5 5-5z'/></svg>");
+
+		@media (prefers-color-scheme: dark) {
+			background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%23FFFFFF' d='M7 10l5 5 5-5z'/></svg>");
+		}
+
+		@include mixins.respond-to(medium-down) {
+			background-position: right 2px center;
 		}
 	}
 

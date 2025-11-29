@@ -200,6 +200,7 @@
 				}
 
 				.example-kyodai {
+					background-image: unset;
 					background-color: var(--input-background-color);
 					color: var(--input-background-color);
 					border: 1px solid var(--input-border-color);
@@ -333,7 +334,6 @@
 			min-width: auto;
 			text-align: center;
 			position: relative;
-			font-size: 0.8em;
 			user-select: none;
 
 			&:focus-visible {
