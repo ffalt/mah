@@ -38,7 +38,7 @@ html {
 	--input-border-color: #8f8f8f;
 	--text-fail-color: #cc919f;
 	--text-disabled-color: #8d8d8d;
-	--text-highlight-color: #8ec271;
+	--text-highlight-color: #35a302;
 	--close-color: #7c7c7c;
 	--close-color-hover: #3a3a3a;
 	--tile-color: #FFF9E5;
@@ -57,6 +57,7 @@ html {
 @media (prefers-color-scheme: dark) {
 	html {
 		--dialog-headline-color: #47b00a;
+		--text-highlight-color: #8ec271;
 		--dialog-background-color: #1b1b1b;
 		--dialog-border-color: #2f444d;
 		--dialog-background-color-hover: #272727;
@@ -93,6 +94,12 @@ html {
 	--main-text-color-lt: #ffe9c0;
 	--main-text-color-dk: #dcdbdb;
 	--dialog-text-color: #001552;
+	--dialog-headline-color: #001f73;
+	--text-highlight-color: #01248e;
+	@media (prefers-color-scheme: dark) {
+		--dialog-headline-color: #336dff;
+		--text-highlight-color: #1e51cd;
+	}
 }
 
 .theme-ltblue {
@@ -103,6 +110,12 @@ html {
 	--main-text-color-lt: #ffe9c0;
 	--main-text-color-dk: #dcdbdb;
 	--dialog-text-color: #34385a;
+	--dialog-headline-color: #0230a3;
+	--text-highlight-color: #0133b6;
+	@media (prefers-color-scheme: dark) {
+		--dialog-headline-color: #336dff;
+		--text-highlight-color: #1e51cd;
+	}
 }
 
 .theme-white {
@@ -123,6 +136,12 @@ html {
 	--main-text-color-lt: #ffe9c0;
 	--main-text-color-dk: #dcdbdb;
 	--dialog-text-color: #601616;
+	--dialog-headline-color: #982626;
+	--text-highlight-color: #ad2d2d;
+	@media (prefers-color-scheme: dark) {
+		--dialog-headline-color: #d34444;
+		--text-highlight-color: #ad2d2d;
+	}
 }
 
 .theme-black {
@@ -132,13 +151,19 @@ html {
 }
 
 .theme-cyberpunk {
-	--main-bg-color: #0a0e27;
+	--main-bg-color: #320032;
 	--main-bg-color-lt: #1a1f3a;
 	--main-bg-color-dk: #050710;
 	--main-text-color: #00ff9f;
 	--main-text-color-lt: #0ff;
 	--main-text-color-dk: #f0f;
 	--dialog-text-color: #0a0e27;
+	--dialog-headline-color: #800280;
+	--text-highlight-color: #800280;
+	@media (prefers-color-scheme: dark) {
+		--dialog-headline-color: #00ff9f;
+		--text-highlight-color: #05e491;
+	}
 }
 
 .theme-desert {
@@ -149,16 +174,28 @@ html {
 	--main-text-color-lt: #4a2c1a;
 	--main-text-color-dk: #1a0f08;
 	--dialog-text-color: #2c1810;
+	--dialog-headline-color: #4a2c1a;
+	--text-highlight-color: #5e3721;
+	@media (prefers-color-scheme: dark) {
+		--dialog-headline-color: #ddb892;
+		--text-highlight-color: #9d7e52;
+	}
 }
 
 .theme-ice {
 	--main-bg-color: #b3e5fc;
-	--main-bg-color-lt: #e1f5fe;
+	--main-bg-color-lt: #579bba;
 	--main-bg-color-dk: #81d4fa;
 	--main-text-color: #004471;
 	--main-text-color-lt: #01579b;
 	--main-text-color-dk: #0d47a1;
 	--dialog-text-color: #004471;
+	--dialog-headline-color: #001f73;
+	--text-highlight-color: #01248e;
+	@media (prefers-color-scheme: dark) {
+		--dialog-headline-color: #81d4fa;
+		--text-highlight-color: #3f8cb1;
+	}
 }
 
 .theme-lava {
@@ -169,16 +206,28 @@ html {
 	--main-text-color-lt: #ffeb3b;
 	--main-text-color-dk: #ff6f00;
 	--dialog-text-color: #5d1f1a;
+	--dialog-headline-color: #8c3d01;
+	--text-highlight-color: #9c4702;
+	@media (prefers-color-scheme: dark) {
+		--dialog-headline-color: #ffb74d;
+		--text-highlight-color: #bf8429;
+	}
 }
 
 .theme-space {
 	--main-bg-color: #0d1b2a;
 	--main-bg-color-lt: #1b2d42;
 	--main-bg-color-dk: #050d15;
-	--main-text-color: #e0aaff;
+	--main-text-color: #deb8f8;
 	--main-text-color-lt: #ffc8ff;
 	--main-text-color-dk: #c77dff;
 	--dialog-text-color: #0d1b2a;
+	--dialog-headline-color: #a745d8;
+	--text-highlight-color: #b95ced;
+	@media (prefers-color-scheme: dark) {
+		--dialog-headline-color: #00ff9f;
+		--text-highlight-color: #05e491;
+	}
 }
 
 .theme-ocean {
@@ -189,6 +238,12 @@ html {
 	--main-text-color-lt: #f1faee;
 	--main-text-color-dk: #457b9d;
 	--dialog-text-color: #0a3d62;
+	--dialog-headline-color: #001f73;
+	--text-highlight-color: #01248e;
+	@media (prefers-color-scheme: dark) {
+		--dialog-headline-color: #457b9d;
+		--text-highlight-color: #34607c;
+	}
 }
 
 .theme-medieval {
@@ -199,6 +254,12 @@ html {
 	--main-text-color-lt: #ffd700;
 	--main-text-color-dk: #b8860b;
 	--dialog-text-color: #3d2817;
+	--dialog-headline-color: #2c1810;
+	--text-highlight-color: #512e1e;
+	@media (prefers-color-scheme: dark) {
+		--dialog-headline-color: #ffd700;
+		--text-highlight-color: #b8860b;
+	}
 }
 
 body {
@@ -581,9 +642,6 @@ p {
 	}
 
 	&.overlay-message {
-		.overlay-message-message {
-			padding: 2em;
-		}
 
 		.overlay-message-actions {
 			margin-top: 20px;
@@ -596,6 +654,14 @@ p {
 			color: var(--dialog-headline-color);
 			padding: 0;
 			user-select: none;
+		}
+
+		.overlay-message-message {
+			padding: 2em;
+
+			&:hover {
+				color: var(--text-highlight-color);
+			}
 		}
 	}
 
