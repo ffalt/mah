@@ -116,6 +116,21 @@ export async function setLanguage(page: Page, lang: string) {
 	await closeOverlay(settingsOverlay);
 }
 
+export async function setTheme(page: Page, theme: string) {
+	const overlaySettings = await openSettingsDialog(page);
+	const tabsLabels = overlaySettings.locator('.tabs-labels');
+	const hasVisibleTabs = await tabsLabels.isVisible();
+	if (hasVisibleTabs) {
+		const tabLabel = overlaySettings.locator(`.tabs-labels label[for="tab-theme"]`);
+		await tabLabel.waitFor({ state: 'visible' });
+		await tabLabel.click();
+	}
+	const radio = overlaySettings.locator(`input[name="color"][value="${theme}"]`).first();
+	await radio.waitFor({ state: 'visible', timeout: 1000 });
+	await radio.click();
+	return overlaySettings;
+}
+
 export async function captureSettingsScreenshots(page: Page) {
 	const probeOverlay = await openSettingsDialog(page);
 	const tabsLabels = probeOverlay.locator('.tabs-labels');

@@ -17,6 +17,7 @@ test.describe('languages', () => {
 		const scheme = testInfo.project.use.colorScheme as 'light' | 'dark' | undefined;
 		if (scheme === 'dark') {
 			test.skip();
+			return;
 		}
 		await startGame(page, baseURL);
 	});
