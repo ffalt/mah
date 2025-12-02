@@ -843,7 +843,7 @@ async function applyDarkBgColormap(inputBuf, options = {}) {
 	}
 
 	// Re-encode to PNG
-	return await sharp(out, { raw: { width: info.width, height: info.height, channels: info.channels } })
+	return sharp(out, { raw: { width: info.width, height: info.height, channels: info.channels } })
 		.png()
 		.toBuffer();
 }
