@@ -14,7 +14,7 @@ export class Game {
 	sound: Sound = new Sound();
 	music: Music = new Music();
 	state: number = STATES.idle;
-	message?: { messageID?: string; playTime?: number };
+	message?: { messageID?: string; playTime?: number; askShuffle?: boolean };
 	layoutID?: string = undefined;
 	mode: GAME_MODE_ID = GAME_MODE_ID_DEFAULT;
 	private saveTimer?: ReturnType<typeof setTimeout> = undefined;
@@ -197,12 +197,14 @@ export class Game {
 	}
 
 	gameOverEasyModeShuffle(): void {
-		this.shuffle();
-		if (this.board.free.length === 0) {
-			this.gameOverEasyMode();
-		} else {
-			this.resume();
+		for (let index = 0; index < 10; index++) {
+			this.shuffle();
+			if (this.board.free.length > 0) {
+				this.resume();
+				return;
+			}
 		}
+		this.gameOverEasyMode();
 	}
 
 	surrender(): void {
@@ -210,6 +212,23 @@ export class Game {
 		this.sound.play(SOUNDS.OVER);
 		this.setState(STATES.idle);
 		this.clock.reset();
+	}
+
+	checkGameState(): boolean {
+		if (this.board.count < 2) {
+			this.gameOverWinning();
+		} else if (this.board.free.length === 0) {
+			if (this.mode === GAME_MODE_EASY && this.board.countUnblocked() > 1) {
+				this.gameOverEasyMode();
+				return false;
+			}
+			this.gameOverLosing();
+		} else {
+			this.sound.play(SOUNDS.MATCH);
+			this.delayedSave();
+			return true;
+		}
+		return false;
 	}
 
 	private gameOverWinning(): void {
@@ -239,7 +258,8 @@ export class Game {
 
 	private gameOverEasyMode() {
 		this.clock.pause();
-		this.setState(STATES.pause, 'MSG_FAIL');
+		this.message = { messageID: 'MSG_FAIL', askShuffle: true };
+		this.state = STATES.pause;
 		this.delayedSave();
 		this.music.pause();
 	}
@@ -250,18 +270,7 @@ export class Game {
 			return;
 		}
 		this.board.pick(sel, stone);
-		if (this.board.count < 2) {
-			this.gameOverWinning();
-		} else if (this.board.free.length === 0) {
-			if (this.mode === GAME_MODE_EASY) {
-				this.gameOverEasyMode();
-				return;
-			}
-			this.gameOverLosing();
-		} else {
-			this.sound.play(SOUNDS.MATCH);
-			this.delayedSave();
-		}
+		this.checkGameState();
 	}
 
 	private gameOver(message?: string, playTime?: number): void {

@@ -199,6 +199,10 @@ export class Board {
 		this.update();
 	}
 
+	countUnblocked(): number {
+		return this.stones.filter(s => !s.picked && !s.isBlocked()).length;
+	}
+
 	private hintNext(): boolean {
 		if (!this.hints.current) {
 			return false;
