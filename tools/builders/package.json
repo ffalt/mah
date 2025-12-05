@@ -1,0 +1,8 @@
+{
+	"name": "@mah/builders",
+	"version": "1.0.0",
+	"private": true,
+	"description": "Local Angular builders for the Mah project",
+	"builders": "./builders.json",
+	"license": "MIT"
+}
