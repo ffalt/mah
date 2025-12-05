@@ -96,6 +96,7 @@ html {
 	--dialog-text-color: #001552;
 	--dialog-headline-color: #001f73;
 	--text-highlight-color: #01248e;
+
 	@media (prefers-color-scheme: dark) {
 		--dialog-headline-color: #336dff;
 		--text-highlight-color: #1e51cd;
@@ -112,6 +113,7 @@ html {
 	--dialog-text-color: #34385a;
 	--dialog-headline-color: #0230a3;
 	--text-highlight-color: #0133b6;
+
 	@media (prefers-color-scheme: dark) {
 		--dialog-headline-color: #336dff;
 		--text-highlight-color: #1e51cd;
@@ -138,6 +140,7 @@ html {
 	--dialog-text-color: #601616;
 	--dialog-headline-color: #982626;
 	--text-highlight-color: #ad2d2d;
+
 	@media (prefers-color-scheme: dark) {
 		--dialog-headline-color: #d34444;
 		--text-highlight-color: #ad2d2d;
@@ -160,6 +163,7 @@ html {
 	--dialog-text-color: #0a0e27;
 	--dialog-headline-color: #800280;
 	--text-highlight-color: #800280;
+
 	@media (prefers-color-scheme: dark) {
 		--dialog-headline-color: #00ff9f;
 		--text-highlight-color: #05e491;
@@ -176,6 +180,7 @@ html {
 	--dialog-text-color: #2c1810;
 	--dialog-headline-color: #4a2c1a;
 	--text-highlight-color: #5e3721;
+
 	@media (prefers-color-scheme: dark) {
 		--dialog-headline-color: #ddb892;
 		--text-highlight-color: #9d7e52;
@@ -192,6 +197,7 @@ html {
 	--dialog-text-color: #004471;
 	--dialog-headline-color: #001f73;
 	--text-highlight-color: #01248e;
+
 	@media (prefers-color-scheme: dark) {
 		--dialog-headline-color: #81d4fa;
 		--text-highlight-color: #3f8cb1;
@@ -208,6 +214,7 @@ html {
 	--dialog-text-color: #5d1f1a;
 	--dialog-headline-color: #8c3d01;
 	--text-highlight-color: #9c4702;
+
 	@media (prefers-color-scheme: dark) {
 		--dialog-headline-color: #ffb74d;
 		--text-highlight-color: #bf8429;
@@ -224,6 +231,7 @@ html {
 	--dialog-text-color: #0d1b2a;
 	--dialog-headline-color: #a745d8;
 	--text-highlight-color: #b95ced;
+
 	@media (prefers-color-scheme: dark) {
 		--dialog-headline-color: #00ff9f;
 		--text-highlight-color: #05e491;
@@ -240,6 +248,7 @@ html {
 	--dialog-text-color: #0a3d62;
 	--dialog-headline-color: #001f73;
 	--text-highlight-color: #01248e;
+
 	@media (prefers-color-scheme: dark) {
 		--dialog-headline-color: #457b9d;
 		--text-highlight-color: #34607c;
@@ -256,6 +265,7 @@ html {
 	--dialog-text-color: #3d2817;
 	--dialog-headline-color: #2c1810;
 	--text-highlight-color: #512e1e;
+
 	@media (prefers-color-scheme: dark) {
 		--dialog-headline-color: #ffd700;
 		--text-highlight-color: #b8860b;
@@ -642,7 +652,6 @@ p {
 	}
 
 	&.overlay-message {
-
 		.overlay-message-actions {
 			margin-top: 20px;
 		}
