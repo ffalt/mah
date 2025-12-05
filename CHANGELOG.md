@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [1.14.1](https://github.com/ffalt/mah/compare/v1.14.0...v1.14.1) (2025-12-05)
+
+
+### Bug Fixes
+
+* **buttons:** hide feature buttons not enabled in game difficulty level ([0f72693](https://github.com/ffalt/mah/commit/0f7269389fcc7bc89cb79a29f4fd31a10b477533))
+
 ## [1.14.0](https://github.com/ffalt/mah/compare/v1.13.0...v1.14.0) (2025-12-05)
 
 
