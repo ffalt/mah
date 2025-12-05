@@ -35,14 +35,6 @@
 			font-size: variables.$base-font-size * 1.2;
 		}
 
-		.feature {
-			display: none;
-
-			&.enabled {
-				display: unset;
-			}
-		}
-
 		.ctrl, .menu {
 			display: flex;
 			align-items: center;
@@ -127,6 +119,14 @@
 					cursor: not-allowed;
 					pointer-events: none;
 					filter: saturate(.75);
+				}
+			}
+
+			.feature {
+				display: none;
+
+				&.enabled {
+					display: unset;
 				}
 			}
 
