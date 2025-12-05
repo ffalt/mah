@@ -22,9 +22,9 @@ Built with HTML5, SVG, and Angular.
 
 * Random board generator for countless and more challenging games
 
-* 13 tile/piece image sets; light and dark themes
+* 13 tile/piece image sets; light and dark
 
-* 7 game backgrounds and 7 background colors
+* 7 game backgrounds, light and dark mode, 14 colors theme
 
 * 3 difficulty levels and 2 game setup generators
 
