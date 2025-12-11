@@ -253,5 +253,7 @@
 	"CAT_PLANTS": "Pflanzen",
 	"CAT_SHAPES": "Formen",
 	"CAT_SYMBOLS": "Symbole",
-	"CAT_CUSTOM": "Persönliche"
+	"CAT_CUSTOM": "Persönliche",
+	"BACK_PATTERNS": "Muster-Monster",
+	"PATTERN_SETTINGS": "Muster"
 }

@@ -1,5 +1,5 @@
 import { Component, ElementRef, type OnChanges, type OnInit, type SimpleChanges, inject, input, output } from '@angular/core';
-import { Backgrounds } from '../../model/consts';
+import { Backgrounds, Themes } from '../../model/consts';
 import { type Draw, calcDrawPos, getDrawBounds, sortDrawItems, getDrawBoundsViewPortBounds } from '../../model/draw';
 import type { Stone } from '../../model/stone';
 import { AppService } from '../../service/app.service';
@@ -8,6 +8,7 @@ import { ImageSetLoaderComponent } from '../image-set-loader/image-set-loader.co
 import { Indicator } from '../../model/indicator';
 import { PrefixPipe } from '../../pipes/prefix.pipe';
 import { TranslatePipe } from '@ngx-translate/core';
+import { PatternService } from '../../service/pattern.service';
 
 interface TouchPoint {
 	x: number;
@@ -28,6 +29,7 @@ function clamp(value: number, min: number, max: number): number {
 	styleUrls: ['./board.component.scss'],
 	host: {
 		'[style.background-image]': 'backgroundUrl',
+		'[class.background-repeat]': 'backgroundRepeat',
 		'(wheel)': 'onWheel($event)',
 		'(window:resize)': 'onResize($event)',
 		'(mousedown)': 'onMouseDown($event)',
@@ -43,11 +45,14 @@ function clamp(value: number, min: number, max: number): number {
 })
 export class BoardComponent implements OnInit, OnChanges {
 	readonly background = input<string>();
+	readonly theme = input<string>();
 	readonly imageSet = input<string>();
 	readonly kyodaiUrl = input<string>();
+	readonly pattern = input<string>();
 	readonly stones = input<Array<Stone>>();
 	readonly clickEvent = output<Stone | undefined>();
 	backgroundUrl: string | undefined;
+	backgroundRepeat: boolean | undefined;
 	indicators = new Indicator();
 	drawStones: Array<Draw> = [];
 	rotate: boolean = false;
@@ -79,6 +84,7 @@ export class BoardComponent implements OnInit, OnChanges {
 	private isPanning: boolean = false;
 	private isPinching: boolean = false;
 	app = inject(AppService);
+	patternService = inject(PatternService);
 	element = inject(ElementRef);
 
 	ngOnInit(): void {
@@ -91,6 +97,12 @@ export class BoardComponent implements OnInit, OnChanges {
 		}
 		if (changes.background) {
 			this.updateBackground(changes.background.currentValue);
+		}
+		if (changes.theme || changes.pattern) {
+			const current = this.background();
+			if (current) {
+				this.updateBackground(current);
+			}
 		}
 		if (changes.imageSet) {
 			this.prefix = `b_${changes.imageSet.currentValue}_`;
@@ -490,26 +502,33 @@ export class BoardComponent implements OnInit, OnChanges {
 		this.setTransform();
 	}
 
-	private webpSupported(): boolean {
-		try {
-			const element = document.createElement('canvas');
-			const has2d = !!element.getContext?.('2d');
-			if (!has2d) {
-				return false;
-			}
-			const dataUrl = element.toDataURL('image/webp');
-			return dataUrl.startsWith('data:image/webp');
-		} catch {
-			return false;
-		}
+	private cssBarColors(): Array<string> {
+		const theme = Themes.find(t => t.id === this.app.settings.theme) ?? Themes[0];
+		return theme.colors;
 	}
 
-	private backgroundFormat(): string {
-		return this.webpSupported() ? 'webp' : 'jpg';
+	private updateMahBackground(pattern?: string): void {
+		this.backgroundUrl = '';
+		if (!pattern) {
+			return;
+		}
+		this.patternService
+			.svgDataUrl(pattern, this.cssBarColors())
+			.then(dataUrl => this.backgroundUrl = dataUrl)
+			.catch(console.error);
 	}
 
 	private updateBackground(background: string): void {
-		const image = Backgrounds.find(b => b.img === background)?.img;
-		this.backgroundUrl = image ? `url("assets/img/${image}.${this.backgroundFormat()}")` : undefined;
+		const bg = Backgrounds.find(b => b.img === background);
+		if (!bg) {
+			this.backgroundUrl = undefined;
+			return;
+		}
+		this.backgroundRepeat = !!bg.repeat;
+		if (bg.type === 'MAH') {
+			this.updateMahBackground(this.pattern());
+			return;
+		}
+		this.backgroundUrl = `url("assets/img/${bg.img}.${(bg.type ?? 'jpg')}")`;
 	}
 }

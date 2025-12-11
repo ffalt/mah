@@ -253,5 +253,7 @@
 	"CAT_PLANTS": "Plantas",
 	"CAT_SHAPES": "Formas",
 	"CAT_SYMBOLS": "Símbolos",
-	"CAT_CUSTOM": "Personalizado"
+	"CAT_CUSTOM": "Personalizado",
+	"BACK_PATTERNS": "Monstruo de patrones",
+	"PATTERN_SETTINGS": "Patrones"
 }

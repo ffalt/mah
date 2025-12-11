@@ -25,9 +25,11 @@
 </div>
 <app-board class="board"
 					 [stones]="game.board.stones"
+					 [theme]="app.settings.theme"
 					 [imageSet]="app.settings.tileset"
 					 [kyodaiUrl]="app.settings.kyodaiUrl"
 					 [background]="app.settings.background"
+					 [pattern]="app.settings.pattern"
 					 (clickEvent)="stoneClick($event)"
 />
 <div class="controls controls-bottom">

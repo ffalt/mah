@@ -9,6 +9,7 @@ import { LocalstorageService } from './localstorage.service';
 @Injectable({ providedIn: 'root' })
 export class AppService {
 	name: string = 'Mah Jong';
+	cache: Record<string, unknown> = {};
 	game: Game;
 	settings: Settings;
 	storage = inject(LocalstorageService);
@@ -22,6 +23,18 @@ export class AppService {
 		this.game.init();
 		this.game.sound.enabled = this.settings.sounds;
 		this.game.music.enabled = this.settings.music;
+	}
+
+	getCachedValue(name: string): unknown | undefined {
+		return this.cache[name];
+	}
+
+	cacheValue(name: string, value?: unknown): void {
+		if (value === undefined) {
+			delete this.cache[name];
+			return;
+		}
+		this.cache[name] = value;
 	}
 
 	setLang(): void {

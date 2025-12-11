@@ -38,24 +38,26 @@ export const GameModes = [
 export type GAME_MODE_ID = 'GAME_MODE_EASY' | 'GAME_MODE_STANDARD' | 'GAME_MODE_EXPERT';
 export const GAME_MODE_ID_DEFAULT: GAME_MODE_ID = 'GAME_MODE_STANDARD';
 
-export const Themes: Array<{ id: string; name: string }> = [
-	{ id: 'ltgreen', name: 'THEME_SAGE' },
-	{ id: 'dkgreen', name: 'THEME_FOREST' },
-	{ id: 'ltblue', name: 'THEME_SKY' },
-	{ id: 'ice', name: 'THEME_ICE' },
-	{ id: 'dkblue', name: 'THEME_NAVY' },
-	{ id: 'ocean', name: 'THEME_OCEAN' },
-	{ id: 'cyberpunk', name: 'THEME_CYBERPUNK' },
-	{ id: 'desert', name: 'THEME_DESERT' },
-	{ id: 'brown', name: 'THEME_MAHOGANY' },
-	{ id: 'medieval', name: 'THEME_MEDIEVAL' },
-	{ id: 'lava', name: 'THEME_LAVA' },
-	{ id: 'space', name: 'THEME_SPACE' },
-	{ id: 'black', name: 'THEME_ONYX' },
-	{ id: 'white', name: 'THEME_PEARL' }
+export const Themes: Array<{ id: string; name: string; colors: Array<string> }> = [
+	{ id: 'ltgreen', name: 'THEME_SAGE', colors: ['#5a7b8b', '#446471', '#1e2d35', '#0f1e25', '#4686a5'] },
+	{ id: 'dkgreen', name: 'THEME_FOREST', colors: ['#4d6673', '#2a3b46', '#405765', '#1e2e36', '#19262e'] },
+	{ id: 'ltblue', name: 'THEME_SKY', colors: ['#7480b0', '#4b527c', '#2a2e4b', '#232742', '#34385a'] },
+	{ id: 'ice', name: 'THEME_ICE', colors: ['#4f8fb6', '#9fd0e9', '#6aa7ca', '#8bc3dd', '#b3e5fc'] },
+	{ id: 'dkblue', name: 'THEME_NAVY', colors: ['#2f49a3', '#0d2165', '#233694', '#2f44ad', '#001552'] },
+	{ id: 'ocean', name: 'THEME_OCEAN', colors: ['#3b80ad', '#1d547a', '#31749f', '#134a6f', '#0a3d62'] },
+	{ id: 'cyberpunk', name: 'THEME_CYBERPUNK', colors: ['#6a4a6a', '#3e193e', '#5e3a5e', '#6c496c', '#320032'] },
+	{ id: 'desert', name: 'THEME_DESERT', colors: ['#a4863f', '#b8924d', '#a8843e', '#e3c68e', '#c9a961'] },
+	{ id: 'brown', name: 'THEME_MAHOGANY', colors: ['#d15a5a', '#c34a4a', '#8c2323', '#7a1f1f', '#a52a2a'] },
+	{ id: 'medieval', name: 'THEME_MEDIEVAL', colors: ['#8a623e', '#5a3b23', '#7b5534', '#2f1c10', '#3d2817'] },
+	{ id: 'lava', name: 'THEME_LAVA', colors: ['#a85b56', '#7a332e', '#9a4f4a', '#46201c', '#5d1f1a'] },
+	{ id: 'space', name: 'THEME_SPACE', colors: ['#435c7d', '#1f3046', '#38506d', '#162539', '#0d1b2a'] },
+	{ id: 'black', name: 'THEME_ONYX', colors: ['#5c5c5c', '#2a2a2a', '#4a4a4a', '#5a5a5a', '#000000'] },
+	{ id: 'white', name: 'THEME_PEARL', colors: ['#9e9e9e', '#d0d0d0', '#b5b5b5', '#a8a8a8', '#ffffff'] }
 ];
 
-export const Backgrounds: Array<{ img?: string; name: string; small?: boolean }> = [
+export const PATTERN_BACKGROUND = 'pattern-monster';
+
+export const Backgrounds: Array<{ img: string; name: string; type?: 'jpg' | 'png' | 'svg' | 'MAH'; repeat?: boolean }> = [
 	{ img: '', name: 'BACK_NONE' },
 	{ img: 'bamboo', name: 'BACK_BAMBOO' },
 	{ img: 'blueclouds', name: 'BACK_BLUE_CLOUDS' },
@@ -63,7 +65,8 @@ export const Backgrounds: Array<{ img?: string; name: string; small?: boolean }>
 	{ img: 'grass-1', name: 'BACK_GRAY_GRASS' },
 	{ img: 'stones-1', name: 'BACK_GRAY_STONES' },
 	{ img: 'wood', name: 'BACK_GRAY_WOOD' },
-	{ img: 'wood-grain-1', name: 'BACK_GRAY_WOOD_GRAIN' }
+	{ img: 'wood-grain-1', name: 'BACK_GRAY_WOOD_GRAIN' },
+	{ img: PATTERN_BACKGROUND, name: 'BACK_PATTERNS', type: 'MAH', repeat: true }
 ];
 
 export const Licenses: Record<string, string> = {
@@ -71,7 +74,8 @@ export const Licenses: Record<string, string> = {
 	gpl: 'GNU General Public License 3',
 	free: 'License free',
 	per: 'Personal projects',
-	pub: 'Public domain'
+	pub: 'Public domain',
+	mit: 'MIT License'
 };
 
 export const ImageSets = [

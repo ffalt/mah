@@ -253,5 +253,7 @@
 	"CAT_PLANTS": "Landareak",
 	"CAT_SHAPES": "Formak",
 	"CAT_SYMBOLS": "Ikurrak",
-	"CAT_CUSTOM": "Pertsonalizatua"
+	"CAT_CUSTOM": "Pertsonalizatua",
+	"BACK_PATTERNS": "Eredu munstroa",
+	"PATTERN_SETTINGS": "Ereduak"
 }

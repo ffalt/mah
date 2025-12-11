@@ -88,4 +88,5 @@ export class SettingsStore {
 	kyodaiUrl?: string;
 	theme: string;
 	background: string;
+	pattern?: string;
 }

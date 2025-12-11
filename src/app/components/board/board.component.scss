@@ -5,6 +5,10 @@
 	background-repeat: repeat;
 	background-size: cover;
 
+	&.background-repeat {
+		background-size: unset;
+	}
+
 	.board-svg {
 		width: 100%;
 		height: 100%;

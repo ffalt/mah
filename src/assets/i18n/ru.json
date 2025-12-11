@@ -253,5 +253,7 @@
 	"CAT_PLANTS": "Растения",
 	"CAT_SHAPES": "Фигуры",
 	"CAT_SYMBOLS": "Символы",
-	"CAT_CUSTOM": "Пользовательское"
+	"CAT_CUSTOM": "Пользовательское",
+	"BACK_PATTERNS": "Монстр узоров",
+	"PATTERN_SETTINGS": "Узоры"
 }

@@ -1,19 +1,13 @@
-<input class="tabs-input" type="radio" name="settings-tab" id="tab-language" checked/>
-<input class="tabs-input" type="radio" name="settings-tab" id="tab-stones"/>
-<input class="tabs-input" type="radio" name="settings-tab" id="tab-theme"/>
-<input class="tabs-input" type="radio" name="settings-tab" id="tab-background"/>
-<input class="tabs-input" type="radio" name="settings-tab" id="tab-data"/>
-
+@for (tab of tabs; track tab.id) {
+	<input class="tabs-input" type="radio" name="settings-tab" [id]="`tab-${tab.id}`" [checked]="selectedTab === tab.id" (change)="setSelectedTab(tab.id)"/>
+}
 <div class="tabs-labels" role="tablist" aria-label="Settings Tabs">
-	<label role="tab" id="tab-lang-label" for="tab-language">{{ 'LANG' | translate }}</label>
-	<label role="tab" id="tab-stones-label" for="tab-stones">{{ 'TILESET' | translate }}</label>
-	<label role="tab" id="tab-theme-label" for="tab-theme">{{ 'THEME' | translate }}</label>
-	<label role="tab" id="tab-background-label" for="tab-background">{{ 'BACKGROUND' | translate }}</label>
-	<label role="tab" id="tab-data-label" for="tab-data">{{ 'DATA' | translate }}</label>
+	@for (tab of tabs; track tab.id) {
+		<label role="tab" [id]="`tab-${tab.id}-label`" [for]="`tab-${tab.id}`">{{ tab.name | translate }}</label>
+	}
 </div>
-
 <div class="tabs-panels panels">
-	<section id="panel-language" class="panel" role="tabpanel" aria-labelledby="tab-lang-label">
+	<section id="panel-lang" class="panel" role="tabpanel" aria-labelledby="tab-lang-label">
 		<fieldset>
 			<legend id="lang-legend">{{ 'LANG' | translate }}</legend>
 			<ul class="radio" role="group" aria-labelledby="lang-legend">
@@ -162,7 +156,7 @@
 					<li>
 						<input type="radio" name="back" id="back{{i}}" [value]="back.img"
 									 [checked]="app.settings.background === back.img"
-									 (change)="app.settings.background = back.img || '';app.settings.save();"
+									 (change)="setBackground(back.img)"
 									 [attr.aria-label]="back.name | translate"
 						/>
 						<label for="back{{i}}">{{ back.name | translate }}</label>
@@ -170,6 +164,23 @@
 				}
 			</ul>
 		</fieldset>
+		@if (app.settings.background === PatternBackground) {
+			<fieldset class="pattern-settings">
+				<legend id="pattern-legend">{{ 'PATTERN_SETTINGS' | translate }}</legend>
+				<ul class="radio radio-patterns" role="group" aria-labelledby="pattern-legend">
+					@for (pattern of patterns; track pattern; let i = $index) {
+						<li>
+							<input type="radio" name="pattern" id="pattern{{i}}" [value]="pattern.id"
+										 [checked]="app.settings.pattern === pattern.id"
+										 (change)="app.settings.pattern = pattern.id;app.settings.save();"
+										 [attr.aria-label]="pattern.title"
+							/>
+							<label for="pattern{{i}}">{{ pattern.title }}</label>
+						</li>
+					}
+				</ul>
+			</fieldset>
+		}
 	</section>
 
 	<section id="panel-data" class="panel" role="tabpanel" aria-labelledby="tab-data-label">

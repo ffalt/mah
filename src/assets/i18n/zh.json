@@ -253,5 +253,7 @@
 	"CAT_PLANTS": "植物",
 	"CAT_SHAPES": "形状",
 	"CAT_SYMBOLS": "符号",
-	"CAT_CUSTOM": "自定义"
+	"CAT_CUSTOM": "自定义",
+	"BACK_PATTERNS": "图案怪兽",
+	"PATTERN_SETTINGS": "图案"
 }

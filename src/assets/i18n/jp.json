@@ -253,5 +253,7 @@
 	"CAT_PLANTS": "植物",
 	"CAT_SHAPES": "形",
 	"CAT_SYMBOLS": "記号",
-	"CAT_CUSTOM": "カスタム"
+	"CAT_CUSTOM": "カスタム",
+	"BACK_PATTERNS": "パターンモンスター",
+	"PATTERN_SETTINGS": "パターン"
 }

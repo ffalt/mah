@@ -69,10 +69,15 @@
 			label {
 				vertical-align: middle;
 				line-height: 1.2;
+				user-select: none;
 				white-space: normal;
 				text-overflow: ellipsis;
+				cursor: pointer;
 				flex: 1;
 				font-size: 0.95em;
+				height: 100%;
+				display: flex;
+				align-items: center;
 
 				@include mixins.respond-to(tiny-down) {
 					hyphens: auto;
@@ -299,6 +304,18 @@
 				height: 20px;
 			}
 		}
+
+		.radio-patterns {
+			columns: 3;
+
+			@include mixins.respond-to(medium-down) {
+				columns: 2;
+			}
+
+			@include mixins.respond-to(tiny-down) {
+				columns: 1;
+			}
+		}
 	}
 
 	.tabs-input {
@@ -370,7 +387,7 @@
 		gap: 8px;
 	}
 
-	#tab-language:checked ~ .tabs-labels label[for="tab-language"],
+	#lang:checked ~ .tabs-labels label[for="tab-lang"],
 	#tab-stones:checked ~ .tabs-labels label[for="tab-stones"],
 	#tab-theme:checked ~ .tabs-labels label[for="tab-theme"],
 	#tab-background:checked ~ .tabs-labels label[for="tab-background"],
@@ -390,7 +407,7 @@
 			border-bottom-color: var(--input-border-color);
 		}
 
-		#tab-language:checked ~ .tabs-labels label[for="tab-language"],
+		#tab-lang:checked ~ .tabs-labels label[for="tab-lang"],
 		#tab-stones:checked ~ .tabs-labels label[for="tab-stones"],
 		#tab-theme:checked ~ .tabs-labels label[for="tab-theme"],
 		#tab-background:checked ~ .tabs-labels label[for="tab-background"],
@@ -405,7 +422,7 @@
 		}
 	}
 
-	#tab-language:checked ~ .tabs-panels #panel-language,
+	#tab-lang:checked ~ .tabs-panels #panel-lang,
 	#tab-background:checked ~ .tabs-panels #panel-background,
 	#tab-stones:checked ~ .tabs-panels #panel-stones,
 	#tab-theme:checked ~ .tabs-panels #panel-theme,
