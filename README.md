@@ -57,7 +57,7 @@ Please have a look at the credits for [artwork](src/assets/svg/README.md), [back
 ## Binary releases
 
 <a href="https://github.com/ffalt/mah/releases" target="_blank"><img height="80" src="./resources/badges/badge-github.png" alt="Get it on Github"></a>
-<a href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://app/%7B%22id%22:%22io.github.ffalt.mah%22,%22url%22:%22https://github.com/ffalt/mah%22,%22author%22:%22ffalt%22,%22name%22:%Mah%22%7D" target="_blank"><img height="80" src="./resources/badges/badge-obtainium.png" alt="Get it on Obtainium"></a>
+<a href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://app/%7B%22id%22:%22io.github.ffalt.mah%22,%22url%22:%22https://github.com/ffalt/mah%22,%22author%22:%22ffalt%22,%22name%22:%22Mah%22%7D" target="_blank"><img height="80" src="./resources/badges/badge-obtainium.png" alt="Get it on Obtainium"></a>
 
 You can download pre-built desktop/mobile binaries from the project’s GitHub Releases page:
 
