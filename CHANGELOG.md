@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [1.15.0](https://github.com/ffalt/mah/compare/v1.14.1...v1.15.0) (2025-12-14)
+
+
+### Features
+
+* **background:** refresh images and add starry sky image ([68c492f](https://github.com/ffalt/mah/commit/68c492f5fb25b708fe657e6bc2ba2f89c3956945))
+* **backgrounds:** use patterns from pattern monster ([f6b0d8f](https://github.com/ffalt/mah/commit/f6b0d8f610c03ba2308bab6c72ddfc5cf0235023))
+
 ## [1.14.1](https://github.com/ffalt/mah/compare/v1.14.0...v1.14.1) (2025-12-05)
 
 
