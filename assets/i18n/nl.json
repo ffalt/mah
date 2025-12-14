@@ -79,6 +79,7 @@
 	"BACK_GRAY_STONES": "Stenen",
 	"BACK_GRAY_WOOD": "Houten tafel",
 	"BACK_GRAY_WOOD_GRAIN": "Houtnerven",
+	"BACK_SPACE": "Sterrenhemel",
 	"t_do1": "Parel",
 	"t_do2": "Pijnboom",
 	"t_do3": "Feniks",
@@ -253,5 +254,7 @@
 	"CAT_PLANTS": "Planten",
 	"CAT_SHAPES": "Vormen",
 	"CAT_SYMBOLS": "Symbolen",
-	"CAT_CUSTOM": "Aangepast"
+	"CAT_CUSTOM": "Aangepast",
+	"BACK_PATTERNS": "Patroonmonster",
+	"PATTERN_SETTINGS": "Patronen"
 }

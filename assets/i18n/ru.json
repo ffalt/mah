@@ -79,6 +79,7 @@
 	"BACK_GRAY_STONES": "Камни",
 	"BACK_GRAY_WOOD": "Деревянный стол",
 	"BACK_GRAY_WOOD_GRAIN": "Текстура древесины",
+	"BACK_SPACE": "звездное небо",
 	"t_do1": "Жемчуг",
 	"t_do2": "Сосновое дерево",
 	"t_do3": "Феникс",
@@ -253,5 +254,7 @@
 	"CAT_PLANTS": "Растения",
 	"CAT_SHAPES": "Фигуры",
 	"CAT_SYMBOLS": "Символы",
-	"CAT_CUSTOM": "Пользовательское"
+	"CAT_CUSTOM": "Пользовательское",
+	"BACK_PATTERNS": "Монстр узоров",
+	"PATTERN_SETTINGS": "Узоры"
 }

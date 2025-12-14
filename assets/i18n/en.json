@@ -79,6 +79,7 @@
 	"BACK_GRAY_STONES": "Stones",
 	"BACK_GRAY_WOOD": "Wood Table",
 	"BACK_GRAY_WOOD_GRAIN": "Wood Grain",
+	"BACK_SPACE": "Starry Sky",
 	"t_do1": "Pearl",
 	"t_do2": "Pine tree",
 	"t_do3": "Phoenix",
@@ -253,5 +254,7 @@
 	"CAT_PLANTS": "Plants",
 	"CAT_SHAPES": "Shapes",
 	"CAT_SYMBOLS": "Symbols",
-	"CAT_CUSTOM": "Custom"
+	"CAT_CUSTOM": "Custom",
+	"BACK_PATTERNS": "Pattern monster",
+	"PATTERN_SETTINGS": "Patterns"
 }

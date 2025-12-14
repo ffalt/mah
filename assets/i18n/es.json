@@ -79,6 +79,7 @@
 	"BACK_GRAY_STONES": "Piedras",
 	"BACK_GRAY_WOOD": "Mesa de Madera",
 	"BACK_GRAY_WOOD_GRAIN": "Veta de madera",
+	"BACK_SPACE": "Cielo estrellado",
 	"t_do1": "Perla",
 	"t_do2": "Pino",
 	"t_do3": "Fénix",
@@ -253,5 +254,7 @@
 	"CAT_PLANTS": "Plantas",
 	"CAT_SHAPES": "Formas",
 	"CAT_SYMBOLS": "Símbolos",
-	"CAT_CUSTOM": "Personalizado"
+	"CAT_CUSTOM": "Personalizado",
+	"BACK_PATTERNS": "Monstruo de patrones",
+	"PATTERN_SETTINGS": "Patrones"
 }
