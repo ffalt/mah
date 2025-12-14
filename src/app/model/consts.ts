@@ -57,7 +57,9 @@ export const Themes: Array<{ id: string; name: string; colors: Array<string> }> 
 
 export const PATTERN_BACKGROUND = 'pattern-monster';
 
-export const Backgrounds: Array<{ img: string; name: string; type?: 'jpg' | 'png' | 'svg' | 'MAH'; repeat?: boolean }> = [
+export type LICENCE = 'cca' | 'gpl' | 'free' | 'per' | 'pub' | 'mit';
+
+export const Backgrounds: Array<{ img: string; name: string; type?: 'jpg' | 'png' | 'svg' | 'MAH'; repeat?: boolean; licence?: LICENCE }> = [
 	{ img: '', name: 'BACK_NONE' },
 	{ img: 'bamboo', name: 'BACK_BAMBOO' },
 	{ img: 'blueclouds', name: 'BACK_BLUE_CLOUDS' },
@@ -66,6 +68,7 @@ export const Backgrounds: Array<{ img: string; name: string; type?: 'jpg' | 'png
 	{ img: 'stones-1', name: 'BACK_GRAY_STONES' },
 	{ img: 'wood', name: 'BACK_GRAY_WOOD' },
 	{ img: 'wood-grain-1', name: 'BACK_GRAY_WOOD_GRAIN' },
+	{ img: 'space', name: 'BACK_SPACE' },
 	{ img: PATTERN_BACKGROUND, name: 'BACK_PATTERNS', type: 'MAH', repeat: true }
 ];
 
@@ -78,7 +81,7 @@ export const Licenses: Record<string, string> = {
 	mit: 'MIT License'
 };
 
-export const ImageSets = [
+export const ImageSets: Array<{ id: string; type: 'SVG' | 'PNG'; name: string; license: LICENCE }> = [
 	{ id: 'riichi', type: 'SVG', name: 'Riichi 2', license: 'cca' },
 	{ id: 'picasso', type: 'PNG', name: 'Picasso', license: 'gpl' },
 	{ id: 'modern', type: 'PNG', name: 'Modern', license: 'gpl' },
