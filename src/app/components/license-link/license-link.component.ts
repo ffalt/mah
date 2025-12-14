@@ -8,7 +8,7 @@ import { clickExternalHref } from '../../model/external-links';
 	styleUrls: ['./license-link.component.scss']
 })
 export class LicenseLinkComponent {
-	imagesetId = input.required<string>();
+	link = input.required<string>();
 	licenseKey = input.required<string>();
 
 	protected readonly licenses = Licenses;

@@ -59,17 +59,17 @@ export const PATTERN_BACKGROUND = 'pattern-monster';
 
 export type LICENCE = 'cca' | 'gpl' | 'free' | 'per' | 'pub' | 'mit';
 
-export const Backgrounds: Array<{ img: string; name: string; type?: 'jpg' | 'png' | 'svg' | 'MAH'; repeat?: boolean; licence?: LICENCE }> = [
+export const Backgrounds: Array<{ img: string; name: string; type?: 'jpg' | 'png' | 'svg' | 'MAH'; repeat?: boolean; license?: LICENCE }> = [
 	{ img: '', name: 'BACK_NONE' },
-	{ img: 'bamboo', name: 'BACK_BAMBOO' },
-	{ img: 'blueclouds', name: 'BACK_BLUE_CLOUDS' },
-	{ img: 'grayclouds', name: 'BACK_GRAY_CLOUDS' },
-	{ img: 'grass-1', name: 'BACK_GRAY_GRASS' },
-	{ img: 'stones-1', name: 'BACK_GRAY_STONES' },
-	{ img: 'wood', name: 'BACK_GRAY_WOOD' },
-	{ img: 'wood-grain-1', name: 'BACK_GRAY_WOOD_GRAIN' },
-	{ img: 'space', name: 'BACK_SPACE' },
-	{ img: PATTERN_BACKGROUND, name: 'BACK_PATTERNS', type: 'MAH', repeat: true }
+	{ img: 'bamboo', name: 'BACK_BAMBOO', license: 'cca' },
+	{ img: 'blueclouds', name: 'BACK_BLUE_CLOUDS', license: 'cca' },
+	{ img: 'grayclouds', name: 'BACK_GRAY_CLOUDS', license: 'cca' },
+	{ img: 'grass-1', name: 'BACK_GRAY_GRASS', license: 'free' },
+	{ img: 'stones-1', name: 'BACK_GRAY_STONES', license: 'free' },
+	{ img: 'wood', name: 'BACK_GRAY_WOOD', license: 'free' },
+	{ img: 'wood-grain-1', name: 'BACK_GRAY_WOOD_GRAIN', license: 'free' },
+	{ img: 'space', name: 'BACK_SPACE', license: 'free' },
+	{ img: PATTERN_BACKGROUND, name: 'BACK_PATTERNS', type: 'MAH', repeat: true, license: 'mit' }
 ];
 
 export const Licenses: Record<string, string> = {

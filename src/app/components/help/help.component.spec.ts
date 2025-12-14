@@ -54,7 +54,7 @@ describe('HelpComponent', () => {
 		expect(licenseList).toBeTruthy();
 
 		const licenseItems = licenseList.queryAll(By.css('.license-list > div'));
-		expect(licenseItems).toHaveLength(5);
+		expect(licenseItems).toHaveLength(6);
 	});
 
 	it('should render the shortcuts section', () => {
