@@ -124,6 +124,7 @@ export class Game {
 			return;
 		}
 		this.board.hint();
+		this.sound.play(SOUNDS.HINT);
 	}
 
 	shuffle(): void {
@@ -131,6 +132,7 @@ export class Game {
 			return;
 		}
 		this.board.shuffle();
+		this.sound.play(SOUNDS.SHUFFLE);
 	}
 
 	back(): void {
@@ -141,6 +143,7 @@ export class Game {
 			return;
 		}
 		this.board.back();
+		this.sound.play(SOUNDS.UNDO);
 	}
 
 	load(): boolean {
@@ -193,6 +196,7 @@ export class Game {
 
 	private gameOverLosing(): void {
 		this.storeLostGame();
+		this.sound.play(SOUNDS.OVER);
 		this.gameOver('MSG_FAIL');
 	}
 
@@ -247,6 +251,7 @@ export class Game {
 			this.gameOver('MSG_GOOD', playTime);
 		}
 		this.storage.storeScore(id, score);
+		this.sound.play(SOUNDS.WIN);
 	}
 
 	private delayedSave(): void {
@@ -274,7 +279,6 @@ export class Game {
 	}
 
 	private gameOver(message?: string, playTime?: number): void {
-		this.sound.play(SOUNDS.OVER);
 		this.setState(STATES.idle, message, playTime);
 		this.clock.reset();
 		this.delayedSave();
