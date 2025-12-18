@@ -20,6 +20,10 @@ export class Sound {
 		if (!this.enabled) {
 			return;
 		}
-		zzfx(...sound);
+		try {
+			zzfx(...sound);
+		} catch {
+			// nope, we ignore platforms which do not support web audio
+		}
 	}
 }

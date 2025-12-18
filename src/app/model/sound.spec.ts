@@ -41,12 +41,12 @@ describe('Sound', () => {
 			expect(zzfxMock).not.toHaveBeenCalled();
 		});
 
-		it('should propagate errors from zzfx', () => {
+		it('should propagate not errors from zzfx', () => {
 			zzfxMock.mockImplementation(() => {
 				throw new Error('Test error');
 			});
 
-			expect(() => sound.play(SOUNDS.SELECT)).toThrow('Test error');
+			expect(() => sound.play(SOUNDS.SELECT)).not.toThrow('Test error');
 		});
 	});
 });
