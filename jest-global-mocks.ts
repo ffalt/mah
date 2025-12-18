@@ -27,7 +27,7 @@ const localStorageMock = (() => {
 		value: (key: string) => (localStorage[key] === undefined) ? null : localStorage[key],
 		writable: false,
 		configurable: false,
-		enumerable: false,
+		enumerable: false
 	});
 
 	Object.defineProperty(localStorage, 'setItem', {
@@ -36,7 +36,7 @@ const localStorageMock = (() => {
 		},
 		writable: false,
 		configurable: false,
-		enumerable: false,
+		enumerable: false
 	});
 
 	Object.defineProperty(localStorage, 'removeItem', {
@@ -45,13 +45,13 @@ const localStorageMock = (() => {
 		},
 		writable: false,
 		configurable: false,
-		enumerable: false,
+		enumerable: false
 	});
 
 	Object.defineProperty(localStorage, 'length', {
 		get: () => Object.keys(localStorage).length,
 		configurable: false,
-		enumerable: false,
+		enumerable: false
 	});
 
 	Object.defineProperty(localStorage, 'clear', {
@@ -62,7 +62,7 @@ const localStorageMock = (() => {
 		},
 		writable: false,
 		configurable: false,
-		enumerable: false,
+		enumerable: false
 	});
 
 	return localStorage;

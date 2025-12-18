@@ -1,4 +1,4 @@
-import { type BUILD_MODE_ID, Builder, MODE_RANDOM, MODE_SOLVABLE } from './builder';
+import { type BUILD_MODE_ID, Builder, MODE_SOLVABLE } from './builder';
 import { Stone, safeGetStone } from './stone';
 import type { Mapping, Place, StoneMapping, StonePlace } from './types';
 import { StoneTiles, Tiles } from './tiles';
