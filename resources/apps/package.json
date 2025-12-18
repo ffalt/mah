@@ -1,6 +1,6 @@
 {
   "name": "tauri-mah",
-  "version": "1.15.1",
+  "version": "1.16.0",
   "scripts": {
     "build": "tauri build",
     "windows": "tauri build --target x86_64-pc-windows-msvc && npm run rename-windows",

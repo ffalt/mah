@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [1.16.0](https://github.com/ffalt/mah/compare/v1.15.1...v1.16.0) (2025-12-18)
+
+
+### Features
+
+* **board:** shuffle uses the remaining stones and does not create a new board ([d5e9a91](https://github.com/ffalt/mah/commit/d5e9a9144857318d58b7dc5439aaaa07241448dd))
+* **sounds:** remove binary sounds, use ZzFX for sound generation, adjust jest mocks ([fbeaaac](https://github.com/ffalt/mah/commit/fbeaaac0b5096e89810a9471e3933af95932e0bf))
+
 ## [1.15.1](https://github.com/ffalt/mah/compare/v1.15.0...v1.15.1) (2025-12-14)
 
 
