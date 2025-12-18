@@ -16,6 +16,12 @@ export class Tiles {
 	groups: Array<TileGroup> = [];
 
 	constructor(amount: number) {
+		if (amount > 0) {
+			this.build(amount);
+		}
+	}
+
+	build(amount: number): void {
 		let v = 0;
 		let tilesMapping = TILES.map(row => row.map(id => ({ id })));
 		const groupsNeeded = Math.ceil(amount / 4);
@@ -36,5 +42,20 @@ export class Tiles {
 				this.list[v] = tile;
 			}
 		}
+	}
+}
+
+export class StoneTiles extends Tiles {
+	constructor(stones: Array<{ v: number; groupNr: number; img: { id?: string } }>) {
+		super(0);
+		const groupMap: { [groupNr: number]: { v: number; tiles: Array<{ v: number; groupNr: number; img: { id: string } }> } } = {};
+		for (const stone of stones) {
+			const tile = { v: stone.v, groupNr: stone.groupNr, img: { id: stone.img.id ?? '' } };
+			groupMap[stone.groupNr] = groupMap[stone.groupNr] || { v: stone.groupNr, tiles: [] };
+			groupMap[stone.groupNr].tiles.push(tile);
+			this.list[stone.v] = tile;
+		}
+		// finalize groups (only those with remaining tiles)
+		this.groups = Object.values(groupMap).map(g => ({ v: g.v, tiles: g.tiles }));
 	}
 }

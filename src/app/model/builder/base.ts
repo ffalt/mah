@@ -9,16 +9,6 @@ export interface BuilderType {
 export abstract class BuilderBase implements BuilderType {
 	abstract build(mapping: Mapping, tiles: Tiles): Array<Stone>;
 
-	/*
-	static randomBool(): boolean {
-		return Math.random() < 0.5;
-	}
-
-	static randomNr(max: number): number {
-		return Math.floor(Math.random() * max);
-	}
-	*/
-
 	static random<T>(array: Array<T>): number {
 		return Math.floor(Math.random() * array.length);
 	}
@@ -26,6 +16,16 @@ export abstract class BuilderBase implements BuilderType {
 	static randomExtract<T>(array: Array<T>): T {
 		const index = BuilderBase.random(array);
 		return array.splice(index, 1)[0];
+	}
+
+	static randomList<T>(array: Array<T>): Array<T> {
+		// return a new array with elements shuffled (Fisher–Yates)
+		const result = [...array];
+		for (let index = result.length - 1; index > 0; index--) {
+			const pos = Math.floor(Math.random() * (index + 1));
+			[result[index], result[pos]] = [result[pos], result[index]];
+		}
+		return result;
 	}
 
 	static collectNodes(stones: Array<Stone>, stone: Stone): {

@@ -1,7 +1,7 @@
-import { type BUILD_MODE_ID, Builder, MODE_SOLVABLE } from './builder';
+import { type BUILD_MODE_ID, Builder, MODE_RANDOM, MODE_SOLVABLE } from './builder';
 import { Stone, safeGetStone } from './stone';
 import type { Mapping, Place, StoneMapping, StonePlace } from './types';
-import { Tiles } from './tiles';
+import { StoneTiles, Tiles } from './tiles';
 import { BuilderBase } from './builder/base';
 
 interface StoneGroup {
@@ -135,29 +135,18 @@ export class Board {
 	shuffle() {
 		this.clearSelection();
 		this.clearHints();
-		const mapping: Mapping = [];
-		const tiles = new Tiles(this.stones.length);
-		for (const stone of this.stones) {
-			if (!stone.picked) {
-				mapping.push([stone.z, stone.x, stone.y]);
-			}
-		}
+		const usedStones = this.stones.filter(s => s.picked);
+		const unusedStones = this.stones.filter(s => !s.picked);
+		const tiles = new StoneTiles(unusedStones);
+		const mapping: Mapping = unusedStones.map(s => [s.z, s.x, s.y]);
 		const builder: Builder = new Builder(tiles);
 		const stones = builder.build(MODE_SOLVABLE, mapping);
 		if (!stones) {
 			return;
 		}
-		const unusedTiles = tiles.list.filter(t => !stones.some(s => s.v === t.v));
-		for (const u of this.undo) {
-			const tile = unusedTiles.shift();
-			if (tile) {
-				const stone = new Stone(u[0], u[1], u[2], tile.v, tile.groupNr);
-				stone.picked = true;
-				stones.push(stone);
-			}
-		}
-		BuilderBase.fillStones(stones, tiles);
-		this.stones = stones;
+		const newStones = [...stones, ...usedStones];
+		BuilderBase.fillStones(newStones, new Tiles(this.stones.length));
+		this.stones = newStones;
 		this.update();
 	}
 

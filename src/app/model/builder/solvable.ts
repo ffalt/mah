@@ -40,23 +40,20 @@ export class SolvableBoardBuilder extends BuilderBase {
 		const pairs: Array<[Tile, Tile]> = [];
 		const allPairs: Array<[Tile, Tile]> = [];
 		const maxPairs = stones.length / 2;
-		const groups = [...tiles.groups];
-		while (groups.length > 0) {
-			const group = BuilderBase.randomExtract(groups);
-			const g: Array<Tile> = [...group.tiles];
-			const tile1 = BuilderBase.randomExtract(g);
-			const tile2 = BuilderBase.randomExtract(g);
-			const tile3 = BuilderBase.randomExtract(g);
-			const tile4 = g[0];
-			if (allPairs.length < maxPairs) {
-				allPairs.push([tile1, tile2]);
+		const groups = BuilderBase.randomList(tiles.groups);
+		for (const group of groups) {
+			const g: Array<Tile> = BuilderBase.randomList(group.tiles);
+			for (let index = 0; index + 1 < g.length; index += 2) {
+				if (allPairs.length < maxPairs) {
+					allPairs.push([g[index], g[index + 1]]);
+				}
 			}
-			if (allPairs.length < maxPairs) {
-				allPairs.push([tile3, tile4]);
+			if (allPairs.length >= maxPairs) {
+				break;
 			}
 		}
-		while (allPairs.length > 0) {
-			const pair: [Tile, Tile] = BuilderBase.randomExtract(allPairs);
+		const randomPairs = BuilderBase.randomList(allPairs);
+		for (const pair of randomPairs) {
 			const freestones: Array<Stone> = stones.filter((stone: Stone) =>
 				!stone.picked && !stone.isBlocked());
 			if (freestones.length < 2) {
