@@ -26,7 +26,7 @@ Built with HTML5, SVG, and Angular.
 
 * 13 tile/piece image sets; light and dark
 
-* 8 image backgrounds, 375 pattern backgrounds, light and dark mode, 14 colors theme
+* 8 image backgrounds, 375 pattern backgrounds, light and dark mode, 14 color themes
 
 * 3 difficulty levels and 2 game setup generators
 
