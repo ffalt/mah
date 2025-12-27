@@ -12,5 +12,6 @@ export const environment = {
 	editor: env.APP_FEATURE_EDITOR,
 	kyodai: env.APP_FEATURE_KYODAI,
 	modules: [],
-	openExternal: undefined
+	openExternal: undefined,
+	onWindowBlur: undefined
 };

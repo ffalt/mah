@@ -1,10 +1,12 @@
-import { Component, type OnInit, type OutputRefSubscription, ViewContainerRef, inject, viewChild } from '@angular/core';
+import { Component, type OnInit, type OutputRefSubscription, ViewContainerRef, inject, viewChild, NgZone } from '@angular/core';
 import { Meta } from '@angular/platform-browser';
 import { environment } from '../environments/environment';
 import { AppService } from './service/app.service';
 import { LayoutService } from './service/layout.service';
 import type { LoadLayout, MahFormat } from './model/types';
 import { GameComponent } from './components/game/game-component.component';
+
+type onWindowBlur = (callback: () => void) => void;
 
 @Component({
 	selector: 'app-root',
@@ -21,6 +23,7 @@ export class AppComponent implements OnInit {
 	editorSubscription?: OutputRefSubscription;
 	editorVisible: boolean = false;
 	layoutService = inject(LayoutService);
+	ngZone = inject(NgZone);
 	meta = inject(Meta);
 
 	constructor() {
@@ -138,6 +141,16 @@ export class AppComponent implements OnInit {
 				this.app.game.pause();
 			}
 		}, false);
+		if (environment.onWindowBlur) {
+			(environment.onWindowBlur as onWindowBlur)(() => {
+				if (this.app.game.isRunning()) {
+					this.ngZone.run(() => {
+						this.app.game.pause();
+					});
+				}
+			});
+			return;
+		}
 	}
 
 	private updateName(): void {
