@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [1.16.1](https://github.com/ffalt/mah/compare/v1.16.0...v1.16.1) (2025-12-27)
+
+
+### Bug Fixes
+
+* **apps:** pause when the app is not focused ([7f01bcb](https://github.com/ffalt/mah/commit/7f01bcb065fdbca58899701056ed637dc020cf78))
+
 ## [1.16.0](https://github.com/ffalt/mah/compare/v1.15.1...v1.16.0) (2025-12-18)
 
 
