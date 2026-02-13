@@ -12,7 +12,14 @@ export class DialogComponent {
 	readonly className = input<string>();
 	readonly visible = model<boolean>(false);
 	readonly noCloseButton = input<boolean>(false);
+	readonly allowCloseOverlay = input<boolean>(true);
 	readonly clickEvent = output<boolean>();
+
+	toggleOverlay() {
+		if (this.allowCloseOverlay()) {
+			this.toggle();
+		}
+	}
 
 	toggle() {
 		this.visible.set(!this.visible());

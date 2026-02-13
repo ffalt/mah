@@ -61,9 +61,16 @@
 	</div>
 </div>
 
+<app-dialog #tutorial (clickEvent)="toggleDialogState($event)" className="overlay-tutorial"
+						[noCloseButton]="true" [allowCloseOverlay]="false" [title]="app.name">
+	@if (tutorial.visible()) {
+		<app-tutorial (completed)="completeTutorial()"/>
+	}
+</app-dialog>
+
 <app-dialog #help (clickEvent)="toggleDialogState($event)" className="overlay-help" [title]="title">
 	@if (help.visible()) {
-		<app-help/>
+		<app-help (showTutorial)="help.toggle(); showTutorial()"/>
 	}
 </app-dialog>
 

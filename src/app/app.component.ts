@@ -90,7 +90,7 @@ export class AppComponent implements OnInit {
 			this.clearSearchParameters();
 		}
 		if (this.app.game.isIdle() || this.layoutService.selectBoardID) {
-			this.gameComponent().showNewGame();
+			this.gameComponent().start();
 		}
 	}
 

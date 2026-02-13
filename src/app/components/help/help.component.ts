@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, output } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import { clickExternalHref } from '../../model/external-links';
 
@@ -9,6 +9,8 @@ import { clickExternalHref } from '../../model/external-links';
 	imports: [TranslatePipe]
 })
 export class HelpComponent {
+	readonly showTutorial = output();
+
 	shortcuts = [
 		{ icon: 'icon-lightbulb', key: 'T', name: 'HINT' },
 		{ icon: 'icon-spin1', key: 'M', name: 'SHUFFLE' },

@@ -1,0 +1,51 @@
+@if (currentStepIndex() === -1) {
+	<div class="tutorial-welcome">
+		<div class="tutorial-welcome-content">
+			<h1>{{ 'TUTORIAL_WELCOME_TITLE' | translate }}</h1>
+			<p class="lead">{{ 'TUTORIAL_WELCOME_DESC' | translate }}</p>
+			<ul class="welcome-benefits">
+				<li>{{ 'TUTORIAL_WELCOME_BENEFIT_1' | translate }}</li>
+				<li>{{ 'TUTORIAL_WELCOME_BENEFIT_2' | translate }}</li>
+				<li>{{ 'TUTORIAL_WELCOME_BENEFIT_3' | translate }}</li>
+			</ul>
+			<div class="tutorial-welcome-actions">
+				<button class="tutorial-btn-primary" (click)="start()">{{ 'TUTORIAL_WELCOME_START' | translate }}</button>
+				<button class="tutorial-btn-skip" (click)="skip()">{{ 'TUTORIAL_SKIP' | translate }}</button>
+			</div>
+		</div>
+	</div>
+} @else if (currentStepIndex() === steps.length) {
+	<div class="tutorial-complete">
+		<h2>{{ 'TUTORIAL_COMPLETE_TITLE' | translate }}</h2>
+		<p>{{ 'TUTORIAL_COMPLETE_DESC' | translate }}</p>
+		<button class="tutorial-btn-primary" (click)="completed.emit()">{{ 'TUTORIAL_START_PLAYING' | translate }}</button>
+	</div>
+} @else {
+	<div class="tutorial-main">
+		<div class="tutorial-instruction">
+			<h2>{{ currentStep.titleKey | translate }}</h2>
+			<p>{{ currentStep.descriptionKey | translate }}</p>
+		</div>
+		<div class="tutorial-board">
+			<app-board
+				[stones]="board.stones"
+				[theme]="app.settings.theme"
+				[imageSet]="app.settings.tileset"
+				[kyodaiUrl]="app.settings.kyodaiUrl"
+				[background]="''"
+				[noRotate]="true"
+				(clickEvent)="onStoneClick($event)"
+			/>
+			@if (feedbackKey()) {
+				<div class="tutorial-feedback">{{ feedbackKey()! | translate }}</div>
+			}
+		</div>
+		<div class="tutorial-footer">
+			<span class="tutorial-progress">{{ 'TUTORIAL_STEP' | translate:{ current: currentStepIndex() + 1, total: steps.length } }}</span>
+			<div class="tutorial-actions">
+				<button class="tutorial-btn-next" (click)="next()">{{ 'TUTORIAL_NEXT' | translate }}</button>
+				<button class="tutorial-btn-skip" (click)="skip()">{{ 'TUTORIAL_SKIP' | translate }}</button>
+			</div>
+		</div>
+	</div>
+}
