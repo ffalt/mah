@@ -250,6 +250,7 @@
 
 				@include mixins.respond-to(tiny-down) {
 					width: 96%;
+
 					.preview-name {
 						padding-top: 0;
 					}
