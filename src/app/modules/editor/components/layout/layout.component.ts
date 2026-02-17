@@ -3,7 +3,6 @@ import { Matrix } from '../../model/matrix';
 import { CONSTS } from '../../../../model/consts';
 import { WorkerService } from '../../../../service/worker.service';
 import { LayoutService } from '../../../../service/layout.service';
-import { optimizeMapping } from '../../model/import';
 import type { Place, SafeUrlSVG } from '../../../../model/types';
 import type { Cell } from '../../model/cell';
 import type { Stone } from '../../../../model/stone';
@@ -13,6 +12,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { LayoutPreviewComponent } from '../../../../components/layout-preview/layout-preview.component';
 import { BoardComponent } from '../board/board.component';
 import { CommonModule } from '@angular/common';
+import { optimizeMapping } from '../../model/optimize';
 
 interface Stats {
 	name: string;

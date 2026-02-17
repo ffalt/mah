@@ -1,9 +1,9 @@
 import type { Mapping } from '../types';
-import { optimizeMapping } from '../../modules/editor/model/import';
 import { type RandomBaseLayerMode, type RandomSymmetry, TARGET_COUNT } from './consts';
 import { getRandomMode, hasMultipleLevels } from './utilities';
 import { generateBaseLayer } from './base-layer';
 import { fillLayout } from './upper-layers';
+import { optimizeMapping } from '../../modules/editor/model/optimize';
 
 // Random Mahjong layout generator that produces a mapping of exactly 144 places
 // abiding by the following constraints:

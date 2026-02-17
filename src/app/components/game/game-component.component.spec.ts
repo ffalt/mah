@@ -6,7 +6,6 @@ import { AppService } from '../../service/app.service';
 import { SvgdefService } from '../../service/svgdef.service';
 import { GameComponent } from './game-component.component';
 import { By } from '@angular/platform-browser';
-import { WorkerService } from '../../service/worker.service';
 import { GAME_MODE_EASY } from '../../model/consts';
 import { type BUILD_MODE_ID, MODE_SOLVABLE } from '../../model/builder';
 import { environment } from '../../../environments/environment';
@@ -20,7 +19,7 @@ describe('GameComponent', () => {
 	beforeEach(async () =>
 		TestBed.configureTestingModule({
 			imports: [GameComponent, TranslateModule.forRoot()],
-			providers: [provideHttpClient(), provideHttpClientTesting(), SvgdefService, AppService, WorkerService]
+			providers: [provideHttpClient(), provideHttpClientTesting(), SvgdefService, AppService]
 		})
 			.compileComponents());
 

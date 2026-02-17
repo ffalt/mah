@@ -1,11 +1,10 @@
-import { Component, inject, viewChild } from '@angular/core';
+import { Component, inject, Injector, viewChild } from '@angular/core';
 import type { Game } from '../../model/game';
 import type { Stone } from '../../model/stone';
 import type { Layout, Place } from '../../model/types';
 import { AppService } from '../../service/app.service';
 import type { BUILD_MODE_ID } from '../../model/builder';
 import type { GAME_MODE_ID } from '../../model/consts';
-import { WorkerService } from '../../service/worker.service';
 import { environment } from '../../../environments/environment';
 import { DialogComponent } from '../dialog/dialog.component';
 import { HelpComponent } from '../help/help.component';
@@ -57,7 +56,7 @@ export class GameComponent {
 	game: Game;
 	fullScreenEnabled: boolean = true;
 	title: string = '';
-	workerService = inject(WorkerService);
+	private readonly injector = inject(Injector);
 
 	constructor() {
 		this.game = this.app.game;
@@ -113,7 +112,7 @@ export class GameComponent {
 				break;
 			}
 			case 'g': {
-				this.debugSolve();
+				this.debugSolve().catch(console.error);
 				break;
 			}
 			case 'u': {
@@ -298,10 +297,12 @@ export class GameComponent {
 		this.showNewGame();
 	}
 
-	debugSolve(): void {
+	async debugSolve(): Promise<void> {
 		if (environment.production) {
 			return;
 		}
+		const { WorkerService } = await import('../../service/worker.service');
+		const workerService = this.injector.get(WorkerService);
 		const play = (index: number, list: Array<Place>) => {
 			const t1 = list[index];
 			const t2 = list[index + 1];
@@ -323,7 +324,7 @@ export class GameComponent {
 			}
 		};
 
-		this.workerService.solveGame(this.game.board.stones.filter(s => !s.picked).map(s => s.toPosition()), data => {
+		workerService.solveGame(this.game.board.stones.filter(s => !s.picked).map(s => s.toPosition()), data => {
 			play(0, data.order);
 		});
 	}

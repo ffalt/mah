@@ -1,7 +1,8 @@
 import type { Layout, LoadLayout, MahFormat, Mapping } from '../../../model/types';
 import { expandMapping, mappingBounds, mappingToID } from '../../../model/mapping';
 import { Matrix } from './matrix';
-import { compactMapping, optimizeMapping } from './import';
+import { compactMapping } from './import';
+import { optimizeMapping } from './optimize';
 
 export function generateExportMah(layout: Layout): string {
 	return generateExportMahLayouts([layout]);

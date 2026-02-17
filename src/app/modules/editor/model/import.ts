@@ -1,5 +1,6 @@
 import type { CompactMapping, CompactMappingX, CompactMappingY, ImportLayout, LoadLayout, MahFormat, Mapping, Place } from '../../../model/types';
 import { mappingToID } from '../../../model/mapping';
+import { optimizeMapping } from './optimize';
 
 export function sortMapping(mapping: Mapping): Mapping {
 	return mapping.sort((a: Place, b: Place): number => {
@@ -191,22 +192,6 @@ export function cleanImportLayout(layout: ImportLayout): LoadLayout {
 		by: layout.by,
 		map: compactMapping(map)
 	};
-}
-
-export function optimizeMapping(mapping: Mapping): Mapping {
-	if (mapping.length === 0) {
-		return [];
-	}
-	// move board to left/top/min z-index
-	let minZ: number = mapping[0][0];
-	let minX: number = mapping[0][1];
-	let minY: number = mapping[0][2];
-	for (const p of mapping) {
-		minZ = Math.min(p[0], minZ);
-		minX = Math.min(p[1], minX);
-		minY = Math.min(p[2], minY);
-	}
-	return mapping.map(p => [p[0] - (minZ || 0), p[1] - (minX || 0), p[2] - (minY || 0)]);
 }
 
 export async function readFile(file: File): Promise<string> {
