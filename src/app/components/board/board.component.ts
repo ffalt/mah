@@ -50,6 +50,7 @@ export class BoardComponent implements OnInit, OnChanges {
 	readonly kyodaiUrl = input<string>();
 	readonly pattern = input<string>();
 	readonly stones = input<Array<Stone>>();
+	readonly noRotate = input(false);
 	readonly clickEvent = output<Stone | undefined>();
 	backgroundUrl: string | undefined;
 	backgroundRepeat: boolean | undefined;
@@ -449,7 +450,7 @@ export class BoardComponent implements OnInit, OnChanges {
 	}
 
 	private resize(element: { innerHeight: number; innerWidth: number }): void {
-		const r = element.innerHeight > element.innerWidth;
+		const r = this.noRotate() ? false : element.innerHeight > element.innerWidth;
 		this.panX = 0;
 		this.panY = 0;
 		this.scale = 1;

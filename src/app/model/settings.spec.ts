@@ -122,9 +122,11 @@ describe('Settings', () => {
 				contrast: true,
 				dark: true,
 				background: 'test-background',
+				pattern: undefined,
 				theme: 'test-theme',
 				tileset: 'test-tileset',
-				kyodaiUrl: 'test-url'
+				kyodaiUrl: 'test-url',
+				tutorialCompleted: false
 			});
 		});
 

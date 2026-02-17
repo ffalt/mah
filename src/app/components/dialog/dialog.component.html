@@ -1,5 +1,5 @@
 @if (visible()) {
-	<div class="overlay {{className()}}" (click)="toggle();">
+	<div class="overlay {{className()}}" (click)="toggleOverlay();">
 		<div class="overlay-popup" (click)="$event.stopPropagation();">
 			<div class="dialog-header">
 			@if (title()) {

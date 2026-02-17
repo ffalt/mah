@@ -14,6 +14,7 @@ import { SettingsComponent } from '../settings/settings.component';
 import { ChooseLayoutComponent } from '../choose-layout/choose-layout.component';
 import { TranslatePipe } from '@ngx-translate/core';
 import { BoardComponent } from '../board/board.component';
+import { TutorialComponent } from '../tutorial/tutorial.component';
 import { DurationPipe } from '../../pipes/duration.pipe';
 import { GameModeEasyPipe, GameModeStandardPipe } from '../../pipes/game-mode.pipe';
 
@@ -43,7 +44,7 @@ interface HTMLElementExtended extends HTMLElement {
 	host: { '(document:keydown)': 'handleKeyDownEvent($event)' },
 	imports: [
 		BoardComponent, DurationPipe, GameModeStandardPipe, GameModeEasyPipe,
-		HelpComponent, TilesInfoComponent, SettingsComponent, ChooseLayoutComponent, TranslatePipe, DialogComponent
+		HelpComponent, TilesInfoComponent, SettingsComponent, ChooseLayoutComponent, TutorialComponent, TranslatePipe, DialogComponent
 	]
 })
 export class GameComponent {
@@ -51,6 +52,7 @@ export class GameComponent {
 	readonly settings = viewChild.required<DialogComponent>('settings');
 	readonly help = viewChild.required<DialogComponent>('help');
 	readonly newgame = viewChild.required<DialogComponent>('newgame');
+	readonly tutorial = viewChild.required<DialogComponent>('tutorial');
 	app = inject(AppService);
 	game: Game;
 	fullScreenEnabled: boolean = true;
@@ -61,6 +63,27 @@ export class GameComponent {
 		this.game = this.app.game;
 		this.fullScreenEnabled = this.canFullscreen();
 		this.title = `${this.app.name} v${environment.version}`;
+	}
+
+	showTutorial(): void {
+		this.tutorial().visible.set(true);
+	}
+
+	completeTutorial(): void {
+		this.tutorial().visible.set(false);
+		this.app.settings.tutorialCompleted = true;
+		this.app.settings.save();
+		if (this.app.game.isIdle()) {
+			this.showNewGame();
+		}
+	}
+
+	start() {
+		if (this.app.settings.tutorialCompleted) {
+			this.showNewGame();
+		} else {
+			this.showTutorial();
+		}
 	}
 
 	showNewGame(): void {
@@ -123,6 +146,11 @@ export class GameComponent {
 	}
 
 	handleKeyDownDialogExit(): boolean {
+		const tutorial = this.tutorial();
+		if (tutorial.visible()) {
+			this.completeTutorial();
+			return true;
+		}
 		const help = this.help();
 		if (help.visible()) {
 			help.toggle();

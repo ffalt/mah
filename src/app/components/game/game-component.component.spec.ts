@@ -28,6 +28,7 @@ describe('GameComponent', () => {
 		fixture = TestBed.createComponent(GameComponent);
 		component = fixture.componentInstance;
 		appService = TestBed.inject(AppService);
+		appService.settings.tutorialCompleted = true;
 		fixture.detectChanges();
 	});
 

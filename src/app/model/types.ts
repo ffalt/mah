@@ -89,4 +89,5 @@ export class SettingsStore {
 	theme: string;
 	background: string;
 	pattern?: string;
+	tutorialCompleted?: boolean;
 }

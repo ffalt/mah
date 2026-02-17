@@ -12,6 +12,7 @@ export class Settings {
 	pattern?: string;
 	kyodaiUrl?: string;
 	theme = ThemeDefault;
+	tutorialCompleted = false;
 	stats = {
 		games: 0,
 		bestTime: 0
@@ -34,6 +35,7 @@ export class Settings {
 				this.sounds = store.sounds ?? this.sounds;
 				this.music = store.music ?? this.music;
 				this.kyodaiUrl = store.kyodaiUrl;
+				this.tutorialCompleted = store.tutorialCompleted ?? true;
 			}
 			return true;
 		} catch (error) {
@@ -54,7 +56,8 @@ export class Settings {
 				pattern: this.pattern,
 				theme: this.theme,
 				tileset: this.tileset,
-				kyodaiUrl: this.kyodaiUrl
+				kyodaiUrl: this.kyodaiUrl,
+				tutorialCompleted: this.tutorialCompleted
 			});
 			return true;
 		} catch (error) {

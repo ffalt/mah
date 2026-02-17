@@ -115,6 +115,15 @@ export default defineConfig({
 				...devices['Galaxy S9+'],
 				colorScheme: 'light'
 			}
+		},
+		{
+			name: 'tiny',
+			outputDir: outputDirectory,
+			use: {
+				...devices['iPhone SE'],
+				viewport: { width: 320, height: 568 },
+				colorScheme: 'light'
+			}
 		}
 	]
 });

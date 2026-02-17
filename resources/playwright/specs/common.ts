@@ -15,6 +15,7 @@ export async function screenshot(page: Page, name: string) {
 export async function startGame(page: Page, baseURL: string | undefined = undefined) {
 	await page.goto(baseURL ?? '/');
 	await page.waitForSelector('.controls-top');
+	await page.click('button.tutorial-btn-skip');
 }
 
 export function loadLanguagesFromI18n(): Array<string> {
@@ -36,9 +37,9 @@ export async function ensureOrientation(page: Page, orientation: 'portrait' | 'l
 	if (!size) {
 		return;
 	}
-	const isPortrait = size.height >= size.width;
-	const needPortrait = orientation === 'portrait';
-	if ((needPortrait && !isPortrait) ?? (!needPortrait && isPortrait)) {
+	if (size.height >= size.width && (orientation === 'landscape')) {
+		await page.setViewportSize({ width: size.height, height: size.width });
+	} else if (size.width >= size.height && (orientation === 'portrait')) {
 		await page.setViewportSize({ width: size.height, height: size.width });
 	}
 }

@@ -196,7 +196,7 @@ describe('LocalstorageService', () => {
 			const result = service.getLastPlayed();
 
 			expect(result).toBe('test-layout');
-			expect(localStorageMock.getItem).toHaveBeenCalledWith('last');
+			expect(localStorageMock.getItem).toHaveBeenCalledWith('mah.last');
 		});
 
 		it('should return undefined if no last played layout exists', () => {
@@ -205,7 +205,7 @@ describe('LocalstorageService', () => {
 			const result = service.getLastPlayed();
 
 			expect(result).toBeUndefined();
-			expect(localStorageMock.getItem).toHaveBeenCalledWith('last');
+			expect(localStorageMock.getItem).toHaveBeenCalledWith('mah.last');
 		});
 
 		it('should handle localStorage errors', () => {
@@ -216,7 +216,7 @@ describe('LocalstorageService', () => {
 			const result = service.getLastPlayed();
 
 			expect(result).toBeUndefined();
-			expect(localStorageMock.getItem).toHaveBeenCalledWith('last');
+			expect(localStorageMock.getItem).toHaveBeenCalledWith('mah.last');
 			expect(consoleErrorSpy).toHaveBeenCalled();
 		});
 
@@ -244,13 +244,13 @@ describe('LocalstorageService', () => {
 		it('should store last played layout ID', () => {
 			service.storeLastPlayed('test-layout');
 
-			expect(localStorageMock.setItem).toHaveBeenCalledWith('last', 'test-layout');
+			expect(localStorageMock.setItem).toHaveBeenCalledWith('mah.last', 'test-layout');
 		});
 
 		it('should remove last played layout ID if empty', () => {
 			service.storeLastPlayed('');
 
-			expect(localStorageMock.removeItem).toHaveBeenCalledWith('last');
+			expect(localStorageMock.removeItem).toHaveBeenCalledWith('mah.last');
 			expect(localStorageMock.setItem).not.toHaveBeenCalled();
 		});
 
@@ -261,7 +261,7 @@ describe('LocalstorageService', () => {
 
 			service.storeLastPlayed('test-layout');
 
-			expect(localStorageMock.setItem).toHaveBeenCalledWith('last', 'test-layout');
+			expect(localStorageMock.setItem).toHaveBeenCalledWith('mah.last', 'test-layout');
 			expect(consoleErrorSpy).toHaveBeenCalled();
 		});
 

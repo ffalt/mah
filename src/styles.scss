@@ -33,7 +33,7 @@ html {
 	--card-text-color-bg-hover: #1e2e37;
 	--card-text-color: #fff;
 	--input-text-color: #000;
-	--input-background-color: #ddd;
+	--input-background-color: #fefbf5;
 	--input-background-color-hover: #fff;
 	--input-border-color: #8f8f8f;
 	--text-fail-color: #cc919f;
@@ -673,6 +673,23 @@ p {
 
 			&:hover {
 				color: var(--text-highlight-color);
+			}
+		}
+	}
+
+	&.overlay-tutorial {
+		z-index: 10020;
+
+		.overlay-popup {
+			width: 90%;
+			max-width: 800px;
+			height: 80%;
+			max-height: 600px;
+		}
+
+		@include mixins.respond-to-height(tiny-down) {
+			.dialog-header {
+				display: none;
 			}
 		}
 	}

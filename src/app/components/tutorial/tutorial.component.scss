@@ -1,0 +1,227 @@
+@use "../../style/mixins";
+
+:host {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	overflow: hidden;
+	border-top: 1px solid var(--main-bg-color-lt);
+	padding-top: 20px;
+
+	@include mixins.respond-to-horizontal-device(pad) {
+		padding-top: 0;
+	}
+
+	@include mixins.respond-to-height(tiny-down) {
+		border-top: none
+	}
+}
+
+.tutorial-welcome {
+	flex: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 1em;
+
+	.tutorial-welcome-content {
+		text-align: center;
+		padding: 1.2em;
+
+		h1 {
+			margin: 0 0 0.4em;
+			font-size: 1.5em;
+			color: var(--dialog-headline-color);
+		}
+
+		.lead {
+			margin: 0 0 0.8em;
+			font-size: 1em;
+			color: var(--main-content-text-color);
+
+			@include mixins.respond-to-horizontal-device(pad) {
+				margin: 0 auto 0.8em;
+				max-width: 90%;
+			}
+		}
+
+		.welcome-benefits {
+			list-style: none;
+			padding: 0;
+			margin: 0 0 1em;
+
+			li {
+				font-size: 0.95em;
+				opacity: 0.95;
+			}
+		}
+
+		.tutorial-welcome-actions {
+			display: flex;
+			justify-content: center;
+			gap: 0.7em;
+			margin: 0.6em 0 0.4em;
+		}
+	}
+
+	@include mixins.respond-to-horizontal-device(pad) {
+		padding: 0;
+	}
+}
+
+.tutorial-main {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+
+	@include mixins.respond-to-horizontal-device(pad) {
+		display: grid;
+		grid-template-columns: 40% 1fr;
+		grid-template-rows: auto 1fr auto;
+		gap: 0.5em;
+		padding: 0.5em;
+	}
+}
+
+.tutorial-instruction {
+	text-align: center;
+	padding: 0 1em 0.5em;
+
+	h2 {
+		margin: 0 0 0.3em;
+		color: var(--dialog-headline-color);
+		font-size: 1.2em;
+	}
+
+	p {
+		margin: 0;
+		line-height: 1.5;
+		font-size: 0.95em;
+	}
+
+	@include mixins.respond-to-horizontal-device(pad) {
+		grid-column: 1;
+		grid-row: 1;
+		padding: 0;
+		text-align: left;
+
+		h2 {
+			font-size: 1em;
+			margin: 0 0 0.25em;
+		}
+
+		p {
+			font-size: 0.85em;
+			line-height: 1.4;
+		}
+	}
+}
+
+.tutorial-board {
+	flex: 1;
+	display: flex;
+	position: relative;
+	overflow: hidden;
+
+	app-board {
+		display: flex;
+		flex: 1;
+	}
+
+	@include mixins.respond-to-horizontal-device(pad) {
+		grid-column: 2;
+		grid-row: 1 / 4;
+		min-height: 0;
+		border-left: 1px solid var(--main-bg-color-lt);
+		margin-left: 10px;
+	}
+}
+
+.tutorial-feedback {
+	position: absolute;
+	bottom: 12px;
+	left: 50%;
+	transform: translateX(-50%);
+	background: var(--dialog-background-color);
+	border: 1px solid var(--main-bg-color-lt);
+	border-radius: 8px;
+	padding: 0.5em 1.2em;
+	font-size: 0.9em;
+	animation: tutorial-feedback-in 200ms ease-out;
+	pointer-events: none;
+	text-align: center;
+	max-width: calc(100% - 24px);
+}
+
+@keyframes tutorial-feedback-in {
+	from {
+		opacity: 0;
+		transform: translateX(-50%) translateY(8px);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateX(-50%) translateY(0);
+	}
+}
+
+.tutorial-footer {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0.7em 0 0;
+	border-top: 1px solid var(--main-bg-color-lt);
+
+	@include mixins.respond-to-horizontal-device(pad) {
+		grid-column: 1;
+		grid-row: 3;
+		gap: 0.5em;
+		padding: 0;
+		border-top: none;
+		align-self: end;
+		flex-direction: column;
+		justify-content: center;
+	}
+}
+
+.tutorial-progress {
+	font-size: 0.85em;
+	opacity: 0.7;
+}
+
+.tutorial-actions {
+	display: flex;
+	gap: 8px;
+}
+
+.tutorial-complete {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	padding: 1em;
+
+	h2 {
+		margin: 0 0 0.5em;
+		color: var(--dialog-headline-color);
+		font-size: 1.3em;
+	}
+
+	p {
+		margin: 0 0 1.5em;
+		line-height: 1.5;
+		font-size: 0.95em;
+	}
+}
+
+.tutorial-btn-next {
+	display: none;
+}
+
+.tutorial-btn-primary {
+	font-size: 1em;
+	border-width: 3px;
+}
