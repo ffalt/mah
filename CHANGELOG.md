@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [1.17.0](https://github.com/ffalt/mah/compare/v1.16.1...v1.17.0) (2026-02-21)
+
+
+### Features
+
+* **app:** add a starter tutorial ([b60e256](https://github.com/ffalt/mah/commit/b60e256937e042fe8dc20cbb3a8750b90b8a31a9))
+
 ## [1.16.1](https://github.com/ffalt/mah/compare/v1.16.0...v1.16.1) (2025-12-27)
 
 
