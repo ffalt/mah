@@ -8,6 +8,8 @@ All notable changes to this project will be documented in this file. See [commit
 ### Features
 
 * **app:** add a starter tutorial ([b60e256](https://github.com/ffalt/mah/commit/b60e256937e042fe8dc20cbb3a8750b90b8a31a9))
+*	**languages:** add Malay, Filipino, Tamil, Swahili, Telugu, Thai, Bengali, Persian, Indonesian, Urdu, Swedish, Romanian, Turkish, Ukrainian, Vietnamese, Catalan, Czech, Danish, Finnish, Norwegian, Hindi, Greek, Arabic, Italian, Polish, Korean and Hungarian translations from Crowdin
+
 
 ## [1.16.1](https://github.com/ffalt/mah/compare/v1.16.0...v1.16.1) (2025-12-27)
 
