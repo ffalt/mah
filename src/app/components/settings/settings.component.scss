@@ -264,6 +264,18 @@
 			}
 		}
 
+		.radio-lang {
+			columns: 3;
+
+			@include mixins.respond-to(medium-down) {
+				columns: 2;
+			}
+
+			@include mixins.respond-to(small-down) {
+				columns: 1;
+			}
+		}
+
 		.radio-tilesets {
 			columns: 2;
 
