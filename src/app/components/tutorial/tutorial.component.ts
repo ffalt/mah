@@ -87,7 +87,7 @@ export class TutorialComponent {
 		this.sound.play(SOUNDS.WIN);
 		setTimeout(() => {
 			this.next();
-		}, 800);
+		}, 10);
 	}
 
 	private wiggleStone(stone: Stone): void {
@@ -105,6 +105,6 @@ export class TutorialComponent {
 		this.feedbackKey.set(key);
 		this.feedbackTimer = setTimeout(() => {
 			this.feedbackKey.set(undefined);
-		}, 2000);
+		}, 5000);
 	}
 }
