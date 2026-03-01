@@ -17,9 +17,13 @@ export class Game {
 	message?: { messageID?: string; playTime?: number; askShuffle?: boolean };
 	layoutID?: string = undefined;
 	mode: GAME_MODE_ID = GAME_MODE_ID_DEFAULT;
-	private saveTimer?: ReturnType<typeof setTimeout> = undefined;
+	private saveTimer?: ReturnType<typeof setTimeout>;
 
 	constructor(private readonly storage: StorageProvider) {
+	}
+
+	destroy(): void {
+		this.clearSaveTimer();
 	}
 
 	init(): void {
@@ -181,25 +185,6 @@ export class Game {
 		}
 	}
 
-	private isStorableLayoutId(): boolean {
-		return this.layoutID !== undefined && !this.layoutID.startsWith(RANDOM_LAYOUT_ID_PREFIX);
-	}
-
-	private storeLostGame(): void {
-		if (this.isStorableLayoutId()) {
-			const id = this.layoutID ?? 'unknown';
-			const score = this.storage.getScore(id) ?? {};
-			score.playCount = (score.playCount ?? 0) + 1;
-			this.storage.storeScore(id, score);
-		}
-	}
-
-	private gameOverLosing(): void {
-		this.storeLostGame();
-		this.sound.play(SOUNDS.OVER);
-		this.gameOver('MSG_FAIL');
-	}
-
 	gameOverEasyModeShuffle(): void {
 		for (let index = 0; index < 10; index++) {
 			this.shuffle();
@@ -235,6 +220,32 @@ export class Game {
 		return false;
 	}
 
+	private clearSaveTimer(): void {
+		if (this.saveTimer !== undefined) {
+			clearTimeout(this.saveTimer);
+			this.saveTimer = undefined;
+		}
+	}
+
+	private isStorableLayoutId(): boolean {
+		return this.layoutID !== undefined && !this.layoutID.startsWith(RANDOM_LAYOUT_ID_PREFIX);
+	}
+
+	private storeLostGame(): void {
+		if (this.isStorableLayoutId()) {
+			const id = this.layoutID ?? 'unknown';
+			const score = this.storage.getScore(id) ?? {};
+			score.playCount = (score.playCount ?? 0) + 1;
+			this.storage.storeScore(id, score);
+		}
+	}
+
+	private gameOverLosing(): void {
+		this.storeLostGame();
+		this.sound.play(SOUNDS.OVER);
+		this.gameOver('MSG_FAIL');
+	}
+
 	private gameOverWinning(): void {
 		const playTime = this.clock.elapsed;
 		if (!this.isStorableLayoutId()) {
@@ -255,7 +266,7 @@ export class Game {
 	}
 
 	private delayedSave(): void {
-		clearTimeout(this.saveTimer);
+		this.clearSaveTimer();
 		this.saveTimer = setTimeout(() => {
 			this.save();
 		}, 300);

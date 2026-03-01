@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Game } from '../model/game';
 import { DEFAULT_LANGUAGE, LANGUAGES } from '../model/languages';
@@ -7,7 +7,7 @@ import { LangAuto } from '../model/consts';
 import { LocalstorageService } from './localstorage.service';
 
 @Injectable({ providedIn: 'root' })
-export class AppService {
+export class AppService implements OnDestroy {
 	name: string = 'Mah Jong';
 	cache: Record<string, unknown> = {};
 	game: Game;
@@ -23,6 +23,10 @@ export class AppService {
 		this.game.init();
 		this.game.sound.enabled = this.settings.sounds;
 		this.game.music.enabled = this.settings.music;
+	}
+
+	ngOnDestroy(): void {
+		this.game.destroy();
 	}
 
 	getCachedValue(name: string): unknown | undefined {
