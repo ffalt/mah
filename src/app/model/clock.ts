@@ -4,16 +4,13 @@ export class Clock {
 	private timer?: number = undefined;
 
 	reset(): void {
-		if (this.timer) {
-			window.clearTimeout(this.timer);
-			this.timer = undefined;
-		}
+		this.clearTimer();
 		this.lastTime = 0;
 		this.elapsed = 0;
 	}
 
 	run(): void {
-		if (this.timer) {
+		if (this.timer === undefined) {
 			return;
 		}
 		this.lastTime = Date.now();
@@ -23,11 +20,10 @@ export class Clock {
 	}
 
 	pause(): void {
-		if (!this.timer) {
+		if (this.timer === undefined) {
 			return;
 		}
-		window.clearTimeout(this.timer);
-		this.timer = undefined;
+		this.clearTimer();
 		this.elapsed += Date.now() - this.lastTime;
 	}
 
@@ -35,8 +31,16 @@ export class Clock {
 		const newTime = Date.now();
 		this.elapsed += newTime - this.lastTime;
 		this.lastTime = newTime;
+		this.clearTimer();
 		this.timer = window.setTimeout(() => {
 			this.step();
 		}, 1000);
+	}
+
+	private clearTimer(): void {
+		if (this.timer !== undefined) {
+			window.clearTimeout(this.timer);
+			this.timer = undefined;
+		}
 	}
 }
