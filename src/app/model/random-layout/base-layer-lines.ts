@@ -177,6 +177,8 @@ export function generateBaseLayerLines({ minTarget, maxTarget, xMax, yMax }: Bas
 	const directionsAll: Array<[number, number]> = [[1, 0], [-1, 0], [0, 1], [0, -1]];
 	let direction: [number, number] = directionsAll[Math.floor(Math.random() * 4)];
 	const targetLength = computeSnakeTargetLength(xMax, yMax);
+	let stuckCount = 0;
+	const maxStuckAttempts = 10;
 
 	for (let step = 0; step < targetLength; step++) {
 		const wobble = (step % randInt(6, 12)) === 0 ? Math.random() * 0.6 + 0.2 : Math.random() * 0.3;
@@ -185,6 +187,7 @@ export function generateBaseLayerLines({ minTarget, maxTarget, xMax, yMax }: Bas
 			x = moved.x;
 			y = moved.y;
 			direction = moved.direction;
+			stuckCount = 0; // Reset stuck counter on successful move
 			continue;
 		}
 		const burst = tryBurstFallback(present, mapping, snakeKeys, x, y);
@@ -192,9 +195,24 @@ export function generateBaseLayerLines({ minTarget, maxTarget, xMax, yMax }: Bas
 			x = burst.x;
 			y = burst.y;
 			direction = burst.direction;
+			stuckCount = 0; // Reset stuck counter on successful move
 			continue;
 		}
-		break; // nowhere to go; terminate early
+		// Stuck: try random direction from current position or give up
+		stuckCount++;
+		if (stuckCount >= maxStuckAttempts) {
+			break; // Give up after multiple attempts to find a valid move
+		}
+		// Try a random direction from current position as a last resort
+		const randomDirection = directionsAll[Math.floor(Math.random() * 4)];
+		const randomX = x + randomDirection[0] * 2;
+		const randomY = y + randomDirection[1] * 2;
+		if (inBounds(randomX, randomY, 0) && addBaseLine(present, mapping, snakeKeys, randomX, randomY, true)) {
+			x = randomX;
+			y = randomY;
+			direction = randomDirection;
+			stuckCount = 0;
+		}
 	}
 
 	trimEdges(present, snakeKeys, xs, ys, xMax, yMax);
