@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClient } from '@angular/common/http';
 import { DomSanitizer } from '@angular/platform-browser';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { LayoutService } from './layout.service';
 import { LocalstorageService } from './localstorage.service';
 import { expandMapping, mappingToID } from '../model/mapping';
@@ -143,6 +143,38 @@ describe('LayoutService', () => {
 			expect(service.loaded).toBe(true);
 			expect(mockHttpClient.get).toHaveBeenCalledWith('assets/data/boards.json');
 			expect(mockLocalstorageService.getCustomLayouts).toHaveBeenCalled();
+		});
+
+		it('should handle HTTP error gracefully and return custom layouts only', async () => {
+			// Arrange
+			const customLayouts: Array<LoadLayout> = [
+				{ id: 'custom1', name: 'Custom 1', cat: 'Category 1', map: [[0, [[0, 0]]]] }
+			];
+			const expandedMapping: Mapping = [[0, 0, 0]];
+			const safeUrl = 'data:image/svg+xml;base64,...' as SafeUrlSVG;
+
+			const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation();
+			const consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation();
+
+			mockHttpClient.get.mockReturnValue(throwError(() => new Error('Network error')));
+			mockLocalstorageService.getCustomLayouts.mockReturnValue(customLayouts);
+			(expandMapping as jest.Mock).mockReturnValue(expandedMapping);
+			(generateBase64SVG as jest.Mock).mockReturnValue('data:image/svg+xml;base64,...');
+			mockDomSanitizer.bypassSecurityTrustUrl.mockReturnValue(safeUrl);
+
+			// Act
+			const result = await service.get();
+
+			// Assert
+			expect(result.items).toHaveLength(1);
+			expect(result.items[0].id).toBe('custom1');
+			expect(result.items[0].custom).toBe(true);
+			expect(service.loaded).toBe(true);
+			expect(consoleErrorSpy).toHaveBeenCalled();
+			expect(mockLocalstorageService.getCustomLayouts).toHaveBeenCalled();
+
+			consoleErrorSpy.mockRestore();
+			consoleWarnSpy.mockRestore();
 		});
 	});
 

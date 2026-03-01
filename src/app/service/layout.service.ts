@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, catchError, of } from 'rxjs';
 import { expandMapping, mappingToID } from '../model/mapping';
 import { generateBase64SVG } from '../model/layout-svg';
 import type { CompactMapping, Layout, Layouts, LoadLayout, Mapping, SafeUrlSVG } from '../model/types';
@@ -89,6 +89,18 @@ export class LayoutService {
 	}
 
 	private async requestBoards(): Promise<Array<LoadLayout>> {
-		return firstValueFrom(this.http.get<Array<LoadLayout>>('assets/data/boards.json'));
+		try {
+			return await firstValueFrom(
+				this.http.get<Array<LoadLayout>>('assets/data/boards.json').pipe(
+					catchError((error: unknown) => {
+						console.error('Failed to load boards.json:', error);
+						return of([]);
+					})
+				)
+			);
+		} catch (error) {
+			console.error('Critical error loading boards:', error);
+			return [];
+		}
 	}
 }
