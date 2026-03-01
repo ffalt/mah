@@ -10,7 +10,7 @@ export class Clock {
 	}
 
 	run(): void {
-		if (this.timer === undefined) {
+		if (this.timer !== undefined) {
 			return;
 		}
 		this.lastTime = Date.now();
