@@ -10,7 +10,7 @@ describe('LocalstorageService', () => {
 		removeItem: jest.Mock;
 	};
 	let originalLocalStorage: Storage;
-	let consoleErrorSpy: jest.SpyInstance;
+	let consoleWarnSpy: jest.SpyInstance;
 
 	beforeEach(() => {
 		// Save original localStorage
@@ -29,9 +29,6 @@ describe('LocalstorageService', () => {
 			writable: true
 		});
 
-		// Spy on console.error to prevent test output noise
-		consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation();
-
 		// Configure TestBed
 		TestBed.configureTestingModule({
 			providers: [LocalstorageService]
@@ -40,7 +37,13 @@ describe('LocalstorageService', () => {
 		// Get the service
 		service = TestBed.inject(LocalstorageService);
 
-		jest.resetAllMocks();
+		// Clear all mocks but don't reset - this allows spies to function
+		jest.clearAllMocks();
+
+		// Spy on console.warn to track calls and prevent test output noise
+		consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {
+			// suppress output
+		});
 	});
 
 	afterEach(() => {
@@ -50,8 +53,8 @@ describe('LocalstorageService', () => {
 			writable: true
 		});
 
-		// Restore console.error
-		consoleErrorSpy.mockRestore();
+		// Restore console.warn
+		consoleWarnSpy.mockRestore();
 
 		// Clear all mocks
 		jest.clearAllMocks();
@@ -217,7 +220,7 @@ describe('LocalstorageService', () => {
 
 			expect(result).toBeUndefined();
 			expect(localStorageMock.getItem).toHaveBeenCalledWith('mah.last');
-			expect(consoleErrorSpy).toHaveBeenCalled();
+			expect(consoleWarnSpy).toHaveBeenCalled();
 		});
 
 		it('should handle missing localStorage', () => {
@@ -262,7 +265,7 @@ describe('LocalstorageService', () => {
 			service.storeLastPlayed('test-layout');
 
 			expect(localStorageMock.setItem).toHaveBeenCalledWith('mah.last', 'test-layout');
-			expect(consoleErrorSpy).toHaveBeenCalled();
+			expect(consoleWarnSpy).toHaveBeenCalled();
 		});
 
 		it('should handle missing localStorage', () => {
@@ -537,16 +540,16 @@ describe('LocalstorageService', () => {
 				expect(localStorageMock.setItem).not.toHaveBeenCalled();
 			});
 
-			it('should handle localStorage errors', () => {
-				localStorageMock.getItem.mockImplementation(() => {
-					throw new Error('Test error');
-				});
-
-				(service as unknown as HackLocalstorgageService)
-					.updateData();
-
-				expect(consoleErrorSpy).toHaveBeenCalled();
+		it('should handle localStorage errors', () => {
+			localStorageMock.getItem.mockImplementation(() => {
+				throw new Error('Test error');
 			});
+
+			(service as unknown as HackLocalstorgageService)
+				.updateData();
+
+			expect(consoleWarnSpy).toHaveBeenCalled();
+		});
 
 			it('should handle missing localStorage', () => {
 				// Temporarily remove localStorage
