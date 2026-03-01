@@ -383,6 +383,10 @@ export class BoardComponent implements OnInit, OnChanges {
 		const containerHeight = this.element.nativeElement.offsetHeight || 0;
 		const margin = 50;
 
+		if (containerWidth <= 0 || containerHeight <= 0) {
+			return;
+		}
+
 		// Extra size introduced by scaling (when scale <= 1, extra is 0 and panning is effectively disabled elsewhere)
 		const extraWidth = Math.max(0, (this.scale - 1) * containerWidth);
 		const extraHeight = Math.max(0, (this.scale - 1) * containerHeight);
