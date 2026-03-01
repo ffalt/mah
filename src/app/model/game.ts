@@ -105,11 +105,13 @@ export class Game {
 	pause(): void {
 		this.clock.pause();
 		this.setState(STATES.pause, 'MSG_CONTINUE_PAUSE');
+		this.clearSaveTimer();
 		this.save();
 		this.music.pause();
 	}
 
 	reset(): void {
+		this.clearSaveTimer();
 		this.clock.reset();
 		this.setState(STATES.idle);
 		this.board.reset();
@@ -268,6 +270,7 @@ export class Game {
 	private delayedSave(): void {
 		this.clearSaveTimer();
 		this.saveTimer = setTimeout(() => {
+			this.saveTimer = undefined;
 			this.save();
 		}, 300);
 	}
