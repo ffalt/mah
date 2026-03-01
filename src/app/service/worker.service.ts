@@ -44,11 +44,12 @@ export class WorkerService {
 				});
 
 				worker.postMessage({ stones });
+				return worker;
 			}
-			return worker;
 		}
+		// Web Workers not supported or worker creation failed - use synchronous fallback
 		solveGame(stones, finish);
-		return;
+		return undefined;
 	}
 
 	solve(mapping: Mapping, rounds: number, callback: (progress: Array<number>) => void, finish: (result: Array<number>) => void): Worker | undefined {
@@ -82,12 +83,11 @@ export class WorkerService {
 				});
 
 				worker.postMessage({ mapping, rounds });
+				return worker;
 			}
-			return worker;
 		}
-		// Web workers are not supported in this environment.
-		// You should add a fallback so that your program still executes correctly.
+		// Web Workers not supported or worker creation failed - use synchronous fallback
 		statsSolveMapping(mapping, rounds, callback, finish);
-		return;
+		return undefined;
 	}
 }
