@@ -112,8 +112,8 @@ export class LocalstorageService implements StorageProvider {
 			// Remove corrupted entry to prevent repeated parse errors
 			try {
 				localStorage.removeItem(fullKey);
-			} catch {
-				// ignore removal errors
+			} catch (removalError) {
+				console.warn('Failed to remove corrupted localStorage item:', fullKey, removalError);
 			}
 			console.warn('Failed to parse localStorage item:', fullKey, error);
 			return undefined;
@@ -132,7 +132,12 @@ export class LocalstorageService implements StorageProvider {
 				localStorage.setItem(fullKey, JSON.stringify(data));
 			}
 		} catch (error) {
-			console.warn('Failed to write localStorage item:', fullKey, error);
+			// Distinguish between quota errors and other errors
+			if (error instanceof Error && (error.name === 'QuotaExceededError' || error.name === 'NS_ERROR_DOM_QUOTA_REACHED')) {
+				console.warn('localStorage quota exceeded:', fullKey);
+			} else {
+				console.warn('Failed to write localStorage item:', fullKey, error);
+			}
 		}
 	}
 
@@ -140,19 +145,26 @@ export class LocalstorageService implements StorageProvider {
 		if (this.localStorageNotAvailable()) {
 			return;
 		}
+		// Migrate old state format
 		try {
-			let old = localStorage.getItem('state');
+			const old = localStorage.getItem('state');
 			if (old) {
 				localStorage.removeItem('state');
 				this.set<unknown>('state', JSON.parse(old));
 			}
-			old = localStorage.getItem('settings');
+		} catch (error) {
+			console.warn('Failed to migrate old state data:', error);
+		}
+
+		// Migrate old settings format
+		try {
+			const old = localStorage.getItem('settings');
 			if (old) {
 				localStorage.removeItem('settings');
 				this.set<unknown>('settings', JSON.parse(old));
 			}
 		} catch (error) {
-			console.warn('Failed to migrate old localStorage data:', error);
+			console.warn('Failed to migrate old settings data:', error);
 		}
 	}
 }
