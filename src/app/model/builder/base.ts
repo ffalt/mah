@@ -85,14 +85,4 @@ export abstract class BuilderBase implements BuilderType {
 	getTilesInGame(tiles: Tiles, _amount: number): Array<Tile> {
 		return tiles.list.filter((tile: Tile) => tile !== undefined);
 	}
-
-	getTilesInPairs(tiles: Tiles, _amount: number): Array<[Tile, Tile]> {
-		const result: Array<[Tile, Tile]> = [];
-		for (const group of tiles.groups) {
-			for (let index = 0; index < group.tiles.length; index += 2) {
-				result.push([group.tiles[index], group.tiles[index + 1]]);
-			}
-		}
-		return result;
-	}
 }
