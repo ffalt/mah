@@ -73,7 +73,7 @@ export function getDrawBounds(items: Array<Draw>): Array<number> {
 	if (items.length === 0) {
 		return [0, 0, 0, 0];
 	}
-	const bounds = [5000, 5000, 0, 0];
+	const bounds = [Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY, Number.NEGATIVE_INFINITY];
 	for (const draw of items) {
 		bounds[0] = Math.min(bounds[0], draw.pos.x);
 		bounds[1] = Math.min(bounds[1], draw.pos.y);
