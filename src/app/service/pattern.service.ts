@@ -96,14 +96,24 @@ export function generatePatternList(): Array<{ id: string; title: string }> {
 	for (const [prefix, suffixes] of Object.entries(groups)) {
 		if (suffixes.length === 0) {
 			result.push({ id: prefix });
+			continue;
 		}
 		for (const suffix of suffixes) {
 			if (Array.isArray(suffix)) {
+				if (suffix.length !== 2) {
+					continue;
+				}
 				const [start, end] = suffix;
+				if (typeof start !== 'number' || typeof end !== 'number') {
+					continue;
+				}
+				if (start > end) {
+					continue;
+				}
 				for (let index = start; index <= end; index++) {
 					result.push({ id: `${prefix}-${index}` });
 				}
-			} else {
+			} else if (typeof suffix === 'number' || typeof suffix === 'string') {
 				result.push({ id: `${prefix}-${suffix}` });
 			}
 		}
