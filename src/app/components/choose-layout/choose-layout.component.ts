@@ -36,7 +36,11 @@ export class ChooseLayoutComponent {
 	}
 
 	randomGame(): void {
-		const index = Math.floor(Math.random() * this.layoutService.layouts.items.length);
-		this.onStart(this.layoutService.layouts.items[index]);
+		const items = this.layoutService.layouts.items;
+		if (items.length === 0) {
+			return;
+		}
+		const index = Math.floor(Math.random() * items.length);
+		this.onStart(items[index]);
 	}
 }
