@@ -3,12 +3,6 @@ export class Clock {
 	private lastTime = 0;
 	private timer?: number = undefined;
 
-	start(): void {
-		if (!this.timer) {
-			this.elapsed = this.elapsed || 0;
-		}
-	}
-
 	reset(): void {
 		if (this.timer) {
 			window.clearTimeout(this.timer);

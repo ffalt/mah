@@ -41,20 +41,6 @@ describe('Clock', () => {
 		});
 	});
 
-	describe('start', () => {
-		it('should initialize elapsed time if not set', () => {
-			clock.elapsed = undefined as unknown as number;
-			clock.start();
-			expect(clock.elapsed).toBe(0);
-		});
-
-		it('should keep existing elapsed time if set', () => {
-			clock.elapsed = 5000;
-			clock.start();
-			expect(clock.elapsed).toBe(5000);
-		});
-	});
-
 	describe('reset', () => {
 		it('should reset elapsed time to zero', () => {
 			clock.elapsed = 5000;
