@@ -16,7 +16,8 @@ function punchHoles(base: Set<string>, baseZ: number, xs: Array<number>, ys: Arr
 	while (made < holes && attempts-- > 0 && positions.length > 0) {
 		const [x, y] = positions.pop()!;
 		// avoid punching at extreme corners to keep connectivity
-		if (x === xs[0] || x === xs.at(-1) || y === ys[0] || y === ys.at(-1)) {
+		// eslint-disable-next-line unicorn/prefer-at
+		if (x === xs[0] || x === xs[xs.length - 1] || y === ys[0] || y === ys[ys.length - 1]) {
 			continue;
 		}
 		const k = key(baseZ, x, y);
