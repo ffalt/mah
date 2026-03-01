@@ -27,19 +27,19 @@ export interface StoneNodes {
 }
 
 export class Stone implements StonePosition {
-	effects?: StoneEffects;
 	x: number;
 	y: number;
 	z: number;
 	v: number;
 	groupNr: number;
-	hinted: boolean;
-	selected: boolean;
+	hinted: boolean = false;
+	selected: boolean = false;
 	picked: boolean = false;
-	state: StoneState;
+	state: StoneState = { blocked: false, removable: false };
 	group: Array<Stone> = [];
-	img: StoneImg;
-	nodes: StoneNodes;
+	img: StoneImg = {};
+	nodes: StoneNodes = { top: [], left: [], right: [], bottom: [] };
+	effects?: StoneEffects;
 
 	constructor(z: number, x: number, y: number, v: number, groupNr: number) {
 		this.z = z;
