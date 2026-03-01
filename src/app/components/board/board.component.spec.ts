@@ -184,6 +184,9 @@ describe('BoardComponent', () => {
 		});
 
 		it('should update pan values when panning', () => {
+			// Mock element dimensions
+			Object.defineProperty(component.element.nativeElement, 'offsetWidth', { value: 1000 });
+			Object.defineProperty(component.element.nativeElement, 'offsetHeight', { value: 800 });
 			// Set initial scale to enable panning
 			component.scale = 1.5;
 			const initialPanX = component.panX;
