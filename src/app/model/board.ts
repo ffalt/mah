@@ -223,7 +223,15 @@ export class Board {
 			hash[gn] = hash[gn] || [];
 			hash[gn].push(stone);
 		}
-		return Object.keys(hash).map((key: string) =>
-			({ group: hash[key][0].groupNr, stones: hash[key] }));
+		return Object.keys(hash)
+			.map((key: string) => {
+				const stones = hash[key];
+				const firstStone = stones[0];
+				return {
+					group: firstStone?.groupNr ?? 0,
+					stones
+				};
+			})
+			.filter((group: StoneGroup) => group.stones.length > 0);
 	}
 }
