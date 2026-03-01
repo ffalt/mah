@@ -43,22 +43,26 @@ export class LocalstorageService implements StorageProvider {
 		return this.get<string | undefined>('mirrory');
 	}
 
+	localStorageNotAvailable(): boolean {
+		return (typeof localStorage === 'undefined' || !localStorage);
+	}
+
 	getLastPlayed(): string | undefined {
-		if (typeof localStorage === 'undefined') {
-			return;
-		}
 		try {
+			if (this.localStorageNotAvailable()) {
+				return undefined;
+			}
 			const key = `${this.prefix}last`;
 			const result = localStorage.getItem(key);
 			return result ?? undefined;
 		} catch (error) {
-			console.error(error);
+			console.warn('localStorage.getItem failed:', error);
+			return undefined;
 		}
-		return;
 	}
 
 	storeLastPlayed(id: string): void {
-		if (typeof localStorage === 'undefined') {
+		if (this.localStorageNotAvailable()) {
 			return;
 		}
 		const key = `${this.prefix}last`;
@@ -69,7 +73,7 @@ export class LocalstorageService implements StorageProvider {
 				localStorage.removeItem(key);
 			}
 		} catch (error) {
-			console.error(error);
+			console.warn('localStorage.setItem/removeItem failed:', error);
 		}
 	}
 
@@ -94,14 +98,14 @@ export class LocalstorageService implements StorageProvider {
 	}
 
 	private get<T>(key: string): T | undefined {
-		if (typeof localStorage === 'undefined') {
-			return;
+		if (this.localStorageNotAvailable()) {
+			return undefined;
 		}
 		const fullKey = `${this.prefix}${key}`;
 		try {
 			const s = localStorage.getItem(fullKey);
 			if (!s) {
-				return;
+				return undefined;
 			}
 			return JSON.parse(s) as T;
 		} catch (error) {
@@ -111,13 +115,13 @@ export class LocalstorageService implements StorageProvider {
 			} catch {
 				// ignore removal errors
 			}
-			console.error('Failed to parse localStorage item', fullKey, error);
-			return;
+			console.warn('Failed to parse localStorage item:', fullKey, error);
+			return undefined;
 		}
 	}
 
 	private set<T>(key: string, data?: T): void {
-		if (typeof localStorage === 'undefined') {
+		if (this.localStorageNotAvailable()) {
 			return;
 		}
 		const fullKey = `${this.prefix}${key}`;
@@ -128,12 +132,12 @@ export class LocalstorageService implements StorageProvider {
 				localStorage.setItem(fullKey, JSON.stringify(data));
 			}
 		} catch (error) {
-			console.error('Failed to write localStorage item', fullKey, error);
+			console.warn('Failed to write localStorage item:', fullKey, error);
 		}
 	}
 
 	private updateData(): void {
-		if (typeof localStorage === 'undefined') {
+		if (this.localStorageNotAvailable()) {
 			return;
 		}
 		try {
@@ -148,7 +152,7 @@ export class LocalstorageService implements StorageProvider {
 				this.set<unknown>('settings', JSON.parse(old));
 			}
 		} catch (error) {
-			console.error(error);
+			console.warn('Failed to migrate old localStorage data:', error);
 		}
 	}
 }
