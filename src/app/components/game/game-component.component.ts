@@ -192,9 +192,13 @@ export class GameComponent {
 
 	isFullscreenEnabled(): boolean {
 		const doc = window.document as DocumentExtended;
-		// Prefer the standard property when available
-		if (typeof doc.fullscreenEnabled === 'boolean') {
-			return doc.fullscreenEnabled;
+		// Check standard property first
+		if (doc.fullscreenEnabled) {
+			return true;
+		}
+		// Check vendor-specific enabled properties
+		if (doc.webkitFullscreenEnabled || doc.mozFullscreenEnabled) {
+			return true;
 		}
 		// Fallback: detect support via requestFullscreen on the document element or vendor-prefixed methods
 		const element = document.documentElement as HTMLElementExtended;
@@ -210,8 +214,8 @@ export class GameComponent {
 
 	isFullscreen(): boolean {
 		const doc = window.document as DocumentExtended;
-		// Prefer the standard property; fall back to vendor-specific flags
-		return !!(doc.fullscreenElement || doc.webkitIsFullScreen || doc.mozFullScreen);
+		// Check standard property first, then vendor-specific flags
+		return !!(doc.fullscreenElement || doc.webkitIsFullScreen || doc.mozFullScreen || doc.fullScreen);
 	}
 
 	exitFullscreen(): void {
@@ -219,12 +223,20 @@ export class GameComponent {
 		if (doc.exitFullscreen) {
 			doc.exitFullscreen()
 				.catch(error => {
-					console.error(error);
+					console.warn('Failed to exit fullscreen:', error);
 				});
-		} else if (doc.mozCancelFullScreen) {
-			doc.mozCancelFullScreen();
 		} else if (doc.webkitExitFullscreen) {
-			doc.webkitExitFullscreen();
+			try {
+				doc.webkitExitFullscreen();
+			} catch (error) {
+				console.warn('Failed to exit fullscreen (webkit):', error);
+			}
+		} else if (doc.mozCancelFullScreen) {
+			try {
+				doc.mozCancelFullScreen();
+			} catch (error) {
+				console.warn('Failed to exit fullscreen (moz):', error);
+			}
 		}
 	}
 
@@ -233,12 +245,20 @@ export class GameComponent {
 		if (element.requestFullscreen) {
 			element.requestFullscreen()
 				.catch(error => {
-					console.error(error);
+					console.warn('Failed to enter fullscreen:', error);
 				});
 		} else if (element.webkitRequestFullscreen) {
-			element.webkitRequestFullscreen();
+			try {
+				element.webkitRequestFullscreen();
+			} catch (error) {
+				console.warn('Failed to enter fullscreen (webkit):', error);
+			}
 		} else if (element.mozRequestFullScreen) {
-			element.mozRequestFullScreen();
+			try {
+				element.mozRequestFullScreen();
+			} catch (error) {
+				console.warn('Failed to enter fullscreen (moz):', error);
+			}
 		}
 	}
 
