@@ -256,7 +256,8 @@ export class BoardComponent implements OnInit, OnChanges {
 
 		if (this.isPinching && this.touchPoints.length === 2) {
 			const currentDistance = this.getDistance(this.touchPoints[0], this.touchPoints[1]);
-			const relativeScale = currentDistance / this.initialDistance;
+			// Avoid division by zero if initial distance is zero (both points at same location)
+			const relativeScale = this.initialDistance > 0 ? currentDistance / this.initialDistance : 1;
 			const centerX = (this.touchPoints[0].x + this.touchPoints[1].x) / 2;
 			const centerY = (this.touchPoints[0].y + this.touchPoints[1].y) / 2;
 			if (this.indicators.gestureIndicators[0]) {
