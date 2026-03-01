@@ -108,25 +108,66 @@ export class AppComponent implements OnInit {
 			return [];
 		}
 		try {
+			let decoded: string;
+			try {
+				decoded = atob(base64jsonString);
+			} catch (error) {
+				console.warn('Import failed: Invalid base64 encoding', error);
+				return [];
+			}
+
+			let parsed: unknown;
+			try {
+				parsed = JSON.parse(decoded);
+			} catch (error) {
+				console.warn('Import failed: Invalid JSON format', error);
+				return [];
+			}
+
+			const mah = parsed as MahFormat;
+			if (!mah.mah || mah.mah !== '1.0') {
+				console.warn('Import failed: Invalid or unsupported MAH format version');
+				return [];
+			}
+
+			if (!Array.isArray(mah.boards)) {
+				console.warn('Import failed: Missing or invalid boards array');
+				return [];
+			}
+
+			if (mah.boards.length === 0) {
+				console.warn('Import failed: No boards found in import data');
+				return [];
+			}
+
 			const result: Array<string> = [];
-			const mah: MahFormat = JSON.parse(atob(base64jsonString));
 			const imported: Array<LoadLayout> = [];
 			for (const custom of mah.boards) {
-				const layout = this.layoutService.expandLayout(custom, true);
-				result.push(layout.id);
-				if (
-					!this.layoutService.layouts.items.some(l => l.id === layout.id) &&
-					!imported.some(l => l.id === layout.id)
-				) {
-					imported.push(LayoutService.layout2loadLayout(layout, custom.map));
+				try {
+					const layout = this.layoutService.expandLayout(custom, true);
+					result.push(layout.id);
+					if (
+						!this.layoutService.layouts.items.some(l => l.id === layout.id) &&
+						!imported.some(l => l.id === layout.id)
+					) {
+						imported.push(LayoutService.layout2loadLayout(layout, custom.map));
+					}
+				} catch (error) {
+					console.warn('Failed to import individual board:', error);
 				}
 			}
+
 			if (imported.length > 0) {
 				this.layoutService.storeCustomBoards(imported);
 			}
+
+			if (result.length === 0) {
+				console.warn('Import completed but no valid boards were imported');
+			}
+
 			return result;
 		} catch (error) {
-			console.error(error);
+			console.error('Unexpected error during import:', error);
 			return [];
 		}
 	}
