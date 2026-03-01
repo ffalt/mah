@@ -384,7 +384,14 @@ export class BoardComponent implements OnInit, OnChanges {
 		const containerHeight = this.element.nativeElement.offsetHeight || 0;
 		const margin = 50;
 
+		// Handle edge case: container not properly sized
 		if (containerWidth <= 0 || containerHeight <= 0) {
+			// Still update pan values to prevent inconsistent state, but reset to origin
+			// since we can't calculate proper bounds without container dimensions
+			if (this.panX !== 0 || this.panY !== 0) {
+				this.panX = 0;
+				this.panY = 0;
+			}
 			return;
 		}
 
