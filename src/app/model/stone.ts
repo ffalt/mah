@@ -68,5 +68,5 @@ export const safeGetStone = (stones: Array<Stone>, z: number, x: number, y: numb
 			return stone;
 		}
 	}
-	return;
+	return undefined;
 };
