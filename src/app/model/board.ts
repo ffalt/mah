@@ -152,12 +152,14 @@ export class Board {
 
 	load(mapping: StoneMapping, undos: Array<Place>): void {
 		if (!mapping) {
+			console.warn('Board.load() failed: mapping is null or undefined');
 			return;
 		}
 		this.undo = undos;
 		const builder: Builder = new Builder(new Tiles(mapping.length + undos.length));
 		const stones = builder.load(mapping);
 		if (!stones) {
+			console.warn('Board.load() failed: builder.load() returned null or undefined', { mappingLength: mapping.length });
 			return;
 		}
 		for (const undo of undos) {
