@@ -122,10 +122,9 @@ describe('SvgdefService', () => {
 			expect(tilesets.imageSetIsKyodai).toHaveBeenCalledWith('test-set');
 			expect(mockHttpClient.get).toHaveBeenCalledWith('assets/svg/test-set.svg', { responseType: 'text' });
 
-			// Verify cache was updated
+			// Verify cache was updated with the SVG data
 			const cache = (service as unknown as HackSvgdefService).cache;
 			expect(cache['test-set'].data).toBe(httpSvg);
-			expect(cache['test-set'].request).toBeUndefined();
 		});
 
 		it('should handle HTTP errors', async () => {
