@@ -540,16 +540,57 @@ describe('LocalstorageService', () => {
 				expect(localStorageMock.setItem).not.toHaveBeenCalled();
 			});
 
-		it('should handle localStorage errors', () => {
-			localStorageMock.getItem.mockImplementation(() => {
-				throw new Error('Test error');
+			it('should remove corrupted old data even when JSON.parse fails', () => {
+				// Setup corrupted data that will fail JSON.parse
+				localStorageMock.getItem.mockImplementation((key: string) => {
+					if (key === 'state') {
+						return '{invalid json';
+					}
+					if (key === 'settings') {
+						return 'not json at all';
+					}
+					return null;
+				});
+
+				// Call updateData
+				(service as unknown as HackLocalstorgageService)
+					.updateData();
+
+				// Verify old data was removed despite parse errors
+				expect(localStorageMock.removeItem).toHaveBeenCalledWith('state');
+				expect(localStorageMock.removeItem).toHaveBeenCalledWith('settings');
+
+				// Verify warnings were logged
+				expect(consoleWarnSpy).toHaveBeenCalledWith(
+					'Failed to parse old state data, removing corrupted entry:',
+					expect.any(Error)
+				);
+				expect(consoleWarnSpy).toHaveBeenCalledWith(
+					'Failed to parse old settings data, removing corrupted entry:',
+					expect.any(Error)
+				);
+
+				// Verify new data was NOT set (because parse failed)
+				expect(localStorageMock.setItem).not.toHaveBeenCalledWith(
+					'mah.state',
+					expect.anything()
+				);
+				expect(localStorageMock.setItem).not.toHaveBeenCalledWith(
+					'mah.settings',
+					expect.anything()
+				);
 			});
 
-			(service as unknown as HackLocalstorgageService)
-				.updateData();
+			it('should handle localStorage errors', () => {
+				localStorageMock.getItem.mockImplementation(() => {
+					throw new Error('Test error');
+				});
 
-			expect(consoleWarnSpy).toHaveBeenCalled();
-		});
+				(service as unknown as HackLocalstorgageService)
+					.updateData();
+
+				expect(consoleWarnSpy).toHaveBeenCalled();
+			});
 
 			it('should handle missing localStorage', () => {
 				// Temporarily remove localStorage

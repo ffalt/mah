@@ -149,8 +149,13 @@ export class LocalstorageService implements StorageProvider {
 		try {
 			const old = localStorage.getItem('state');
 			if (old) {
+				try {
+					this.set<unknown>('state', JSON.parse(old));
+				} catch (parseError) {
+					console.warn('Failed to parse old state data, removing corrupted entry:', parseError);
+				}
+				// Always remove old entry, even if parse failed
 				localStorage.removeItem('state');
-				this.set<unknown>('state', JSON.parse(old));
 			}
 		} catch (error) {
 			console.warn('Failed to migrate old state data:', error);
@@ -160,8 +165,13 @@ export class LocalstorageService implements StorageProvider {
 		try {
 			const old = localStorage.getItem('settings');
 			if (old) {
+				try {
+					this.set<unknown>('settings', JSON.parse(old));
+				} catch (parseError) {
+					console.warn('Failed to parse old settings data, removing corrupted entry:', parseError);
+				}
+				// Always remove old entry, even if parse failed
 				localStorage.removeItem('settings');
-				this.set<unknown>('settings', JSON.parse(old));
 			}
 		} catch (error) {
 			console.warn('Failed to migrate old settings data:', error);
