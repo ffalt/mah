@@ -28,6 +28,8 @@ export class SvgdefService {
 			}
 		}
 		item = {};
+		this.cache[name] = item;
+
 		const request = new Promise<string>((resolve, reject) => {
 			setTimeout(() => {
 				this.http.get(`assets/svg/${name}.svg`, { responseType: 'text' })
@@ -38,13 +40,13 @@ export class SvgdefService {
 							resolve(result);
 						},
 						error: (error: unknown) => {
+							delete this.cache[name];
 							reject(error as Error);
 						}
 					});
 			});
 		});
 		item.request = request;
-		this.cache[name] = item;
 		return request;
 	}
 }

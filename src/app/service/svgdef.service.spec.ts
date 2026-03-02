@@ -138,6 +138,32 @@ describe('SvgdefService', () => {
 			await expect(service.get('test-set')).rejects.toThrow('HTTP error');
 			expect(tilesets.imageSetIsKyodai).toHaveBeenCalledWith('test-set');
 			expect(mockHttpClient.get).toHaveBeenCalledWith('assets/svg/test-set.svg', { responseType: 'text' });
+
+			// Verify cache was cleaned up after error
+			const cache = (service as unknown as HackSvgdefService).cache;
+			expect(cache['test-set']).toBeUndefined();
+		});
+
+		it('should prevent race condition by sharing pending requests', async () => {
+			// Arrange
+			const httpSvg = '<svg>http</svg>';
+			(tilesets.imageSetIsKyodai as jest.Mock).mockReturnValue(false);
+			mockHttpClient.get.mockReturnValue(of(httpSvg));
+
+			// Act - Make two simultaneous requests for the same resource
+			const promise1 = service.get('test-set');
+			const promise2 = service.get('test-set');
+
+			// Assert - Both promises should be the same (request deduplication)
+			expect(promise1).toBe(promise2);
+
+			// Wait for resolution
+			const [result1, result2] = await Promise.all([promise1, promise2]);
+			expect(result1).toBe(httpSvg);
+			expect(result2).toBe(httpSvg);
+
+			// Verify HTTP was only called once
+			expect(mockHttpClient.get).toHaveBeenCalledTimes(1);
 		});
 
 		it('should handle errors from buildKyodaiSVG', async () => {
