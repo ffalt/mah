@@ -41,11 +41,15 @@ export class Matrix {
 
 	inBounds(z: number, x: number, y: number): boolean {
 		const hasPositiveCoords = (z >= 0) && (x >= 0) && (y >= 0);
-		if (this.levels.length === 0 || !this.levels[0]) {
+		if (!hasPositiveCoords || z >= this.levels.length) {
 			return false;
 		}
-		const withinLevelBounds = (z < this.levels.length) && (x < this.levels[0].length) && (y < (this.levels[0][0]?.length ?? 0));
-		return hasPositiveCoords && withinLevelBounds;
+		const level = this.levels[z];
+		if (!level || x >= level.length) {
+			return false;
+		}
+		const row = level[x];
+		return row && y < row.length;
 	}
 
 	isTile(z: number, x: number, y: number): boolean {
