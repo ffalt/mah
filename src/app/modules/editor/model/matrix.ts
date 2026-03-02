@@ -90,7 +90,7 @@ export class Matrix {
 
 	isTilePosBlocked(z: number, x: number, y: number): boolean {
 		const level = this.levels[z];
-		if (level[x][y - 1] > 0) {
+		if (y > 0 && level[x][y - 1] > 0) {
 			return true;
 		}
 		if (!level[x - 1]) {
@@ -99,7 +99,7 @@ export class Matrix {
 		if (level[x - 1][y] > 0) {
 			return true;
 		}
-		return (level[x - 1][y - 1] > 0);
+		return (y > 0 && level[x - 1][y - 1] > 0);
 	}
 
 	get(z: number, x: number, y: number): number {
