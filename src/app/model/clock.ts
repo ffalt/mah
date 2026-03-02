@@ -1,7 +1,7 @@
 export class Clock {
 	elapsed = 0;
 	private lastTime = 0;
-	private timer?: number = undefined;
+	private timer?: ReturnType<typeof setTimeout> = undefined;
 
 	reset(): void {
 		this.clearTimer();
@@ -14,7 +14,7 @@ export class Clock {
 			return;
 		}
 		this.lastTime = Date.now();
-		this.timer = window.setTimeout(() => {
+		this.timer = setTimeout(() => {
 			this.step();
 		}, 1000);
 	}
@@ -32,14 +32,14 @@ export class Clock {
 		this.elapsed += newTime - this.lastTime;
 		this.lastTime = newTime;
 		this.clearTimer();
-		this.timer = window.setTimeout(() => {
+		this.timer = setTimeout(() => {
 			this.step();
 		}, 1000);
 	}
 
 	private clearTimer(): void {
 		if (this.timer !== undefined) {
-			window.clearTimeout(this.timer);
+			clearTimeout(this.timer);
 			this.timer = undefined;
 		}
 	}
