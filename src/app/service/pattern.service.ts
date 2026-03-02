@@ -231,6 +231,8 @@ export class PatternService {
 			}
 		}
 		item = {};
+		this.cache[name] = item;
+
 		const request = new Promise<string>((resolve, reject) => {
 			setTimeout(() => {
 				this.http.get(`assets/patterns/${name}.json`, { responseType: 'text' })
@@ -241,13 +243,13 @@ export class PatternService {
 							resolve(result);
 						},
 						error: (error: unknown) => {
+							delete this.cache[name];
 							reject(error as Error);
 						}
 					});
 			});
 		});
 		item.request = request;
-		this.cache[name] = item;
 		return request;
 	}
 
