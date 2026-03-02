@@ -161,16 +161,27 @@ function svgPattern(
 		joinMode = join == 2 ? 'stroke-linejoin=\'round\' stroke-linecap=\'round\' ' : 'stroke-linecap=\'square\' ';
 	}
 
+	function shouldUseAlternateColor(index: number): boolean {
+		if (vHeight !== 0 || maxColors <= 2) {
+			return false;
+		}
+		if (colorCounts === 2) {
+			return true;
+		}
+		if (colorCounts === 3 && maxColors === 4 && index === 2) {
+			return true;
+		}
+		if (colorCounts === 4 && maxColors === 5 && index === 3) {
+			return true;
+		}
+		return colorCounts === 3 && maxColors === 5 && (index === 2 || index === 3);
+	}
+
 	function multiStroke(index: number) {
-		let color = colors[index + 1];
-		if ((vHeight === 0) && (maxColors > 2) && (
-			((colorCounts === 3) && (maxColors === 4) && (index === 2)) ||
-			((colorCounts === 4) && (maxColors === 5) && (index === 3)) ||
-			((colorCounts === 3) && (maxColors === 5) && (index === 3)) ||
-			((colorCounts === 3) && (maxColors === 5) && (index === 2)) ||
-			(colorCounts === 2)
-		)) {
-			color = colors[1];
+		const colorIndex = index + 1;
+		let color = colorIndex < colors.length ? colors[colorIndex] : colors[0];
+		if (shouldUseAlternateColor(index)) {
+			color = colors.length > 1 ? colors[1] : colors[0];
 		}
 		let strokeFill: string;
 		if (mode === 'stroke-join') {
