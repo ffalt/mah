@@ -34,6 +34,6 @@ export class Builder {
 		if (builder) {
 			return builder.build(mapping, this.tiles);
 		}
-		return;
+		return undefined;
 	}
 }
