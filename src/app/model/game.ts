@@ -65,10 +65,14 @@ export class Game {
 			return;
 		}
 		stone.effects = stone.effects || {};
+		if (stone.effects.wiggleTimer !== undefined) {
+			clearTimeout(stone.effects.wiggleTimer);
+		}
 		stone.effects.wiggle = true;
-		setTimeout(() => {
+		stone.effects.wiggleTimer = setTimeout(() => {
 			if (stone.effects) {
 				stone.effects.wiggle = false;
+				stone.effects.wiggleTimer = undefined;
 			}
 		}, 300);
 	}

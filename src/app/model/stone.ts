@@ -13,6 +13,7 @@ export interface StoneState {
 
 export interface StoneEffects {
 	wiggle?: boolean;
+	wiggleTimer?: ReturnType<typeof setTimeout>;
 }
 
 export interface StoneImg {
