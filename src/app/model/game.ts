@@ -24,6 +24,9 @@ export class Game {
 
 	destroy(): void {
 		this.clearSaveTimer();
+		this.clock.reset();
+		this.music.pause();
+		this.board.reset();
 	}
 
 	init(): void {
