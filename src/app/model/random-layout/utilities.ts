@@ -1,6 +1,8 @@
 import type { Mapping } from '../types';
 import { type RandomBaseLayerMode, X_MAX, Y_MAX, Z_MAX } from './consts';
 
+export type NonEmptyArray<T> = [T, ...Array<T>];
+
 export function key(z: number, x: number, y: number): string {
 	return `${z}|${x}|${y}`;
 }
@@ -9,7 +11,7 @@ export function randInt(min: number, maxInclusive: number): number {
 	return Math.floor(Math.random() * (maxInclusive - min + 1)) + min;
 }
 
-export function randChoice<T>(array: Array<T>): T {
+export function randChoice<T>(array: NonEmptyArray<T>): T {
 	return array[Math.floor(Math.random() * array.length)];
 }
 
@@ -89,7 +91,7 @@ export function isOdd(num: number): boolean {
 }
 
 export function getRandomMode(): RandomBaseLayerMode {
-	const modes: Array<RandomBaseLayerMode> = [
+	const modes: NonEmptyArray<RandomBaseLayerMode> = [
 		'lines', 'lines', 'lines',
 		'checker', 'checker',
 		'areas', 'areas',

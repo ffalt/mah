@@ -1,6 +1,6 @@
 import type { Mapping } from '../types';
 import { TARGET_COUNT, X_MAX, Y_MAX, Z_MAX } from './consts';
-import { blocksOverlap, inBounds, isOdd, isSupported, key, randChoice, tryAdd } from './utilities';
+import { blocksOverlap, inBounds, isOdd, isSupported, key, NonEmptyArray, randChoice, tryAdd } from './utilities';
 
 function computeBelowWindow(current: Mapping, z: number): { minX: number; maxX: number; minY: number; maxY: number } | null {
 	let minX = X_MAX;
@@ -72,7 +72,7 @@ function maybeProposeOverhangs(present: Set<string>, z: number, win: { minX: num
 				if (!present.has(key(zb, x, y))) {
 					continue;
 				}
-				const directions: Array<[number, number]> = [[-1, 0], [1, 0], [0, -1], [0, 1]];
+				const directions: NonEmptyArray<[number, number]> = [[-1, 0], [1, 0], [0, -1], [0, 1]];
 				const [dx, dy] = randChoice(directions);
 				const ox = x + dx;
 				const oy = y + dy;
