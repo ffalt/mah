@@ -13,13 +13,17 @@ describe('Matrix', () => {
 			expect(matrix).toBeTruthy();
 		});
 
-		it('should initialize with empty levels', () => {
-			expect(matrix['levels']).toEqual([]);
+		it('should initialize with default dimensions', () => {
+			expect(matrix['levels']).toHaveLength(1);
+			expect(matrix['levels'][0]).toHaveLength(2);
+			expect(matrix['levels'][0][0]).toHaveLength(2);
 		});
 	});
 
 	describe('inBounds', () => {
 		it('should return false for empty levels array', () => {
+			matrix.init(0, 0, 0);
+
 			const result = matrix.inBounds(0, 0, 0);
 
 			expect(result).toBe(false);
@@ -111,6 +115,8 @@ describe('Matrix', () => {
 		});
 
 		it('should return true for empty levels', () => {
+			matrix.init(0, 0, 0);
+
 			const result = matrix.isTilePosInvalid(0, 0, 0);
 
 			expect(result).toBe(true);
