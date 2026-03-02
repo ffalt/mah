@@ -41,15 +41,24 @@ export class Matrix {
 
 	inBounds(z: number, x: number, y: number): boolean {
 		const hasPositiveCoords = (z >= 0) && (x >= 0) && (y >= 0);
-		const withinLevelBounds = (z < this.levels.length) && (x < this.levels[0].length) && (y < this.levels[0][0].length);
+		if (this.levels.length === 0 || !this.levels[0]) {
+			return false;
+		}
+		const withinLevelBounds = (z < this.levels.length) && (x < this.levels[0].length) && (y < (this.levels[0][0]?.length ?? 0));
 		return hasPositiveCoords && withinLevelBounds;
 	}
 
 	isTile(z: number, x: number, y: number): boolean {
+		if (!this.inBounds(z, x, y)) {
+			return false;
+		}
 		return this.levels[z][x][y] > 0;
 	}
 
 	isTilePosInvalid(z: number, x: number, y: number): boolean {
+		if (!this.inBounds(z, x, y)) {
+			return true;
+		}
 		const currentLevel = this.levels[z];
 
 		// Check if position is out of bounds

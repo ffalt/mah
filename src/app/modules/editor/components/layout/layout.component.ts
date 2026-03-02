@@ -247,6 +247,9 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 
 	moveLayer(xAxis: boolean, delta: number): void {
 		const list = this.layout().mapping.filter(m => m[0] === this.currentZ);
+		if (list.length === 0) {
+			return;
+		}
 		const index = xAxis ? 1 : 2;
 		const maxBound = xAxis ? CONSTS.mX : CONSTS.mY;
 		let min = list[0][index];
@@ -255,7 +258,7 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 			min = Math.min(m[index], min);
 			max = Math.max(m[index], max);
 		}
-		if (min + delta < 0 || max + delta >= maxBound - 1) {
+		if (min + delta < 0 || max + delta >= maxBound) {
 			return;
 		}
 		for (const m of list) {
