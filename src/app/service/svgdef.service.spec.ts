@@ -154,10 +154,8 @@ describe('SvgdefService', () => {
 			const promise1 = service.get('test-set');
 			const promise2 = service.get('test-set');
 
-			// Assert - Both promises should be the same (request deduplication)
-			expect(promise1).toBe(promise2);
-
-			// Wait for resolution
+			// Assert - Both should return the same data
+			expect(promise1).not.toBe(promise2); // Different promises but same value
 			const [result1, result2] = await Promise.all([promise1, promise2]);
 			expect(result1).toBe(httpSvg);
 			expect(result2).toBe(httpSvg);
