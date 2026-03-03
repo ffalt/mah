@@ -196,7 +196,6 @@ export class AppComponent implements OnInit {
 	}
 
 	private updateName(): void {
-		const tag = this.meta.getTag('name=application-name');
-		this.app.name = tag ? tag.content : this.app.name;
+		this.app.name = environment?.name ?? this.app.name;
 	}
 }
