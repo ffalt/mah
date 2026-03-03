@@ -22,6 +22,7 @@ export class AppComponent implements OnInit {
 	loading = true;
 	editorSubscription?: OutputRefSubscription;
 	editorVisible: boolean = false;
+	editorLoading: boolean = false;
 	layoutService = inject(LayoutService);
 	ngZone = inject(NgZone);
 	meta = inject(Meta);
@@ -61,18 +62,24 @@ export class AppComponent implements OnInit {
 					this.editorSubscription = component.instance.closeEvent.subscribe(() => {
 						this.toggleEditor();
 					});
+					this.editorLoading = false;
 				})
 				.catch(error => {
 					console.error(error);
+					this.editorLoading = false;
 				});
 		}
 	}
 
 	toggleEditor(): void {
 		if (environment.editor) {
+			if (this.editorLoading) {
+				return;
+			}
 			this.editorVisible = !this.editorVisible;
 			if (this.editorVisible) {
 				this.app.game.pause();
+				this.editorLoading = true;
 				this.loadEditor();
 			} else {
 				if (this.editorSubscription) {
