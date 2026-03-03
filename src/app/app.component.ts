@@ -40,6 +40,9 @@ export class AppComponent implements OnInit {
 
 	handleKeyDownEvent(event: KeyboardEvent): void {
 		const target = event.target;
+		if (!target) {
+			return;
+		}
 		const nodeName = target instanceof Element ? target.nodeName.toLowerCase() : '';
 		if (nodeName === 'input') {
 			return;
