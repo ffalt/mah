@@ -96,7 +96,7 @@ export class AppComponent implements OnInit {
 		this.loading = false;
 		const parameters = new URLSearchParams(window.location.search);
 		const layoutIDs = await this.checkImport(parameters.get('mah'));
-		this.layoutService.selectBoardID = layoutIDs[0] || parameters.get('board');
+		this.layoutService.selectBoardID = parameters.get('board') || layoutIDs[0];
 		if (window.location.search) {
 			this.clearSearchParameters();
 		}
