@@ -2,6 +2,62 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [1.18.0](https://github.com/ffalt/mah/compare/v1.17.0...v1.18.0) (2026-03-13)
+
+
+### Features
+
+* **solvable board generation:** enhance with retries and alternative strategies ([9d70190](https://github.com/ffalt/mah/commit/9d70190966cd8b17616ce25312fc795536d985ac))
+* **tiles:** add an optional 3D effect to tiles ([be7cee0](https://github.com/ffalt/mah/commit/be7cee01507e3ebe85b3dd5b7cea51a7eae612b7))
+
+
+### Bug Fixes
+
+* add boundary checks in isTilePosBlocked method to prevent index errors ([f06f217](https://github.com/ffalt/mah/commit/f06f21734bdb7d319df86628e255876f386fac31))
+* add defensive checks to random tile and place extraction in stone generation ([9a68655](https://github.com/ffalt/mah/commit/9a68655bef7a63a4401f9c89f089b51b6f619e23))
+* add error logging for null or undefined mapping in board loading ([4ad0573](https://github.com/ffalt/mah/commit/4ad0573b8cad34d635c673f4971cc24b2aced4b9))
+* add loading state management for editor visibility toggle ([7829fd4](https://github.com/ffalt/mah/commit/7829fd4d14cbeae3b132ec461f7341d4aa139efb))
+* add null check for event target in handleKeyDownEvent method ([9988bc6](https://github.com/ffalt/mah/commit/9988bc6544d8398a1389fb2637f8a62708460ee8))
+* add reset functionality to game component and mock board for testing ([267aac3](https://github.com/ffalt/mah/commit/267aac37916a8c017219a70e666076c2e06b7bd3))
+* enhance fullscreen handling with improved error logging and vendor support ([549c2fe](https://github.com/ffalt/mah/commit/549c2fecddf34273a471f6404df437c212b7ac21))
+* enhance import functionality with improved error handling and validation ([78159a6](https://github.com/ffalt/mah/commit/78159a612e885f3256a7e59fe9fbb963e8e703d3))
+* enhance inBounds method to improve boundary checks for matrix levels ([a8da463](https://github.com/ffalt/mah/commit/a8da463f1a1ade22a6f015e6df638b95d6e208aa))
+* enhance layout and matrix components with improved boundary checks and error handling ([8b18a8f](https://github.com/ffalt/mah/commit/8b18a8f6592d4fbe8d56a110e586726fb40d3c81))
+* enhance layout and matrix components with improved boundary checks and error handling ([8e7cc1e](https://github.com/ffalt/mah/commit/8e7cc1ec6b074e40f427feebc15e7ca84a48f771))
+* enhance localStorage handling with availability checks and improved error logging ([5a663d8](https://github.com/ffalt/mah/commit/5a663d870a852a2fe03d9c0d3ac53a11229adfef))
+* enhance localStorage handling with availability checks and improved error logging ([d6b2283](https://github.com/ffalt/mah/commit/d6b22838a5879c0880108af15231deb962a600d3))
+* enhance localStorage handling with availability checks and improved error logging ([337f18b](https://github.com/ffalt/mah/commit/337f18b329835b02c96cbd122072d963e77f1d10))
+* enhance PatternService to manage caching and HTTP requests with error handling ([2a2d372](https://github.com/ffalt/mah/commit/2a2d372ef2c8c71abe27bff509fb72a0eb22b73b))
+* ensure clearSaveTimer is called in pause, reset, and delayedSave methods ([f41e5d0](https://github.com/ffalt/mah/commit/f41e5d0c9354e98f5535dc1330834d717c28fd31))
+* ensure clearSaveTimer is called in pause, reset, and delayedSave methods ([4c80ac7](https://github.com/ffalt/mah/commit/4c80ac78a3aace48b33d19edec9c8759089c0ab5))
+* handle corrupted localStorage data gracefully by removing invalid entries ([206af2c](https://github.com/ffalt/mah/commit/206af2cc04a37b6b4079435cdc1b31ca7dfdb2a5))
+* handle edge case for improperly sized container in pan calculations ([cc08e73](https://github.com/ffalt/mah/commit/cc08e7353f3c622fd75cba55ee97dfb651e2fc39))
+* handle HTTP errors gracefully in board loading with fallback to custom layouts ([da7bc97](https://github.com/ffalt/mah/commit/da7bc974230c7b0ac325703d0cdd81283874c607))
+* implement stuck counter and random direction fallback for snake movement ([db188ce](https://github.com/ffalt/mah/commit/db188ced8ecb932da03270a987121eb8771d78c1))
+* improve caching and request handling in svgdef service to prevent race conditions and handle errors ([96b0be7](https://github.com/ffalt/mah/commit/96b0be7855e447d9b1cf5d904498c339f332e333))
+* improve caching and request handling in svgdef service to prevent race conditions and handle errors ([ccc5567](https://github.com/ffalt/mah/commit/ccc55671eb73929b50202981c0618d4eea404e81))
+* improve event target handling for keydown events in game and app components ([2074151](https://github.com/ffalt/mah/commit/20741516bc2c2d9022f632a177f4b98fada5d8f9))
+* improve indicator hide and removal timing with cancellation of pending timers ([f9b6d2e](https://github.com/ffalt/mah/commit/f9b6d2ec66ece326be717c1d5a6c4d8e378f92a0))
+* improve stone grouping logic to handle empty groups and ensure proper group number assignment ([a98d253](https://github.com/ffalt/mah/commit/a98d2534fb8b2f33f7250736458baf7f518deb40))
+* improve wiggle effect handling by clearing existing timer in stone effects ([d8c8a15](https://github.com/ffalt/mah/commit/d8c8a15e0cde5f90f3cb0160245231c12fa83baa))
+* prevent division by zero in pinch gesture scaling calculation ([bea3569](https://github.com/ffalt/mah/commit/bea35698b7e8b03f2ec2a1723346cfefd64fc8d6))
+* prevent layout calculations from failing with non-positive container dimensions ([c76c9bc](https://github.com/ffalt/mah/commit/c76c9bc33790ff005890967a375e9cc998df2680))
+* prevent random game selection from failing on empty layout items ([2bf296f](https://github.com/ffalt/mah/commit/2bf296fb8c70d7e956a308319398d2c7af998873))
+* refactor color selection logic in multiStroke function for improved clarity ([b02b077](https://github.com/ffalt/mah/commit/b02b0779685e71253a0b67e2a3d35af7eeed47a9))
+* rename dev-server to development-server and update related schema references ([2ee478e](https://github.com/ffalt/mah/commit/2ee478eb9ba47144ead410d8aa04996f09217eef))
+* return undefined instead of implicit undefined in stone function ([1d62b9e](https://github.com/ffalt/mah/commit/1d62b9ed74f3282ecfa9e13e044410c84c4585a7))
+* streamline SVG fetching in svgdef service by removing unnecessary timeout and improving error handling ([6be9d0f](https://github.com/ffalt/mah/commit/6be9d0f6fe82fb72a76738957c1fa56ffdaaa82c))
+* update Angular and related dependencies to latest versions ([16af1be](https://github.com/ffalt/mah/commit/16af1be07471ad77f57df48a7727faa45e469a5c))
+* update application name retrieval to use environment variable ([a2fadb5](https://github.com/ffalt/mah/commit/a2fadb5eac37869355a363a0fe77f0bd6581b4e4))
+* update board ID selection logic to prioritize URL parameter over layout IDs ([4ade441](https://github.com/ffalt/mah/commit/4ade441f9a3af32d0907a8337691289ac2d1ec76))
+* update checkbox selection logic in settings component tests ([978fb2d](https://github.com/ffalt/mah/commit/978fb2daac5362e5348640bf63138b34eef99a4e))
+* update dependencies to latest versions in Cargo.lock and package.json [skip ci] ([43a8a0b](https://github.com/ffalt/mah/commit/43a8a0b0428160042097447412bbb532097c74b8))
+* update return value in builder method to ensure consistent undefined return ([e8cc021](https://github.com/ffalt/mah/commit/e8cc021decdf775a8b6cb98dafda72f8f47f7b7d))
+* update timer handling in Clock class to remove window reference ([7cfa2c6](https://github.com/ffalt/mah/commit/7cfa2c695715ee9be5666b4cb830c61117fa9cfc))
+* update type definitions for randChoice and directions to use NonEmptyArray ([190c328](https://github.com/ffalt/mah/commit/190c32845111a922425ceb60bcf19fdca16e8523))
+* use optional chaining and nullish coalescing for safer image assignment ([6b6e537](https://github.com/ffalt/mah/commit/6b6e5378ccdffb90fc1ede94b8b0c24e1c3206c6))
+* validate suffix structure and types in pattern generation ([6f68a5e](https://github.com/ffalt/mah/commit/6f68a5e441696c4ccc4630bf918bf5dc71572d9e))
+
 ## [1.17.0](https://github.com/ffalt/mah/compare/v1.16.1...v1.17.0) (2026-02-21)
 
 
