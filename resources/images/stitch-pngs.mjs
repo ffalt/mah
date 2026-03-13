@@ -252,7 +252,7 @@ async function main() {
 
 	for (const u of uses) {
 		const imageDefinition = imageDefs.get(u.id);
-		let filePath = null;
+		let filePath;
 		let usedFallback = false;
 		let usedFallbackReason = null;
 
@@ -273,7 +273,7 @@ async function main() {
 		} else {
 			// Fallback: try name.png in the imagesDirectory, then try stripping leading "t_"
 			const candidate = path.resolve(imagesDirectory, `${u.id}.png`);
-			let candidate2 = null;
+			let candidate2;
 			try {
 				await fs.access(candidate);
 				filePath = candidate;
