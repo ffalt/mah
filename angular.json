@@ -115,7 +115,7 @@
 					}
 				},
 				"serve": {
-					"builder": "@mah/builders:dev-server",
+					"builder": "@mah/builders:development-server",
 					"options": {
 						"buildTarget": "mah:build"
 					},

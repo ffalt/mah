@@ -1,4 +1,3 @@
-// eslint-disable-next-line unicorn/prevent-abbreviations
 import { createBuilder } from "@angular-devkit/architect";
 import { executeDevServerBuilder } from "@angular/build";
 import { mahBuild } from "./mah-builder.mjs";

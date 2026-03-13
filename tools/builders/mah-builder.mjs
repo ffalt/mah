@@ -41,7 +41,7 @@ export function buildDefine(config = {}, packageJson = {}) {
 	};
 }
 
-// Create an esbuild plugin that injects our define values for dev-server builds
+// Create an esbuild plugin that injects our define values for development-server builds
 export function createDefinePlugin(defineObject) {
 	return {
 		name: "mah-define",
@@ -65,7 +65,7 @@ export function mahBuild(options, context) {
 	};
 	const extensions = {
 		indexHtmlTransformer: createIndexHtmlTransformer(config),
-		// Provide build plugins so the dev-server path passes them as codePlugins internally
+		// Provide build plugins so the development-server path passes them as codePlugins internally
 		buildPlugins: [createDefinePlugin(define)]
 	};
 	return { define, extensions };
