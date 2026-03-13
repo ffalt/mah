@@ -228,10 +228,22 @@ describe('SettingsComponent', () => {
 			expect(saveSpy).toHaveBeenCalled();
 		});
 
+		it('should update app settings when 3D is toggled', () => {
+			const saveSpy = jest.spyOn(appService.settings, 'save');
+			const initialValue = appService.settings.tile3d;
+			const threeDCheckbox = fixture.debugElement.queryAll(By.css('input[type="checkbox"]'))[0].nativeElement;
+
+			threeDCheckbox.click();
+			fixture.detectChanges();
+
+			expect(appService.settings.tile3d).toBe(!initialValue);
+			expect(saveSpy).toHaveBeenCalled();
+		});
+
 		it('should update app settings when contrast is toggled', () => {
 			const saveSpy = jest.spyOn(appService.settings, 'save');
 			const initialValue = appService.settings.contrast;
-			const contrastCheckbox =  fixture.debugElement.queryAll(By.css('input[type="checkbox"]'))[1].nativeElement;
+			const contrastCheckbox = fixture.debugElement.queryAll(By.css('input[type="checkbox"]'))[1].nativeElement;
 
 			contrastCheckbox.click();
 			fixture.detectChanges();
