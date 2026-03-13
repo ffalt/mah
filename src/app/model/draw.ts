@@ -29,7 +29,7 @@ export function calcDrawPos(z: number, x: number, y: number): DrawPos {
 		y: ((CONSTS.tileHeight + 2) * y - (z * CONSTS.levelOffset)) / 2,
 		w: (CONSTS.tileWidth + 2) + (z * CONSTS.levelOffset),
 		h: (CONSTS.tileHeight + 2) + (z * CONSTS.levelOffset),
-		sort: y + CONSTS.mY * (x + CONSTS.mX) * z,
+		sort: y + x + CONSTS.mY * (x + CONSTS.mX) * z,
 		translate: ''
 	};
 	pos.translate = `translate(${pos.x},${pos.y})`;

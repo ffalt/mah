@@ -19,10 +19,10 @@ export class Indicator {
 			return;
 		}
 
-		// Find the full indicator object in the array
-		const fullIndicator = this.gestureIndicators.find(
-			gi => gi.x === indicator.x && gi.y === indicator.y
-		);
+		// Find by reference first, then fall back to coordinate match
+		const fullIndicator =
+			this.gestureIndicators.find(gi => gi === indicator) ??
+			this.gestureIndicators.find(gi => gi.x === indicator.x && gi.y === indicator.y);
 
 		if (!fullIndicator) {
 			return;

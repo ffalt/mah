@@ -139,6 +139,7 @@
 	"TILES_JOKERS_RANK": "Rangbegrenset jokere",
 	"TILES_EXTRA": "Ekstra",
 	"TILES_DARK": "Mørk",
+	"TILES_3D": "3D",
 	"THEME": "Tema",
 	"THEME_SAGE": "Sage grønn",
 	"THEME_FOREST": "Skoggrønn",
@@ -283,4 +284,3 @@
 	"TUTORIAL_WELCOME_BENEFIT_3": "Hopp over når som helst og hopp til et spill",
 	"TUTORIAL_WELCOME_START": "Start opplæring"
 }
-

@@ -164,9 +164,9 @@ describe('SettingsComponent', () => {
 			expect(radioButtons).toHaveLength(expectedCount);
 		});
 
-		it('should render contrast and dark mode checkboxes', () => {
+		it('should render contrast, dark mode and 3D checkboxes', () => {
 			const checkboxes = fixture.debugElement.queryAll(By.css('input[type="checkbox"]'));
-			expect(checkboxes).toHaveLength(2);
+			expect(checkboxes).toHaveLength(3);
 		});
 
 		it('should render clear best times button', () => {

@@ -139,6 +139,7 @@
 	"TILES_JOKERS_RANK": "Jolly limitati di rango",
 	"TILES_EXTRA": "Extra",
 	"TILES_DARK": "Scuro",
+	"TILES_3D": "3D",
 	"THEME": "Tema",
 	"THEME_SAGE": "Verde salvia",
 	"THEME_FOREST": "Verde foresta",
@@ -283,4 +284,3 @@
 	"TUTORIAL_WELCOME_BENEFIT_3": "Salta in qualsiasi momento e salta a un gioco",
 	"TUTORIAL_WELCOME_START": "Avvia tutorial"
 }
-

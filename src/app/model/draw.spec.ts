@@ -17,7 +17,7 @@ describe('Draw', () => {
 			expect(pos.translate).toBe(`translate(${pos.x},${pos.y})`);
 
 			// Check z calculation specifically
-			expect(pos.sort).toBe(3 + CONSTS.mY * (2 + CONSTS.mX));
+			expect(pos.sort).toBe(3 + 2 + CONSTS.mY * (2 + CONSTS.mX));
 		});
 	});
 

@@ -33,6 +33,7 @@ describe('Settings', () => {
 			expect(settings.music).toBe(false);
 			expect(settings.contrast).toBe(false);
 			expect(settings.dark).toBe(false);
+			expect(settings.tile3d).toBe(false);
 			expect(settings.background).toBe('');
 			expect(settings.theme).toBe(ThemeDefault);
 			expect(settings.stats).toEqual({
@@ -50,6 +51,7 @@ describe('Settings', () => {
 				music: true,
 				contrast: true,
 				dark: true,
+				tile3d: true,
 				background: 'test-background',
 				theme: 'test-theme',
 				tileset: 'test-tileset',
@@ -66,6 +68,7 @@ describe('Settings', () => {
 			expect(settings.music).toBe(true);
 			expect(settings.contrast).toBe(true);
 			expect(settings.dark).toBe(true);
+			expect(settings.tile3d).toBe(true);
 			expect(settings.background).toBe('test-background');
 			expect(settings.theme).toBe('test-theme');
 			expect(settings.tileset).toBe('test-tileset');
@@ -107,6 +110,7 @@ describe('Settings', () => {
 			settings.music = true;
 			settings.contrast = true;
 			settings.dark = true;
+			settings.tile3d = true;
 			settings.background = 'test-background';
 			settings.theme = 'test-theme';
 			settings.tileset = 'test-tileset';
@@ -121,6 +125,7 @@ describe('Settings', () => {
 				music: true,
 				contrast: true,
 				dark: true,
+				tile3d: true,
 				background: 'test-background',
 				pattern: undefined,
 				theme: 'test-theme',

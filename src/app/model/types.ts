@@ -89,5 +89,6 @@ export class SettingsStore {
 	theme: string;
 	background: string;
 	pattern?: string;
+	tile3d?: boolean;
 	tutorialCompleted?: boolean;
 }

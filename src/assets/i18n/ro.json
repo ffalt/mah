@@ -139,6 +139,7 @@
 	"TILES_JOKERS_RANK": "Comoezi restricționați",
 	"TILES_EXTRA": "Extra",
 	"TILES_DARK": "Închis",
+	"TILES_3D": "3D",
 	"THEME": "Temă",
 	"THEME_SAGE": "Verde Salvie",
 	"THEME_FOREST": "Verde Pădure",
@@ -283,4 +284,3 @@
 	"TUTORIAL_WELCOME_BENEFIT_3": "Omite oricând și sari într-un joc",
 	"TUTORIAL_WELCOME_START": "Începe tutorialul"
 }
-

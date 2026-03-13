@@ -139,6 +139,7 @@
 	"TILES_JOKERS_RANK": "Arvioitujen jokerien jokerit",
 	"TILES_EXTRA": "Lisä",
 	"TILES_DARK": "Tumma",
+	"TILES_3D": "3D",
 	"THEME": "Teema",
 	"THEME_SAGE": "Viisas vihreä",
 	"THEME_FOREST": "Metsän vihreä",
@@ -283,4 +284,3 @@
 	"TUTORIAL_WELCOME_BENEFIT_3": "Ohita milloin tahansa ja hyppää peliin",
 	"TUTORIAL_WELCOME_START": "Aloita opetusohjelma"
 }
-

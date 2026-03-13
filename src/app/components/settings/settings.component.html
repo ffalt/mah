@@ -105,6 +105,16 @@
 				<li>
 					<label class="check">
 						<input type="checkbox"
+									 [checked]="app.settings.tile3d"
+									 (change)="app.settings.tile3d = !app.settings.tile3d;app.settings.save();"
+									 aria-label="{{ 'TILES_3D' | translate }}"
+						>
+						<span>{{ 'TILES_3D' | translate }}</span>
+					</label>
+				</li>
+				<li>
+					<label class="check">
+						<input type="checkbox"
 									 [checked]="app.settings.contrast"
 									 (change)="app.settings.contrast = !app.settings.contrast;app.settings.save();"
 									 aria-label="{{ 'HIGHER_CONTRAST' | translate }}"

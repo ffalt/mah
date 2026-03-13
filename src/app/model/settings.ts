@@ -8,6 +8,7 @@ export class Settings {
 	music = false;
 	contrast = false;
 	dark = false;
+	tile3d = false;
 	background = '';
 	pattern?: string;
 	kyodaiUrl?: string;
@@ -32,6 +33,7 @@ export class Settings {
 				this.theme = store.theme ?? ThemeDefault;
 				this.contrast = store.contrast ?? false;
 				this.dark = store.dark ?? false;
+				this.tile3d = store.tile3d ?? false;
 				this.sounds = store.sounds ?? this.sounds;
 				this.music = store.music ?? this.music;
 				this.kyodaiUrl = store.kyodaiUrl;
@@ -52,6 +54,7 @@ export class Settings {
 				music: this.music,
 				contrast: this.contrast,
 				dark: this.dark,
+				tile3d: this.tile3d,
 				background: this.background,
 				pattern: this.pattern,
 				theme: this.theme,

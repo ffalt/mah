@@ -139,6 +139,7 @@
 	"TILES_JOKERS_RANK": "रैंक-प्रतिबंधित वाइल्डकार्ड",
 	"TILES_EXTRA": "अतिरिक्त",
 	"TILES_DARK": "अंधेरा",
+	"TILES_3D": "३डी",
 	"THEME": "विषय",
 	"THEME_SAGE": "ऋषि हरा",
 	"THEME_FOREST": "वन हरा",
@@ -283,4 +284,3 @@
 	"TUTORIAL_WELCOME_BENEFIT_3": "किसी भी समय छोड़ें और गेम में कूदें",
 	"TUTORIAL_WELCOME_START": "ट्यूटोरियल शुरू करें"
 }
-

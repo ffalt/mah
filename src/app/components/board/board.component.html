@@ -99,6 +99,23 @@
 			stroke: black;
 		}
 
+		g.stage.tile3d g.draw rect.shadow {
+			fill: #a89488;
+			opacity: 1;
+			stroke-width: 0;
+			stroke: none;
+		}
+
+		g.stage.tile3d g.draw rect.stone {
+			stroke: #a09085;
+		}
+
+		g.stage.tile3d g.draw rect.bevel {
+			fill: none;
+			stroke-width: 1.5;
+			stroke: rgba(255, 255, 255, 0.6);
+		}
+
 		g.hidden {
 			opacity: 0;
 		}
@@ -109,6 +126,11 @@
 
 		g.stage.contrast g.draw rect.shadow {
 			opacity: 0.7;
+		}
+
+		g.stage.tile3d.contrast g.draw rect.shadow {
+			fill: #7a6c63;
+			opacity: 1;
 		}
 
 		g.stage.dark g.draw rect.shadow {
@@ -122,6 +144,24 @@
 			fill: #000;
 			stroke-width: 1;
 			stroke: #9d948c;
+		}
+
+		g.stage.dark.tile3d g.draw rect.shadow {
+			opacity: 1;
+			stroke-width: 0;
+			fill: #5a524e;
+			stroke: none;
+		}
+
+		g.stage.dark.tile3d g.draw rect.stone {
+			fill: #1a1512;
+			stroke: #6a5e58;
+		}
+
+		g.stage.dark.tile3d g.draw rect.bevel {
+			fill: none;
+			stroke-width: 1.5;
+			stroke: rgba(255, 255, 255, 0.12);
 		}
 
 		g.stage.dark g.selected g.tile rect.stone {
@@ -145,6 +185,11 @@
 			opacity: 0.7;
 		}
 
+		g.stage.dark.tile3d.contrast g.draw rect.shadow {
+			fill: #3e3834;
+			opacity: 1;
+		}
+
 		g.stage.dark .front {
 			display: none;
 		}
@@ -160,7 +205,7 @@
 		}
 	</style>
 	<defs app-image-set-loader [imageSet]="imageSet()" [kyodaiUrl]="kyodaiUrl()" [dark]="app.settings.dark" [prefix]="prefix"></defs>
-	<g class="stage" [attr.transform]="transformStage" [class.dark]="app.settings.dark" [class.contrast]="app.settings.contrast">
+	<g class="stage" [attr.transform]="transformStage" [class.dark]="app.settings.dark" [class.contrast]="app.settings.contrast" [class.tile3d]="app.settings.tile3d">
 		@for (draw of drawStones; track draw.source.z + ':' + draw.source.x + ':' + draw.source.y) {
 			<g class="draw"
 				 [class.selected]="draw.source.selected"
@@ -174,8 +219,14 @@
 					@if (draw.url) {
 						<title>{{ draw.url | translate }}</title>
 					}
-					<rect class="shadow" x="3" y="3" width="75" height="100" rx="10" ry="10"></rect>
-					<rect class="stone" x="0" y="0" width="75" height="100" rx="10" ry="10"></rect>
+					@if (app.settings.tile3d) {
+						<rect class="shadow" x="5" y="5" width="75" height="100" rx="10" ry="10"></rect>
+						<rect class="stone" x="0" y="0" width="75" height="100" rx="10" ry="10"></rect>
+						<rect class="bevel" x="1" y="1" width="73" height="98" rx="9" ry="9"></rect>
+					} @else {
+						<rect class="shadow" x="3" y="3" width="75" height="100" rx="10" ry="10"></rect>
+						<rect class="stone" x="0" y="0" width="75" height="100" rx="10" ry="10"></rect>
+					}
 					<use
 						[attr.xlink:href]="draw.url | prefix:urlPrefix"
 						[attr.x]="imagePos[0]"
