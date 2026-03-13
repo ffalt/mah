@@ -139,6 +139,7 @@
 	"TILES_JOKERS_RANK": "Rütbe Kısıtlamalı Yatık Kartlar",
 	"TILES_EXTRA": "Ekstra",
 	"TILES_DARK": "Koyu",
+	"TILES_3D": "3D",
 	"THEME": "Tema",
 	"THEME_SAGE": "Adaçayı Yeşili",
 	"THEME_FOREST": "Orman Yeşili",
@@ -283,4 +284,3 @@
 	"TUTORIAL_WELCOME_BENEFIT_3": "Herhangi bir zaman atla ve bir oyuna geç",
 	"TUTORIAL_WELCOME_START": "Eğitimi Başlat"
 }
-

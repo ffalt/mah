@@ -139,6 +139,7 @@
 	"TILES_JOKERS_RANK": "Джокери з обмеженням рангу",
 	"TILES_EXTRA": "Додатково",
 	"TILES_DARK": "Темний",
+	"TILES_3D": "3D",
 	"THEME": "Тема",
 	"THEME_SAGE": "Зелень шавлії",
 	"THEME_FOREST": "Лісна зелень",
@@ -283,4 +284,3 @@
 	"TUTORIAL_WELCOME_BENEFIT_3": "Пропустіть будь-коли та перейдіть до гри",
 	"TUTORIAL_WELCOME_START": "Почати навчання"
 }
-

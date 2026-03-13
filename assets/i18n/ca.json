@@ -139,6 +139,7 @@
 	"TILES_JOKERS_RANK": "Comodins limitats de rang",
 	"TILES_EXTRA": "Extra",
 	"TILES_DARK": "Fosc",
+	"TILES_3D": "3D",
 	"THEME": "Tema",
 	"THEME_SAGE": "Salvia verda",
 	"THEME_FOREST": "Bosc verd",
@@ -283,4 +284,3 @@
 	"TUTORIAL_WELCOME_BENEFIT_3": "Salta en qualsevol moment i salta a un joc",
 	"TUTORIAL_WELCOME_START": "Comença el tutorial"
 }
-

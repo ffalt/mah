@@ -139,6 +139,7 @@
 	"TILES_JOKERS_RANK": "Jokeři omezení podle hodnosti",
 	"TILES_EXTRA": "Další",
 	"TILES_DARK": "Tmavý",
+	"TILES_3D": "3D",
 	"THEME": "Motiv",
 	"THEME_SAGE": "Salvia zelená",
 	"THEME_FOREST": "Les zelený",
@@ -283,4 +284,3 @@
 	"TUTORIAL_WELCOME_BENEFIT_3": "Přeskočit kdykoli a skočit na hru",
 	"TUTORIAL_WELCOME_START": "Spustit tutoriál"
 }
-

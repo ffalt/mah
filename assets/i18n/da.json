@@ -139,6 +139,7 @@
 	"TILES_JOKERS_RANK": "Rangbegrænset jokere",
 	"TILES_EXTRA": "Ekstra",
 	"TILES_DARK": "Mørk",
+	"TILES_3D": "3D",
 	"THEME": "Tema",
 	"THEME_SAGE": "Sage grøn",
 	"THEME_FOREST": "Skovgrøn",
@@ -283,4 +284,3 @@
 	"TUTORIAL_WELCOME_BENEFIT_3": "Springover når som helst og hop ind i et spil",
 	"TUTORIAL_WELCOME_START": "Start vejledning"
 }
-

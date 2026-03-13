@@ -139,6 +139,7 @@
 	"TILES_JOKERS_RANK": "الرموز البدلاء المقيدة بالرتبة",
 	"TILES_EXTRA": "إضافي",
 	"TILES_DARK": "مظلم",
+	"TILES_3D": "ثلاثي الأبعاد",
 	"THEME": "المظهر",
 	"THEME_SAGE": "أخضر المريمية",
 	"THEME_FOREST": "أخضر الغابة",
@@ -283,4 +284,3 @@
 	"TUTORIAL_WELCOME_BENEFIT_3": "تخطي في أي وقت والقفز إلى لعبة",
 	"TUTORIAL_WELCOME_START": "ابدأ البرنامج التعليمي"
 }
-
