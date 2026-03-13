@@ -231,7 +231,7 @@ describe('SettingsComponent', () => {
 		it('should update app settings when contrast is toggled', () => {
 			const saveSpy = jest.spyOn(appService.settings, 'save');
 			const initialValue = appService.settings.contrast;
-			const contrastCheckbox = fixture.debugElement.query(By.css('input[type="checkbox"]:nth-child(1)')).nativeElement;
+			const contrastCheckbox =  fixture.debugElement.queryAll(By.css('input[type="checkbox"]'))[1].nativeElement;
 
 			contrastCheckbox.click();
 			fixture.detectChanges();
@@ -243,7 +243,7 @@ describe('SettingsComponent', () => {
 		it('should update app settings when dark mode is toggled', () => {
 			const saveSpy = jest.spyOn(appService.settings, 'save');
 			const initialValue = appService.settings.dark;
-			const darkCheckbox = fixture.debugElement.queryAll(By.css('input[type="checkbox"]'))[1].nativeElement;
+			const darkCheckbox = fixture.debugElement.queryAll(By.css('input[type="checkbox"]'))[2].nativeElement;
 
 			darkCheckbox.click();
 			fixture.detectChanges();
