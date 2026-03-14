@@ -1,4 +1,4 @@
-import { Component, inject, output } from '@angular/core';
+import { Component, inject, output, AfterViewInit } from '@angular/core';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { clickExternalHref } from '../../model/external-links';
 import { GameModes } from '../../model/consts';
@@ -23,14 +23,14 @@ interface StatGroup {
 	styleUrls: ['./help.component.scss'],
 	imports: [TranslatePipe, DurationPipe]
 })
-export class HelpComponent {
+export class HelpComponent implements AfterViewInit {
 	readonly showTutorial = output();
 	readonly gameModes = GameModes;
+	statsGroups: Array<StatGroup> = [];
 
 	private readonly layoutService = inject(LayoutService);
 	private readonly storage = inject(LocalstorageService);
 	private readonly translate = inject(TranslateService);
-	private statsGroups?: Array<StatGroup>;
 
 	shortcuts: Array<{ icon: string; key: string; altKey?: string; name: string }> = [
 		{ icon: 'icon-lightbulb', key: 'T', name: 'HINT' },
@@ -43,8 +43,8 @@ export class HelpComponent {
 		{ icon: 'icon-logo', key: 'H', name: 'HELP' }
 	];
 
-	get statsGroups(): Array<StatGroup> {
-		return this.statsGroups ??= this.buildStatsGroups();
+	ngAfterViewInit(): void {
+		this.statsGroups = this.buildStatsGroups();
 	}
 
 	private buildStatsGroups(): Array<StatGroup> {
