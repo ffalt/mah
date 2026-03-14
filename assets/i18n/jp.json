@@ -20,6 +20,7 @@
 	"MSG_FAIL": "これ以上一致する牌がありません。",
 	"STATS_GAMES": "ゲーム数",
 	"STATS_BEST": "ベストタイム",
+	"STATS_EMPTY": "まだゲームが終了していません。",
 	"LICENSE": "ライセンス",
 	"SHORTCUTS": "ショートカット",
 	"SETTINGS": "設定",

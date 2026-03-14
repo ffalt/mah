@@ -20,6 +20,7 @@
 	"MSG_FAIL": "Žádné další odpovídající dlaždice.",
 	"STATS_GAMES": "Počet her",
 	"STATS_BEST": "Nejlepší čas",
+  "STATS_EMPTY": "Zatím nebyly dokončeny žádné hry.",
 	"LICENSE": "Licence",
 	"SHORTCUTS": "Klávesové zkratky",
 	"SETTINGS": "Nastavení",

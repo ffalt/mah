@@ -20,6 +20,7 @@
 	"MSG_FAIL": "Ei enää yhteensopivia kiviä.",
 	"STATS_GAMES": "Pelien määrä",
 	"STATS_BEST": "Paras aika",
+  "STATS_EMPTY": "Ei pelejä suoritettu vielä.",
 	"LICENSE": "Lisenssi",
 	"SHORTCUTS": "Pikanäppäimet",
 	"SETTINGS": "Asetukset",

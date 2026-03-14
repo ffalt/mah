@@ -20,6 +20,7 @@
 	"MSG_FAIL": "Keine passenden Ziegel mehr.",
 	"STATS_GAMES": "Anzahl Spiele",
 	"STATS_BEST": "Bestzeit",
+	"STATS_EMPTY": "Noch keine Spiele abgeschlossen.",
 	"LICENSE": "Lizenz",
 	"SHORTCUTS": "Tastaturkürzel",
 	"SETTINGS": "Einstellungen",

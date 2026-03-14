@@ -20,6 +20,7 @@
 	"MSG_FAIL": "Plus de tuiles correspondantes.",
 	"STATS_GAMES": "Nombre de parties",
 	"STATS_BEST": "Meilleur temps",
+  "STATS_EMPTY": "Aucune partie terminée pour l'instant.",
 	"LICENSE": "Licence",
 	"SHORTCUTS": "Raccourcis",
 	"SETTINGS": "Paramètres",

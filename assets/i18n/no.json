@@ -20,6 +20,7 @@
 	"MSG_FAIL": "Ingen flere matchende steiner.",
 	"STATS_GAMES": "Antall spill",
 	"STATS_BEST": "Beste tid",
+  "STATS_EMPTY": "Ingen spill fullført ennå.",
 	"LICENSE": "Lisens",
 	"SHORTCUTS": "Snarveier",
 	"SETTINGS": "Innstillinger",

@@ -20,6 +20,7 @@
 	"MSG_FAIL": "No more matching tiles.",
 	"STATS_GAMES": "Nr. of Games",
 	"STATS_BEST": "Best Time",
+	"STATS_EMPTY": "No games finished yet.",
 	"LICENSE": "License",
 	"SHORTCUTS": "Shortcuts",
 	"SETTINGS": "Settings",

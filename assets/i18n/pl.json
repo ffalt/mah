@@ -20,6 +20,7 @@
 	"MSG_FAIL": "Brak pasujących kamieni.",
 	"STATS_GAMES": "Liczba gier",
 	"STATS_BEST": "Najlepszy czas",
+	"STATS_EMPTY": "Żadne gry nie zostały jeszcze ukończone.",
 	"LICENSE": "Licencja",
 	"SHORTCUTS": "Skróty",
 	"SETTINGS": "Ustawienia",
