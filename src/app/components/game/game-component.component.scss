@@ -344,6 +344,10 @@
 			left: 0;
 			border-bottom: unset;
 			z-index: 1;
+
+			.ctrl-game {
+				flex-direction: column-reverse;
+			}
 		}
 
 		.controls-bottom {
