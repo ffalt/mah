@@ -626,7 +626,7 @@ p {
 		.overlay-popup {
 			width: calc(90% - env(safe-area-inset-left) - env(safe-area-inset-right));
 			max-width: 860px;
-			min-height: 640px;
+			min-height: 740px;
 			max-height: calc(80svh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
 
 			@include mixins.respond-to-height(medium-down) {

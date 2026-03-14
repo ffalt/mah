@@ -27,18 +27,49 @@
 		gap: 8px;
 	}
 
+	.other {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+	}
+
 	.help {
 		p {
 			margin-bottom: 4px;
 		}
 
-		.tutorial-link {
+		.tutorial-link, .external-link {
 			cursor: pointer;
 			color: var(--main-content-link-color);
 			text-decoration: underline;
 
 			&:hover {
 				color: var(--main-content-link-hover-color);
+			}
+		}
+	}
+
+	.fill {
+		.fill-list {
+			padding: 0;
+			list-style: none;
+
+			li {
+				display: flex;
+				flex-direction: row;
+				align-items: baseline;
+				margin-bottom: 6px;
+			}
+
+			.fill-name {
+				min-width: 40%;
+				max-width: 40%;
+				font-weight: bold;
+			}
+
+			.fill-desc {
+				font-size: 0.9em;
+				opacity: 0.8;
 			}
 		}
 	}
@@ -166,6 +197,7 @@
 		.top {
 			display: flex;
 			flex-direction: row;
+			flex-wrap: wrap;
 
 			> div {
 				flex: 1;

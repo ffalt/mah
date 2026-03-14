@@ -6,6 +6,40 @@
 		<p><b>{{ 'HOW_PAIR' | translate }}</b>: {{ 'HOW_PAIR_DESC' | translate }}</p>
 		<p>{{ 'HOW_DO' | translate }}</p>
 		<p><a role="button" class="tutorial-link" (click)="showTutorial.emit()">{{ 'TUTORIAL_SHOW' | translate }}</a></p>
+		<p><a class="external-link" (click)="clickExternalHref($event)" rel="noopener" target="_blank" href="{{ 'READ_MORE_WIKIPEDIA_URL' | translate }}">{{ 'READ_MORE_WIKIPEDIA' | translate }}</a></p>
+	</fieldset>
+	<fieldset class="keyboard">
+		<legend>{{ 'SHORTCUTS' | translate }}</legend>
+		<ul class="keyboard-list">
+			@for (shortcut of shortcuts; track shortcut) {
+				<li>
+					<div>
+						<span class="key">{{ shortcut.key }}</span>
+						@if (shortcut.altKey) {
+							<span class="key-sep">/</span>
+							<span class="key">{{ shortcut.altKey }}</span>
+						}
+						<i [class]="shortcut.icon"></i>
+						<span class="name">{{ shortcut.name|translate }}</span></div>
+					<span class="func">{{ (shortcut.name + '_LONG')|translate }}</span>
+				</li>
+			}
+		</ul>
+	</fieldset>
+</div>
+<div class="other">
+	<fieldset class="fill">
+		<legend>{{ 'BOARD_GENERATOR' | translate }}</legend>
+		<ul class="fill-list">
+			<li>
+				<span class="fill-name">{{ 'MODE_SOLVABLE' | translate }}</span>
+				<span class="fill-desc">{{ 'MODE_SOLVABLE_DESC' | translate }}</span>
+			</li>
+			<li>
+				<span class="fill-name">{{ 'MODE_RANDOM' | translate }}</span>
+				<span class="fill-desc">{{ 'MODE_RANDOM_DESC' | translate }}</span>
+			</li>
+		</ul>
 	</fieldset>
 	<fieldset class="modes">
 		<legend>{{ 'GAME_MODE' | translate }}</legend>
@@ -55,21 +89,3 @@
 		</div>
 	</fieldset>
 </div>
-<fieldset class="keyboard">
-	<legend>{{ 'SHORTCUTS' | translate }}</legend>
-	<ul class="keyboard-list">
-		@for (shortcut of shortcuts; track shortcut) {
-			<li>
-				<div>
-					<span class="key">{{ shortcut.key }}</span>
-					@if (shortcut.altKey) {
-						<span class="key-sep">/</span>
-						<span class="key">{{ shortcut.altKey }}</span>
-					}
-					<i [class]="shortcut.icon"></i>
-					<span class="name">{{ shortcut.name|translate }}</span></div>
-				<span class="func">{{ (shortcut.name + '_LONG')|translate }}</span>
-			</li>
-		}
-	</ul>
-</fieldset>
