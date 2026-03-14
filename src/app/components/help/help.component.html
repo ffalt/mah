@@ -7,6 +7,24 @@
 		<p>{{ 'HOW_DO' | translate }}</p>
 		<p><a role="button" class="tutorial-link" (click)="showTutorial.emit()">{{ 'TUTORIAL_SHOW' | translate }}</a></p>
 	</fieldset>
+	<fieldset class="modes">
+		<legend>{{ 'GAME_MODE' | translate }}</legend>
+		<ul class="modes-list">
+			@for (mode of gameModes; track mode) {
+				<li>
+					<span class="mode-name">{{ mode.id | translate }}</span>
+					<span class="mode-features">
+						@for (feature of mode.features; track feature) {
+							<span class="feature-tag">{{ feature.title | translate }}</span>
+						}
+						@if (mode.features.length === 0) {
+							<span class="mode-none">–</span>
+						}
+					</span>
+				</li>
+			}
+		</ul>
+	</fieldset>
 	<fieldset class="license">
 		<legend>{{ 'LICENSE' | translate }}</legend>
 		<div class="license-list">
@@ -42,7 +60,12 @@
 	<ul class="keyboard-list">
 		@for (shortcut of shortcuts; track shortcut) {
 			<li>
-				<div><span class="key">{{ shortcut.key }}</span>
+				<div>
+					<span class="key">{{ shortcut.key }}</span>
+					@if (shortcut.altKey) {
+						<span class="key-sep">/</span>
+						<span class="key">{{ shortcut.altKey }}</span>
+					}
 					<i [class]="shortcut.icon"></i>
 					<span class="name">{{ shortcut.name|translate }}</span></div>
 				<span class="func">{{ (shortcut.name + '_LONG')|translate }}</span>
