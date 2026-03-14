@@ -111,6 +111,7 @@ const commonUnicornRules = {
 	"unicorn/no-array-sort": "off",
 	"unicorn/prefer-string-replace-all": "off",
 	"unicorn/no-useless-undefined": "off",
+	"unicorn/prefer-spread": "off",
 	"unicorn/prevent-abbreviations": [
 		"error",
 		{

@@ -1,5 +1,5 @@
 import { Component, inject, output } from '@angular/core';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { clickExternalHref } from '../../model/external-links';
 import { GameModes } from '../../model/consts';
 import { DurationPipe } from '../../pipes/duration.pipe';
@@ -29,7 +29,8 @@ export class HelpComponent {
 
 	private readonly layoutService = inject(LayoutService);
 	private readonly storage = inject(LocalstorageService);
-	private _statsGroups?: Array<StatGroup>;
+	private readonly translate = inject(TranslateService);
+	private statsGroups?: Array<StatGroup>;
 
 	shortcuts: Array<{ icon: string; key: string; altKey?: string; name: string }> = [
 		{ icon: 'icon-lightbulb', key: 'T', name: 'HINT' },
@@ -43,7 +44,7 @@ export class HelpComponent {
 	];
 
 	get statsGroups(): Array<StatGroup> {
-		return this._statsGroups ??= this.buildStatsGroups();
+		return this.statsGroups ??= this.buildStatsGroups();
 	}
 
 	private buildStatsGroups(): Array<StatGroup> {
@@ -61,6 +62,19 @@ export class HelpComponent {
 			group.items.push({ name: layout.name, playCount: score.playCount, bestTime: score.bestTime });
 		}
 		return Array.from(groups.values());
+	}
+
+	async clearTimes(): Promise<void> {
+		const layouts = await this.layoutService.get();
+		for (const layout of layouts.items) {
+			this.storage.clearScore(layout.id);
+		}
+	}
+
+	clearTimesClick(): void {
+		if (confirm(this.translate.instant('BEST_TIMES_CLEAR_SURE'))) {
+			this.clearTimes().catch(error => console.error(error));
+		}
 	}
 
 	protected readonly clickExternalHref = clickExternalHref;

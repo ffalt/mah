@@ -102,45 +102,6 @@ describe('SettingsComponent', () => {
 		});
 	});
 
-	describe('Clear times functionality', () => {
-		it('should call clearTimes when confirmed', () => {
-			// Mock confirm to return true
-			const originalConfirm = window.confirm;
-			window.confirm = jest.fn().mockReturnValue(true);
-
-			// Mock clearTimes method
-			const clearTimesSpy = jest.spyOn(component, 'clearTimes')
-				.mockImplementation(async () => Promise.resolve());
-
-			// Call the method
-			component.clearTimesClick();
-
-			// Verify clearTimes was called
-			expect(clearTimesSpy).toHaveBeenCalled();
-
-			// Restore original confirm
-			window.confirm = originalConfirm;
-		});
-
-		it('should not call clearTimes when not confirmed', () => {
-			// Mock confirm to return false
-			const originalConfirm = window.confirm;
-			window.confirm = jest.fn().mockReturnValue(false);
-
-			// Mock clearTimes method
-			const clearTimesSpy = jest.spyOn(component, 'clearTimes');
-
-			// Call the method
-			component.clearTimesClick();
-
-			// Verify clearTimes was not called
-			expect(clearTimesSpy).not.toHaveBeenCalled();
-
-			// Restore original confirm
-			window.confirm = originalConfirm;
-		});
-	});
-
 	describe('UI Elements', () => {
 		it('should render language selection radio buttons', () => {
 			const radioButtons = fixture.debugElement.queryAll(By.css('input[name="lang"]'));
@@ -167,11 +128,6 @@ describe('SettingsComponent', () => {
 		it('should render contrast, dark mode and 3D checkboxes', () => {
 			const checkboxes = fixture.debugElement.queryAll(By.css('input[type="checkbox"]'));
 			expect(checkboxes).toHaveLength(3);
-		});
-
-		it('should render clear best times button', () => {
-			const clearButton = fixture.debugElement.query(By.css('button.clear-times'));
-			expect(clearButton).toBeTruthy();
 		});
 	});
 
@@ -262,19 +218,6 @@ describe('SettingsComponent', () => {
 
 			expect(appService.settings.dark).toBe(!initialValue);
 			expect(saveSpy).toHaveBeenCalled();
-		});
-
-		it('should call clearTimesClick when clear times button is clicked', () => {
-			const clearTimesClickSpy = jest.spyOn(component, 'clearTimesClick');
-			const clearButton = fixture.debugElement.query(By.css('button.clear-times')).nativeElement;
-			const originalConfirm = window.confirm;
-			window.confirm = jest.fn().mockReturnValue(true);
-
-			clearButton.click();
-
-			expect(clearTimesClickSpy).toHaveBeenCalled();
-
-			window.confirm = originalConfirm;
 		});
 	});
 });

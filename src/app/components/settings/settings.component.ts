@@ -1,9 +1,7 @@
 import { Component, ElementRef, inject, viewChild, AfterViewInit } from '@angular/core';
-import { TranslateService, TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { Backgrounds, ImageSetDefault, ImageSets, PATTERN_BACKGROUND, Themes } from '../../model/consts';
 import { AppService } from '../../service/app.service';
-import { LayoutService } from '../../service/layout.service';
-import { LocalstorageService } from '../../service/localstorage.service';
 import { LANGUAGES } from '../../model/languages';
 import { KyodaiTileSets } from '../../model/tilesets';
 import { environment } from '../../../environments/environment';
@@ -14,8 +12,7 @@ const SETTINGS_TABS = [
 	{ id: 'lang', name: 'LANG' },
 	{ id: 'stones', name: 'TILESET' },
 	{ id: 'theme', name: 'THEME' },
-	{ id: 'background', name: 'BACKGROUND' },
-	{ id: 'data', name: 'DATA' }
+	{ id: 'background', name: 'BACKGROUND' }
 ];
 
 @Component({
@@ -42,9 +39,6 @@ export class SettingsComponent implements AfterViewInit {
 	selectedTab: string = this.app.getCachedValue('settings.selectedTab') as string | undefined ?? SETTINGS_TABS[0].id;
 
 	private readonly element = inject(ElementRef);
-	private readonly storage = inject(LocalstorageService);
-	private readonly layoutService = inject(LayoutService);
-	private readonly translate = inject(TranslateService);
 
 	ngAfterViewInit(): void {
 		if (this.element?.nativeElement) {
@@ -101,18 +95,5 @@ export class SettingsComponent implements AfterViewInit {
 	onScroll(event: Event): void {
 		const top = (event.target as HTMLElement).scrollTop;
 		this.app.cacheValue('settings.scrollTop', top);
-	}
-
-	async clearTimes(): Promise<void> {
-		const layouts = await this.layoutService.get();
-		for (const layout of layouts.items) {
-			this.storage.clearScore(layout.id);
-		}
-	}
-
-	clearTimesClick(): void {
-		if (confirm(this.translate.instant('BEST_TIMES_CLEAR_SURE'))) {
-			this.clearTimes().catch(error => console.error(error));
-		}
 	}
 }
