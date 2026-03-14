@@ -1,4 +1,4 @@
-import { Component, inject, output, AfterViewInit } from '@angular/core';
+import { Component, inject, output, AfterViewInit, type OnInit } from '@angular/core';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { clickExternalHref } from '../../model/external-links';
 import { GameModes } from '../../model/consts';
@@ -23,7 +23,7 @@ interface StatGroup {
 	styleUrls: ['./help.component.scss'],
 	imports: [TranslatePipe, DurationPipe]
 })
-export class HelpComponent implements AfterViewInit {
+export class HelpComponent implements OnInit {
 	readonly showTutorial = output();
 	readonly gameModes = GameModes;
 	statsGroups: Array<StatGroup> = [];
@@ -43,7 +43,7 @@ export class HelpComponent implements AfterViewInit {
 		{ icon: 'icon-logo', key: 'H', name: 'HELP' }
 	];
 
-	ngAfterViewInit(): void {
+	ngOnInit(): void {
 		this.statsGroups = this.buildStatsGroups();
 	}
 
@@ -73,7 +73,11 @@ export class HelpComponent implements AfterViewInit {
 
 	clearTimesClick(): void {
 		if (confirm(this.translate.instant('BEST_TIMES_CLEAR_SURE'))) {
-			this.clearTimes().catch(error => console.error(error));
+			this.clearTimes()
+				.then(() => {
+					this.statsGroups = [];
+				})
+				.catch(error => console.error(error));
 		}
 	}
 
