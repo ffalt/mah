@@ -307,6 +307,11 @@
 		padding-left: 0;
 		padding-right: 0;
 
+		.board {
+			margin-left: 52px;
+			margin-right: 52px;
+		}
+
 		.controls {
 			padding: 0;
 
@@ -361,6 +366,7 @@
 				&.ctrl-time .time {
 					padding-right: 0.3em;
 					min-width: unset;
+					font-size: 0.8em;
 				}
 			}
 		}
