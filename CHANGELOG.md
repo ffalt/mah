@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [1.18.1](https://github.com/ffalt/mah/compare/v1.18.0...v1.18.1) (2026-03-14)
+
+
+### Features
+
+* add game modes section to help component and enhance shortcut display ([f86e75c](https://github.com/ffalt/mah/commit/f86e75c44c4033efee076775be75d3459f980c5e))
+* add statistics display to help component ([501fe1c](https://github.com/ffalt/mah/commit/501fe1c1076a3da87def3177cca0ec87c7ea8e2b))
+* add statistics display to help component ([7bc91f5](https://github.com/ffalt/mah/commit/7bc91f56efbaa4624118b1431b477334f9b6ba46))
+* add statistics display to help component ([8408ef2](https://github.com/ffalt/mah/commit/8408ef2d63a64481508e9bf17a0783de65b41450))
+* enhance help component with game modes and external link support ([2259ef4](https://github.com/ffalt/mah/commit/2259ef44946d77e53956439b01360dae8386b90c))
+
+
+### Bug Fixes
+
+* **board:** hint border for 3D tiles not visible ([6dd954e](https://github.com/ffalt/mah/commit/6dd954e7e539f651ac01cd2242a13d8a4a0d9bb9))
+* **help:** update feature tag styling and adjust layout direction ([997ebbc](https://github.com/ffalt/mah/commit/997ebbc9cce74eeda0c6e29791f07cb248f7d9c2))
+* **layout:** adjust control game direction to column-reverse ([5d18cb1](https://github.com/ffalt/mah/commit/5d18cb1727b4b97ff732f9198d4c6625a6d61568))
+* **layout:** horizontal - adjust board margins and control font size ([bf4f228](https://github.com/ffalt/mah/commit/bf4f228f98ca8f3269e3c9aba43f201c726d0129))
+* **layout:** update expand/collapse icons to use SVG masks ([39bc4b7](https://github.com/ffalt/mah/commit/39bc4b762463bf55ec1cda75bd723cf49cf2bb93))
+* refactor overlay styles and update dialog sizing logic ([4197440](https://github.com/ffalt/mah/commit/4197440bfb2daa381035b3e574f372e60dddaeb7))
+* remove duplicate tutorial welcome benefits in bn.json ([fb30745](https://github.com/ffalt/mah/commit/fb307457b854d2cf5b14d2aa256fb18a185517ce))
+
 ## [1.18.0](https://github.com/ffalt/mah/compare/v1.17.0...v1.18.0) (2026-03-13)
 
 
