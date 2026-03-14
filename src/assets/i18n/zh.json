@@ -20,6 +20,7 @@
 	"MSG_FAIL": "没有更多可匹配的牌了。",
 	"STATS_GAMES": "游戏局数",
 	"STATS_BEST": "最佳时间",
+	"STATS_EMPTY": "还没有完成任何游戏。",
 	"LICENSE": "许可证",
 	"SHORTCUTS": "快捷键",
 	"SETTINGS": "设置",

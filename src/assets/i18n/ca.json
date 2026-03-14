@@ -20,6 +20,7 @@
 	"MSG_FAIL": "No hi ha més fitxes que coincideixin.",
 	"STATS_GAMES": "Nombre de jocs",
 	"STATS_BEST": "Millor temps",
+	"STATS_EMPTY": "Encara no s'ha acabat cap partida.",
 	"LICENSE": "Llicència",
 	"SHORTCUTS": "Dreceres",
 	"SETTINGS": "Configuració",

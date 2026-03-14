@@ -20,6 +20,7 @@
 	"MSG_FAIL": "Eşleşen taş kalmadı.",
 	"STATS_GAMES": "Oyun Sayısı",
 	"STATS_BEST": "En İyi Süre",
+  "STATS_EMPTY": "Henüz hiçbir oyun tamamlanmadı.",
 	"LICENSE": "Lisans",
 	"SHORTCUTS": "Kısayollar",
 	"SETTINGS": "Ayarlar",

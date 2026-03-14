@@ -20,6 +20,7 @@
 	"MSG_FAIL": "Nincs több párosítható kő.",
 	"STATS_GAMES": "Játékok száma",
 	"STATS_BEST": "Legjobb idő",
+  "STATS_EMPTY": "Még nem fejeztél be egyetlen játékot sem.",
 	"LICENSE": "Licenc",
 	"SHORTCUTS": "Gyorsbillentyűk",
 	"SETTINGS": "Beállítások",

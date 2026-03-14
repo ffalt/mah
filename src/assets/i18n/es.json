@@ -20,6 +20,7 @@
 	"MSG_FAIL": "No se pueden hacer movimientos.",
 	"STATS_GAMES": "Nº de partidas",
 	"STATS_BEST": "Record",
+  "STATS_EMPTY": "Aún no se han terminado partidas.",
 	"LICENSE": "Licencia",
 	"SHORTCUTS": "Atajos",
 	"SETTINGS": "Ajustes",

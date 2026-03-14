@@ -26,6 +26,27 @@
 			}
 		</ul>
 	</fieldset>
+	<fieldset class="stats">
+		<legend>{{ 'BEST_TIMES' | translate }}</legend>
+		@if (statsGroups.length === 0) {
+			<p class="stats-empty">{{ 'STATS_EMPTY' | translate }}</p>
+		} @else {
+			<div class="stats-list">
+				@for (group of statsGroups; track group) {
+					<div class="stats-group">
+						<div class="stats-group-name">{{ group.name }}</div>
+						@for (item of group.items; track item) {
+							<div class="stats-item">
+								<span class="stats-name">{{ item.name }}</span>
+								<span class="stats-plays" title="{{ 'STATS_GAMES' | translate }}">{{ item.playCount }}×</span>
+								<span class="stats-time" title="{{ 'STATS_BEST' | translate }}">{{ (item.bestTime ?? 0) | duration }}</span>
+							</div>
+						}
+					</div>
+				}
+			</div>
+		}
+	</fieldset>
 </div>
 <div class="other">
 	<fieldset class="fill">

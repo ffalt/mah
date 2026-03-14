@@ -20,6 +20,7 @@
 	"MSG_FAIL": "Không còn đá ghép nữa.",
 	"STATS_GAMES": "Số Trò Chơi",
 	"STATS_BEST": "Thời Gian Tốt Nhất",
+  "STATS_EMPTY": "Chưa có trò chơi nào được hoàn thành.",
 	"LICENSE": "Giấy Phép",
 	"SHORTCUTS": "Phím Tắt",
 	"SETTINGS": "Cài Đặt",

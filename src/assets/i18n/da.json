@@ -20,6 +20,7 @@
 	"MSG_FAIL": "Ingen flere matchende brikker.",
 	"STATS_GAMES": "Antal spil",
 	"STATS_BEST": "Bedste tid",
+	"STATS_EMPTY": "Ingen spil afsluttet endnu.",
 	"LICENSE": "Licens",
 	"SHORTCUTS": "Genveje",
 	"SETTINGS": "Indstillinger",

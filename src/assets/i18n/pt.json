@@ -20,6 +20,7 @@
 	"MSG_FAIL": "Não há mais peças livres.",
 	"STATS_GAMES": "Número de Jogos",
 	"STATS_BEST": "Melhor tempo",
+  "STATS_EMPTY": "Nenhum jogo concluído ainda.",
 	"LICENSE": "Licença",
 	"SHORTCUTS": "Atalhos",
 	"SETTINGS": "Configurações",

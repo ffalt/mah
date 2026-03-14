@@ -20,6 +20,7 @@
 	"MSG_FAIL": "Nessun'altra tessera corrispondente.",
 	"STATS_GAMES": "Nr. di partite",
 	"STATS_BEST": "Miglior tempo",
+	"STATS_EMPTY": "Nessuna partita completata ancora.",
 	"LICENSE": "Licenza",
 	"SHORTCUTS": "Scorciatoie",
 	"SETTINGS": "Impostazioni",

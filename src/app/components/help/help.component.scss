@@ -74,6 +74,66 @@
 		}
 	}
 
+	.stats {
+		display: flex;
+		flex-direction: column;
+		overflow: hidden;
+
+		.stats-empty {
+			opacity: 0.6;
+			font-size: 0.9em;
+		}
+
+		.stats-list {
+			overflow-y: auto;
+			flex: 1;
+		}
+
+		.stats-group {
+			margin-bottom: 10px;
+		}
+
+		.stats-group-name {
+			font-weight: bold;
+			font-size: 0.8em;
+			text-transform: uppercase;
+			letter-spacing: 0.05em;
+			opacity: 0.6;
+			margin-bottom: 4px;
+			padding-bottom: 2px;
+			border-bottom: 1px solid var(--main-bg-color-lt);
+		}
+
+		.stats-item {
+			display: flex;
+			flex-direction: row;
+			align-items: baseline;
+			padding: 2px 0;
+			gap: 6px;
+			font-size: 0.9em;
+		}
+
+		.stats-name {
+			flex: 1;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+
+		.stats-plays {
+			opacity: 0.6;
+			font-size: 0.85em;
+			white-space: nowrap;
+		}
+
+		.stats-time {
+			font-family: monospace;
+			white-space: nowrap;
+			min-width: 40px;
+			text-align: right;
+		}
+	}
+
 	.modes {
 		.modes-list {
 			padding: 0;
@@ -202,6 +262,10 @@
 			> div {
 				flex: 1;
 			}
+		}
+
+		.stats .stats-list {
+			max-height: 300px;
 		}
 	}
 

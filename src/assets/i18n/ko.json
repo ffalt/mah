@@ -20,6 +20,7 @@
 	"MSG_FAIL": "더 이상 일치하는 타일이 없습니다.",
 	"STATS_GAMES": "게임 수",
 	"STATS_BEST": "최고 기록",
+	"STATS_EMPTY": "아직 완료된 게임이 없습니다.",
 	"LICENSE": "라이선스",
 	"SHORTCUTS": "단축키",
 	"SETTINGS": "설정",

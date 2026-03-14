@@ -20,6 +20,7 @@
 	"MSG_FAIL": "Er zijn geen zetten meer mogelijk.",
 	"STATS_GAMES": "Aantal keer gespeeld",
 	"STATS_BEST": "Record",
+	"STATS_EMPTY": "Nog geen spellen afgerond.",
 	"LICENSE": "Licentie",
 	"SHORTCUTS": "Sneltoetsen",
 	"SETTINGS": "Instellingen",
