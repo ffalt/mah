@@ -137,10 +137,14 @@
 			align-items: center;
 			gap: 8px;
 			width: 100%;
-			margin-bottom: 8px;
 
 			@include mixins.respond-to(small-down) {
 				justify-content: space-around;
+			}
+
+			.tiles-reference {
+				text-align: center;
+				flex: 1;
 			}
 
 			.tiles-select {
@@ -155,16 +159,11 @@
 				flex-direction: row;
 				align-items: center;
 				height: 100%;
-				flex: 1;
 
 				input {
 					margin-right: 6px;
 				}
 			}
-		}
-
-		.tiles-reference {
-			text-align: center;
 		}
 	}
 }

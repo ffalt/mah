@@ -304,8 +304,8 @@
 	@include mixins.respond-to-horizontal-device(pad) {
 		flex-direction: row;
 		position: relative;
-		padding-left: calc(52px + env(safe-area-inset-left));
-		padding-right: calc(52px + env(safe-area-inset-right));
+		padding-left: 0;
+		padding-right: 0;
 
 		.controls {
 			padding: 0;
@@ -334,19 +334,20 @@
 			flex-direction: column;
 			min-width: unset;
 			max-width: 52px;
-			height: calc(100% - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+			height: calc(100svh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
 			position: absolute;
-			left: env(safe-area-inset-left);
+			left: 0;
 			border-bottom: unset;
+			z-index: 1;
 		}
 
 		.controls-bottom {
 			flex-direction: column;
-			min-width: 98px;
-			max-width: 98px;
-			height: calc(100% - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+			min-width: 90px;
+			max-width: 90px;
+			height: calc(100svh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
 			position: absolute;
-			right: env(safe-area-inset-right);
+			right: 0;
 			align-items: flex-end;
 			border-top: unset;
 

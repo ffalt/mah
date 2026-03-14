@@ -1,5 +1,18 @@
 @use "variables";
 
+@mixin fill-screen-safe-area {
+	top: env(safe-area-inset-top);
+	left: env(safe-area-inset-left);
+	right: env(safe-area-inset-right);
+	bottom: env(safe-area-inset-bottom);
+	transform: none;
+	width: auto;
+	height: auto;
+	max-width: none;
+	max-height: none;
+	border-radius: 0;
+}
+
 @mixin respond-to-horizontal-device($device) {
 	@if $device == pad {
 		@media only screen and (width >= 400px) and (height <= 600px) {

@@ -61,38 +61,38 @@
 	</div>
 </div>
 
-<app-dialog #tutorial (clickEvent)="toggleDialogState($event)" className="overlay-tutorial"
+<app-dialog #tutorial (clickEvent)="toggleDialogState($event)" className="overlay-tutorial overlay-size-small"
 						[noCloseButton]="true" [allowCloseOverlay]="false" [title]="app.name">
 	@if (tutorial.visible()) {
 		<app-tutorial (completed)="completeTutorial()"/>
 	}
 </app-dialog>
 
-<app-dialog #help (clickEvent)="toggleDialogState($event)" className="overlay-help" [title]="title">
+<app-dialog #help (clickEvent)="toggleDialogState($event)" className="overlay-help overlay-size-large" [title]="title">
 	@if (help.visible()) {
 		<app-help (showTutorial)="help.toggle(); showTutorial()"/>
 	}
 </app-dialog>
 
-<app-dialog #info (clickEvent)="toggleDialogState($event)" className="overlay-info" [title]="'TILES' | translate">
+<app-dialog #info (clickEvent)="toggleDialogState($event)" className="overlay-info overlay-size-large" [title]="'TILES' | translate">
 	@if (info.visible()) {
 		<app-tiles-info/>
 	}
 </app-dialog>
 
-<app-dialog #settings (clickEvent)="toggleDialogState($event)" className="overlay-settings" [title]="'SETTINGS' | translate">
+<app-dialog #settings (clickEvent)="toggleDialogState($event)" className="overlay-settings overlay-size-medium" [title]="'SETTINGS' | translate">
 	@if (settings.visible()) {
 		<app-settings/>
 	}
 </app-dialog>
 
-<app-dialog #newgame (clickEvent)="toggleDialogState($event)" className="overlay-newgame" [title]="'SELECT_BOARD' | translate">
+<app-dialog #newgame (clickEvent)="toggleDialogState($event)" className="overlay-newgame overlay-size-large" [title]="'SELECT_BOARD' | translate">
 	@if (newgame.visible()) {
 		<app-choose-layout class="choose" (startEvent)="startGame($event)" [gameMode]="game.mode"/>
 	}
 </app-dialog>
 
-<app-dialog (clickEvent)="clickMessage()" [visible]="!!game.message" className="overlay-message" [noCloseButton]="true">
+<app-dialog (clickEvent)="clickMessage()" [visible]="!!game.message" className="overlay-message overlay-size-auto" [noCloseButton]="true">
 	@if (game.message) {
 		<div class="overlay-message-message" (click)="clickMessage()">
 			@if (game.message.messageID) {

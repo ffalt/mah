@@ -604,49 +604,92 @@ p {
 		}
 	}
 
+	// Size classes — applied to the outer .overlay div, target .overlay-popup inside
+
+	&.overlay-size-large {
+		.overlay-popup {
+			width: calc(95svw - env(safe-area-inset-left) - env(safe-area-inset-right));
+			height: calc(90svh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+			max-width: min(1400px, calc(100% - env(safe-area-inset-left) - env(safe-area-inset-right)));
+
+			@include mixins.respond-to-horizontal-device(pad) {
+				@include mixins.fill-screen-safe-area;
+			}
+
+			@include mixins.respond-to(small-down) {
+				@include mixins.fill-screen-safe-area;
+			}
+		}
+	}
+
+	&.overlay-size-medium {
+		.overlay-popup {
+			width: calc(90% - env(safe-area-inset-left) - env(safe-area-inset-right));
+			max-width: 860px;
+			min-height: 640px;
+			max-height: calc(80svh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+
+			@include mixins.respond-to-height(medium-down) {
+				min-height: calc(100svh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+				max-height: calc(100svh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+			}
+
+			@include mixins.respond-to(medium-down) {
+				width: calc(100% - env(safe-area-inset-left) - env(safe-area-inset-right));
+				max-width: none;
+			}
+
+			@include mixins.respond-to-horizontal-device(pad) {
+				@include mixins.fill-screen-safe-area;
+				min-height: 0;
+			}
+
+			@include mixins.respond-to(small-down) {
+				@include mixins.fill-screen-safe-area;
+				min-height: 0;
+			}
+		}
+	}
+
+	&.overlay-size-small {
+		.overlay-popup {
+			width: calc(90% - env(safe-area-inset-left) - env(safe-area-inset-right));
+			max-width: 800px;
+			height: calc(80svh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+			max-height: 600px;
+
+			@include mixins.respond-to-horizontal-device(pad) {
+				@include mixins.fill-screen-safe-area;
+			}
+
+			@include mixins.respond-to(small-down) {
+				@include mixins.fill-screen-safe-area;
+			}
+		}
+	}
+
+	&.overlay-size-auto {
+		.overlay-popup {
+			max-width: calc(100% - env(safe-area-inset-left) - env(safe-area-inset-right));
+			max-height: calc(100svh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+		}
+	}
+
+	// Per-dialog variants — z-index and behavior only, no sizing
+
 	&.overlay-info {
 		z-index: 10010;
-
-		.overlay-popup {
-			width: 90%;
-			height: 90%;
-		}
 	}
 
 	&.overlay-settings {
 		z-index: 10010;
-
-		.overlay-popup {
-			width: 100%;
-			min-height: 640px;
-			max-height: 80svh;
-			min-width: 860px;
-			max-width: 860px;
-
-			@include mixins.respond-to-height(medium-down) {
-				min-height: 100svh;
-				max-height: 100svh;
-			}
-
-			@include mixins.respond-to(large-down) {
-				min-width: 700px;
-				max-width: 700px;
-			}
-
-			@include mixins.respond-to(medium-down) {
-				min-width: 100%;
-			}
-		}
 	}
 
 	&.overlay-newgame {
 		z-index: 10010;
 
 		.overlay-popup {
-			width: 98%;
-			height: 98%;
 			overflow: hidden;
-			max-width: 1400px;
 
 			@include mixins.respond-to-height(small-down) {
 				padding: 10px;
@@ -680,13 +723,6 @@ p {
 	&.overlay-tutorial {
 		z-index: 10020;
 
-		.overlay-popup {
-			width: 90%;
-			max-width: 800px;
-			height: 80%;
-			max-height: 600px;
-		}
-
 		@include mixins.respond-to-height(tiny-down) {
 			.dialog-header {
 				display: none;
@@ -696,12 +732,6 @@ p {
 
 	&.overlay-help {
 		z-index: 10010;
-
-		.overlay-popup {
-			max-height: 90%;
-			width: 90%;
-			max-width: 1200px;
-		}
 	}
 }
 

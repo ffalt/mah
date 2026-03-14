@@ -33,12 +33,12 @@
 			</select>
 		</div>
 		<label><input type="checkbox" [checked]="isDark" (change)="isDark = !isDark;">{{ 'TILES_DARK' | translate }}</label>
+		<div class="tiles-reference">
+			<a (click)="clickExternalHref($event)" rel="noopener" target="_blank" href="{{'READ_MORE_WIKIPEDIA_URL' | translate}}">{{ 'READ_MORE_WIKIPEDIA' | translate }}</a>
+		</div>
 		<button type="button"
 						[disabled]="!selectedSet || ((selectedSet.id === app.settings.tileset) && (isDark === app.settings.dark))"
 						(click)="applyTileset()">{{ 'USE_NOW' | translate }}
 		</button>
 	</form>
-	<div class="tiles-reference">
-		<a (click)="clickExternalHref($event)" rel="noopener" target="_blank" href="{{'READ_MORE_WIKIPEDIA_URL' | translate}}">{{ 'READ_MORE_WIKIPEDIA' | translate }}</a>
-	</div>
 </div>
