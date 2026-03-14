@@ -173,7 +173,7 @@ describe('HelpComponent', () => {
 			};
 			jest.spyOn(localstorageService, 'getScore').mockReturnValue({ playCount: 1, bestTime: 100 });
 
-			(component as unknown as { statsGroups: undefined }).statsGroups = undefined;
+			component.ngAfterViewInit();
 			fixture.detectChanges();
 		});
 
