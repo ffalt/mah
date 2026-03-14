@@ -159,7 +159,7 @@
 			}
 
 			.feature-tag {
-				background: var(--main-bg-color-lt);
+				border: 1px solid var(--main-bg-color-lt);
 				padding: 1px 6px;
 				border-radius: 4px;
 				font-size: 0.85em;
@@ -256,7 +256,7 @@
 
 		.top {
 			display: flex;
-			flex-direction: row;
+			flex-direction: column;
 			flex-wrap: wrap;
 
 			> div {
