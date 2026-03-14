@@ -209,7 +209,6 @@ export class BoardComponent implements OnInit, OnChanges {
 		this.touchPoints = [];
 		this.hasTouchPanMoved = false;
 		this.hasPinchChanged = false;
-		// eslint-disable-next-line unicorn/prefer-spread
 		const touches = Array.from(event.touches);
 		for (const touch of touches) {
 			this.touchPoints.push({
@@ -244,7 +243,6 @@ export class BoardComponent implements OnInit, OnChanges {
 	onTouchMove(event: TouchEvent): void {
 		event.preventDefault();
 		this.touchPoints = [];
-		// eslint-disable-next-line unicorn/prefer-spread
 		const touches = Array.from(event.touches);
 		for (const touch of touches) {
 			this.touchPoints.push({
@@ -302,13 +300,11 @@ export class BoardComponent implements OnInit, OnChanges {
 			if (indicator) {
 				this.indicators.hide(indicator);
 			}
-			// eslint-disable-next-line unicorn/prefer-spread
 			const remaining = Array.from(event.touches).map(t => ({
 				x: t.clientX,
 				y: t.clientY,
 				identifier: t.identifier
 			}));
-			// eslint-disable-next-line unicorn/prefer-spread
 			const changed = Array.from(event.changedTouches).map(t => ({
 				x: t.clientX,
 				y: t.clientY,
@@ -343,7 +339,6 @@ export class BoardComponent implements OnInit, OnChanges {
 		}
 
 		this.touchPoints = [];
-		// eslint-disable-next-line unicorn/prefer-spread
 		const touches = Array.from(event.touches);
 		for (const touch of touches) {
 			this.touchPoints.push({

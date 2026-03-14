@@ -20,7 +20,6 @@ export class ImportComponent {
 		const element = event.currentTarget as HTMLInputElement;
 		const fileList: FileList | null = element.files;
 		if (fileList) {
-			// eslint-disable-next-line unicorn/prefer-spread
 			this.importFiles(Array.from(fileList));
 		}
 	}

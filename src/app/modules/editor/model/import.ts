@@ -88,7 +88,6 @@ export async function convertKmahjongg(data: string, filename: string): Promise<
 		return layout;
 	}
 	if (['kmahjongg-layout-v1.1'].includes(version)) {
-		// eslint-disable-next-line unicorn/prefer-spread
 		const h = Number((lines.find(line => line.startsWith('h')) ?? 'h16').split('').slice().join(''));
 		const name = (lines.find(line => line.startsWith('# name:')) ?? '').slice(7).trim();
 		layout.name = name ?? layout.name;
