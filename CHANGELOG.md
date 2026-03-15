@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [1.18.2](https://github.com/ffalt/mah/compare/v1.18.1...v1.18.2) (2026-03-15)
+
+
+### Features
+
+* **settings:** add TilePreviewComponent for enhanced tile settings visualization ([408acb5](https://github.com/ffalt/mah/commit/408acb5b521a7e5b1db0787f156bf1b01d6c90b8))
+* **stats:** store win/lose stats and display in help dialog ([5b79319](https://github.com/ffalt/mah/commit/5b793192f9bff8aaaa22d7dc6a2ff4e53147e0b8))
+* **tiles:** introduce TilesetDefsComponent for shared SVG definitions and update tile component to utilize shared prefix ([55c3439](https://github.com/ffalt/mah/commit/55c34393e3199ddd62f45ed516cab4b1e1f5db93))
+
+
+### Bug Fixes
+
+* **help:** change lifecycle hook from ngAfterViewInit to ngOnInit for statsGroups initialization ([e9d23b6](https://github.com/ffalt/mah/commit/e9d23b6bcc1793cbc7e37bcd5ddd5483eb932eeb))
+* **i18n:** update READ_MORE_WIKIPEDIA_URL for multiple languages to point to the correct Mahjong tiles page ([08f686c](https://github.com/ffalt/mah/commit/08f686c9eef05817a720184f8463ac95c607990b))
+* **image-set-loader:** update spinner position based on image set type ([4f56f28](https://github.com/ffalt/mah/commit/4f56f28b6b12db7daad5ed11fd53201458b58f72))
+* **settings:** checkboxes on small screens ([d6edf5e](https://github.com/ffalt/mah/commit/d6edf5efe813ab9b5b3ab56bcfd781270526b40a))
+* **settings:** update language radios responsive mixin breakpoint from small-down to tiny-down ([ef663d8](https://github.com/ffalt/mah/commit/ef663d854c57999e69c18e2a9caeffbde95b323c))
+* **svg:** refactor svg_spinner_icon to a function for dynamic color ([68fc030](https://github.com/ffalt/mah/commit/68fc0309d688ac9beef426774d2417105f2b1521))
+
 ## [1.18.1](https://github.com/ffalt/mah/compare/v1.18.0...v1.18.1) (2026-03-14)
 
 
