@@ -406,13 +406,6 @@ p {
 		margin: 0;
 		padding: 0;
 
-		@include mixins.respond-to(tiny-down) {
-			width: 22px;
-			height: 22px;
-			min-width: 22px;
-			min-height: 22px;
-		}
-
 		&:focus-visible {
 			border-color: var(--gesture-indicator);
 			outline: 2px solid var(--gesture-indicator);
@@ -467,6 +460,17 @@ p {
 			border-radius: 50%;
 			transform: translate(-50%, -50%);
 			animation: radio-pop 200ms cubic-bezier(0.34, 1.56, 0.64, 1);
+		}
+
+		@include mixins.respond-to(tiny-down) {
+			width: 22px;
+			height: 22px;
+			min-width: 22px;
+			min-height: 22px;
+			&[type="checkbox"]:checked::after {
+				left: 7px;
+				top: 4px;
+			}
 		}
 	}
 

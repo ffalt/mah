@@ -147,6 +147,14 @@
 			ul {
 				flex: 1;
 			}
+
+			@include mixins.respond-to(femto-down) {
+				flex-direction: column;
+
+				ul {
+					width: 100%;
+				}
+			}
 		}
 
 		.button-group {
