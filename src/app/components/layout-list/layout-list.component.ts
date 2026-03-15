@@ -141,7 +141,7 @@ export class LayoutListComponent implements OnInit, OnChanges {
 				groups.push(g[layout.category]);
 			}
 			const score = this.storage.getScore(layout.id) || {};
-			g[layout.category].layouts.push({ layout, playCount: score.playCount, bestTime: score.bestTime, visible: false });
+			g[layout.category].layouts.push({ layout, playCount: (score.winCount ?? 0) + (score.loseCount ?? 0), bestTime: score.bestTime, visible: false });
 		}
 		groups.push(this.randomGroup);
 		this.groups = groups;

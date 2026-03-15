@@ -28,6 +28,7 @@
 	}
 
 	.other {
+		flex: 1;
 		display: flex;
 		flex-direction: column;
 		gap: 8px;
@@ -77,7 +78,29 @@
 	.stats {
 		display: flex;
 		flex-direction: column;
-		overflow: hidden;
+
+		.stats-total-list {
+			padding: 0;
+			list-style: none;
+
+			li {
+				display: flex;
+				flex-direction: row;
+				align-items: baseline;
+				margin-bottom: 6px;
+			}
+
+			.stats-name {
+				min-width: 40%;
+				max-width: 40%;
+				font-weight: bold;
+			}
+
+			.stats-desc {
+				font-size: 0.9em;
+				opacity: 0.8;
+			}
+		}
 
 		.stats-empty {
 			opacity: 0.6;
@@ -85,52 +108,41 @@
 		}
 
 		.stats-list {
-			overflow-y: auto;
+			display: block;
+			overflow: auto;
 			flex: 1;
-		}
-
-		.stats-group {
-			margin-bottom: 10px;
-		}
-
-		.stats-group-name {
-			font-weight: bold;
-			font-size: 0.8em;
-			text-transform: uppercase;
-			letter-spacing: 0.05em;
-			opacity: 0.6;
-			margin-bottom: 4px;
-			padding-bottom: 2px;
-			border-bottom: 1px solid var(--main-bg-color-lt);
-		}
-
-		.stats-item {
-			display: flex;
-			flex-direction: row;
-			align-items: baseline;
-			padding: 2px 0;
-			gap: 6px;
+			border-collapse: collapse;
 			font-size: 0.9em;
+			max-height: 400px;
+			margin-bottom: 8px;
+
+			table {
+				width: 100%;
+
+				thead {
+					position: sticky;
+					top: 0;
+					background: var(--main-bg-color);
+
+					th {
+						text-align: left;
+						padding: 4px 6px 4px 0;
+						font-weight: bold;
+						white-space: nowrap;
+					}
+				}
+
+				td {
+					padding: 2px 6px 2px 0;
+				}
+			}
 		}
 
 		.stats-name {
-			flex: 1;
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
-		}
-
-		.stats-plays {
-			opacity: 0.6;
-			font-size: 0.85em;
-			white-space: nowrap;
-		}
-
-		.stats-time {
-			font-family: monospace;
-			white-space: nowrap;
-			min-width: 40px;
-			text-align: right;
+			max-width: 200px;
 		}
 	}
 
@@ -241,7 +253,7 @@
 				text-align: center;
 			}
 
-			@include mixins.respond-to(medium-down) {
+			@include mixins.respond-to(small-down) {
 				columns: 1;
 			}
 		}
@@ -288,6 +300,10 @@
 				min-width: 100%;
 				max-width: 100%;
 			}
+		}
+
+		.stats .stats-list {
+			max-height: unset;
 		}
 	}
 }

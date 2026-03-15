@@ -26,65 +26,8 @@
 			}
 		</ul>
 	</fieldset>
-	<fieldset class="stats">
-		<legend>{{ 'BEST_TIMES' | translate }}</legend>
-		@if (statsGroups.length === 0) {
-			<p class="stats-empty">{{ 'STATS_EMPTY' | translate }}</p>
-		} @else {
-			<div class="stats-list">
-				@for (group of statsGroups; track group) {
-					<div class="stats-group">
-						<div class="stats-group-name">{{ group.name }}</div>
-						@for (item of group.items; track item) {
-							<div class="stats-item">
-								<span class="stats-name">{{ item.name }}</span>
-								<span class="stats-plays" title="{{ 'STATS_GAMES' | translate }}">{{ item.playCount }}×</span>
-								<span class="stats-time" title="{{ 'STATS_BEST' | translate }}">{{ (item.bestTime ?? 0) | duration }}</span>
-							</div>
-						}
-					</div>
-				}
-			</div>
-			<div class="button-group">
-				<button class="clear-times" (click)="clearTimesClick()" aria-label="{{ 'BEST_TIMES_CLEAR' | translate }}">
-					{{ 'BEST_TIMES_CLEAR' | translate }}
-				</button>
-			</div>
-		}
-	</fieldset>
 </div>
 <div class="other">
-	<fieldset class="fill">
-		<legend>{{ 'BOARD_GENERATOR' | translate }}</legend>
-		<ul class="fill-list">
-			<li>
-				<span class="fill-name">{{ 'MODE_SOLVABLE' | translate }}</span>
-				<span class="fill-desc">{{ 'MODE_SOLVABLE_DESC' | translate }}</span>
-			</li>
-			<li>
-				<span class="fill-name">{{ 'MODE_RANDOM' | translate }}</span>
-				<span class="fill-desc">{{ 'MODE_RANDOM_DESC' | translate }}</span>
-			</li>
-		</ul>
-	</fieldset>
-	<fieldset class="modes">
-		<legend>{{ 'GAME_MODE' | translate }}</legend>
-		<ul class="modes-list">
-			@for (mode of gameModes; track mode) {
-				<li>
-					<span class="mode-name">{{ mode.id | translate }}</span>
-					<span class="mode-features">
-						@for (feature of mode.features; track feature) {
-							<span class="feature-tag">{{ feature.title | translate }}</span>
-						}
-						@if (mode.features.length === 0) {
-							<span class="mode-none">–</span>
-						}
-					</span>
-				</li>
-			}
-		</ul>
-	</fieldset>
 	<fieldset class="license">
 		<legend>{{ 'LICENSE' | translate }}</legend>
 		<div class="license-list">
@@ -113,5 +56,51 @@
 				<div class="info"><a (click)="clickExternalHref($event)" rel="noopener" target="_blank" href="https://github.com/ffalt/mah/blob/main/src/assets/patterns/README.md">MIT</a></div>
 			</div>
 		</div>
+	</fieldset>
+	<fieldset class="stats">
+		<legend>{{ 'STATS' | translate }}</legend>
+		@if (stats.items.length === 0) {
+			<p class="stats-empty">{{ 'STATS_EMPTY' | translate }}</p>
+		} @else {
+			<ul class="stats-total-list">
+				<li>
+					<span class="stats-name">{{ 'STATS_WIN_GAMES' | translate }}</span>
+					<span class="stats-desc">{{ stats.winCount }}×</span>
+				</li>
+				<li>
+					<span class="stats-name">{{ 'STATS_LOSE_GAMES' | translate }}</span>
+					<span class="stats-desc">{{ stats.loseCount }}×</span>
+				</li>
+			</ul>
+			<div class="stats-list">
+			<table>
+				<thead>
+				<tr>
+					<th class="stats-name">{{ 'STATS_NAME' | translate }}</th>
+					<th class="stats-plays-win">{{ 'STATS_WIN_GAMES' | translate }}</th>
+					<th class="stats-plays-lose">{{ 'STATS_LOSE_GAMES' | translate }}</th>
+					<th class="stats-time-best">{{ 'STATS_BEST' | translate }}</th>
+					<th class="stats-time-avg">{{ 'STATS_AVERAGE' | translate }}</th>
+				</tr>
+				</thead>
+				<tbody>
+					@for (item of stats.items; track item) {
+						<tr class="stats-item">
+							<td class="stats-name">{{ item.name }}</td>
+							<td class="stats-plays-win">{{ item.winCount }}×</td>
+							<td class="stats-plays-lose">{{ item.loseCount }}×</td>
+							<td class="stats-time-best">{{ (item.bestTime ?? 0) | duration }}</td>
+							<td class="stats-time-avg">{{ (item.averageTime ?? 0) | duration }}</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+			</div>
+			<div class="button-group">
+				<button class="clear-times" (click)="clearTimesClick()" aria-label="{{ 'BEST_TIMES_CLEAR' | translate }}">
+					{{ 'BEST_TIMES_CLEAR' | translate }}
+				</button>
+			</div>
+		}
 	</fieldset>
 </div>

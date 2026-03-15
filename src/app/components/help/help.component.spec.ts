@@ -5,6 +5,7 @@ import { HelpComponent } from './help.component';
 import { By } from '@angular/platform-browser';
 import { LayoutService } from '../../service/layout.service';
 import { LocalstorageService } from '../../service/localstorage.service';
+import type { LayoutScoreStore } from '../../model/types';
 
 describe('HelpComponent', () => {
 	let component: HelpComponent;
@@ -74,7 +75,7 @@ describe('HelpComponent', () => {
 		const shortcutItems = fixture.debugElement.queryAll(By.css('.keyboard-list li'));
 		expect(shortcutItems).toHaveLength(component.shortcuts.length);
 
-		// Check first shortcut
+		// Check the first shortcut
 		const firstShortcut = shortcutItems[0];
 		const keyElement = firstShortcut.query(By.css('.key'));
 		expect(keyElement.nativeElement.textContent).toBe('T');
@@ -171,7 +172,8 @@ describe('HelpComponent', () => {
 					mapping: []
 				}]
 			};
-			jest.spyOn(localstorageService, 'getScore').mockReturnValue({ playCount: 1, bestTime: 100 });
+			const mockResult: LayoutScoreStore = { winCount: 1, loseCount: 1, bestTime: 100, playTime: 200 };
+			jest.spyOn(localstorageService, 'getScore').mockReturnValue(mockResult);
 
 			component.ngOnInit();
 			fixture.detectChanges();

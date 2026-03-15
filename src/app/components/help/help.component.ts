@@ -1,20 +1,22 @@
-import { Component, inject, output, AfterViewInit, type OnInit } from '@angular/core';
+import { Component, inject, output, type OnInit } from '@angular/core';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { clickExternalHref } from '../../model/external-links';
-import { GameModes } from '../../model/consts';
 import { DurationPipe } from '../../pipes/duration.pipe';
 import { LayoutService } from '../../service/layout.service';
 import { LocalstorageService } from '../../service/localstorage.service';
 
 interface StatEntry {
 	name: string;
-	playCount: number;
+	winCount?: number;
+	loseCount?: number;
 	bestTime?: number;
+	averageTime?: number;
 }
 
-interface StatGroup {
-	name: string;
+interface Stat {
 	items: Array<StatEntry>;
+	winCount: number;
+	loseCount: number;
 }
 
 @Component({
@@ -25,8 +27,11 @@ interface StatGroup {
 })
 export class HelpComponent implements OnInit {
 	readonly showTutorial = output();
-	readonly gameModes = GameModes;
-	statsGroups: Array<StatGroup> = [];
+	stats: Stat = {
+		items: [],
+		winCount: 0,
+		loseCount: 0
+	};
 
 	private readonly layoutService = inject(LayoutService);
 	private readonly storage = inject(LocalstorageService);
@@ -44,24 +49,31 @@ export class HelpComponent implements OnInit {
 	];
 
 	ngOnInit(): void {
-		this.statsGroups = this.buildStatsGroups();
+		this.stats = this.buildStats();
 	}
 
-	private buildStatsGroups(): Array<StatGroup> {
-		const groups = new Map<string, StatGroup>();
+	private buildStats(): Stat {
+		const items = new Array<StatEntry>();
+		let winCount = 0;
+		let loseCount = 0;
 		for (const layout of this.layoutService.layouts.items) {
 			const score = this.storage.getScore(layout.id);
-			if (!score?.playCount) {
+			if (!score) {
 				continue;
 			}
-			let group = groups.get(layout.category);
-			if (!group) {
-				group = { name: layout.category, items: [] };
-				groups.set(layout.category, group);
-			}
-			group.items.push({ name: layout.name, playCount: score.playCount, bestTime: score.bestTime });
+			winCount += score.winCount ?? 0;
+			loseCount += score.loseCount ?? 0;
+			items.push(
+				{
+					name: layout.name,
+					winCount: score.winCount,
+					loseCount: score.loseCount,
+					bestTime: score.bestTime,
+					averageTime: score.playTime && score.winCount && score.winCount > 0 ? (score.playTime / score.winCount) : undefined
+				}
+			);
 		}
-		return Array.from(groups.values());
+		return { winCount, loseCount, items };
 	}
 
 	async clearTimes(): Promise<void> {
@@ -75,7 +87,11 @@ export class HelpComponent implements OnInit {
 		if (confirm(this.translate.instant('BEST_TIMES_CLEAR_SURE'))) {
 			this.clearTimes()
 				.then(() => {
-					this.statsGroups = [];
+					this.stats = {
+						items: [],
+						winCount: 0,
+						loseCount: 0
+					};
 				})
 				.catch(error => console.error(error));
 		}

@@ -51,8 +51,10 @@ export interface Layouts {
 }
 
 export interface LayoutScoreStore {
-	playCount?: number;
+	loseCount?: number;
+	winCount?: number;
 	bestTime?: number;
+	playTime?: number;
 }
 
 export interface StorageProvider {

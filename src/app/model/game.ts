@@ -241,12 +241,13 @@ export class Game {
 	}
 
 	private storeLostGame(): void {
-		if (this.isStorableLayoutId()) {
-			const id = this.layoutID ?? 'unknown';
-			const score = this.storage.getScore(id) ?? {};
-			score.playCount = (score.playCount ?? 0) + 1;
-			this.storage.storeScore(id, score);
+		if (!this.isStorableLayoutId()) {
+			return;
 		}
+		const id = this.layoutID ?? 'unknown';
+		const score = this.storage.getScore(id) ?? {};
+		score.loseCount = (score.loseCount ?? 0) + 1;
+		this.storage.storeScore(id, score);
 	}
 
 	private gameOverLosing(): void {
@@ -259,11 +260,13 @@ export class Game {
 		const playTime = this.clock.elapsed;
 		if (!this.isStorableLayoutId()) {
 			this.gameOver('MSG_GOOD', playTime);
+			this.sound.play(SOUNDS.WIN);
 			return;
 		}
 		const id = this.layoutID ?? 'unknown';
 		const score = this.storage.getScore(id) ?? {};
-		score.playCount = (score.playCount ?? 0) + 1;
+		score.winCount = (score.winCount ?? 0) + 1;
+		score.playTime = (score.playTime ?? 0) + playTime;
 		if (!score.bestTime || score.bestTime > playTime) {
 			score.bestTime = playTime;
 			this.gameOver('MSG_BEST', playTime);
