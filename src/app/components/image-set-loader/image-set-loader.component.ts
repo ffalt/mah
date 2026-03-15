@@ -1,7 +1,7 @@
 import { Component, ElementRef, type OnChanges, type SimpleChanges, inject, input } from '@angular/core';
 import { SvgdefService } from '../../service/svgdef.service';
 import { TILES } from '../../model/consts';
-import { svg_error_icon, svg_spinner_icon } from './svg';
+import { svg_error_icon, svgSpinnerIcon } from './svg';
 
 @Component({
 	selector: '[app-image-set-loader]',
@@ -20,10 +20,10 @@ export class ImageSetLoaderComponent implements OnChanges {
 	}
 
 	private setLoading(): void {
-		const sl: Array<string> = [svg_spinner_icon];
+		const sl: Array<string> = [svgSpinnerIcon(this.dark())];
 		for (const row of TILES) {
 			for (const id of row) {
-				sl.push(`<svg id="${id}" width="75" height="100"><use xlink:href="#mah-tile-spinner" transform="translate(26,42)"></use></svg>`);
+				sl.push(`<svg id="${id}" width="75" height="100"><use xlink:href="#mah-tile-spinner" transform="translate(20,36)"></use></svg>`);
 			}
 		}
 		this.setImageSet(`<svg><defs>${sl.join('')}</defs></svg>`);
