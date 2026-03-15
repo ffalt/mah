@@ -41,7 +41,6 @@
 			gap: 6px;
 			height: 40px;
 			min-height: 40px;
-			line-height: 40px;
 			align-items: center;
 			border-radius: 6px;
 			transition: background-color 0.15s ease;
@@ -137,6 +136,16 @@
 				span {
 					font-size: 0.95em;
 				}
+			}
+		}
+
+		.tile-preview-row {
+			display: flex;
+			align-items: center;
+			gap: 12px;
+
+			ul {
+				flex: 1;
 			}
 		}
 

@@ -6,6 +6,7 @@ import { LANGUAGES } from '../../model/languages';
 import { KyodaiTileSets } from '../../model/tilesets';
 import { environment } from '../../../environments/environment';
 import { LicenseLinkComponent } from '../license-link/license-link.component';
+import { TilePreviewComponent } from '../tile-preview/tile-preview.component';
 import { generatePatternList } from '../../service/pattern.service';
 
 const SETTINGS_TABS = [
@@ -19,7 +20,7 @@ const SETTINGS_TABS = [
 	selector: 'app-settings',
 	templateUrl: './settings.component.html',
 	styleUrls: ['./settings.component.scss'],
-	imports: [TranslatePipe, LicenseLinkComponent],
+	imports: [TranslatePipe, LicenseLinkComponent, TilePreviewComponent],
 	host: {
 		'(scroll)': 'onScroll($event)'
 	}

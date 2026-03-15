@@ -101,38 +101,41 @@
 
 		<fieldset>
 			<legend id="tiles-legend">{{ 'TILES' | translate }}</legend>
-			<ul class="checks" role="group" aria-labelledby="tiles-legend">
-				<li>
-					<label class="check">
-						<input type="checkbox"
-									 [checked]="app.settings.tile3d"
-									 (change)="app.settings.tile3d = !app.settings.tile3d;app.settings.save();"
-									 aria-label="{{ 'TILES_3D' | translate }}"
-						>
-						<span>{{ 'TILES_3D' | translate }}</span>
-					</label>
-				</li>
-				<li>
-					<label class="check">
-						<input type="checkbox"
-									 [checked]="app.settings.contrast"
-									 (change)="app.settings.contrast = !app.settings.contrast;app.settings.save();"
-									 aria-label="{{ 'HIGHER_CONTRAST' | translate }}"
-						>
-						<span>{{ 'HIGHER_CONTRAST' | translate }}</span>
-					</label>
-				</li>
-				<li>
-					<label class="check">
-						<input type="checkbox"
-									 [checked]="app.settings.dark"
-									 (change)="app.settings.dark = !app.settings.dark;app.settings.save();"
-									 aria-label="{{ 'TILES_DARK' | translate }}"
-						>
-						<span>{{ 'TILES_DARK' | translate }}</span>
-					</label>
-				</li>
-			</ul>
+			<div class="tile-preview-row">
+				<ul class="checks" role="group" aria-labelledby="tiles-legend">
+					<li>
+						<label class="check">
+							<input type="checkbox"
+										 [checked]="app.settings.tile3d"
+										 (change)="app.settings.tile3d = !app.settings.tile3d;app.settings.save();"
+										 aria-label="{{ 'TILES_3D' | translate }}"
+							>
+							<span>{{ 'TILES_3D' | translate }}</span>
+						</label>
+					</li>
+					<li>
+						<label class="check">
+							<input type="checkbox"
+										 [checked]="app.settings.contrast"
+										 (change)="app.settings.contrast = !app.settings.contrast;app.settings.save();"
+										 aria-label="{{ 'HIGHER_CONTRAST' | translate }}"
+							>
+							<span>{{ 'HIGHER_CONTRAST' | translate }}</span>
+						</label>
+					</li>
+					<li>
+						<label class="check">
+							<input type="checkbox"
+										 [checked]="app.settings.dark"
+										 (change)="app.settings.dark = !app.settings.dark;app.settings.save();"
+										 aria-label="{{ 'TILES_DARK' | translate }}"
+							>
+							<span>{{ 'TILES_DARK' | translate }}</span>
+						</label>
+					</li>
+				</ul>
+				<app-tile-preview [tile]="'t_dr_red'"/>
+			</div>
 		</fieldset>
 	</section>
 
