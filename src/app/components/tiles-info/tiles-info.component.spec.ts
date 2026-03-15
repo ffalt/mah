@@ -100,6 +100,11 @@ describe('TilesInfoComponent', () => {
 			const link = fixture.debugElement.query(By.css('.tiles-reference a'));
 			expect(link).toBeTruthy();
 		});
+
+		it('should render a single shared tileset-defs component', () => {
+			const tilesetDefs = fixture.debugElement.queryAll(By.css('app-tileset-defs'));
+			expect(tilesetDefs).toHaveLength(1);
+		});
 	});
 
 	describe('Component interactions', () => {

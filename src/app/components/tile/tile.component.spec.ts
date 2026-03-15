@@ -140,5 +140,24 @@ describe('TileComponent', () => {
 			expect(defsElement.componentInstance.dark()).toBe(true);
 			expect(defsElement.componentInstance.prefix()).toBe('t_classic_5_');
 		});
+
+		it('should not render image-set-loader when sharedPrefix is set', () => {
+			fixture.componentRef.setInput('tile', 't_do1');
+			fixture.componentRef.setInput('sharedPrefix', 'shared_');
+			fixture.detectChanges();
+
+			const defsElement = fixture.debugElement.query(By.css('svg defs'));
+			expect(defsElement).toBeFalsy();
+		});
+
+		it('should use sharedPrefix in use element href when sharedPrefix is set', () => {
+			fixture.componentRef.setInput('tile', 't_do1');
+			fixture.componentRef.setInput('sharedPrefix', 'shared_');
+			fixture.detectChanges();
+
+			const useElement = fixture.debugElement.query(By.css('svg use'));
+			expect(useElement).toBeTruthy();
+			expect(useElement.attributes['xlink:href']).toBe('#shared_t_do1');
+		});
 	});
 });

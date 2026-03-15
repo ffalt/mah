@@ -1,3 +1,4 @@
+<app-tileset-defs [imageSet]="tileset" [kyodaiUrl]="kyodaiUrl" [isDark]="isDark"></app-tileset-defs>
 <div class="tiles-content">
 	@for (suit of TILES_INFOS; track suit) {
 		@for (group of suit.groups; track group) {
@@ -7,7 +8,7 @@
 					@for (tile of group.tiles; track tile; let i = $index) {
 						<div class="tile">
 							<div>
-								<app-tile [tile]="tile" [imageSet]="tileset" [kyodaiUrl]="kyodaiUrl" [index]="i" [isDark]="isDark"></app-tile>
+								<app-tile [tile]="tile" [sharedPrefix]="'shared_'" [isDark]="isDark"></app-tile>
 							</div>
 							<div [innerHTML]="tile | translate"></div>
 						</div>

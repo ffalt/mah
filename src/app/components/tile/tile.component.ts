@@ -14,4 +14,5 @@ export class TileComponent {
 	readonly tile = input.required<string>();
 	readonly index = input<number>();
 	readonly isDark = input<boolean>(false);
+	readonly sharedPrefix = input<string>();
 }

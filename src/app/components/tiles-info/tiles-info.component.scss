@@ -138,13 +138,19 @@
 			gap: 8px;
 			width: 100%;
 
-			@include mixins.respond-to(small-down) {
-				justify-content: space-around;
-			}
-
 			.tiles-reference {
 				text-align: center;
 				flex: 1;
+			}
+
+			@include mixins.respond-to(small-down) {
+				justify-content: space-around;
+
+				.tiles-reference {
+					order: 10;
+					min-width: 50%;
+					font-size: 0.9em;
+				}
 			}
 
 			.tiles-select {

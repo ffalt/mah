@@ -5,13 +5,14 @@ import { TileComponent } from '../tile/tile.component';
 import { TranslatePipe } from '@ngx-translate/core';
 import { environment } from '../../../environments/environment';
 import { LicenseLinkComponent } from '../license-link/license-link.component';
+import { TilesetDefsComponent } from '../tileset-defs/tileset-defs.component';
 import { clickExternalHref } from '../../model/external-links';
 
 @Component({
 	selector: 'app-tiles-info',
 	templateUrl: './tiles-info.component.html',
 	styleUrls: ['./tiles-info.component.scss'],
-	imports: [TileComponent, TranslatePipe, LicenseLinkComponent]
+	imports: [TileComponent, TranslatePipe, LicenseLinkComponent, TilesetDefsComponent]
 })
 export class TilesInfoComponent {
 	TILES_INFOS = TILES_INFOS;
