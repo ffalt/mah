@@ -271,7 +271,7 @@
 				columns: 2;
 			}
 
-			@include mixins.respond-to(small-down) {
+			@include mixins.respond-to(tiny-down) {
 				columns: 1;
 			}
 		}
