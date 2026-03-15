@@ -21,9 +21,10 @@ export class ImageSetLoaderComponent implements OnChanges {
 
 	private setLoading(): void {
 		const sl: Array<string> = [svgSpinnerIcon(this.dark())];
+		const translate = this.imageSet() === 'kyodai' ? 'translate(25.5,38)' : 'translate(20,36)';
 		for (const row of TILES) {
 			for (const id of row) {
-				sl.push(`<svg id="${id}" width="75" height="100"><use xlink:href="#mah-tile-spinner" transform="translate(20,36)"></use></svg>`);
+				sl.push(`<svg id="${id}" width="75" height="100"><use xlink:href="#mah-tile-spinner" transform="${translate}"></use></svg>`);
 			}
 		}
 		this.setImageSet(`<svg><defs>${sl.join('')}</defs></svg>`);
