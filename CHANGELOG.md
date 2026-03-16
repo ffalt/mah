@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [1.18.3](https://github.com/ffalt/mah/compare/v1.18.2...v1.18.3) (2026-03-16)
+
+
+### Bug Fixes
+
+* **languages:** rename Japanese language key from 'jp' to 'ja' ([ab90116](https://github.com/ffalt/mah/commit/ab9011671d839f4f39bf5c538053d3c139563617))
+
 ## [1.18.2](https://github.com/ffalt/mah/compare/v1.18.1...v1.18.2) (2026-03-15)
 
 
