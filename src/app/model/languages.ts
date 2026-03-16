@@ -18,7 +18,7 @@ export const LANGUAGES: { [name: string]: string } = {
 	hu: 'Magyar',
 	id: 'Bahasa Indonesia',
 	it: 'Italiano',
-	jp: '日本語',
+	ja: '日本語',
 	ko: '한국어',
 	ms: 'Bahasa Melayu',
 	nl: 'Nederlands',
