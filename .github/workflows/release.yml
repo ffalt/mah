@@ -28,7 +28,7 @@ jobs:
           echo "{\"url\": \"https://ffalt.github.io/mah/\", \"name\": \"Mah\", \"title\": \"Mah - Mahjong\", \"category\": \"A Mahjong Solitaire Board Game\", \"description\": \"The original open source version of many Mahjong games out there. Completely free, no ads, no tracking.\", \"kyodai\":true, \"editor\":true}" > custom-build-config.json
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Test
         run: npm run test

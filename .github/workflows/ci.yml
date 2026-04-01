@@ -17,6 +17,6 @@ jobs:
         with:
           node-version: 22.x
           cache: 'npm'
-      - run: npm install
+      - run: npm ci
       - run: npm run test
       - run: npm run build:prod

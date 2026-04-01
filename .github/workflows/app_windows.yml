@@ -30,10 +30,10 @@ jobs:
 
 
       - name: Install mah dependencies
-        run: npm install
+        run: npm ci
 
       - name: Install tauri dependencies
-        run: cd resources/apps && npm install
+        run: cd resources/apps && npm ci
 
       - name: Build windows app
         run: |
