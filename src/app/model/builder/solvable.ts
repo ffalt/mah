@@ -4,10 +4,13 @@ import { Stone } from '../stone';
 import { BuilderBase } from './base';
 import { RandomBoardBuilder } from './random';
 
+const MAX_RUNS = 2000;
+const MAX_ALTERNATIVE_ATTEMPTS = 10;
+
 export class SolvableBoardBuilder extends BuilderBase {
 	build(mapping: Mapping, tiles: Tiles): Array<Stone> {
 		// Try the standard solvable algorithm
-		const result = this.buildSolvableWithRetries(mapping, tiles, 2000);
+		const result = this.buildSolvableWithRetries(mapping, tiles, MAX_RUNS);
 		if (result) {
 			return result;
 		}
@@ -60,8 +63,7 @@ export class SolvableBoardBuilder extends BuilderBase {
 
 	private buildSolvableAlternative(mapping: Mapping, tiles: Tiles): Array<Stone> | undefined {
 		// Alternative strategy: try building from scratch multiple times with different tile selection
-		const attempts = 10;
-		for (let attempt = 0; attempt < attempts; attempt++) {
+		for (let attempt = 0; attempt < MAX_ALTERNATIVE_ATTEMPTS; attempt++) {
 			const stones: Array<Stone> = [];
 			for (const st of mapping) {
 				stones.push(new Stone(st[0], st[1], st[2], 0, 0));

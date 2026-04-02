@@ -18,6 +18,8 @@ interface TouchPoint {
 
 const defaultW = 1470;
 const defaultH = 960;
+const PAN_THRESHOLD = 10;
+const ZOOM_STEP = 0.15;
 
 function clamp(value: number, min: number, max: number): number {
 	return Math.min(Math.max(min, value), max);
@@ -117,7 +119,7 @@ export class BoardComponent implements OnInit, OnChanges {
 	onWheel($event: WheelEvent) {
 		$event.preventDefault();
 		const wheel = $event.deltaY < 0 ? 1 : -1;
-		const scale = wheel === 1 ? this.scale + 0.15 : this.scale - 0.15;
+		const scale = wheel === 1 ? this.scale + ZOOM_STEP : this.scale - ZOOM_STEP;
 		this.zoomSVGValue(scale, $event.clientX, $event.clientY);
 		const indicator = this.indicators.display($event.clientX, $event.clientY, scale * 10);
 		this.indicators.hide(indicator);
@@ -149,8 +151,8 @@ export class BoardComponent implements OnInit, OnChanges {
 				const dy = event.clientY - this.initialMouseY;
 				const distance = Math.hypot(dx, dy);
 
-				// Start panning only if moved at least 10px
-				if (distance >= 10) {
+				// Start panning only if moved at least PAN_THRESHOLD pixels
+				if (distance >= PAN_THRESHOLD) {
 					this.isPanning = true;
 				}
 			}
@@ -280,7 +282,7 @@ export class BoardComponent implements OnInit, OnChanges {
 			const deltaY = currentY - this.lastTouchY;
 
 			const moved = Math.hypot(currentX - this.initialTouchX, currentY - this.initialTouchY);
-			if (moved >= 10) {
+			if (moved >= PAN_THRESHOLD) {
 				this.hasTouchPanMoved = true;
 				const indicator = this.indicators.display(currentX, currentY, 10);
 				this.indicators.hide(indicator);
