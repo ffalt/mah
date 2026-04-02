@@ -6,24 +6,13 @@ import { AppService } from '../../service/app.service';
 import { imageSetIsKyodai } from '../../model/tilesets';
 import { ImageSetLoaderComponent } from '../image-set-loader/image-set-loader.component';
 import { Indicator } from '../../model/indicator';
+import { PanZoom } from '../../model/pan-zoom';
 import { PrefixPipe } from '../../pipes/prefix.pipe';
 import { TranslatePipe } from '@ngx-translate/core';
 import { PatternService } from '../../service/pattern.service';
 
-interface TouchPoint {
-	x: number;
-	y: number;
-	identifier: number;
-}
-
 const defaultW = 1470;
 const defaultH = 960;
-const PAN_THRESHOLD = 10;
-const ZOOM_STEP = 0.15;
-
-function clamp(value: number, min: number, max: number): number {
-	return Math.min(Math.max(min, value), max);
-}
 
 @Component({
 	selector: 'app-board',
@@ -66,29 +55,43 @@ export class BoardComponent implements OnInit, OnChanges {
 	urlPrefix: string = '';
 	imagePos: Array<number> = [1, 1, 69, 88];
 	imageCut: Array<number> = [0, 0, 65, 90];
-	scale: number = 1;
-	panX: number = 0;
-	panY: number = 0;
-	private bounds: Array<number> = [0, 0, defaultW, defaultH];
-	private lastPinch: number = 0;
-	private touchPoints: Array<TouchPoint> = [];
-	private initialDistance: number = 0;
-	private initialScale: number = 1;
-	private lastTouchX: number = 0;
-	private lastTouchY: number = 0;
-	private initialTouchX: number = 0;
-	private initialTouchY: number = 0;
-	private hasTouchPanMoved: boolean = false;
-	private hasPinchChanged: boolean = false;
-	private lastMouseX: number = 0;
-	private lastMouseY: number = 0;
-	private initialMouseX: number = 0;
-	private initialMouseY: number = 0;
-	private isPanning: boolean = false;
-	private isPinching: boolean = false;
 	app = inject(AppService);
 	patternService = inject(PatternService);
 	element = inject(ElementRef);
+	panZoom = new PanZoom(
+		() => ({ width: this.element.nativeElement.offsetWidth || 0, height: this.element.nativeElement.offsetHeight || 0 }),
+		this.indicators,
+		() => {
+			this.transformSVG = this.panZoom.transformSVG;
+			this.setTransformStage();
+		}
+	);
+
+	private bounds: Array<number> = [0, 0, defaultW, defaultH];
+
+	get scale(): number {
+		return this.panZoom.scale;
+	}
+
+	set scale(value: number) {
+		this.panZoom.scale = value;
+	}
+
+	get panX(): number {
+		return this.panZoom.panX;
+	}
+
+	set panX(value: number) {
+		this.panZoom.panX = value;
+	}
+
+	get panY(): number {
+		return this.panZoom.panY;
+	}
+
+	set panY(value: number) {
+		this.panZoom.panY = value;
+	}
 
 	ngOnInit(): void {
 		this.resize(window);
@@ -116,15 +119,6 @@ export class BoardComponent implements OnInit, OnChanges {
 		}
 	}
 
-	onWheel($event: WheelEvent) {
-		$event.preventDefault();
-		const wheel = $event.deltaY < 0 ? 1 : -1;
-		const scale = wheel === 1 ? this.scale + ZOOM_STEP : this.scale - ZOOM_STEP;
-		this.zoomSVGValue(scale, $event.clientX, $event.clientY);
-		const indicator = this.indicators.display($event.clientX, $event.clientY, scale * 10);
-		this.indicators.hide(indicator);
-	}
-
 	onResize(event: UIEvent): void {
 		const element = event.target as Window;
 		if (element) {
@@ -132,74 +126,37 @@ export class BoardComponent implements OnInit, OnChanges {
 		}
 	}
 
+	onWheel($event: WheelEvent): void {
+		this.panZoom.onWheel($event);
+	}
+
 	onMouseDown(event: MouseEvent): void {
-		if (this.scale > 1) {
-			event.preventDefault();
-			this.lastMouseX = event.clientX;
-			this.lastMouseY = event.clientY;
-			this.initialMouseX = event.clientX;
-			this.initialMouseY = event.clientY;
-		}
+		this.panZoom.onMouseDown(event);
 	}
 
 	onMouseMove(event: MouseEvent): void {
-		if (this.scale > 1) {
-			// Check if we're in a potential panning state (mouse down but not yet panning)
-			if (!this.isPanning && this.initialMouseX !== 0 && this.initialMouseY !== 0) {
-				// Calculate distance moved from initial position
-				const dx = event.clientX - this.initialMouseX;
-				const dy = event.clientY - this.initialMouseY;
-				const distance = Math.hypot(dx, dy);
-
-				// Start panning only if moved at least PAN_THRESHOLD pixels
-				if (distance >= PAN_THRESHOLD) {
-					this.isPanning = true;
-				}
-			}
-
-			// Continue with panning if isPanning is true
-			if (this.isPanning) {
-				event.preventDefault();
-				this.updatePanning(event);
-			}
-		}
+		this.panZoom.onMouseMove(event);
 	}
 
 	onMouseUp(event: MouseEvent): void {
-		// Avoid treating mouseleave as a click; only emit on an actual mouseup
-		const isMouseLeave = event.type === 'mouseleave';
-		if (this.isPanning) {
-			event.preventDefault();
-			this.updatePanning(event);
-		} else if (!isMouseLeave) {
-			if (this.scale === 1) {
-				this.clickEvent.emit(undefined);
-			} else if (this.initialMouseX !== 0 && this.initialMouseY !== 0) {
-				const dx = event.clientX - this.initialMouseX;
-				const dy = event.clientY - this.initialMouseY;
-				const distance = Math.hypot(dx, dy);
-				// only unselect draw if it was a panning (or a panning try)
-				if (distance < 4) {
-					this.clickEvent.emit(undefined);
-				}
-			}
+		if (this.panZoom.onMouseUp(event)) {
+			this.clickEvent.emit(undefined);
 		}
-		this.stopPanning();
 	}
 
 	onTouchTileEnd(_event: TouchEvent, draw?: Draw): void {
-		if (this.hasPinchChanged || this.hasTouchPanMoved) {
+		if (this.panZoom.hasPinchChanged || this.panZoom.hasTouchPanMoved) {
 			return;
 		}
 		this.clickEvent.emit(draw?.source);
 	}
 
 	onClickUp(event: MouseEvent, draw?: Draw): void {
-		this.initialMouseX = 0;
-		this.initialMouseY = 0;
-		if (this.isPanning) {
-			this.updatePanning(event);
-			this.stopPanning();
+		this.panZoom.initialMouseX = 0;
+		this.panZoom.initialMouseY = 0;
+		if (this.panZoom.isPanning) {
+			this.panZoom.updatePanning(event);
+			this.panZoom.stopPanning();
 		} else {
 			this.clickEvent.emit(draw?.source);
 			event.stopPropagation();
@@ -207,241 +164,36 @@ export class BoardComponent implements OnInit, OnChanges {
 	}
 
 	onTouchStart(event: TouchEvent): void {
-		event.preventDefault();
-		this.touchPoints = [];
-		this.hasTouchPanMoved = false;
-		this.hasPinchChanged = false;
-		const touches = Array.from(event.touches);
-		for (const touch of touches) {
-			this.touchPoints.push({
-				x: touch.clientX,
-				y: touch.clientY,
-				identifier: touch.identifier
-			});
-		}
-
-		if (this.touchPoints.length === 1) {
-			// Potential pan start
-			this.lastTouchX = this.touchPoints[0].x;
-			this.lastTouchY = this.touchPoints[0].y;
-			this.initialTouchX = this.touchPoints[0].x;
-			this.initialTouchY = this.touchPoints[0].y;
-			this.isPanning = true;
-		} else if (this.touchPoints.length === 2) {
-			// Potential pinch start
-			this.isPanning = false;
-			this.isPinching = true;
-			this.initialDistance = this.getDistance(this.touchPoints[0], this.touchPoints[1]);
-			this.initialScale = this.scale;
-			this.indicators.gestureIndicators = [];
-			const centerX = (this.touchPoints[0].x + this.touchPoints[1].x) / 2;
-			const centerY = (this.touchPoints[0].y + this.touchPoints[1].y) / 2;
-			// Start with a reasonable size; it will be updated on move
-			this.indicators.display(centerX, centerY, 30);
-			this.lastPinch = Date.now();
-		}
+		this.panZoom.onTouchStart(event);
 	}
 
 	onTouchMove(event: TouchEvent): void {
-		event.preventDefault();
-		this.touchPoints = [];
-		const touches = Array.from(event.touches);
-		for (const touch of touches) {
-			this.touchPoints.push({
-				x: touch.clientX,
-				y: touch.clientY,
-				identifier: touch.identifier
-			});
-		}
-
-		if (this.isPinching && this.touchPoints.length === 2) {
-			const currentDistance = this.getDistance(this.touchPoints[0], this.touchPoints[1]);
-			// Avoid division by zero if initial distance is zero (both points at same location)
-			const relativeScale = this.initialDistance > 0 ? currentDistance / this.initialDistance : 1;
-			const centerX = (this.touchPoints[0].x + this.touchPoints[1].x) / 2;
-			const centerY = (this.touchPoints[0].y + this.touchPoints[1].y) / 2;
-			if (this.indicators.gestureIndicators[0]) {
-				const gi = this.indicators.gestureIndicators[0];
-				gi.x = centerX;
-				gi.y = centerY;
-				gi.top = centerY - (gi.size / 2);
-				gi.left = centerX - (gi.size / 2);
-			} else {
-				this.indicators.display(centerX, centerY, 30);
-			}
-			const size = clamp(30 * relativeScale, 10, 80);
-			this.indicators.setSize(0, size);
-			if (Math.abs(relativeScale - 1) >= 0.1) {
-				this.hasPinchChanged = true;
-			}
-			this.lastPinch = Date.now();
-		} else if (this.isPanning && this.touchPoints.length === 1 && this.scale > 1 && Date.now() - this.lastPinch > 600) {
-			const currentX = this.touchPoints[0].x;
-			const currentY = this.touchPoints[0].y;
-			const deltaX = currentX - this.lastTouchX;
-			const deltaY = currentY - this.lastTouchY;
-
-			const moved = Math.hypot(currentX - this.initialTouchX, currentY - this.initialTouchY);
-			if (moved >= PAN_THRESHOLD) {
-				this.hasTouchPanMoved = true;
-				const indicator = this.indicators.display(currentX, currentY, 10);
-				this.indicators.hide(indicator);
-			}
-
-			this.setPanValue(this.panX + deltaX, this.panY + deltaY);
-			this.lastTouchX = currentX;
-			this.lastTouchY = currentY;
-		}
+		this.panZoom.onTouchMove(event);
 	}
 
 	onTouchEnd(event: TouchEvent): void {
-		event.preventDefault();
-
-		if (this.isPinching) {
-			const indicator = this.indicators.gestureIndicators.at(0);
-			if (indicator) {
-				this.indicators.hide(indicator);
-			}
-			const remaining = Array.from(event.touches).map(t => ({
-				x: t.clientX,
-				y: t.clientY,
-				identifier: t.identifier
-			}));
-			const changed = Array.from(event.changedTouches).map(t => ({
-				x: t.clientX,
-				y: t.clientY,
-				identifier: t.identifier
-			}));
-			const finalPoints: Array<TouchPoint> = [];
-			if (remaining.length >= 2) {
-				finalPoints.push(remaining[0], remaining[1]);
-			} else if (remaining.length === 1 && changed.length > 0) {
-				finalPoints.push(remaining[0], changed[0]);
-			} else if (changed.length >= 2) {
-				finalPoints.push(changed[0], changed[1]);
-			}
-
-			if (finalPoints.length === 2) {
-				const currentDistance = this.getDistance(finalPoints[0], finalPoints[1]);
-				const relativeScale = currentDistance / this.initialDistance;
-				let newScale = this.initialScale;
-				if (Math.abs(relativeScale - 1) >= 0.1) {
-					newScale = this.initialScale * relativeScale;
-				}
-				const centerX = (finalPoints[0].x + finalPoints[1].x) / 2;
-				const centerY = (finalPoints[0].y + finalPoints[1].y) / 2;
-				this.zoomSVGValue(newScale, centerX, centerY);
-			}
-
-			this.isPinching = false;
-			this.lastPinch = Date.now();
-		} else if (this.isPanning) {
-			this.updateTransform();
-			this.isPanning = false;
-		}
-
-		this.touchPoints = [];
-		const touches = Array.from(event.touches);
-		for (const touch of touches) {
-			this.touchPoints.push({
-				x: touch.clientX,
-				y: touch.clientY,
-				identifier: touch.identifier
-			});
-		}
-		if (this.touchPoints.length === 0) {
-			this.hasTouchPanMoved = false;
-			this.hasPinchChanged = false;
-			this.initialTouchX = 0;
-			this.initialTouchY = 0;
-		}
+		this.panZoom.onTouchEnd(event);
 	}
 
-	updatePanning(event: MouseEvent) {
-		const deltaX = event.clientX - this.lastMouseX;
-		const deltaY = event.clientY - this.lastMouseY;
-		const indicator = this.indicators.display(event.clientX, event.clientY, 10);
-		this.indicators.hide(indicator);
-		this.setPanValue(this.panX + deltaX, this.panY + deltaY);
-		this.lastMouseX = event.clientX;
-		this.lastMouseY = event.clientY;
-		this.updateTransform();
+	updatePanning(event: MouseEvent): void {
+		this.panZoom.updatePanning(event);
 	}
 
-	stopPanning() {
-		this.isPanning = false;
-		this.initialMouseX = 0;
-		this.initialMouseY = 0;
+	setPanValue(x: number, y: number): void {
+		this.panZoom.setPanValue(x, y);
 	}
 
-	setPanValue(x: number, y: number) {
-		// Compute pan bounds relative to the scaled content size within the container.
-		// Allow a small visual margin to avoid hard edges during interactions.
-		const containerWidth = this.element.nativeElement.offsetWidth || 0;
-		const containerHeight = this.element.nativeElement.offsetHeight || 0;
-		const margin = 50;
-
-		// Handle edge case: container not properly sized
-		if (containerWidth <= 0 || containerHeight <= 0) {
-			// Still update pan values to prevent inconsistent state, but reset to origin
-			// since we can't calculate proper bounds without container dimensions
-			if (this.panX !== 0 || this.panY !== 0) {
-				this.panX = 0;
-				this.panY = 0;
-			}
-			return;
-		}
-
-		// Extra size introduced by scaling (when scale <= 1, extra is 0 and panning is effectively disabled elsewhere)
-		const extraWidth = Math.max(0, (this.scale - 1) * containerWidth);
-		const extraHeight = Math.max(0, (this.scale - 1) * containerHeight);
-
-		// Clamp so that content cannot be panned beyond its scaled bounds (with a small margin)
-		const minX = -extraWidth - margin;
-		const maxX = margin;
-		const minY = -extraHeight - margin;
-		const maxY = margin;
-
-		this.panX = clamp(x, minX, maxX);
-		this.panY = clamp(y, minY, maxY);
+	zoomSVGValue(scale: number, x: number, y: number): void {
+		this.panZoom.zoomSVGValue(scale, x, y);
 	}
 
-	zoomSVGValue(scale: number, x: number, y: number) {
-		const oldScale = this.scale;
-		const z = clamp(scale, 1, 2);
-		if (z === oldScale) {
-			return;
-		}
-		if (z < 1.01) {
-			this.scale = 1;
-			this.panX = 0;
-			this.panY = 0;
-		} else {
-			const xs = (x - this.panX) / this.scale;
-			const ys = (y - this.panY) / this.scale;
-			const panX = x - xs * z;
-			const panY = y - ys * z;
-			this.scale = z;
-			this.setPanValue(panX, panY);
-		}
-		this.updateTransform();
-	}
-
-	updateViewPort() {
+	updateViewPort(): void {
 		window.requestAnimationFrame(() => {
 			this.setViewPort();
 		});
 	}
 
-	updateTransform() {
-		window.requestAnimationFrame(() => {
-			this.setTransform();
-		});
-	}
-
-	setTransform() {
-		const scaling = this.scale > 1 ? ` scale(${this.scale})` : '';
-		this.transformSVG = `translate(${this.panX}px, ${this.panY}px)${scaling}`;
+	private setTransformStage(): void {
 		if (this.rotate) {
 			const [minX, minY, width, height] = getDrawBoundsViewPortBounds(this.bounds);
 			const cx = minX + width / 2;
@@ -452,18 +204,9 @@ export class BoardComponent implements OnInit, OnChanges {
 		}
 	}
 
-	private getDistance(p1: TouchPoint, p2: TouchPoint): number {
-		const dx = p2.x - p1.x;
-		const dy = p2.y - p1.y;
-		return Math.hypot(dx, dy);
-	}
-
 	private resize(element: { innerHeight: number; innerWidth: number }): void {
 		const r = this.noRotate() ? false : element.innerHeight > element.innerWidth;
-		this.panX = 0;
-		this.panY = 0;
-		this.scale = 1;
-		this.updateTransform();
+		this.panZoom.reset();
 		if (r !== this.rotate) {
 			this.rotate = r;
 		}
@@ -489,9 +232,9 @@ export class BoardComponent implements OnInit, OnChanges {
 		if (!stones) {
 			return;
 		}
-		this.scale = 1;
-		this.panX = 0;
-		this.panY = 0;
+		this.panZoom.scale = 1;
+		this.panZoom.panX = 0;
+		this.panZoom.panY = 0;
 		const items = stones
 			.filter((stone: Stone) => (stone !== undefined))
 			.map((stone: Stone): Draw =>
@@ -509,7 +252,9 @@ export class BoardComponent implements OnInit, OnChanges {
 		this.bounds = getDrawBounds(items);
 		this.drawStones = sortDrawItems(items);
 		this.setViewPort();
-		this.setTransform();
+		this.panZoom.syncTransformSVG();
+		this.transformSVG = this.panZoom.transformSVG;
+		this.setTransformStage();
 	}
 
 	private cssBarColors(): Array<string> {

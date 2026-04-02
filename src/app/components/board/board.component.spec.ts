@@ -204,7 +204,7 @@ describe('BoardComponent', () => {
 
 	describe('Event handling', () => {
 		it('should handle wheel events for zooming', () => {
-			const zoomSpy = jest.spyOn(component, 'zoomSVGValue');
+			const zoomSpy = jest.spyOn(component.panZoom, 'zoomSVGValue');
 			const wheelEvent = new WheelEvent('wheel', { deltaY: -100 });
 
 			component.onWheel(wheelEvent);
@@ -219,43 +219,43 @@ describe('BoardComponent', () => {
 			const mouseEvent = new MouseEvent('mousedown', { clientX: 100, clientY: 100 });
 			component.onMouseDown(mouseEvent);
 
-			expect(component['lastMouseX']).toBe(100);
-			expect(component['lastMouseY']).toBe(100);
-			expect(component['initialMouseX']).toBe(100);
-			expect(component['initialMouseY']).toBe(100);
+			expect(component.panZoom.lastMouseX).toBe(100);
+			expect(component.panZoom.lastMouseY).toBe(100);
+			expect(component.panZoom.initialMouseX).toBe(100);
+			expect(component.panZoom.initialMouseY).toBe(100);
 		});
 
 		it('should handle mouse move events when panning', () => {
 			// Set up panning state
 			component.scale = 1.5;
-			component['isPanning'] = true;
-			component['lastMouseX'] = 100;
-			component['lastMouseY'] = 100;
+			component.panZoom.isPanning = true;
+			component.panZoom.lastMouseX = 100;
+			component.panZoom.lastMouseY = 100;
 
-			const setPanSpy = jest.spyOn(component, 'setPanValue');
+			const setPanSpy = jest.spyOn(component.panZoom, 'setPanValue');
 			const mouseEvent = new MouseEvent('mousemove', { clientX: 120, clientY: 130 });
 
 			component.onMouseMove(mouseEvent);
 
 			expect(setPanSpy).toHaveBeenCalled();
-			expect(component['lastMouseX']).toBe(120);
-			expect(component['lastMouseY']).toBe(130);
+			expect(component.panZoom.lastMouseX).toBe(120);
+			expect(component.panZoom.lastMouseY).toBe(130);
 		});
 
 		it('should handle mouse up events when panning', () => {
 			// Set up panning state
-			component['isPanning'] = true;
+			component.panZoom.isPanning = true;
 			const clickSpy = jest.spyOn(component.clickEvent, 'emit');
 
 			component.onMouseUp(new MouseEvent('mouseup'));
 
-			expect(component['isPanning']).toBe(false);
+			expect(component.panZoom.isPanning).toBe(false);
 			expect(clickSpy).not.toHaveBeenCalled();
 		});
 
 		it('should handle mouse up events when not panning', () => {
 			// Set up non-panning state
-			component['isPanning'] = false;
+			component.panZoom.isPanning = false;
 			const clickSpy = jest.spyOn(component.clickEvent, 'emit');
 
 			component.onMouseUp(new MouseEvent('mouseup'));
@@ -281,10 +281,10 @@ describe('BoardComponent', () => {
 
 			component.onTouchStart(touchEvent);
 
-			expect(component['touchPoints']).toHaveLength(1);
-			expect(component['isPanning']).toBe(true);
-			expect(component['lastTouchX']).toBe(100);
-			expect(component['lastTouchY']).toBe(100);
+			expect(component.panZoom.touchPoints).toHaveLength(1);
+			expect(component.panZoom.isPanning).toBe(true);
+			expect(component.panZoom.lastTouchX).toBe(100);
+			expect(component.panZoom.lastTouchY).toBe(100);
 		});
 
 		it('should handle touch start events for pinching', () => {
@@ -298,22 +298,22 @@ describe('BoardComponent', () => {
 
 			component.onTouchStart(touchEvent);
 
-			expect(component['touchPoints']).toHaveLength(2);
-			expect(component['isPanning']).toBe(false);
-			expect(component['isPinching']).toBe(true);
-			expect(component['initialDistance']).toBeGreaterThan(0);
+			expect(component.panZoom.touchPoints).toHaveLength(2);
+			expect(component.panZoom.isPanning).toBe(false);
+			expect(component.panZoom.isPinching).toBe(true);
+			expect(component.panZoom.initialDistance).toBeGreaterThan(0);
 		});
 
 		it('should handle touch move events when panning', () => {
 			// Set up panning state
-			component['isPanning'] = true;
-			component['isPinching'] = false;
-			component['lastTouchX'] = 100;
-			component['lastTouchY'] = 100;
+			component.panZoom.isPanning = true;
+			component.panZoom.isPinching = false;
+			component.panZoom.lastTouchX = 100;
+			component.panZoom.lastTouchY = 100;
 			component.scale = 1.5;
-			component['lastPinch'] = 0; // Ensure enough time has passed
+			component.panZoom.lastPinch = 0; // Ensure enough time has passed
 
-			const setPanSpy = jest.spyOn(component, 'setPanValue');
+			const setPanSpy = jest.spyOn(component.panZoom, 'setPanValue');
 
 			// Create a touch event with one touch point
 			const touchEvent = new TouchEvent('touchmove', {
@@ -327,15 +327,15 @@ describe('BoardComponent', () => {
 
 		it('should handle touch end events', () => {
 			// Set up panning state
-			component['isPanning'] = true;
+			component.panZoom.isPanning = true;
 
 			// Create a touch event with no touches
 			const touchEvent = new TouchEvent('touchend', { touches: [] });
 
 			component.onTouchEnd(touchEvent);
 
-			expect(component['isPanning']).toBe(false);
-			expect(component['touchPoints']).toHaveLength(0);
+			expect(component.panZoom.isPanning).toBe(false);
+			expect(component.panZoom.touchPoints).toHaveLength(0);
 		});
 	});
 
@@ -352,9 +352,9 @@ describe('BoardComponent', () => {
 		it('should display indicators when panning', () => {
 			// Set up panning state
 			component.scale = 1.5;
-			component['isPanning'] = true;
-			component['lastMouseX'] = 100;
-			component['lastMouseY'] = 100;
+			component.panZoom.isPanning = true;
+			component.panZoom.lastMouseX = 100;
+			component.panZoom.lastMouseY = 100;
 
 			const displaySpy = jest.spyOn(component.indicators, 'display');
 			const mouseEvent = new MouseEvent('mousemove', { clientX: 120, clientY: 130 });
@@ -385,16 +385,16 @@ describe('BoardComponent', () => {
 			component.onMouseDown(mouseEvent);
 
 			// Initial values should not be set
-			expect(component['initialMouseX']).not.toBe(100);
-			expect(component['initialMouseY']).not.toBe(100);
+			expect(component.panZoom.initialMouseX).not.toBe(100);
+			expect(component.panZoom.initialMouseY).not.toBe(100);
 		});
 
 		it('should not update pan when not panning', () => {
 			// Set up non-panning state
-			component['isPanning'] = false;
+			component.panZoom.isPanning = false;
 			component.scale = 1.5;
 
-			const setPanSpy = jest.spyOn(component, 'setPanValue');
+			const setPanSpy = jest.spyOn(component.panZoom, 'setPanValue');
 			const mouseEvent = new MouseEvent('mousemove', { clientX: 120, clientY: 130 });
 
 			component.onMouseMove(mouseEvent);
