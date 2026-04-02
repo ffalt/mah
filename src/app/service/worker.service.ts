@@ -43,6 +43,11 @@ export class WorkerService {
 					worker.terminate();
 				});
 
+				worker.addEventListener('error', () => {
+					worker.terminate();
+					solveGame(stones, finish);
+				});
+
 				worker.postMessage({ stones });
 				return worker;
 			}
@@ -80,6 +85,11 @@ export class WorkerService {
 				result$.subscribe(result => {
 					finish(result);
 					worker.terminate();
+				});
+
+				worker.addEventListener('error', () => {
+					worker.terminate();
+					statsSolveMapping(mapping, rounds, callback, finish);
 				});
 
 				worker.postMessage({ mapping, rounds });
