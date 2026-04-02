@@ -7,6 +7,7 @@ import { AppService } from './service/app.service';
 import { LayoutService } from './service/layout.service';
 import { SvgdefService } from './service/svgdef.service';
 import type { Layout, LoadLayout } from './model/types';
+import { log } from './model/log';
 
 function b64(json: unknown): string {
 	return Buffer.from(JSON.stringify(json)).toString('base64');
@@ -18,7 +19,7 @@ function makeBoard(overrides: Partial<Record<string, unknown>> = {}): Record<str
 	return { id: 'test-id', name: 'Test Board', map: VALID_MAP, ...overrides };
 }
 
-function makeMah(boards: unknown[] = [makeBoard()]): unknown {
+function makeMah(boards: Array<unknown> = [makeBoard()]): unknown {
 	return { mah: '1.0', boards };
 }
 
@@ -55,7 +56,7 @@ describe('AppComponent', () => {
 			jest.spyOn(layoutService, 'storeCustomBoards').mockImplementation(() => undefined);
 		});
 
-		const checkImport = (app: AppComponent, input: string | null): Promise<Array<string>> =>
+		const checkImport = async (app: AppComponent, input: string | null): Promise<Array<string>> =>
 			(app as unknown as Record<string, (s: string | null) => Promise<Array<string>>>)['checkImport'](input);
 
 		it('returns [] for null input', async () => {
@@ -95,11 +96,13 @@ describe('AppComponent', () => {
 		});
 
 		it('skips a board when expandLayout throws', async () => {
+			const warnSpy = jest.spyOn(log, 'warn').mockImplementation(() => undefined);
 			(layoutService.expandLayout as jest.Mock).mockImplementationOnce(() => {
 				throw new Error('expand error');
 			});
 			expect(await checkImport(app, b64(makeMah()))).toEqual([]);
 			expect(layoutService.storeCustomBoards).not.toHaveBeenCalled();
+			warnSpy.mockRestore();
 		});
 
 		it('logs a warning when boards were parsed but none could be expanded', async () => {

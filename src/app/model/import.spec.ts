@@ -1,5 +1,7 @@
 import { isValidLoadLayout, MAX_IMPORT_BOARDS, parseImportString } from './import';
 
+jest.mock('./log', () => ({ log: { warn: jest.fn(), error: jest.fn() } }));
+
 function b64(json: unknown): string {
 	return Buffer.from(JSON.stringify(json)).toString('base64');
 }
@@ -10,7 +12,7 @@ function makeBoard(overrides: Partial<Record<string, unknown>> = {}): Record<str
 	return { id: 'test-id', name: 'Test Board', map: VALID_MAP, ...overrides };
 }
 
-function makeMah(boards: unknown[] = [makeBoard()]): unknown {
+function makeMah(boards: Array<unknown> = [makeBoard()]): unknown {
 	return { mah: '1.0', boards };
 }
 
@@ -147,7 +149,7 @@ describe('parseImportString', () => {
 	});
 
 	it('returns [] when board count exceeds MAX_IMPORT_BOARDS', () => {
-		const boards = Array.from({ length: MAX_IMPORT_BOARDS + 1 }, (_, i) => makeBoard({ id: `id-${i}` }));
+		const boards = Array.from({ length: MAX_IMPORT_BOARDS + 1 }, (_, index) => makeBoard({ id: `id-${index}` }));
 		expect(parseImportString(b64({ mah: '1.0', boards }))).toEqual([]);
 	});
 
