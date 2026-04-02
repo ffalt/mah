@@ -94,17 +94,15 @@ export class Board {
 		const free: Array<Stone> = [];
 		let count = 0;
 		for (const stone of this.stones) {
+			const blocked = !stone.picked && stone.isBlocked();
 			stone.state = {
-				blocked: !stone.picked && stone.isBlocked(),
-				removable: false
+				blocked,
+				removable: !stone.picked && !blocked && this.canRemove(stone)
 			};
-			count += stone.picked ? 0 : 1;
-		}
-		for (const stone of this.stones) {
-			stone.state.removable = !stone.picked && !stone.state.blocked && this.canRemove(stone);
 			if (stone.state.removable) {
 				free.push(stone);
 			}
+			count += stone.picked ? 0 : 1;
 		}
 		this.free = free;
 		this.count = count;
