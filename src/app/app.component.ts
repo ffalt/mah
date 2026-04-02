@@ -3,6 +3,7 @@ import { Meta } from '@angular/platform-browser';
 import { environment } from '../environments/environment';
 import { AppService } from './service/app.service';
 import { LayoutService } from './service/layout.service';
+import { log } from './model/log';
 import type { LoadLayout, MahFormat } from './model/types';
 import { GameComponent } from './components/game/game-component.component';
 
@@ -35,7 +36,7 @@ export class AppComponent implements OnInit {
 	ngOnInit(): void {
 		this.init()
 			.catch(error => {
-				console.error(error);
+				log.error(error);
 			});
 	}
 
@@ -65,7 +66,7 @@ export class AppComponent implements OnInit {
 					this.editorLoading = false;
 				})
 				.catch(error => {
-					console.error(error);
+					log.error(error);
 					this.editorLoading = false;
 				});
 		}
@@ -109,7 +110,7 @@ export class AppComponent implements OnInit {
 		try {
 			window.history.replaceState(null, '', window.location.pathname);
 		} catch (error) {
-			console.error(error);
+			log.error(error);
 		}
 	}
 
@@ -122,7 +123,7 @@ export class AppComponent implements OnInit {
 			try {
 				decoded = atob(base64jsonString);
 			} catch (error) {
-				console.warn('Import failed: Invalid base64 encoding', error);
+				log.warn('Import failed: Invalid base64 encoding', error);
 				return [];
 			}
 
@@ -130,23 +131,23 @@ export class AppComponent implements OnInit {
 			try {
 				parsed = JSON.parse(decoded);
 			} catch (error) {
-				console.warn('Import failed: Invalid JSON format', error);
+				log.warn('Import failed: Invalid JSON format', error);
 				return [];
 			}
 
 			const mah = parsed as MahFormat;
 			if (!mah.mah || mah.mah !== '1.0') {
-				console.warn('Import failed: Invalid or unsupported MAH format version');
+				log.warn('Import failed: Invalid or unsupported MAH format version');
 				return [];
 			}
 
 			if (!Array.isArray(mah.boards)) {
-				console.warn('Import failed: Missing or invalid boards array');
+				log.warn('Import failed: Missing or invalid boards array');
 				return [];
 			}
 
 			if (mah.boards.length === 0) {
-				console.warn('Import failed: No boards found in import data');
+				log.warn('Import failed: No boards found in import data');
 				return [];
 			}
 
@@ -163,7 +164,7 @@ export class AppComponent implements OnInit {
 						imported.push(LayoutService.layout2loadLayout(layout, custom.map));
 					}
 				} catch (error) {
-					console.warn('Failed to import individual board:', error);
+					log.warn('Failed to import individual board:', error);
 				}
 			}
 
@@ -172,12 +173,12 @@ export class AppComponent implements OnInit {
 			}
 
 			if (result.length === 0) {
-				console.warn('Import completed but no valid boards were imported');
+				log.warn('Import completed but no valid boards were imported');
 			}
 
 			return result;
 		} catch (error) {
-			console.error('Unexpected error during import:', error);
+			log.error('Unexpected error during import:', error);
 			return [];
 		}
 	}

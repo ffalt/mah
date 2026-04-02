@@ -10,6 +10,7 @@ import { PanZoom } from '../../model/pan-zoom';
 import { PrefixPipe } from '../../pipes/prefix.pipe';
 import { TranslatePipe } from '@ngx-translate/core';
 import { PatternService } from '../../service/pattern.service';
+import { log } from '../../model/log';
 
 const defaultW = 1470;
 const defaultH = 960;
@@ -270,7 +271,7 @@ export class BoardComponent implements OnInit, OnChanges {
 		this.patternService
 			.svgDataUrl(pattern, this.cssBarColors())
 			.then(dataUrl => this.backgroundUrl = dataUrl)
-			.catch(console.error);
+			.catch(error => log.error(error));
 	}
 
 	private updateBackground(background: string): void {

@@ -1,6 +1,7 @@
 import { Component, inject, output } from '@angular/core';
 import type { Layout, LoadLayout } from '../../../../model/types';
 import { LayoutService } from '../../../../service/layout.service';
+import { log } from '../../../../model/log';
 import { importLayouts } from '../../model/import';
 import { TranslatePipe } from '@ngx-translate/core';
 import { DropZoneDirective } from '../../directives/drop-zone.directive';
@@ -39,12 +40,12 @@ export class ImportComponent {
 						imported.push(LayoutService.layout2loadLayout(layout, loadLayout.map));
 						this.logs.push({ msg: `Imported: "${file.name}"`, id: layout.id });
 					} else {
-						console.error(`Similar layout to "${layout.name}" already available. Import rejected`);
+						log.error(`Similar layout to "${layout.name}" already available. Import rejected`);
 						this.logs.push({ msg: `Similar layout to "${layout.name}" already available. Import rejected.`, isError: true });
 					}
 				}
 			} catch (error) {
-				console.error('Error importing', file, error);
+				log.error('Error importing', file, error);
 				this.logs.push({ msg: `ERROR importing "${file.name}". Invalid file.`, isError: true });
 			}
 		}
@@ -63,7 +64,7 @@ export class ImportComponent {
 	importFiles(files: Array<File>): void {
 		this.importLayouts(files)
 			.catch(error => {
-				console.error(error);
+				log.error(error);
 			});
 	}
 

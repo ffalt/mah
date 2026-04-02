@@ -3,6 +3,7 @@ import type { Game } from '../../model/game';
 import type { Stone } from '../../model/stone';
 import type { Layout, Place } from '../../model/types';
 import { AppService } from '../../service/app.service';
+import { log } from '../../model/log';
 import type { BUILD_MODE_ID } from '../../model/builder';
 import type { GAME_MODE_ID } from '../../model/consts';
 import { environment } from '../../../environments/environment';
@@ -112,7 +113,7 @@ export class GameComponent {
 				break;
 			}
 			case 'g': {
-				this.debugSolve().catch(console.error);
+				this.debugSolve().catch(error => log.error(error));
 				break;
 			}
 			case 'u': {
@@ -224,19 +225,19 @@ export class GameComponent {
 		if (doc.exitFullscreen) {
 			doc.exitFullscreen()
 				.catch(error => {
-					console.warn('Failed to exit fullscreen:', error);
+					log.warn('Failed to exit fullscreen:', error);
 				});
 		} else if (doc.webkitExitFullscreen) {
 			try {
 				doc.webkitExitFullscreen();
 			} catch (error) {
-				console.warn('Failed to exit fullscreen (webkit):', error);
+				log.warn('Failed to exit fullscreen (webkit):', error);
 			}
 		} else if (doc.mozCancelFullScreen) {
 			try {
 				doc.mozCancelFullScreen();
 			} catch (error) {
-				console.warn('Failed to exit fullscreen (moz):', error);
+				log.warn('Failed to exit fullscreen (moz):', error);
 			}
 		}
 	}
@@ -246,19 +247,19 @@ export class GameComponent {
 		if (element.requestFullscreen) {
 			element.requestFullscreen()
 				.catch(error => {
-					console.warn('Failed to enter fullscreen:', error);
+					log.warn('Failed to enter fullscreen:', error);
 				});
 		} else if (element.webkitRequestFullscreen) {
 			try {
 				element.webkitRequestFullscreen();
 			} catch (error) {
-				console.warn('Failed to enter fullscreen (webkit):', error);
+				log.warn('Failed to enter fullscreen (webkit):', error);
 			}
 		} else if (element.mozRequestFullScreen) {
 			try {
 				element.mozRequestFullScreen();
 			} catch (error) {
-				console.warn('Failed to enter fullscreen (moz):', error);
+				log.warn('Failed to enter fullscreen (moz):', error);
 			}
 		}
 	}

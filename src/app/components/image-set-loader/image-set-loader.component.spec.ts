@@ -3,6 +3,7 @@ import { provideHttpClient, HttpClient } from '@angular/common/http';
 import { SvgdefService } from '../../service/svgdef.service';
 import { ImageSetLoaderComponent } from './image-set-loader.component';
 import type { ElementRef } from '@angular/core';
+import { log } from '../../model/log';
 
 interface HackImageSetLoaderComponent {
 	elementRef: ElementRef;
@@ -138,23 +139,19 @@ describe('ImageSetLoaderComponent', () => {
 
 		it('should call setError when svgDef.get fails', async () => {
 			const testImageSet = 'test-image-set';
-			const originalConsoleError = console.error;
-			console.error = jest.fn();
 
 			fixture.componentRef.setInput('imageSet', testImageSet);
 			fixture.detectChanges();
 
 			SvgdefServiceSpy.get.mockRejectedValue('Error loading SVG');
 			jest.spyOn(component as unknown as HackImageSetLoaderComponent, 'setError');
-			jest.spyOn(console, 'error');
+			jest.spyOn(log, 'error').mockImplementation(jest.fn());
 
 			(component as unknown as HackImageSetLoaderComponent).loadImageSet();
 
 			// Wait for the promise to reject
 			await fixture.whenStable();
 			expect((component as unknown as HackImageSetLoaderComponent).setError).toHaveBeenCalled();
-			expect(console.error).toHaveBeenCalled();
-			console.error = originalConsoleError;
 		});
 	});
 

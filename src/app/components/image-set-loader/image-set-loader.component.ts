@@ -1,5 +1,6 @@
 import { Component, ElementRef, type OnChanges, type SimpleChanges, inject, input } from '@angular/core';
 import { SvgdefService } from '../../service/svgdef.service';
+import { log } from '../../model/log';
 import { TILES } from '../../model/consts';
 import { svg_error_icon, svgSpinnerIcon } from './svg';
 
@@ -66,7 +67,7 @@ export class ImageSetLoaderComponent implements OnChanges {
 			})
 			.catch(error => {
 				this.setError();
-				console.error(error);
+				log.error(error);
 			});
 	}
 

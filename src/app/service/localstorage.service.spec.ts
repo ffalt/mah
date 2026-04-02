@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { LocalstorageService } from './localstorage.service';
+import { log } from '../model/log';
 import type { GameStateStore, LayoutScoreStore, LoadLayout, SettingsStore } from '../model/types';
 
 describe('LocalstorageService', () => {
@@ -10,7 +11,7 @@ describe('LocalstorageService', () => {
 		removeItem: jest.Mock;
 	};
 	let originalLocalStorage: Storage;
-	let consoleWarnSpy: jest.SpyInstance;
+	let logWarnSpy: jest.SpyInstance;
 
 	beforeEach(() => {
 		// Save original localStorage
@@ -40,10 +41,8 @@ describe('LocalstorageService', () => {
 		// Clear all mocks but don't reset - this allows spies to function
 		jest.clearAllMocks();
 
-		// Spy on console.warn to track calls and prevent test output noise
-		consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {
-			// suppress output
-		});
+		// Spy on log.warn to track calls and prevent test output noise
+		logWarnSpy = jest.spyOn(log, 'warn').mockReturnValue(undefined);
 	});
 
 	afterEach(() => {
@@ -53,8 +52,8 @@ describe('LocalstorageService', () => {
 			writable: true
 		});
 
-		// Restore console.warn
-		consoleWarnSpy.mockRestore();
+		// Restore log.warn spy
+		logWarnSpy.mockRestore();
 
 		// Clear all mocks
 		jest.clearAllMocks();
@@ -68,7 +67,10 @@ describe('LocalstorageService', () => {
 		it('should call updateData during initialization', () => {
 			// Create a new instance to verify constructor behavior
 			const updateDataSpy = jest.spyOn(LocalstorageService.prototype as unknown as HackLocalstorgageService, 'updateData');
-			const newService = new LocalstorageService();
+			let newService!: LocalstorageService;
+			TestBed.runInInjectionContext(() => {
+				newService = new LocalstorageService();
+			});
 
 			expect(newService).toBeTruthy();
 
@@ -81,7 +83,7 @@ describe('LocalstorageService', () => {
 
 	describe('getScore', () => {
 		it('should get score for a layout', () => {
-			const mockScore: LayoutScoreStore = { playCount: 5, bestTime: 1000 };
+			const mockScore: LayoutScoreStore = { winCount: 5, loseCount: 1, playTime: 100, bestTime: 1000 };
 			localStorageMock.getItem.mockReturnValue(JSON.stringify(mockScore));
 
 			const result = service.getScore('test-layout');
@@ -220,7 +222,7 @@ describe('LocalstorageService', () => {
 
 			expect(result).toBeUndefined();
 			expect(localStorageMock.getItem).toHaveBeenCalledWith('mah.last');
-			expect(consoleWarnSpy).toHaveBeenCalled();
+			expect(logWarnSpy).toHaveBeenCalled();
 		});
 
 		it('should handle missing localStorage', () => {
@@ -265,7 +267,7 @@ describe('LocalstorageService', () => {
 			service.storeLastPlayed('test-layout');
 
 			expect(localStorageMock.setItem).toHaveBeenCalledWith('mah.last', 'test-layout');
-			expect(consoleWarnSpy).toHaveBeenCalled();
+			expect(logWarnSpy).toHaveBeenCalled();
 		});
 
 		it('should handle missing localStorage', () => {
@@ -289,7 +291,7 @@ describe('LocalstorageService', () => {
 
 	describe('storeScore', () => {
 		it('should store score for a layout', () => {
-			const mockScore: LayoutScoreStore = { playCount: 5, bestTime: 1000 };
+			const mockScore: LayoutScoreStore = { winCount: 5, loseCount: 1, playTime: 100, bestTime: 1000 };
 
 			service.storeScore('test-layout', mockScore);
 
@@ -561,11 +563,11 @@ describe('LocalstorageService', () => {
 				expect(localStorageMock.removeItem).toHaveBeenCalledWith('settings');
 
 				// Verify warnings were logged
-				expect(consoleWarnSpy).toHaveBeenCalledWith(
+				expect(logWarnSpy).toHaveBeenCalledWith(
 					'Failed to parse old state data, removing corrupted entry:',
 					expect.any(Error)
 				);
-				expect(consoleWarnSpy).toHaveBeenCalledWith(
+				expect(logWarnSpy).toHaveBeenCalledWith(
 					'Failed to parse old settings data, removing corrupted entry:',
 					expect.any(Error)
 				);
@@ -589,7 +591,7 @@ describe('LocalstorageService', () => {
 				(service as unknown as HackLocalstorgageService)
 					.updateData();
 
-				expect(consoleWarnSpy).toHaveBeenCalled();
+				expect(logWarnSpy).toHaveBeenCalled();
 			});
 
 			it('should handle missing localStorage', () => {

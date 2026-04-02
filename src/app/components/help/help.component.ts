@@ -4,6 +4,7 @@ import { clickExternalHref } from '../../model/external-links';
 import { DurationPipe } from '../../pipes/duration.pipe';
 import { LayoutService } from '../../service/layout.service';
 import { LocalstorageService } from '../../service/localstorage.service';
+import { log } from '../../model/log';
 
 interface StatEntry {
 	name: string;
@@ -93,7 +94,7 @@ export class HelpComponent implements OnInit {
 						loseCount: 0
 					};
 				})
-				.catch(error => console.error(error));
+				.catch(error => log.error(error));
 		}
 	}
 

@@ -6,6 +6,7 @@ import { expandMapping, mappingToID } from '../model/mapping';
 import { generateBase64SVG } from '../model/layout-svg';
 import type { CompactMapping, Layout, Layouts, LoadLayout, Mapping, SafeUrlSVG } from '../model/types';
 import { LocalstorageService } from './localstorage.service';
+import { log } from '../model/log';
 
 @Injectable({ providedIn: 'root' })
 export class LayoutService {
@@ -93,13 +94,13 @@ export class LayoutService {
 			return await firstValueFrom(
 				this.http.get<Array<LoadLayout>>('assets/data/boards.json').pipe(
 					catchError((error: unknown) => {
-						console.error('Failed to load boards.json:', error);
+						log.error('Failed to load boards.json:', error);
 						return of([]);
 					})
 				)
 			);
 		} catch (error) {
-			console.error('Critical error loading boards:', error);
+			log.error('Critical error loading boards:', error);
 			return [];
 		}
 	}

@@ -10,6 +10,7 @@ export const environment = {
 	editor: env.APP_FEATURE_EDITOR,
 	kyodai: env.APP_FEATURE_KYODAI,
 	modules: [],
+	logging: false,
 	openExternal: openExternal,
 	onWindowBlur: onWindowBlur
 };

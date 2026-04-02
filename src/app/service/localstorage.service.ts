@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import type { GameStateStore, LayoutScoreStore, LoadLayout, SettingsStore, StorageProvider } from '../model/types';
+import { log } from '../model/log';
 
 @Injectable({
 	providedIn: 'root'
@@ -56,7 +57,7 @@ export class LocalstorageService implements StorageProvider {
 			const result = localStorage.getItem(key);
 			return result ?? undefined;
 		} catch (error) {
-			console.warn('localStorage.getItem failed:', error);
+			log.warn('localStorage.getItem failed:', error);
 			return undefined;
 		}
 	}
@@ -73,7 +74,7 @@ export class LocalstorageService implements StorageProvider {
 				localStorage.removeItem(key);
 			}
 		} catch (error) {
-			console.warn('localStorage.setItem/removeItem failed:', error);
+			log.warn('localStorage.setItem/removeItem failed:', error);
 		}
 	}
 
@@ -113,9 +114,9 @@ export class LocalstorageService implements StorageProvider {
 			try {
 				localStorage.removeItem(fullKey);
 			} catch (removalError) {
-				console.warn('Failed to remove corrupted localStorage item:', fullKey, removalError);
+				log.warn('Failed to remove corrupted localStorage item:', fullKey, removalError);
 			}
-			console.warn('Failed to parse localStorage item:', fullKey, error);
+			log.warn('Failed to parse localStorage item:', fullKey, error);
 			return undefined;
 		}
 	}
@@ -134,9 +135,9 @@ export class LocalstorageService implements StorageProvider {
 		} catch (error) {
 			// Distinguish between quota errors and other errors
 			if (error instanceof Error && (error.name === 'QuotaExceededError' || error.name === 'NS_ERROR_DOM_QUOTA_REACHED')) {
-				console.warn('localStorage quota exceeded:', fullKey);
+				log.warn('localStorage quota exceeded:', fullKey);
 			} else {
-				console.warn('Failed to write localStorage item:', fullKey, error);
+				log.warn('Failed to write localStorage item:', fullKey, error);
 			}
 		}
 	}
@@ -152,13 +153,13 @@ export class LocalstorageService implements StorageProvider {
 				try {
 					this.set<unknown>('state', JSON.parse(old));
 				} catch (parseError) {
-					console.warn('Failed to parse old state data, removing corrupted entry:', parseError);
+					log.warn('Failed to parse old state data, removing corrupted entry:', parseError);
 				}
 				// Always remove old entry, even if parse failed
 				localStorage.removeItem('state');
 			}
 		} catch (error) {
-			console.warn('Failed to migrate old state data:', error);
+			log.warn('Failed to migrate old state data:', error);
 		}
 
 		// Migrate old settings format
@@ -168,13 +169,13 @@ export class LocalstorageService implements StorageProvider {
 				try {
 					this.set<unknown>('settings', JSON.parse(old));
 				} catch (parseError) {
-					console.warn('Failed to parse old settings data, removing corrupted entry:', parseError);
+					log.warn('Failed to parse old settings data, removing corrupted entry:', parseError);
 				}
 				// Always remove old entry, even if parse failed
 				localStorage.removeItem('settings');
 			}
 		} catch (error) {
-			console.warn('Failed to migrate old settings data:', error);
+			log.warn('Failed to migrate old settings data:', error);
 		}
 	}
 }

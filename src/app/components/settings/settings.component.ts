@@ -26,7 +26,7 @@ const SETTINGS_TABS = [
 	}
 })
 export class SettingsComponent implements AfterViewInit {
-	readonly kyodaiInput = viewChild.required<ElementRef<HTMLInputElement | HTMLTextAreaElement>>('kyodaiInput');
+	readonly kyodaiInput = viewChild<ElementRef<HTMLInputElement | HTMLTextAreaElement>>('kyodaiInput');
 	readonly canKyodai = environment.kyodai;
 	readonly kyodaiTileSets = KyodaiTileSets;
 	readonly sets = ImageSets;
@@ -65,7 +65,7 @@ export class SettingsComponent implements AfterViewInit {
 
 	setKyodaiUrl(event: Event): void {
 		const kyodaiInput = this.kyodaiInput();
-		if (kyodaiInput.nativeElement) {
+		if (kyodaiInput?.nativeElement) {
 			event.preventDefault();
 			event.stopPropagation();
 			kyodaiInput.nativeElement.value = (event.target as HTMLSelectElement).value;
@@ -74,7 +74,7 @@ export class SettingsComponent implements AfterViewInit {
 
 	applyKyodaiUrl(): void {
 		const kyodaiInput = this.kyodaiInput();
-		if (kyodaiInput.nativeElement) {
+		if (kyodaiInput?.nativeElement) {
 			this.app.settings.kyodaiUrl = kyodaiInput.nativeElement.value;
 			this.app.settings.save();
 		}
