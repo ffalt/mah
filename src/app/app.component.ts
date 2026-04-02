@@ -4,7 +4,8 @@ import { environment } from '../environments/environment';
 import { AppService } from './service/app.service';
 import { LayoutService } from './service/layout.service';
 import { log } from './model/log';
-import type { LoadLayout, MahFormat } from './model/types';
+import type { LoadLayout } from './model/types';
+import { parseImportString } from './model/import';
 import { GameComponent } from './components/game/game-component.component';
 
 type onWindowBlur = (callback: () => void) => void;
@@ -115,72 +116,30 @@ export class AppComponent implements OnInit {
 	}
 
 	private async checkImport(base64jsonString: string | null): Promise<Array<string>> {
-		if (!base64jsonString) {
-			return [];
-		}
-		try {
-			let decoded: string;
+		const boards = parseImportString(base64jsonString);
+		const result: Array<string> = [];
+		const imported: Array<LoadLayout> = [];
+		for (const custom of boards) {
 			try {
-				decoded = atob(base64jsonString);
-			} catch (error) {
-				log.warn('Import failed: Invalid base64 encoding', error);
-				return [];
-			}
-
-			let parsed: unknown;
-			try {
-				parsed = JSON.parse(decoded);
-			} catch (error) {
-				log.warn('Import failed: Invalid JSON format', error);
-				return [];
-			}
-
-			const mah = parsed as MahFormat;
-			if (!mah.mah || mah.mah !== '1.0') {
-				log.warn('Import failed: Invalid or unsupported MAH format version');
-				return [];
-			}
-
-			if (!Array.isArray(mah.boards)) {
-				log.warn('Import failed: Missing or invalid boards array');
-				return [];
-			}
-
-			if (mah.boards.length === 0) {
-				log.warn('Import failed: No boards found in import data');
-				return [];
-			}
-
-			const result: Array<string> = [];
-			const imported: Array<LoadLayout> = [];
-			for (const custom of mah.boards) {
-				try {
-					const layout = this.layoutService.expandLayout(custom, true);
-					result.push(layout.id);
-					if (
-						!this.layoutService.layouts.items.some(l => l.id === layout.id) &&
-						!imported.some(l => l.id === layout.id)
-					) {
-						imported.push(LayoutService.layout2loadLayout(layout, custom.map));
-					}
-				} catch (error) {
-					log.warn('Failed to import individual board:', error);
+				const layout = this.layoutService.expandLayout(custom, true);
+				result.push(layout.id);
+				if (
+					!this.layoutService.layouts.items.some(l => l.id === layout.id) &&
+					!imported.some(l => l.id === layout.id)
+				) {
+					imported.push(LayoutService.layout2loadLayout(layout, custom.map));
 				}
+			} catch (error) {
+				log.warn('Failed to import individual board:', error);
 			}
-
-			if (imported.length > 0) {
-				this.layoutService.storeCustomBoards(imported);
-			}
-
-			if (result.length === 0) {
-				log.warn('Import completed but no valid boards were imported');
-			}
-
-			return result;
-		} catch (error) {
-			log.error('Unexpected error during import:', error);
-			return [];
 		}
+		if (imported.length > 0) {
+			this.layoutService.storeCustomBoards(imported);
+		}
+		if (boards.length > 0 && result.length === 0) {
+			log.warn('Import completed but no valid boards were imported');
+		}
+		return result;
 	}
 
 	private registerWindowListeners(): void {
