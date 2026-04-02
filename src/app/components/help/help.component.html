@@ -65,11 +65,11 @@
 			<ul class="stats-total-list">
 				<li>
 					<span class="stats-name">{{ 'STATS_WIN_GAMES' | translate }}</span>
-					<span class="stats-desc">{{ stats.winCount }}×</span>
+					<span class="stats-desc">{{ stats.winCount }}</span>
 				</li>
 				<li>
 					<span class="stats-name">{{ 'STATS_LOSE_GAMES' | translate }}</span>
-					<span class="stats-desc">{{ stats.loseCount }}×</span>
+					<span class="stats-desc">{{ stats.loseCount }}</span>
 				</li>
 			</ul>
 			<div class="stats-list">
@@ -87,8 +87,8 @@
 					@for (item of stats.items; track item) {
 						<tr class="stats-item">
 							<td class="stats-name">{{ item.name }}</td>
-							<td class="stats-plays-win">{{ item.winCount }}×</td>
-							<td class="stats-plays-lose">{{ item.loseCount }}×</td>
+							<td class="stats-plays-win">{{ item.winCount }}</td>
+							<td class="stats-plays-lose">{{ item.loseCount }}</td>
 							<td class="stats-time-best">{{ (item.bestTime ?? 0) | duration }}</td>
 							<td class="stats-time-avg">{{ (item.averageTime ?? 0) | duration }}</td>
 						</tr>

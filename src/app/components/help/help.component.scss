@@ -125,15 +125,24 @@
 					background: var(--main-bg-color);
 
 					th {
-						text-align: left;
+						text-align: right;
 						padding: 4px 6px 4px 0;
 						font-weight: bold;
 						white-space: nowrap;
+
+						&.stats-name {
+							text-align: left;
+						}
 					}
 				}
 
 				td {
+					text-align: right;
 					padding: 2px 6px 2px 0;
+
+					&.stats-name {
+						text-align: left;
+					}
 				}
 			}
 		}
