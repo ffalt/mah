@@ -53,9 +53,9 @@ export interface MappingExtents {
 
 export function mappingExtents(mapping: Mapping): MappingExtents {
 	const extents: MappingExtents = {
-		minX: Infinity, maxX: -Infinity,
-		minY: Infinity, maxY: -Infinity,
-		minZ: Number.POSITIVE_INFINITY, maxZ: -Infinity
+		minX: Number.POSITIVE_INFINITY, maxX: Number.NEGATIVE_INFINITY,
+		minY: Number.POSITIVE_INFINITY, maxY: Number.NEGATIVE_INFINITY,
+		minZ: Number.POSITIVE_INFINITY, maxZ: Number.NEGATIVE_INFINITY
 	};
 	for (const place of mapping) {
 		extents.minZ = Math.min(extents.minZ, place[0]);
