@@ -1,5 +1,5 @@
 import type { Mapping } from '../types';
-import { blocksOverlap, inBounds, key, shuffleArray, buildEvenAnchors, markBufferPoints, placeSizesGeneric, buildMappingFromSetZ0 } from './utilities';
+import { shuffleArray, buildEvenAnchors, placeSizesGeneric, buildMappingFromSetZ0, canPlace, place } from './utilities';
 import type { BaseLayerOptions } from './consts';
 
 function areaCells(x0: number, y0: number, w: number, h: number): Array<[number, number]> {
@@ -12,48 +12,6 @@ function areaCells(x0: number, y0: number, w: number, h: number): Array<[number,
 		}
 	}
 	return cells;
-}
-
-function canPlace(x0: number, y0: number, w: number, h: number, occupied: Set<string>, blocked: Set<string>, usedSizes: Set<string>): boolean {
-	const sizeKey = `${w}x${h}`;
-	if (usedSizes.has(sizeKey)) {
-		return false;
-	}
-	const x1 = x0 + (w - 1) * 2;
-	const y1 = y0 + (h - 1) * 2;
-	if (!inBounds(x1, y1, 0)) {
-		return false;
-	}
-	const cells = areaCells(x0, y0, w, h);
-	for (const [x, y] of cells) {
-		if ((x % 2 !== 0) || (y % 2 !== 0)) {
-			return false;
-		}
-		if (!inBounds(x, y, 0)) {
-			return false;
-		}
-		const k = key(0, x, y);
-		if (occupied.has(k)) {
-			return false;
-		}
-		if (blocked.has(k)) {
-			return false;
-		}
-		if (blocksOverlap(occupied, 0, x, y)) {
-			return false;
-		}
-	}
-	return true;
-}
-
-function place(x0: number, y0: number, w: number, h: number, occupied: Set<string>, blocked: Set<string>, usedSizes: Set<string>): number {
-	const cells = areaCells(x0, y0, w, h);
-	for (const [x, y] of cells) {
-		occupied.add(key(0, x, y));
-	}
-	markBufferPoints(cells, 2, blocked, 0);
-	usedSizes.add(`${w}x${h}`);
-	return cells.length;
 }
 
 export function generateBaseLayerAreas({ minTarget, maxTarget, xMax, yMax }: BaseLayerOptions): Mapping {
@@ -82,7 +40,7 @@ export function generateBaseLayerAreas({ minTarget, maxTarget, xMax, yMax }: Bas
 
 	// Phase 1: randomized sizes against randomized anchors
 	let total = placeSizesGeneric(0, allSizes, anchors, minTarget, maxTarget, (x0, y0, w, h) =>
-		canPlace(x0, y0, w, h, occupied, blocked, usedSizes) ? place(x0, y0, w, h, occupied, blocked, usedSizes) : 0
+		canPlace(x0, y0, w, h, occupied, blocked, usedSizes, areaCells) ? place(x0, y0, w, h, occupied, blocked, usedSizes, areaCells) : 0
 	);
 
 	// Phase 2: if still below minTarget, try remaining unused sizes (reshuffle anchors and sizes)
@@ -91,7 +49,7 @@ export function generateBaseLayerAreas({ minTarget, maxTarget, xMax, yMax }: Bas
 		shuffleArray(remainingSizes);
 		shuffleArray(anchors);
 		total = placeSizesGeneric(total, remainingSizes, anchors, minTarget, maxTarget, (x0, y0, w, h) =>
-			canPlace(x0, y0, w, h, occupied, blocked, usedSizes) ? place(x0, y0, w, h, occupied, blocked, usedSizes) : 0
+			canPlace(x0, y0, w, h, occupied, blocked, usedSizes, areaCells) ? place(x0, y0, w, h, occupied, blocked, usedSizes, areaCells) : 0
 		);
 	}
 
@@ -110,10 +68,10 @@ export function generateBaseLayerAreas({ minTarget, maxTarget, xMax, yMax }: Bas
 			shuffleArray(sizePool);
 			shuffleArray(anchors);
 			total = placeSizesGeneric(total, sizePool, anchors, minTarget, maxTarget, (x0, y0, w, h) => {
-				if (!canPlace(x0, y0, w, h, occupied, blocked, usedSizes)) {
+				if (!canPlace(x0, y0, w, h, occupied, blocked, usedSizes, areaCells)) {
 					return 0;
 				}
-				const added = place(x0, y0, w, h, occupied, blocked, usedSizes);
+				const added = place(x0, y0, w, h, occupied, blocked, usedSizes, areaCells);
 				if (added > 0) {
 					progress = true;
 				}

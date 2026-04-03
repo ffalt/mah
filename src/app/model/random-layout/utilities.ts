@@ -182,3 +182,55 @@ export function placeSizesGeneric(
 export function hasMultipleLevels(mapping: Array<[number, number, number]>): boolean {
 	return mapping.some(entry => entry[0] > 0);
 }
+
+export type CellsFunction = (x0: number, y0: number, w: number, h: number) => Array<[number, number]>;
+
+export function canPlace(
+	x0: number, y0: number, w: number, h: number,
+	occupied: Set<string>, blocked: Set<string>, usedSizes: Set<string>,
+	cellsFunction: CellsFunction
+): boolean {
+	const sizeKey = `${w}x${h}`;
+	if (usedSizes.has(sizeKey)) {
+		return false;
+	}
+	const x1 = x0 + (w - 1) * 2;
+	const y1 = y0 + (h - 1) * 2;
+	if (!inBounds(x1, y1, 0)) {
+		return false;
+	}
+	const cells = cellsFunction(x0, y0, w, h);
+	for (const [x, y] of cells) {
+		if ((x % 2 !== 0) || (y % 2 !== 0)) {
+			return false;
+		}
+		if (!inBounds(x, y, 0)) {
+			return false;
+		}
+		const k = key(0, x, y);
+		if (occupied.has(k)) {
+			return false;
+		}
+		if (blocked.has(k)) {
+			return false;
+		}
+		if (blocksOverlap(occupied, 0, x, y)) {
+			return false;
+		}
+	}
+	return true;
+}
+
+export function place(
+	x0: number, y0: number, w: number, h: number,
+	occupied: Set<string>, blocked: Set<string>, usedSizes: Set<string>,
+	cellsFunction: CellsFunction
+): number {
+	const cells = cellsFunction(x0, y0, w, h);
+	for (const [x, y] of cells) {
+		occupied.add(key(0, x, y));
+	}
+	markBufferPoints(cells, 2, blocked, 0);
+	usedSizes.add(`${w}x${h}`);
+	return cells.length;
+}
