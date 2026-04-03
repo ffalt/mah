@@ -29,7 +29,7 @@ export class AppService implements OnDestroy {
 		this.game.destroy();
 	}
 
-	getCachedValue(name: string): unknown | undefined {
+	getCachedValue(name: string): unknown {
 		return this.cache[name];
 	}
 

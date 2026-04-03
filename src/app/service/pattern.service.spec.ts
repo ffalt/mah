@@ -16,7 +16,7 @@ function listJsonBaseNames(directory: string): Array<string> {
 	return files
 		.filter(entry => entry.isFile() && entry.name.toLowerCase().endsWith('.json'))
 		.map(entry => entry.name.replace(/\.json$/i, ''))
-		.sort();
+		.sort((a, b) => a.localeCompare(b));
 }
 
 describe('generatePatternList vs assets/patterns/*.json', () => {

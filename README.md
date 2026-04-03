@@ -9,7 +9,7 @@
 The original open-source Mahjong Solitaire game powering many Mahjong experiences on the web.  
 **Completely free. No ads. No tracking. No cloud.**
 
-### 🀄 [Play now in your browser](https://ffalt.github.io/mah/)
+## 🀄 [Play now in your browser](https://ffalt.github.io/mah/)
 
 [![license](https://img.shields.io/github/license/ffalt/mah.svg)](http://opensource.org/licenses/MIT)
 ![test](https://github.com/ffalt/mah/workflows/test/badge.svg)

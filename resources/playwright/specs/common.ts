@@ -25,7 +25,7 @@ export function loadLanguagesFromI18n(): Array<string> {
 		return entries
 			.filter(ent => ent.isFile() && ent.name.endsWith('.json'))
 			.map(ent => path.basename(ent.name, '.json'))
-			.sort();
+			.sort((a, b) => a.localeCompare(b));
 	} catch (error) {
 		console.warn('Failed to read i18n languages, falling back to [en]', error);
 		return ['en'];
@@ -37,9 +37,10 @@ export async function ensureOrientation(page: Page, orientation: 'portrait' | 'l
 	if (!size) {
 		return;
 	}
-	if (size.height >= size.width && (orientation === 'landscape')) {
-		await page.setViewportSize({ width: size.height, height: size.width });
-	} else if (size.width >= size.height && (orientation === 'portrait')) {
+	if (
+		(size.height >= size.width && (orientation === 'landscape')) ||
+		(size.width >= size.height && (orientation === 'portrait'))
+	) {
 		await page.setViewportSize({ width: size.height, height: size.width });
 	}
 }
