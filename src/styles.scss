@@ -467,6 +467,7 @@ p {
 			height: 22px;
 			min-width: 22px;
 			min-height: 22px;
+
 			&[type="checkbox"]:checked::after {
 				left: 7px;
 				top: 4px;
@@ -645,11 +646,13 @@ p {
 
 			@include mixins.respond-to-horizontal-device(pad) {
 				@include mixins.fill-screen-safe-area;
+
 				min-height: 0;
 			}
 
 			@include mixins.respond-to(small-down) {
 				@include mixins.fill-screen-safe-area;
+
 				min-height: 0;
 			}
 		}
