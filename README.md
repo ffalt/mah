@@ -22,7 +22,7 @@ The original open-source Mahjong Solitaire game powering many Mahjong experience
 
 ## ✨ Features
 
-🎲 **84 built-in boards** plus a random board generator for endless replayability
+🧩 **84 built-in boards** plus a random board generator for endless replayability
 
 🎨 **13 tile image sets** - switch between beautiful tile designs in light and dark styles
 
@@ -55,13 +55,13 @@ Play instantly in the browser, or grab a native build for your platform:
 <a href="https://github.com/ffalt/mah/releases" target="_blank"><img height="80" src="./resources/badges/badge-github.png" alt="Get it on Github"></a>
 <a href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://app/%7B%22id%22:%22io.github.ffalt.mah%22,%22url%22:%22https://github.com/ffalt/mah%22,%22author%22:%22ffalt%22,%22name%22:%22Mah%22%7D" target="_blank"><img height="80" src="./resources/badges/badge-obtainium.png" alt="Get it on Obtainium"></a>
 
-| Platform | Available |
-|----------|-----------|
-| 🌐 Web | [Play now](https://ffalt.github.io/mah/) |
-| 🍎 macOS | `.dmg` installer |
-| 🪟 Windows | `.msi` / `.exe` installer |
-| 🐧 Linux | `.deb` / `.AppImage` |
-| 🤖 Android | `.apk` |
+|    | Platform | Available                                |
+|----|----------|------------------------------------------|
+| 🌐 | Web      | [Play now](https://ffalt.github.io/mah/) |
+| 🍎 | macOS    | `.dmg` installer                         |
+| 🪟 | Windows  | `.msi` / `.exe` installer                |
+| 🐧 | Linux    | `.deb` / `.AppImage`                     |
+| 🤖 | Android  | `.apk`                                   |
 
 > [!IMPORTANT]
 >
