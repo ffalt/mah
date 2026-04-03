@@ -22,8 +22,7 @@ export function openExternal(url: string): void {
 let _tauriUnlistenBlur: UnlistenFn | undefined;
 
 export function onWindowBlur(callback: () => void): void {
-	// eslint-disable-next-line no-void
-	void listen('tauri://blur', () => {
+	listen('tauri://blur', () => {
 		callback();
 	}).then(un => {
 		_tauriUnlistenBlur = un;

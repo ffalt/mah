@@ -1,5 +1,6 @@
 import type { Mapping } from '../types';
 import { type RandomBaseLayerMode, X_MAX, Y_MAX, Z_MAX } from './consts';
+
 export { shuffleArray } from '../array-utilities';
 
 export type NonEmptyArray<T> = [T, ...Array<T>];
@@ -17,23 +18,27 @@ export function randChoice<T>(array: NonEmptyArray<T>): T {
 }
 
 export function inBounds(x: number, y: number, z: number): boolean {
-	return x >= 0 && x <= X_MAX && y >= 0 && y <= Y_MAX && z >= 0 && z <= Z_MAX;
+	return inZeroTo(x, X_MAX) && inZeroTo(y, Y_MAX) && inZeroTo(z, Z_MAX);
+}
+
+export function inZeroTo(value: number, to: number): boolean {
+	return value >= 0 && value <= to;
 }
 
 export function blocksOverlap(present: Set<string>, z: number, x: number, y: number): boolean {
 	// Disallow placing (z,x,y) if any tile exists within the 3x3 neighborhood on the same z
-	// Blocked positions relative to (x,y): all 8 neighbors: (±1,0), (0,±1), (±1,±1)
-	return (
-		present.has(key(z, x - 1, y - 1)) ||
-		present.has(key(z, x, y - 1)) ||
-		present.has(key(z, x + 1, y - 1)) ||
-		present.has(key(z, x - 1, y)) ||
-		/* center (x,y) checked before via uniqueness */
-		present.has(key(z, x + 1, y)) ||
-		present.has(key(z, x - 1, y + 1)) ||
-		present.has(key(z, x, y + 1)) ||
-		present.has(key(z, x + 1, y + 1))
-	);
+	// center (x,y) checked before via uniqueness
+	for (let dy = -1; dy <= 1; dy++) {
+		for (let dx = -1; dx <= 1; dx++) {
+			if (dx === 0 && dy === 0) {
+				continue;
+			}
+			if (present.has(key(z, x + dx, y + dy))) {
+				return true;
+			}
+		}
+	}
+	return false;
 }
 
 // Support rule used for z>0: direct below, small bridge (left+right), or large bridge (four diagonals)

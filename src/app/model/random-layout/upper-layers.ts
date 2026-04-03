@@ -355,7 +355,7 @@ function buildSupportCounts(mapping: Mapping): Map<string, number> {
 		];
 		for (const kb of belowCandidates) {
 			if (supports.has(kb)) {
-				supports.set(kb, (supports.get(kb) || 0) + 1);
+				supports.set(kb, (supports.get(kb) ?? 0) + 1);
 			}
 		}
 	}
