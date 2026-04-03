@@ -15,6 +15,7 @@ const commonRules = {
 	"class-methods-use-this": "off",
 	"curly": ["error", "all"],
 	"comma-dangle": "error",
+	"dot-notation": "error",
 	"complexity": ["error", { max: 20 }],
 	"default-case": "error",
 	"max-classes-per-file": ["error", 2],

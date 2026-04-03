@@ -9,10 +9,10 @@ export function svgSpinnerIcon(dark: boolean): string {
 	const dashLength = Math.round(2 * Math.PI * r * 0.25);
 	const gap = Math.round(2 * Math.PI * r) - dashLength;
 	return [
-		`<svg id="mah-tile-spinner" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">`,
+		'<svg id="mah-tile-spinner" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">',
 		`<circle cx="12" cy="12" r="${r}" fill="none" stroke="${color}" stroke-opacity="0.25" stroke-width="3"/>`,
 		`<circle cx="12" cy="12" r="${r}" fill="none" stroke="${color}" stroke-width="3" stroke-linecap="round" stroke-dasharray="${dashLength} ${gap}">`,
-		`<animateTransform attributeName="transform" type="rotate" dur="2s" from="0 12 12" to="360 12 12" repeatCount="indefinite"/>`,
-		`</circle></svg>`
+		'<animateTransform attributeName="transform" type="rotate" dur="2s" from="0 12 12" to="360 12 12" repeatCount="indefinite"/>',
+		'</circle></svg>'
 	].join('');
 }

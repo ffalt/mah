@@ -1,7 +1,7 @@
 import { Component, inject, output, signal } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
-import { Board } from '../../model/board';
-import { SOUNDS, Sound } from '../../model/sound';
+import type { Board } from '../../model/board';
+import { SOUNDS, type Sound } from '../../model/sound';
 import type { Stone } from '../../model/stone';
 import { createTutorialBoard, TUTORIAL_STEPS, type TutorialStep } from '../../model/tutorial';
 import { AppService } from '../../service/app.service';

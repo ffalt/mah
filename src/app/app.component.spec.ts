@@ -57,7 +57,7 @@ describe('AppComponent', () => {
 		});
 
 		const checkImport = async (app: AppComponent, input: string | null): Promise<Array<string>> =>
-			(app as unknown as Record<string, (s: string | null) => Promise<Array<string>>>)['checkImport'](input);
+			(app as unknown as Record<string, (s: string | null) => Promise<Array<string>>>).checkImport(input);
 
 		it('returns [] for null input', async () => {
 			expect(await checkImport(app, null)).toEqual([]);

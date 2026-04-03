@@ -14,9 +14,9 @@ describe('Matrix', () => {
 		});
 
 		it('should initialize with default dimensions', () => {
-			expect(matrix['levels']).toHaveLength(1);
-			expect(matrix['levels'][0]).toHaveLength(2);
-			expect(matrix['levels'][0][0]).toHaveLength(2);
+			expect(matrix.levels).toHaveLength(1);
+			expect(matrix.levels[0]).toHaveLength(2);
+			expect(matrix.levels[0][0]).toHaveLength(2);
 		});
 	});
 
@@ -69,7 +69,7 @@ describe('Matrix', () => {
 
 		it('should handle partially initialized levels gracefully', () => {
 			matrix.init(5, 5, 2);
-			matrix['levels'][0] = null as never;
+			matrix.levels[0] = null as never;
 
 			const result = matrix.inBounds(0, 0, 0);
 
@@ -242,7 +242,7 @@ describe('Matrix', () => {
 
 			matrix.applyMapping(mapping, 3, 5, 5);
 
-			expect(matrix['levels'].length).toBeGreaterThanOrEqual(3);
+			expect(matrix.levels.length).toBeGreaterThanOrEqual(3);
 		});
 
 		it('should handle empty mapping', () => {

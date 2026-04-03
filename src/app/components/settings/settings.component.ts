@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, viewChild, AfterViewInit } from '@angular/core';
+import { Component, ElementRef, inject, viewChild, type AfterViewInit } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Backgrounds, ImageSetDefault, ImageSets, PATTERN_BACKGROUND, Themes } from '../../model/consts';
 import { AppService } from '../../service/app.service';

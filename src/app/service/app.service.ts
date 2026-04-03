@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy, inject } from '@angular/core';
+import { Injectable, type OnDestroy, inject } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Game } from '../model/game';
 import { DEFAULT_LANGUAGE, LANGUAGES } from '../model/languages';

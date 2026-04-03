@@ -1,4 +1,4 @@
-import { Indicator } from './indicator';
+import type { Indicator } from './indicator';
 
 interface TouchPoint {
 	x: number;

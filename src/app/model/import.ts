@@ -8,19 +8,19 @@ export function isValidLoadLayout(board: unknown): board is LoadLayout {
 		return false;
 	}
 	const b = board as Record<string, unknown>;
-	if (typeof b['name'] !== 'string' || b['name'].trim() === '' || b['name'].length > 200) {
+	if (typeof b.name !== 'string' || b.name.trim() === '' || b.name.length > 200) {
 		return false;
 	}
-	if (!Array.isArray(b['map'])) {
+	if (!Array.isArray(b.map)) {
 		return false;
 	}
-	if (b['id'] !== undefined && (typeof b['id'] !== 'string' || b['id'].length > 200)) {
+	if (b.id !== undefined && (typeof b.id !== 'string' || b.id.length > 200)) {
 		return false;
 	}
-	if (b['by'] !== undefined && (typeof b['by'] !== 'string' || b['by'].length > 200)) {
+	if (b.by !== undefined && (typeof b.by !== 'string' || b.by.length > 200)) {
 		return false;
 	}
-	if (b['cat'] !== undefined && (typeof b['cat'] !== 'string' || b['cat'].length > 200)) {
+	if (b.cat !== undefined && (typeof b.cat !== 'string' || b.cat.length > 200)) {
 		return false;
 	}
 	return true;

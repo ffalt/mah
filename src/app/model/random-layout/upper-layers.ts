@@ -1,6 +1,6 @@
 import type { Mapping } from '../types';
 import { TARGET_COUNT, X_MAX, Y_MAX, Z_MAX } from './consts';
-import { blocksOverlap, inBounds, isOdd, isSupported, key, NonEmptyArray, randChoice, shuffleArray, tryAdd } from './utilities';
+import { blocksOverlap, inBounds, isOdd, isSupported, key, type NonEmptyArray, randChoice, shuffleArray, tryAdd } from './utilities';
 
 function computeBelowWindow(current: Mapping, z: number): { minX: number; maxX: number; minY: number; maxY: number } | null {
 	let minX = X_MAX;

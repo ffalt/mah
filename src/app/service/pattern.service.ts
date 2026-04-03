@@ -197,15 +197,14 @@ function svgPattern(
 		elements.push(multiStroke(index));
 	}
 	return [
-		`<svg width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'>`,
-		`<defs>`,
-		`<pattern id='a' patternUnits='userSpaceOnUse' width='${
-			width + spacing[0]}' height='${height - (vHeight * (maxColors - colorCounts)) + spacing[1]
-		}' patternTransform='scale(${scale}) rotate(${angle})'>`,
+		'<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"><defs>',
+		`<pattern id="a" patternUnits="userSpaceOnUse" width="${
+			width + spacing[0]}" height="${height - (vHeight * (maxColors - colorCounts)) + spacing[1]
+		}" patternTransform="scale(${scale}) rotate(${angle})">`,
 		...elements,
 		`</pattern></defs>`,
-		`<rect width='800%' height='800%' transform='translate(${scale * moveLeft},${scale * moveTop})' fill='url(#a)'/>`,
-		`</svg>`
+		`<rect width="800%" height="800%" transform="translate(${scale * moveLeft},${scale * moveTop})" fill="url(#a)"/>`,
+		'</svg>'
 	].join('');
 }
 

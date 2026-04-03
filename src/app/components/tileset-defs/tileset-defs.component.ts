@@ -4,7 +4,7 @@ import { ImageSetLoaderComponent } from '../image-set-loader/image-set-loader.co
 @Component({
 	selector: 'app-tileset-defs',
 	templateUrl: './tileset-defs.component.html',
-	styles: `:host { position: absolute; width: 0; height: 0; overflow: hidden; }`,
+	styles: ':host { position: absolute; width: 0; height: 0; overflow: hidden; }',
 	imports: [ImageSetLoaderComponent]
 })
 export class TilesetDefsComponent {

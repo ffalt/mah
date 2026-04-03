@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import type { HttpClient } from '@angular/common/http';
 
 interface CacheItem {
 	data?: string;
