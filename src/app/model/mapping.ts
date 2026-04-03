@@ -41,3 +41,29 @@ export function mappingBounds(mapping: Mapping, minLevel: number, minX: number, 
 	}
 	return bound;
 }
+
+export interface MappingExtents {
+	minX: number;
+	maxX: number;
+	minY: number;
+	maxY: number;
+	minZ: number;
+	maxZ: number;
+}
+
+export function mappingExtents(mapping: Mapping): MappingExtents {
+	const extents: MappingExtents = {
+		minX: Infinity, maxX: -Infinity,
+		minY: Infinity, maxY: -Infinity,
+		minZ: Infinity, maxZ: -Infinity
+	};
+	for (const place of mapping) {
+		extents.minZ = Math.min(extents.minZ, place[0]);
+		extents.maxZ = Math.max(extents.maxZ, place[0]);
+		extents.minX = Math.min(extents.minX, place[1]);
+		extents.maxX = Math.max(extents.maxX, place[1]);
+		extents.minY = Math.min(extents.minY, place[2]);
+		extents.maxY = Math.max(extents.maxY, place[2]);
+	}
+	return extents;
+}

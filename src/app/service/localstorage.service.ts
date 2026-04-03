@@ -146,36 +146,23 @@ export class LocalstorageService implements StorageProvider {
 		if (this.localStorageNotAvailable()) {
 			return;
 		}
-		// Migrate old state format
-		try {
-			const old = localStorage.getItem('state');
-			if (old) {
-				try {
-					this.set<unknown>('state', JSON.parse(old));
-				} catch (parseError) {
-					log.warn('Failed to parse old state data, removing corrupted entry:', parseError);
-				}
-				// Always remove old entry, even if parse failed
-				localStorage.removeItem('state');
-			}
-		} catch (error) {
-			log.warn('Failed to migrate old state data:', error);
-		}
+		this.migrateOldEntry('state');
+		this.migrateOldEntry('settings');
+	}
 
-		// Migrate old settings format
+	private migrateOldEntry(key: string): void {
 		try {
-			const old = localStorage.getItem('settings');
+			const old = localStorage.getItem(key);
 			if (old) {
 				try {
-					this.set<unknown>('settings', JSON.parse(old));
+					this.set<unknown>(key, JSON.parse(old));
 				} catch (parseError) {
-					log.warn('Failed to parse old settings data, removing corrupted entry:', parseError);
+					log.warn(`Failed to parse old ${key} data, removing corrupted entry:`, parseError);
 				}
-				// Always remove old entry, even if parse failed
-				localStorage.removeItem('settings');
+				localStorage.removeItem(key);
 			}
 		} catch (error) {
-			log.warn('Failed to migrate old settings data:', error);
+			log.warn(`Failed to migrate old ${key} data:`, error);
 		}
 	}
 }

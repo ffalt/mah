@@ -108,6 +108,7 @@ const commonUnicornRules = {
 	"unicorn/prefer-query-selector": "off",
 	"unicorn/prefer-global-this": "off",
 	"unicorn/no-null": "off",
+	"unicorn/no-array-reverse": "off",
 	"unicorn/no-array-sort": "off",
 	"unicorn/prefer-string-replace-all": "off",
 	"unicorn/no-useless-undefined": "off",

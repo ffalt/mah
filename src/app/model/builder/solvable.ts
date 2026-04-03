@@ -36,7 +36,7 @@ export class SolvableBoardBuilder extends BuilderBase {
 		BuilderBase.fillStones(stones, tiles); // grouping will be repaired later
 
 		let runs = 0;
-		let pairs = this.solve(stones, tiles);
+		let pairs = this.assignTilePairs(stones, tiles);
 		while (pairs.length === 0 && runs < maxRuns) {
 			// Reset stones for retry
 			for (const stone of stones) {
@@ -44,7 +44,7 @@ export class SolvableBoardBuilder extends BuilderBase {
 				stone.v = 0;
 				stone.groupNr = 0;
 			}
-			pairs = this.solve(stones, tiles);
+			pairs = this.assignTilePairs(stones, tiles);
 			runs++;
 		}
 
@@ -52,13 +52,7 @@ export class SolvableBoardBuilder extends BuilderBase {
 			return undefined;
 		}
 
-		// Clear picked flags and finalize board
-		for (const stone of stones) {
-			stone.picked = false;
-		}
-		BuilderBase.fillStones(stones, tiles); // repair grouping & images, etc
-		stones.sort((a, b) => a.v - b.v);
-		return stones;
+		return this.finalizeBoard(stones, tiles);
 	}
 
 	private buildSolvableAlternative(mapping: Mapping, tiles: Tiles): Array<Stone> | undefined {
@@ -70,35 +64,32 @@ export class SolvableBoardBuilder extends BuilderBase {
 			}
 			BuilderBase.fillStones(stones, tiles);
 
-			// Try to solve with fresh tiles randomization
-			const pairs = this.solveWithFreshTiles(stones, tiles, attempt);
+			// Try to solve with reversed group order for variety
+			const pairs = this.assignTilePairs(stones, tiles, attempt % 2 !== 0);
 			if (pairs.length > 0) {
-				// Successfully solved
-				for (const stone of stones) {
-					stone.picked = false;
-				}
-				BuilderBase.fillStones(stones, tiles);
-				stones.sort((a, b) => a.v - b.v);
-				return stones;
+				return this.finalizeBoard(stones, tiles);
 			}
 		}
 		return undefined;
 	}
 
-	private solveWithFreshTiles(stones: Array<Stone>, tiles: Tiles, seed: number): Array<Array<Tile>> {
+	private finalizeBoard(stones: Array<Stone>, tiles: Tiles): Array<Stone> {
+		for (const stone of stones) {
+			stone.picked = false;
+		}
+		BuilderBase.fillStones(stones, tiles);
+		stones.sort((a, b) => a.v - b.v);
+		return stones;
+	}
+
+	private assignTilePairs(stones: Array<Stone>, tiles: Tiles, reverse = false): Array<Array<Tile>> {
 		const pairs: Array<[Tile, Tile]> = [];
 		const allPairs: Array<[Tile, Tile]> = [];
 		const maxPairs = stones.length / 2;
 
-		// Randomize tiles differently based on seed for variety
-		let groupList = BuilderBase.randomList(tiles.groups);
-		if (seed % 2 !== 0) {
-			// Manually reverse the randomized list for odd seeds
-			const reversed: Array<typeof groupList[number]> = [];
-			for (let index = groupList.length - 1; index >= 0; index--) {
-				reversed.push(groupList[index]);
-			}
-			groupList = reversed;
+		const groupList = BuilderBase.randomList(tiles.groups);
+		if (reverse) {
+			groupList.reverse();
 		}
 
 		for (const group of groupList) {
@@ -118,48 +109,6 @@ export class SolvableBoardBuilder extends BuilderBase {
 			const freestones: Array<Stone> = stones.filter((stone: Stone) =>
 				!stone.picked && !stone.isBlocked());
 			if (freestones.length < 2) {
-				// not enough free places
-				return [];
-			}
-			const place1 = BuilderBase.randomExtract(freestones);
-			const place2 = BuilderBase.randomExtract(freestones);
-			place1.v = pair[0].v;
-			place1.img = pair[0].img;
-			place1.groupNr = pair[0].groupNr;
-			place1.picked = true;
-			place2.v = pair[1].v;
-			place2.img = pair[1].img;
-			place2.groupNr = pair[1].groupNr;
-			place2.picked = true;
-			pairs.push(pair);
-		}
-		return pairs;
-	}
-
-	solve(stones: Array<Stone>, tiles: Tiles): Array<Array<Tile>> {
-		// ... existing code ...
-		const pairs: Array<[Tile, Tile]> = [];
-		const allPairs: Array<[Tile, Tile]> = [];
-		const maxPairs = stones.length / 2;
-		const groups = BuilderBase.randomList(tiles.groups);
-		for (const group of groups) {
-			const g: Array<Tile> = BuilderBase.randomList(group.tiles);
-			for (let index = 0; index + 1 < g.length; index += 2) {
-				if (allPairs.length < maxPairs) {
-					allPairs.push([g[index], g[index + 1]]);
-				}
-			}
-			if (allPairs.length >= maxPairs) {
-				break;
-			}
-		}
-		const randomPairs = BuilderBase.randomList(allPairs);
-		for (const pair of randomPairs) {
-			const freestones: Array<Stone> = stones.filter((stone: Stone) =>
-				!stone.picked && !stone.isBlocked());
-			if (freestones.length < 2) {
-				// not enough free places
-				// this may happen if the last stones are directly on each other
 				return [];
 			}
 			const place1 = BuilderBase.randomExtract(freestones);

@@ -13,6 +13,7 @@ import { LayoutPreviewComponent } from '../../../../components/layout-preview/la
 import { BoardComponent } from '../board/board.component';
 import { CommonModule } from '@angular/common';
 import { optimizeMapping } from '../../model/optimize';
+import { mappingExtents } from '../../../../model/mapping';
 
 interface Stats {
 	name: string;
@@ -71,45 +72,17 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 	}
 
 	getStats(layout: EditLayout): Stats {
-		const stats: Stats = {
+		const extents = mappingExtents(layout.mapping);
+		return {
 			name: layout.name,
 			totalCount: layout.mapping.length,
 			layerCount: layout.mapping.filter(m => m[0] === this.currentZ).length,
 			countInvalid: (layout.mapping.length > 144) || !!(layout.mapping.length % 2),
-			minX: 100,
-			maxX: 0,
-			minY: 100,
-			maxY: 0,
-			minZ: 100,
-			maxZ: 0,
-			height: 0,
-			width: 0,
-			depth: 0
+			...extents,
+			width: extents.maxX - extents.minX,
+			height: extents.maxY - extents.minY,
+			depth: extents.maxZ - extents.minZ
 		};
-		for (const m of layout.mapping) {
-			if (m[0] < stats.minZ) {
-				stats.minZ = m[0];
-			}
-			if (m[0] > stats.maxZ) {
-				stats.maxZ = m[0];
-			}
-			if (m[1] < stats.minX) {
-				stats.minX = m[1];
-			}
-			if (m[1] > stats.maxX) {
-				stats.maxX = m[1];
-			}
-			if (m[2] < stats.minY) {
-				stats.minY = m[2];
-			}
-			if (m[2] > stats.maxY) {
-				stats.maxY = m[2];
-			}
-		}
-		stats.width = (stats.maxX - stats.minX);
-		stats.height = (stats.maxY - stats.minY);
-		stats.depth = (stats.maxZ - stats.minZ);
-		return stats;
 	}
 
 	ngOnInit(): void {
@@ -223,24 +196,22 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 		layout.previewSVG = this.svg;
 	}
 
-	moveX(x: number): void {
-		if (this.stats.minX + x < 0 || this.stats.maxX + x >= CONSTS.mX - 1) {
-			return;
-		}
-		const mapping = this.layout().mapping;
-		for (const m of mapping) {
-			m[1] = m[1] + x;
-		}
-		this.refresh();
+	moveX(delta: number): void {
+		this.moveAxis(1, delta, CONSTS.mX);
 	}
 
-	moveY(y: number): void {
-		if (this.stats.minY + y < 0 || this.stats.maxY + y >= CONSTS.mY - 1) {
+	moveY(delta: number): void {
+		this.moveAxis(2, delta, CONSTS.mY);
+	}
+
+	private moveAxis(axis: 1 | 2, delta: number, maxBound: number): void {
+		const minKey = axis === 1 ? 'minX' : 'minY';
+		const maxKey = axis === 1 ? 'maxX' : 'maxY';
+		if (this.stats[minKey] + delta < 0 || this.stats[maxKey] + delta >= maxBound - 1) {
 			return;
 		}
-		const mapping = this.layout().mapping;
-		for (const m of mapping) {
-			m[2] = m[2] + y;
+		for (const m of this.layout().mapping) {
+			m[axis] = m[axis] + delta;
 		}
 		this.refresh();
 	}

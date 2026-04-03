@@ -1,5 +1,6 @@
 import type { Mapping } from '../types';
 import { type RandomBaseLayerMode, X_MAX, Y_MAX, Z_MAX } from './consts';
+export { shuffleArray } from '../array-utilities';
 
 export type NonEmptyArray<T> = [T, ...Array<T>];
 
@@ -13,14 +14,6 @@ export function randInt(min: number, maxInclusive: number): number {
 
 export function randChoice<T>(array: NonEmptyArray<T>): T {
 	return array[Math.floor(Math.random() * array.length)];
-}
-
-export function shuffleArray<T>(array: Array<T>): Array<T> {
-	for (let index = array.length - 1; index > 0; index--) {
-		const index2 = Math.floor(Math.random() * (index + 1));
-		[array[index], array[index2]] = [array[index2], array[index]];
-	}
-	return array;
 }
 
 export function inBounds(x: number, y: number, z: number): boolean {

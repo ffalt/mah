@@ -4,7 +4,7 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClient } from '@angular/common/http';
 import { of, throwError } from 'rxjs';
 
-import { generatePatternList, PatternService, type CacheItem } from './pattern.service';
+import { generatePatternList, PatternService } from './pattern.service';
 
 function getPatternsDirectory(): string {
 	// This spec file lives in src/app/service -> assets is at src/assets
@@ -46,8 +46,17 @@ describe('generatePatternList vs assets/patterns/*.json', () => {
 	});
 });
 
-interface HackPatternService {
+interface CacheItem {
+	data?: string;
+	request?: Promise<string>;
+}
+
+interface HackHttpCache {
 	cache: Record<string, CacheItem>;
+}
+
+interface HackPatternService {
+	cache: HackHttpCache;
 }
 
 describe('PatternService', () => {
@@ -82,7 +91,7 @@ describe('PatternService', () => {
 
 		it('should initialize with empty cache', () => {
 			// Access private cache property for testing
-			const cache = (service as unknown as HackPatternService).cache;
+			const cache = (service as unknown as HackPatternService).cache.cache;
 			expect(cache).toEqual({});
 		});
 	});
@@ -93,8 +102,8 @@ describe('PatternService', () => {
 			const cachedJson = '{"path":["M0,0"],"width":100,"height":100}';
 
 			// Set up cache with data
-			(service as unknown as HackPatternService).cache = {
-				'test-pattern': { data: cachedJson }
+			(service as unknown as HackPatternService).cache.cache = {
+				'assets/patterns/test-pattern.json': { data: cachedJson }
 			};
 
 			// Act
@@ -111,8 +120,8 @@ describe('PatternService', () => {
 			const pendingPromise = Promise.resolve(pendingJson);
 
 			// Set up cache with pending request
-			(service as unknown as HackPatternService).cache = {
-				'test-pattern': { request: pendingPromise }
+			(service as unknown as HackPatternService).cache.cache = {
+				'assets/patterns/test-pattern.json': { request: pendingPromise }
 			};
 
 			// Act
@@ -136,9 +145,8 @@ describe('PatternService', () => {
 			expect(mockHttpClient.get).toHaveBeenCalledWith('assets/patterns/test-pattern.json', { responseType: 'text' });
 
 			// Verify cache was updated
-			const cache = (service as unknown as HackPatternService).cache;
-			expect(cache['test-pattern'].data).toBe(httpJson);
-			expect(cache['test-pattern'].request).toBeUndefined();
+			const cache = (service as unknown as HackPatternService).cache.cache;
+			expect(cache['assets/patterns/test-pattern.json'].data).toBe(httpJson);
 		});
 
 		it('should handle HTTP errors', async () => {
@@ -151,8 +159,8 @@ describe('PatternService', () => {
 			expect(mockHttpClient.get).toHaveBeenCalledWith('assets/patterns/test-pattern.json', { responseType: 'text' });
 
 			// Verify cache was cleaned up after error
-			const cache = (service as unknown as HackPatternService).cache;
-			expect(cache['test-pattern']).toBeUndefined();
+			const cache = (service as unknown as HackPatternService).cache.cache;
+			expect(cache['assets/patterns/test-pattern.json']).toBeUndefined();
 		});
 
 		it('should prevent race condition by sharing pending requests', async () => {
@@ -181,8 +189,8 @@ describe('PatternService', () => {
 			const cachedJson = '{"path":["M0,0"],"width":100,"height":100}';
 
 			// Set up cache with data
-			(service as unknown as HackPatternService).cache = {
-				'test-pattern': { data: cachedJson }
+			(service as unknown as HackPatternService).cache.cache = {
+				'assets/patterns/test-pattern.json': { data: cachedJson }
 			};
 
 			// Act - Make two simultaneous requests
@@ -211,8 +219,8 @@ describe('PatternService', () => {
 			await expect(service.get('test-pattern')).rejects.toThrow('First attempt failed');
 
 			// Verify cache was cleaned
-			let cache = (service as unknown as HackPatternService).cache;
-			expect(cache['test-pattern']).toBeUndefined();
+			let cache = (service as unknown as HackPatternService).cache.cache;
+			expect(cache['assets/patterns/test-pattern.json']).toBeUndefined();
 
 			// Second call succeeds
 			mockHttpClient.get.mockReturnValueOnce(of(successJson));
@@ -225,8 +233,8 @@ describe('PatternService', () => {
 			expect(mockHttpClient.get).toHaveBeenCalledTimes(2);
 
 			// Verify cache was updated
-			cache = (service as unknown as HackPatternService).cache;
-			expect(cache['test-pattern'].data).toBe(successJson);
+			cache = (service as unknown as HackPatternService).cache.cache;
+			expect(cache['assets/patterns/test-pattern.json'].data).toBe(successJson);
 		});
 	});
 

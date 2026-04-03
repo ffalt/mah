@@ -1,6 +1,6 @@
 import type { Mapping } from '../types';
 import { TARGET_COUNT, X_MAX, Y_MAX, Z_MAX } from './consts';
-import { blocksOverlap, inBounds, isOdd, isSupported, key, NonEmptyArray, randChoice, tryAdd } from './utilities';
+import { blocksOverlap, inBounds, isOdd, isSupported, key, NonEmptyArray, randChoice, shuffleArray, tryAdd } from './utilities';
 
 function computeBelowWindow(current: Mapping, z: number): { minX: number; maxX: number; minY: number; maxY: number } | null {
 	let minX = X_MAX;
@@ -276,10 +276,7 @@ function symmetricFill(mapping: Mapping, mirrorX: boolean, mirrorY: boolean): Ma
 					candidates.push([x, y]);
 				}
 			}
-			for (let index = candidates.length - 1; index > 0; index--) {
-				const index_ = Math.floor(Math.random() * (index + 1));
-				[candidates[index], candidates[index_]] = [candidates[index_], candidates[index]];
-			}
+			shuffleArray(candidates);
 			for (const [x, y] of candidates) {
 				if (mapping.length >= TARGET_COUNT) {
 					break;

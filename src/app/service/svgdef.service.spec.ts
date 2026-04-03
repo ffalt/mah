@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClient } from '@angular/common/http';
-import { type CacheItem, SvgdefService } from './svgdef.service';
+import { SvgdefService } from './svgdef.service';
 import { of, throwError } from 'rxjs';
 import * as tilesets from '../model/tilesets';
 
@@ -10,8 +10,17 @@ jest.mock('../model/tilesets', () => ({
 	buildKyodaiSVG: jest.fn()
 }));
 
-interface HackSvgdefService {
+interface CacheItem {
+	data?: string;
+	request?: Promise<string>;
+}
+
+interface HackHttpCache {
 	cache: Record<string, CacheItem>;
+}
+
+interface HackSvgdefService {
+	cache: HackHttpCache;
 }
 
 describe('SvgdefService', () => {
@@ -46,7 +55,7 @@ describe('SvgdefService', () => {
 
 		it('should initialize with empty cache', () => {
 			// Access private cache property for testing
-			const cache = (service as unknown as HackSvgdefService).cache;
+			const cache = (service as unknown as HackSvgdefService).cache.cache;
 			expect(cache).toEqual({});
 		});
 	});
@@ -75,8 +84,8 @@ describe('SvgdefService', () => {
 			(tilesets.imageSetIsKyodai as jest.Mock).mockReturnValue(false);
 
 			// Set up cache with data
-			(service as unknown as HackSvgdefService).cache = {
-				'test-set': { data: cachedSvg }
+			(service as unknown as HackSvgdefService).cache.cache = {
+				'assets/svg/test-set.svg': { data: cachedSvg }
 			};
 
 			// Act
@@ -95,8 +104,8 @@ describe('SvgdefService', () => {
 			(tilesets.imageSetIsKyodai as jest.Mock).mockReturnValue(false);
 
 			// Set up cache with pending request
-			(service as unknown as HackSvgdefService).cache = {
-				'test-set': { request: pendingPromise }
+			(service as unknown as HackSvgdefService).cache.cache = {
+				'assets/svg/test-set.svg': { request: pendingPromise }
 			};
 
 			// Act
@@ -123,8 +132,8 @@ describe('SvgdefService', () => {
 			expect(mockHttpClient.get).toHaveBeenCalledWith('assets/svg/test-set.svg', { responseType: 'text' });
 
 			// Verify cache was updated with the SVG data
-			const cache = (service as unknown as HackSvgdefService).cache;
-			expect(cache['test-set'].data).toBe(httpSvg);
+			const cache = (service as unknown as HackSvgdefService).cache.cache;
+			expect(cache['assets/svg/test-set.svg'].data).toBe(httpSvg);
 		});
 
 		it('should handle HTTP errors', async () => {
@@ -139,8 +148,8 @@ describe('SvgdefService', () => {
 			expect(mockHttpClient.get).toHaveBeenCalledWith('assets/svg/test-set.svg', { responseType: 'text' });
 
 			// Verify cache was cleaned up after error
-			const cache = (service as unknown as HackSvgdefService).cache;
-			expect(cache['test-set']).toBeUndefined();
+			const cache = (service as unknown as HackSvgdefService).cache.cache;
+			expect(cache['assets/svg/test-set.svg']).toBeUndefined();
 		});
 
 		it('should prevent race condition by sharing pending requests', async () => {

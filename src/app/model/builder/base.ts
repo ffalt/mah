@@ -1,6 +1,7 @@
 import type { Mapping } from '../types';
 import type { Tile, Tiles } from '../tiles';
 import { type Stone, safeGetStone } from '../stone';
+import { randomExtract, shuffledCopy } from '../array-utilities';
 
 export interface BuilderType {
 	build(mapping: Mapping, tiles: Tiles): Array<Stone>;
@@ -9,23 +10,12 @@ export interface BuilderType {
 export abstract class BuilderBase implements BuilderType {
 	abstract build(mapping: Mapping, tiles: Tiles): Array<Stone>;
 
-	static random<T>(array: Array<T>): number {
-		return Math.floor(Math.random() * array.length);
-	}
-
 	static randomExtract<T>(array: Array<T>): T {
-		const index = BuilderBase.random(array);
-		return array.splice(index, 1)[0];
+		return randomExtract(array);
 	}
 
 	static randomList<T>(array: Array<T>): Array<T> {
-		// return a new array with elements shuffled (Fisher–Yates)
-		const result = [...array];
-		for (let index = result.length - 1; index > 0; index--) {
-			const pos = Math.floor(Math.random() * (index + 1));
-			[result[index], result[pos]] = [result[pos], result[index]];
-		}
-		return result;
+		return shuffledCopy(array);
 	}
 
 	static collectNodes(stones: Array<Stone>, stone: Stone): {

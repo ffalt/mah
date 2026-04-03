@@ -1,10 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-
-export interface CacheItem {
-	data?: string;
-	request?: Promise<string>;
-}
+import { HttpCache } from './http-cache';
 
 export interface PatternEntry {
 	id: string;
@@ -217,40 +213,10 @@ function svgPattern(
 	providedIn: 'root'
 })
 export class PatternService {
-	private readonly http = inject(HttpClient);
-	private readonly cache: Record<string, CacheItem> = {};
+	private readonly cache = new HttpCache(inject(HttpClient));
 
 	async get(name: string): Promise<string> {
-		let item = this.cache[name];
-		if (item) {
-			if (item.data) {
-				return item.data;
-			}
-			if (item.request !== undefined) {
-				return item.request;
-			}
-		}
-		item = {};
-		this.cache[name] = item;
-
-		const request = new Promise<string>((resolve, reject) => {
-			setTimeout(() => {
-				this.http.get(`assets/patterns/${name}.json`, { responseType: 'text' })
-					.subscribe({
-						next: result => {
-							item.data = result;
-							item.request = undefined;
-							resolve(result);
-						},
-						error: (error: unknown) => {
-							delete this.cache[name];
-							reject(error as Error);
-						}
-					});
-			});
-		});
-		item.request = request;
-		return request;
+		return this.cache.get(`assets/patterns/${name}.json`);
 	}
 
 	async svgDataUrl(name: string, colors: Array<string>): Promise<string> {
