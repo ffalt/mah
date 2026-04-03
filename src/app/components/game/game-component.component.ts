@@ -37,6 +37,28 @@ interface HTMLElementExtended extends HTMLElement {
 	mozRequestFullScreen(): void;
 }
 
+function callFullscreenMethod(
+	target: Record<string, unknown>,
+	methods: ReadonlyArray<string>,
+	action: string
+): void {
+	for (const method of methods) {
+		if (typeof target[method] === 'function') {
+			try {
+				const result = (target[method] as () => unknown)();
+				if (result instanceof Promise) {
+					result.catch(error => {
+						log.warn(`Failed to ${action}:`, error);
+					});
+				}
+			} catch (error) {
+				log.warn(`Failed to ${action}:`, error);
+			}
+			return;
+		}
+	}
+}
+
 @Component({
 	selector: 'app-game-component',
 	templateUrl: './game-component.component.html',
@@ -221,47 +243,19 @@ export class GameComponent {
 	}
 
 	exitFullscreen(): void {
-		const doc = window.document as DocumentExtended;
-		if (doc.exitFullscreen) {
-			doc.exitFullscreen()
-				.catch(error => {
-					log.warn('Failed to exit fullscreen:', error);
-				});
-		} else if (doc.webkitExitFullscreen) {
-			try {
-				doc.webkitExitFullscreen();
-			} catch (error) {
-				log.warn('Failed to exit fullscreen (webkit):', error);
-			}
-		} else if (doc.mozCancelFullScreen) {
-			try {
-				doc.mozCancelFullScreen();
-			} catch (error) {
-				log.warn('Failed to exit fullscreen (moz):', error);
-			}
-		}
+		callFullscreenMethod(
+			window.document as unknown as Record<string, unknown>,
+			['exitFullscreen', 'webkitExitFullscreen', 'mozCancelFullScreen'],
+			'exit fullscreen'
+		);
 	}
 
 	requestFullscreen(): void {
-		const element = document.body as HTMLElementExtended;
-		if (element.requestFullscreen) {
-			element.requestFullscreen()
-				.catch(error => {
-					log.warn('Failed to enter fullscreen:', error);
-				});
-		} else if (element.webkitRequestFullscreen) {
-			try {
-				element.webkitRequestFullscreen();
-			} catch (error) {
-				log.warn('Failed to enter fullscreen (webkit):', error);
-			}
-		} else if (element.mozRequestFullScreen) {
-			try {
-				element.mozRequestFullScreen();
-			} catch (error) {
-				log.warn('Failed to enter fullscreen (moz):', error);
-			}
-		}
+		callFullscreenMethod(
+			document.body as unknown as Record<string, unknown>,
+			['requestFullscreen', 'webkitRequestFullscreen', 'mozRequestFullScreen'],
+			'enter fullscreen'
+		);
 	}
 
 	enterFullScreen(): void {
