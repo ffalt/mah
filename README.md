@@ -4,122 +4,130 @@
 	<img width="500" height="350" src="logo.svg" alt="Mah">
 </div>
 
-# Mah - A Mahjong Solitaire Game
+# Mah - Mahjong Solitaire
 
-Development repository of the original open-source version behind many Mahjong games on the web.
+The original open-source Mahjong Solitaire game powering many Mahjong experiences on the web.  
+**Completely free. No ads. No tracking. No cloud.**
 
-[Play Mahjong here](https://ffalt.github.io/mah/) - Completely free, no ads, no tracking.
-
-Built with HTML5, SVG, and Angular.
+### 🀄 [Play now in your browser](https://ffalt.github.io/mah/)
 
 [![license](https://img.shields.io/github/license/ffalt/mah.svg)](http://opensource.org/licenses/MIT)
 ![test](https://github.com/ffalt/mah/workflows/test/badge.svg)
 [![developer](https://img.shields.io/badge/developer-awesome-brightgreen.svg)](https://github.com/ffalt/mah)
 [![known vulnerabilities](https://snyk.io/test/github/ffalt/mah/badge.svg)](https://snyk.io/test/github/ffalt/mah)
 [![Maintainability](https://qlty.sh/gh/ffalt/projects/mah/maintainability.svg)](https://qlty.sh/gh/ffalt/projects/mah)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/35c2364ef29946f3a26b7605a34c75a8)](https://app.codacy.com/gh/ffalt/mah/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
-## Features
+---
 
-* 84 built-in boards
+## ✨ Features
 
-* Random board generator for countless and more challenging games
+🎲 **84 built-in boards** plus a random board generator for endless replayability
 
-* 13 tile/piece image sets; light and dark
+🎨 **13 tile image sets** - switch between beautiful tile designs in light and dark styles
 
-* 8 image backgrounds, 375 pattern backgrounds, light and dark mode, 14 color themes
+🖼️ **Massive visual customization** - 8 image backgrounds, 375 pattern backgrounds, light/dark mode, 14 color themes
 
-* 3 difficulty levels and 2 game setup generators
+🏆 **3 difficulty levels** - from relaxed casual play to expert-level challenge
 
-* Automatic saving and restoring of game state and best times.   
-  In your browser only - nothing is stored in the cloud!
+💾 **Auto-save** - your game state and best times are saved locally in your browser, never to the cloud
 
-* 37 languages: English, العربية, বাংলা, Català, Čeština, Dansk, Deutsch, Ελληνικά, Español, Euskara, فارسی, Suomi, Filipino, Français, हिन्दी, Magyar, Bahasa Indonesia, Italiano, 日本語, 한국어, Bahasa Melayu, Nederlands, Norsk, Polski, Português, Română, Русский, Svenska, Kiswahili, தமிழ், తెలుగు, ไทย, Türkçe, Українська, اردو, Tiếng Việt, 中文  
-  Want to help translate Mah? Please use <https://crowdin.com/project/mahjong>
+📱 **Cross-platform** - runs in the browser, on desktop (macOS, Windows, Linux), and on Android
 
-## Additional boards/layouts
+🌍 **37 languages** - English, العربية, বাংলা, Català, Čeština, Dansk, Deutsch, Ελληνικά, Español, Euskara, فارسی, Suomi, Filipino, Français, हिन्दी, Magyar, Bahasa Indonesia, Italiano, 日本語, 한국어, Bahasa Melayu, Nederlands, Norsk, Polski, Português, Română, Русский, Svenska, Kiswahili, தமிழ், తెలుగు, ไทย, Türkçe, Українська, اردو, Tiếng Việt, 中文
+> Want to help translate? Contribute on [Crowdin](https://crowdin.com/project/mahjong)
 
-Visit the
+---
+
+## 🏛️ Explore More Boards
 
 ### [Mahjong Solitaire Layout Museum](https://ffalt.github.io/mahseum/)
 
 Browse a curated archive of custom board layouts created by the Kyodai Mahjongg community.
-Click any layout and select “Play it with Mah” to import it into your game.
+Click any layout and select **"Play it with Mah"** to import it directly into your game.
 
-## Acknowledgements
+---
 
-The art in Mah is based on open-source creative work.
-Please have a look at the credits for [artwork](src/assets/svg/README.md), [backgrounds](src/assets/img/README.md), [sounds](src/assets/sounds/README.md) and [fonts](src/fonts/README.md).
+## 📥 Download
 
-## Web releases
-
-[Play Mah in your browser](https://ffalt.github.io/mah/)
-
-## Binary releases
+Play instantly in the browser, or grab a native build for your platform:
 
 <a href="https://github.com/ffalt/mah/releases" target="_blank"><img height="80" src="./resources/badges/badge-github.png" alt="Get it on Github"></a>
 <a href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://app/%7B%22id%22:%22io.github.ffalt.mah%22,%22url%22:%22https://github.com/ffalt/mah%22,%22author%22:%22ffalt%22,%22name%22:%22Mah%22%7D" target="_blank"><img height="80" src="./resources/badges/badge-obtainium.png" alt="Get it on Obtainium"></a>
 
-You can download pre-built desktop/mobile binaries from the project’s GitHub Releases page:
-
-<https://github.com/ffalt/mah/releases>
-
-Currently provided artifacts include installers and package builds for Android, Windows, macOS, and Linux.
+| Platform | Available |
+|----------|-----------|
+| 🌐 Web | [Play now](https://ffalt.github.io/mah/) |
+| 🍎 macOS | `.dmg` installer |
+| 🪟 Windows | `.msi` / `.exe` installer |
+| 🐧 Linux | `.deb` / `.AppImage` |
+| 🤖 Android | `.apk` |
 
 > [!IMPORTANT]
 >
-> Unsigned apps/installers (macOS and Windows)  
-> At the moment, the macOS and Windows builds are not code-signed (and macOS builds are not notarized). 
-> Because of this, the operating system may warn or block the app the first time you try to run it. 
-> This is expected behavior for unsigned software and does not mean the files are malicious.
-> If you prefer to avoid these warnings entirely, you can always play the game in your browser: https://ffalt.github.io/mah/
+> **Unsigned apps/installers (macOS and Windows)**
+>
+> The macOS and Windows builds are not yet code-signed. Your OS may show a warning the first time you run the app - this is normal for unsigned software and **does not mean the files are malicious**.
+> If you prefer to skip these warnings, just [play in your browser](https://ffalt.github.io/mah/) instead.
 
-#### macOS
+<details>
+<summary>🍎 <strong>macOS</strong> - bypassing Gatekeeper</summary>
 
-Why you see a warning: Apple’s Gatekeeper blocks apps from unidentified developers (unsigned/not notarized).
-You might see a message claiming the app is damaged or unsafe - this is not true.
+Apple's Gatekeeper blocks apps from unidentified developers. You may see a message claiming the app is damaged - this is not true.
 
-To bypass Apple’s Gatekeeper, remove the quarantine attribute:
+Remove the quarantine attribute to fix it:
 
 ```shell
 xattr -dr com.apple.quarantine /Applications/mah.app
 ```
 
-There may be other ways to proceed depending on your macOS version; please search for instructions specific to your version.
+The exact steps may vary by macOS version - search for instructions specific to yours.
 
-#### Windows
+</details>
 
-Why you see a warning: Microsoft Defender SmartScreen shows a warning for apps from an unknown publisher (unsigned).
+<details>
+<summary>🪟 <strong>Windows</strong> - bypassing SmartScreen</summary>
 
-In the SmartScreen dialog, click “More info” and then “Run anyway”.
+Microsoft Defender SmartScreen shows a warning for unsigned apps.
 
-#### Android
+Click **"More info"** → **"Run anyway"** to proceed.
 
-Why you see a warning: Android blocks installation from unknown sources by default.
+</details>
 
-To install apps from unknown sources on an Android device, go to Settings, then Security or Apps, 
-and enable the option for Unknown Sources. This allows you to install apps from outside the Google Play Store.
+<details>
+<summary>🤖 <strong>Android</strong> - installing from APK</summary>
 
-You need to know which processor architecture your device uses. If you don't know, you can safely try the APK variants.
-Most modern phones are `arm64`, so try `android-mah-x_y_z-arm64.apk` first, then `arm`, then `x86_64`, then `x86`. 
+Android blocks installs from unknown sources by default. Go to **Settings → Security (or Apps)** and enable **Unknown Sources**.
 
+Most modern phones use `arm64`. Try these APK variants in order:
+1. `android-mah-x_y_z-arm64.apk`
+2. `android-mah-x_y_z-arm.apk`
+3. `android-mah-x_y_z-x86_64.apk`
+4. `android-mah-x_y_z-x86.apk`
 
-## Development
+</details>
+
+---
+
+## 🙏 Acknowledgements
+
+Mah's art is built on open-source creative work. See the credits for [artwork](src/assets/svg/README.md), [backgrounds](src/assets/img/README.md), [sounds](src/assets/sounds/README.md), and [fonts](src/fonts/README.md).
+
+---
+
+## 🛠️ Development
 
 ### Build Config
 
 The default game name is "Mah Jong". To change it:
 
-* Copy the file `custom-build-config.json.dist` to `custom-build-config.json`
-* Edit the name in `custom-build-config.json` to your desired app name
+1. Copy `custom-build-config.json.dist` to `custom-build-config.json`
+2. Edit the name in `custom-build-config.json` to your desired app name
 
-### Development server
+### Quick Start
 
-Run `npm run start` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
-
-### Build
-
-Run `npm run build` to build the project. The build artifacts will be stored in the `dist/` directory. For a production build, use `npm run build:prod`.
-
-### Running tests
-
-Run `npm run test` to execute the unit tests.
+```bash
+npm run start         # Dev server → http://localhost:4200/
+npm run build:prod    # Production build → dist/
+npm run test          # Run unit tests
+```
