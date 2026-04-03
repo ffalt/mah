@@ -1,7 +1,7 @@
 <div align="center"><a href="https://github.com/Safouene1/support-palestine-banner/blob/master/Markdown-pages/Support.md"><img src="https://raw.githubusercontent.com/Safouene1/support-palestine-banner/master/banner-support.svg" alt="Support Palestine" style="width: 100%;"></a></div>
 
 <div align="center">
-	<img width="500" height="350" src="logo.svg" alt="Mah">
+ <img width="500" height="350" src="logo.svg" alt="Mah">
 </div>
 
 # Mah - Mahjong Solitaire
@@ -100,6 +100,7 @@ Click **"More info"** → **"Run anyway"** to proceed.
 Android blocks installs from unknown sources by default. Go to **Settings → Security (or Apps)** and enable **Unknown Sources**.
 
 Most modern phones use `arm64`. Try these APK variants in order:
+
 1. `android-mah-x_y_z-arm64.apk`
 2. `android-mah-x_y_z-arm.apk`
 3. `android-mah-x_y_z-x86_64.apk`

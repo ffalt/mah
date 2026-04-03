@@ -154,7 +154,7 @@ function svgPattern(
 ) {
 	let joinMode = '';
 	if (mode === 'stroke-join') {
-		joinMode = join == 2 ? 'stroke-linejoin=\'round\' stroke-linecap=\'round\' ' : 'stroke-linecap=\'square\' ';
+		joinMode = join === 2 ? 'stroke-linejoin=\'round\' stroke-linecap=\'round\' ' : 'stroke-linecap=\'square\' ';
 	}
 
 	function shouldUseAlternateColor(index: number): boolean {
@@ -202,7 +202,7 @@ function svgPattern(
 			width + spacing[0]}" height="${height - (vHeight * (maxColors - colorCounts)) + spacing[1]
 		}" patternTransform="scale(${scale}) rotate(${angle})">`,
 		...elements,
-		`</pattern></defs>`,
+		'</pattern></defs>',
 		`<rect width="800%" height="800%" transform="translate(${scale * moveLeft},${scale * moveTop})" fill="url(#a)"/>`,
 		'</svg>'
 	].join('');

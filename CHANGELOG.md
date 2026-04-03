@@ -4,20 +4,17 @@ All notable changes to this project will be documented in this file. See [commit
 
 ## [1.18.3](https://github.com/ffalt/mah/compare/v1.18.2...v1.18.3) (2026-03-16)
 
-
 ### Bug Fixes
 
 * **languages:** rename Japanese language key from 'jp' to 'ja' ([ab90116](https://github.com/ffalt/mah/commit/ab9011671d839f4f39bf5c538053d3c139563617))
 
 ## [1.18.2](https://github.com/ffalt/mah/compare/v1.18.1...v1.18.2) (2026-03-15)
 
-
 ### Features
 
 * **settings:** add TilePreviewComponent for enhanced tile settings visualization ([408acb5](https://github.com/ffalt/mah/commit/408acb5b521a7e5b1db0787f156bf1b01d6c90b8))
 * **stats:** store win/lose stats and display in help dialog ([5b79319](https://github.com/ffalt/mah/commit/5b793192f9bff8aaaa22d7dc6a2ff4e53147e0b8))
 * **tiles:** introduce TilesetDefsComponent for shared SVG definitions and update tile component to utilize shared prefix ([55c3439](https://github.com/ffalt/mah/commit/55c34393e3199ddd62f45ed516cab4b1e1f5db93))
-
 
 ### Bug Fixes
 
@@ -30,7 +27,6 @@ All notable changes to this project will be documented in this file. See [commit
 
 ## [1.18.1](https://github.com/ffalt/mah/compare/v1.18.0...v1.18.1) (2026-03-14)
 
-
 ### Features
 
 * add game modes section to help component and enhance shortcut display ([f86e75c](https://github.com/ffalt/mah/commit/f86e75c44c4033efee076775be75d3459f980c5e))
@@ -38,7 +34,6 @@ All notable changes to this project will be documented in this file. See [commit
 * add statistics display to help component ([7bc91f5](https://github.com/ffalt/mah/commit/7bc91f56efbaa4624118b1431b477334f9b6ba46))
 * add statistics display to help component ([8408ef2](https://github.com/ffalt/mah/commit/8408ef2d63a64481508e9bf17a0783de65b41450))
 * enhance help component with game modes and external link support ([2259ef4](https://github.com/ffalt/mah/commit/2259ef44946d77e53956439b01360dae8386b90c))
-
 
 ### Bug Fixes
 
@@ -52,12 +47,10 @@ All notable changes to this project will be documented in this file. See [commit
 
 ## [1.18.0](https://github.com/ffalt/mah/compare/v1.17.0...v1.18.0) (2026-03-13)
 
-
 ### Features
 
 * **solvable board generation:** enhance with retries and alternative strategies ([9d70190](https://github.com/ffalt/mah/commit/9d70190966cd8b17616ce25312fc795536d985ac))
 * **tiles:** add an optional 3D effect to tiles ([be7cee0](https://github.com/ffalt/mah/commit/be7cee01507e3ebe85b3dd5b7cea51a7eae612b7))
-
 
 ### Bug Fixes
 
@@ -108,22 +101,18 @@ All notable changes to this project will be documented in this file. See [commit
 
 ## [1.17.0](https://github.com/ffalt/mah/compare/v1.16.1...v1.17.0) (2026-02-21)
 
-
 ### Features
 
 * **app:** add a starter tutorial ([b60e256](https://github.com/ffalt/mah/commit/b60e256937e042fe8dc20cbb3a8750b90b8a31a9))
-*	**languages:** add Malay, Filipino, Tamil, Swahili, Telugu, Thai, Bengali, Persian, Indonesian, Urdu, Swedish, Romanian, Turkish, Ukrainian, Vietnamese, Catalan, Czech, Danish, Finnish, Norwegian, Hindi, Greek, Arabic, Italian, Polish, Korean and Hungarian translations from Crowdin
-
+* **languages:** add Malay, Filipino, Tamil, Swahili, Telugu, Thai, Bengali, Persian, Indonesian, Urdu, Swedish, Romanian, Turkish, Ukrainian, Vietnamese, Catalan, Czech, Danish, Finnish, Norwegian, Hindi, Greek, Arabic, Italian, Polish, Korean and Hungarian translations from Crowdin
 
 ## [1.16.1](https://github.com/ffalt/mah/compare/v1.16.0...v1.16.1) (2025-12-27)
-
 
 ### Bug Fixes
 
 * **apps:** pause when the app is not focused ([7f01bcb](https://github.com/ffalt/mah/commit/7f01bcb065fdbca58899701056ed637dc020cf78))
 
 ## [1.16.0](https://github.com/ffalt/mah/compare/v1.15.1...v1.16.0) (2025-12-18)
-
 
 ### Features
 
@@ -132,13 +121,11 @@ All notable changes to this project will be documented in this file. See [commit
 
 ## [1.15.1](https://github.com/ffalt/mah/compare/v1.15.0...v1.15.1) (2025-12-14)
 
-
 ### Bug Fixes
 
 * **pattern:** fix markdown link and formatting ([53f7b86](https://github.com/ffalt/mah/commit/53f7b86e27be428af65dfb6ebf45ad61687e389e))
 
 ## [1.15.0](https://github.com/ffalt/mah/compare/v1.14.1...v1.15.0) (2025-12-14)
-
 
 ### Features
 
@@ -147,13 +134,11 @@ All notable changes to this project will be documented in this file. See [commit
 
 ## [1.14.1](https://github.com/ffalt/mah/compare/v1.14.0...v1.14.1) (2025-12-05)
 
-
 ### Bug Fixes
 
 * **buttons:** hide feature buttons not enabled in game difficulty level ([0f72693](https://github.com/ffalt/mah/commit/0f7269389fcc7bc89cb79a29f4fd31a10b477533))
 
 ## [1.14.0](https://github.com/ffalt/mah/compare/v1.13.0...v1.14.0) (2025-12-05)
-
 
 ### Features
 
@@ -165,7 +150,6 @@ All notable changes to this project will be documented in this file. See [commit
 * **themes:** add color preview to settings options ([b750e28](https://github.com/ffalt/mah/commit/b750e28d263ef569f69dbff17a5a0d6990ff66bf))
 * **themes:** rename color themes and add 7 more ([97bf28e](https://github.com/ffalt/mah/commit/97bf28ef34d1856ee8eec47463ac53654f37ca4f))
 
-
 ### Bug Fixes
 
 * **gameplay:** easy mode allows shuffle after no more moves (but only if there are at least 2 free stones) ([1025161](https://github.com/ffalt/mah/commit/10251615c957ece30a335e186ec07f28066eb9be))
@@ -173,11 +157,9 @@ All notable changes to this project will be documented in this file. See [commit
 
 ## [1.13.0](https://github.com/ffalt/mah/compare/v1.12.1...v1.13.0) (2025-11-21)
 
-
 ### Features
 
 * **layouts:** add layout categories; add new layouts to fill up categories ([a66d826](https://github.com/ffalt/mah/commit/a66d826ca42ff27f7976d4aee3bb2e3db6d8117f))
-
 
 ### Bug Fixes
 
@@ -192,7 +174,6 @@ All notable changes to this project will be documented in this file. See [commit
 
 ## [1.12.1](https://github.com/ffalt/mah/compare/v1.12.0...v1.12.1) (2025-11-15)
 
-
 ### Bug Fixes
 
 * **apps:** open external links in the default browser ([223bf25](https://github.com/ffalt/mah/commit/223bf25f3fe0be830b9985fe0698806f60b1e5cc))
@@ -202,12 +183,10 @@ All notable changes to this project will be documented in this file. See [commit
 
 ## [1.12.0](https://github.com/ffalt/mah/compare/v1.11.0...v1.12.0) (2025-11-15)
 
-
 ### Features
 
 * **languages:** add chinese ([325f95c](https://github.com/ffalt/mah/commit/325f95cf0b48bc76873a1d6fa666bdf1d2bacb24))
 * **tiles-info:** allow setting the tileset in the tilesinfo-dialog ([3090f8e](https://github.com/ffalt/mah/commit/3090f8e994e29b4a33f571d5f3340ae9fe10da21))
-
 
 ### Bug Fixes
 
@@ -215,11 +194,9 @@ All notable changes to this project will be documented in this file. See [commit
 
 ## [1.11.0](https://github.com/ffalt/mah/compare/v1.10.0...v1.11.0) (2025-11-12)
 
-
 ### Features
 
 * **svg:** add birds svgs ([3d20de7](https://github.com/ffalt/mah/commit/3d20de7c99961ebb389176da8ffb3ba29946a180))
-
 
 ### Bug Fixes
 
@@ -227,12 +204,10 @@ All notable changes to this project will be documented in this file. See [commit
 
 ## [1.10.0](https://github.com/ffalt/mah/compare/v1.9.0...v1.10.0) (2025-11-09)
 
-
 ### Features
 
 * **svg:** add space svgs ([69ed442](https://github.com/ffalt/mah/commit/69ed442ea11e6ec538071929d98ad9b1cfd89dc5))
 * **svg:** cleanup, remove low-resolution sets and support low-performance devices ([e78e981](https://github.com/ffalt/mah/commit/e78e9817f64bcfcf8ec07717c2c58a5df18ffe0a))
-
 
 ### Bug Fixes
 
@@ -246,20 +221,17 @@ All notable changes to this project will be documented in this file. See [commit
 
 ## [1.8.2](https://github.com/ffalt/mah/compare/v1.8.1...v1.8.2) (2025-09-29)
 
-
 ### Bug Fixes
 
 * **board:** if zoomed, avoid unselecting stone on panning ([c45bdff](https://github.com/ffalt/mah/commit/c45bdff4a9189211d4c76161dc0b2b490f7af0a7))
 
 ## [1.8.1](https://github.com/ffalt/mah/compare/v1.8.0...v1.8.1) (2025-09-28)
 
-
 ### Bug Fixes
 
 * **board:** proper reset of panning state ([5b7f23c](https://github.com/ffalt/mah/commit/5b7f23c33452370cff161464d9ba7633b314441a))
 
 ## [1.8.0](https://github.com/ffalt/mah/compare/v1.7.7...v1.8.0) (2025-09-28)
-
 
 ### Features
 
@@ -268,7 +240,6 @@ All notable changes to this project will be documented in this file. See [commit
 * **images:** reduce png files sizes ([ace93a6](https://github.com/ffalt/mah/commit/ace93a63d4347ce83ef3ce3921c9518aff3047d5))
 * **layouts:** random layout generator ([a503275](https://github.com/ffalt/mah/commit/a5032752de0fa50c9b4f8ab1d3a5c10cb89bb53b))
 * **locales:** load languages on demand instead of including in the build ([1d5d3a1](https://github.com/ffalt/mah/commit/1d5d3a18887f0960460a18c63704d4e08f0971eb))
-
 
 ### Bug Fixes
 

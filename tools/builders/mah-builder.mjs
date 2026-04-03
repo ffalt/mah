@@ -46,7 +46,10 @@ export function createDefinePlugin(defineObject) {
 	return {
 		name: "mah-define",
 		setup(build) {
-			const defs = build.initialOptions.define || (build.initialOptions.define = {});
+			if (!build.initialOptions.define) {
+				build.initialOptions.define = {};
+			}
+			const defs = build.initialOptions.define;
 			for (const [k, v] of Object.entries(defineObject)) {
 				defs[k] = v;
 			}

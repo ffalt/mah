@@ -23,6 +23,7 @@ const commonRules = {
 	"max-lines": ["error", 1000],
 	"no-duplicate-case": "error",
 	"no-duplicate-imports": "error",
+	"no-cond-assign": "error",
 	"no-empty": "error",
 	"no-extra-bind": "error",
 	"no-invalid-this": "error",
