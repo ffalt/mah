@@ -2,8 +2,7 @@ import type { Mapping } from '../types';
 import { generateBaseLayerWithShapes, randInt, shuffleArray } from './utilities';
 import type { BaseLayerOptions } from './consts';
 
-// Right triangle in one of four orientations. w and h are tile counts (not pixels).
-// All produced coordinates are multiples of 2 (even-grid).
+// Right triangle in one of four orientations. w and h are tile counts.
 //
 //  0 = tip top-left      1 = tip top-right
 //      X                     . . X
@@ -15,7 +14,6 @@ import type { BaseLayerOptions } from './consts';
 //      X X                   . X X
 //      X                     . . X
 //
-// Orientation is fixed per call (not per cell) so that canPlace and place see the same shape.
 export function triangleCells(x0: number, y0: number, w: number, h: number): Array<[number, number]> {
 	const orientation = randInt(0, 3);
 	const cells: Array<[number, number]> = [];
@@ -59,7 +57,5 @@ export function generateBaseLayerTriangle(options: BaseLayerOptions): Mapping {
 		}
 	}
 	shuffleArray(allSizes);
-	// bufferRadius=4 (vs default 2) so the hypotenuse void does not let adjacent shapes
-	// sneak into the empty bounding-box corners.
 	return generateBaseLayerWithShapes(allSizes, (x0, y0, w, h) => triangleCells(x0, y0, w, h), options, 4);
 }
