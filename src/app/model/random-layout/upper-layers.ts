@@ -166,6 +166,10 @@ function growLevel(current: Mapping, z: number, mirrorX: boolean, mirrorY: boole
 		}
 	};
 
+	shuffleArray(bridgeLarge);
+	shuffleArray(bridgeSmall);
+	shuffleArray(direct);
+	shuffleArray(overhangs);
 	processBucket(bridgeLarge);
 	processBucket(bridgeSmall);
 	processBucket(direct);
@@ -310,28 +314,28 @@ function computeWindow(mapping: Mapping): { minX: number; maxX: number; minY: nu
 	};
 }
 
-// Helper: try to add exactly one tile within the window scanning from top to bottom
+// Helper: try to add exactly one tile within the window at a random position
 function tryAddOne(mapping: Mapping, present: Set<string>, win: { minX: number; maxX: number; minY: number; maxY: number }): boolean {
+	const candidates: Array<[number, number, number]> = [];
 	for (let z = Z_MAX; z >= 0; z--) {
 		for (let y = win.minY; y <= win.maxY; y++) {
 			for (let x = win.minX; x <= win.maxX; x++) {
-				if (!inBounds(x, y, z)) {
+				if (!inBounds(x, y, z) || present.has(key(z, x, y))) {
 					continue;
 				}
-				const k = key(z, x, y);
-				if (present.has(k)) {
-					continue;
+				if (isSupported(present, z, x, y) && !blocksOverlap(present, z, x, y)) {
+					candidates.push([z, x, y]);
 				}
-				if (!isSupported(present, z, x, y)) {
-					continue;
-				}
-				if (blocksOverlap(present, z, x, y)) {
-					continue;
-				}
-				present.add(k);
-				mapping.push([z, x, y]);
-				return true;
 			}
+		}
+	}
+	shuffleArray(candidates);
+	for (const [z, x, y] of candidates) {
+		const k = key(z, x, y);
+		if (!present.has(k) && isSupported(present, z, x, y) && !blocksOverlap(present, z, x, y)) {
+			present.add(k);
+			mapping.push([z, x, y]);
+			return true;
 		}
 	}
 	return false;

@@ -4,6 +4,10 @@ import { generateBaseLayerChecker } from './base-layer-checker';
 import { generateBaseLayerLines } from './base-layer-lines';
 import { generateBaseLayerRings } from './base-layer-rings';
 import { generateBaseLayerAreas } from './base-layer-areas';
+import { generateBaseLayerCross } from './base-layer-cross';
+import { generateBaseLayerDiamond } from './base-layer-diamond';
+import { generateBaseLayerTriangle } from './base-layer-triangle';
+import { generateBaseLayerShapes } from './base-layer-shapes';
 import { blocksOverlap, inBounds, key } from './utilities';
 
 function mirrorBaseLayer(mirrorX: boolean, mirrorY: boolean, baseLayer: Mapping): Mapping {
@@ -103,26 +107,47 @@ function splitArea(baseMin: number, baseMax: number, mirrorX: boolean, mirrorY: 
 	return { minTarget, maxTarget, xMax, yMax };
 }
 
+export function generateBaseLayerMode(mirrorX: boolean, mirrorY: boolean, mode: string): Mapping {
+	switch (mode) {
+		case 'checker': {
+			const { minTarget, maxTarget } = splitArea(70, 120, mirrorX, mirrorY);
+			const xRangeMin = mirrorX ? 7 : 14;
+			const xRangeMax = mirrorX ? Math.floor(X_MAX / 2) : X_MAX;
+			const yRangeMin = mirrorY ? 6 : 12;
+			const yRangeMax = mirrorY ? Math.floor(Y_MAX / 2) : Y_MAX;
+			// choose extents favoring mid-size boards
+			const xMax = Math.floor(Math.random() * (xRangeMax - xRangeMin + 1)) + xRangeMin;
+			const yMax = Math.floor(Math.random() * (yRangeMax - yRangeMin + 1)) + yRangeMin;
+			return generateBaseLayerChecker({ minTarget, maxTarget, xMax, yMax });
+		}
+		case 'lines': {
+			return generateBaseLayerLines(splitArea(60, 80, mirrorX, mirrorY));
+		}
+		case 'rings': {
+			return generateBaseLayerRings(splitArea(70, 120, mirrorX, mirrorY));
+		}
+		case 'areas': {
+			return generateBaseLayerAreas(splitArea(60, 100, mirrorX, mirrorY));
+		}
+		case 'cross': {
+			return generateBaseLayerCross(splitArea(60, 100, mirrorX, mirrorY));
+		}
+		case 'diamond': {
+			return generateBaseLayerDiamond(splitArea(60, 100, mirrorX, mirrorY));
+		}
+		case 'triangle': {
+			return generateBaseLayerTriangle(splitArea(60, 90, mirrorX, mirrorY));
+		}
+		case 'shapes': {
+			return generateBaseLayerShapes(splitArea(60, 100, mirrorX, mirrorY));
+		}
+		default: {
+			throw new Error('Invalid mode');
+		}
+	}
+}
+
 export function generateBaseLayer(mirrorX: boolean, mirrorY: boolean, mode: string): Mapping {
-	if (mode === 'checker') {
-		const { minTarget, maxTarget } = splitArea(70, 120, mirrorX, mirrorY);
-		const xRangeMin = mirrorX ? 7 : 14;
-		const xRangeMax = mirrorX ? Math.floor(X_MAX / 2) : X_MAX;
-		const yRangeMin = mirrorY ? 6 : 12;
-		const yRangeMax = mirrorY ? Math.floor(Y_MAX / 2) : Y_MAX;
-		// choose extents favoring mid-size boards
-		const xMax = Math.floor(Math.random() * (xRangeMax - xRangeMin + 1)) + xRangeMin;
-		const yMax = Math.floor(Math.random() * (yRangeMax - yRangeMin + 1)) + yRangeMin;
-		return mirrorBaseLayer(mirrorX, mirrorY, generateBaseLayerChecker({ minTarget, maxTarget, xMax, yMax }));
-	}
-	if (mode === 'lines') {
-		return mirrorBaseLayer(mirrorX, mirrorY, generateBaseLayerLines(splitArea(60, 80, mirrorX, mirrorY)));
-	}
-	if (mode === 'rings') {
-		return mirrorBaseLayer(mirrorX, mirrorY, generateBaseLayerRings(splitArea(70, 120, mirrorX, mirrorY)));
-	}
-	if (mode === 'areas') {
-		return mirrorBaseLayer(mirrorX, mirrorY, generateBaseLayerAreas(splitArea(60, 100, mirrorX, mirrorY)));
-	}
-	throw new Error('Invalid mode');
+	const layer = generateBaseLayerMode(mirrorX, mirrorY, mode);
+	return mirrorBaseLayer(mirrorX, mirrorY, layer);
 }

@@ -1,8 +1,8 @@
 import type { Mapping } from '../types';
-import { shuffleArray, buildEvenAnchors, placeSizesGeneric, buildMappingFromSetZ0, canPlace, place } from './utilities';
+import { generateBaseLayerWithShapes, shuffleArray } from './utilities';
 import type { BaseLayerOptions } from './consts';
 
-function ringPerimeter(x0: number, y0: number, w: number, h: number): Array<[number, number]> {
+export function ringPerimeter(x0: number, y0: number, w: number, h: number): Array<[number, number]> {
 	const x1 = x0 + (w - 1) * 2;
 	const y1 = y0 + (h - 1) * 2;
 	const per: Array<[number, number]> = [];
@@ -21,75 +21,13 @@ function ringPerimeter(x0: number, y0: number, w: number, h: number): Array<[num
 	return per;
 }
 
-export function generateBaseLayerRings({ minTarget, maxTarget, xMax, yMax }: BaseLayerOptions): Mapping {
-	// Random placement of hollow rectangular rings on z=0 with spacing 2 and unique sizes per layer.
-	// - Ring outer width/height in [3..8]
-	// - Borders only, continuous per ring
-	// - Spacing: at least 2 cells empty between different rings (Chebyshev radius 2)
-	// - Use even-even grid to cooperate with blocksOverlap safety
-	// - Do not place two rings with identical (w,h)
-
-	const occupied = new Set<string>();
-	const blocked = new Set<string>();
-	const usedSizes = new Set<string>();
-
+export function generateBaseLayerRings(options: BaseLayerOptions): Mapping {
 	const allSizes: Array<[number, number]> = [];
 	for (let w = 3; w <= 8; w++) {
 		for (let h = 3; h <= 8; h++) {
 			allSizes.push([w, h]);
 		}
 	}
-	// Randomize size order; we will still enforce uniqueness by usedSizes
 	shuffleArray(allSizes);
-
-	// Build randomized list of even-even anchor positions within bounds
-	const anchors = buildEvenAnchors(xMax, yMax);
-	shuffleArray(anchors);
-
-	let total = 0;
-	// Phase 1: try randomized sizes against randomized anchors
-	total = placeSizesGeneric(total, allSizes, anchors, minTarget, maxTarget, (x0, y0, w, h) =>
-		canPlace(x0, y0, w, h, occupied, blocked, usedSizes, ringPerimeter) ? place(x0, y0, w, h, occupied, blocked, usedSizes, ringPerimeter) : 0
-	);
-
-	// Phase 2: if still below minTarget, try remaining unused sizes in a fresh random order and reshuffled anchors
-	if (total < minTarget) {
-		const remainingSizes = allSizes.filter(([w, h]) => !usedSizes.has(`${w}x${h}`));
-		shuffleArray(remainingSizes);
-		shuffleArray(anchors);
-		total = placeSizesGeneric(total, remainingSizes, anchors, minTarget, maxTarget, (x0, y0, w, h) =>
-			canPlace(x0, y0, w, h, occupied, blocked, usedSizes, ringPerimeter) ? place(x0, y0, w, h, occupied, blocked, usedSizes, ringPerimeter) : 0
-		);
-	}
-
-	// Phase 3: fill remaining empty spaces with rings too, up to maxTarget.
-	// Keep trying any remaining unused sizes; if all sizes are used and still room, allow reuse of sizes to pack gaps.
-	if (total < maxTarget) {
-		let progress = true;
-		let allowReuse = false;
-		while (progress && total < maxTarget) {
-			progress = false;
-			const sizePool: Array<[number, number]> =
-				allowReuse ? [...allSizes] : allSizes.filter(([w, h]) => !usedSizes.has(`${w}x${h}`));
-			if (sizePool.length === 0 && !allowReuse) {
-				allowReuse = true; // all unique sizes exhausted; permit reuse to truly fill spaces
-				continue;
-			}
-			shuffleArray(sizePool);
-			shuffleArray(anchors);
-			total = placeSizesGeneric(total, sizePool, anchors, minTarget, maxTarget, (x0, y0, w, h) => {
-				if (!canPlace(x0, y0, w, h, occupied, blocked, usedSizes, ringPerimeter)) {
-					return 0;
-				}
-				const added = place(x0, y0, w, h, occupied, blocked, usedSizes, ringPerimeter);
-				if (added > 0) {
-					progress = true;
-				}
-				return added;
-			});
-		}
-	}
-
-	// Build mapping in y,x order
-	return buildMappingFromSetZ0(occupied, xMax, yMax, 2);
+	return generateBaseLayerWithShapes(allSizes, ringPerimeter, options);
 }

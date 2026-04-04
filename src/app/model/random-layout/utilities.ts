@@ -1,5 +1,6 @@
 import type { Mapping } from '../types';
-import { type RandomBaseLayerMode, X_MAX, Y_MAX, Z_MAX } from './consts';
+import { type RandomBaseLayerMode, type BaseLayerOptions, X_MAX, Y_MAX, Z_MAX } from './consts';
+import { shuffleArray as shuffleArrayImpl } from '../array-utilities';
 
 export { shuffleArray } from '../array-utilities';
 
@@ -93,7 +94,11 @@ export function getRandomMode(): RandomBaseLayerMode {
 		'lines', 'lines', 'lines',
 		'checker', 'checker',
 		'areas', 'areas',
-		'rings'
+		'rings',
+		'cross',
+		'diamond',
+		'triangle',
+		'shapes'
 	];
 	return randChoice(modes);
 }
@@ -219,6 +224,65 @@ export function canPlace(
 		}
 	}
 	return true;
+}
+
+export function generateBaseLayerWithShapes(
+	allSizes: Array<[number, number]>,
+	cellsFunction: CellsFunction,
+	{ minTarget, maxTarget, xMax, yMax }: BaseLayerOptions,
+	bufferRadius = 3
+): Mapping {
+	const occupied = new Set<string>();
+	const blocked = new Set<string>();
+	const usedSizes = new Set<string>();
+	const anchors = buildEvenAnchors(xMax, yMax);
+
+	shuffleArrayImpl(allSizes);
+	shuffleArrayImpl(anchors);
+
+	const tryPlace = (x0: number, y0: number, w: number, h: number): number => {
+		if (!canPlace(x0, y0, w, h, occupied, blocked, usedSizes, cellsFunction)) {
+			return 0;
+		}
+		const cells = cellsFunction(x0, y0, w, h);
+		for (const [x, y] of cells) {
+			occupied.add(key(0, x, y));
+		}
+		markBufferPoints(cells, bufferRadius, blocked, 0);
+		usedSizes.add(`${w}x${h}`);
+		return cells.length;
+	};
+
+	// Phase 1: try all sizes against all anchors
+	let total = placeSizesGeneric(0, allSizes, anchors, minTarget, maxTarget, tryPlace);
+
+	// Phase 2: if still below minTarget, retry unused sizes with reshuffled anchors
+	if (total < minTarget) {
+		const remainingSizes = allSizes.filter(([w, h]) => !usedSizes.has(`${w}x${h}`));
+		shuffleArrayImpl(remainingSizes);
+		shuffleArrayImpl(anchors);
+		total = placeSizesGeneric(total, remainingSizes, anchors, minTarget, maxTarget, tryPlace);
+	}
+
+	// Phase 3: fill to maxTarget, allowing size reuse after unique sizes are exhausted
+	if (total < maxTarget) {
+		let progress = true;
+		let allowReuse = false;
+		while (progress && total < maxTarget) {
+			const sizePool = allowReuse ? [...allSizes] : allSizes.filter(([w, h]) => !usedSizes.has(`${w}x${h}`));
+			if (sizePool.length === 0 && !allowReuse) {
+				allowReuse = true;
+				continue;
+			}
+			shuffleArrayImpl(sizePool);
+			shuffleArrayImpl(anchors);
+			const previous = total;
+			total = placeSizesGeneric(total, sizePool, anchors, minTarget, maxTarget, tryPlace);
+			progress = total > previous;
+		}
+	}
+
+	return buildMappingFromSetZ0(occupied, xMax, yMax, 2);
 }
 
 export function place(

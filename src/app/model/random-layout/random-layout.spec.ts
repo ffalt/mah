@@ -57,7 +57,7 @@ function hasOverlap(mapping: Array<[number, number, number]>): Array<[[number, n
 describe('random-layout generator', () => {
 	const runs = Array.from({ length: 100 }, (_, index) => index + 1);
 	const mirrorSettings = ['true', 'false'];
-	const modes: Array<RandomBaseLayerMode> = ['lines', 'checker', 'rings', 'areas'];
+	const modes: Array<RandomBaseLayerMode> = ['lines', 'checker', 'rings', 'areas', 'cross', 'diamond', 'triangle', 'shapes'];
 	describe.each(modes)('modes=%s', mode => {
 		describe.each(mirrorSettings)('mirrorX=%s', mirrorX => {
 			describe.each(mirrorSettings)('mirrorY=%s', mirrorY => {
