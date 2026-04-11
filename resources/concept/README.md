@@ -14,3 +14,6 @@ Solving Mahjong Solitaire Positions
 
 Solving Mahjong Solitaire boards with peeking
 <https://arxiv.org/pdf/1203.6559.pdf>
+
+A Match Made in the Mind - Player Strategies in Mahjong Solitaire
+<https://trepo.tuni.fi/bitstream/handle/10024/161239/InceNerminRana.pdf>
