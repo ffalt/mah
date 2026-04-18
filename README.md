@@ -135,7 +135,7 @@ services:
       - "8080:80"
 ```
 
-For building from source with a custom version, see [resources/docker](resources/docker/).
+For building your own docker container, see [resources/docker](resources/docker/).
 
 ---
 
