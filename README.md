@@ -14,7 +14,6 @@ The original open-source Mahjong Solitaire game powering many Mahjong experience
 [![license](https://img.shields.io/github/license/ffalt/mah.svg)](http://opensource.org/licenses/MIT)
 ![test](https://github.com/ffalt/mah/workflows/test/badge.svg)
 [![developer](https://img.shields.io/badge/developer-awesome-brightgreen.svg)](https://github.com/ffalt/mah)
-[![known vulnerabilities](https://snyk.io/test/github/ffalt/mah/badge.svg)](https://snyk.io/test/github/ffalt/mah)
 [![Maintainability](https://qlty.sh/gh/ffalt/projects/mah/maintainability.svg)](https://qlty.sh/gh/ffalt/projects/mah)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/35c2364ef29946f3a26b7605a34c75a8)](https://app.codacy.com/gh/ffalt/mah/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
