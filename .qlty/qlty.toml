@@ -99,13 +99,6 @@ package_file = "package.json"
 package_filters = ["stylelint"]
 
 [[plugin]]
-name = "trivy"
-drivers = [
-	"config",
-	"fs-vuln",
-]
-
-[[plugin]]
 name = "trufflehog"
 
 [[plugin]]
