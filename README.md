@@ -115,6 +115,30 @@ Mah's art is built on open-source creative work. See the credits for [artwork](s
 
 ---
 
+## 🐳 Docker
+
+Run Mah with a single command:
+
+```bash
+docker run -d -p 8080:80 ffalt/mah
+```
+
+Then open [http://localhost:8080](http://localhost:8080).
+
+Or use Docker Compose:
+
+```yaml
+services:
+  mah:
+    image: ffalt/mah
+    ports:
+      - "8080:80"
+```
+
+For building from source with a custom version, see [resources/docker](resources/docker/).
+
+---
+
 ## 🛠️ Development
 
 ### Build Config

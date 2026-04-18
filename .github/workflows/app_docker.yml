@@ -31,7 +31,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build GH Pages release
+      - name: Build release
         run: npm run build:deploy-release
 
       - name: Set up QEMU
