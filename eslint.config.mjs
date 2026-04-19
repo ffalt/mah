@@ -135,8 +135,7 @@ export default ts.config(
 			"**/dist/**/*",
 			"**/local/**/*",
 			"**/coverage/**/*",
-			"**/node_modules/**/*",
-			"**/resources/apps/**/*"
+			"**/node_modules/**/*"
 		]
 	},
 	{

@@ -1,11 +1,11 @@
-const TOML = require("@iarna/toml");
+import TOML from "@iarna/toml";
 
-module.exports.readVersion = (contents) => {
+export const readVersion = contents => {
 	const data = TOML.parse(contents);
 	return data.package.version;
 };
 
-module.exports.writeVersion = (contents, version) => {
+export const writeVersion = (contents, version) => {
 	const data = TOML.parse(contents);
 	data.package.version = version;
 	return TOML.stringify(data);

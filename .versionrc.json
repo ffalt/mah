@@ -22,11 +22,15 @@
 		},
 		{
 			"filename": "resources/apps/tauri/Cargo.toml",
-			"updater": "resources/apps/cargo-updater.js"
+			"updater": "resources/apps/cargo-updater.mjs"
 		},
 		{
 			"filename": "resources/apps/tauri/Cargo.lock",
-			"updater": "resources/apps/cargo-updater.js"
+			"updater": "resources/apps/cargo-updater.mjs"
+		},
+		{
+			"filename": "resources/docker/Dockerfile",
+			"updater": "tools/dockerfile-updater.mjs"
 		}
 	],
 	"scripts": {
