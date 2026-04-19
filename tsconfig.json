@@ -1,7 +1,6 @@
 {
 	"compileOnSave": false,
 	"compilerOptions": {
-		"baseUrl": "./",
 		"declaration": false,
 		"emitDecoratorMetadata": false,
 		"esModuleInterop": true,
@@ -23,7 +22,7 @@
 		"target": "ES2022",
 		"useDefineForClassFields": false,
 		"typeRoots": [
-			"node_modules/@types"
+			"./node_modules/@types"
     ]
 	},
 	"angularCompilerOptions": {
