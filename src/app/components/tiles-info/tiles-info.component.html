@@ -10,7 +10,7 @@
 							<div>
 								<app-tile [tile]="tile" [sharedPrefix]="'shared_'" [isDark]="isDark"></app-tile>
 							</div>
-							<div [innerHTML]="tile | translate"></div>
+							<div>{{ tile | translate }}</div>
 						</div>
 					}
 				</div>
