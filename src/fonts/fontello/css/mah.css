@@ -1,5 +1,5 @@
 @font-face {
-  font-family: 'mah';
+  font-family: mah;
   src: url('../font/mah.eot?71598379');
   src: url('../font/mah.eot?71598379#iefix') format('embedded-opentype'),
        url('../font/mah.woff2?71598379') format('woff2'),
@@ -21,7 +21,7 @@
   margin-right: .2em;
   text-align: center;
 
-  /* For safety - reset parent styles, that can break glyph codes*/
+  /* For safety - reset parent styles, that can break glyph codes */
   font-variant: normal;
   text-transform: none;
 
@@ -44,17 +44,17 @@
   /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
 }
 
-.icon-pause:before { content: '\e800'; } /* '' */
-.icon-logo:before { content: '\e801'; } /* '' */
-.icon-lightbulb:before { content: '\e803'; } /* '' */
-.icon-undo:before { content: '\e807'; } /* '' */
-.icon-spin1:before { content: '\e808'; } /* '' */
-.icon-cancel-circled2:before { content: '\e809'; } /* '' */
-.icon-calendar:before { content: '\e80a'; } /* '' */
-.icon-note-beamed:before { content: '\e80b'; } /* '' */
-.icon-resize-full-alt:before { content: '\e80d'; } /* '' */
-.icon-volume-low:before { content: '\e80e'; } /* '' */
-.icon-loop:before { content: '\e812'; } /* '' */
-.icon-cog:before { content: '\e813'; } /* '' */
-.icon-trash-empty:before { content: '\e815'; } /* '' */
-.icon-menu:before { content: '\f0c9'; } /* '' */
+.icon-pause::before { content: '\e800'; } /* '' */
+.icon-logo::before { content: '\e801'; } /* '' */
+.icon-lightbulb::before { content: '\e803'; } /* '' */
+.icon-undo::before { content: '\e807'; } /* '' */
+.icon-spin1::before { content: '\e808'; } /* '' */
+.icon-cancel-circled2::before { content: '\e809'; } /* '' */
+.icon-calendar::before { content: '\e80a'; } /* '' */
+.icon-note-beamed::before { content: '\e80b'; } /* '' */
+.icon-resize-full-alt::before { content: '\e80d'; } /* '' */
+.icon-volume-low::before { content: '\e80e'; } /* '' */
+.icon-loop::before { content: '\e812'; } /* '' */
+.icon-cog::before { content: '\e813'; } /* '' */
+.icon-trash-empty::before { content: '\e815'; } /* '' */
+.icon-menu::before { content: '\f0c9'; } /* '' */
