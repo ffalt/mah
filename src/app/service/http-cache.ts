@@ -33,7 +33,7 @@ export class HttpCache {
 					},
 					error: (error: unknown) => {
 						delete this.cache[url];
-						reject(error as Error);
+						reject(error);
 					}
 				});
 		});

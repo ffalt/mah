@@ -7,7 +7,6 @@ import { LocalstorageService } from './localstorage.service';
 import { DEFAULT_LANGUAGE } from '../model/languages';
 import { LangAuto } from '../model/consts';
 import type { Sound } from '../model/sound';
-import type { Music } from '../model/music';
 
 // Mock modules
 jest.mock('../model/game');
@@ -49,7 +48,7 @@ describe('AppService', () => {
 			play: jest.fn(),
 			pause: jest.fn(),
 			toggleMusic: jest.fn()
-		} as jest.Mocked<Music>;
+		};
 
 		mockSettings = new Settings(mockStorage) as jest.Mocked<Settings>;
 		mockSettings.load = jest.fn();

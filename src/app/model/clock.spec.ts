@@ -17,7 +17,7 @@ describe('Clock', () => {
 		mockSetTimeout = jest.fn().mockReturnValue(123); // Return a fake timer ID
 		mockClearTimeout = jest.fn();
 		window.setTimeout = mockSetTimeout as unknown as typeof window.setTimeout;
-		window.clearTimeout = mockClearTimeout as unknown as typeof window.clearTimeout;
+		window.clearTimeout = mockClearTimeout;
 
 		// Mock Date.now
 		dateNowSpy = jest.spyOn(Date, 'now');

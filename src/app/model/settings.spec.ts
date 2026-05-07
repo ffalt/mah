@@ -15,7 +15,7 @@ describe('Settings', () => {
 			storeState: jest.fn(),
 			getScore: jest.fn(),
 			storeScore: jest.fn()
-		} as unknown as StorageProvider;
+		};
 
 		// Create settings instance
 		settings = new Settings(mockStorageProvider);
