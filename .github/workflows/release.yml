@@ -12,16 +12,20 @@ jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Setup node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
         with:
           node-version: 22.x
+          package-manager-cache: false
 
       - name: Write ffalt.github.io app config
         run: |
@@ -40,7 +44,7 @@ jobs:
         run: touch ./dist/.nojekyll
 
       - name: Deploy to GH Pages branch 🚀
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: JamesIves/github-pages-deploy-action@d92aa235d04922e8f08b40ce78cc5442fcfbfa2f # v4.8.0
         with:
           branch: gh-pages
           folder: dist
@@ -63,21 +67,21 @@ jobs:
           echo "zip=webapp-mah-$SAFE.zip" >> $GITHUB_OUTPUT
 
       - name: Create release package
-        run: cd dist && zip -r "./${{ steps.version.outputs.zip }}" .
+        env:
+          ZIP_NAME: ${{ steps.version.outputs.zip }}
+        run: cd dist && zip -r "./$ZIP_NAME" .
 
       - name: Generate Releaselog
         run: |
           npm run build:releaselog
 
       - name: Create release
-        uses: ncipollo/release-action@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ github.ref }}
-          name: Release ${{ github.ref_name }}
-          bodyFile: ./RELEASELOG.md
-          draft: false
-          prerelease: false
-          artifacts: ./dist/${{ steps.version.outputs.zip }}
-          artifactContentType: application/zip
-          makeLatest: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ZIP_NAME: ${{ steps.version.outputs.zip }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" \
+            --title "Release $GITHUB_REF_NAME" \
+            --notes-file ./RELEASELOG.md \
+            --latest \
+            "./dist/$ZIP_NAME"

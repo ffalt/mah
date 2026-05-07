@@ -10,20 +10,22 @@ permissions:
   contents: write
 
 jobs:
-  build-tauri:
+  build-macos:
     runs-on: 'macos-latest'
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
 
       - name: Setup node
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
         with:
-          node-version: lts/*
-          cache: 'npm'
+          node-version: 22.x
+          package-manager-cache: false
 
       - name: Install Rust stable
-        uses: dtolnay/rust-toolchain@stable
+        uses: dtolnay/rust-toolchain@3c5f7ea28cd621ae0bf5283f0e981fb97b8a7af9 # v 1.94.1
 
       - name: Write mah build config
         run: |
@@ -43,15 +45,30 @@ jobs:
 
 
       - name: Upload macOS artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         if: github.ref_type != 'tag'
         with:
           name: 'macos'
           retention-days: 10
           path: resources/apps/tauri/target/**/*.dmg
 
-      - name: Upload release
-        uses: softprops/action-gh-release@v2
+      - name: Wait for release
         if: github.ref_type == 'tag'
-        with:
-          files: resources/apps/tauri/target/**/*.dmg
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          for i in $(seq 1 20); do
+            gh release view "$GITHUB_REF_NAME" > /dev/null 2>&1 && exit 0
+            echo "Waiting for release to be created ($i/20)..."
+            sleep 30
+          done
+          echo "Release not found after waiting" && exit 1
+
+      - name: Upload release
+        if: github.ref_type == 'tag'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          shopt -s globstar
+          gh release upload "$GITHUB_REF_NAME" \
+            resources/apps/tauri/target/**/*.dmg
