@@ -37,6 +37,7 @@
 	"MIRROR_X": "Spiegel verticaal",
 	"MIRROR_Y": "Spiegel horizontaal",
 	"GENERATE": "Genereren",
+	"LAYOUT_SEED_LABEL": "Zaad",
 	"RANDOM_MIRROR": "Willekeurig",
 	"YES": "Ja",
 	"NO": "Nee",

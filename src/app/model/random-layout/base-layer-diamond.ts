@@ -1,5 +1,6 @@
 import type { Mapping } from '../types';
 import { generateBaseLayerWithShapes, shuffleArray } from './utilities';
+import { rng } from '../rng';
 import type { BaseLayerOptions } from './consts';
 
 // Diamond (rotated-square) outline inscribed in a bounding box of (w × h) tiles.
@@ -52,7 +53,7 @@ function diamondFilledCells(x0: number, y0: number, w: number, h: number): Array
 }
 
 export function diamondCells(x0: number, y0: number, w: number, h: number): Array<[number, number]> {
-	const diamond = Math.random() < 0.5 ? diamondOutlineCells : diamondFilledCells;
+	const diamond = rng() < 0.5 ? diamondOutlineCells : diamondFilledCells;
 	return diamond(x0, y0, w, h);
 }
 

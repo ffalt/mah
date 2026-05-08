@@ -8,7 +8,7 @@ import { generateBaseLayerCross } from './base-layer-cross';
 import { generateBaseLayerDiamond } from './base-layer-diamond';
 import { generateBaseLayerTriangle } from './base-layer-triangle';
 import { generateBaseLayerShapes } from './base-layer-shapes';
-import { blocksOverlap, inBounds, key } from './utilities';
+import { blocksOverlap, inBounds, key, randInt } from './utilities';
 
 function mirrorBaseLayer(mirrorX: boolean, mirrorY: boolean, baseLayer: Mapping): Mapping {
 	if ((!mirrorX && !mirrorY) || baseLayer.length === 0) {
@@ -116,8 +116,8 @@ export function generateBaseLayerMode(mirrorX: boolean, mirrorY: boolean, mode: 
 			const yRangeMin = mirrorY ? 6 : 12;
 			const yRangeMax = mirrorY ? Math.floor(Y_MAX / 2) : Y_MAX;
 			// choose extents favoring mid-size boards
-			const xMax = Math.floor(Math.random() * (xRangeMax - xRangeMin + 1)) + xRangeMin;
-			const yMax = Math.floor(Math.random() * (yRangeMax - yRangeMin + 1)) + yRangeMin;
+			const xMax = randInt(xRangeMin, xRangeMax);
+			const yMax = randInt(yRangeMin, yRangeMax);
 			return generateBaseLayerChecker({ minTarget, maxTarget, xMax, yMax });
 		}
 		case 'lines': {

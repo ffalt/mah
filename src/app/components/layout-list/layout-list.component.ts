@@ -9,6 +9,7 @@ import { DeferLoadScrollHostDirective } from '../../directives/defer-load/defer-
 import { DeferLoadDirective } from '../../directives/defer-load/defer-load.directive';
 import { generateRandomMapping } from '../../model/random-layout/random-layout';
 import { RANDOM_LAYOUT_ID_PREFIX, type RandomSymmetry } from '../../model/random-layout/consts';
+import { seedRNG, resetRNG, generateLayoutSeed } from '../../model/rng';
 import { TranslateGroupPipe } from '../../pipes/translate-group.pipe';
 
 export interface LayoutItem {
@@ -26,6 +27,15 @@ export interface LayoutGroup {
 	layouts: Array<LayoutItem>;
 }
 
+export interface RandomLayoutItem extends LayoutItem {
+	layoutSeed?: string;
+}
+
+export interface RandomLayoutGroup extends LayoutGroup {
+	isRandom: true;
+	layouts: Array<RandomLayoutItem>;
+}
+
 @Component({
 	selector: 'app-layout-list',
 	templateUrl: './layout-list.component.html',
@@ -39,7 +49,7 @@ export class LayoutListComponent implements OnInit, OnChanges {
 	groups: Array<LayoutGroup> = [];
 	randomMirrorX: string = 'random';
 	randomMirrorY: string = 'random';
-	randomGroup: LayoutGroup = {
+	randomGroup: RandomLayoutGroup = {
 		name: '',
 		layouts: [], expanded: true, isRandom: true
 	};
@@ -57,6 +67,7 @@ export class LayoutListComponent implements OnInit, OnChanges {
 	buildRandomGroup() {
 		this.randomGroup.name = this.translate.instant('RANDOM_GROUP');
 		const layoutName = this.translate.instant('RANDOM_LAYOUT');
+		this.randomGroup.layouts = [];
 		for (let index = 0; index < 4; index++) {
 			this.randomGroup.layouts.push(
 				{
@@ -85,12 +96,15 @@ export class LayoutListComponent implements OnInit, OnChanges {
 		this.generateRandomLayouts();
 	}
 
-	generateRandomLayout(layoutItem: LayoutItem): void {
+	generateRandomLayout(layoutItem: RandomLayoutItem, layoutSeed?: string): void {
+		layoutItem.layoutSeed = layoutSeed ?? generateLayoutSeed();
+		seedRNG(layoutItem.layoutSeed);
 		const mapping = generateRandomMapping(
 			this.randomMirrorX as RandomSymmetry,
 			this.randomMirrorY as RandomSymmetry,
 			'random'
 		);
+		resetRNG();
 		layoutItem.layout.previewSVG = this.layoutService.generatePreview(mapping);
 		layoutItem.layout.mapping = mapping;
 	}
@@ -100,6 +114,13 @@ export class LayoutListComponent implements OnInit, OnChanges {
 			setTimeout(() => {
 				this.generateRandomLayout(item);
 			});
+		}
+	}
+
+	regenerateWithSeed(item: RandomLayoutItem, seed: string): void {
+		const trimmed = seed.trim();
+		if (trimmed) {
+			this.generateRandomLayout(item, trimmed);
 		}
 	}
 

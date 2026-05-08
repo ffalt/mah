@@ -37,6 +37,7 @@
 	"MIRROR_X": "Vertikal spiegeln",
 	"MIRROR_Y": "Horizontal spiegeln",
 	"GENERATE": "Generieren",
+	"LAYOUT_SEED_LABEL": "Startwert",
 	"RANDOM_MIRROR": "Zufällig",
 	"YES": "Ja",
 	"NO": "Nein",

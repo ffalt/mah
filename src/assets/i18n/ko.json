@@ -37,6 +37,7 @@
 	"MIRROR_X": "수직 미러",
 	"MIRROR_Y": "수평 미러",
 	"GENERATE": "생성",
+	"LAYOUT_SEED_LABEL": "시드",
 	"RANDOM_MIRROR": "무작위",
 	"YES": "예",
 	"NO": "아니오",

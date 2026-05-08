@@ -1,6 +1,7 @@
 import type { Mapping } from '../types';
 import { TARGET_COUNT, X_MAX, Y_MAX, Z_MAX } from './consts';
 import { blocksOverlap, inBounds, isOdd, isSupported, key, type NonEmptyArray, randChoice, shuffleArray, tryAdd } from './utilities';
+import { rng } from '../rng';
 
 function computeBelowWindow(current: Mapping, z: number): { minX: number; maxX: number; minY: number; maxY: number } | null {
 	let minX = X_MAX;
@@ -66,7 +67,7 @@ function bucketCandidates(present: Set<string>, z: number, win: { minX: number; 
 function maybeProposeOverhangs(present: Set<string>, z: number, win: { minX: number; maxX: number; minY: number; maxY: number }): Array<[number, number]> {
 	const overhangs: Array<[number, number]> = [];
 	const zb = z - 1;
-	if (Math.random() < 0.25) {
+	if (rng() < 0.25) {
 		for (let y = win.minY; y <= win.maxY; y++) {
 			for (let x = win.minX; x <= win.maxX; x++) {
 				if (!present.has(key(zb, x, y))) {
@@ -91,7 +92,7 @@ function maybeProposeOverhangs(present: Set<string>, z: number, win: { minX: num
 }
 
 function computeLevelBudget(remaining: number): number {
-	let levelBudget = Math.trunc(Math.random() * remaining);
+	let levelBudget = Math.trunc(rng() * remaining);
 	levelBudget -= (levelBudget % 2);
 	return Math.max(levelBudget, 2);
 }

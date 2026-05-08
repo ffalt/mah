@@ -37,6 +37,7 @@
 	"MIRROR_X": "垂直にミラー",
 	"MIRROR_Y": "水平にミラー",
 	"GENERATE": "生成",
+	"LAYOUT_SEED_LABEL": "シード",
 	"RANDOM_MIRROR": "ランダム",
 	"YES": "はい",
 	"NO": "いいえ",

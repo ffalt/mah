@@ -1,8 +1,14 @@
 import type { Mapping } from '../types';
 import { type RandomBaseLayerMode, type BaseLayerOptions, X_MAX, Y_MAX, Z_MAX } from './consts';
-import { shuffleArray as shuffleArrayImpl } from '../array-utilities';
+import { rng } from '../rng';
 
-export { shuffleArray } from '../array-utilities';
+export function shuffleArray<T>(array: Array<T>): Array<T> {
+	for (let index = array.length - 1; index > 0; index--) {
+		const swapIndex = Math.floor(rng() * (index + 1));
+		[array[index], array[swapIndex]] = [array[swapIndex], array[index]];
+	}
+	return array;
+}
 
 export type NonEmptyArray<T> = [T, ...Array<T>];
 
@@ -11,11 +17,11 @@ export function key(z: number, x: number, y: number): string {
 }
 
 export function randInt(min: number, maxInclusive: number): number {
-	return Math.floor(Math.random() * (maxInclusive - min + 1)) + min;
+	return Math.floor(rng() * (maxInclusive - min + 1)) + min;
 }
 
 export function randChoice<T>(array: NonEmptyArray<T>): T {
-	return array[Math.floor(Math.random() * array.length)];
+	return array[Math.floor(rng() * array.length)];
 }
 
 export function inBounds(x: number, y: number, z: number): boolean {
@@ -237,8 +243,8 @@ export function generateBaseLayerWithShapes(
 	const usedSizes = new Set<string>();
 	const anchors = buildEvenAnchors(xMax, yMax);
 
-	shuffleArrayImpl(allSizes);
-	shuffleArrayImpl(anchors);
+	shuffleArray(allSizes);
+	shuffleArray(anchors);
 
 	const tryPlace = (x0: number, y0: number, w: number, h: number): number => {
 		if (!canPlace(x0, y0, w, h, occupied, blocked, usedSizes, cellsFunction)) {
@@ -259,8 +265,8 @@ export function generateBaseLayerWithShapes(
 	// Phase 2: if still below minTarget, retry unused sizes with reshuffled anchors
 	if (total < minTarget) {
 		const remainingSizes = allSizes.filter(([w, h]) => !usedSizes.has(`${w}x${h}`));
-		shuffleArrayImpl(remainingSizes);
-		shuffleArrayImpl(anchors);
+		shuffleArray(remainingSizes);
+		shuffleArray(anchors);
 		total = placeSizesGeneric(total, remainingSizes, anchors, minTarget, maxTarget, tryPlace);
 	}
 
@@ -274,8 +280,8 @@ export function generateBaseLayerWithShapes(
 				allowReuse = true;
 				continue;
 			}
-			shuffleArrayImpl(sizePool);
-			shuffleArrayImpl(anchors);
+			shuffleArray(sizePool);
+			shuffleArray(anchors);
 			const previous = total;
 			total = placeSizesGeneric(total, sizePool, anchors, minTarget, maxTarget, tryPlace);
 			progress = total > previous;
