@@ -7,44 +7,62 @@ import { RandomBoardBuilder } from './random';
 const MAX_RUNS = 2000;
 const MAX_ALTERNATIVE_ATTEMPTS = 10;
 
-export class SolvableBoardBuilder extends BuilderBase {
+export interface BreadthConstraint {
+	min: number;
+	max: number;
+}
+
+export abstract class SolvableBoardBuilderBase extends BuilderBase {
+	protected maxRuns: number = MAX_RUNS;
+
+	protected breadthConstraint(): BreadthConstraint | undefined {
+		return undefined;
+	}
+
 	build(mapping: Mapping, tiles: Tiles): Array<Stone> {
-		// Try the standard solvable algorithm
-		const result = this.buildSolvableWithRetries(mapping, tiles, MAX_RUNS);
-		if (result) {
-			return result;
+		const breadth = this.breadthConstraint();
+
+		// Step 1: constrained attempt (skipped when no constraint)
+		if (breadth) {
+			const result = this.buildSolvableWithRetries(mapping, tiles, this.maxRuns, breadth);
+			if (result) {
+				return result;
+			}
 		}
 
-		// If standard algorithm fails, try alternative strategy
-		const alternativeResult = this.buildSolvableAlternative(mapping, tiles);
-		if (alternativeResult) {
-			return alternativeResult;
+		// Step 2: unconstrained solvable (always tried; same as original behaviour for Standard)
+		const unconstrained = this.buildSolvableWithRetries(mapping, tiles, MAX_RUNS, undefined);
+		if (unconstrained) {
+			return unconstrained;
 		}
 
-		// Last resort: create a random board and try to solve it
-		// This ensures we always return a board, even if not guaranteed solvable
+		// Step 3: alternative strategy (reversed group order)
+		const alternative = this.buildSolvableAlternative(mapping, tiles);
+		if (alternative) {
+			return alternative;
+		}
+
+		// Step 4: last resort — random fill, possibly unsolvable
 		const randomBoard = new RandomBoardBuilder();
 		return randomBoard.build(mapping, tiles);
 	}
 
-	private buildSolvableWithRetries(mapping: Mapping, tiles: Tiles, maxRuns: number): Array<Stone> | undefined {
-		// Initialize a board with all matching faces
+	private buildSolvableWithRetries(mapping: Mapping, tiles: Tiles, maxRuns: number, breadth: BreadthConstraint | undefined): Array<Stone> | undefined {
 		const stones: Array<Stone> = [];
 		for (const st of mapping) {
 			stones.push(new Stone(st[0], st[1], st[2], 0, 0));
 		}
-		BuilderBase.fillStones(stones, tiles); // grouping will be repaired later
+		BuilderBase.fillStones(stones, tiles);
 
 		let runs = 0;
-		let pairs = this.assignTilePairs(stones, tiles);
+		let pairs = this.assignTilePairs(stones, tiles, false, breadth);
 		while (pairs.length === 0 && runs < maxRuns) {
-			// Reset stones for retry
 			for (const stone of stones) {
 				stone.picked = false;
 				stone.v = 0;
 				stone.groupNr = 0;
 			}
-			pairs = this.assignTilePairs(stones, tiles);
+			pairs = this.assignTilePairs(stones, tiles, false, breadth);
 			runs++;
 		}
 
@@ -56,7 +74,6 @@ export class SolvableBoardBuilder extends BuilderBase {
 	}
 
 	private buildSolvableAlternative(mapping: Mapping, tiles: Tiles): Array<Stone> | undefined {
-		// Alternative strategy: try building from scratch multiple times with different tile selection
 		for (let attempt = 0; attempt < MAX_ALTERNATIVE_ATTEMPTS; attempt++) {
 			const stones: Array<Stone> = [];
 			for (const st of mapping) {
@@ -64,8 +81,7 @@ export class SolvableBoardBuilder extends BuilderBase {
 			}
 			BuilderBase.fillStones(stones, tiles);
 
-			// Try to solve with reversed group order for variety
-			const pairs = this.assignTilePairs(stones, tiles, attempt % 2 !== 0);
+			const pairs = this.assignTilePairs(stones, tiles, attempt % 2 !== 0, undefined);
 			if (pairs.length > 0) {
 				return this.finalizeBoard(stones, tiles);
 			}
@@ -82,7 +98,7 @@ export class SolvableBoardBuilder extends BuilderBase {
 		return stones;
 	}
 
-	private assignTilePairs(stones: Array<Stone>, tiles: Tiles, reverse = false): Array<Array<Tile>> {
+	private assignTilePairs(stones: Array<Stone>, tiles: Tiles, reverse = false, breadth: BreadthConstraint | undefined): Array<Array<Tile>> {
 		const pairs: Array<[Tile, Tile]> = [];
 		const allPairs: Array<[Tile, Tile]> = [];
 		const maxPairs = stones.length / 2;
@@ -111,6 +127,9 @@ export class SolvableBoardBuilder extends BuilderBase {
 			if (freestones.length < 2) {
 				return [];
 			}
+			if (breadth && (freestones.length < breadth.min || freestones.length > breadth.max)) {
+				return [];
+			}
 			const place1 = BuilderBase.randomExtract(freestones);
 			const place2 = BuilderBase.randomExtract(freestones);
 			place1.v = pair[0].v;
@@ -125,4 +144,8 @@ export class SolvableBoardBuilder extends BuilderBase {
 		}
 		return pairs;
 	}
+}
+
+// Standard solvable — no breadth constraint (original behaviour)
+export class SolvableBoardBuilder extends SolvableBoardBuilderBase {
 }

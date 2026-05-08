@@ -21,6 +21,7 @@ export class Board {
 	hints: Hints = { groups: [], current: undefined };
 	selected?: Stone = undefined;
 	undo: Array<Place> = [];
+	buildMode: BUILD_MODE_ID = MODE_SOLVABLE;
 
 	clearSelection(): void {
 		if (this.selected) {
@@ -138,7 +139,7 @@ export class Board {
 		const tiles = new StoneTiles(unusedStones);
 		const mapping: Mapping = unusedStones.map(s => [s.z, s.x, s.y]);
 		const builder: Builder = new Builder(tiles);
-		const stones = builder.build(MODE_SOLVABLE, mapping);
+		const stones = builder.build(this.buildMode, mapping);
 		if (!stones) {
 			return;
 		}
@@ -175,6 +176,7 @@ export class Board {
 	}
 
 	applyMapping(mapping: Mapping, mode: BUILD_MODE_ID): void {
+		this.buildMode = mode;
 		const builder: Builder = new Builder(new Tiles(mapping.length));
 		this.stones = builder.build(mode, mapping) || [];
 	}

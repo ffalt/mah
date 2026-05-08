@@ -4,7 +4,7 @@ import { GAME_MODE_EASY, GAME_MODE_EXPERT, type GAME_MODE_ID, GAME_MODE_ID_DEFAU
 import { SOUNDS, Sound } from './sound';
 import type { Stone } from './stone';
 import type { GameStateStore, Layout, StorageProvider } from './types';
-import type { BUILD_MODE_ID } from './builder';
+import { type BUILD_MODE_ID, MODE_SOLVABLE } from './builder';
 import { Music } from './music';
 import { RANDOM_LAYOUT_ID_PREFIX } from './random-layout/consts';
 
@@ -166,6 +166,7 @@ export class Game {
 				this.clock.elapsed = store.elapsed ?? 0;
 				this.layoutID = store.layout;
 				this.mode = store.gameMode ?? GAME_MODE_ID_DEFAULT;
+				this.board.buildMode = store.buildMode ?? MODE_SOLVABLE;
 				this.state = store.state ?? STATES.idle;
 				this.board.load(store.stones, store.undo ?? []);
 				return true;
@@ -186,6 +187,7 @@ export class Game {
 				state: this.state,
 				layout: this.layoutID,
 				gameMode: this.mode,
+				buildMode: this.board.buildMode,
 				undo: this.board.undo,
 				stones: this.board.save()
 			});

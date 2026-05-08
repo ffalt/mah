@@ -88,7 +88,7 @@
 
 <app-dialog #newgame (clickEvent)="toggleDialogState($event)" className="overlay-newgame overlay-size-large" [title]="'SELECT_BOARD' | translate">
 	@if (newgame.visible()) {
-		<app-choose-layout class="choose" (startEvent)="startGame($event)" [gameMode]="game.mode"/>
+		<app-choose-layout class="choose" (startEvent)="startGame($event)" [gameMode]="game.mode" [buildMode]="game.board.buildMode"/>
 	}
 </app-dialog>
 
