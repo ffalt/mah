@@ -37,6 +37,7 @@
 	"MIRROR_X": "Specchio verticale",
 	"MIRROR_Y": "Specchio orizzontale",
 	"GENERATE": "Genera",
+	"LAYOUT_SEED_LABEL": "Seme",
 	"RANDOM_MIRROR": "Casuale",
 	"YES": "Sì",
 	"NO": "No",

@@ -1,6 +1,7 @@
 import type { Mapping } from '../types';
 import { type RandomBaseLayerMode, type RandomSymmetry, TARGET_COUNT } from './consts';
 import { getRandomMode, hasMultipleLevels } from './utilities';
+import { rng } from '../rng';
 import { generateBaseLayer } from './base-layer';
 import { fillLayout } from './upper-layers';
 import { optimizeMapping } from '../../modules/editor/model/optimize';
@@ -28,8 +29,8 @@ export function generateRandomMappingRaw(mirrorX: boolean, mirrorY: boolean, mod
 export function generateRandomMapping(
 	mirrorX: RandomSymmetry, mirrorY: RandomSymmetry, mode: RandomBaseLayerMode
 ): Mapping {
-	const symmetricX = mirrorX === 'random' ? Math.random() < 0.5 : (mirrorX === 'true');
-	const symmetricY = mirrorY === 'random' ? Math.random() < 0.5 : (mirrorY === 'true');
+	const symmetricX = mirrorX === 'random' ? rng() < 0.5 : (mirrorX === 'true');
+	const symmetricY = mirrorY === 'random' ? rng() < 0.5 : (mirrorY === 'true');
 	const baseLayerMode = mode === 'random' ? getRandomMode() : mode;
 	let mapping: Mapping = [];
 	let passes = 0;

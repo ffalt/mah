@@ -21,7 +21,7 @@
 				@if (group.isRandom) {
 					<div class="previews previews-random" appDeferLoadScrollHost>
 						@for (item of group.layouts; track item) {
-							<div class="preview"
+							<div class="preview preview-seed-card"
 									 tabindex="0"
 									 [id]="'item-'+item.layout.id"
 									 [class.selected]="item.selected"
@@ -30,7 +30,8 @@
 									 (appDeferLoad)="item.visible=true"
 							>
 								@if (item.visible) {
-									<app-layout-preview class="svg-board" [svg]="item.layout.previewSVG" [alt]="item.layout.name"></app-layout-preview>
+									<app-layout-preview class="svg-board" [svg]="item.layout.previewSVG"
+																			[alt]="item.layout.name"></app-layout-preview>
 								} @else {
 									<div class="preview-placeholder"
 											 [id]="'item-'+item.layout.id"
@@ -38,7 +39,14 @@
 									>
 									</div>
 								}
-								<div class="preview-name">{{ item.layout.name }}</div>
+								<div class="preview-seed" (click)="$event.stopPropagation()">
+									<input type="text" class="seed-input"
+										   [value]="$any(item).layoutSeed ?? ''"
+										   (keyup)="$event.stopPropagation(); regenerateWithSeed($any(item), $any($event.target).value)"
+										   [attr.aria-label]="'LAYOUT_SEED_LABEL' | translate"
+										   [attr.title]="'LAYOUT_SEED_LABEL' | translate"
+									/>
+								</div>
 							</div>
 						}
 						<div class="preview-random">

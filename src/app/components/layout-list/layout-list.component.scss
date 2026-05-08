@@ -258,7 +258,7 @@
 				@include mixins.respond-to(tiny-down) {
 					width: 96%;
 
-					.preview-name {
+					.preview-name, preview-seed {
 						padding-top: 0;
 					}
 				}
@@ -310,6 +310,30 @@
 
 			.previews-random {
 				grid-template-columns: 1fr 1fr 1fr 1fr 2fr;
+
+				.preview-seed {
+					position: absolute;
+					bottom: 0;
+					width: 100%;
+					background-color: var(--card-text-color-bg);
+					box-sizing: border-box;
+
+					.seed-input {
+						width: 100%;
+						background: transparent;
+						border: none;
+						color: var(--card-text-color);
+						font-size: 0.8em;
+						text-align: center;
+						outline: none;
+						cursor: text;
+						padding: 1px 1px 4px;
+
+						&:focus {
+							background-color: var(--card-text-color-bg-hover);
+						}
+					}
+				}
 			}
 
 			.preview {

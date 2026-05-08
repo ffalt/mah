@@ -1,5 +1,5 @@
 import type { Mapping } from '../types';
-import { type CellsFunction, generateBaseLayerWithShapes, shuffleArray } from './utilities';
+import { type CellsFunction, generateBaseLayerWithShapes, randInt, shuffleArray } from './utilities';
 import type { BaseLayerOptions } from './consts';
 import { crossCells } from './base-layer-cross';
 import { diamondCells } from './base-layer-diamond';
@@ -18,7 +18,7 @@ export function generateBaseLayerShapes(options: BaseLayerOptions): Mapping {
 	}
 	shuffleArray(allSizes);
 	const mixedCells: CellsFunction = (x0, y0, w, h) => {
-		const shapeCells = shapeFunctions[Math.floor(Math.random() * shapeFunctions.length)];
+		const shapeCells = shapeFunctions[randInt(0, shapeFunctions.length - 1)];
 		return shapeCells(x0, y0, w, h);
 	};
 	return generateBaseLayerWithShapes(allSizes, mixedCells, options);

@@ -37,6 +37,7 @@
 	"MIRROR_X": "Mirror vertical",
 	"MIRROR_Y": "Mirror horizontal",
 	"GENERATE": "Generate",
+	"LAYOUT_SEED_LABEL": "Seed",
 	"RANDOM_MIRROR": "Random",
 	"YES": "Yes",
 	"NO": "No",

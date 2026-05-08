@@ -1,5 +1,6 @@
 import type { Mapping, Place } from '../types';
 import { blocksOverlap, inBounds, key, randChoice, randInt, shuffleArray, buildUnitGrids, buildMappingFromSetZ0 } from './utilities';
+import { rng } from '../rng';
 import type { BaseLayerOptions } from './consts';
 
 function addBaseLine(present: Set<string>, mapping: Mapping, snakeKeys: Set<string>, x: number, y: number, markSnake = false): boolean {
@@ -49,10 +50,10 @@ function buildTryDirections(direction: [number, number], wobble: number): Array<
 	const rev: [number, number] = [-direction[0], -direction[1]];
 	const orth: Array<[number, number]> = direction[0] === 0 ? [[1, 0], [-1, 0]] : [[0, 1], [0, -1]];
 	let tryDirections: Array<[number, number]> = [cont, ...orth, rev];
-	if (Math.random() < wobble) {
+	if (rng() < wobble) {
 		tryDirections = shuffleArray(tryDirections);
 	}
-	if (Math.random() < 0.2) {
+	if (rng() < 0.2) {
 		tryDirections = [...shuffleArray([...orth]), cont, rev];
 	}
 	return tryDirections;
@@ -86,10 +87,10 @@ function tryBurstFallback(present: Set<string>, mapping: Mapping, snakeKeys: Set
 }
 
 function trimEdges(present: Set<string>, snakeKeys: Set<string>, xs: Array<number>, ys: Array<number>, xMax: number, yMax: number): void {
-	const leftCut = Math.random() < 0.4 ? randChoice([0, 0, 2]) : 0;
-	const rightCut = Math.random() < 0.4 ? randChoice([0, 0, 2]) : 0;
-	const topCut = Math.random() < 0.4 ? randChoice([0, 2]) : 0;
-	const bottomCut = Math.random() < 0.4 ? randChoice([0, 2]) : 0;
+	const leftCut = rng() < 0.4 ? randChoice([0, 0, 2]) : 0;
+	const rightCut = rng() < 0.4 ? randChoice([0, 0, 2]) : 0;
+	const topCut = rng() < 0.4 ? randChoice([0, 2]) : 0;
+	const bottomCut = rng() < 0.4 ? randChoice([0, 2]) : 0;
 	for (const yy of ys) {
 		for (const xx of xs) {
 			if (xx < leftCut || xx > xMax - rightCut || yy < topCut || yy > yMax - bottomCut) {
@@ -175,13 +176,13 @@ export function generateBaseLayerLines({ minTarget, maxTarget, xMax, yMax }: Bas
 	let x = sx;
 	let y = sy;
 	const directionsAll: Array<[number, number]> = [[1, 0], [-1, 0], [0, 1], [0, -1]];
-	let direction: [number, number] = directionsAll[Math.floor(Math.random() * 4)];
+	let direction: [number, number] = directionsAll[randInt(0, 3)];
 	const targetLength = computeSnakeTargetLength(xMax, yMax);
 	let stuckCount = 0;
 	const maxStuckAttempts = 10;
 
 	for (let step = 0; step < targetLength; step++) {
-		const wobble = (step % randInt(6, 12)) === 0 ? Math.random() * 0.6 + 0.2 : Math.random() * 0.3;
+		const wobble = (step % randInt(6, 12)) === 0 ? rng() * 0.6 + 0.2 : rng() * 0.3;
 		const moved = tryMoveStep(present, mapping, snakeKeys, x, y, direction, wobble);
 		if (moved) {
 			x = moved.x;
@@ -204,7 +205,7 @@ export function generateBaseLayerLines({ minTarget, maxTarget, xMax, yMax }: Bas
 			break; // Give up after multiple attempts to find a valid move
 		}
 		// Try a random direction from current position as a last resort
-		const randomDirection = directionsAll[Math.floor(Math.random() * 4)];
+		const randomDirection = directionsAll[randInt(0, 3)];
 		const randomX = x + randomDirection[0] * 2;
 		const randomY = y + randomDirection[1] * 2;
 		if (inBounds(randomX, randomY, 0) && addBaseLine(present, mapping, snakeKeys, randomX, randomY, true)) {

@@ -1,5 +1,6 @@
 import type { Mapping, Place } from '../types';
 import { blocksOverlap, key, randChoice, randInt, shuffleArray, buildUnitGrids, buildMappingFromSetZ0 } from './utilities';
+import { rng } from '../rng';
 import type { BaseLayerOptions } from './consts';
 
 function punchHoles(base: Set<string>, baseZ: number, xs: Array<number>, ys: Array<number>, minHoles: number, maxHoles: number): void {
@@ -25,7 +26,7 @@ function punchHoles(base: Set<string>, baseZ: number, xs: Array<number>, ys: Arr
 			continue;
 		}
 		// 50% chance to remove small 2x1 or 1x2 block to create bigger gaps (now using 1-step grid)
-		const orient = Math.random() < 0.5 ? 'h' : 'v';
+		const orient = rng() < 0.5 ? 'h' : 'v';
 		const removed: Array<string> = [];
 		if (orient === 'h') {
 			removed.push(k);
@@ -62,10 +63,10 @@ function buildInitialChecker(present: Set<string>, xs: Array<number>, ys: Array<
 }
 
 function computeSideCuts(): { left: number; right: number; top: number; bottom: number } {
-	const left = Math.random() < 0.5 ? 0 : randChoice([0, 0, 2, 2, 4]);
-	const right = Math.random() < 0.5 ? 0 : randChoice([0, 0, 2, 2, 4]);
-	const top = Math.random() < 0.5 ? 0 : randChoice([0, 2, 2, 4]);
-	const bottom = Math.random() < 0.5 ? 0 : randChoice([0, 2, 2, 4]);
+	const left = rng() < 0.5 ? 0 : randChoice([0, 0, 2, 2, 4]);
+	const right = rng() < 0.5 ? 0 : randChoice([0, 0, 2, 2, 4]);
+	const top = rng() < 0.5 ? 0 : randChoice([0, 2, 2, 4]);
+	const bottom = rng() < 0.5 ? 0 : randChoice([0, 2, 2, 4]);
 	return { left, right, top, bottom };
 }
 

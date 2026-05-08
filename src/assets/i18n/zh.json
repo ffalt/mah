@@ -37,6 +37,7 @@
 	"MIRROR_X": "垂直镜像",
 	"MIRROR_Y": "水平镜像",
 	"GENERATE": "生成",
+	"LAYOUT_SEED_LABEL": "种子",
 	"RANDOM_MIRROR": "随机",
 	"YES": "是",
 	"NO": "否",
