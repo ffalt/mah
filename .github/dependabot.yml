@@ -1,9 +1,9 @@
 version: 2
 updates:
-- package-ecosystem: npm
+- package-ecosystem: "npm"
   directory: "/"
   schedule:
-    interval: weekly
+    interval: "weekly"
     time: "04:00"
   open-pull-requests-limit: 10
   cooldown:
