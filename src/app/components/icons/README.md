@@ -5,7 +5,7 @@
 Copyright (C) 2012 by Daniel Bruce
 
 Author:    Daniel Bruce  
-License:   SIL (http://scripts.sil.org/OFL)  
+License:   SIL (<http://scripts.sil.org/OFL>)  
 Homepage:  <http://www.entypo.com>
 
 ## Font Awesome
@@ -13,7 +13,7 @@ Homepage:  <http://www.entypo.com>
 Copyright (C) 2016 by Dave Gandy
 
 Author:    Dave Gandy  
-License:   SIL (http://scripts.sil.org/OFL)  
+License:   SIL (<http://scripts.sil.org/OFL>)  
 Homepage:  <http://fortawesome.github.com/Font-Awesome/>
 
 ## Iconic
@@ -21,7 +21,7 @@ Homepage:  <http://fortawesome.github.com/Font-Awesome/>
 Copyright (C) 2012 by P.J. Onori
 
 Author:    P.J. Onori  
-License:   SIL (http://scripts.sil.org/OFL)  
+License:   SIL (<http://scripts.sil.org/OFL>)  
 Homepage:  <http://somerandomdude.com/work/iconic/>
 
 ## Fontelico
@@ -29,7 +29,7 @@ Homepage:  <http://somerandomdude.com/work/iconic/>
 Copyright (C) 2012 by Fontello project
 
 Author:    Crowdsourced, for Fontello project  
-License:   SIL (http://scripts.sil.org/OFL)  
+License:   SIL (<http://scripts.sil.org/OFL>)  
 Homepage:  <http://fontello.com>
 
 ## Typicons
@@ -37,5 +37,5 @@ Homepage:  <http://fontello.com>
 (c) Stephen Hutchings 2012
 
 Author:    Stephen Hutchings  
-License:   SIL (http://scripts.sil.org/OFL)  
-Homepage:  http://typicons.com/
+License:   SIL (<http://scripts.sil.org/OFL>)  
+Homepage:  <http://typicons.com/>
