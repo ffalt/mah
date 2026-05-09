@@ -92,7 +92,7 @@ describe('rng', () => {
 			seedRNG('fixed');
 			const seeded = rng();
 			resetRNG();
-			// generateLayoutSeed uses Math.random directly, not rng() —
+			// generateLayoutSeed uses Math.random directly, not rng()
 			// so seeding has no effect on it
 			seedRNG('fixed');
 			generateLayoutSeed();

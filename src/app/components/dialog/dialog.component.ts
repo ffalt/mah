@@ -1,11 +1,13 @@
 import { Component, input, model, output } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
+import { IconCloseComponent } from '../icons/icon-close.component';
+import { IconLogoComponent } from '../icons/icon-logo.component';
 
 @Component({
 	selector: 'app-dialog',
 	templateUrl: './dialog.component.html',
 	styleUrls: ['./dialog.component.scss'],
-	imports: [TranslatePipe]
+	imports: [TranslatePipe, IconLogoComponent, IconCloseComponent]
 })
 export class DialogComponent {
 	readonly title = input<string>();

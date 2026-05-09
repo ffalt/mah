@@ -14,6 +14,15 @@ import { BoardComponent } from '../board/board.component';
 import { CommonModule } from '@angular/common';
 import { optimizeMapping } from '../../model/optimize';
 import { mappingExtents } from '../../../../model/mapping';
+import { IconCloseComponent } from '../../../../components/icons/icon-close.component';
+import { IconListAddComponent } from '../../../../components/icons/icon-list-add.component';
+import { IconUpComponent } from '../../../../components/icons/icon-up.component';
+import { IconDownComponent } from '../../../../components/icons/icon-down.component';
+import { IconDuplicateComponent } from '../../../../components/icons/icon-duplicate.component';
+import { IconClearComponent } from '../../../../components/icons/icon-clear.component';
+import { IconDeleteComponent } from '../../../../components/icons/icon-delete.component';
+import { IconLeftComponent } from '../../../../components/icons/icon-left.component';
+import { IconRightComponent } from '../../../../components/icons/icon-right.component';
 
 interface Stats {
 	name: string;
@@ -46,7 +55,9 @@ interface EditLevel {
 	selector: 'app-editor-layout-component',
 	templateUrl: './layout.component.html',
 	styleUrls: ['./layout.component.scss'],
-	imports: [CommonModule, BoardComponent, LayoutPreviewComponent, ExportComponent, TranslatePipe]
+	imports: [CommonModule, BoardComponent, LayoutPreviewComponent, ExportComponent, TranslatePipe, IconCloseComponent,
+		IconListAddComponent, IconUpComponent, IconDownComponent, IconDuplicateComponent,
+		IconClearComponent, IconDeleteComponent, IconLeftComponent, IconRightComponent]
 })
 export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 	readonly layout = model.required<EditLayout>();

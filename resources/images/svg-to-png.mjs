@@ -573,7 +573,7 @@ async function main() {
 			const sample = nameGrid.flat().filter(Boolean).slice(0, 5).join(", ");
 			console.log(`[t_preview] Detected layout ${cols}x${rows}; sample names: ${sample}`);
 		} else {
-			console.log("[t_preview] Not found or unparsable — used fallback grid.");
+			console.log("[t_preview] Not found or unparsable - used fallback grid.");
 		}
 	}
 }

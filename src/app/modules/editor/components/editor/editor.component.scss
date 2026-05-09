@@ -9,6 +9,16 @@
 	background-color: var(--editor-color-bg);
 	z-index: 10001;
 
+	.editor-title {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+
+		app-icon-logo {
+			color: red;
+		}
+	}
+
 	a {
 		color: var(--main-content-link-color);
 		cursor: pointer;

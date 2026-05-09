@@ -1,4 +1,5 @@
 import type { GAME_MODE_ID } from './consts';
+import type { BUILD_MODE_ID } from './builder';
 
 export type SafeUrlSVG = string;
 
@@ -76,6 +77,7 @@ export class GameStateStore {
 	state?: number;
 	layout: string;
 	gameMode: GAME_MODE_ID;
+	buildMode?: BUILD_MODE_ID;
 	undo?: Array<Place>;
 	stones?: Array<StonePlace>;
 }

@@ -1,24 +1,22 @@
 <app-layout-list (startEvent)="onStart($event)" [layouts]="this.layoutService.layouts.items" />
 <div class="choose-buttons">
 	<div class="generator">
-		<label for="board-generator-select">{{ 'BOARD_GENERATOR' | translate }}:</label>
-		<select id="board-generator-select" (change)="buildMode = $any($event.target).value">
+		<label class="info-label" (click)="activeInfo.set('generator')">{{ 'BOARD_GENERATOR' | translate }}
+			<app-icon-info />
+		</label>
+		<select id="board-generator-select" (change)="buildMode.set($any($event.target).value)">
 			@for (m of buildModes; track m) {
-				<option [value]="m.id" [selected]="buildMode === m.id">{{ m.id | translate }} [{{ m.id + '_DESC' | translate }}]</option>
+				<option [value]="m.id" [selected]="buildMode() === m.id">{{ m.id | translate }}</option>
 			}
 		</select>
 	</div>
 	<div class="mode">
-		<label for="game-mode-select">{{ 'GAME_MODE' | translate }}:</label>
-		<select id="game-mode-select" (change)="this.gameMode.set($any($event.target).value)">
+		<label class="info-label" (click)="activeInfo.set('mode')">{{ 'GAME_MODE' | translate }}
+			<app-icon-info />
+		</label>
+		<select id="game-mode-select" (change)="onGameModeChange($any($event.target).value)">
 			@for (m of gameModes; track m) {
-				<option [value]="m.id" [selected]="gameMode() === m.id">{{ m.id | translate }}
-					@if (m.features.length > 0) {
-						[@for (f of m.features; track f; let last = $last) {
-							{{ f.title | translate }}{{ !last ? ', ' : '' }}
-						}]
-					}
-				</option>
+				<option [value]="m.id" [selected]="gameMode() === m.id">{{ m.id | translate }}</option>
 			}
 		</select>
 	</div>
@@ -27,3 +25,36 @@
 	</div>
 </div>
 
+@if (activeInfo()) {
+	<div class="info-overlay" (click)="activeInfo.set(null)">
+		<div class="info-popup" (click)="$event.stopPropagation()">
+			<a role="button" class="close" (click)="activeInfo.set(null)"><app-icon-close /></a>
+			@if (activeInfo() === 'generator') {
+				<h2>{{ 'BOARD_GENERATOR' | translate }}</h2>
+				@for (m of buildModes; track m) {
+					<div class="info-item">
+						<strong>{{ m.id | translate }}</strong>
+						<span>{{ m.id + '_DESC' | translate }}</span>
+					</div>
+				}
+			}
+			@if (activeInfo() === 'mode') {
+				<h2>{{ 'GAME_MODE' | translate }}</h2>
+				@for (m of gameModes; track m) {
+					<div class="info-item">
+						<strong>{{ m.id | translate }}</strong>
+						@if (m.features.length > 0) {
+							<ul>
+								@for (f of m.features; track f) {
+									<li>{{ f.title + '_LONG' | translate }}</li>
+								}
+							</ul>
+						} @else {
+							<span>{{ 'GAME_MODE_NO_HELPERS' | translate }}</span>
+						}
+					</div>
+				}
+			}
+		</div>
+	</div>
+}

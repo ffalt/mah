@@ -4,12 +4,14 @@ import { LayoutService } from '../../../../service/layout.service';
 import { WorkerService } from '../../../../service/worker.service';
 import { LayoutPreviewComponent } from '../../../../components/layout-preview/layout-preview.component';
 import { TranslatePipe } from '@ngx-translate/core';
+import { IconDeleteComponent } from '../../../../components/icons/icon-delete.component';
+import { IconExecuteComponent } from '../../../../components/icons/icon-execute.component';
 
 @Component({
 	selector: 'app-manager-component',
 	templateUrl: './manager.component.html',
 	styleUrls: ['./manager.component.scss'],
-	imports: [LayoutPreviewComponent, TranslatePipe]
+	imports: [LayoutPreviewComponent, TranslatePipe, IconDeleteComponent, IconExecuteComponent]
 })
 export class ManagerComponent implements OnChanges, OnDestroy {
 	readonly inputLayouts = input<Array<Layout>>();

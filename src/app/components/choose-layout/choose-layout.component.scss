@@ -8,6 +8,7 @@
 	display: flex;
 	flex-direction: column;
 	overflow: hidden;
+	position: relative;
 
 	.choose-buttons {
 		padding-top: 10px;
@@ -25,22 +26,15 @@
 			flex: 1;
 
 			label {
-				display: block;
-				margin-bottom: 2px;
+				padding: 1px 5px 5px;
+				display: flex;
+				align-items: center;
+				user-select: none;
+				gap: 4px;
 			}
 
 			select {
 				width: 100%;
-			}
-		}
-
-		.mode {
-			max-width: 30%;
-		}
-
-		@include mixins.respond-to-height(medium-down) {
-			.mode {
-				max-width: 50%;
 			}
 		}
 
@@ -65,7 +59,7 @@
 			align-items: unset;
 
 			label {
-				font-size: 0.7em;
+				font-size: 0.9em;
 			}
 
 			.mode {
@@ -74,6 +68,83 @@
 
 			.start-links {
 				display: none;
+			}
+		}
+	}
+
+	label.info-label {
+		cursor: pointer;
+		transition: color 0.15s;
+
+		&:hover {
+			color: var(--text-highlight-color);
+		}
+	}
+
+	.info-overlay {
+		position: fixed;
+		inset: 0;
+		background: rgb(0 0 0 / 40%);
+		z-index: 100;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		.info-popup {
+			position: relative;
+			background: var(--dialog-background-color);
+			border: 1px solid var(--dialog-border-color);
+			border-radius: 12px;
+			padding: 1.2em 1.5em 1em;
+			max-width: 90%;
+			max-height: 90%;
+			overflow-y: auto;
+			box-shadow: var(--overlay-popup-shadow);
+			color: var(--main-content-text-color);
+
+			h2 {
+				margin: 0 0 0.8em;
+				font-size: 1em;
+				color: var(--dialog-headline-color);
+				text-align: center;
+			}
+
+			.close {
+				position: absolute;
+				top: 0.5em;
+				right: 0.6em;
+				cursor: pointer;
+				color: var(--close-color);
+				line-height: 1;
+
+				&:hover {
+					color: var(--close-color-hover);
+				}
+			}
+
+			.info-item {
+				padding: 0.5em 0;
+				border-bottom: 1px solid var(--dialog-border-color);
+
+				&:last-child {
+					border-bottom: none;
+					padding-bottom: 0;
+				}
+
+				strong {
+					display: block;
+					margin-bottom: 0.2em;
+				}
+
+				span, ul {
+					color: var(--main-content-text-color-muted);
+					font-size: 0.85em;
+				}
+
+				ul {
+					margin: 0;
+					padding-left: 1.2em;
+				}
 			}
 		}
 	}

@@ -5,12 +5,13 @@ import { log } from '../../../../model/log';
 import { importLayouts } from '../../model/import';
 import { TranslatePipe } from '@ngx-translate/core';
 import { DropZoneDirective } from '../../directives/drop-zone.directive';
+import { IconOkComponent } from '../../../../components/icons/icon-ok.component';
 
 @Component({
 	selector: 'app-import-component',
 	templateUrl: './import.component.html',
 	styleUrls: ['./import.component.scss'],
-	imports: [TranslatePipe, DropZoneDirective]
+	imports: [TranslatePipe, DropZoneDirective, IconOkComponent]
 })
 export class ImportComponent {
 	readonly editEvent = output<Layout>();

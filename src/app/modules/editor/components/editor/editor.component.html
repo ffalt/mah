@@ -1,9 +1,9 @@
 <div class="editor-content">
-	<a class="close" (click)="close()" title="{{ 'CLOSE' | translate }}"><i class="icon-cancel-circled2"></i></a>
+	<a class="close" (click)="close()" title="{{ 'CLOSE' | translate }}"><app-icon-close /></a>
 	<div class="editor-manager" [class.visible]="mode==='manager'">
 		<div class="editor-nav buttons">
 			<ul>
-				<li>{{ 'EDITOR_TITLE' | translate }}</li>
+				<li class="editor-title"><app-icon-logo /> {{ 'EDITOR_TITLE' | translate }}</li>
 				<li class="sep"></li>
 				<li>
 					<button (click)="newLayout()" title="{{ 'EDITOR_NEW_LONG' | translate }}">{{ 'EDITOR_NEW' | translate }}</button>
@@ -24,7 +24,7 @@
 		<div>
 			<div class="editor-nav">
 				<ul>
-					<li>{{ 'EDITOR_TITLE' | translate }}: {{ 'EDITOR_IMPORT' | translate }}</li>
+					<li class="editor-title"><app-icon-logo /> {{ 'EDITOR_TITLE' | translate }}: {{ 'EDITOR_IMPORT' | translate }}</li>
 				</ul>
 			</div>
 			<div class="editor-main">
@@ -36,7 +36,7 @@
 		<div>
 			<div class="editor-nav buttons">
 				<ul>
-					<li>{{ 'EDITOR_TITLE' | translate }}: {{ layout.name }}</li>
+					<li class="editor-title"><app-icon-logo /> {{ 'EDITOR_TITLE' | translate }}: {{ layout.name }}</li>
 					<li class="sep"></li>
 					<li>
 						<button (click)="save()" title="{{ 'EDITOR_SAVE_LONG' | translate }}">{{ 'EDITOR_SAVE' | translate }}</button>

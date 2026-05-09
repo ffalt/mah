@@ -57,8 +57,8 @@ describe('ChooseLayoutComponent', () => {
 
 	it('should initialize with default values', () => {
 		expect(component.gameMode()).toBe(GAME_MODE_EASY);
-		expect(component.buildMode).toBe(MODE_SOLVABLE);
-		expect(component.buildModes).toHaveLength(2);
+		expect(component.buildMode()).toBe(MODE_SOLVABLE);
+		expect(component.buildModes).toHaveLength(4);
 		expect(component.gameModes).toHaveLength(3);
 	});
 
@@ -111,7 +111,7 @@ describe('ChooseLayoutComponent', () => {
 		fixture.detectChanges();
 
 		// Assert
-		expect(component.buildMode).toBe(MODE_RANDOM);
+		expect(component.buildMode()).toBe(MODE_RANDOM);
 	});
 
 	it('should update gameMode when select is changed', () => {

@@ -27,7 +27,7 @@ The original open-source Mahjong Solitaire game powering many Mahjong experience
 
 🖼️ **Massive visual customization** - 8 image backgrounds, 375 pattern backgrounds, light/dark mode, 14 color themes
 
-🏆 **3 difficulty levels** - from relaxed casual play to expert-level challenge
+🏆 **Difficulty levels** - from relaxed casual play to expert-level challenge
 
 💾 **Auto-save** - your game state and best times are saved locally in your browser, never to the cloud
 
@@ -111,7 +111,7 @@ Most modern phones use `arm64`. Try these APK variants in order:
 
 ## 🙏 Acknowledgements
 
-Mah's art is built on open-source creative work. See the credits for [artwork](src/assets/svg/README.md), [backgrounds](src/assets/img/README.md), [sounds](src/assets/sounds/README.md), and [fonts](src/fonts/README.md).
+Mah's art is built on open-source creative work. See the credits for [artwork](src/assets/svg/README.md), [backgrounds](src/assets/img/README.md), [sounds](src/assets/sounds/README.md), [icons](src/app/components/icons/README.md) and [fonts](src/fonts/README.md).
 
 ---
 

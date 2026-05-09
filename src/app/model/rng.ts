@@ -10,7 +10,7 @@ export function mulberry32(seed: number): () => number {
 	// eslint-disable-next-line unicorn/prefer-math-trunc
 	let state = seed | 0;
 	return () => {
-		// | 0 wraps to int32 — required by the mulberry32 algorithm, not mere truncation
+		// | 0 wraps to int32 - required by the mulberry32 algorithm, not mere truncation
 		// eslint-disable-next-line unicorn/prefer-math-trunc
 		state = (state + 0x6D_2B_79_F5) | 0;
 		let t = Math.imul(state ^ (state >>> 15), 1 | state);

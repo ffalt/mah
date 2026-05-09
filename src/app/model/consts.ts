@@ -20,7 +20,8 @@ export const GameModes = [
 		features: [
 			{ title: 'SHUFFLE' },
 			{ title: 'HINT' },
-			{ title: 'UNDO' }
+			{ title: 'UNDO' },
+			{ title: 'RESCUE_SHUFFLE' }
 		]
 	},
 	{
