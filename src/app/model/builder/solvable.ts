@@ -98,7 +98,7 @@ export abstract class SolvableBoardBuilderBase extends BuilderBase {
 		return stones;
 	}
 
-	private assignTilePairs(stones: Array<Stone>, tiles: Tiles, reverse = false, breadth: BreadthConstraint | undefined): Array<Array<Tile>> {
+	private assignTilePairs(stones: Array<Stone>, tiles: Tiles, reverse: boolean, breadth: BreadthConstraint | undefined): Array<Array<Tile>> {
 		const pairs: Array<[Tile, Tile]> = [];
 		const allPairs: Array<[Tile, Tile]> = [];
 		const maxPairs = stones.length / 2;
