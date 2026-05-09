@@ -28,7 +28,7 @@
 @if (activeInfo()) {
 	<div class="info-overlay" (click)="activeInfo.set(null)">
 		<div class="info-popup" (click)="$event.stopPropagation()">
-			<a role="button" class="close" (click)="activeInfo.set(null)"><i class="icon-cancel-circled2"></i></a>
+			<a role="button" class="close" (click)="activeInfo.set(null)"><app-icon-close /></a>
 			@if (activeInfo() === 'generator') {
 				<h2>{{ 'BOARD_GENERATOR' | translate }}</h2>
 				@for (m of buildModes; track m) {

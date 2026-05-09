@@ -35,7 +35,6 @@ describe('HelpComponent', () => {
 		expect(component.shortcuts).toHaveLength(8);
 		expect(component.shortcuts[0].key).toBe('T');
 		expect(component.shortcuts[0].name).toBe('HINT');
-		expect(component.shortcuts[0].icon).toBe('icon-lightbulb');
 	});
 
 	it('should render the how to play section', () => {
@@ -80,8 +79,8 @@ describe('HelpComponent', () => {
 		const keyElement = firstShortcut.query(By.css('.key'));
 		expect(keyElement.nativeElement.textContent).toBe('T');
 
-		const iconElement = firstShortcut.query(By.css('i'));
-		expect(iconElement.nativeElement.className).toContain('icon-lightbulb');
+		const iconElement = firstShortcut.query(By.css('app-icon-hint'));
+		expect(iconElement).toBeTruthy();
 
 		const nameElement = firstShortcut.query(By.css('.name'));
 		expect(nameElement).toBeTruthy();
@@ -102,9 +101,13 @@ describe('HelpComponent', () => {
 			const keyElement = shortcutElement.query(By.css('.key'));
 			expect(keyElement.nativeElement.textContent).toBe(shortcut.key);
 
-			const iconElement = shortcutElement.query(By.css('i'));
+			const iconID = shortcut.icon.name.replace('Icon', '').replace('Component', '').toLowerCase();
+			const iconName = `app-icon-${iconID}`;
+			const iconElement = shortcutElement.query(By.css(iconName));
+			if (!iconElement) {
+				console.log(`Checking shortcut "${shortcut.name}" for icon "${iconName}"`);
+			}
 			expect(iconElement).toBeTruthy();
-			expect(iconElement.nativeElement.className).toContain(shortcut.icon);
 		}
 	});
 

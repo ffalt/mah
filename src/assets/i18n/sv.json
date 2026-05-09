@@ -54,7 +54,7 @@
 	"READ_MORE_WIKIPEDIA_URL": "https://sv.wikipedia.org/wiki/Mahjong",
 	"TILES_INFO": "Information om stenar",
 	"TILES": "Stenar",
-	"INFO_LONG": "Information om stenar",
+	"TILES_INFO_LONG": "Översikt över alla brickor i spelet",
 	"HELP": "Hjälp",
 	"HELP_LONG": "Visa/dölj denna dialog",
 	"SETTINGS_LONG": "Justera språk, stenset och färger",

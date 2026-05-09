@@ -1,10 +1,19 @@
-import { Component, inject, output, type OnInit } from '@angular/core';
+import { Component, inject, output, type OnInit, type Type } from '@angular/core';
+import { NgComponentOutlet } from '@angular/common';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { clickExternalHref } from '../../model/external-links';
 import { DurationPipe } from '../../pipes/duration.pipe';
 import { LayoutService } from '../../service/layout.service';
 import { LocalstorageService } from '../../service/localstorage.service';
 import { log } from '../../model/log';
+import { IconTilesinfoComponent } from '../icons/icon-tilesinfo.component';
+import { IconSettingsComponent } from '../icons/icon-settings.component';
+import { IconHintComponent } from '../icons/icon-hint.component';
+import { IconLogoComponent } from '../icons/icon-logo.component';
+import { IconRestartComponent } from '../icons/icon-restart.component';
+import { IconPauseComponent } from '../icons/icon-pause.component';
+import { IconShuffleComponent } from '../icons/icon-shuffle.component';
+import { IconUndoComponent } from '../icons/icon-undo.component';
 
 interface StatEntry {
 	name: string;
@@ -24,7 +33,7 @@ interface Stat {
 	selector: 'app-help',
 	templateUrl: './help.component.html',
 	styleUrls: ['./help.component.scss'],
-	imports: [TranslatePipe, DurationPipe]
+	imports: [TranslatePipe, DurationPipe, NgComponentOutlet]
 })
 export class HelpComponent implements OnInit {
 	readonly showTutorial = output();
@@ -38,15 +47,15 @@ export class HelpComponent implements OnInit {
 	private readonly storage = inject(LocalstorageService);
 	private readonly translate = inject(TranslateService);
 
-	shortcuts: Array<{ icon: string; key: string; altKey?: string; name: string }> = [
-		{ icon: 'icon-lightbulb', key: 'T', name: 'HINT' },
-		{ icon: 'icon-spin1', key: 'M', name: 'SHUFFLE' },
-		{ icon: 'icon-undo', key: 'U', name: 'UNDO' },
-		{ icon: 'icon-loop', key: 'N', name: 'RESTART' },
-		{ icon: 'icon-pause', key: 'P', altKey: 'Space', name: 'PAUSE' },
-		{ icon: 'icon-calendar', key: 'I', name: 'INFO' },
-		{ icon: 'icon-cog', key: 'S', name: 'SETTINGS' },
-		{ icon: 'icon-logo', key: 'H', name: 'HELP' }
+	shortcuts: Array<{ icon: Type<unknown>; key: string; altKey?: string; name: string }> = [
+		{ icon: IconHintComponent, key: 'T', name: 'HINT' },
+		{ icon: IconShuffleComponent, key: 'M', name: 'SHUFFLE' },
+		{ icon: IconUndoComponent, key: 'U', name: 'UNDO' },
+		{ icon: IconRestartComponent, key: 'N', name: 'RESTART' },
+		{ icon: IconPauseComponent, key: 'P', altKey: 'Space', name: 'PAUSE' },
+		{ icon: IconTilesinfoComponent, key: 'I', name: 'TILES_INFO' },
+		{ icon: IconSettingsComponent, key: 'S', name: 'SETTINGS' },
+		{ icon: IconLogoComponent, key: 'H', name: 'HELP' }
 	];
 
 	ngOnInit(): void {

@@ -54,7 +54,7 @@
 	"READ_MORE_WIKIPEDIA_URL": "https://en.wikipedia.org/wiki/Mahjong_tiles",
 	"TILES_INFO": "Tiles Information",
 	"TILES": "Tiles",
-	"INFO_LONG": "Tiles Information",
+	"TILES_INFO_LONG": "Overview of all tiles in the game",
 	"HELP": "Help",
 	"HELP_LONG": "Show/hide this dialog",
 	"SETTINGS_LONG": "Adjust language, tile sets & colors",

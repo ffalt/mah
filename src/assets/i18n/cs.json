@@ -54,7 +54,7 @@
 	"READ_MORE_WIKIPEDIA_URL": "https://cs.wikipedia.org/wiki/Mahjong",
 	"TILES_INFO": "Informace o dlaždicích",
 	"TILES": "Dlaždice",
-	"INFO_LONG": "Informace o dlaždicích",
+	"TILES_INFO_LONG": "Přehled všech dlaždic ve hře",
 	"HELP": "Pomoc",
 	"HELP_LONG": "Zobrazit/skrýt tento dialog",
 	"SETTINGS_LONG": "Upravte jazyk, sady dlaždic a barvy",

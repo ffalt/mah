@@ -54,7 +54,7 @@
 	"READ_MORE_WIKIPEDIA_URL": "https://es.wikipedia.org/wiki/Mahjong#fichas",
 	"TILES_INFO": "Información sobre las fichas",
 	"TILES": "Fichas",
-	"INFO_LONG": "Información sobre las fichas",
+	"TILES_INFO_LONG": "Resumen de todas las fichas del juego",
 	"HELP": "Ayuda",
 	"HELP_LONG": "Mostrar/ocultar esta ventana",
 	"SETTINGS_LONG": "Configurar idioma, conjunto de fichas y colores",

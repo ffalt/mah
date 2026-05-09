@@ -7,12 +7,14 @@ import type { EditLayout } from '../../model/edit-layout';
 import type { Layout } from '../../../../model/types';
 import { ImportComponent } from '../import/import.component';
 import { ManagerComponent } from '../manager/manager.component';
+import { IconCloseComponent } from '../../../../components/icons/icon-close.component';
+import { IconLogoComponent } from '../../../../components/icons/icon-logo.component';
 
 @Component({
 	selector: 'app-editor-component',
 	templateUrl: './editor.component.html',
 	styleUrls: ['./editor.component.scss'],
-	imports: [LayoutComponent, ImportComponent, ManagerComponent, TranslatePipe]
+	imports: [LayoutComponent, IconLogoComponent, ImportComponent, ManagerComponent, TranslatePipe, IconCloseComponent]
 })
 export class EditorComponent {
 	readonly closeEvent = output();

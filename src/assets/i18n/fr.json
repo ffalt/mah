@@ -54,7 +54,7 @@
 	"READ_MORE_WIKIPEDIA_URL": "https://fr.wikipedia.org/wiki/Mah-jong",
 	"TILES_INFO": "Informations sur les tuiles",
 	"TILES": "Tuiles",
-	"INFO_LONG": "Informations sur les tuiles",
+	"TILES_INFO_LONG": "Aperçu de toutes les tuiles du jeu",
 	"HELP": "Aide",
 	"HELP_LONG": "Afficher/masquer cette aide",
 	"SETTINGS_LONG": "Ajuster la langue, les tuiles et les couleurs",

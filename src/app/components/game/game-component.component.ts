@@ -17,6 +17,17 @@ import { BoardComponent } from '../board/board.component';
 import { TutorialComponent } from '../tutorial/tutorial.component';
 import { DurationPipe } from '../../pipes/duration.pipe';
 import { GameModeEasyPipe, GameModeStandardPipe } from '../../pipes/game-mode.pipe';
+import { IconTilesinfoComponent } from '../icons/icon-tilesinfo.component';
+import { IconSettingsComponent } from '../icons/icon-settings.component';
+import { IconHintComponent } from '../icons/icon-hint.component';
+import { IconLogoComponent } from '../icons/icon-logo.component';
+import { IconRestartComponent } from '../icons/icon-restart.component';
+import { IconMenuComponent } from '../icons/icon-menu.component';
+import { IconPauseComponent } from '../icons/icon-pause.component';
+import { IconFullscreenComponent } from '../icons/icon-fullscreen.component';
+import { IconShuffleComponent } from '../icons/icon-shuffle.component';
+import { IconUndoComponent } from '../icons/icon-undo.component';
+import { IconMuteComponent } from '../icons/icon-mute.component';
 
 interface DocumentExtended extends Document {
 	fullScreen: boolean;
@@ -66,7 +77,9 @@ function callFullscreenMethod(
 	host: { '(document:keydown)': 'handleKeyDownEvent($event)' },
 	imports: [
 		BoardComponent, DurationPipe, GameModeStandardPipe, GameModeEasyPipe,
-		HelpComponent, TilesInfoComponent, SettingsComponent, ChooseLayoutComponent, TutorialComponent, TranslatePipe, DialogComponent
+		HelpComponent, TilesInfoComponent, SettingsComponent, ChooseLayoutComponent, TutorialComponent, TranslatePipe, DialogComponent,
+		IconTilesinfoComponent, IconSettingsComponent, IconHintComponent, IconLogoComponent, IconRestartComponent,
+		IconMenuComponent, IconPauseComponent, IconFullscreenComponent, IconShuffleComponent, IconUndoComponent, IconMuteComponent
 	]
 })
 export class GameComponent {

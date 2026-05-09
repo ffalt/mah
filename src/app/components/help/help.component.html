@@ -19,7 +19,7 @@
 							<span class="key-sep">/</span>
 							<span class="key">{{ shortcut.altKey }}</span>
 						}
-						<i [class]="shortcut.icon"></i>
+						<ng-container *ngComponentOutlet="shortcut.icon"></ng-container>
 						<span class="name">{{ shortcut.name|translate }}</span></div>
 					<span class="func">{{ (shortcut.name + '_LONG')|translate }}</span>
 				</li>

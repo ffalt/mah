@@ -54,7 +54,7 @@
 	"READ_MORE_WIKIPEDIA_URL": "https://de.wikipedia.org/wiki/Mah-Jongg",
 	"TILES_INFO": "Steinverzeichnis",
 	"TILES": "Steine",
-	"INFO_LONG": "Steinverzeichnis",
+	"TILES_INFO_LONG": "Überblick über alle Steine im Spiel",
 	"HELP": "Hilfe",
 	"HELP_LONG": "Diesen Dialog anzeigen/ausblenden",
 	"SETTINGS_LONG": "Sprache, Steine und Farben anpassen",

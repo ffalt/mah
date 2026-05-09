@@ -12,9 +12,7 @@
 				<div class="group-name" (click)="group.expanded = !group.expanded">
 					<span class="group-expander" [class.expanded]="group.expanded"></span>
 					{{ group.name | translateGroup }}
-					<span class="group-count">@if (!group.isRandom) {
-						[{{ group.layouts.length }}]
-					}</span>
+					<span class="group-count"></span>
 				</div>
 			}
 			@if (group.expanded) {
@@ -105,7 +103,7 @@
 									<div class="preview-best-time">
 										<span title="{{ 'STATS_BEST' | translate }}">{{ item.bestTime|duration }}</span>
 										<a (click)="clearBestTimeClick($event, item)" title="{{ 'BEST_TIME_CLEAR' | translate }}">
-											<i class="icon-cancel-squared"></i>
+											<app-icon-delete />
 										</a>
 									</div>
 								}
@@ -113,7 +111,7 @@
 								@if (item.layout.custom) {
 									<div class="preview-custom" title="{{ 'CUSTOM_BOARD_DELETE' | translate }}">
 										<a (click)="removeCustomLayout($event, item)">
-											<i class="icon-trash-empty"></i>
+											<app-icon-delete />
 										</a>
 									</div>
 								}

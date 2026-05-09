@@ -54,7 +54,7 @@
 	"READ_MORE_WIKIPEDIA_URL": "https://ca.wikipedia.org/wiki/Mahjong",
 	"TILES_INFO": "Informació de fitxes",
 	"TILES": "Fitxes",
-	"INFO_LONG": "Informació de fitxes",
+	"TILES_INFO_LONG": "Visió general de totes les fitxes del joc",
 	"HELP": "Ajuda",
 	"HELP_LONG": "Mostrar/amagar aquest diàleg",
 	"SETTINGS_LONG": "Ajusta l'idioma, els conjunts de fitxes i els colors",

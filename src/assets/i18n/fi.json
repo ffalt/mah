@@ -54,7 +54,7 @@
 	"READ_MORE_WIKIPEDIA_URL": "https://fi.wikipedia.org/wiki/Mahjong",
 	"TILES_INFO": "Kivien tiedot",
 	"TILES": "Kivet",
-	"INFO_LONG": "Kivien tiedot",
+	"TILES_INFO_LONG": "Yleiskatsaus kaikkiin pelin laattoihin",
 	"HELP": "Ohje",
 	"HELP_LONG": "Näytä/piilota tämä dialogi",
 	"SETTINGS_LONG": "Säädä kieltä, kivisetejä ja värejä",

@@ -7,6 +7,7 @@ import { type GAME_MODE_ID, GameModes } from '../../model/consts';
 import { TranslatePipe } from '@ngx-translate/core';
 import { LayoutListComponent } from '../layout-list/layout-list.component';
 import { IconInfoComponent } from '../icons/icon-info.component';
+import { IconCloseComponent } from '../icons/icon-close.component';
 
 export interface StartEvent {
 	layout: Layout;
@@ -18,7 +19,7 @@ export interface StartEvent {
 	selector: 'app-choose-layout',
 	templateUrl: './choose-layout.component.html',
 	styleUrls: ['./choose-layout.component.scss'],
-	imports: [LayoutListComponent, TranslatePipe, IconInfoComponent]
+	imports: [LayoutListComponent, TranslatePipe, IconInfoComponent, IconCloseComponent]
 })
 export class ChooseLayoutComponent {
 	readonly startEvent = output<StartEvent>();

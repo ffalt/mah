@@ -54,7 +54,7 @@
 	"READ_MORE_WIKIPEDIA_URL": "https://zh.wikipedia.org/wiki/麻将牌",
 	"TILES_INFO": "牌信息",
 	"TILES": "牌",
-	"INFO_LONG": "牌信息",
+	"TILES_INFO_LONG": "游戏中所有牌的概览",
 	"HELP": "帮助",
 	"HELP_LONG": "显示/隐藏此对话框",
 	"SETTINGS_LONG": "调整语言、牌组和颜色",

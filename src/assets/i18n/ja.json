@@ -54,7 +54,7 @@
 	"READ_MORE_WIKIPEDIA_URL": "https://ja.wikipedia.org/wiki/麻雀",
 	"TILES_INFO": "牌の情報",
 	"TILES": "牌",
-	"INFO_LONG": "牌の情報",
+	"TILES_INFO_LONG": "ゲーム内のすべての牌の概要",
 	"HELP": "ヘルプ",
 	"HELP_LONG": "このダイアログを表示/非表示",
 	"SETTINGS_LONG": "言語、牌セット、色を調整",

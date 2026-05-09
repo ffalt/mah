@@ -5,6 +5,18 @@
 	box-sizing: border-box;
 }
 
+.icon {
+	display: contents;
+
+	svg {
+		display: block;
+		width: 1em;
+		height: 1em;
+		fill: currentColor;
+		flex-shrink: 0;
+	}
+}
+
 html {
 	--main-bg-color: #2b424f;
 	--main-bg-color-lt: #2e4856;
@@ -564,7 +576,7 @@ p {
 		border-radius: 12px;
 		box-shadow: var(--overlay-popup-shadow);
 
-		.icon-logo {
+		app-icon-logo {
 			color: red;
 		}
 

@@ -11,6 +11,7 @@ import { generateRandomMapping } from '../../model/random-layout/random-layout';
 import { RANDOM_LAYOUT_ID_PREFIX, type RandomSymmetry } from '../../model/random-layout/consts';
 import { seedRNG, resetRNG, generateLayoutSeed } from '../../model/rng';
 import { TranslateGroupPipe } from '../../pipes/translate-group.pipe';
+import { IconDeleteComponent } from '../icons/icon-delete.component';
 
 export interface LayoutItem {
 	layout: Layout;
@@ -40,7 +41,7 @@ export interface RandomLayoutGroup extends LayoutGroup {
 	selector: 'app-layout-list',
 	templateUrl: './layout-list.component.html',
 	styleUrls: ['./layout-list.component.scss'],
-	imports: [LayoutPreviewComponent, DurationPipe, TranslatePipe, TranslateGroupPipe, DeferLoadScrollHostDirective, DeferLoadDirective]
+	imports: [LayoutPreviewComponent, DurationPipe, TranslatePipe, TranslateGroupPipe, DeferLoadScrollHostDirective, DeferLoadDirective, IconDeleteComponent]
 })
 export class LayoutListComponent implements OnInit, OnChanges {
 	readonly layouts = input<Array<Layout>>();

@@ -14,12 +14,12 @@
 		<td class="col-stats sortable" (click)="clickSortBy($event,4)" [class.sort-up]="sortColumn===4 && sortDesc" [class.sort-down]="sortColumn===4 && !sortDesc">{{ 'EDITOR_LAYOUT_NR_OF_STONES' | translate }} <span class="arrow"></span></td>
 		<td class="col-test">{{ 'EDITOR_COLUMN_TEST' | translate }}
 			<button (click)="testLayouts($event)" title="{{ 'EDITOR_TEST_RUN' | translate }}">
-				<i class="icon-editor-paper-plane-empty"></i>
+				<app-icon-execute />
 			</button>
 		</td>
 		<td class="col-delete">
 			<button (click)="removeCustomLayouts($event)" title="{{ 'CUSTOM_BOARD_DELETE_ALL' | translate }}">
-				<i class="icon-trash-empty"></i>
+				<app-icon-delete />
 			</button>
 		</td>
 	</tr>
@@ -35,7 +35,7 @@
 			<td class="col-stats">{{ layout.mapping.length }}</td>
 			<td class="col-test">
 				<button (click)="testLayout($event, layout)" title="{{ 'EDITOR_TEST_RUN' | translate }}">
-					<i class="icon-editor-paper-plane-empty"></i>
+					<app-icon-execute />
 				</button>
 				@if (test[layout.id]) {
 					<div>
@@ -51,7 +51,7 @@
 			<td class="col-delete">
 				@if (layout.custom) {
 					<button (click)="removeCustomBoard($event, layout)" title="{{'CUSTOM_BOARD_DELETE' | translate}}">
-						<i class="icon-trash-empty"></i>
+						<app-icon-delete />
 					</button>
 				}
 			</td>

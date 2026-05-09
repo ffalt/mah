@@ -54,7 +54,7 @@
 	"READ_MORE_WIKIPEDIA_URL": "https://en.wikipedia.org/wiki/Mahjong_tiles",
 	"TILES_INFO": "ข้อมูลไพ่",
 	"TILES": "ไพ่",
-	"INFO_LONG": "ข้อมูลไพ่",
+	"TILES_INFO_LONG": "ภาพรวมของไพ่ทั้งหมดในเกม",
 	"HELP": "ช่วยเหลือ",
 	"HELP_LONG": "แสดง/ซ่อนหน้าต่างนี้",
 	"SETTINGS_LONG": "ปรับภาษา ชุดไพ่ และสี",
