@@ -1,45 +1,47 @@
 config_version = "0"
 
 exclude_patterns = [
-	"*_min.*",
-	"*-min.*",
-	"*.min.*",
-	"**/.yarn/**",
-	"**/*.d.ts",
-	"**/assets/**",
-	"**/bower_components/**",
-	"**/build/**",
-	"**/cache/**",
-	"**/config/**",
-	"**/db/**",
-	"**/deps/**",
-	"**/dist/**",
-	"**/extern/**",
-	"**/external/**",
-	"**/generated/**",
-	"**/Godeps/**",
-	"**/gradlew/**",
-	"**/mvnw/**",
-	"**/node_modules/**",
-	"**/protos/**",
-	"**/seed/**",
-	"**/target/**",
-	"**/templates/**",
-	"**/testdata/**",
-	"**/resources/apps/tauri/**",
-	"**/resources/images/**",
-	"**/vendor/**",
+  "*_min.*",
+  "*-min.*",
+  "*.min.*",
+  "**/.yarn/**",
+  "**/*.d.ts",
+  "**/assets/**",
+  "**/bower_components/**",
+  "**/build/**",
+  "**/cache/**",
+  "**/config/**",
+  "**/db/**",
+  "**/deps/**",
+  "**/dist/**",
+  "**/extern/**",
+  "**/external/**",
+  "**/generated/**",
+  "**/Godeps/**",
+  "**/gradlew/**",
+  "**/mvnw/**",
+  "**/node_modules/**",
+  "**/protos/**",
+  "**/seed/**",
+  "**/target/**",
+  "**/templates/**",
+  "**/testdata/**",
+  "**/vendor/**",
+
+	"resources/apps/tauri/Cargo.lock",
+  ".qlty/configs/**",
+  "resources/apps/tauri/gen/android/**"
 ]
 
 test_patterns = [
-	"**/test/**",
-	"**/spec/**",
-	"**/*.test.*",
-	"**/*.spec.*",
-	"**/*_test.*",
-	"**/*_spec.*",
-	"**/test_*.*",
-	"**/spec_*.*",
+  "**/test/**",
+  "**/spec/**",
+  "**/*.test.*",
+  "**/*.spec.*",
+  "**/*_test.*",
+  "**/*_spec.*",
+  "**/test_*.*",
+  "**/spec_*.*",
 ]
 
 [smells]
@@ -54,6 +56,13 @@ default = true
 name = "actionlint"
 
 [[plugin]]
+name = "clippy"
+
+[[plugin]]
+name = "editorconfig-checker"
+mode = "comment"
+
+[[plugin]]
 name = "checkov"
 
 [[plugin]]
@@ -61,6 +70,15 @@ name = "eslint"
 version = "10.3.0"
 package_file = "package.json"
 package_filters = ["eslint", "jest", "typescript"]
+
+[[plugin]]
+name = "hadolint"
+
+[[plugin]]
+name = "ktlint"
+drivers = [
+  "lint"
+]
 
 [[plugin]]
 name = "markdownlint"
@@ -74,11 +92,22 @@ name = "radarlint-java"
 mode = "comment"
 
 [[plugin]]
+name = "radarlint-iac"
+mode = "monitor"
+
+[[plugin]]
+name = "radarlint-kotlin"
+mode = "monitor"
+
+[[plugin]]
 name = "radarlint-js"
 
 [[plugin]]
 name = "ripgrep"
 mode = "comment"
+
+[[plugin]]
+name = "shellcheck"
 
 [[plugin]]
 name = "stylelint"
@@ -101,10 +130,28 @@ name = "oxc"
 #[[plugin]]
 #name = "knip"
 
+[[plugin]]
+name = "zizmor"
+
+
 [[triage]]
 match.file_patterns = ["src/app/model/solver/*"]
 match.rules = [
 	"radarlint-js:typescript:S4325" # This assertion is unnecessary since it does not change the type of the expression.
+]
+set.ignored = true
+
+[[triage]]
+match.file_patterns = [
+	"resources/apps/rename-win.ps1",
+	"resources/apps/rename-macos.sh",
+	"resources/apps/rename-linux.sh",
+	"README.md",
+	".github/**/*",
+	".qlty/qlty.toml"
+]
+match.rules = [
+	"editorconfig-checker:unknown" # Wrong indentation type(spaces instead of tabs)
 ]
 set.ignored = true
 
@@ -128,6 +175,7 @@ match.rules = [
 	"biome:lint/suspicious/noDuplicateTestHooks", # Disallow duplicate setup and teardown hooks.
 	"biome:lint/suspicious/noExplicitAny", #  Unexpected any. Specify a different type.
 	"biome:lint/suspicious/noAssignInExpressions", #  Avoid assignments in expressions (disabled because false positives).
+	"biome:lint/style/useExponentiationOperator", # Use the '**' operator instead of 'Math.pow'
 	"radarlint-js:javascript:S3776", # Refactor this function to reduce its Cognitive Complexity from 50 to the 15 allowed
 	"radarlint-js:javascript:S3358", # Extract this nested ternary operation into an independent statement.
 	"radarlint-js:typescript:S4140", # Unexpected comma in middle of array
@@ -142,8 +190,10 @@ match.rules = [
 	"radarlint-js:typescript:S6564", # Remove this redundant type alias
 	"radarlint-js:typescript:S107", # too many parameters
 	"radarlint-js:typescript:S6671", # Expected the Promise rejection reason to be an Error.
+	"radarlint-iac:docker:S7026", #Replace this invocation of curl with the ADD instruction.
 	"stylelint:fmt", # stylelint:fmt
 	"stylelint:value-keyword-case", # 'Expected "currentColor" to be "currentcolor"' (false positive)
+	"hadolint:DL3018", # Pin versions in apk add
 	"markdownlint:MD013", # Line length
 	"markdownlint:MD024", # Multiple headings with the same content
 	"markdownlint:MD033", # Inline HTML

@@ -19,30 +19,32 @@
 				@if (group.isRandom) {
 					<div class="previews previews-random" appDeferLoadScrollHost>
 						@for (item of group.layouts; track item) {
-							<div class="preview preview-seed-card"
-									 tabindex="0"
-									 [id]="'item-'+item.layout.id"
-									 [class.selected]="item.selected"
-									 (keydown.enter)="onStart(item)"
-									 (click)="onStart(item)"
-									 (appDeferLoad)="item.visible=true"
+							<div
+								class="preview preview-seed-card"
+								tabindex="0"
+								[id]="'item-'+item.layout.id"
+								[class.selected]="item.selected"
+								(keydown.enter)="onStart(item)"
+								(click)="onStart(item)"
+								(appDeferLoad)="item.visible=true"
 							>
 								@if (item.visible) {
-									<app-layout-preview class="svg-board" [svg]="item.layout.previewSVG"
-																			[alt]="item.layout.name"></app-layout-preview>
+									<app-layout-preview class="svg-board" [svg]="item.layout.previewSVG" [alt]="item.layout.name"></app-layout-preview>
 								} @else {
-									<div class="preview-placeholder"
-											 [id]="'item-'+item.layout.id"
-											 [class.selected]="item.selected"
+									<div
+										class="preview-placeholder"
+										[id]="'item-'+item.layout.id"
+										[class.selected]="item.selected"
 									>
 									</div>
 								}
 								<div class="preview-seed" (click)="$event.stopPropagation()">
-									<input type="text" class="seed-input"
-										   [value]="$any(item).layoutSeed ?? ''"
-										   (keyup)="$event.stopPropagation(); regenerateWithSeed($any(item), $any($event.target).value)"
-										   [attr.aria-label]="'LAYOUT_SEED_LABEL' | translate"
-										   [attr.title]="'LAYOUT_SEED_LABEL' | translate"
+									<input
+										type="text" class="seed-input"
+										[value]="$any(item).layoutSeed ?? ''"
+										(keyup)="$event.stopPropagation(); regenerateWithSeed($any(item), $any($event.target).value)"
+										[attr.aria-label]="'LAYOUT_SEED_LABEL' | translate"
+										[attr.title]="'LAYOUT_SEED_LABEL' | translate"
 									/>
 								</div>
 							</div>
@@ -86,13 +88,14 @@
 				} @else {
 					<div class="previews" appDeferLoadScrollHost>
 						@for (item of group.layouts; track item) {
-							<div class="preview"
-									 tabindex="0"
-									 [id]="'item-'+item.layout.id"
-									 [class.selected]="item.selected"
-									 (keydown.enter)="onStart(item)"
-									 (click)="onStart(item)"
-									 (appDeferLoad)="item.visible=true"
+							<div
+								class="preview"
+								tabindex="0"
+								[id]="'item-'+item.layout.id"
+								[class.selected]="item.selected"
+								(keydown.enter)="onStart(item)"
+								(click)="onStart(item)"
+								(appDeferLoad)="item.visible=true"
 							>
 								@if (item.visible) {
 									<app-layout-preview class="svg-board" [svg]="item.layout.previewSVG" [alt]="item.layout.name"></app-layout-preview>
@@ -103,7 +106,7 @@
 									<div class="preview-best-time">
 										<span title="{{ 'STATS_BEST' | translate }}">{{ item.bestTime|duration }}</span>
 										<a (click)="clearBestTimeClick($event, item)" title="{{ 'BEST_TIME_CLEAR' | translate }}">
-											<app-icon-delete />
+											<app-icon-delete/>
 										</a>
 									</div>
 								}
@@ -111,7 +114,7 @@
 								@if (item.layout.custom) {
 									<div class="preview-custom" title="{{ 'CUSTOM_BOARD_DELETE' | translate }}">
 										<a (click)="removeCustomLayout($event, item)">
-											<app-icon-delete />
+											<app-icon-delete/>
 										</a>
 									</div>
 								}

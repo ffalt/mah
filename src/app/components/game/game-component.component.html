@@ -1,55 +1,61 @@
 <div class="controls controls-top">
 	<div class="ctrl ctrl-name">
 		<button class="button" (click)="help.toggle()" title="{{'OPEN_HELP' | translate}}">
-			<app-icon-logo />
+			<app-icon-logo/>
 			<span class="name">{{ app.name }}</span>
 		</button>
 	</div>
 	<div class="ctrl ctrl-game">
 		<button class="button" (click)="game.toggle()" title="{{'PAUSE_LONG' | translate}}">
-			<app-icon-pause /> <span class="label">{{ 'PAUSE' | translate }}</span>
+			<app-icon-pause/>
+			<span class="label">{{ 'PAUSE' | translate }}</span>
 		</button>
 		<button class="button feature" [class.enabled]="game.mode | gameModeEasy" (click)="game.shuffle()" title="{{'SHUFFLE_LONG' | translate}}">
-			<app-icon-shuffle /> <span class="label">{{ 'SHUFFLE' | translate }}</span>
+			<app-icon-shuffle/>
+			<span class="label">{{ 'SHUFFLE' | translate }}</span>
 		</button>
 		<button class="button feature" [class.enabled]="game.mode | gameModeStandard" (click)="game.back()" title="{{'UNDO_LONG' | translate}}" [attr.disabled]="game.board.undo.length===0 ? true : null">
-			<app-icon-undo /> <span class="label">{{ 'UNDO' | translate }}</span>
+			<app-icon-undo/>
+			<span class="label">{{ 'UNDO' | translate }}</span>
 		</button>
 		<button class="button feature" [class.enabled]="game.mode | gameModeStandard" (click)="game.hint()" title="{{'HINT_LONG' | translate}}">
-			<app-icon-hint /> <span class="label">{{ 'HINT' | translate }}</span>
+			<app-icon-hint/>
+			<span class="label">{{ 'HINT' | translate }}</span>
 		</button>
 		<button class="button" (click)="newGame()" title="{{'RESTART_LONG' | translate}}">
-			<app-icon-restart /> <span class="label">{{ 'RESTART' | translate }}</span>
+			<app-icon-restart/>
+			<span class="label">{{ 'RESTART' | translate }}</span>
 		</button>
 	</div>
 </div>
-<app-board class="board"
-					 [stones]="game.board.stones"
-					 [theme]="app.settings.theme"
-					 [imageSet]="app.settings.tileset"
-					 [kyodaiUrl]="app.settings.kyodaiUrl"
-					 [background]="app.settings.background"
-					 [pattern]="app.settings.pattern"
-					 (clickEvent)="stoneClick($event)"
+<app-board
+	class="board"
+	[stones]="game.board.stones"
+	[theme]="app.settings.theme"
+	[imageSet]="app.settings.tileset"
+	[kyodaiUrl]="app.settings.kyodaiUrl"
+	[background]="app.settings.background"
+	[pattern]="app.settings.pattern"
+	(clickEvent)="stoneClick($event)"
 />
 <div class="controls controls-bottom">
 	<div class="ctrl ctrl-stats">
 		<button class="button menu-button" title="Menu" aria-haspopup="true">
-			<app-icon-menu />
+			<app-icon-menu/>
 		</button>
 		<div class="menu" role="menu">
 			<button class="button" (click)="settings.toggle()" title="{{'OPEN_SETTINGS' | translate}}" role="menuitem">
-				<app-icon-settings />
+				<app-icon-settings/>
 			</button>
 			<button class="button" [class.inactive]="!app.settings.sounds" (click)="app.toggleSound()" title="{{'AUDIO_SOUNDS' | translate}}" role="menuitem">
-				<app-icon-mute />
+				<app-icon-mute/>
 			</button>
 			<button class="button" (click)="info.toggle()" title="{{'TILES_INFO' | translate}}" role="menuitem">
-				<app-icon-tilesinfo />
+				<app-icon-tilesinfo/>
 			</button>
 			@if (fullScreenEnabled) {
 				<button class="button" (click)="enterFullScreen()" title="{{'FULLSCREEN' | translate}}" role="menuitem">
-					<app-icon-fullscreen />
+					<app-icon-fullscreen/>
 				</button>
 			}
 		</div>
@@ -61,8 +67,10 @@
 	</div>
 </div>
 
-<app-dialog #tutorial (clickEvent)="toggleDialogState($event)" className="overlay-tutorial overlay-size-small"
-						[noCloseButton]="true" [allowCloseOverlay]="false" [title]="app.name">
+<app-dialog
+	#tutorial (clickEvent)="toggleDialogState($event)" className="overlay-tutorial overlay-size-small"
+	[noCloseButton]="true" [allowCloseOverlay]="false" [title]="app.name"
+>
 	@if (tutorial.visible()) {
 		<app-tutorial (completed)="completeTutorial()"/>
 	}
@@ -103,13 +111,19 @@
 			}
 			@if (game.message.askShuffle) {
 				<div class="overlay-message-actions">
-					<button class="button feature"
-									(click)="onShuffleContinue($event)">
-						<app-icon-shuffle /> <span class="label">{{ 'SHUFFLE' | translate }}</span>
+					<button
+						class="button feature"
+						(click)="onShuffleContinue($event)"
+					>
+						<app-icon-shuffle/>
+						<span class="label">{{ 'SHUFFLE' | translate }}</span>
 					</button>
-					<button class="button"
-									(click)="onSurrenderGame($event)">
-						<app-icon-restart /> <span class="label">{{ 'RESTART' | translate }}</span>
+					<button
+						class="button"
+						(click)="onSurrenderGame($event)"
+					>
+						<app-icon-restart/>
+						<span class="label">{{ 'RESTART' | translate }}</span>
 					</button>
 				</div>
 			}

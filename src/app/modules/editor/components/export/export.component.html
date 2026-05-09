@@ -20,9 +20,12 @@
 		<ul>
 			@for (ef of exportFormats; track ef) {
 				<li>
-					<input [id]="'format_'+ef.name" type="radio" [value]="ef" name="format"
-								 [checked]="( format === ef )"
-								 (change)="chooseFormat(ef);"
+					<input
+						[id]="'format_'+ef.name"
+						type="radio"
+						[value]="ef" name="format"
+						[checked]="( format === ef )"
+						(change)="chooseFormat(ef);"
 					>
 					<label [for]="'format_'+ef.name">{{ ef.name }}</label>
 				</li>

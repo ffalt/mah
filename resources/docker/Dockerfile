@@ -2,6 +2,8 @@ FROM nginx:alpine
 
 ARG MAH_VERSION=1.18.3
 
+SHELL ["/bin/ash", "-o", "pipefail", "-c"]
+
 RUN apk add --no-cache curl unzip && \
 	MAH_VERSION_US=$(echo "${MAH_VERSION}" | tr '.' '_') && \
 	curl -fSL -o /tmp/mah.zip "https://github.com/ffalt/mah/releases/download/v${MAH_VERSION}/webapp-mah-${MAH_VERSION_US}.zip" && \

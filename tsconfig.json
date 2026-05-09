@@ -23,7 +23,7 @@
 		"useDefineForClassFields": false,
 		"typeRoots": [
 			"./node_modules/@types"
-    ]
+		]
 	},
 	"angularCompilerOptions": {
 		"enableIvy": true,

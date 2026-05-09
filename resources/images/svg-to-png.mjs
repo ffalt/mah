@@ -49,12 +49,7 @@ function parseArguments(argv) {
 		if (a.startsWith("--")) {
 			const key = a.slice(2);
 			const next = argv[index + 1];
-			if (next && !next.startsWith("--")) {
-				arguments_[key] = next;
-				index++;
-			} else {
-				arguments_[key] = true;
-			}
+			arguments_[key] = (next && !next.startsWith("--")) ? next : true;
 		}
 	}
 	return arguments_;
@@ -158,7 +153,7 @@ function extractTPPreviewEntries(svgText) {
 		if (s == null) {
 			return 0;
 		}
-		const mm = String(s).match(/-?\d*\.?\d+(?:e[+-]?\d+)?/i);
+		const mm = /-?\d*\.?\d+(?:e[+-]?\d+)?/i.exec(String(s));
 		return mm ? Number.parseFloat(mm[0]) : 0;
 	};
 	const getAttribute = (attributes, name) => {
@@ -374,10 +369,6 @@ async function main() {
 		const sr = Number.parseInt(startRowArgument, 10);
 		if (!Number.isNaN(sr) && sr > 1) {
 			startRow0 = sr - 1; // treat as 1-based by default
-		} else if (sr === 1) {
-			startRow0 = 0;
-		} else if (sr === 0) {
-			startRow0 = 0;
 		} // allow 0 explicitly
 	}
 
@@ -413,8 +404,8 @@ async function main() {
 	}
 
 	// Determine target output dimensions if cellWidth/Height provided and grid known
-	let targetW = undefined;
-	let targetH = undefined;
+	let targetW;
+	let targetH;
 	const effCols = cols ?? (detected ? detected.cols : undefined);
 	const effRows = rows ?? (detected ? detected.rows : undefined);
 	if (cellWidth && cellHeight && effCols && effRows) {
@@ -545,7 +536,7 @@ async function main() {
 					const sw = tileOutWidth ? (tileOutWidth / w) : 0;
 					const sh = tileOutHeight ? (tileOutHeight / h) : 0;
 					let scale = Math.max(sw || 0, sh || 0);
-					if (!(scale > 0)) {
+					if (scale <= 0) {
 						scale = 1;
 					} // no constraints
 					if (scale > 1) {
@@ -580,7 +571,7 @@ async function main() {
 
 main()
 	.then(() => {
-	// Explicitly exit to avoid hanging processes due to lingering handles in native deps
+		// Explicitly exit to avoid hanging processes due to lingering handles in native deps
 		process.exit(0);
 	})
 	.catch(error => {
