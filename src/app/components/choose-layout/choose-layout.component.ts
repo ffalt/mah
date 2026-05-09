@@ -1,4 +1,4 @@
-import { Component, inject, model, output } from '@angular/core';
+import { Component, inject, model, output, signal } from '@angular/core';
 import { type BUILD_MODE_ID, BuilderModes, MODE_SOLVABLE, solvableModeForGameMode } from '../../model/builder';
 import type { Layout } from '../../model/types';
 import { LayoutService } from '../../service/layout.service';
@@ -6,6 +6,7 @@ import { LocalstorageService } from '../../service/localstorage.service';
 import { type GAME_MODE_ID, GameModes } from '../../model/consts';
 import { TranslatePipe } from '@ngx-translate/core';
 import { LayoutListComponent } from '../layout-list/layout-list.component';
+import { IconInfoComponent } from '../icons/icon-info.component';
 
 export interface StartEvent {
 	layout: Layout;
@@ -17,7 +18,7 @@ export interface StartEvent {
 	selector: 'app-choose-layout',
 	templateUrl: './choose-layout.component.html',
 	styleUrls: ['./choose-layout.component.scss'],
-	imports: [LayoutListComponent, TranslatePipe]
+	imports: [LayoutListComponent, TranslatePipe, IconInfoComponent]
 })
 export class ChooseLayoutComponent {
 	readonly startEvent = output<StartEvent>();
@@ -25,6 +26,7 @@ export class ChooseLayoutComponent {
 	readonly buildMode = model<BUILD_MODE_ID>(MODE_SOLVABLE);
 	buildModes = BuilderModes;
 	gameModes = GameModes;
+	activeInfo = signal<'generator' | 'mode' | null>(null);
 	layoutService = inject(LayoutService);
 	storage = inject(LocalstorageService);
 

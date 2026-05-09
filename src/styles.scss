@@ -609,7 +609,7 @@ p {
 		}
 	}
 
-	// Size classes — applied to the outer .overlay div, target .overlay-popup inside
+	// Size classes - applied to the outer .overlay div, target .overlay-popup inside
 
 	&.overlay-size-large {
 		.overlay-popup {
@@ -682,7 +682,7 @@ p {
 		}
 	}
 
-	// Per-dialog variants — z-index and behavior only, no sizing
+	// Per-dialog variants - z-index and behavior only, no sizing
 
 	&.overlay-info {
 		z-index: 10010;

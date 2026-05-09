@@ -42,7 +42,7 @@ export abstract class SolvableBoardBuilderBase extends BuilderBase {
 			return alternative;
 		}
 
-		// Step 4: last resort — random fill, possibly unsolvable
+		// Step 4: last resort - random fill, possibly unsolvable
 		const randomBoard = new RandomBoardBuilder();
 		return randomBoard.build(mapping, tiles);
 	}
@@ -146,6 +146,6 @@ export abstract class SolvableBoardBuilderBase extends BuilderBase {
 	}
 }
 
-// Standard solvable — no breadth constraint (original behaviour)
+// Standard solvable - no breadth constraint (original behaviour)
 export class SolvableBoardBuilder extends SolvableBoardBuilderBase {
 }

@@ -6,16 +6,16 @@ import type { Mapping } from '../types';
 import { BuilderModes, MODE_SOLVABLE, MODE_SOLVABLE_EASY, MODE_SOLVABLE_EXPERT, solvableModeForGameMode } from '../builder';
 import { GAME_MODE_EASY, GAME_MODE_EXPERT, GAME_MODE_STANDARD } from '../consts';
 
-// A flat 4-stone mapping — 2 pairs, no overlaps, no blocking
+// A flat 4-stone mapping - 2 pairs, no overlaps, no blocking
 const MAPPING_4: Mapping = [[0, 0, 0], [0, 2, 0], [0, 4, 0], [0, 6, 0]];
 
-// A flat 8-stone mapping — 4 pairs, none blocking
+// A flat 8-stone mapping - 4 pairs, none blocking
 const MAPPING_8: Mapping = [
 	[0, 0, 0], [0, 2, 0], [0, 4, 0], [0, 6, 0],
 	[0, 8, 0], [0, 10, 0], [0, 12, 0], [0, 14, 0]
 ];
 
-// A flat 16-stone mapping — 8 pairs, none blocking
+// A flat 16-stone mapping - 8 pairs, none blocking
 const MAPPING_16: Mapping = Array.from({ length: 16 }, (_, index) => [0, index * 2, 0] as [number, number, number]);
 
 describe('SolvableBoardBuilder (Standard)', () => {
@@ -106,7 +106,7 @@ describe('SolvableBoardBuilderExpert', () => {
 
 	it('should produce a valid board for a 16-stone mapping', () => {
 		// 16 flat stones are all unblocked (freestones = 16 > 4), so constraint fails.
-		// Falls back to unconstrained — should still return valid board.
+		// Falls back to unconstrained - should still return valid board.
 		const stones = builder.build(MAPPING_16, new Tiles(16));
 		expect(stones).toHaveLength(16);
 		for (const stone of stones) {
