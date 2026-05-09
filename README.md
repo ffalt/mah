@@ -27,7 +27,7 @@ The original open-source Mahjong Solitaire game powering many Mahjong experience
 
 🖼️ **Massive visual customization** - 8 image backgrounds, 375 pattern backgrounds, light/dark mode, 14 color themes
 
-🏆 **Difficulty levels** - from relaxed casual play to expert-level challenge
+🏆 **Difficulty levels for features and boards generation** - from relaxed casual play to expert-level challenge
 
 💾 **Auto-save** - your game state and best times are saved locally in your browser, never to the cloud
 
