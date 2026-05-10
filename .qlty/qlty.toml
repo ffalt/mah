@@ -28,8 +28,9 @@ exclude_patterns = [
   "**/testdata/**",
   "**/vendor/**",
 
-	"resources/apps/tauri/Cargo.lock",
   ".qlty/configs/**",
+	"resources/images/**",
+	"resources/apps/tauri/Cargo.lock",
   "resources/apps/tauri/gen/android/**"
 ]
 
@@ -191,6 +192,7 @@ match.rules = [
 	"radarlint-js:typescript:S107", # too many parameters
 	"radarlint-js:typescript:S6671", # Expected the Promise rejection reason to be an Error.
 	"radarlint-iac:docker:S7026", #Replace this invocation of curl with the ADD instruction.
+	"radarlint-js:typescript:S2094", # Unexpected empty class.
 	"stylelint:fmt", # stylelint:fmt
 	"stylelint:value-keyword-case", # 'Expected "currentColor" to be "currentcolor"' (false positive)
 	"hadolint:DL3018", # Pin versions in apk add
