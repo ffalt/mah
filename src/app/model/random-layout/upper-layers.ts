@@ -128,11 +128,6 @@ function addWithMirrors(
 }
 
 function growLevel(current: Mapping, z: number, mirrorX: boolean, mirrorY: boolean): Mapping {
-	// If already at target, return early
-	if (current.length >= TARGET_COUNT) {
-		return current;
-	}
-
 	// Determine scan window from layer z-1 extents
 	const win = computeBelowWindow(current, z);
 	if (!win) {
@@ -272,9 +267,6 @@ function symmetricFill(mapping: Mapping, mirrorX: boolean, mirrorY: boolean): Ma
 			const candidates: Array<[number, number]> = [];
 			for (let y = 0; y <= Y_MAX; y++) {
 				for (let x = 0; x <= X_MAX; x++) {
-					if (!inBounds(x, y, z)) {
-						continue;
-					}
 					if (present.has(key(z, x, y))) {
 						continue;
 					}
@@ -342,63 +334,14 @@ function tryAddOne(mapping: Mapping, present: Set<string>, win: { minX: number; 
 	return false;
 }
 
-// Helper: build a map of how many tiles each tile supports above
-function buildSupportCounts(mapping: Mapping): Map<string, number> {
-	const supports = new Map<string, number>();
-	for (const [z, x, y] of mapping) {
-		supports.set(key(z, x, y), 0);
-	}
-	for (const [z, x, y] of mapping) {
-		if (z === 0) {
-			continue;
-		}
-		const zb = z - 1;
-		const belowCandidates = [
-			key(zb, x, y),
-			key(zb, x - 1, y), key(zb, x + 1, y),
-			key(zb, x - 1, y - 1), key(zb, x + 1, y - 1), key(zb, x - 1, y + 1), key(zb, x + 1, y + 1)
-		];
-		for (const kb of belowCandidates) {
-			if (supports.has(kb)) {
-				supports.set(kb, (supports.get(kb) ?? 0) + 1);
-			}
-		}
-	}
-	return supports;
-}
-
-// Helper: choose index of a removable tile, prefer highest z with zero dependents
-function chooseRemovableIndex(mapping: Mapping, supports: Map<string, number>): number {
-	let chosen = -1;
-	let bestZ = -1;
-	for (let index = mapping.length - 1; index >= 0; index--) {
-		const [z, x, y] = mapping[index];
-		const k = key(z, x, y);
-		if ((supports.get(k) || 0) === 0 && z >= bestZ) {
-			chosen = index;
-			bestZ = z;
-		}
-	}
-	return chosen;
-}
-
-// Helper: ensure even tile count; try to add one, otherwise remove one
+// Helper: ensure even tile count by trying to add one tile
 function ensureEven(mapping: Mapping): Mapping {
 	if (!isOdd(mapping.length)) {
 		return mapping;
 	}
 	const present = new Set<string>(mapping.map(p => key(p[0], p[1], p[2])));
 	const win = computeWindow(mapping);
-	if (tryAddOne(mapping, present, win) || mapping.length === 0) {
-		return mapping;
-	}
-	const supports = buildSupportCounts(mapping);
-	const index = chooseRemovableIndex(mapping, supports);
-	if (index >= 0) {
-		mapping.splice(index, 1);
-	} else {
-		mapping.pop();
-	}
+	tryAddOne(mapping, present, win);
 	return mapping;
 }
 

@@ -34,6 +34,14 @@ class FakeImageError {
 	}
 }
 
+beforeEach(() => {
+	jest.spyOn(console, 'error').mockImplementation(() => undefined);
+});
+
+afterEach(() => {
+	jest.restoreAllMocks();
+});
+
 describe('imageSetIsKyodai', () => {
 	it('returns true for kyodai', () => {
 		expect(imageSetIsKyodai('kyodai')).toBe(true);

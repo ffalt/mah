@@ -9,6 +9,14 @@ jest.mock('../../model/import', () => ({
 	importLayouts: jest.fn()
 }));
 
+beforeEach(() => {
+	jest.spyOn(console, 'error').mockImplementation(() => undefined);
+});
+
+afterEach(() => {
+	jest.restoreAllMocks();
+});
+
 import { importLayouts as importLayoutsFunction } from '../../model/import';
 
 const makeLayout = (id: string): Layout => ({
