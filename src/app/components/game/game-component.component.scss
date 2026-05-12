@@ -57,12 +57,12 @@
 				border-radius: 10px;
 				transition: color .15s ease, background-color .15s ease, border-color .15s ease, box-shadow .15s ease, transform .05s ease;
 
-				i {
+				.icon {
 					margin-right: 0;
 				}
 
-				i + .label,
-				i + span {
+				.icon + .label,
+				.icon + span {
 					margin-left: 6px;
 				}
 
@@ -90,6 +90,7 @@
 				transition: color .15s ease, background-color .15s ease, border-color .15s ease, box-shadow .15s ease, transform .05s ease;
 				background-color: transparent;
 				font-size: inherit;
+				flex-wrap: nowrap;
 
 				&:hover {
 					background-image: linear-gradient(
@@ -126,7 +127,7 @@
 				display: none;
 
 				&.enabled {
-					display: unset;
+					display: inline-flex;
 				}
 			}
 
