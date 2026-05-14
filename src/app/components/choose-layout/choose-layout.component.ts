@@ -1,5 +1,5 @@
 import { Component, inject, model, output, signal } from '@angular/core';
-import { type BUILD_MODE_ID, BuilderModes, MODE_SOLVABLE, solvableModeForGameMode } from '../../model/builder';
+import { type BUILD_MODE_ID, BuilderModes, MODE_SOLVABLE } from '../../model/builder';
 import type { Layout } from '../../model/types';
 import { LayoutService } from '../../service/layout.service';
 import { LocalstorageService } from '../../service/localstorage.service';
@@ -33,7 +33,7 @@ export class ChooseLayoutComponent {
 
 	onGameModeChange(mode: GAME_MODE_ID): void {
 		this.gameMode.set(mode);
-		this.buildMode.set(solvableModeForGameMode(mode));
+		this.buildMode.set(MODE_SOLVABLE);
 	}
 
 	onStart(layout: Layout): void {
