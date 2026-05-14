@@ -38,6 +38,8 @@ describe('Game', () => {
 			reset: jest.fn(),
 			applyMapping: jest.fn(),
 			pick: jest.fn(),
+			highlightMatches: jest.fn(),
+			clearMatches: jest.fn(),
 			selected: undefined,
 			count: 10,
 			free: [],
@@ -272,6 +274,67 @@ describe('Game', () => {
 			game.click(stone2);
 
 			expect(mockBoard.pick).toHaveBeenCalledWith(stone1, stone2);
+		});
+
+		it('should highlight match partners on selection in easy mode', () => {
+			jest.useFakeTimers();
+			const stone = new Stone(0, 0, 0, 1, 1);
+			stone.state = { blocked: false, removable: true };
+			(mockBoard.setStoneSelected as jest.Mock).mockImplementation(() => { mockBoard.selected = stone; });
+
+			game.mode = GAME_MODE_EASY;
+			game.state = STATES.run;
+			game.click(stone);
+
+			expect(mockBoard.highlightMatches).toHaveBeenCalledWith(stone);
+			jest.runAllTimers();
+			expect(mockBoard.clearMatches).toHaveBeenCalled();
+			jest.useRealTimers();
+		});
+
+		it('should not highlight match partners in standard mode', () => {
+			const stone = new Stone(0, 0, 0, 1, 1);
+			stone.state = { blocked: false, removable: true };
+			(mockBoard.setStoneSelected as jest.Mock).mockImplementation(() => { mockBoard.selected = stone; });
+
+			game.mode = GAME_MODE_STANDARD;
+			game.state = STATES.run;
+			game.click(stone);
+
+			expect(mockBoard.highlightMatches).not.toHaveBeenCalled();
+			expect(mockBoard.clearMatches).toHaveBeenCalled();
+		});
+
+		it('should not highlight match partners in expert mode', () => {
+			const stone = new Stone(0, 0, 0, 1, 1);
+			stone.state = { blocked: false, removable: true };
+			(mockBoard.setStoneSelected as jest.Mock).mockImplementation(() => { mockBoard.selected = stone; });
+
+			game.mode = GAME_MODE_EXPERT;
+			game.state = STATES.run;
+			game.click(stone);
+
+			expect(mockBoard.highlightMatches).not.toHaveBeenCalled();
+			expect(mockBoard.clearMatches).toHaveBeenCalled();
+		});
+
+		it('should clear match highlights when a match is resolved', () => {
+			jest.useFakeTimers();
+			const stone1 = new Stone(0, 0, 0, 1, 1);
+			stone1.state = { blocked: false, removable: true };
+			const stone2 = new Stone(0, 1, 0, 1, 1);
+			stone2.state = { blocked: false, removable: true };
+			(mockBoard.setStoneSelected as jest.Mock).mockImplementation(() => { mockBoard.selected = stone1; });
+
+			game.mode = GAME_MODE_STANDARD;
+			game.state = STATES.run;
+			game.click(stone1);
+
+			mockBoard.selected = stone1;
+			game.click(stone2);
+
+			expect(mockBoard.clearMatches).toHaveBeenCalled();
+			jest.useRealTimers();
 		});
 	});
 

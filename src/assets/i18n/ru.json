@@ -192,6 +192,8 @@
 	"SHUFFLE_LONG": "Перемешать камни в этой игре",
 	"RESCUE_SHUFFLE": "Перемешать для продолжения",
 	"RESCUE_SHUFFLE_LONG": "Перемешать если нет доступных ходов",
+	"SHOW_MATCHING": "Показать совпадения",
+	"SHOW_MATCHING_DESC": "Выделить подходящие камни при выборе",
 	"GAME_MODE": "Модус",
 	"GAME_MODE_EASY": "Легко",
 	"GAME_MODE_STANDARD": "Стандарт",

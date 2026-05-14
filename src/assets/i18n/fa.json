@@ -192,6 +192,8 @@
 	"SHUFFLE_LONG": "به‌هم ریختن سنگ‌ها در بازی",
 	"RESCUE_SHUFFLE": "به‌هم‌ریختن برای ادامه",
 	"RESCUE_SHUFFLE_LONG": "به‌هم ریختن اگر حرکتی نمانده باشد",
+	"SHOW_MATCHING": "نمایش تطابق‌ها",
+	"SHOW_MATCHING_DESC": "برجسته کردن سنگ‌های مشابه هنگام انتخاب",
 	"GAME_MODE": "حالت",
 	"GAME_MODE_EASY": "آسان",
 	"GAME_MODE_STANDARD": "استاندارد",

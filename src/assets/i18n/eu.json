@@ -192,6 +192,8 @@
 	"SHUFFLE_LONG": "Nahastu taulako harriak",
 	"RESCUE_SHUFFLE": "Nahastu jarraitzeko",
 	"RESCUE_SHUFFLE_LONG": "Nahastu mugimendurik ez badago",
+	"SHOW_MATCHING": "Erakutsi bat-etortzeak",
+	"SHOW_MATCHING_DESC": "Nabarmendu bat datozen fitxak hautatzean",
 	"GAME_MODE": "Modua",
 	"GAME_MODE_EASY": "Erraza",
 	"GAME_MODE_STANDARD": "Arrunta",

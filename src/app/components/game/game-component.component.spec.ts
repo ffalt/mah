@@ -215,7 +215,8 @@ describe('GameComponent', () => {
 		const mockBoard = {
 			...component.game.board,
 			undo: [1, 2, 3], // Non-empty undo array to enable the button
-			reset: jest.fn()
+			reset: jest.fn(),
+			clearMatches: jest.fn()
 		};
 		Object.defineProperty(component.game, 'board', { value: mockBoard });
 

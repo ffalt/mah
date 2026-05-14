@@ -192,6 +192,8 @@
 	"SHUFFLE_LONG": "Mescola le pietre nel gioco",
 	"RESCUE_SHUFFLE": "Mescola per continuare",
 	"RESCUE_SHUFFLE_LONG": "Mescola se non ci sono più mosse",
+	"SHOW_MATCHING": "Mostra corrispondenze",
+	"SHOW_MATCHING_DESC": "Evidenzia le tessere corrispondenti alla selezione",
 	"GAME_MODE": "Modalità",
 	"GAME_MODE_EASY": "Facile",
 	"GAME_MODE_STANDARD": "Standard",

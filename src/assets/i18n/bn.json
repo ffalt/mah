@@ -192,6 +192,8 @@
 	"SHUFFLE_LONG": "গেমের পাথরগুলো এলোমেলো করুন",
 	"RESCUE_SHUFFLE": "চালিয়ে যেতে এলোমেলো করুন",
 	"RESCUE_SHUFFLE_LONG": "আর কোনো চাল না থাকলে এলোমেলো করুন",
+	"SHOW_MATCHING": "মিল দেখান",
+	"SHOW_MATCHING_DESC": "নির্বাচনে মিলে যাওয়া পাথর হাইলাইট করুন",
 	"GAME_MODE": "মোড",
 	"GAME_MODE_EASY": "সহজ",
 	"GAME_MODE_STANDARD": "মানক",

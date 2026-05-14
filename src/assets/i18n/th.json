@@ -192,6 +192,8 @@
 	"SHUFFLE_LONG": "สับไพ่ในเกม",
 	"RESCUE_SHUFFLE": "สับไพ่เพื่อเล่นต่อ",
 	"RESCUE_SHUFFLE_LONG": "สับไพ่หากไม่มีการเคลื่อนไหวอีกต่อไป",
+	"SHOW_MATCHING": "แสดงคู่ที่ตรงกัน",
+	"SHOW_MATCHING_DESC": "ไฮไลต์หินที่ตรงกันเมื่อเลือก",
 	"GAME_MODE": "โหมด",
 	"GAME_MODE_EASY": "ง่าย",
 	"GAME_MODE_STANDARD": "มาตรฐาน",

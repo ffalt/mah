@@ -192,6 +192,8 @@
 	"SHUFFLE_LONG": "ゲーム内の石をシャッフル",
 	"RESCUE_SHUFFLE": "続けるためにシャッフル",
 	"RESCUE_SHUFFLE_LONG": "手がなくなったらシャッフル",
+	"SHOW_MATCHING": "一致を表示",
+	"SHOW_MATCHING_DESC": "選択時に一致する牌を強調表示",
 	"GAME_MODE": "モード",
 	"GAME_MODE_EASY": "簡単",
 	"GAME_MODE_STANDARD": "標準",

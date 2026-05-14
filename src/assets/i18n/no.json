@@ -192,6 +192,8 @@
 	"SHUFFLE_LONG": "Bland steiner i spillet",
 	"RESCUE_SHUFFLE": "Bland for å fortsette",
 	"RESCUE_SHUFFLE_LONG": "Bland hvis det ikke er flere trekk",
+	"SHOW_MATCHING": "Vis treff",
+	"SHOW_MATCHING_DESC": "Fremhev matchende brikker ved valg",
 	"GAME_MODE": "Modus",
 	"GAME_MODE_EASY": "Lett",
 	"GAME_MODE_STANDARD": "Standard",

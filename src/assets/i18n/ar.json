@@ -192,6 +192,8 @@
 	"SHUFFLE_LONG": "خلط الحجارة في اللعبة",
 	"RESCUE_SHUFFLE": "الخلط للمتابعة",
 	"RESCUE_SHUFFLE_LONG": "الخلط إذا لم تعد هناك حركات متاحة",
+	"SHOW_MATCHING": "إظهار التطابقات",
+	"SHOW_MATCHING_DESC": "تمييز الأحجار المتطابقة عند التحديد",
 	"GAME_MODE": "الوضع",
 	"GAME_MODE_EASY": "سهل",
 	"GAME_MODE_STANDARD": "معياري",

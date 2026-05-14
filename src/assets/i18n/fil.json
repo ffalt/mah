@@ -192,6 +192,8 @@
 	"SHUFFLE_LONG": "Haluin ang mga bato sa laro",
 	"RESCUE_SHUFFLE": "Haluin para Magpatuloy",
 	"RESCUE_SHUFFLE_LONG": "Haluin kung wala nang mga galaw",
+	"SHOW_MATCHING": "Ipakita ang mga tugma",
+	"SHOW_MATCHING_DESC": "I-highlight ang mga katugmang tile sa pagpili",
 	"GAME_MODE": "Mode",
 	"GAME_MODE_EASY": "Madali",
 	"GAME_MODE_STANDARD": "Karaniwan",

@@ -192,6 +192,8 @@
 	"SHUFFLE_LONG": "洗牌重新排列",
 	"RESCUE_SHUFFLE": "洗牌以继续",
 	"RESCUE_SHUFFLE_LONG": "如果没有更多移动则洗牌",
+	"SHOW_MATCHING": "显示匹配",
+	"SHOW_MATCHING_DESC": "选择时高亮显示匹配的石块",
 	"GAME_MODE": "游戏模式",
 	"GAME_MODE_EASY": "简单",
 	"GAME_MODE_STANDARD": "标准",

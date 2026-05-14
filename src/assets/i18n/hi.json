@@ -192,6 +192,8 @@
 	"SHUFFLE_LONG": "खेल में पत्थरों को फेरबदल करें",
 	"RESCUE_SHUFFLE": "जारी रखने के लिए फेरबदल",
 	"RESCUE_SHUFFLE_LONG": "फेरबदल करें यदि कोई और चाल नहीं है",
+	"SHOW_MATCHING": "मिलान दिखाएं",
+	"SHOW_MATCHING_DESC": "चयन पर मिलान वाले पत्थर हाइलाइट करें",
 	"GAME_MODE": "तरीका",
 	"GAME_MODE_EASY": "आसान",
 	"GAME_MODE_STANDARD": "मानक",

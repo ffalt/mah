@@ -192,6 +192,8 @@
 	"SHUFFLE_LONG": "Changanya mawe katika mchezo",
 	"RESCUE_SHUFFLE": "Changanya ili Kuendelea",
 	"RESCUE_SHUFFLE_LONG": "Changanya kama hakuna hatua zaidi",
+	"SHOW_MATCHING": "Onyesha mechi",
+	"SHOW_MATCHING_DESC": "Angazia vigae vinavyolingana unavyovichagua",
 	"GAME_MODE": "Hali",
 	"GAME_MODE_EASY": "Rahisi",
 	"GAME_MODE_STANDARD": "Kawaida",

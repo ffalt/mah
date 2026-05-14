@@ -50,6 +50,22 @@ export class Board {
 		};
 	}
 
+	highlightMatches(stone: Stone): void {
+		for (const partner of this.free) {
+			if (partner !== stone && partner.groupNr === stone.groupNr) {
+				partner.matched = true;
+			}
+		}
+	}
+
+	clearMatches(): void {
+		for (const stone of this.stones) {
+			if (stone.matched) {
+				stone.matched = false;
+			}
+		}
+	}
+
 	hint(): void {
 		if (this.hintNext()) {
 			return;

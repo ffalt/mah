@@ -192,6 +192,8 @@
 	"SHUFFLE_LONG": "Xáo trộn đá trong trò chơi",
 	"RESCUE_SHUFFLE": "Xáo Trộn để Tiếp Tục",
 	"RESCUE_SHUFFLE_LONG": "Xáo trộn nếu không còn nước đi nào",
+	"SHOW_MATCHING": "Hiển thị cặp khớp",
+	"SHOW_MATCHING_DESC": "Làm nổi bật các ô khớp khi chọn",
 	"GAME_MODE": "Chế Độ",
 	"GAME_MODE_EASY": "Dễ",
 	"GAME_MODE_STANDARD": "Tiêu Chuẩn",

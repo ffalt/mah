@@ -192,6 +192,8 @@
 	"SHUFFLE_LONG": "Steine im Spiel mischen",
 	"RESCUE_SHUFFLE": "Mischen zum Weiterspielen",
 	"RESCUE_SHUFFLE_LONG": "Mischen wenn keine Züge mehr möglich sind",
+	"SHOW_MATCHING": "Übereinstimmungen anzeigen",
+	"SHOW_MATCHING_DESC": "Passende Steine bei Auswahl hervorheben",
 	"GAME_MODE": "Modus",
 	"GAME_MODE_EASY": "Einfach",
 	"GAME_MODE_STANDARD": "Standard",

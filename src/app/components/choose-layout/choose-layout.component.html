@@ -46,7 +46,7 @@
 						@if (m.features.length > 0) {
 							<ul>
 								@for (f of m.features; track f) {
-									<li>{{ f.title + '_LONG' | translate }}</li>
+									<li>{{ (f.desc ?? f.title + '_LONG') | translate }}</li>
 								}
 							</ul>
 						} @else {

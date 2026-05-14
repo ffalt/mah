@@ -192,6 +192,8 @@
 	"SHUFFLE_LONG": "Acak batu dalam permainan",
 	"RESCUE_SHUFFLE": "Acak untuk Melanjutkan",
 	"RESCUE_SHUFFLE_LONG": "Acak jika tidak ada lagi gerakan",
+	"SHOW_MATCHING": "Tampilkan pasangan",
+	"SHOW_MATCHING_DESC": "Sorot batu yang cocok saat dipilih",
 	"GAME_MODE": "Mode",
 	"GAME_MODE_EASY": "Mudah",
 	"GAME_MODE_STANDARD": "Standar",

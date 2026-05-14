@@ -192,6 +192,8 @@
 	"SHUFFLE_LONG": "Mélanger les tuiles en jeu",
 	"RESCUE_SHUFFLE": "Mélanger pour continuer",
 	"RESCUE_SHUFFLE_LONG": "Mélanger s'il n'y a plus de mouvements",
+	"SHOW_MATCHING": "Afficher les correspondances",
+	"SHOW_MATCHING_DESC": "Mettre en évidence les tuiles correspondantes à la sélection",
 	"GAME_MODE": "Mode",
 	"GAME_MODE_EASY": "Facile",
 	"GAME_MODE_STANDARD": "Standard",

@@ -192,6 +192,8 @@
 	"SHUFFLE_LONG": "Baralla les pedres al joc",
 	"RESCUE_SHUFFLE": "Baralla per continuar",
 	"RESCUE_SHUFFLE_LONG": "Baralla si no hi ha més moviments",
+	"SHOW_MATCHING": "Mostra coincidències",
+	"SHOW_MATCHING_DESC": "Ressalta les fitxes coincidents en seleccionar",
 	"GAME_MODE": "Mode",
 	"GAME_MODE_EASY": "Fàcil",
 	"GAME_MODE_STANDARD": "Estàndard",

@@ -192,6 +192,8 @@
 	"SHUFFLE_LONG": "Oyundaki taşları karıştır",
 	"RESCUE_SHUFFLE": "Devam etmek için Karıştır",
 	"RESCUE_SHUFFLE_LONG": "Daha fazla hamle yoksa karıştır",
+	"SHOW_MATCHING": "Eşleşmeleri göster",
+	"SHOW_MATCHING_DESC": "Seçimde eşleşen taşları vurgula",
 	"GAME_MODE": "Mod",
 	"GAME_MODE_EASY": "Kolay",
 	"GAME_MODE_STANDARD": "Standart",

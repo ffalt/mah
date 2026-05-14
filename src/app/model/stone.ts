@@ -34,6 +34,7 @@ export class Stone implements StonePosition {
 	v: number;
 	groupNr: number;
 	hinted: boolean = false;
+	matched: boolean = false;
 	selected: boolean = false;
 	picked: boolean = false;
 	state: StoneState = { blocked: false, removable: false };

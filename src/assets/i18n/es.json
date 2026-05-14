@@ -192,6 +192,8 @@
 	"SHUFFLE_LONG": "Barajar fichas en la partida",
 	"RESCUE_SHUFFLE": "Barajar para continuar",
 	"RESCUE_SHUFFLE_LONG": "Barajar si no hay más movimientos",
+	"SHOW_MATCHING": "Mostrar coincidencias",
+	"SHOW_MATCHING_DESC": "Resaltar fichas coincidentes al seleccionar",
 	"GAME_MODE": "Modo",
 	"GAME_MODE_EASY": "Fácil",
 	"GAME_MODE_STANDARD": "Normal",

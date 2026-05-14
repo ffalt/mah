@@ -14,14 +14,21 @@ export const STATES = {
 export const GAME_MODE_EASY: GAME_MODE_ID = 'GAME_MODE_EASY';
 export const GAME_MODE_STANDARD: GAME_MODE_ID = 'GAME_MODE_STANDARD';
 export const GAME_MODE_EXPERT: GAME_MODE_ID = 'GAME_MODE_EXPERT';
-export const GameModes = [
+
+export interface GameModeFeature {
+	title: string;
+	desc?: string;
+}
+
+export const GameModes: Array<{ id: GAME_MODE_ID; features: Array<GameModeFeature> }> = [
 	{
 		id: GAME_MODE_EASY,
 		features: [
 			{ title: 'SHUFFLE' },
 			{ title: 'HINT' },
 			{ title: 'UNDO' },
-			{ title: 'RESCUE_SHUFFLE' }
+			{ title: 'RESCUE_SHUFFLE' },
+			{ title: 'SHOW_MATCHING', desc: 'SHOW_MATCHING_DESC' }
 		]
 	},
 	{

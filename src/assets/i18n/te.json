@@ -192,6 +192,8 @@
 	"SHUFFLE_LONG": "ఆటలోని రాళ్ళను కలపు",
 	"RESCUE_SHUFFLE": "కొనసాగించడానికి కలపు",
 	"RESCUE_SHUFFLE_LONG": "ఇంకా కదలికలు లేకపోతే కలపు",
+	"SHOW_MATCHING": "జతలు చూపించు",
+	"SHOW_MATCHING_DESC": "ఎంపికలో జతపడే రాళ్ళను హైలైట్ చేయి",
 	"GAME_MODE": "మోడ్",
 	"GAME_MODE_EASY": "సులభం",
 	"GAME_MODE_STANDARD": "ప్రామాణికం",

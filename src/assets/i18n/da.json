@@ -192,6 +192,8 @@
 	"SHUFFLE_LONG": "Bland sten i spillet",
 	"RESCUE_SHUFFLE": "Bland for at fortsætte",
 	"RESCUE_SHUFFLE_LONG": "Bland hvis der ikke er flere træk",
+	"SHOW_MATCHING": "Vis matches",
+	"SHOW_MATCHING_DESC": "Fremhæv matchende brikker ved valg",
 	"GAME_MODE": "Tilstand",
 	"GAME_MODE_EASY": "Let",
 	"GAME_MODE_STANDARD": "Standard",

@@ -192,6 +192,8 @@
 	"SHUFFLE_LONG": "Zamíchat kameny ve hře",
 	"RESCUE_SHUFFLE": "Zamíchat pro pokračování",
 	"RESCUE_SHUFFLE_LONG": "Zamíchat, pokud nejsou žádné další tahy",
+	"SHOW_MATCHING": "Zobrazit shody",
+	"SHOW_MATCHING_DESC": "Zvýraznit shodné kameny při výběru",
 	"GAME_MODE": "Režim",
 	"GAME_MODE_EASY": "Snadné",
 	"GAME_MODE_STANDARD": "Standardní",

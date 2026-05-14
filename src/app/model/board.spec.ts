@@ -59,6 +59,36 @@ describe('Board', () => {
 		});
 	});
 
+	describe('match highlighting', () => {
+		it('should highlight free partner stones for a selected stone', () => {
+			const selected = new Stone(0, 0, 0, 1, 5);
+			const partner1 = new Stone(0, 2, 0, 1, 5);
+			const partner2 = new Stone(0, 4, 0, 1, 5);
+			const other = new Stone(0, 6, 0, 1, 9);
+			board.free = [selected, partner1, partner2, other];
+
+			board.highlightMatches(selected);
+
+			expect(selected.matched).toBe(false);
+			expect(partner1.matched).toBe(true);
+			expect(partner2.matched).toBe(true);
+			expect(other.matched).toBe(false);
+		});
+
+		it('should clear matched flags on all stones', () => {
+			const stone1 = new Stone(0, 0, 0, 1, 1);
+			const stone2 = new Stone(0, 1, 0, 1, 1);
+			stone1.matched = true;
+			stone2.matched = true;
+			board.stones = [stone1, stone2];
+
+			board.clearMatches();
+
+			expect(stone1.matched).toBe(false);
+			expect(stone2.matched).toBe(false);
+		});
+	});
+
 	describe('game actions', () => {
 		it('should reset the board', () => {
 			// Setup some state

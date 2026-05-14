@@ -192,6 +192,8 @@
 	"SHUFFLE_LONG": "Blanda stenar i spelet",
 	"RESCUE_SHUFFLE": "Blanda för att fortsätta",
 	"RESCUE_SHUFFLE_LONG": "Blanda om det inte finns fler drag",
+	"SHOW_MATCHING": "Visa matchningar",
+	"SHOW_MATCHING_DESC": "Markera matchande brickor vid val",
 	"GAME_MODE": "Läge",
 	"GAME_MODE_EASY": "Lätt",
 	"GAME_MODE_STANDARD": "Standard",

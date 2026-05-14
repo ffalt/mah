@@ -192,6 +192,8 @@
 	"SHUFFLE_LONG": "Amesteacă pietrele în joc",
 	"RESCUE_SHUFFLE": "Amestecă pentru a continua",
 	"RESCUE_SHUFFLE_LONG": "Amestecă dacă nu mai sunt mutări",
+	"SHOW_MATCHING": "Afișează potriviri",
+	"SHOW_MATCHING_DESC": "Evidențiați piesele potrivite la selecție",
 	"GAME_MODE": "Mod",
 	"GAME_MODE_EASY": "Ușor",
 	"GAME_MODE_STANDARD": "Standard",

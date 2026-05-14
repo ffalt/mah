@@ -192,6 +192,8 @@
 	"SHUFFLE_LONG": "Kövek keverése a játékban",
 	"RESCUE_SHUFFLE": "Keverés a folytatáshoz",
 	"RESCUE_SHUFFLE_LONG": "Keverés ha nincs több lépés",
+	"SHOW_MATCHING": "Egyezések megjelenítése",
+	"SHOW_MATCHING_DESC": "Egyező kövek kiemelése kijelöléskor",
 	"GAME_MODE": "Mód",
 	"GAME_MODE_EASY": "Könnyű",
 	"GAME_MODE_STANDARD": "Szabványos",

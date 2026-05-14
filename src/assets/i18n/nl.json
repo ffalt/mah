@@ -192,6 +192,8 @@
 	"SHUFFLE_LONG": "Schud stenen in het spel",
 	"RESCUE_SHUFFLE": "Schudden om door te gaan",
 	"RESCUE_SHUFFLE_LONG": "Schudden als er geen zetten meer zijn",
+	"SHOW_MATCHING": "Toon overeenkomsten",
+	"SHOW_MATCHING_DESC": "Overeenkomende stenen markeren bij selectie",
 	"GAME_MODE": "Modus",
 	"GAME_MODE_EASY": "Eenvoudig",
 	"GAME_MODE_STANDARD": "Standaard",

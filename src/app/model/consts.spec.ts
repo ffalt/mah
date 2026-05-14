@@ -52,7 +52,7 @@ describe('Constants', () => {
 			// Check easy mode
 			const easyMode = GameModes.find(mode => mode.id === GAME_MODE_EASY);
 			expect(easyMode).toBeDefined();
-			expect(easyMode?.features.length).toBe(4);
+			expect(easyMode?.features.length).toBe(5);
 
 			// Check standard mode
 			const standardMode = GameModes.find(mode => mode.id === GAME_MODE_STANDARD);

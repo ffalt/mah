@@ -192,6 +192,8 @@
 	"SHUFFLE_LONG": "Kocok batu dalam permainan",
 	"RESCUE_SHUFFLE": "Kocok untuk Meneruskan",
 	"RESCUE_SHUFFLE_LONG": "Kocok jika tiada lagi gerakan",
+	"SHOW_MATCHING": "Tunjukkan padanan",
+	"SHOW_MATCHING_DESC": "Serlahkan batu yang sepadan semasa dipilih",
 	"GAME_MODE": "Mod",
 	"GAME_MODE_EASY": "Mudah",
 	"GAME_MODE_STANDARD": "Standard",

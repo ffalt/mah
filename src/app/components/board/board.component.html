@@ -64,6 +64,21 @@
 			stroke-width: 3px;
 		}
 
+		@keyframes mah-match-flash {
+			0% { transform: scale(1); }
+			40% { transform: scale(1.1); }
+			100% { transform: scale(1); }
+		}
+
+		g.matched g.tile {
+			animation: mah-match-flash 600ms ease-out;
+		}
+
+		g.matched g.tile > rect {
+			stroke: #0066cc;
+			stroke-width: 2px;
+		}
+
 		@keyframes mah-select-pop {
 			0% {
 				transform: scale(1);
@@ -136,6 +151,11 @@
 			stroke-width: 3px;
 		}
 
+		g.stage.tile3d g.matched g.tile rect.stone {
+			stroke: #0066cc;
+			stroke-width: 2px;
+		}
+
 		g.hidden {
 			opacity: 0;
 		}
@@ -194,6 +214,11 @@
 			stroke-width: 3px;
 		}
 
+		g.stage.dark.tile3d g.matched g.tile rect.stone {
+			stroke: #4499ff;
+			stroke-width: 2px;
+		}
+
 		g.stage.dark g.selected g.tile rect.stone {
 			stroke: #F8EABB;
 			fill: black;
@@ -205,6 +230,10 @@
 
 		g.stage.dark g.selected.hinted g.tile rect.stone {
 			stroke: #ef0202;
+		}
+
+		g.stage.dark g.matched g.tile rect.stone {
+			stroke: #4499ff;
 		}
 
 		g.stage.dark.contrast g.draw rect.stone {
@@ -240,6 +269,10 @@
 			g.selected g.tile {
 				animation: none;
 			}
+
+			g.matched g.tile {
+				animation: none;
+			}
 		}
 	</style>
 	<defs app-image-set-loader [imageSet]="imageSet()" [kyodaiUrl]="kyodaiUrl()" [dark]="app.settings.dark" [prefix]="prefix"></defs>
@@ -250,6 +283,7 @@
 				[class.selected]="draw.source.selected"
 				[class.hidden]="draw.source.picked"
 				[class.hinted]="draw.source.hinted"
+				[class.matched]="draw.source.matched"
 				[class.wiggle]="draw.source.effects?.wiggle"
 				[attr.transform]="draw.pos.translate"
 				(mouseup)="onClickUp($event, draw)"

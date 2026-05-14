@@ -192,6 +192,8 @@
 	"SHUFFLE_LONG": "Embaralhe pedras neste jogo",
 	"RESCUE_SHUFFLE": "Embaralhar para Continuar",
 	"RESCUE_SHUFFLE_LONG": "Embaralhar se não houver mais movimentos",
+	"SHOW_MATCHING": "Mostrar correspondências",
+	"SHOW_MATCHING_DESC": "Destacar peças correspondentes ao selecionar",
 	"GAME_MODE": "Modo",
 	"GAME_MODE_EASY": "Fácil",
 	"GAME_MODE_STANDARD": "Padrão",

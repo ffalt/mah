@@ -193,6 +193,8 @@
 	"SHUFFLE_LONG": "Shuffle stones in the game",
 	"RESCUE_SHUFFLE": "Shuffle to Continue",
 	"RESCUE_SHUFFLE_LONG": "Shuffle if there are no more moves",
+	"SHOW_MATCHING": "Show Matches",
+	"SHOW_MATCHING_DESC": "Highlight matching tiles on selection",
 	"GAME_MODE": "Mode",
 	"GAME_MODE_EASY": "Easy",
 	"GAME_MODE_STANDARD": "Standard",

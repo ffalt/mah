@@ -192,6 +192,8 @@
 	"SHUFFLE_LONG": "게임의 타일 섞기",
 	"RESCUE_SHUFFLE": "계속하기 위해 섞기",
 	"RESCUE_SHUFFLE_LONG": "더 이상 이동이 없을 때 섞기",
+	"SHOW_MATCHING": "일치 표시",
+	"SHOW_MATCHING_DESC": "선택 시 일치하는 돌 강조 표시",
 	"GAME_MODE": "모드",
 	"GAME_MODE_EASY": "쉬움",
 	"GAME_MODE_STANDARD": "표준",

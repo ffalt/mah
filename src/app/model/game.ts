@@ -18,12 +18,14 @@ export class Game {
 	layoutID?: string = undefined;
 	mode: GAME_MODE_ID = GAME_MODE_ID_DEFAULT;
 	private saveTimer?: ReturnType<typeof setTimeout>;
+	private matchesTimer?: ReturnType<typeof setTimeout>;
 
 	constructor(private readonly storage: StorageProvider) {
 	}
 
 	destroy(): void {
 		this.clearSaveTimer();
+		this.clearMatchesTimer();
 		this.clock.reset();
 		this.music.pause();
 		this.board.reset();
@@ -40,6 +42,7 @@ export class Game {
 
 	click(stone?: Stone): boolean {
 		if (!stone) {
+			this.clearMatchesTimer();
 			this.board.clearSelection();
 			return false;
 		}
@@ -52,11 +55,17 @@ export class Game {
 			this.clock.run();
 		}
 		if (this.board.selected && stone && stone !== this.board.selected && stone.groupNr === this.board.selected.groupNr) {
+			this.clearMatchesTimer();
 			this.resolveMatchingStone(stone);
 			return true;
 		}
 		this.board.setStoneSelected(this.board.selected === stone ? undefined : stone);
 		this.sound.play(SOUNDS.SELECT);
+		if (this.board.selected && this.mode === GAME_MODE_EASY) {
+			this.startMatchesHighlight(this.board.selected);
+		} else {
+			this.clearMatchesTimer();
+		}
 		return true;
 	}
 
@@ -119,6 +128,7 @@ export class Game {
 
 	reset(): void {
 		this.clearSaveTimer();
+		this.clearMatchesTimer();
 		this.clock.reset();
 		this.setState(STATES.idle);
 		this.board.reset();
@@ -155,6 +165,7 @@ export class Game {
 		if (!this.isRunning()) {
 			return;
 		}
+		this.clearMatchesTimer();
 		this.board.back();
 		this.sound.play(SOUNDS.UNDO);
 	}
@@ -236,6 +247,23 @@ export class Game {
 			clearTimeout(this.saveTimer);
 			this.saveTimer = undefined;
 		}
+	}
+
+	private startMatchesHighlight(stone: Stone): void {
+		this.clearMatchesTimer();
+		this.board.highlightMatches(stone);
+		this.matchesTimer = setTimeout(() => {
+			this.board.clearMatches();
+			this.matchesTimer = undefined;
+		}, 700);
+	}
+
+	private clearMatchesTimer(): void {
+		if (this.matchesTimer !== undefined) {
+			clearTimeout(this.matchesTimer);
+			this.matchesTimer = undefined;
+		}
+		this.board.clearMatches();
 	}
 
 	private isStorableLayoutId(): boolean {

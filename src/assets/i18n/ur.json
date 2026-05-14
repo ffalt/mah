@@ -192,6 +192,8 @@
 	"SHUFFLE_LONG": "گیم میں پتھر خلط ملط کریں",
 	"RESCUE_SHUFFLE": "جاری رکھنے کے لیے خلط ملط",
 	"RESCUE_SHUFFLE_LONG": "خلط ملط کریں اگر مزید حرکات نہ ہوں",
+	"SHOW_MATCHING": "مماثلت دکھائیں",
+	"SHOW_MATCHING_DESC": "انتخاب پر ملتی جلتی ٹائلیں نمایاں کریں",
 	"GAME_MODE": "موڈ",
 	"GAME_MODE_EASY": "آسان",
 	"GAME_MODE_STANDARD": "معیاری",

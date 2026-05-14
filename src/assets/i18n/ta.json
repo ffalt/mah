@@ -192,6 +192,8 @@
 	"SHUFFLE_LONG": "விளையாட்டில் கற்களைக் கலக்கு",
 	"RESCUE_SHUFFLE": "தொடர கலக்கு",
 	"RESCUE_SHUFFLE_LONG": "நகர்வுகள் இல்லாதபோது கலக்கு",
+	"SHOW_MATCHING": "பொருத்தங்களைக் காட்டு",
+	"SHOW_MATCHING_DESC": "தேர்வில் பொருந்தும் கற்களை முன்னிலைப்படுத்து",
 	"GAME_MODE": "முறை",
 	"GAME_MODE_EASY": "எளிதானது",
 	"GAME_MODE_STANDARD": "நிலையானது",

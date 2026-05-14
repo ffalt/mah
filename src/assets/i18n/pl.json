@@ -192,6 +192,8 @@
 	"SHUFFLE_LONG": "Tasuj kamienie w grze",
 	"RESCUE_SHUFFLE": "Przetasuj aby kontynuować",
 	"RESCUE_SHUFFLE_LONG": "Przetasuj jeśli nie ma więcej ruchów",
+	"SHOW_MATCHING": "Pokaż dopasowania",
+	"SHOW_MATCHING_DESC": "Podświetl pasujące kamienie przy wyborze",
 	"GAME_MODE": "Tryb",
 	"GAME_MODE_EASY": "Łatwy",
 	"GAME_MODE_STANDARD": "Standardowy",

@@ -192,6 +192,8 @@
 	"SHUFFLE_LONG": "Sekoita kivet pelissä",
 	"RESCUE_SHUFFLE": "Sekoita jatkaaksesi",
 	"RESCUE_SHUFFLE_LONG": "Sekoita jos ei ole enää siirtoja",
+	"SHOW_MATCHING": "Näytä osuvat",
+	"SHOW_MATCHING_DESC": "Korosta vastaavat kivet valinnassa",
 	"GAME_MODE": "Tila",
 	"GAME_MODE_EASY": "Helppo",
 	"GAME_MODE_STANDARD": "Vakio",

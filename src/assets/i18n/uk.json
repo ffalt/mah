@@ -192,6 +192,8 @@
 	"SHUFFLE_LONG": "Перемішати камені в грі",
 	"RESCUE_SHUFFLE": "Перемішати для продовження",
 	"RESCUE_SHUFFLE_LONG": "Перемішати якщо немає доступних ходів",
+	"SHOW_MATCHING": "Показати збіги",
+	"SHOW_MATCHING_DESC": "Виділити відповідні камені при виборі",
 	"GAME_MODE": "Режим",
 	"GAME_MODE_EASY": "Легко",
 	"GAME_MODE_STANDARD": "Стандарт",
