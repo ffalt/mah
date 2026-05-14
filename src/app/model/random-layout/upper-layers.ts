@@ -3,7 +3,23 @@ import { TARGET_COUNT, X_MAX, Y_MAX, Z_MAX } from './consts';
 import { blocksOverlap, inBounds, isOdd, isSupported, key, type NonEmptyArray, randChoice, shuffleArray, tryAdd } from './utilities';
 import { rng } from '../rng';
 
-function computeBelowWindow(current: Mapping, z: number): { minX: number; maxX: number; minY: number; maxY: number } | null {
+interface TilesWindow {
+	minX: number;
+	maxX: number;
+	minY: number;
+	maxY: number;
+}
+
+function expandWindow(minX: number, maxX: number, minY: number, maxY: number): TilesWindow {
+	return {
+		minX: Math.max(0, minX - 2),
+		maxX: Math.min(X_MAX, maxX + 2),
+		minY: Math.max(0, minY - 2),
+		maxY: Math.min(Y_MAX, maxY + 2)
+	};
+}
+
+function computeBelowWindow(current: Mapping, z: number): TilesWindow | null {
 	let minX = X_MAX;
 	let maxX = 0;
 	let minY = Y_MAX;
@@ -16,18 +32,10 @@ function computeBelowWindow(current: Mapping, z: number): { minX: number; maxX: 
 			maxY = Math.max(maxY, yy);
 		}
 	}
-	if (minX > maxX || minY > maxY) {
-		return null;
-	}
-	return {
-		minX: Math.max(0, minX - 2),
-		maxX: Math.min(X_MAX, maxX + 2),
-		minY: Math.max(0, minY - 2),
-		maxY: Math.min(Y_MAX, maxY + 2)
-	};
+	return minX > maxX || minY > maxY ? null : expandWindow(minX, maxX, minY, maxY);
 }
 
-function bucketCandidates(present: Set<string>, z: number, win: { minX: number; maxX: number; minY: number; maxY: number }): {
+function bucketCandidates(present: Set<string>, z: number, win: TilesWindow): {
 	bridgeLarge: Array<[number, number]>;
 	bridgeSmall: Array<[number, number]>;
 	direct: Array<[number, number]>;
@@ -64,37 +72,33 @@ function bucketCandidates(present: Set<string>, z: number, win: { minX: number; 
 	return { bridgeLarge, bridgeSmall, direct };
 }
 
-function maybeProposeOverhangs(present: Set<string>, z: number, win: { minX: number; maxX: number; minY: number; maxY: number }): Array<[number, number]> {
+function maybeProposeOverhangs(present: Set<string>, z: number, win: TilesWindow): Array<[number, number]> {
+	if (rng() >= 0.25) {
+		return [];
+	}
 	const overhangs: Array<[number, number]> = [];
 	const zb = z - 1;
-	if (rng() < 0.25) {
-		for (let y = win.minY; y <= win.maxY; y++) {
-			for (let x = win.minX; x <= win.maxX; x++) {
-				if (!present.has(key(zb, x, y))) {
-					continue;
-				}
-				const directions: NonEmptyArray<[number, number]> = [[-1, 0], [1, 0], [0, -1], [0, 1]];
-				const [dx, dy] = randChoice(directions);
-				const ox = x + dx;
-				const oy = y + dy;
-				if (!inBounds(ox, oy, z)) {
-					continue;
-				}
-				const kh = key(z, ox, oy);
-				if (present.has(kh)) {
-					continue;
-				}
-				overhangs.push([ox, oy]);
+	for (let y = win.minY; y <= win.maxY; y++) {
+		for (let x = win.minX; x <= win.maxX; x++) {
+			if (!present.has(key(zb, x, y))) {
+				continue;
 			}
+			const directions: NonEmptyArray<[number, number]> = [[-1, 0], [1, 0], [0, -1], [0, 1]];
+			const [dx, dy] = randChoice(directions);
+			const ox = x + dx;
+			const oy = y + dy;
+			if (!inBounds(ox, oy, z) || present.has(key(z, ox, oy))) {
+				continue;
+			}
+			overhangs.push([ox, oy]);
 		}
 	}
 	return overhangs;
 }
 
 function computeLevelBudget(remaining: number): number {
-	let levelBudget = Math.trunc(rng() * remaining);
-	levelBudget -= (levelBudget % 2);
-	return Math.max(levelBudget, 2);
+	const budget = Math.trunc(rng() * remaining);
+	return Math.max(budget - (budget % 2), 2);
 }
 
 function addWithMirrors(
@@ -128,25 +132,21 @@ function addWithMirrors(
 }
 
 function growLevel(current: Mapping, z: number, mirrorX: boolean, mirrorY: boolean): Mapping {
-	// Determine scan window from layer z-1 extents
 	const win = computeBelowWindow(current, z);
 	if (!win) {
 		return current;
-	} // no layer below to support this level
+	}
 
-	// Build a set of present positions for fast queries
 	const present = new Set<string>(current.map(p => key(p[0], p[1], p[2])));
 
-	// Collect candidate positions, bucketed by support type to encourage bridges
 	const { bridgeLarge, bridgeSmall, direct } = bucketCandidates(present, z, win);
 	const overhangs = maybeProposeOverhangs(present, z, win);
 
-	// Define a per-level addition cap: leave some tiles for upper levels
+	// leave some tiles for upper levels
 	const remaining = TARGET_COUNT - current.length;
 	const levelBudget = computeLevelBudget(remaining);
 	let placed = 0;
 
-	// Mirror helpers based on current layout
 	const { mirX, mirY } = makeMirrorFns(current);
 
 	const result: Mapping = [...current];
@@ -173,7 +173,6 @@ function growLevel(current: Mapping, z: number, mirrorX: boolean, mirrorY: boole
 	return result;
 }
 
-// Helper: perform a single vertical growth pass across all z levels
 function runGrowthPass(mapping: Mapping, mirrorX: boolean, mirrorY: boolean): Mapping {
 	let result = mapping;
 	for (let z = 1; z <= Z_MAX && result.length < TARGET_COUNT; z++) {
@@ -182,14 +181,13 @@ function runGrowthPass(mapping: Mapping, mirrorX: boolean, mirrorY: boolean): Ma
 	return result.length > TARGET_COUNT ? result.slice(0, TARGET_COUNT) : result;
 }
 
-// Helper: compute mirror functions based on current mapping extents
 function makeMirrorFns(mapping: Mapping): { mirX: (x: number) => number; mirY: (y: number) => number } {
-	const xsAll = mapping.map(p => p[1]);
-	const ysAll = mapping.map(p => p[2]);
-	const minBoardX = xsAll.length > 0 ? Math.min(...xsAll) : 0;
-	const maxBoardX = xsAll.length > 0 ? Math.max(...xsAll) : X_MAX;
-	const minBoardY = ysAll.length > 0 ? Math.min(...ysAll) : 0;
-	const maxBoardY = ysAll.length > 0 ? Math.max(...ysAll) : Y_MAX;
+	const xs = mapping.map(p => p[1]);
+	const ys = mapping.map(p => p[2]);
+	const minBoardX = xs.length > 0 ? Math.min(...xs) : 0;
+	const maxBoardX = xs.length > 0 ? Math.max(...xs) : X_MAX;
+	const minBoardY = ys.length > 0 ? Math.min(...ys) : 0;
+	const maxBoardY = ys.length > 0 ? Math.max(...ys) : Y_MAX;
 	const midX = (minBoardX + maxBoardX) / 2;
 	const midY = (minBoardY + maxBoardY) / 2;
 	return {
@@ -198,7 +196,6 @@ function makeMirrorFns(mapping: Mapping): { mirX: (x: number) => number; mirY: (
 	};
 }
 
-// Helper: try to place a position together with its mirror-orbit
 function tryPlaceOrbit(
 	mapping: Mapping,
 	present: Set<string>,
@@ -211,24 +208,16 @@ function tryPlaceOrbit(
 	mirY: (y: number) => number
 ): boolean {
 	const orbit: Array<[number, number]> = [[x, y]];
-	if (mirrorX) {
-		const mx = mirX(x);
-		if (mx !== x) {
-			orbit.push([mx, y]);
-		}
+	const mx = mirX(x);
+	const my = mirY(y);
+	if (mirrorX && mx !== x) {
+		orbit.push([mx, y]);
 	}
-	if (mirrorY) {
-		const my = mirY(y);
-		if (!orbit.some(p => p[0] === x && p[1] === my)) {
-			orbit.push([x, my]);
-		}
-		if (mirrorX) {
-			const mx = mirX(x);
-			const my2 = mirY(y);
-			if (!orbit.some(p => p[0] === mx && p[1] === my2)) {
-				orbit.push([mx, my2]);
-			}
-		}
+	if (mirrorY && my !== y) {
+		orbit.push([x, my]);
+	}
+	if (mirrorX && mirrorY && mx !== x && my !== y) {
+		orbit.push([mx, my]);
 	}
 	for (const [ox, oy] of orbit) {
 		if (!inBounds(ox, oy, z)) {
@@ -256,7 +245,6 @@ function tryPlaceOrbit(
 	return true;
 }
 
-// Helper: symmetric randomized fill until no progress
 function symmetricFill(mapping: Mapping, mirrorX: boolean, mirrorY: boolean): Mapping {
 	const present = new Set<string>(mapping.map(p => key(p[0], p[1], p[2])));
 	const { mirX, mirY } = makeMirrorFns(mapping);
@@ -287,8 +275,7 @@ function symmetricFill(mapping: Mapping, mirrorX: boolean, mirrorY: boolean): Ma
 	return mapping;
 }
 
-// Helper: compute search window around existing mapping
-function computeWindow(mapping: Mapping): { minX: number; maxX: number; minY: number; maxY: number } {
+function computeWindow(mapping: Mapping): TilesWindow {
 	let minX = X_MAX;
 	let maxX = 0;
 	let minY = Y_MAX;
@@ -299,16 +286,10 @@ function computeWindow(mapping: Mapping): { minX: number; maxX: number; minY: nu
 		minY = Math.min(minY, yy);
 		maxY = Math.max(maxY, yy);
 	}
-	return {
-		minX: Math.max(0, minX - 2),
-		maxX: Math.min(X_MAX, maxX + 2),
-		minY: Math.max(0, minY - 2),
-		maxY: Math.min(Y_MAX, maxY + 2)
-	};
+	return expandWindow(minX, maxX, minY, maxY);
 }
 
-// Helper: try to add exactly one tile within the window at a random position
-function tryAddOne(mapping: Mapping, present: Set<string>, win: { minX: number; maxX: number; minY: number; maxY: number }): boolean {
+function tryAddOne(mapping: Mapping, present: Set<string>, win: TilesWindow): boolean {
 	const candidates: Array<[number, number, number]> = [];
 	for (let z = Z_MAX; z >= 0; z--) {
 		for (let y = win.minY; y <= win.maxY; y++) {
@@ -323,18 +304,15 @@ function tryAddOne(mapping: Mapping, present: Set<string>, win: { minX: number; 
 		}
 	}
 	shuffleArray(candidates);
-	for (const [z, x, y] of candidates) {
-		const k = key(z, x, y);
-		if (!present.has(k) && isSupported(present, z, x, y) && !blocksOverlap(present, z, x, y)) {
-			present.add(k);
-			mapping.push([z, x, y]);
-			return true;
-		}
+	if (candidates.length > 0) {
+		const [z, x, y] = candidates[0];
+		present.add(key(z, x, y));
+		mapping.push([z, x, y]);
+		return true;
 	}
 	return false;
 }
 
-// Helper: ensure even tile count by trying to add one tile
 function ensureEven(mapping: Mapping): Mapping {
 	if (!isOdd(mapping.length)) {
 		return mapping;
