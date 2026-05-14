@@ -44,11 +44,13 @@ export class Game {
 		if (!stone) {
 			this.clearMatchesTimer();
 			this.board.clearSelection();
+			this.board.clearHints();
 			return false;
 		}
 		if (!this.isRunning() || stone.state.blocked) {
 			this.sound.play(SOUNDS.NOPE);
 			this.wiggleStone(stone);
+			this.board.clearHints();
 			return true;
 		}
 		if (this.clock.elapsed === 0) {
@@ -57,7 +59,11 @@ export class Game {
 		if (this.board.selected && stone && stone !== this.board.selected && stone.groupNr === this.board.selected.groupNr) {
 			this.clearMatchesTimer();
 			this.resolveMatchingStone(stone);
+			this.board.clearHints();
 			return true;
+		}
+		if (!stone.hinted) {
+			this.board.clearHints();
 		}
 		this.board.setStoneSelected(this.board.selected === stone ? undefined : stone);
 		this.sound.play(SOUNDS.SELECT);

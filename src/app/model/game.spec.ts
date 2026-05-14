@@ -261,6 +261,16 @@ describe('Game', () => {
 			expect(mockSound.play).toHaveBeenCalledWith(SOUNDS.SELECT);
 		});
 
+		it('should clear hints when clicking any unblocked stone', () => {
+			const stone = new Stone(0, 0, 0, 1, 1);
+			stone.state = { blocked: false, removable: true };
+
+			game.state = STATES.run;
+			game.click(stone);
+
+			expect(mockBoard.clearHints).toHaveBeenCalled();
+		});
+
 		it('should match stones when clicking matching stone', () => {
 			const stone1 = new Stone(0, 0, 0, 1, 1);
 			stone1.state = { blocked: false, removable: true };

@@ -56,17 +56,17 @@
 		}
 
 		g.hinted g.tile {
-			transform: scale(1.12);
+			animation: mah-match-flash 3000ms ease-out infinite;
 		}
 
 		g.hinted g.tile > rect {
-			stroke: #9f0000;
+			stroke: #ff5900;
 			stroke-width: 3px;
 		}
 
 		@keyframes mah-match-flash {
 			0% { transform: scale(1); }
-			40% { transform: scale(1.1); }
+			40% { transform: scale(1.14); }
 			100% { transform: scale(1); }
 		}
 
@@ -102,12 +102,11 @@
 		}
 
 		g.selected.hinted g.tile {
-			transform: scale(1.14);
-			animation: none;
+			animation: mah-match-flash 2000ms ease-out infinite;
 		}
 
 		g.selected.hinted g.tile rect.stone {
-			stroke: #9f0000;
+			stroke: #ff5900;
 			stroke-width: 3px;
 		}
 
@@ -142,12 +141,12 @@
 		}
 
 		g.stage.tile3d g.hinted g.tile rect.stone {
-			stroke: #9f0000;
+			stroke: #ff5900;
 			stroke-width: 3px;
 		}
 
 		g.stage.tile3d g.selected.hinted g.tile rect.stone {
-			stroke: #9f0000;
+			stroke: #ff5900;
 			stroke-width: 3px;
 		}
 
@@ -272,6 +271,12 @@
 
 			g.matched g.tile {
 				animation: none;
+			}
+
+			g.hinted g.tile,
+			g.selected.hinted g.tile {
+				animation: none;
+				transform: scale(1.12);
 			}
 		}
 	</style>
