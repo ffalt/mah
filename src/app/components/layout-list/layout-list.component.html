@@ -1,7 +1,7 @@
 @if (groups.length > 1) {
 	<div class="headline-anchors">
 		@for (group of groups; track group; let i = $index) {
-			<a (click)="scrollToGroup(i)">{{ group.name | translateGroup }}</a>
+			<a [href]="'#group-' + i" (click)="scrollToGroup($event, i)">{{ group.name | translateGroup }}</a>
 		}
 	</div>
 }
@@ -9,7 +9,15 @@
 	@for (group of groups; track group; let i = $index) {
 		<div class="group" id="group-{{i}}">
 			@if (groups.length > 1) {
-				<div class="group-name" (click)="group.expanded = !group.expanded">
+				<div
+					class="group-name"
+					tabindex="0"
+					role="button"
+					[attr.aria-expanded]="group.expanded"
+					(click)="toggleGroupExpanded($event, group)"
+					(keydown.enter)="toggleGroupExpanded($event, group)"
+					(keydown.space)="toggleGroupExpanded($event, group)"
+				>
 					<span class="group-expander" [class.expanded]="group.expanded"></span>
 					{{ group.name | translateGroup }}
 					<span class="group-count"></span>
@@ -22,10 +30,14 @@
 							<div
 								class="preview preview-seed-card"
 								tabindex="0"
+								role="button"
 								[id]="'item-'+item.layout.id"
 								[class.selected]="item.selected"
-								(keydown.enter)="onStart(item)"
-								(click)="onStart(item)"
+								[attr.aria-pressed]="item.selected"
+								[attr.aria-label]="item.layout.name"
+								(keydown.enter)="onStartEvent($event, item)"
+								(keydown.space)="onStartEvent($event, item)"
+								(click)="onStartEvent($event, item)"
 								(appDeferLoad)="item.visible=true"
 							>
 								@if (item.visible) {
@@ -53,7 +65,7 @@
 							<div class="random-options">
 								<label for="random-setting-vertical">
 									<!-- https://www.svgrepo.com/svg/512271/focus-vertical-842 Public Domain-->
-									<svg width="20px" height="20px" viewBox="-2 0 20 20">
+									<svg width="20px" height="20px" viewBox="-2 0 20 20" aria-hidden="true">
 										<path id="focus_vertical-[#842]" d="M7,20 L7,0 L9,0 L9,20 Z M0,2 L5,2 L5,4 L2,4 L2,7 L0,7 Z M11,2 L16,2 L16,7 L14,7 L14,4 L11,4 Z M0,18 L0,13 L2,13 L2,16 L5,16 L5,18 Z M16,18 L11,18 L11,16 L14,16 L14,13 L16,13 Z"/>
 									</svg>
 									{{ 'MIRROR_X' | translate }}
@@ -67,7 +79,7 @@
 							<div class="random-options">
 								<label for="random-setting-horizontal">
 									<!-- https://www.svgrepo.com/svg/512262/focus-horizontal-838 Public Domain-->
-									<svg width="20px" height="20px" viewBox="0 -2 20 20">
+									<svg width="20px" height="20px" viewBox="0 -2 20 20" aria-hidden="true">
 										<path d="M0,9 L0,7 L20,7 L20,9 Z M2,5 L2,0 L7,0 L7,2 L4,2 L4,5 Z M18,0 L18,5 L16,5 L16,2 L13,2 L13,0 Z M2,16 L2,11 L4,11 L4,14 L7,14 L7,16 Z M18,16 L13,16 L13,14 L16,14 L16,11 L18,11 Z"/>
 									</svg>
 									{{ 'MIRROR_Y' | translate }}
@@ -79,7 +91,7 @@
 								</select>
 							</div>
 							<div>
-								<button (click)="generateRandomLayouts()" (keydown.enter)="generateRandomLayouts()">
+								<button (click)="generateRandomLayouts()">
 									{{ 'GENERATE' | translate }}
 								</button>
 							</div>
@@ -91,10 +103,14 @@
 							<div
 								class="preview"
 								tabindex="0"
+								role="button"
 								[id]="'item-'+item.layout.id"
 								[class.selected]="item.selected"
-								(keydown.enter)="onStart(item)"
-								(click)="onStart(item)"
+								[attr.aria-pressed]="item.selected"
+								[attr.aria-label]="item.layout.name"
+								(keydown.enter)="onStartEvent($event, item)"
+								(keydown.space)="onStartEvent($event, item)"
+								(click)="onStartEvent($event, item)"
 								(appDeferLoad)="item.visible=true"
 							>
 								@if (item.visible) {
@@ -105,18 +121,21 @@
 								@if (item.bestTime) {
 									<div class="preview-best-time">
 										<span title="{{ 'STATS_BEST' | translate }}">{{ item.bestTime|duration }}</span>
-										<a (click)="clearBestTimeClick($event, item)" title="{{ 'BEST_TIME_CLEAR' | translate }}">
+										<button (click)="clearBestTimeClick($event, item)" [attr.aria-label]="'BEST_TIME_CLEAR' | translate">
 											<app-icon-delete/>
-										</a>
+										</button>
 									</div>
 								}
 								<div class="preview-name">{{ item.layout.name }}</div>
 								@if (item.layout.custom) {
-									<div class="preview-custom" title="{{ 'CUSTOM_BOARD_DELETE' | translate }}">
-										<a (click)="removeCustomLayout($event, item)">
-											<app-icon-delete/>
-										</a>
-									</div>
+									<button
+										class="preview-custom-delete"
+										(click)="removeCustomLayout($event, item)"
+										title="{{ 'CUSTOM_BOARD_DELETE' | translate }}"
+										[attr.aria-label]="'CUSTOM_BOARD_DELETE' | translate"
+									>
+											<app-icon-delete />
+									</button>
 								}
 							</div>
 						}

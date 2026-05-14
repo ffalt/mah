@@ -36,12 +36,13 @@
 				[noRotate]="true"
 				(clickEvent)="onStoneClick($event)"
 			/>
+			<div class="sr-only" aria-live="assertive" aria-atomic="true">{{ feedbackKey() ? (feedbackKey()! | translate) : '' }}</div>
 			@if (feedbackKey()) {
-				<div class="tutorial-feedback">{{ feedbackKey()! | translate }}</div>
+				<div class="tutorial-feedback" aria-hidden="true">{{ feedbackKey()! | translate }}</div>
 			}
 		</div>
 		<div class="tutorial-footer">
-			<span class="tutorial-progress">{{ 'TUTORIAL_STEP' | translate:{ current: currentStepIndex() + 1, total: steps.length } }}</span>
+			<span class="tutorial-progress" aria-live="polite" aria-atomic="true">{{ 'TUTORIAL_STEP' | translate:{ current: currentStepIndex() + 1, total: steps.length } }}</span>
 			<div class="tutorial-actions">
 				<button class="tutorial-btn-next" (click)="next()">{{ 'TUTORIAL_NEXT' | translate }}</button>
 				<button class="tutorial-btn-skip" (click)="skip()">{{ 'TUTORIAL_SKIP' | translate }}</button>

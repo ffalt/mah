@@ -112,7 +112,7 @@
 				&:focus-visible {
 					outline: none;
 					box-shadow: 0 0 0 2px var(--main-bg-color),
-					0 0 0 4px var(--main-bg-color-lt);
+					0 0 0 4px var(--focus-ring-color);
 				}
 
 				&[disabled] {
@@ -180,10 +180,6 @@
 					border-radius: 999px;
 					justify-content: center;
 					align-items: center;
-
-					i {
-						font-size: 1.05em;
-					}
 				}
 			}
 		}
@@ -285,11 +281,11 @@
 						width: 2.2em;
 						height: 2.2em;
 						border-radius: 8px;
-
-						i {
-							font-size: 1.05em;
-						}
 					}
+				}
+
+				.menu.menu-open {
+					display: flex;
 				}
 
 				&:hover,

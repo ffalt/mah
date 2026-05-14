@@ -1,20 +1,30 @@
 <app-layout-list (startEvent)="onStart($event)" [layouts]="this.layoutService.layouts.items" />
 <div class="choose-buttons">
 	<div class="generator">
-		<label class="info-label" (click)="activeInfo.set('generator')">{{ 'BOARD_GENERATOR' | translate }}
+		<label class="info-label"
+			tabindex="0"
+			role="button"
+			(click)="openGeneratorInfo($event)"
+			(keydown.enter)="openGeneratorInfo($event)"
+			(keydown.space)="openGeneratorInfo($event)">{{ 'BOARD_GENERATOR' | translate }}
 			<app-icon-info />
 		</label>
-		<select id="board-generator-select" (change)="buildMode.set($any($event.target).value)">
+		<select id="board-generator-select" [attr.aria-label]="'BOARD_GENERATOR' | translate" (change)="buildMode.set($any($event.target).value)">
 			@for (m of buildModes; track m) {
 				<option [value]="m.id" [selected]="buildMode() === m.id">{{ m.id | translate }}</option>
 			}
 		</select>
 	</div>
 	<div class="mode">
-		<label class="info-label" (click)="activeInfo.set('mode')">{{ 'GAME_MODE' | translate }}
+		<label class="info-label"
+			tabindex="0"
+			role="button"
+			(click)="openModeInfo($event)"
+			(keydown.enter)="openModeInfo($event)"
+			(keydown.space)="openModeInfo($event)">{{ 'GAME_MODE' | translate }}
 			<app-icon-info />
 		</label>
-		<select id="game-mode-select" (change)="onGameModeChange($any($event.target).value)">
+		<select id="game-mode-select" [attr.aria-label]="'GAME_MODE' | translate" (change)="onGameModeChange($any($event.target).value)">
 			@for (m of gameModes; track m) {
 				<option [value]="m.id" [selected]="gameMode() === m.id">{{ m.id | translate }}</option>
 			}
@@ -26,11 +36,14 @@
 </div>
 
 @if (activeInfo()) {
-	<div class="info-overlay" (click)="activeInfo.set(null)">
-		<div class="info-popup" (click)="$event.stopPropagation()">
-			<a role="button" class="close" (click)="activeInfo.set(null)"><app-icon-close /></a>
+	<div class="info-overlay" (click)="closeInfo()" (keydown.escape)="closeInfo()">
+		<div class="info-popup" role="dialog" aria-modal="true"
+			[attr.aria-labelledby]="'info-title-' + activeInfo()"
+			tabindex="-1"
+			(click)="$event.stopPropagation()">
+			<button class="close" (click)="closeInfo()" [attr.aria-label]="'CLOSE' | translate"><app-icon-close /></button>
 			@if (activeInfo() === 'generator') {
-				<h2>{{ 'BOARD_GENERATOR' | translate }}</h2>
+				<h2 id="info-title-generator">{{ 'BOARD_GENERATOR' | translate }}</h2>
 				@for (m of buildModes; track m) {
 					<div class="info-item">
 						<strong>{{ m.id | translate }}</strong>
@@ -39,7 +52,7 @@
 				}
 			}
 			@if (activeInfo() === 'mode') {
-				<h2>{{ 'GAME_MODE' | translate }}</h2>
+				<h2 id="info-title-mode">{{ 'GAME_MODE' | translate }}</h2>
 				@for (m of gameModes; track m) {
 					<div class="info-item">
 						<strong>{{ m.id | translate }}</strong>

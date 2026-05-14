@@ -1,4 +1,4 @@
-import { Component, inject, model, output, signal } from '@angular/core';
+import { Component, ElementRef, effect, inject, model, output, signal } from '@angular/core';
 import { type BUILD_MODE_ID, BuilderModes, MODE_SOLVABLE } from '../../model/builder';
 import type { Layout } from '../../model/types';
 import { LayoutService } from '../../service/layout.service';
@@ -30,6 +30,25 @@ export class ChooseLayoutComponent {
 	activeInfo = signal<'generator' | 'mode' | null>(null);
 	layoutService = inject(LayoutService);
 	storage = inject(LocalstorageService);
+	private readonly elementRef = inject(ElementRef);
+	private previousFocus: Element | null = null;
+
+	constructor() {
+		effect(() => {
+			if (this.activeInfo()) {
+				this.previousFocus = document.activeElement;
+				setTimeout(() => {
+					const popup = (this.elementRef.nativeElement as HTMLElement).querySelector<HTMLElement>('.info-popup');
+					popup?.querySelector<HTMLElement>('button')?.focus();
+				}, 0);
+			} else {
+				if (this.previousFocus instanceof HTMLElement) {
+					this.previousFocus.focus();
+				}
+				this.previousFocus = null;
+			}
+		});
+	}
 
 	onGameModeChange(mode: GAME_MODE_ID): void {
 		this.gameMode.set(mode);
@@ -41,6 +60,23 @@ export class ChooseLayoutComponent {
 			this.startEvent.emit({ layout, buildMode: this.buildMode(), gameMode: this.gameMode() });
 			this.storage.storeLastPlayed(layout.id);
 		}
+	}
+
+	openGeneratorInfo(event: Event): void {
+		this.openInfo(event, 'generator');
+	}
+
+	openModeInfo(event: Event): void {
+		this.openInfo(event, 'mode');
+	}
+
+	openInfo(event: Event, key: 'generator' | 'mode'): void {
+		event.preventDefault();
+		this.activeInfo.set(key);
+	}
+
+	closeInfo(): void {
+		this.activeInfo.set(null);
 	}
 
 	randomGame(): void {

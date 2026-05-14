@@ -1,12 +1,12 @@
 @if (visible()) {
-	<div class="overlay {{className()}}" (click)="toggleOverlay();">
-		<div class="overlay-popup" (click)="$event.stopPropagation();">
+	<div class="overlay {{className()}}" (click)="toggleOverlay();" (keydown)="trapFocus($event)">
+		<div class="overlay-popup" role="dialog" aria-modal="true" [attr.aria-labelledby]="title() ? dialogId + '-title' : null" tabindex="-1" (click)="$event.stopPropagation();">
 			<div class="dialog-header">
 			@if (title()) {
-				<h1><app-icon-logo />{{ title() }}</h1>
+				<h2 [id]="dialogId + '-title'"><app-icon-logo />{{ title() }}</h2>
 			}
 			@if (!noCloseButton()) {
-				<a role="button" class="close" (click)="toggle()" title="{{ 'CLOSE' | translate }}"><app-icon-close /></a>
+				<button class="close" (click)="toggle()" [attr.aria-label]="'CLOSE' | translate"><app-icon-close /></button>
 			}
 			</div>
 			<ng-content></ng-content>

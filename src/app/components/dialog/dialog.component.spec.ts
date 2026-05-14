@@ -130,7 +130,7 @@ describe('DialogComponent', () => {
 			component.visible.set(true);
 			fixture.detectChanges();
 
-			const titleElement = fixture.debugElement.query(By.css('h1'));
+			const titleElement = fixture.debugElement.query(By.css('h2'));
 			expect(titleElement).toBeTruthy();
 			expect(titleElement.nativeElement.textContent).toContain(testTitle);
 		});
@@ -140,7 +140,7 @@ describe('DialogComponent', () => {
 			component.visible.set(true);
 			fixture.detectChanges();
 
-			const titleElement = fixture.debugElement.query(By.css('h1'));
+			const titleElement = fixture.debugElement.query(By.css('h2'));
 			expect(titleElement).toBeFalsy();
 		});
 

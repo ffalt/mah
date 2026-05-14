@@ -107,7 +107,9 @@ describe('ImportComponent', () => {
 		});
 
 		it('should add error log for duplicate layout', async () => {
-			const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+			const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {
+				// nop
+			});
 			const loadLayout = makeLoadLayout('dup-id');
 			const layout = makeLayout('dup-id');
 			(importLayoutsFunction as jest.Mock).mockResolvedValue([loadLayout]);

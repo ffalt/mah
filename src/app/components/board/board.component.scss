@@ -1,3 +1,17 @@
+g.draw:focus {
+	outline: none;
+}
+
+g.draw:focus-visible rect.stone {
+	stroke: #0044cc;
+	stroke-width: 5px;
+}
+
+g.stage.dark g.draw:focus-visible rect.stone {
+	stroke: #42a5f5;
+	stroke-width: 5px;
+}
+
 :host {
 	width: 100%;
 	height: 100%;

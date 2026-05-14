@@ -2,8 +2,22 @@
 	<thead>
 		<tr class="layout layout-header">
 		<td class="col-image">{{ 'EDITOR_COLUMN_PREVIEW' | translate }}</td>
-		<td class="col-name sortable" (click)="clickSortBy($event,1)" [class.sort-up]="sortColumn===1 && sortDesc" [class.sort-down]="sortColumn===1 && !sortDesc">{{ 'EDITOR_LAYOUT_NAME' | translate }} <span class="arrow"></span></td>
-		<td class="col-cat sortable" (click)="clickSortBy($event,3)" [class.sort-up]="sortColumn===3 && sortDesc" [class.sort-down]="sortColumn===3 && !sortDesc">{{ 'EDITOR_LAYOUT_CATEGORY' | translate }} <span class="arrow"></span>
+		<td class="col-name sortable"
+			tabindex="0"
+			role="columnheader"
+			[attr.aria-sort]="sortColumn===1 ? (sortDesc ? 'ascending' : 'descending') : 'none'"
+			(click)="clickSortBy($event,1)"
+			(keydown.enter)="activateSortBy(1)"
+			(keydown.space)="$event.preventDefault(); activateSortBy(1)"
+			[class.sort-up]="sortColumn===1 && sortDesc" [class.sort-down]="sortColumn===1 && !sortDesc">{{ 'EDITOR_LAYOUT_NAME' | translate }} <span class="arrow"></span></td>
+		<td class="col-cat sortable"
+			tabindex="0"
+			role="columnheader"
+			[attr.aria-sort]="sortColumn===3 ? (sortDesc ? 'ascending' : 'descending') : 'none'"
+			(click)="clickSortBy($event,3)"
+			(keydown.enter)="activateSortBy(3)"
+			(keydown.space)="$event.preventDefault(); activateSortBy(3)"
+			[class.sort-up]="sortColumn===3 && sortDesc" [class.sort-down]="sortColumn===3 && !sortDesc">{{ 'EDITOR_LAYOUT_CATEGORY' | translate }} <span class="arrow"></span>
 			<div>
 			<label>
 				<input type="checkbox" [checked]="showBuildIn" (change)="toggleBuildIn()">
@@ -11,14 +25,21 @@
 			</label>
 			</div>
 		</td>
-		<td class="col-stats sortable" (click)="clickSortBy($event,4)" [class.sort-up]="sortColumn===4 && sortDesc" [class.sort-down]="sortColumn===4 && !sortDesc">{{ 'EDITOR_LAYOUT_NR_OF_STONES' | translate }} <span class="arrow"></span></td>
+		<td class="col-stats sortable"
+			tabindex="0"
+			role="columnheader"
+			[attr.aria-sort]="sortColumn===4 ? (sortDesc ? 'ascending' : 'descending') : 'none'"
+			(click)="clickSortBy($event,4)"
+			(keydown.enter)="activateSortBy(4)"
+			(keydown.space)="$event.preventDefault(); activateSortBy(4)"
+			[class.sort-up]="sortColumn===4 && sortDesc" [class.sort-down]="sortColumn===4 && !sortDesc">{{ 'EDITOR_LAYOUT_NR_OF_STONES' | translate }} <span class="arrow"></span></td>
 		<td class="col-test">{{ 'EDITOR_COLUMN_TEST' | translate }}
-			<button (click)="testLayouts($event)" title="{{ 'EDITOR_TEST_RUN' | translate }}">
+			<button (click)="testLayouts($event)" title="{{ 'EDITOR_TEST_RUN' | translate }}" [attr.aria-label]="'EDITOR_TEST_RUN' | translate">
 				<app-icon-execute />
 			</button>
 		</td>
 		<td class="col-delete">
-			<button (click)="removeCustomLayouts($event)" title="{{ 'CUSTOM_BOARD_DELETE_ALL' | translate }}">
+			<button (click)="removeCustomLayouts($event)" title="{{ 'CUSTOM_BOARD_DELETE_ALL' | translate }}" [attr.aria-label]="'CUSTOM_BOARD_DELETE_ALL' | translate">
 				<app-icon-delete />
 			</button>
 		</td>
@@ -26,7 +47,12 @@
 	</thead>
 	<tbody>
 	@for (layout of layouts; track layout) {
-		<tr class="layout" (click)="editLayout(layout)">
+		<tr class="layout"
+			tabindex="0"
+			[attr.aria-label]="layout.name"
+			(click)="editLayout(layout)"
+			(keydown.enter)="editLayout(layout)"
+			(keydown.space)="$event.preventDefault(); editLayout(layout)">
 			<td class="col-image">
 				<app-layout-preview class="svg-board" [layout]="layout"></app-layout-preview>
 			</td>
@@ -34,7 +60,7 @@
 			<td class="col-cat">{{ layout.category }}</td>
 			<td class="col-stats">{{ layout.mapping.length }}</td>
 			<td class="col-test">
-				<button (click)="testLayout($event, layout)" title="{{ 'EDITOR_TEST_RUN' | translate }}">
+				<button (click)="testLayout($event, layout)" title="{{ 'EDITOR_TEST_RUN' | translate }}" [attr.aria-label]="'EDITOR_TEST_RUN' | translate">
 					<app-icon-execute />
 				</button>
 				@if (test[layout.id]) {
@@ -50,7 +76,7 @@
 			</td>
 			<td class="col-delete">
 				@if (layout.custom) {
-					<button (click)="removeCustomBoard($event, layout)" title="{{'CUSTOM_BOARD_DELETE' | translate}}">
+					<button (click)="removeCustomBoard($event, layout)" title="{{'CUSTOM_BOARD_DELETE' | translate}}" [attr.aria-label]="'CUSTOM_BOARD_DELETE' | translate">
 						<app-icon-delete />
 					</button>
 				}

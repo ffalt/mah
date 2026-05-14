@@ -90,6 +90,16 @@
 
 	}
 
+	td.sortable:focus-visible {
+		outline: 2px solid var(--focus-ring-color);
+		outline-offset: -2px;
+	}
+
+	tr.layout:focus-visible {
+		outline: 2px solid var(--focus-ring-color);
+		outline-offset: -2px;
+	}
+
 	button {
 		background-color: transparent;
 		background-image: none;

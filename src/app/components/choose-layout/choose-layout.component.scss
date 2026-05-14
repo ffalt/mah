@@ -75,9 +75,15 @@
 	label.info-label {
 		cursor: pointer;
 		transition: color 0.15s;
+		border-radius: 4px;
 
 		&:hover {
 			color: var(--text-highlight-color);
+		}
+
+		&:focus-visible {
+			outline: 2px solid var(--focus-ring-color);
+			outline-offset: 1px;
 		}
 	}
 
@@ -116,6 +122,11 @@
 				cursor: pointer;
 				color: var(--close-color);
 				line-height: 1;
+				padding: 3px;
+				background: none;
+				border: none;
+				min-height: unset;
+				font: inherit;
 
 				&:hover {
 					color: var(--close-color-hover);

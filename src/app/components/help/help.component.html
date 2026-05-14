@@ -5,7 +5,7 @@
 		<p><b>{{ 'HOW_OPEN' | translate }}</b>: {{ 'HOW_OPEN_DESC' | translate }}</p>
 		<p><b>{{ 'HOW_PAIR' | translate }}</b>: {{ 'HOW_PAIR_DESC' | translate }}</p>
 		<p>{{ 'HOW_DO' | translate }}</p>
-		<p><a role="button" class="tutorial-link" (click)="showTutorial.emit()">{{ 'TUTORIAL_SHOW' | translate }}</a></p>
+		<p><button class="tutorial-link" (click)="showTutorial.emit()">{{ 'TUTORIAL_SHOW' | translate }}</button></p>
 		<p><a class="external-link" (click)="clickExternalHref($event)" rel="noopener" target="_blank" href="{{ 'READ_MORE_WIKIPEDIA_URL' | translate }}">{{ 'READ_MORE_WIKIPEDIA' | translate }}</a></p>
 	</fieldset>
 	<fieldset class="keyboard">
@@ -13,14 +13,17 @@
 		<ul class="keyboard-list">
 			@for (shortcut of shortcuts; track shortcut) {
 				<li>
-					<div>
+					<div class="key-group">
 						<span class="key">{{ shortcut.key }}</span>
 						@if (shortcut.altKey) {
 							<span class="key-sep">/</span>
 							<span class="key">{{ shortcut.altKey }}</span>
 						}
-						<ng-container *ngComponentOutlet="shortcut.icon"></ng-container>
-						<span class="name">{{ shortcut.name|translate }}</span></div>
+						<span class="key-icon">
+							<ng-container *ngComponentOutlet="shortcut.icon"></ng-container>
+						</span>
+						<span class="name">{{ shortcut.name|translate }}</span>
+					</div>
 					<span class="func">{{ (shortcut.name + '_LONG')|translate }}</span>
 				</li>
 			}

@@ -5,13 +5,13 @@
 			{{'EDITOR_FORMAT_KMAHJONGG' | translate }}<br/>
 			{{'EDITOR_FORMAT_MAH' | translate }}<br/>
 		</div>
-		<input name="file" type="file" multiple (change)="selectFiles($event)">
+		<input name="file" type="file" multiple (change)="selectFiles($event)" [attr.aria-label]="'EDITOR_IMPORT_DROP' | translate">
 	</div>
 	<div class="log-zone">
 		@for (log of logs; track log) {
 			<p class="layout" [class.is-error]="log.isError">
 				@if (log.id) {
-					<a (click)="selectLayout(log.id)"><app-icon-ok /> {{ log.msg }}</a>
+					<button class="log-link" (click)="selectLayout(log.id)"><app-icon-ok /> {{ log.msg }}</button>
 				}
 				@if (!log.id) {
 					{{ log.msg }}

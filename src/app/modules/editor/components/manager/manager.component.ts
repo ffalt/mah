@@ -51,11 +51,15 @@ export class ManagerComponent implements OnChanges, OnDestroy {
 		this.update();
 	}
 
-	clickSortBy(_event: MouseEvent, column: number) {
+	activateSortBy(column: number): void {
 		if (this.sortColumn === column) {
 			this.sortDesc = !this.sortDesc;
 		}
 		this.sortBy(column);
+	}
+
+	clickSortBy(_event: MouseEvent, column: number) {
+		this.activateSortBy(column);
 	}
 
 	update() {

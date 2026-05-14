@@ -365,13 +365,13 @@
 		flex-wrap: wrap;
 		justify-content: center;
 		margin-top: 2px;
-		margin-bottom: 16px;
+		margin-bottom: 2px;
 		padding-bottom: 8px;
 
-		label[role="tab"] {
+		label {
 			background: transparent;
 			color: var(--input-text-color);
-			padding: 8px 0;
+			padding: 4px 0;
 			border-radius: 0;
 			border: none;
 			border-bottom: 2px solid transparent;
@@ -381,12 +381,6 @@
 			text-align: center;
 			position: relative;
 			user-select: none;
-
-			&:focus-visible {
-				color: var(--dialog-headline-color);
-				outline: none;
-				border-bottom-color: var(--gesture-indicator);
-			}
 
 			&:disabled {
 				cursor: not-allowed;
@@ -416,6 +410,14 @@
 		gap: 8px;
 	}
 
+	#tab-lang:focus-visible ~ .tabs-labels label[for="tab-lang"],
+	#tab-stones:focus-visible ~ .tabs-labels label[for="tab-stones"],
+	#tab-theme:focus-visible ~ .tabs-labels label[for="tab-theme"],
+	#tab-background:focus-visible ~ .tabs-labels label[for="tab-background"] {
+		color: var(--dialog-headline-color);
+		border-bottom-color: var(--focus-ring-color);
+	}
+
 	#lang:checked ~ .tabs-labels label[for="tab-lang"],
 	#tab-stones:checked ~ .tabs-labels label[for="tab-stones"],
 	#tab-theme:checked ~ .tabs-labels label[for="tab-theme"],
@@ -423,7 +425,6 @@
 	#tab-data:checked ~ .tabs-labels label[for="tab-data"] {
 		color: var(--dialog-headline-color);
 		border-bottom-color: var(--dialog-headline-color);
-		font-weight: 700;
 
 		&:hover {
 			color: var(--text-highlight-color);

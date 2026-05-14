@@ -95,8 +95,9 @@ describe('GameComponent', () => {
 		expect(result).toBe(true);
 		expect(helpSpy).toHaveBeenCalled();
 
-		// Reset and test with no dialogs open
+		// Reset and test with no dialogs open and no game message
 		helpDialog.visible.set(false);
+		component.game.message = undefined;
 		const noDialogResult = component.handleKeyDownDialogExit();
 		expect(noDialogResult).toBe(false);
 	});

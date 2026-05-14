@@ -291,8 +291,14 @@
 				[class.matched]="draw.source.matched"
 				[class.wiggle]="draw.source.effects?.wiggle"
 				[attr.transform]="draw.pos.translate"
+				[attr.role]="!draw.source.picked && !draw.source.state.blocked ? 'button' : null"
+				[attr.tabindex]="!draw.source.picked && !draw.source.state.blocked ? 0 : null"
+				[attr.aria-label]="!draw.source.picked && !draw.source.state.blocked ? tileLabel(draw) : null"
+				[attr.aria-pressed]="!draw.source.picked && !draw.source.state.blocked ? draw.source.selected : null"
 				(mouseup)="onClickUp($event, draw)"
 				(touchend)="onTouchTileEnd($event, draw)"
+				(keydown.enter)="onKeyClick($event, draw)"
+				(keydown.space)="onKeyClick($event, draw)"
 			>
 				<g class="tile">
 					@if (draw.url) {

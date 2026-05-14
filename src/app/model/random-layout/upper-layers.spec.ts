@@ -87,7 +87,7 @@ describe('fillLayout', () => {
 			[true, true],
 			[true, false],
 			[false, true],
-			[false, false],
+			[false, false]
 		])('mirrorX=%s mirrorY=%s produces a valid 144-tile layout', (mirrorX, mirrorY) => {
 			const result = fillLayout(buildSmallBase(), mirrorX, mirrorY);
 			assertValidLayout(result);
@@ -97,7 +97,7 @@ describe('fillLayout', () => {
 			[true, true],
 			[true, false],
 			[false, true],
-			[false, false],
+			[false, false]
 		])('mirrorX=%s mirrorY=%s with dense base produces valid layout', (mirrorX, mirrorY) => {
 			const result = fillLayout(buildDenseBase(), mirrorX, mirrorY);
 			assertValidLayout(result);
@@ -169,11 +169,7 @@ describe('fillLayout', () => {
 			// (0,8): left-edge tile - direction [-1,0] proposes ox=-1 → out of bounds
 			// (8,8) + (10,8): small-bridge pair that supports (1,9,8)
 			// (1,9,8): pre-existing z=1 tile - blocks the overhang proposed by (10,8)→[-1,0]→(9,8)
-			const base: Mapping = [
-				[0, 0, 8],
-				[0, 8, 8], [0, 10, 8],
-				[1, 9, 8],
-			];
+			const base: Mapping = [[0, 0, 8], [0, 8, 8], [0, 10, 8], [1, 9, 8]];
 			const result = fillLayout(base, false, false);
 			expect(result.length % 2).toBe(0);
 			expect(result.length).toBeGreaterThan(0);
@@ -210,10 +206,7 @@ describe('fillLayout', () => {
 
 		// Large-bridge support: four diagonal tiles at z=0, tile at z=1 spans them
 		it('handles large-bridge support (four diagonal tiles below)', () => {
-			const base: Mapping = [
-				[0, 10, 6], [0, 12, 6],
-				[0, 10, 8], [0, 12, 8],
-			];
+			const base: Mapping = [[0, 10, 6], [0, 12, 6], [0, 10, 8], [0, 12, 8]];
 			const result = fillLayout(base, false, false);
 			assertValidLayout(result);
 		});
@@ -286,7 +279,7 @@ describe('fillLayout', () => {
 			for (const s of moreSeeds) {
 				seedRNG(s);
 				const result = fillLayout([], true, false);
-				expect(result.length).toBe(TARGET_COUNT);
+				expect(result).toHaveLength(TARGET_COUNT);
 				expect(result.length % 2).toBe(0);
 			}
 		});
@@ -318,7 +311,7 @@ describe('fillLayout', () => {
 	describe('computeWindow coverage', () => {
 		it('computeWindow is exercised via ensureEven when mapping has an odd count', () => {
 			const result = fillLayout(buildSmallBase(), false, false);
-			expect(result.length).toBe(TARGET_COUNT);
+			expect(result).toHaveLength(TARGET_COUNT);
 		});
 	});
 });

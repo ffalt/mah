@@ -1,9 +1,15 @@
 @for (tab of tabs; track tab.id) {
-	<input class="tabs-input" type="radio" name="settings-tab" [id]="`tab-${tab.id}`" [checked]="selectedTab === tab.id" (change)="setSelectedTab(tab.id)"/>
+	<input class="tabs-input" type="radio" name="settings-tab"
+		[id]="`tab-${tab.id}`"
+		role="tab"
+		[attr.aria-selected]="selectedTab === tab.id"
+		[attr.aria-controls]="'panel-'+tab.id"
+		[checked]="selectedTab === tab.id"
+		(change)="setSelectedTab(tab.id)"/>
 }
 <div class="tabs-labels" role="tablist" aria-label="Settings Tabs">
 	@for (tab of tabs; track tab.id) {
-		<label role="tab" [id]="`tab-${tab.id}-label`" [for]="`tab-${tab.id}`">{{ tab.name | translate }}</label>
+		<label [id]="`tab-${tab.id}-label`" [for]="`tab-${tab.id}`">{{ tab.name | translate }}</label>
 	}
 </div>
 <div class="tabs-panels panels">
@@ -72,11 +78,10 @@
 				<legend id="kyodai-legend">{{ 'KYODAI_TILESET_SETTINGS' | translate }}</legend>
 				<div class="input-wrapper">
 								<textarea
-									#kyodaiInput type="text" name="kyodai"
+									#kyodaiInput name="kyodai"
 									[value]="app.settings.kyodaiUrl ? app.settings.kyodaiUrl : ''"
 									(change)="updateKyodaiUrl($event)"
 									aria-labelledby="kyodai-legend"
-									aria-describedby="kyodai-help"
 									placeholder="{{ 'KYODAI_TILESET_URL_PLACEHOLDER' | translate }}"
 								></textarea>
 					<button
@@ -116,7 +121,6 @@
 								type="checkbox"
 								[checked]="app.settings.tile3d"
 								(change)="app.settings.tile3d = !app.settings.tile3d;app.settings.save();"
-								aria-label="{{ 'TILES_3D' | translate }}"
 							>
 							<span>{{ 'TILES_3D' | translate }}</span>
 						</label>
@@ -127,7 +131,6 @@
 								type="checkbox"
 								[checked]="app.settings.contrast"
 								(change)="app.settings.contrast = !app.settings.contrast;app.settings.save();"
-								aria-label="{{ 'HIGHER_CONTRAST' | translate }}"
 							>
 							<span>{{ 'HIGHER_CONTRAST' | translate }}</span>
 						</label>
@@ -138,7 +141,6 @@
 								type="checkbox"
 								[checked]="app.settings.dark"
 								(change)="app.settings.dark = !app.settings.dark;app.settings.save();"
-								aria-label="{{ 'TILES_DARK' | translate }}"
 							>
 							<span>{{ 'TILES_DARK' | translate }}</span>
 						</label>

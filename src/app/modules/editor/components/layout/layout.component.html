@@ -1,8 +1,16 @@
 @if (this.layout()) {
 	<div class="editor-matrix-list">
-		<ul class="matrix-list">
+		<ul class="matrix-list" role="listbox">
 			@for (z of this.matrix.levels; track i; let i = $index) {
-				<li [ngClass]="{selected:i===this.currentZ}" (click)="this.selectLevel(i)">
+				<li [ngClass]="{selected:i===this.currentZ}"
+					(click)="this.selectLevel(i)"
+					tabindex="0"
+					role="option"
+					[attr.aria-selected]="i === this.currentZ"
+					[attr.aria-label]="'Level ' + i"
+					(keydown.enter)="this.selectLevel(i)"
+					(keydown.space)="$event.preventDefault(); this.selectLevel(i)"
+				>
 					<div>Level {{ i }}</div>
 					<div class="matrix-level">
 						<app-editor-board [level]="{z:i,rows:z,showStones:true}" [matrix]="this.matrix" (clickBoardEvent)="this.selectLevel(i)"></app-editor-board>
@@ -12,7 +20,7 @@
 		</ul>
 		<div class="buttonbar">
 			<div class="buttons">
-				<button (click)="this.newLayerBelow(this.currentZ)" title="{{'EDITOR_NEW_LAYER_LONG' | translate}}">
+				<button (click)="this.newLayerBelow(this.currentZ)" title="{{'EDITOR_NEW_LAYER_LONG' | translate}}" [attr.aria-label]="'EDITOR_NEW_LAYER_LONG' | translate">
 					<app-icon-list-add />
 				</button>
 			</div>
@@ -24,40 +32,40 @@
 				<div class="buttonbar">
 					<div class="buttons buttons-current-level">
 						<div class="buttonbar-title">Level {{ this.currentZ }}</div>
-						<button [disabled]="this.currentZ===0" (click)="this.moveLayerZ(-1, this.currentZ)" title="{{'EDITOR_MOVE_LAYER_DOWN_LONG' | translate}}">
+						<button [disabled]="this.currentZ===0" (click)="this.moveLayerZ(-1, this.currentZ)" title="{{'EDITOR_MOVE_LAYER_DOWN_LONG' | translate}}" [attr.aria-label]="'EDITOR_MOVE_LAYER_DOWN_LONG' | translate">
 							<app-icon-up />
 						</button>
-						<button [disabled]="this.currentZ===this.matrix.levels.length-1" (click)="this.moveLayerZ(1, this.currentZ)" title="{{'EDITOR_MOVE_LAYER_UP_LONG' | translate}}">
+						<button [disabled]="this.currentZ===this.matrix.levels.length-1" (click)="this.moveLayerZ(1, this.currentZ)" title="{{'EDITOR_MOVE_LAYER_UP_LONG' | translate}}" [attr.aria-label]="'EDITOR_MOVE_LAYER_UP_LONG' | translate">
 							<app-icon-down />
 						</button>
-						<button (click)="this.duplicateLayerZ(this.currentZ)" title="{{'EDITOR_DUPLICATE_LAYER_LONG' | translate}}">
+						<button (click)="this.duplicateLayerZ(this.currentZ)" title="{{'EDITOR_DUPLICATE_LAYER_LONG' | translate}}" [attr.aria-label]="'EDITOR_DUPLICATE_LAYER_LONG' | translate">
 							<app-icon-duplicate />
 						</button>
-						<button (click)="this.clearLayerZ(this.currentZ)" title="{{'EDITOR_CLEAR_LAYER_LONG' | translate}}">
+						<button (click)="this.clearLayerZ(this.currentZ)" title="{{'EDITOR_CLEAR_LAYER_LONG' | translate}}" [attr.aria-label]="'EDITOR_CLEAR_LAYER_LONG' | translate">
 							<app-icon-clear />
 						</button>
-						<button (click)="this.deleteLayerZ(this.currentZ)" title="{{'EDITOR_DELETE_LAYER_LONG' | translate}}">
+						<button (click)="this.deleteLayerZ(this.currentZ)" title="{{'EDITOR_DELETE_LAYER_LONG' | translate}}" [attr.aria-label]="'EDITOR_DELETE_LAYER_LONG' | translate">
 							<app-icon-delete />
 						</button>
-						<button [class.checked]="this.mirrorX" (click)="this.toggleMirrorX()" title="{{'MIRROR_X' | translate}}">
+						<button [class.checked]="this.mirrorX" [attr.aria-pressed]="this.mirrorX" (click)="this.toggleMirrorX()" title="{{'MIRROR_X' | translate}}" [attr.aria-label]="'MIRROR_X' | translate">
 							︱
 						</button>
-						<button [class.checked]="this.mirrorY" (click)="this.toggleMirrorY()" title="{{'MIRROR_X' | translate}}">
+						<button [class.checked]="this.mirrorY" [attr.aria-pressed]="this.mirrorY" (click)="this.toggleMirrorY()" title="{{'MIRROR_Y' | translate}}" [attr.aria-label]="'MIRROR_Y' | translate">
 							⎯
 						</button>
 					</div>
 					<div class="buttons">
 						<span>Tiles: {{ this.stats.layerCount }}</span>
-						<button (click)="this.moveLayerY(-1)" title="{{'EDITOR_MOVE_TILES_UP_LONG' | translate}}">
+						<button (click)="this.moveLayerY(-1)" title="{{'EDITOR_MOVE_TILES_UP_LONG' | translate}}" [attr.aria-label]="'EDITOR_MOVE_TILES_UP_LONG' | translate">
 							<app-icon-up />
 						</button>
-						<button (click)="this.moveLayerY(1)" title="{{'EDITOR_MOVE_TILES_DOWN_LONG' | translate}}">
+						<button (click)="this.moveLayerY(1)" title="{{'EDITOR_MOVE_TILES_DOWN_LONG' | translate}}" [attr.aria-label]="'EDITOR_MOVE_TILES_DOWN_LONG' | translate">
 							<app-icon-down />
 						</button>
-						<button (click)="this.moveLayerX(-1)" title="{{'EDITOR_MOVE_TILES_LEFT_LONG' | translate}}">
+						<button (click)="this.moveLayerX(-1)" title="{{'EDITOR_MOVE_TILES_LEFT_LONG' | translate}}" [attr.aria-label]="'EDITOR_MOVE_TILES_LEFT_LONG' | translate">
 							<app-icon-left />
 						</button>
-						<button (click)="this.moveLayerX(1)" title="{{'EDITOR_MOVE_TILES_RIGHT_LONG' | translate}}">
+						<button (click)="this.moveLayerX(1)" title="{{'EDITOR_MOVE_TILES_RIGHT_LONG' | translate}}" [attr.aria-label]="'EDITOR_MOVE_TILES_RIGHT_LONG' | translate">
 							<app-icon-right />
 						</button>
 					</div>
@@ -73,16 +81,16 @@
 					</div>
 					<div class="buttons">
 						<span [class.fail]="this.stats.countInvalid">Tiles: {{ this.stats.totalCount }}</span>
-						<button (click)="this.moveY(-1)" title="{{ 'EDITOR_MOVE_ALL_TILES_UP_LONG' | translate }}">
+						<button (click)="this.moveY(-1)" title="{{ 'EDITOR_MOVE_ALL_TILES_UP_LONG' | translate }}" [attr.aria-label]="'EDITOR_MOVE_ALL_TILES_UP_LONG' | translate">
 							<app-icon-up />
 						</button>
-						<button (click)="this.moveY(1)" title="{{ 'EDITOR_MOVE_ALL_TILES_DOWN_LONG' | translate }}">
+						<button (click)="this.moveY(1)" title="{{ 'EDITOR_MOVE_ALL_TILES_DOWN_LONG' | translate }}" [attr.aria-label]="'EDITOR_MOVE_ALL_TILES_DOWN_LONG' | translate">
 							<app-icon-down />
 						</button>
-						<button (click)="this.moveX(-1)" title="{{ 'EDITOR_MOVE_ALL_TILES_LEFT_LONG' | translate }}">
+						<button (click)="this.moveX(-1)" title="{{ 'EDITOR_MOVE_ALL_TILES_LEFT_LONG' | translate }}" [attr.aria-label]="'EDITOR_MOVE_ALL_TILES_LEFT_LONG' | translate">
 							<app-icon-left />
 						</button>
-						<button (click)="this.moveX(1)" title="{{ 'EDITOR_MOVE_ALL_TILES_RIGHT_LONG' | translate }}">
+						<button (click)="this.moveX(1)" title="{{ 'EDITOR_MOVE_ALL_TILES_RIGHT_LONG' | translate }}" [attr.aria-label]="'EDITOR_MOVE_ALL_TILES_RIGHT_LONG' | translate">
 							<app-icon-right />
 						</button>
 					</div>
@@ -130,9 +138,9 @@
 	</div>
 }
 @if (saveDialog) {
-	<div (click)="toggleSave();" class="overlay overlay-save overlay-size-medium">
-		<div class="overlay-popup" (click)="$event.stopPropagation();">
-			<span class="close" (click)="toggleSave();" title="{{ 'CLOSE' | translate }}"><app-icon-close /></span>
+	<div (click)="toggleSave();" (keydown.escape)="toggleSave()" class="overlay overlay-save overlay-size-medium">
+		<div class="overlay-popup" role="dialog" aria-modal="true" [attr.aria-label]="'EDITOR_SAVE' | translate" (click)="$event.stopPropagation();">
+			<button class="close" (click)="toggleSave();" [attr.aria-label]="'CLOSE' | translate"><app-icon-close /></button>
 			<app-editor-export-component [layout]="layout()" (savedEvent)="toggleAfterSave()"></app-editor-export-component>
 		</div>
 	</div>

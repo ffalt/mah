@@ -166,6 +166,12 @@
 	}
 }
 
+@media (prefers-reduced-motion: reduce) {
+	.tutorial-feedback {
+		animation: none;
+	}
+}
+
 .tutorial-footer {
 	display: flex;
 	align-items: center;

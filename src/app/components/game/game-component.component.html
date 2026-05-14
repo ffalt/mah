@@ -6,19 +6,19 @@
 		</button>
 	</div>
 	<div class="ctrl ctrl-game">
-		<button class="button" (click)="game.toggle()" title="{{'PAUSE_LONG' | translate}}">
+		<button class="button" (click)="game.toggle()" title="{{'PAUSE_LONG' | translate}}" [attr.aria-pressed]="game.isPaused()">
 			<app-icon-pause/>
 			<span class="label">{{ 'PAUSE' | translate }}</span>
 		</button>
-		<button class="button feature" [class.enabled]="game.mode | gameModeEasy" (click)="game.shuffle()" title="{{'SHUFFLE_LONG' | translate}}">
+		<button class="button feature" [class.enabled]="game.mode | gameModeEasy" (click)="onShuffle()" title="{{'SHUFFLE_LONG' | translate}}">
 			<app-icon-shuffle/>
 			<span class="label">{{ 'SHUFFLE' | translate }}</span>
 		</button>
-		<button class="button feature" [class.enabled]="game.mode | gameModeStandard" (click)="game.back()" title="{{'UNDO_LONG' | translate}}" [attr.disabled]="game.board.undo.length===0 ? true : null">
+		<button class="button feature" [class.enabled]="game.mode | gameModeStandard" (click)="onUndo()" title="{{'UNDO_LONG' | translate}}" [attr.disabled]="game.board.undo.length===0 ? true : null">
 			<app-icon-undo/>
 			<span class="label">{{ 'UNDO' | translate }}</span>
 		</button>
-		<button class="button feature" [class.enabled]="game.mode | gameModeStandard" (click)="game.hint()" title="{{'HINT_LONG' | translate}}">
+		<button class="button feature" [class.enabled]="game.mode | gameModeStandard" (click)="onHint()" title="{{'HINT_LONG' | translate}}">
 			<app-icon-hint/>
 			<span class="label">{{ 'HINT' | translate }}</span>
 		</button>
@@ -40,21 +40,29 @@
 />
 <div class="controls controls-bottom">
 	<div class="ctrl ctrl-stats">
-		<button class="button menu-button" title="Menu" aria-haspopup="true">
+		<button class="button menu-button" title="Menu"
+			aria-haspopup="menu"
+			aria-controls="ctrl-stats-menu"
+			[attr.aria-expanded]="menuOpen"
+			(click)="toggleMenu()"
+			(keydown.escape)="closeMenu()">
 			<app-icon-menu/>
 		</button>
-		<div class="menu" role="menu">
-			<button class="button" (click)="settings.toggle()" title="{{'OPEN_SETTINGS' | translate}}" role="menuitem">
+		<div class="menu" role="menu" id="ctrl-stats-menu"
+			[class.menu-open]="menuOpen"
+			(click)="closeMenu()"
+			(keydown.escape)="closeMenu()">
+			<button class="button" (click)="settings.toggle()" title="{{'OPEN_SETTINGS' | translate}}" [attr.aria-label]="'SETTINGS' | translate" role="menuitem">
 				<app-icon-settings/>
 			</button>
-			<button class="button" [class.inactive]="!app.settings.sounds" (click)="app.toggleSound()" title="{{'AUDIO_SOUNDS' | translate}}" role="menuitem">
+			<button class="button" [class.inactive]="!app.settings.sounds" (click)="app.toggleSound()" title="{{'AUDIO_SOUNDS' | translate}}" [attr.aria-label]="'AUDIO_SOUNDS' | translate" [attr.aria-pressed]="!app.settings.sounds" role="menuitem">
 				<app-icon-mute/>
 			</button>
-			<button class="button" (click)="info.toggle()" title="{{'TILES_INFO' | translate}}" role="menuitem">
+			<button class="button" (click)="info.toggle()" title="{{'TILES_INFO' | translate}}" [attr.aria-label]="'TILES_INFO' | translate" role="menuitem">
 				<app-icon-tilesinfo/>
 			</button>
 			@if (fullScreenEnabled) {
-				<button class="button" (click)="enterFullScreen()" title="{{'FULLSCREEN' | translate}}" role="menuitem">
+				<button class="button" (click)="enterFullScreen()" title="{{'FULLSCREEN' | translate}}" [attr.aria-label]="'FULLSCREEN' | translate" role="menuitem">
 					<app-icon-fullscreen/>
 				</button>
 			}
@@ -100,9 +108,16 @@
 	}
 </app-dialog>
 
+<div class="sr-only" aria-live="polite" aria-atomic="true">{{ announceText }}</div>
+
 <app-dialog (clickEvent)="clickMessage()" [visible]="!!game.message" className="overlay-message overlay-size-auto" [noCloseButton]="true">
 	@if (game.message) {
-		<div class="overlay-message-message" (click)="clickMessage()">
+		<div class="overlay-message-message"
+			[attr.role]="game.message.askShuffle ? null : 'button'"
+			[attr.tabindex]="game.message.askShuffle ? null : '0'"
+			(click)="clickMessage()"
+			(keydown.enter)="clickMessage()"
+			(keydown.space)="$event.preventDefault(); clickMessage()">
 			@if (game.message.messageID) {
 				<div>{{ game.message.messageID | translate }}</div>
 			}

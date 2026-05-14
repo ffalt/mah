@@ -210,7 +210,7 @@ export default ts.config(
 				"error",
 				{
 					"assertFunctionNames": [
-						"expect", "expectNoBlankTiles", "expectWinnable", "expectNoBlankTiles"
+						"expect", "expectNoBlankTiles", "expectWinnable", "expectNoBlankTiles", "assertValidLayout"
 					],
 					"additionalTestBlockFunctions": []
 				}

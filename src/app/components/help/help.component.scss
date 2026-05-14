@@ -48,6 +48,15 @@
 				color: var(--main-content-link-hover-color);
 			}
 		}
+
+		button.tutorial-link {
+			background: none;
+			border: none;
+			padding: 0;
+			font: inherit;
+			min-height: unset;
+			display: inline;
+		}
 	}
 
 	.fill {
@@ -200,6 +209,7 @@
 			> div {
 				display: flex;
 				flex-direction: row;
+				margin-bottom: 4px;
 			}
 		}
 
@@ -220,6 +230,22 @@
 				margin-bottom: 14px;
 			}
 
+			.key-group {
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+			}
+
+			.key-icon {
+				display: inline-block;
+				padding-left: 6px;
+				padding-right: 6px;
+				font-size: 1.2em;
+				margin-left: 8px;
+				vertical-align: middle;
+				color: var(--main-content-text-color);
+			}
+
 			.func {
 				margin-top: 8px;
 				font-size: 0.8em;
@@ -236,13 +262,6 @@
 			.name {
 				vertical-align: middle;
 			}
-
-			.icon, i {
-				margin-left: 8px;
-				vertical-align: middle;
-				color: var(--main-content-text-color);
-			}
-
 			.key {
 				font-weight: bold;
 				text-transform: uppercase;
@@ -257,6 +276,7 @@
 				display: inline-block;
 				letter-spacing: 1px;
 				background: black;
+				margin-top: -2px;
 				color: #ddd;
 				box-shadow: 0 5px 0 0 rgb(0 0 0 / 100%);
 				text-align: center;

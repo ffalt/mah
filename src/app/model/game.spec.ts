@@ -290,7 +290,9 @@ describe('Game', () => {
 			jest.useFakeTimers();
 			const stone = new Stone(0, 0, 0, 1, 1);
 			stone.state = { blocked: false, removable: true };
-			(mockBoard.setStoneSelected as jest.Mock).mockImplementation(() => { mockBoard.selected = stone; });
+			(mockBoard.setStoneSelected as jest.Mock).mockImplementation(() => {
+				mockBoard.selected = stone;
+			});
 
 			game.mode = GAME_MODE_EASY;
 			game.state = STATES.run;
@@ -305,7 +307,9 @@ describe('Game', () => {
 		it('should not highlight match partners in standard mode', () => {
 			const stone = new Stone(0, 0, 0, 1, 1);
 			stone.state = { blocked: false, removable: true };
-			(mockBoard.setStoneSelected as jest.Mock).mockImplementation(() => { mockBoard.selected = stone; });
+			(mockBoard.setStoneSelected as jest.Mock).mockImplementation(() => {
+				mockBoard.selected = stone;
+			});
 
 			game.mode = GAME_MODE_STANDARD;
 			game.state = STATES.run;
@@ -318,7 +322,9 @@ describe('Game', () => {
 		it('should not highlight match partners in expert mode', () => {
 			const stone = new Stone(0, 0, 0, 1, 1);
 			stone.state = { blocked: false, removable: true };
-			(mockBoard.setStoneSelected as jest.Mock).mockImplementation(() => { mockBoard.selected = stone; });
+			(mockBoard.setStoneSelected as jest.Mock).mockImplementation(() => {
+				mockBoard.selected = stone;
+			});
 
 			game.mode = GAME_MODE_EXPERT;
 			game.state = STATES.run;
@@ -334,7 +340,9 @@ describe('Game', () => {
 			stone1.state = { blocked: false, removable: true };
 			const stone2 = new Stone(0, 1, 0, 1, 1);
 			stone2.state = { blocked: false, removable: true };
-			(mockBoard.setStoneSelected as jest.Mock).mockImplementation(() => { mockBoard.selected = stone1; });
+			(mockBoard.setStoneSelected as jest.Mock).mockImplementation(() => {
+				mockBoard.selected = stone1;
+			});
 
 			game.mode = GAME_MODE_STANDARD;
 			game.state = STATES.run;

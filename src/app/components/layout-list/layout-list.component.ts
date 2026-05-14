@@ -147,8 +147,14 @@ export class LayoutListComponent implements OnInit, OnChanges {
 		}
 	}
 
+	onStartEvent(event: Event, layoutItem: LayoutItem): void {
+		event.preventDefault();
+		event.stopPropagation();
+		this.onStart(layoutItem);
+	}
+
 	onStart(layoutItem: LayoutItem): void {
-		if (layoutItem?.visible) {
+		if (layoutItem?.layout) {
 			this.startEvent.emit(layoutItem.layout);
 		}
 	}
@@ -184,10 +190,12 @@ export class LayoutListComponent implements OnInit, OnChanges {
 		});
 	}
 
-	scrollToGroup(index: number): void {
+	scrollToGroup(event: Event, index: number): void {
+		event.preventDefault();
 		const element = document.getElementById(`group-${index}`);
 		if (element) {
 			this.scrollToElement(element, this.scrollHost().nativeElement);
+			element.querySelector<HTMLElement>('[tabindex="0"]')?.focus();
 		}
 	}
 
@@ -195,6 +203,7 @@ export class LayoutListComponent implements OnInit, OnChanges {
 		const element = document.getElementById(`item-${id}`);
 		if (element) {
 			this.scrollToElement(element, this.scrollHost().nativeElement);
+			element.focus();
 		}
 	}
 
@@ -207,6 +216,11 @@ export class LayoutListComponent implements OnInit, OnChanges {
 			}
 			this.scrollToItem(id);
 		}
+	}
+
+	toggleGroupExpanded(event: Event, group: LayoutGroup): void {
+		event.preventDefault();
+		group.expanded = !group.expanded;
 	}
 
 	clearBestTimeClick(event: MouseEvent, layout: LayoutItem): void {

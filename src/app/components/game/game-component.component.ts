@@ -91,13 +91,24 @@ export class GameComponent {
 	app = inject(AppService);
 	game: Game;
 	fullScreenEnabled: boolean = true;
+	menuOpen: boolean = false;
 	title: string = '';
+	announceText: string = '';
 	private readonly injector = inject(Injector);
+	private announceTimer?: ReturnType<typeof setTimeout>;
 
 	constructor() {
 		this.game = this.app.game;
 		this.fullScreenEnabled = this.canFullscreen();
 		this.title = `${this.app.name} v${environment.version}`;
+	}
+
+	toggleMenu(): void {
+		this.menuOpen = !this.menuOpen;
+	}
+
+	closeMenu(): void {
+		this.menuOpen = false;
 	}
 
 	showTutorial(): void {
@@ -206,6 +217,10 @@ export class GameComponent {
 			settings.toggle();
 			return true;
 		}
+		if (this.game.message && !this.game.message.askShuffle) {
+			this.clickMessage();
+			return true;
+		}
 		return false;
 	}
 
@@ -215,7 +230,7 @@ export class GameComponent {
 		}
 		const target = event.target;
 		const nodeName = target instanceof Element ? target.nodeName.toLowerCase() : '';
-		if (nodeName === 'input') {
+		if (nodeName === 'input' || nodeName === 'button') {
 			return;
 		}
 		if (this.handleKeyDownEventKey(event.key)) {
@@ -224,7 +239,50 @@ export class GameComponent {
 	}
 
 	stoneClick(stone?: Stone): void {
+		const previousCount = this.game.board.count;
 		this.game.click(stone);
+		const newCount = this.game.board.count;
+		if (newCount < previousCount) {
+			const message = this.game.message?.messageID;
+			if (message === 'MSG_BEST' || message === 'MSG_GOOD') {
+				this.announce(this.app.translate.instant('ANNOUNCE_GAME_WON'));
+			} else if (message === 'MSG_FAIL') {
+				this.announce(this.app.translate.instant('ANNOUNCE_GAME_LOST'));
+			} else {
+				this.announce(this.app.translate.instant('ANNOUNCE_MATCHED', { remaining: newCount }));
+			}
+		}
+	}
+
+	onHint(): void {
+		this.game.hint();
+		const count = this.game.board.hints.groups.length;
+		if (count > 0) {
+			this.announce(this.app.translate.instant('ANNOUNCE_HINT_PAIRS', { count }));
+		} else {
+			this.announce(this.app.translate.instant('ANNOUNCE_HINT_NONE'));
+		}
+	}
+
+	onShuffle(): void {
+		this.game.shuffle();
+		this.announce(this.app.translate.instant('ANNOUNCE_SHUFFLE'));
+	}
+
+	onUndo(): void {
+		this.game.back();
+		this.announce(this.app.translate.instant('ANNOUNCE_UNDO'));
+	}
+
+	private announce(text: string): void {
+		this.announceText = '';
+		if (this.announceTimer !== undefined) {
+			clearTimeout(this.announceTimer);
+		}
+		this.announceTimer = setTimeout(() => {
+			this.announceText = text;
+			this.announceTimer = undefined;
+		}, 50);
 	}
 
 	isFullscreenEnabled(): boolean {

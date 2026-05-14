@@ -1,5 +1,5 @@
 <div class="editor-content">
-	<a class="close" (click)="close()" title="{{ 'CLOSE' | translate }}"><app-icon-close /></a>
+	<button class="close" (click)="close()" [attr.aria-label]="'CLOSE' | translate"><app-icon-close /></button>
 	<div class="editor-manager" [class.visible]="mode==='manager'">
 		<div class="editor-nav buttons">
 			<ul>

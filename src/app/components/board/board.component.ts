@@ -152,6 +152,19 @@ export class BoardComponent implements OnInit, OnChanges {
 		this.clickEvent.emit(draw?.source);
 	}
 
+	tileLabel(draw: Draw): string {
+		const name = draw.url ? this.app.translate.instant(draw.url) : '';
+		const layer = draw.source.z + 1;
+		const key = draw.source.hinted ? 'TILE_LABEL_HINTED' : 'TILE_LABEL';
+		return this.app.translate.instant(key, { name, layer });
+	}
+
+	onKeyClick(event: Event, draw: Draw): void {
+		event.preventDefault();
+		event.stopPropagation();
+		this.clickEvent.emit(draw.source);
+	}
+
 	onClickUp(event: MouseEvent, draw?: Draw): void {
 		this.panZoom.initialMouseX = 0;
 		this.panZoom.initialMouseY = 0;
