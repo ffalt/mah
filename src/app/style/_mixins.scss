@@ -82,10 +82,6 @@
 		@media only screen and (min-height: variables.$bp-huge) {
 			@content;
 		}
-	} @else if $media == huge-down {
-		@media only screen and (max-height: variables.$bp-huge) {
-			@content;
-		}
 	} @else if $media == jumbo-up {
 		@media only screen and (min-height: variables.$bp-jumbo) {
 			@content;
@@ -98,7 +94,7 @@
 		@media only screen and (min-height: variables.$bp-ludicrous) {
 			@content;
 		}
-	} @else if $media == jumbo-up {
+	} @else if $media == ludicrous-down {
 		@media only screen and (max-height: variables.$bp-ludicrous) {
 			@content;
 		}
@@ -162,10 +158,6 @@
 		@media only screen and (min-width: variables.$bp-huge) {
 			@content;
 		}
-	} @else if $media == huge-down {
-		@media only screen and (max-width: variables.$bp-huge) {
-			@content;
-		}
 	} @else if $media == jumbo-up {
 		@media only screen and (min-width: variables.$bp-jumbo) {
 			@content;
@@ -178,7 +170,7 @@
 		@media only screen and (min-width: variables.$bp-ludicrous) {
 			@content;
 		}
-	} @else if $media == jumbo-up {
+	} @else if $media == ludicrous-down {
 		@media only screen and (max-width: variables.$bp-ludicrous) {
 			@content;
 		}

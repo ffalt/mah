@@ -121,12 +121,12 @@
 				right: 0.6em;
 				cursor: pointer;
 				color: var(--close-color);
-				line-height: 1;
 				padding: 3px;
 				background: none;
 				border: none;
 				min-height: unset;
 				font: inherit;
+				line-height: 1;
 
 				&:hover {
 					color: var(--close-color-hover);

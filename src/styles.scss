@@ -12,7 +12,7 @@
 	padding: 0;
 	margin: -1px;
 	overflow: hidden;
-	clip: rect(0, 0, 0, 0);
+	clip-path: inset(50%);
 	white-space: nowrap;
 	border: 0;
 }
@@ -24,7 +24,7 @@
 		display: block;
 		width: 1em;
 		height: 1em;
-		fill: currentColor;
+		fill: currentcolor;
 		flex-shrink: 0;
 	}
 }
@@ -156,7 +156,7 @@ html {
 	--main-text-color-lt: #646464;
 	--main-text-color-dk: #8c8c8c;
 	--dialog-text-color: #000;
-	--focus-ring-color: #0044cc;
+	--focus-ring-color: #04c;
 }
 
 .theme-brown {
@@ -210,7 +210,7 @@ html {
 	--dialog-text-color: #2c1810;
 	--dialog-headline-color: #4a2c1a;
 	--text-highlight-color: #5e3721;
-	--focus-ring-color: #0044cc;
+	--focus-ring-color: #04c;
 
 	@media (prefers-color-scheme: dark) {
 		--dialog-headline-color: #ddb892;
@@ -228,7 +228,7 @@ html {
 	--dialog-text-color: #004471;
 	--dialog-headline-color: #001f73;
 	--text-highlight-color: #01248e;
-	--focus-ring-color: #0044cc;
+	--focus-ring-color: #04c;
 
 	@media (prefers-color-scheme: dark) {
 		--dialog-headline-color: #81d4fa;
@@ -335,10 +335,6 @@ p {
 	display: none;
 }
 
-.link {
-	cursor: pointer;
-}
-
 .overlay {
 	height: 100svh;
 	width: 100svw;
@@ -406,10 +402,7 @@ p {
 
 		@include mixins.respond-to(medium-down) {
 			min-height: 32px;
-			padding-top: 6px;
-			padding-right: 20px;
-			padding-left: 8px;
-			padding-bottom: 6px;
+			padding: 6px 20px 6px 8px;
 		}
 	}
 
@@ -597,7 +590,7 @@ p {
 		box-shadow: var(--overlay-popup-shadow);
 
 		app-icon-logo {
-			color: red;
+			color: variables.$logo-color;
 		}
 
 		@include mixins.respond-to(jumbo-up) {
@@ -780,10 +773,4 @@ p {
 	&.overlay-help {
 		z-index: 10010;
 	}
-}
-
-%clearfix:after {
-	display: block;
-	clear: both;
-	content: '';
 }

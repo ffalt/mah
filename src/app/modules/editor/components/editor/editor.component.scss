@@ -1,3 +1,5 @@
+@use "../../../../style/variables";
+
 :host {
 	--editor-table-row-color: #fff;
 	--editor-color-bg: #1e2e37;
@@ -15,7 +17,7 @@
 		gap: 8px;
 
 		app-icon-logo {
-			color: red;
+			color: variables.$logo-color;
 		}
 	}
 
