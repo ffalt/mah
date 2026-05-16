@@ -361,7 +361,11 @@ export class GameComponent {
 		}
 	}
 
-	clickMessage(): void {
+	clickMessage(event?: Event): void {
+		if (event) {
+			event.stopPropagation();
+			event.preventDefault();
+		}
 		if (this.game.isPaused()) {
 			if (this.game.message?.askShuffle) {
 				return;

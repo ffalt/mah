@@ -1,3 +1,74 @@
+<div class="sr-only" aria-live="polite" aria-atomic="true">{{ announceText }}</div>
+
+<app-dialog
+	#tutorial (clickEvent)="toggleDialogState($event)" className="overlay-tutorial overlay-size-small"
+	[noCloseButton]="true" [allowCloseOverlay]="false" [title]="app.name"
+>
+	@if (tutorial.visible()) {
+		<app-tutorial (completed)="completeTutorial()"/>
+	}
+</app-dialog>
+
+<app-dialog #help (clickEvent)="toggleDialogState($event)" className="overlay-help overlay-size-large" [title]="title">
+	@if (help.visible()) {
+		<app-help (showTutorial)="help.toggle(); showTutorial()"/>
+	}
+</app-dialog>
+
+<app-dialog #info (clickEvent)="toggleDialogState($event)" className="overlay-info overlay-size-large" [title]="'TILES' | translate">
+	@if (info.visible()) {
+		<app-tiles-info/>
+	}
+</app-dialog>
+
+<app-dialog #settings (clickEvent)="toggleDialogState($event)" className="overlay-settings overlay-size-medium" [title]="'SETTINGS' | translate">
+	@if (settings.visible()) {
+		<app-settings/>
+	}
+</app-dialog>
+
+<app-dialog #newgame (clickEvent)="toggleDialogState($event)" className="overlay-newgame overlay-size-large" [title]="'SELECT_BOARD' | translate">
+	@if (newgame.visible()) {
+		<app-choose-layout class="choose" (startEvent)="startGame($event)" [gameMode]="game.mode" [buildMode]="game.board.buildMode"/>
+	}
+</app-dialog>
+
+<app-dialog (clickEvent)="clickMessage()" [visible]="!!game.message" className="overlay-message overlay-size-auto" [noCloseButton]="true">
+	@if (game.message) {
+		<div class="overlay-message-message"
+		     role="button"
+		     tabindex="0"
+		     (click)="clickMessage($event)"
+		     (keydown.enter)="clickMessage($event)"
+		     (keydown.space)="clickMessage($event)">
+			@if (game.message.messageID) {
+				<div>{{ game.message.messageID | translate }}</div>
+			}
+			@if (game.message.playTime) {
+				<div>{{ game.message.playTime | duration }}</div>
+			}
+			@if (game.message.askShuffle) {
+				<div class="overlay-message-actions">
+					<button type="button"
+					        class="button feature"
+					        (click)="onShuffleContinue($event)"
+					>
+						<app-icon-shuffle/>
+						<span class="label">{{ 'SHUFFLE' | translate }}</span>
+					</button>
+					<button type="button"
+					        class="button"
+					        (click)="onSurrenderGame($event)"
+					>
+						<app-icon-restart/>
+						<span class="label">{{ 'RESTART' | translate }}</span>
+					</button>
+				</div>
+			}
+		</div>
+	}
+</app-dialog>
+
 <div class="controls controls-top">
 	<div class="ctrl ctrl-name">
 		<button type="button" class="button" (click)="help.toggle()" title="{{'OPEN_HELP' | translate}}">
@@ -75,74 +146,3 @@
 		<span class="time">{{ game.clock.elapsed | duration }}</span>
 	</div>
 </div>
-
-<app-dialog
-	#tutorial (clickEvent)="toggleDialogState($event)" className="overlay-tutorial overlay-size-small"
-	[noCloseButton]="true" [allowCloseOverlay]="false" [title]="app.name"
->
-	@if (tutorial.visible()) {
-		<app-tutorial (completed)="completeTutorial()"/>
-	}
-</app-dialog>
-
-<app-dialog #help (clickEvent)="toggleDialogState($event)" className="overlay-help overlay-size-large" [title]="title">
-	@if (help.visible()) {
-		<app-help (showTutorial)="help.toggle(); showTutorial()"/>
-	}
-</app-dialog>
-
-<app-dialog #info (clickEvent)="toggleDialogState($event)" className="overlay-info overlay-size-large" [title]="'TILES' | translate">
-	@if (info.visible()) {
-		<app-tiles-info/>
-	}
-</app-dialog>
-
-<app-dialog #settings (clickEvent)="toggleDialogState($event)" className="overlay-settings overlay-size-medium" [title]="'SETTINGS' | translate">
-	@if (settings.visible()) {
-		<app-settings/>
-	}
-</app-dialog>
-
-<app-dialog #newgame (clickEvent)="toggleDialogState($event)" className="overlay-newgame overlay-size-large" [title]="'SELECT_BOARD' | translate">
-	@if (newgame.visible()) {
-		<app-choose-layout class="choose" (startEvent)="startGame($event)" [gameMode]="game.mode" [buildMode]="game.board.buildMode"/>
-	}
-</app-dialog>
-
-<div class="sr-only" aria-live="polite" aria-atomic="true">{{ announceText }}</div>
-
-<app-dialog (clickEvent)="clickMessage()" [visible]="!!game.message" className="overlay-message overlay-size-auto" [noCloseButton]="true">
-	@if (game.message) {
-		<div class="overlay-message-message"
-			[attr.role]="game.message.askShuffle ? null : 'button'"
-			[attr.tabindex]="game.message.askShuffle ? null : '0'"
-			(click)="clickMessage()"
-			(keydown.enter)="clickMessage()"
-			(keydown.space)="$event.preventDefault(); clickMessage()">
-			@if (game.message.messageID) {
-				<div>{{ game.message.messageID | translate }}</div>
-			}
-			@if (game.message.playTime) {
-				<div>{{ game.message.playTime | duration }}</div>
-			}
-			@if (game.message.askShuffle) {
-				<div class="overlay-message-actions">
-					<button type="button"
-						class="button feature"
-						(click)="onShuffleContinue($event)"
-					>
-						<app-icon-shuffle/>
-						<span class="label">{{ 'SHUFFLE' | translate }}</span>
-					</button>
-					<button type="button"
-						class="button"
-						(click)="onSurrenderGame($event)"
-					>
-						<app-icon-restart/>
-						<span class="label">{{ 'RESTART' | translate }}</span>
-					</button>
-				</div>
-			}
-		</div>
-	}
-</app-dialog>
