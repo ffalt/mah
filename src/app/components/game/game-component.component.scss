@@ -151,6 +151,7 @@
 			&.ctrl-time {
 				cursor: default;
 				gap: 24px;
+				min-height: calc(#{variables.$base-line-height} * 1em + 0.6em);
 
 				.text {
 					font-variant-numeric: lining-nums;

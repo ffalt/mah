@@ -10,6 +10,7 @@ export class Settings {
 	dark = false;
 	tile3d = false;
 	confetti = true;
+	showClock = true;
 	background = '';
 	pattern?: string;
 	kyodaiUrl?: string;
@@ -36,6 +37,7 @@ export class Settings {
 				this.dark = store.dark ?? false;
 				this.tile3d = store.tile3d ?? false;
 				this.confetti = store.confetti ?? true;
+				this.showClock = store.showClock ?? true;
 				this.sounds = store.sounds ?? this.sounds;
 				this.music = store.music ?? this.music;
 				this.kyodaiUrl = store.kyodaiUrl;
@@ -58,6 +60,7 @@ export class Settings {
 				dark: this.dark,
 				tile3d: this.tile3d,
 				confetti: this.confetti,
+				showClock: this.showClock,
 				background: this.background,
 				pattern: this.pattern,
 				theme: this.theme,

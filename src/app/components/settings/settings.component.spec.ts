@@ -125,9 +125,9 @@ describe('SettingsComponent', () => {
 			expect(radioButtons).toHaveLength(expectedCount);
 		});
 
-		it('should render contrast, dark mode, 3D and confetti checkboxes', () => {
+		it('should render contrast, dark mode, 3D, confetti and show clock checkboxes', () => {
 			const checkboxes = fixture.debugElement.queryAll(By.css('input[type="checkbox"]'));
-			expect(checkboxes).toHaveLength(4);
+			expect(checkboxes).toHaveLength(5);
 		});
 	});
 

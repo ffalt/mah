@@ -144,6 +144,8 @@
 	<div class="ctrl ctrl-time">
 		<span class="label text"><small>{{ 'STONES' | translate }}:</small> <span>{{ game.board.count }}</span></span>
 		<span class="label text"><small>{{ 'FREE' | translate }}:</small> <span>{{ game.board.free.length }}</span></span>
-		<span class="time">{{ game.clock.elapsed | duration }}</span>
+		@if (app.settings.showClock) {
+			<span class="time">{{ game.clock.elapsed | duration }}</span>
+		}
 	</div>
 </div>

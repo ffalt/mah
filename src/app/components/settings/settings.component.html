@@ -231,6 +231,16 @@
 						<span>{{ 'VICTORY_CONFETTI' | translate }}</span>
 					</label>
 				</li>
+				<li>
+					<label class="check">
+						<input
+							type="checkbox"
+							[checked]="app.settings.showClock"
+							(change)="app.settings.showClock = !app.settings.showClock;app.settings.save();"
+						>
+						<span>{{ 'SHOW_CLOCK' | translate }}</span>
+					</label>
+				</li>
 			</ul>
 		</fieldset>
 	</section>

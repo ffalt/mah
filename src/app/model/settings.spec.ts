@@ -127,6 +127,7 @@ describe('Settings', () => {
 				contrast: true,
 				dark: true,
 				confetti: true,
+				showClock: true,
 				tile3d: true,
 				background: 'test-background',
 				pattern: undefined,
