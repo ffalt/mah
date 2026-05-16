@@ -387,7 +387,8 @@
 	#tab-lang:focus-visible ~ .tabs-labels label[for="tab-lang"],
 	#tab-stones:focus-visible ~ .tabs-labels label[for="tab-stones"],
 	#tab-theme:focus-visible ~ .tabs-labels label[for="tab-theme"],
-	#tab-background:focus-visible ~ .tabs-labels label[for="tab-background"] {
+	#tab-background:focus-visible ~ .tabs-labels label[for="tab-background"],
+	#tab-ui:focus-visible ~ .tabs-labels label[for="tab-ui"] {
 		color: var(--dialog-headline-color);
 		border-bottom-color: var(--focus-ring-color);
 	}
@@ -396,6 +397,7 @@
 	#tab-stones:checked ~ .tabs-labels label[for="tab-stones"],
 	#tab-theme:checked ~ .tabs-labels label[for="tab-theme"],
 	#tab-background:checked ~ .tabs-labels label[for="tab-background"],
+	#tab-ui:checked ~ .tabs-labels label[for="tab-ui"],
 	#tab-data:checked ~ .tabs-labels label[for="tab-data"] {
 		color: var(--dialog-headline-color);
 		border-bottom-color: var(--dialog-headline-color);
@@ -411,6 +413,7 @@
 		#tab-stones:checked ~ .tabs-labels label[for="tab-stones"],
 		#tab-theme:checked ~ .tabs-labels label[for="tab-theme"],
 		#tab-background:checked ~ .tabs-labels label[for="tab-background"],
+		#tab-ui:checked ~ .tabs-labels label[for="tab-ui"],
 		#tab-data:checked ~ .tabs-labels label[for="tab-data"] {
 			color: var(--dialog-headline-color);
 			border-bottom-color: var(--dialog-headline-color);
@@ -426,6 +429,7 @@
 	#tab-background:checked ~ .tabs-panels #panel-background,
 	#tab-stones:checked ~ .tabs-panels #panel-stones,
 	#tab-theme:checked ~ .tabs-panels #panel-theme,
+	#tab-ui:checked ~ .tabs-panels #panel-ui,
 	#tab-data:checked ~ .tabs-panels #panel-data {
 		display: flex;
 	}

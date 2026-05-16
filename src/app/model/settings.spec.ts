@@ -110,6 +110,7 @@ describe('Settings', () => {
 			settings.music = true;
 			settings.contrast = true;
 			settings.dark = true;
+			settings.confetti = true;
 			settings.tile3d = true;
 			settings.background = 'test-background';
 			settings.theme = 'test-theme';
@@ -125,6 +126,7 @@ describe('Settings', () => {
 				music: true,
 				contrast: true,
 				dark: true,
+				confetti: true,
 				tile3d: true,
 				background: 'test-background',
 				pattern: undefined,

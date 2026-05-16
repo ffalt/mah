@@ -15,6 +15,7 @@ export class Game {
 	music: Music = new Music();
 	state: number = STATES.idle;
 	message?: { messageID?: string; playTime?: number; askShuffle?: boolean };
+	onWin?: () => void;
 	layoutID?: string = undefined;
 	mode: GAME_MODE_ID = GAME_MODE_ID_DEFAULT;
 	private saveTimer?: ReturnType<typeof setTimeout>;
@@ -297,6 +298,7 @@ export class Game {
 		if (!this.isStorableLayoutId()) {
 			this.gameOver('MSG_GOOD', playTime);
 			this.sound.play(SOUNDS.WIN);
+			this.onWin?.();
 			return;
 		}
 		const id = this.layoutID ?? 'unknown';
@@ -311,6 +313,7 @@ export class Game {
 		}
 		this.storage.storeScore(id, score);
 		this.sound.play(SOUNDS.WIN);
+		this.onWin?.();
 	}
 
 	private delayedSave(): void {

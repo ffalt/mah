@@ -7,7 +7,7 @@
 		[checked]="selectedTab === tab.id"
 		(change)="setSelectedTab(tab.id)"/>
 }
-<div class="tabs-labels" role="tablist" aria-label="Settings Tabs">
+<div class="tabs-labels" role="tablist" [attr.aria-label]="'SETTINGS_TABS' | translate">
 	@for (tab of tabs; track tab.id) {
 		<label [id]="`tab-${tab.id}-label`" [for]="`tab-${tab.id}`">{{ tab.name | translate }}</label>
 	}
@@ -88,7 +88,7 @@
 						class="clear-kyodai"
 						(click)="clearKyodaiUrl()"
 						title="{{ 'KYODAI_TILESET_CLEAR' | translate }}"
-						aria-label="{{ 'KYODAI_TILESET_CLEAR' | translate }}">
+						[attr.aria-label]="'KYODAI_TILESET_CLEAR' | translate">
 						<svg width="17px" height="17px" viewBox="0 0 35 35" aria-hidden="true">
 							<path d="M28.814,30.064a1.247,1.247,0,0,1-.884-.367L5.3,7.07A1.249,1.249,0,0,1,7.07,5.3L29.7,27.93a1.251,1.251,0,0,1-.884,2.134Z"/>
 							<path d="M6.186,30.064A1.251,1.251,0,0,1,5.3,27.93L27.93,5.3A1.25,1.25,0,0,1,29.7,7.07L7.07,29.7A1.247,1.247,0,0,1,6.186,30.064Z"/>
@@ -97,7 +97,7 @@
 					<select
 						class="example-kyodai"
 						(change)="setKyodaiUrl($event)"
-						aria-label="{{ 'KYODAI_TILESET_EXAMPLES' | translate }}"
+						[attr.aria-label]="'KYODAI_TILESET_EXAMPLES' | translate"
 					>
 						<option value="">{{ 'KYODAI_TILESET_EXAMPLES' | translate }}</option>
 						@for (k of kyodaiTileSets; track k.source) {
@@ -105,7 +105,7 @@
 						}
 					</select>
 				</div>
-				<button type="button" (click)="applyKyodaiUrl()" aria-label="{{ 'KYODAI_TILESET_LOAD' | translate }}">
+				<button type="button" (click)="applyKyodaiUrl()" [attr.aria-label]="'KYODAI_TILESET_LOAD' | translate">
 					{{ 'KYODAI_TILESET_LOAD' | translate }}
 				</button>
 			</fieldset>
@@ -216,5 +216,22 @@
 				</ul>
 			</fieldset>
 		}
+	</section>
+	<section id="panel-ui" class="panel" role="tabpanel" aria-labelledby="tab-ui-label">
+		<fieldset>
+			<legend id="ui-legend">{{ 'UI' | translate }}</legend>
+			<ul class="checks" role="group" aria-labelledby="ui-legend">
+				<li>
+					<label class="check">
+						<input
+							type="checkbox"
+							[checked]="app.settings.confetti"
+							(change)="app.settings.confetti = !app.settings.confetti;app.settings.save();"
+						>
+						<span>{{ 'VICTORY_CONFETTI' | translate }}</span>
+					</label>
+				</li>
+			</ul>
+		</fieldset>
 	</section>
 </div>

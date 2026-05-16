@@ -28,6 +28,7 @@ import { IconFullscreenComponent } from '../icons/icon-fullscreen.component';
 import { IconShuffleComponent } from '../icons/icon-shuffle.component';
 import { IconUndoComponent } from '../icons/icon-undo.component';
 import { IconMuteComponent } from '../icons/icon-mute.component';
+import { Confetti } from '../../model/confetti';
 
 interface DocumentExtended extends Document {
 	fullScreen: boolean;
@@ -94,13 +95,23 @@ export class GameComponent {
 	menuOpen: boolean = false;
 	title: string = '';
 	announceText: string = '';
+
 	private readonly injector = inject(Injector);
 	private announceTimer?: ReturnType<typeof setTimeout>;
 
 	constructor() {
 		this.game = this.app.game;
+		this.game.onWin = () => this.triggerConfetti();
 		this.fullScreenEnabled = this.canFullscreen();
 		this.title = `${this.app.name} v${environment.version}`;
+	}
+
+	triggerConfetti(): void {
+		if (!this.app.settings.confetti) {
+			return;
+		}
+		const confetti = new Confetti();
+		confetti.trigger();
 	}
 
 	toggleMenu(): void {

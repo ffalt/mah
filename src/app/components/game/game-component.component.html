@@ -111,7 +111,8 @@
 />
 <div class="controls controls-bottom">
 	<div class="ctrl ctrl-stats">
-		<button type="button" class="button menu-button" title="Menu"
+		<button type="button" class="button menu-button" title="{{ 'MENU' | translate }}"
+			[attr.aria-label]="'MENU' | translate"
 			aria-haspopup="menu"
 			aria-controls="ctrl-stats-menu"
 			[attr.aria-expanded]="menuOpen"

@@ -13,7 +13,8 @@ const SETTINGS_TABS = [
 	{ id: 'lang', name: 'LANG' },
 	{ id: 'stones', name: 'TILESET' },
 	{ id: 'theme', name: 'THEME' },
-	{ id: 'background', name: 'BACKGROUND' }
+	{ id: 'background', name: 'BACKGROUND' },
+	{ id: 'ui', name: 'UI' }
 ];
 
 @Component({

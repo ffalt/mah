@@ -94,5 +94,6 @@ export class SettingsStore {
 	background: string;
 	pattern?: string;
 	tile3d?: boolean;
+	confetti?: boolean;
 	tutorialCompleted?: boolean;
 }
