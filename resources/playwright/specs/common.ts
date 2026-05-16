@@ -64,20 +64,31 @@ export async function startLayout(page: Page, layoutID: string) {
 	await expect(overlay).toBeHidden({ timeout: 2000 });
 }
 
+async function openMenuIfClosed(page: Page) {
+	const menu = page.locator('.menu');
+	const isVisible = await menu.isVisible();
+	if (!isVisible) {
+		await page.locator('button.menu-button').click();
+		await menu.waitFor({ state: 'visible', timeout: 1000 });
+	}
+}
+
 export async function openSettingsDialog(page: Page) {
-	return openDialog(page, 'button:has(.icon-cog)', 'overlay-settings');
+	await openMenuIfClosed(page);
+	return openDialog(page, 'button:has(app-icon-settings)', 'overlay-settings');
 }
 
 export async function openHelpDialog(page: Page) {
-	return openDialog(page, 'button:has(.icon-logo)', 'overlay-help');
+	return openDialog(page, 'button:has(app-icon-logo)', 'overlay-help');
 }
 
 export async function openInfoDialog(page: Page) {
-	return openDialog(page, 'button:has(.icon-calendar)', 'overlay-info');
+	await openMenuIfClosed(page);
+	return openDialog(page, 'button:has(app-icon-tilesinfo)', 'overlay-info');
 }
 
 export async function openGameDialog(page: Page) {
-	return openDialog(page, 'button:has(.icon-loop)', 'overlay-newgame');
+	return openDialog(page, '.ctrl-game button:has(app-icon-restart)', 'overlay-newgame');
 }
 
 export async function openDialog(page: Page, buttonSelect: string, overlayClass: string) {

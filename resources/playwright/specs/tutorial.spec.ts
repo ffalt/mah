@@ -20,7 +20,7 @@ test.describe('tutorial', () => {
 				await setLanguage(page, lang);
 
 				const overlayHelp = await openHelpDialog(page);
-				await overlayHelp.locator('a.tutorial-link').click();
+				await overlayHelp.locator('button.tutorial-link').click();
 
 				const overlay = page.locator('.overlay.overlay-tutorial');
 				await overlay.waitFor({ state: 'visible', timeout: 2000 });
