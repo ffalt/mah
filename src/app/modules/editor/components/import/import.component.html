@@ -11,7 +11,7 @@
 		@for (log of logs; track log) {
 			<p class="layout" [class.is-error]="log.isError">
 				@if (log.id) {
-					<button class="log-link" (click)="selectLayout(log.id)"><app-icon-ok /> {{ log.msg }}</button>
+					<button type="button" class="log-link" (click)="selectLayout(log.id)"><app-icon-ok /> {{ log.msg }}</button>
 				}
 				@if (!log.id) {
 					{{ log.msg }}

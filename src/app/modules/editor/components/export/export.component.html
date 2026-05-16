@@ -2,12 +2,12 @@
 @if (layout()) {
 	<div class="section">
 		<div class="inputs">
-			<label>{{ 'EDITOR_LAYOUT_NAME' | translate }}</label>
-			<input type="text" [value]="layout().name" (input)="layout().name = $any($event.target).value;" (change)="this.update()" (blur)="this.update()">
-			<label>{{ 'EDITOR_LAYOUT_BY' | translate }}</label>
-			<input type="text" [value]="layout().by" (input)="layout().by = $any($event.target).value;" (change)="this.update()" (blur)="this.update()">
-			<label>{{ 'EDITOR_LAYOUT_CATEGORY' | translate }}</label>
-			<input type="text" [value]="layout().category" (input)="layout().category = $any($event.target).value;" (change)="this.update()" (blur)="this.update()">
+			<label for="editor-layout-name">{{ 'EDITOR_LAYOUT_NAME' | translate }}</label>
+			<input id="editor-layout-name" type="text" [value]="layout().name" (input)="layout().name = $any($event.target).value;" (change)="this.update()" (blur)="this.update()">
+			<label for="editor-layout-by">{{ 'EDITOR_LAYOUT_BY' | translate }}</label>
+			<input id="editor-layout-by" type="text" [value]="layout().by" (input)="layout().by = $any($event.target).value;" (change)="this.update()" (blur)="this.update()">
+			<label for="editor-layout-category">{{ 'EDITOR_LAYOUT_CATEGORY' | translate }}</label>
+			<input id="editor-layout-category" type="text" [value]="layout().category" (input)="layout().category = $any($event.target).value;" (change)="this.update()" (blur)="this.update()">
 		</div>
 		<div class="preview">
 			<app-layout-preview class="svg-board" [layout]="layout()"></app-layout-preview>
@@ -15,8 +15,8 @@
 	</div>
 }
 <div class="export">
-	<label>Format</label>
 	<fieldset>
+		<legend>Format</legend>
 		<ul>
 			@for (ef of exportFormats; track ef) {
 				<li>
@@ -37,10 +37,10 @@
 	</div>
 	<br/>
 	<div class="buttons">
-		<button class="text-button" (click)="download()">{{ 'EDITOR_LAYOUT_DOWNLOAD' | translate }} {{ filename }}</button>
+		<button type="button" class="text-button" (click)="download()">{{ 'EDITOR_LAYOUT_DOWNLOAD' | translate }} {{ filename }}</button>
 		@if (this.layout() && this.layout().originalId && exportLayout.id !== this.layout().originalId) {
-			<button class="text-button" (click)="saveAsCopy()">{{ 'EDITOR_LAYOUT_SAVE_AS_COPY' | translate }}</button>
+			<button type="button" class="text-button" (click)="saveAsCopy()">{{ 'EDITOR_LAYOUT_SAVE_AS_COPY' | translate }}</button>
 		}
-		<button class="text-button" (click)="save()">{{ 'EDITOR_LAYOUT_SAVE' | translate }}</button>
+		<button type="button" class="text-button" (click)="save()">{{ 'EDITOR_LAYOUT_SAVE' | translate }}</button>
 	</div>
 </div>

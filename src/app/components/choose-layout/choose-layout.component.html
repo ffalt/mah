@@ -1,14 +1,12 @@
 <app-layout-list (startEvent)="onStart($event)" [layouts]="this.layoutService.layouts.items" />
 <div class="choose-buttons">
 	<div class="generator">
-		<label class="info-label"
-			tabindex="0"
-			role="button"
+		<button type="button" class="info-label"
 			(click)="openGeneratorInfo($event)"
 			(keydown.enter)="openGeneratorInfo($event)"
 			(keydown.space)="openGeneratorInfo($event)">{{ 'BOARD_GENERATOR' | translate }}
 			<app-icon-info />
-		</label>
+		</button>
 		<select id="board-generator-select" [attr.aria-label]="'BOARD_GENERATOR' | translate" (change)="buildMode.set($any($event.target).value)">
 			@for (m of buildModes; track m) {
 				<option [value]="m.id" [selected]="buildMode() === m.id">{{ m.id | translate }}</option>
@@ -16,14 +14,12 @@
 		</select>
 	</div>
 	<div class="mode">
-		<label class="info-label"
-			tabindex="0"
-			role="button"
+		<button type="button" class="info-label"
 			(click)="openModeInfo($event)"
 			(keydown.enter)="openModeInfo($event)"
 			(keydown.space)="openModeInfo($event)">{{ 'GAME_MODE' | translate }}
 			<app-icon-info />
-		</label>
+		</button>
 		<select id="game-mode-select" [attr.aria-label]="'GAME_MODE' | translate" (change)="onGameModeChange($any($event.target).value)">
 			@for (m of gameModes; track m) {
 				<option [value]="m.id" [selected]="gameMode() === m.id">{{ m.id | translate }}</option>
@@ -31,17 +27,18 @@
 		</select>
 	</div>
 	<div class="start-links">
-		<button (click)="randomGame()">{{ 'START_RANDOM' | translate }}</button>
+		<button type="button" (click)="randomGame()">{{ 'START_RANDOM' | translate }}</button>
 	</div>
 </div>
 
 @if (activeInfo()) {
-	<div class="info-overlay" (click)="closeInfo()" (keydown.escape)="closeInfo()">
+	<div class="info-overlay" tabindex="0" (click)="closeInfo()" (keydown.escape)="closeInfo()">
 		<div class="info-popup" role="dialog" aria-modal="true"
 			[attr.aria-labelledby]="'info-title-' + activeInfo()"
 			tabindex="-1"
-			(click)="$event.stopPropagation()">
-			<button class="close" (click)="closeInfo()" [attr.aria-label]="'CLOSE' | translate"><app-icon-close /></button>
+			(click)="$event.stopPropagation()"
+			(keydown)="$event.stopPropagation()">
+			<button type="button" class="close" (click)="closeInfo()" [attr.aria-label]="'CLOSE' | translate"><app-icon-close /></button>
 			@if (activeInfo() === 'generator') {
 				<h2 id="info-title-generator">{{ 'BOARD_GENERATOR' | translate }}</h2>
 				@for (m of buildModes; track m) {

@@ -34,12 +34,12 @@
 			(keydown.space)="$event.preventDefault(); activateSortBy(4)"
 			[class.sort-up]="sortColumn===4 && sortDesc" [class.sort-down]="sortColumn===4 && !sortDesc">{{ 'EDITOR_LAYOUT_NR_OF_STONES' | translate }} <span class="arrow"></span></td>
 		<td class="col-test">{{ 'EDITOR_COLUMN_TEST' | translate }}
-			<button (click)="testLayouts($event)" title="{{ 'EDITOR_TEST_RUN' | translate }}" [attr.aria-label]="'EDITOR_TEST_RUN' | translate">
+			<button type="button" (click)="testLayouts($event)" title="{{ 'EDITOR_TEST_RUN' | translate }}" [attr.aria-label]="'EDITOR_TEST_RUN' | translate">
 				<app-icon-execute />
 			</button>
 		</td>
 		<td class="col-delete">
-			<button (click)="removeCustomLayouts($event)" title="{{ 'CUSTOM_BOARD_DELETE_ALL' | translate }}" [attr.aria-label]="'CUSTOM_BOARD_DELETE_ALL' | translate">
+			<button type="button" (click)="removeCustomLayouts($event)" title="{{ 'CUSTOM_BOARD_DELETE_ALL' | translate }}" [attr.aria-label]="'CUSTOM_BOARD_DELETE_ALL' | translate">
 				<app-icon-delete />
 			</button>
 		</td>
@@ -60,7 +60,7 @@
 			<td class="col-cat">{{ layout.category }}</td>
 			<td class="col-stats">{{ layout.mapping.length }}</td>
 			<td class="col-test">
-				<button (click)="testLayout($event, layout)" title="{{ 'EDITOR_TEST_RUN' | translate }}" [attr.aria-label]="'EDITOR_TEST_RUN' | translate">
+				<button type="button" (click)="testLayout($event, layout)" title="{{ 'EDITOR_TEST_RUN' | translate }}" [attr.aria-label]="'EDITOR_TEST_RUN' | translate">
 					<app-icon-execute />
 				</button>
 				@if (test[layout.id]) {
@@ -76,7 +76,7 @@
 			</td>
 			<td class="col-delete">
 				@if (layout.custom) {
-					<button (click)="removeCustomBoard($event, layout)" title="{{'CUSTOM_BOARD_DELETE' | translate}}" [attr.aria-label]="'CUSTOM_BOARD_DELETE' | translate">
+					<button type="button" (click)="removeCustomBoard($event, layout)" title="{{'CUSTOM_BOARD_DELETE' | translate}}" [attr.aria-label]="'CUSTOM_BOARD_DELETE' | translate">
 						<app-icon-delete />
 					</button>
 				}

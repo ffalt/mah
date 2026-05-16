@@ -1,28 +1,28 @@
 <div class="controls controls-top">
 	<div class="ctrl ctrl-name">
-		<button class="button" (click)="help.toggle()" title="{{'OPEN_HELP' | translate}}">
+		<button type="button" class="button" (click)="help.toggle()" title="{{'OPEN_HELP' | translate}}">
 			<app-icon-logo/>
 			<span class="name">{{ app.name }}</span>
 		</button>
 	</div>
 	<div class="ctrl ctrl-game">
-		<button class="button" (click)="game.toggle()" title="{{'PAUSE_LONG' | translate}}" [attr.aria-pressed]="game.isPaused()">
+		<button type="button" class="button" (click)="game.toggle()" title="{{'PAUSE_LONG' | translate}}" [attr.aria-pressed]="game.isPaused()">
 			<app-icon-pause/>
 			<span class="label">{{ 'PAUSE' | translate }}</span>
 		</button>
-		<button class="button feature" [class.enabled]="game.mode | gameModeEasy" (click)="onShuffle()" title="{{'SHUFFLE_LONG' | translate}}">
+		<button type="button" class="button feature" [class.enabled]="game.mode | gameModeEasy" (click)="onShuffle()" title="{{'SHUFFLE_LONG' | translate}}">
 			<app-icon-shuffle/>
 			<span class="label">{{ 'SHUFFLE' | translate }}</span>
 		</button>
-		<button class="button feature" [class.enabled]="game.mode | gameModeStandard" (click)="onUndo()" title="{{'UNDO_LONG' | translate}}" [attr.disabled]="game.board.undo.length===0 ? true : null">
+		<button type="button" class="button feature" [class.enabled]="game.mode | gameModeStandard" (click)="onUndo()" title="{{'UNDO_LONG' | translate}}" [attr.disabled]="game.board.undo.length===0 ? true : null">
 			<app-icon-undo/>
 			<span class="label">{{ 'UNDO' | translate }}</span>
 		</button>
-		<button class="button feature" [class.enabled]="game.mode | gameModeStandard" (click)="onHint()" title="{{'HINT_LONG' | translate}}">
+		<button type="button" class="button feature" [class.enabled]="game.mode | gameModeStandard" (click)="onHint()" title="{{'HINT_LONG' | translate}}">
 			<app-icon-hint/>
 			<span class="label">{{ 'HINT' | translate }}</span>
 		</button>
-		<button class="button" (click)="newGame()" title="{{'RESTART_LONG' | translate}}">
+		<button type="button" class="button" (click)="newGame()" title="{{'RESTART_LONG' | translate}}">
 			<app-icon-restart/>
 			<span class="label">{{ 'RESTART' | translate }}</span>
 		</button>
@@ -40,7 +40,7 @@
 />
 <div class="controls controls-bottom">
 	<div class="ctrl ctrl-stats">
-		<button class="button menu-button" title="Menu"
+		<button type="button" class="button menu-button" title="Menu"
 			aria-haspopup="menu"
 			aria-controls="ctrl-stats-menu"
 			[attr.aria-expanded]="menuOpen"
@@ -50,19 +50,20 @@
 		</button>
 		<div class="menu" role="menu" id="ctrl-stats-menu"
 			[class.menu-open]="menuOpen"
+			tabindex="-1"
 			(click)="closeMenu()"
 			(keydown.escape)="closeMenu()">
-			<button class="button" (click)="settings.toggle()" title="{{'OPEN_SETTINGS' | translate}}" [attr.aria-label]="'SETTINGS' | translate" role="menuitem">
+			<button type="button" class="button" (click)="settings.toggle()" title="{{'OPEN_SETTINGS' | translate}}" [attr.aria-label]="'SETTINGS' | translate" role="menuitem">
 				<app-icon-settings/>
 			</button>
-			<button class="button" [class.inactive]="!app.settings.sounds" (click)="app.toggleSound()" title="{{'AUDIO_SOUNDS' | translate}}" [attr.aria-label]="'AUDIO_SOUNDS' | translate" [attr.aria-pressed]="!app.settings.sounds" role="menuitem">
+			<button type="button" class="button" [class.inactive]="!app.settings.sounds" (click)="app.toggleSound()" title="{{'AUDIO_SOUNDS' | translate}}" [attr.aria-label]="'AUDIO_SOUNDS' | translate" [attr.aria-pressed]="!app.settings.sounds" role="menuitem">
 				<app-icon-mute/>
 			</button>
-			<button class="button" (click)="info.toggle()" title="{{'TILES_INFO' | translate}}" [attr.aria-label]="'TILES_INFO' | translate" role="menuitem">
+			<button type="button" class="button" (click)="info.toggle()" title="{{'TILES_INFO' | translate}}" [attr.aria-label]="'TILES_INFO' | translate" role="menuitem">
 				<app-icon-tilesinfo/>
 			</button>
 			@if (fullScreenEnabled) {
-				<button class="button" (click)="enterFullScreen()" title="{{'FULLSCREEN' | translate}}" [attr.aria-label]="'FULLSCREEN' | translate" role="menuitem">
+				<button type="button" class="button" (click)="enterFullScreen()" title="{{'FULLSCREEN' | translate}}" [attr.aria-label]="'FULLSCREEN' | translate" role="menuitem">
 					<app-icon-fullscreen/>
 				</button>
 			}
@@ -126,14 +127,14 @@
 			}
 			@if (game.message.askShuffle) {
 				<div class="overlay-message-actions">
-					<button
+					<button type="button"
 						class="button feature"
 						(click)="onShuffleContinue($event)"
 					>
 						<app-icon-shuffle/>
 						<span class="label">{{ 'SHUFFLE' | translate }}</span>
 					</button>
-					<button
+					<button type="button"
 						class="button"
 						(click)="onSurrenderGame($event)"
 					>

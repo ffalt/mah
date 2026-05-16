@@ -50,7 +50,7 @@
 									>
 									</div>
 								}
-								<div class="preview-seed" (click)="$event.stopPropagation()">
+								<div class="preview-seed" tabindex="-1" (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
 									<input
 										type="text" class="seed-input"
 										[value]="$any(item).layoutSeed ?? ''"
@@ -85,7 +85,7 @@
 								</select>
 							</div>
 							<div>
-								<button (click)="generateRandomLayouts()">
+								<button type="button" (click)="generateRandomLayouts()">
 									{{ 'GENERATE' | translate }}
 								</button>
 							</div>
@@ -115,14 +115,14 @@
 								@if (item.bestTime) {
 									<div class="preview-best-time">
 										<span title="{{ 'STATS_BEST' | translate }}">{{ item.bestTime|duration }}</span>
-										<button (click)="clearBestTimeClick($event, item)" [attr.aria-label]="'BEST_TIME_CLEAR' | translate">
+										<button type="button" (click)="clearBestTimeClick($event, item)" [attr.aria-label]="'BEST_TIME_CLEAR' | translate">
 											<app-icon-delete/>
 										</button>
 									</div>
 								}
 								<div class="preview-name">{{ item.layout.name }}</div>
 								@if (item.layout.custom) {
-									<button
+									<button type="button"
 										class="preview-custom-delete"
 										(click)="removeCustomLayout($event, item)"
 										title="{{ 'CUSTOM_BOARD_DELETE' | translate }}"

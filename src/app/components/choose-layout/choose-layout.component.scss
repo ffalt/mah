@@ -25,7 +25,7 @@
 		.generator, .mode {
 			flex: 1;
 
-			label {
+			.info-label {
 				padding: 1px 5px 5px;
 				display: flex;
 				align-items: center;
@@ -58,7 +58,7 @@
 			flex-direction: column;
 			align-items: unset;
 
-			label {
+			.info-label {
 				font-size: 0.9em;
 			}
 
@@ -72,8 +72,13 @@
 		}
 	}
 
-	label.info-label {
+	.info-label {
+		background: none;
+		border: none;
+		color: inherit;
 		cursor: pointer;
+		font: inherit;
+		text-align: left;
 		transition: color 0.15s;
 		border-radius: 4px;
 
@@ -160,4 +165,3 @@
 		}
 	}
 }
-

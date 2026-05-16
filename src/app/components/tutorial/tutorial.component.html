@@ -9,8 +9,8 @@
 				<li>{{ 'TUTORIAL_WELCOME_BENEFIT_3' | translate }}</li>
 			</ul>
 			<div class="tutorial-welcome-actions">
-				<button class="tutorial-btn-primary" (click)="start()">{{ 'TUTORIAL_WELCOME_START' | translate }}</button>
-				<button class="tutorial-btn-skip" (click)="skip()">{{ 'TUTORIAL_SKIP' | translate }}</button>
+				<button type="button" class="tutorial-btn-primary" (click)="start()">{{ 'TUTORIAL_WELCOME_START' | translate }}</button>
+				<button type="button" class="tutorial-btn-skip" (click)="skip()">{{ 'TUTORIAL_SKIP' | translate }}</button>
 			</div>
 		</div>
 	</div>
@@ -18,7 +18,7 @@
 	<div class="tutorial-complete">
 		<h2>{{ 'TUTORIAL_COMPLETE_TITLE' | translate }}</h2>
 		<p>{{ 'TUTORIAL_COMPLETE_DESC' | translate }}</p>
-		<button class="tutorial-btn-primary" (click)="completed.emit()">{{ 'TUTORIAL_START_PLAYING' | translate }}</button>
+		<button type="button" class="tutorial-btn-primary" (click)="completed.emit()">{{ 'TUTORIAL_START_PLAYING' | translate }}</button>
 	</div>
 } @else {
 	<div class="tutorial-main">
@@ -44,8 +44,8 @@
 		<div class="tutorial-footer">
 			<span class="tutorial-progress" aria-live="polite" aria-atomic="true">{{ 'TUTORIAL_STEP' | translate:{ current: currentStepIndex() + 1, total: steps.length } }}</span>
 			<div class="tutorial-actions">
-				<button class="tutorial-btn-next" (click)="next()">{{ 'TUTORIAL_NEXT' | translate }}</button>
-				<button class="tutorial-btn-skip" (click)="skip()">{{ 'TUTORIAL_SKIP' | translate }}</button>
+				<button type="button" class="tutorial-btn-next" (click)="next()">{{ 'TUTORIAL_NEXT' | translate }}</button>
+				<button type="button" class="tutorial-btn-skip" (click)="skip()">{{ 'TUTORIAL_SKIP' | translate }}</button>
 			</div>
 		</div>
 	</div>

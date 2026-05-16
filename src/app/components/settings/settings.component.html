@@ -84,7 +84,7 @@
 									aria-labelledby="kyodai-legend"
 									placeholder="{{ 'KYODAI_TILESET_URL_PLACEHOLDER' | translate }}"
 								></textarea>
-					<button
+					<button type="button"
 						class="clear-kyodai"
 						(click)="clearKyodaiUrl()"
 						title="{{ 'KYODAI_TILESET_CLEAR' | translate }}"
@@ -105,7 +105,7 @@
 						}
 					</select>
 				</div>
-				<button (click)="applyKyodaiUrl()" aria-label="{{ 'KYODAI_TILESET_LOAD' | translate }}">
+				<button type="button" (click)="applyKyodaiUrl()" aria-label="{{ 'KYODAI_TILESET_LOAD' | translate }}">
 					{{ 'KYODAI_TILESET_LOAD' | translate }}
 				</button>
 			</fieldset>

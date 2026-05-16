@@ -1,18 +1,18 @@
 <div class="editor-content">
-	<button class="close" (click)="close()" [attr.aria-label]="'CLOSE' | translate"><app-icon-close /></button>
+	<button type="button" class="close" (click)="close()" [attr.aria-label]="'CLOSE' | translate"><app-icon-close /></button>
 	<div class="editor-manager" [class.visible]="mode==='manager'">
 		<div class="editor-nav buttons">
 			<ul>
 				<li class="editor-title"><app-icon-logo /> {{ 'EDITOR_TITLE' | translate }}</li>
 				<li class="sep"></li>
 				<li>
-					<button (click)="newLayout()" title="{{ 'EDITOR_NEW_LONG' | translate }}">{{ 'EDITOR_NEW' | translate }}</button>
+					<button type="button" (click)="newLayout()" title="{{ 'EDITOR_NEW_LONG' | translate }}">{{ 'EDITOR_NEW' | translate }}</button>
 				</li>
 				<li>
-					<button (click)="mode='import'" title="{{ 'EDITOR_IMPORT_LONG' | translate }}">{{ 'EDITOR_IMPORT' | translate }}</button>
+					<button type="button" (click)="mode='import'" title="{{ 'EDITOR_IMPORT_LONG' | translate }}">{{ 'EDITOR_IMPORT' | translate }}</button>
 				</li>
 				<li>
-					<button (click)="exportLayouts()" title="{{ 'EDITOR_EXPORT_LONG' | translate }}">{{ 'EDITOR_EXPORT' | translate }}</button>
+					<button type="button" (click)="exportLayouts()" title="{{ 'EDITOR_EXPORT_LONG' | translate }}">{{ 'EDITOR_EXPORT' | translate }}</button>
 				</li>
 			</ul>
 		</div>
@@ -39,7 +39,7 @@
 					<li class="editor-title"><app-icon-logo /> {{ 'EDITOR_TITLE' | translate }}: {{ layout.name }}</li>
 					<li class="sep"></li>
 					<li>
-						<button (click)="save()" title="{{ 'EDITOR_SAVE_LONG' | translate }}">{{ 'EDITOR_SAVE' | translate }}</button>
+						<button type="button" (click)="save()" title="{{ 'EDITOR_SAVE_LONG' | translate }}">{{ 'EDITOR_SAVE' | translate }}</button>
 					</li>
 				</ul>
 			</div>
