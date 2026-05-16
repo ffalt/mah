@@ -67,7 +67,7 @@
 		"@types/jest": "30.0.0",
 		"@types/node": "25.6.2",
 		"angular-eslint": "21.3.1",
-		"baseline-browser-mapping": "2.10.28",
+		"baseline-browser-mapping": "2.10.29",
 		"eslint": "10.3.0",
 		"eslint-plugin-jest": "29.15.2",
 		"eslint-plugin-rxjs-x": "1.0.2",
