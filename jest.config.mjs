@@ -3,6 +3,8 @@ export default {
 	transformIgnorePatterns: [String.raw`node_modules/(?!(zzfx|.*\.mjs$))`],
 	testPathIgnorePatterns: ["/node_modules/", "/resources/"],
 	setupFilesAfterEnv: ["<rootDir>/setup-jest.ts"],
+	clearMocks: true,
+	restoreMocks: true,
 	globals: {
 		APP_VERSION: "TEST",
 		APP_NAME: "TEST MAHJONG",

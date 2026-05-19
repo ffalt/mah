@@ -36,7 +36,6 @@ describe('WorkerService', () => {
 			providers: [WorkerService]
 		});
 		service = TestBed.inject(WorkerService);
-		jest.clearAllMocks();
 		originalWorker = global.Worker;
 	});
 

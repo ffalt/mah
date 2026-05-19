@@ -2,19 +2,7 @@ import { isValidLoadLayout, MAX_IMPORT_BOARDS, parseImportString } from './impor
 
 jest.mock('./log', () => ({ log: { warn: jest.fn(), error: jest.fn() } }));
 
-function b64(json: unknown): string {
-	return Buffer.from(JSON.stringify(json)).toString('base64');
-}
-
-const VALID_MAP = [[0, [[0, 0]]]];
-
-function makeBoard(overrides: Partial<Record<string, unknown>> = {}): Record<string, unknown> {
-	return { id: 'test-id', name: 'Test Board', map: VALID_MAP, ...overrides };
-}
-
-function makeMah(boards: Array<unknown> = [makeBoard()]): unknown {
-	return { mah: '1.0', boards };
-}
+import { b64, makeBoard, makeMah, VALID_MAP } from './import.spec-helpers';
 
 describe('isValidLoadLayout', () => {
 	it('returns false for null', () => {

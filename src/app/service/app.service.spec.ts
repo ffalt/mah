@@ -82,13 +82,10 @@ describe('AppService', () => {
 	});
 
 	afterEach(() => {
-		// Restore navigator
 		Object.defineProperty(window, 'navigator', {
 			value: originalNavigator,
 			writable: true
 		});
-
-		jest.clearAllMocks();
 	});
 
 	describe('initialization', () => {

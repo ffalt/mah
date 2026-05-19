@@ -11,10 +11,25 @@ import { type BUILD_MODE_ID, MODE_SOLVABLE } from '../../model/builder';
 import { environment } from '../../../environments/environment';
 import { Stone } from '../../model/stone';
 
+const zenControlsDefaultRect: DOMRect = {
+	x: 20, y: 30, left: 20, top: 30, right: 220, bottom: 90, width: 200, height: 60,
+	toJSON: () => ({})
+};
+
 describe('GameComponent', () => {
 	let component: GameComponent;
 	let fixture: ComponentFixture<GameComponent>;
 	let appService: AppService;
+
+	function overrideBoardWithUndo(): void {
+		const mockBoard = {
+			...component.game.board,
+			undo: [1, 2, 3],
+			reset: jest.fn(),
+			clearMatches: jest.fn()
+		};
+		Object.defineProperty(component.game, 'board', { value: mockBoard });
+	}
 
 	beforeEach(async () =>
 		TestBed.configureTestingModule({
@@ -233,13 +248,7 @@ describe('GameComponent', () => {
 	it('should call back function when control buttons are clicked', () => {
 		// Mock the game state to enable the undo button
 		component.game.mode = GAME_MODE_EASY;
-		const mockBoard = {
-			...component.game.board,
-			undo: [1, 2, 3], // Non-empty undo array to enable the button
-			reset: jest.fn(),
-			clearMatches: jest.fn()
-		};
-		Object.defineProperty(component.game, 'board', { value: mockBoard });
+		overrideBoardWithUndo();
 
 		// Force change detection to update the button state
 		fixture.detectChanges();
@@ -291,13 +300,7 @@ describe('GameComponent', () => {
 		expect(hintSpy).toHaveBeenCalled();
 		expect(newGameSpy).toHaveBeenCalled();
 
-		const mockBoard = {
-			...component.game.board,
-			undo: [1, 2, 3],
-			reset: jest.fn(),
-			clearMatches: jest.fn()
-		};
-		Object.defineProperty(component.game, 'board', { value: mockBoard });
+		overrideBoardWithUndo();
 		fixture.detectChanges();
 
 		fixture.debugElement.query(By.css('.ctrl-game button:nth-child(2)')).nativeElement.click(); // undo
@@ -342,13 +345,7 @@ describe('GameComponent', () => {
 
 	it('should call important actions from the zen controls', () => {
 		component.game.mode = GAME_MODE_EASY;
-		const mockBoard = {
-			...component.game.board,
-			undo: [1, 2, 3],
-			reset: jest.fn(),
-			clearMatches: jest.fn()
-		};
-		Object.defineProperty(component.game, 'board', { value: mockBoard });
+		overrideBoardWithUndo();
 
 		const toggleSpy = jest.spyOn(component.game, 'toggle');
 		const hintSpy = jest.spyOn(component, 'onHint').mockImplementation(jest.fn());
@@ -371,13 +368,7 @@ describe('GameComponent', () => {
 
 	it('should call important actions from the zen controls in standard mode', () => {
 		component.game.mode = GAME_MODE_STANDARD;
-		const mockBoard = {
-			...component.game.board,
-			undo: [1, 2, 3],
-			reset: jest.fn(),
-			clearMatches: jest.fn()
-		};
-		Object.defineProperty(component.game, 'board', { value: mockBoard });
+		overrideBoardWithUndo();
 
 		const toggleSpy = jest.spyOn(component.game, 'toggle');
 		const hintSpy = jest.spyOn(component, 'onHint').mockImplementation(jest.fn());
@@ -426,17 +417,7 @@ describe('GameComponent', () => {
 		const handle = fixture.debugElement.query(By.css('.zen-controls .drag-handle')).nativeElement;
 		const setPointerCaptureSpy = jest.fn();
 		Object.defineProperty(handle, 'setPointerCapture', { value: setPointerCaptureSpy, configurable: true });
-		jest.spyOn(toolbar, 'getBoundingClientRect').mockReturnValue({
-			x: 20,
-			y: 30,
-			left: 20,
-			top: 30,
-			right: 220,
-			bottom: 90,
-			width: 200,
-			height: 60,
-			toJSON: () => ({})
-		});
+		jest.spyOn(toolbar, 'getBoundingClientRect').mockReturnValue(zenControlsDefaultRect);
 
 		const event = {
 			currentTarget: handle,
@@ -460,17 +441,7 @@ describe('GameComponent', () => {
 		const toolbar = fixture.debugElement.query(By.css('.zen-controls')).nativeElement;
 		const handle = fixture.debugElement.query(By.css('.zen-controls .drag-handle')).nativeElement;
 		Object.defineProperty(handle, 'setPointerCapture', { value: jest.fn(), configurable: true });
-		jest.spyOn(toolbar, 'getBoundingClientRect').mockReturnValue({
-			x: 20,
-			y: 30,
-			left: 20,
-			top: 30,
-			right: 220,
-			bottom: 90,
-			width: 200,
-			height: 60,
-			toJSON: () => ({})
-		});
+		jest.spyOn(toolbar, 'getBoundingClientRect').mockReturnValue(zenControlsDefaultRect);
 
 		component.startZenControlsDrag({
 			currentTarget: handle,
@@ -499,17 +470,7 @@ describe('GameComponent', () => {
 		Object.defineProperty(handle, 'setPointerCapture', { value: jest.fn(), configurable: true });
 		const releasePointerCaptureSpy = jest.fn();
 		Object.defineProperty(handle, 'releasePointerCapture', { value: releasePointerCaptureSpy, configurable: true });
-		jest.spyOn(toolbar, 'getBoundingClientRect').mockReturnValue({
-			x: 20,
-			y: 30,
-			left: 20,
-			top: 30,
-			right: 220,
-			bottom: 90,
-			width: 200,
-			height: 60,
-			toJSON: () => ({})
-		});
+		jest.spyOn(toolbar, 'getBoundingClientRect').mockReturnValue(zenControlsDefaultRect);
 
 		component.startZenControlsDrag({
 			currentTarget: handle,
@@ -530,17 +491,7 @@ describe('GameComponent', () => {
 
 		const toolbar = fixture.debugElement.query(By.css('.zen-controls')).nativeElement;
 		const handle = fixture.debugElement.query(By.css('.zen-controls .drag-handle')).nativeElement;
-		jest.spyOn(toolbar, 'getBoundingClientRect').mockReturnValue({
-			x: 20,
-			y: 30,
-			left: 20,
-			top: 30,
-			right: 220,
-			bottom: 90,
-			width: 200,
-			height: 60,
-			toJSON: () => ({})
-		});
+		jest.spyOn(toolbar, 'getBoundingClientRect').mockReturnValue(zenControlsDefaultRect);
 		const event = {
 			key: 'ArrowRight',
 			currentTarget: handle,

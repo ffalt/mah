@@ -35,28 +35,16 @@ describe('LocalstorageService', () => {
 			providers: [LocalstorageService]
 		});
 
-		// Get the service
 		service = TestBed.inject(LocalstorageService);
-
-		// Clear all mocks but don't reset - this allows spies to function
-		jest.clearAllMocks();
-
-		// Spy on log.warn to track calls and prevent test output noise
+		jest.clearAllMocks(); // clear calls accumulated during service construction
 		logWarnSpy = jest.spyOn(log, 'warn').mockReturnValue(undefined);
 	});
 
 	afterEach(() => {
-		// Restore original localStorage
 		Object.defineProperty(window, 'localStorage', {
 			value: originalLocalStorage,
 			writable: true
 		});
-
-		// Restore log.warn spy
-		logWarnSpy.mockRestore();
-
-		// Clear all mocks
-		jest.clearAllMocks();
 	});
 
 	describe('initialization', () => {
@@ -75,9 +63,6 @@ describe('LocalstorageService', () => {
 			expect(newService).toBeTruthy();
 
 			expect(updateDataSpy).toHaveBeenCalled();
-
-			// Clean up
-			updateDataSpy.mockRestore();
 		});
 	});
 

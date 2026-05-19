@@ -25,10 +25,8 @@ describe('Clock', () => {
 	});
 
 	afterEach(() => {
-		// Restore original functions
 		window.setTimeout = originalSetTimeout;
 		window.clearTimeout = originalClearTimeout;
-		dateNowSpy.mockRestore();
 	});
 
 	describe('initialization', () => {

@@ -4,6 +4,12 @@ import { CONSTS } from './consts';
 import type { Mapping } from './types';
 
 describe('Draw', () => {
+	const stone = new Stone(0, 0, 0, 0, 0);
+	const boundsItems: Array<Draw> = [
+		{ x: 0, y: 0, z: 0, v: 0, visible: true, pos: { x: 10, y: 20, w: 10, h: 10, sort: 0, translate: '' }, source: stone },
+		{ x: 0, y: 0, z: 0, v: 0, visible: true, pos: { x: 30, y: 40, w: 10, h: 10, sort: 0, translate: '' }, source: stone }
+	];
+
 	describe('calcDrawPos', () => {
 		it('should calculate drawing position correctly', () => {
 			const pos = calcDrawPos(1, 2, 3);
@@ -23,7 +29,6 @@ describe('Draw', () => {
 
 	describe('sortDrawItems', () => {
 		it('should sort draw items by z position', () => {
-			const stone = new Stone(0, 0, 0, 0, 0);
 			const items: Array<Draw> = [
 				{
 					x: 0, y: 0, z: 0, v: 0, visible: true,
@@ -52,21 +57,7 @@ describe('Draw', () => {
 
 	describe('getDrawBounds', () => {
 		it('should calculate bounds correctly', () => {
-			const stone = new Stone(0, 0, 0, 0, 0);
-			const items: Array<Draw> = [
-				{
-					x: 0, y: 0, z: 0, v: 0, visible: true,
-					pos: { x: 10, y: 20, w: 10, h: 10, sort: 0, translate: '' },
-					source: stone
-				},
-				{
-					x: 0, y: 0, z: 0, v: 0, visible: true,
-					pos: { x: 30, y: 40, w: 10, h: 10, sort: 0, translate: '' },
-					source: stone
-				}
-			];
-
-			const bounds = getDrawBounds(items);
+			const bounds = getDrawBounds(boundsItems);
 
 			expect(bounds).toEqual([10, 20, 40, 50]);
 		});
@@ -91,20 +82,7 @@ describe('Draw', () => {
 
 	describe('getDrawViewPort', () => {
 		it('should calculate viewport from items correctly', () => {
-			const stone = new Stone(0, 0, 0, 0, 0);
-			const items: Array<Draw> = [
-				{
-					x: 0, y: 0, z: 0, v: 0, visible: true,
-					pos: { x: 10, y: 20, w: 10, h: 10, sort: 0, translate: '' },
-					source: stone
-				},
-				{
-					x: 0, y: 0, z: 0, v: 0, visible: true,
-					pos: { x: 30, y: 40, w: 10, h: 10, sort: 0, translate: '' },
-					source: stone
-				}
-			];
-			const viewport = getDrawViewPort(items);
+			const viewport = getDrawViewPort(boundsItems);
 			expect(viewport).toBeDefined();
 			expect(typeof viewport).toBe('string');
 		});

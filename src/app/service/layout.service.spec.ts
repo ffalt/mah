@@ -55,11 +55,7 @@ describe('LayoutService', () => {
 			]
 		});
 
-		// Get the service
 		service = TestBed.inject(LayoutService);
-
-		// Reset mocks
-		jest.clearAllMocks();
 	});
 
 	describe('initialization', () => {
@@ -154,7 +150,6 @@ describe('LayoutService', () => {
 			const safeUrl = 'data:image/svg+xml;base64,...' as SafeUrlSVG;
 
 			const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation();
-			const consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation();
 
 			mockHttpClient.get.mockReturnValue(throwError(() => new Error('Network error')));
 			mockLocalstorageService.getCustomLayouts.mockReturnValue(customLayouts);
@@ -172,9 +167,6 @@ describe('LayoutService', () => {
 			expect(service.loaded).toBe(true);
 			expect(consoleErrorSpy).toHaveBeenCalled();
 			expect(mockLocalstorageService.getCustomLayouts).toHaveBeenCalled();
-
-			consoleErrorSpy.mockRestore();
-			consoleWarnSpy.mockRestore();
 		});
 	});
 

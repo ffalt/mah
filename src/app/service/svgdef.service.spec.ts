@@ -41,11 +41,7 @@ describe('SvgdefService', () => {
 			]
 		});
 
-		// Get the service
 		service = TestBed.inject(SvgdefService);
-
-		// Reset mocks
-		jest.clearAllMocks();
 	});
 
 	describe('initialization', () => {

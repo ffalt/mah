@@ -13,6 +13,12 @@ interface HackBoardComponent {
 	resize(element: { innerHeight: number; innerWidth: number }): void;
 }
 
+function makeTestStone(): Stone {
+	const stone = new Stone(0, 0, 0, 0, 0);
+	stone.img = { id: 'c1' };
+	return stone;
+}
+
 describe('BoardComponent', () => {
 	let component: BoardComponent;
 	let fixture: ComponentFixture<BoardComponent>;
@@ -76,8 +82,7 @@ describe('BoardComponent', () => {
 
 	describe('Output events', () => {
 		it('should emit clickEvent when a stone is clicked', () => {
-			const testStone = new Stone(0, 0, 0, 0, 0);
-			testStone.img = { id: 'c1' };
+			const testStone = makeTestStone();
 			const testStones = [testStone];
 
 			fixture.componentRef.setInput('stones', testStones);
@@ -110,8 +115,7 @@ describe('BoardComponent', () => {
 		});
 
 		it('should render stones when provided', () => {
-			const testStone = new Stone(0, 0, 0, 0, 0);
-			testStone.img = { id: 'c1' };
+			const testStone = makeTestStone();
 			const testStones = [testStone];
 
 			fixture.componentRef.setInput('stones', testStones);
@@ -122,8 +126,7 @@ describe('BoardComponent', () => {
 		});
 
 		it('should add selected class to selected stones', () => {
-			const testStone = new Stone(0, 0, 0, 0, 0);
-			testStone.img = { id: 'c1' };
+			const testStone = makeTestStone();
 			testStone.selected = true;
 			const testStones = [testStone];
 
@@ -135,8 +138,7 @@ describe('BoardComponent', () => {
 		});
 
 		it('should add hidden class to picked stones', () => {
-			const testStone = new Stone(0, 0, 0, 0, 0);
-			testStone.img = { id: 'c1' };
+			const testStone = makeTestStone();
 			testStone.picked = true;
 			const testStones = [testStone];
 
@@ -148,8 +150,7 @@ describe('BoardComponent', () => {
 		});
 
 		it('should add hinted class to hinted stones', () => {
-			const testStone = new Stone(0, 0, 0, 0, 0);
-			testStone.img = { id: 'c1' };
+			const testStone = makeTestStone();
 			testStone.hinted = true;
 			const testStones = [testStone];
 

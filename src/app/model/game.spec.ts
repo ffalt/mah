@@ -65,15 +65,24 @@ describe('Game', () => {
 			pause: jest.fn()
 		};
 
-		// Create game instance
 		game = new Game(mockStorage);
-
-		// Replace dependencies with mocks
 		game.board = mockBoard as Board;
 		game.clock = mockClock as Clock;
 		game.sound = mockSound as Sound;
 		game.music = mockMusic as Music;
 	});
+
+	function makeRemovableStone(): Stone {
+		const stone = new Stone(0, 0, 0, 1, 1);
+		stone.state = { blocked: false, removable: true };
+		return stone;
+	}
+
+	function mockSelectStone(stone: Stone): void {
+		(mockBoard.setStoneSelected as jest.Mock).mockImplementation(() => {
+			mockBoard.selected = stone;
+		});
+	}
 
 	describe('initialization', () => {
 		it('should create an instance', () => {
@@ -251,8 +260,7 @@ describe('Game', () => {
 		});
 
 		it('should select stone when clicking unblocked stone', () => {
-			const stone = new Stone(0, 0, 0, 1, 1);
-			stone.state = { blocked: false, removable: true };
+			const stone = makeRemovableStone();
 
 			game.state = STATES.run;
 			game.click(stone);
@@ -262,8 +270,7 @@ describe('Game', () => {
 		});
 
 		it('should clear hints when clicking any unblocked stone', () => {
-			const stone = new Stone(0, 0, 0, 1, 1);
-			stone.state = { blocked: false, removable: true };
+			const stone = makeRemovableStone();
 
 			game.state = STATES.run;
 			game.click(stone);
@@ -288,11 +295,8 @@ describe('Game', () => {
 
 		it('should highlight match partners on selection in easy mode', () => {
 			jest.useFakeTimers();
-			const stone = new Stone(0, 0, 0, 1, 1);
-			stone.state = { blocked: false, removable: true };
-			(mockBoard.setStoneSelected as jest.Mock).mockImplementation(() => {
-				mockBoard.selected = stone;
-			});
+			const stone = makeRemovableStone();
+			mockSelectStone(stone);
 
 			game.mode = GAME_MODE_EASY;
 			game.state = STATES.run;
@@ -305,11 +309,8 @@ describe('Game', () => {
 		});
 
 		it('should not highlight match partners in standard mode', () => {
-			const stone = new Stone(0, 0, 0, 1, 1);
-			stone.state = { blocked: false, removable: true };
-			(mockBoard.setStoneSelected as jest.Mock).mockImplementation(() => {
-				mockBoard.selected = stone;
-			});
+			const stone = makeRemovableStone();
+			mockSelectStone(stone);
 
 			game.mode = GAME_MODE_STANDARD;
 			game.state = STATES.run;
@@ -320,11 +321,8 @@ describe('Game', () => {
 		});
 
 		it('should not highlight match partners in expert mode', () => {
-			const stone = new Stone(0, 0, 0, 1, 1);
-			stone.state = { blocked: false, removable: true };
-			(mockBoard.setStoneSelected as jest.Mock).mockImplementation(() => {
-				mockBoard.selected = stone;
-			});
+			const stone = makeRemovableStone();
+			mockSelectStone(stone);
 
 			game.mode = GAME_MODE_EXPERT;
 			game.state = STATES.run;
@@ -336,13 +334,9 @@ describe('Game', () => {
 
 		it('should clear match highlights when a match is resolved', () => {
 			jest.useFakeTimers();
-			const stone1 = new Stone(0, 0, 0, 1, 1);
-			stone1.state = { blocked: false, removable: true };
-			const stone2 = new Stone(0, 1, 0, 1, 1);
-			stone2.state = { blocked: false, removable: true };
-			(mockBoard.setStoneSelected as jest.Mock).mockImplementation(() => {
-				mockBoard.selected = stone1;
-			});
+			const stone1 = makeRemovableStone();
+			const stone2 = makeRemovableStone();
+			mockSelectStone(stone1);
 
 			game.mode = GAME_MODE_STANDARD;
 			game.state = STATES.run;

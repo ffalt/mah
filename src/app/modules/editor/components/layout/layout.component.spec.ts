@@ -31,7 +31,6 @@ describe('LayoutComponent', () => {
 	let fixture: ComponentFixture<LayoutComponent>;
 
 	beforeEach(async () => {
-		jest.clearAllMocks();
 		await TestBed.configureTestingModule({
 			imports: [LayoutComponent, TranslateModule.forRoot()],
 			providers: [

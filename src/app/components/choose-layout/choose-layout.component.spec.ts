@@ -88,17 +88,12 @@ describe('ChooseLayoutComponent', () => {
 	it('should select a random layout and call onStart when randomGame is called', () => {
 		// Arrange
 		const spy = jest.spyOn(component, 'onStart');
-		const mathRandomSpy = jest.spyOn(Math, 'random').mockReturnValue(0.25);
 
 		// Act
 		component.randomGame();
 
-		// Assert
 		expect(spy).toHaveBeenCalled();
 		expect(spy).toHaveBeenCalledWith(layoutService.layouts.items[0]);
-
-		// Cleanup
-		mathRandomSpy.mockRestore();
 	});
 
 	it('should update buildMode when select is changed', () => {

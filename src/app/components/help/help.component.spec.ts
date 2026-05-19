@@ -190,51 +190,30 @@ describe('HelpComponent', () => {
 		it('should call clearTimesClick when clear times button is clicked', () => {
 			const clearTimesClickSpy = jest.spyOn(component, 'clearTimesClick');
 			const clearButton = fixture.debugElement.query(By.css('button.clear-times')).nativeElement;
-			const originalConfirm = window.confirm;
-			window.confirm = jest.fn().mockReturnValue(true);
+			jest.spyOn(window, 'confirm').mockReturnValue(true);
 
 			clearButton.click();
 
 			expect(clearTimesClickSpy).toHaveBeenCalled();
-
-			window.confirm = originalConfirm;
 		});
 
 		it('should call clearTimes when confirmed', () => {
-			// Mock confirm to return true
-			const originalConfirm = window.confirm;
-			window.confirm = jest.fn().mockReturnValue(true);
-
-			// Mock clearTimes method
+			jest.spyOn(window, 'confirm').mockReturnValue(true);
 			const clearTimesSpy = jest.spyOn(component, 'clearTimes')
 				.mockImplementation(async () => Promise.resolve());
 
-			// Call the method
 			component.clearTimesClick();
 
-			// Verify clearTimes was called
 			expect(clearTimesSpy).toHaveBeenCalled();
-
-			// Restore original confirm
-			window.confirm = originalConfirm;
 		});
 
 		it('should not call clearTimes when not confirmed', () => {
-			// Mock confirm to return false
-			const originalConfirm = window.confirm;
-			window.confirm = jest.fn().mockReturnValue(false);
-
-			// Mock clearTimes method
+			jest.spyOn(window, 'confirm').mockReturnValue(false);
 			const clearTimesSpy = jest.spyOn(component, 'clearTimes');
 
-			// Call the method
 			component.clearTimesClick();
 
-			// Verify clearTimes was not called
 			expect(clearTimesSpy).not.toHaveBeenCalled();
-
-			// Restore original confirm
-			window.confirm = originalConfirm;
 		});
 	});
 });

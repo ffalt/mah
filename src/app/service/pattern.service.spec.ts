@@ -77,11 +77,7 @@ describe('PatternService', () => {
 			]
 		});
 
-		// Get the service
 		service = TestBed.inject(PatternService);
-
-		// Reset mocks
-		jest.clearAllMocks();
 	});
 
 	describe('initialization', () => {

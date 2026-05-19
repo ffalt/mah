@@ -5,7 +5,7 @@ import type { Layout, Place } from '../../model/types';
 import { AppService } from '../../service/app.service';
 import { log } from '../../model/log';
 import type { BUILD_MODE_ID } from '../../model/builder';
-import { GAME_MODE_EASY, GAME_MODE_ID, GAME_MODE_STANDARD } from '../../model/consts';
+import { GAME_MODE_EASY, type GAME_MODE_ID, GAME_MODE_STANDARD } from '../../model/consts';
 import { environment } from '../../../environments/environment';
 import { DialogComponent } from '../dialog/dialog.component';
 import { HelpComponent } from '../help/help.component';

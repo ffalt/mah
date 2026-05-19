@@ -27,7 +27,6 @@ describe('ExportComponent', () => {
 	let translateService: TranslateService;
 
 	beforeEach(async () => {
-		jest.clearAllMocks();
 		await TestBed.configureTestingModule({
 			imports: [ExportComponent, TranslateModule.forRoot()],
 			providers: [
@@ -161,7 +160,6 @@ describe('ExportComponent', () => {
 
 			expect(alertSpy).toHaveBeenCalledWith('built-in exists');
 			expect(layoutService.removeCustomLayout).not.toHaveBeenCalled();
-			alertSpy.mockRestore();
 		});
 	});
 });

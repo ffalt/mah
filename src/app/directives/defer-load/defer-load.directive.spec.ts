@@ -51,7 +51,6 @@ describe('DeferLoadDirective', () => {
 
 	beforeEach(() => {
 		jest.useFakeTimers();
-		jest.clearAllMocks();
 	});
 
 	afterEach(() => {

@@ -11,11 +11,6 @@ jest.mock('./builder');
 jest.mock('./tiles');
 
 describe('Tasks', () => {
-	beforeEach(() => {
-		// Clear all mocks
-		jest.clearAllMocks();
-	});
-
 	describe('solveGame', () => {
 		it('should solve a game and call the finish callback with the result', () => {
 			// Setup mock data

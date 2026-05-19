@@ -13,10 +13,6 @@ beforeEach(() => {
 	jest.spyOn(console, 'error').mockImplementation(() => undefined);
 });
 
-afterEach(() => {
-	jest.restoreAllMocks();
-});
-
 import { importLayouts as importLayoutsFunction } from '../../model/import';
 
 const makeLayout = (id: string): Layout => ({
@@ -62,7 +58,6 @@ describe('ImportComponent', () => {
 		fixture = TestBed.createComponent(ImportComponent);
 		component = fixture.componentInstance;
 		fixture.detectChanges();
-		jest.clearAllMocks();
 	});
 
 	it('should create', () => {
@@ -107,9 +102,6 @@ describe('ImportComponent', () => {
 		});
 
 		it('should add error log for duplicate layout', async () => {
-			const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {
-				// nop
-			});
 			const loadLayout = makeLoadLayout('dup-id');
 			const layout = makeLayout('dup-id');
 			(importLayoutsFunction as jest.Mock).mockResolvedValue([loadLayout]);
@@ -122,7 +114,6 @@ describe('ImportComponent', () => {
 			expect(component.logs).toHaveLength(1);
 			expect(component.logs[0].isError).toBe(true);
 			expect(mockLayoutService.storeCustomBoards).not.toHaveBeenCalled();
-			consoleSpy.mockRestore();
 		});
 
 		it('should add error log when import throws', async () => {

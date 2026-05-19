@@ -9,19 +9,7 @@ import { SvgdefService } from './service/svgdef.service';
 import type { Layout, LoadLayout } from './model/types';
 import { log } from './model/log';
 
-function b64(json: unknown): string {
-	return Buffer.from(JSON.stringify(json)).toString('base64');
-}
-
-const VALID_MAP = [[0, [[0, 0]]]];
-
-function makeBoard(overrides: Partial<Record<string, unknown>> = {}): Record<string, unknown> {
-	return { id: 'test-id', name: 'Test Board', map: VALID_MAP, ...overrides };
-}
-
-function makeMah(boards: Array<unknown> = [makeBoard()]): unknown {
-	return { mah: '1.0', boards };
-}
+import { b64, makeBoard, makeMah } from './model/import.spec-helpers';
 
 const MOCK_LAYOUT: Layout = {
 	id: 'test-id',
@@ -96,13 +84,12 @@ describe('AppComponent', () => {
 		});
 
 		it('skips a board when expandLayout throws', async () => {
-			const warnSpy = jest.spyOn(log, 'warn').mockImplementation(() => undefined);
+			jest.spyOn(log, 'warn').mockImplementation(() => undefined);
 			(layoutService.expandLayout as jest.Mock).mockImplementationOnce(() => {
 				throw new Error('expand error');
 			});
 			expect(await checkImport(app, b64(makeMah()))).toEqual([]);
 			expect(layoutService.storeCustomBoards).not.toHaveBeenCalled();
-			warnSpy.mockRestore();
 		});
 
 		it('logs a warning when boards were parsed but none could be expanded', async () => {
@@ -112,7 +99,6 @@ describe('AppComponent', () => {
 			const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => undefined);
 			await checkImport(app, b64(makeMah()));
 			expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('no valid boards'));
-			warnSpy.mockRestore();
 		});
 	});
 });
