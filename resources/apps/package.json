@@ -21,6 +21,6 @@
 		"@tauri-apps/plugin-opener": "2.5.4"
 	},
 	"devDependencies": {
-		"@tauri-apps/cli": "2.11.1"
+		"@tauri-apps/cli": "2.11.2"
 	}
 }
