@@ -70,6 +70,7 @@ jobs:
         if: github.ref_type == 'tag'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
         run: |
           shopt -s globstar
           gh release upload "$GITHUB_REF_NAME" \

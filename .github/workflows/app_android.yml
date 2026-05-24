@@ -92,7 +92,6 @@ jobs:
           retention-days: 10
           path: |
             resources/apps/tauri/gen/android/app/build/outputs/apk/**/*.apk
-            resources/apps/tauri/gen/android/app/build/outputs/bundle/**/*.aab
 
       - name: Wait for release
         if: github.ref_type == 'tag'
@@ -114,4 +113,3 @@ jobs:
           shopt -s globstar
           gh release upload "$GITHUB_REF_NAME" \
             resources/apps/tauri/gen/android/app/build/outputs/apk/**/*.apk \
-            resources/apps/tauri/gen/android/app/build/outputs/bundle/**/*.aab
