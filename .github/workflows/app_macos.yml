@@ -70,8 +70,6 @@ jobs:
         if: github.ref_type == 'tag'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        shell: bash
         run: |
-          shopt -s globstar
-          gh release upload "$GITHUB_REF_NAME" \
-            resources/apps/tauri/target/**/*.dmg
+          find resources/apps/tauri/target -name "*.dmg" \
+            -exec gh release upload "$GITHUB_REF_NAME" {} \;
