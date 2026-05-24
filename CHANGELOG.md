@@ -8,7 +8,6 @@ All notable changes to this project will be documented in this file. See [commit
 ### Features
 
 * **accessibility:** improve keyboard navigation, ARIA roles, accessibility announcements, and focus styles across components ([241d63a](https://github.com/ffalt/mah/commit/241d63af022185517e874d9564f5c11162b5020e))
-* **build-modes:** add "Solvable Easy" and "Solvable Expert" board fill generators ([5e1e90d](https://github.com/ffalt/mah/commit/5e1e90dbe4cdbe356d5eb663d5b700109355cf55))
 * **game:** add "show matching tiles" feature for easy mode ([fc27e64](https://github.com/ffalt/mah/commit/fc27e647e8df8b38a4c41c2b3c965ba6f7945e2a))
 * **game:** add optional confetti effect on game victory ([98b2bab](https://github.com/ffalt/mah/commit/98b2bab95c6f20d7dccc9ba6d270e032506ce2bd))
 * **game:** zen mode for distraction-free gameplay ([2b4cc39](https://github.com/ffalt/mah/commit/2b4cc3999635bcc9d1a183d25a80f86b516ae825))
