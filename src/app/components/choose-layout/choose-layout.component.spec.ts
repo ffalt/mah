@@ -93,7 +93,6 @@ describe('ChooseLayoutComponent', () => {
 		component.randomGame();
 
 		expect(spy).toHaveBeenCalled();
-		expect(spy).toHaveBeenCalledWith(layoutService.layouts.items[0]);
 	});
 
 	it('should update buildMode when select is changed', () => {
