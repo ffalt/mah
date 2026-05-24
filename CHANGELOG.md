@@ -2,6 +2,34 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [1.19.0](https://github.com/ffalt/mah/compare/v1.18.3...v1.19.0) (2026-05-24)
+
+
+### Features
+
+* **accessibility:** improve keyboard navigation, ARIA roles, accessibility announcements, and focus styles across components ([241d63a](https://github.com/ffalt/mah/commit/241d63af022185517e874d9564f5c11162b5020e))
+* **build-modes:** add "Solvable Easy" and "Solvable Expert" board fill generators ([5e1e90d](https://github.com/ffalt/mah/commit/5e1e90dbe4cdbe356d5eb663d5b700109355cf55))
+* **game:** add "show matching tiles" feature for easy mode ([fc27e64](https://github.com/ffalt/mah/commit/fc27e647e8df8b38a4c41c2b3c965ba6f7945e2a))
+* **game:** add optional confetti effect on game victory ([98b2bab](https://github.com/ffalt/mah/commit/98b2bab95c6f20d7dccc9ba6d270e032506ce2bd))
+* **game:** zen mode for distraction-free gameplay ([2b4cc39](https://github.com/ffalt/mah/commit/2b4cc3999635bcc9d1a183d25a80f86b516ae825))
+* **hint:** rework hints animation ([8807022](https://github.com/ffalt/mah/commit/880702228e3814cb5c8d642c93629cf8375fa924))
+* **icons:** replace legacy font-based icons with svg components ([9596c6d](https://github.com/ffalt/mah/commit/9596c6d61fbc7a57827c7ac307a30fd69d5ea671))
+* **import:** add validation for imported .mah files and file size limit ([390bd00](https://github.com/ffalt/mah/commit/390bd00c66f2e255a744c11122678ec1bb85d343))
+* **layout-seed:** add seed-based layout generation and support for user-defined seeds ([ac35bc1](https://github.com/ffalt/mah/commit/ac35bc1239fba0ad9c741b82adfbed30433f681d))
+* **random:** add more shapes to the random layout generator ([976862e](https://github.com/ffalt/mah/commit/976862e6061a4bb85b87609c35679046b81b4e8a))
+* **selects:** Remove very long select items, add info overlay for better descriptions ([5215234](https://github.com/ffalt/mah/commit/52152347079ae49cae0d2c544ac8cd16c79f848a))
+* **settings:** add "show game timer" option ([c7fec8c](https://github.com/ffalt/mah/commit/c7fec8ce98b15f987a2bba59618955a3fde26d69))
+* **versioning:** use mjs custom updaters for Cargo.toml and Dockerfile ([5f37ee8](https://github.com/ffalt/mah/commit/5f37ee857046aa0e60c935fcbd709f629337392c))
+
+
+### Bug Fixes
+
+* **builder:** add retry mechanism to ensure valid random board generation ([43b8b14](https://github.com/ffalt/mah/commit/43b8b147f41a4978dcb2251c123bec7dfcaecc52))
+* **i18n:** refine translation for solvable mode descriptions ([94c7b31](https://github.com/ffalt/mah/commit/94c7b3103763b7848575f3ba7719cf97610a5862))
+* **i18n:** update translations for tile-related terms ([b13a4b6](https://github.com/ffalt/mah/commit/b13a4b62399458946334ccbe476c19158e6903dd))
+* **image-set-loader:** sanitize prefix for SVG id attributes ([e4884a7](https://github.com/ffalt/mah/commit/e4884a7a18bd617b1a109b754a2832a9d8486823))
+* **tiles-info:** use interpolation instead of innerHTML for translated tile text ([04b5050](https://github.com/ffalt/mah/commit/04b5050329dd8f7637301956bc817abe5d20992b))
+
 ## [1.18.3](https://github.com/ffalt/mah/compare/v1.18.2...v1.18.3) (2026-03-16)
 
 ### Bug Fixes
