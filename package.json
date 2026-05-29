@@ -85,7 +85,7 @@
     "typescript-eslint": "8.59.4"
   },
   "engines": {
-    "node": ">=22"
+    "node": ">=26"
   },
   "contributors": [
     {
