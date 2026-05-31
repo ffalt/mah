@@ -302,5 +302,14 @@
 	"TUTORIAL_WELCOME_BENEFIT_1": "Lär dig genom att spela - snabba praktiska steg",
 	"TUTORIAL_WELCOME_BENEFIT_2": "Användbara tips för att vägleda ditt nästa drag",
 	"TUTORIAL_WELCOME_BENEFIT_3": "Hoppa över när som helst och gå direkt till ett spel",
-	"TUTORIAL_WELCOME_START": "Starta handledning"
+	"TUTORIAL_WELCOME_START": "Starta handledning",
+	"TILE_LABEL": "{{name}}, lager {{layer}}",
+	"TILE_LABEL_HINTED": "{{name}}, lager {{layer}}, matchande par",
+	"ANNOUNCE_MATCHED": "Matchade. {{remaining}} stenar kvar.",
+	"ANNOUNCE_HINT_PAIRS": "{{count}} matchande par markerade.",
+	"ANNOUNCE_HINT_NONE": "Inga matchande par tillgängliga.",
+	"ANNOUNCE_SHUFFLE": "Stenar blandade.",
+	"ANNOUNCE_UNDO": "Senaste drag ångrat.",
+	"ANNOUNCE_GAME_WON": "Grattis, du klarade spelbrädet!",
+	"ANNOUNCE_GAME_LOST": "Inga fler matchande stenar. Spelet är slut."
 }
