@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [1.19.1](https://github.com/ffalt/mah/compare/v1.19.0...v1.19.1) (2026-06-01)
+
+
+### Features
+
+* **i18n:** add missing translations ([9912bd2](https://github.com/ffalt/mah/commit/9912bd29109e75c218d2d49f545df2a374353508))
+
 ## [1.19.0](https://github.com/ffalt/mah/compare/v1.18.3...v1.19.0) (2026-05-24)
 
 
