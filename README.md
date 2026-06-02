@@ -21,13 +21,21 @@ The original open-source Mahjong Solitaire game powering many Mahjong experience
 
 ## ✨ Features
 
-🧩 **84 built-in boards** plus a random board generator for endless replayability
+🧩 **84 built-in boards** - from classic layouts like Turtle and Dragon to unique custom designs
+
+🌱 **Random seed base board generator** - enter or generate a custom seed to share or replay a specific randomly generated board for endless replayability
 
 🎨 **13 tile image sets** - switch between beautiful tile designs in light and dark styles
 
+🏆 **3 difficulty levels for features and boards generation** - from relaxed casual play to expert-level challenge
+
 🖼️ **Massive visual customization** - 8 image backgrounds, 375 pattern backgrounds, light/dark mode, 14 color themes
 
-🏆 **3 difficulty levels for features and boards generation** - from relaxed casual play to expert-level challenge
+🧘 **Zen mode** - hide the UI chrome for a clean, distraction-free playing experience
+
+⏱️ **Optional game timer** - show or hide the game clock to suit your play style
+
+🎉 **Victory confetti** - optional celebratory confetti burst when you clear the board
 
 💾 **Auto-save** - your game state and best times are saved locally in your browser, never to the cloud
 
