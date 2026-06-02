@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [1.19.2](https://github.com/ffalt/mah/compare/v1.19.0...v1.19.2) (2026-06-02)
+
+
+### Features
+
+* **accessibility:** add hidden page title for screen readers ([3e5f3a5](https://github.com/ffalt/mah/commit/3e5f3a558392082e613d2f5d962f4c41e7f91b1e))
+* **i18n:** add missing translations ([fcb1adb](https://github.com/ffalt/mah/commit/fcb1adbbf4212abff323f14961c199a159ffc79b))
+
+
+### Bug Fixes
+
+* **style:** remove focus ring from overlay message element ([df3922e](https://github.com/ffalt/mah/commit/df3922e3c3459b03482fb0b1bcdf651af17d9a7f))
+
 ## [1.19.1](https://github.com/ffalt/mah/compare/v1.19.0...v1.19.1) (2026-06-01)
 
 
