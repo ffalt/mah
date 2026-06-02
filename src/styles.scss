@@ -346,6 +346,7 @@ p {
 	max-height: 100%;
 	max-width: 100%;
 	font-size: variables.$base-font-size * 0.9;
+	outline: none;
 
 	select {
 		padding: 12px 24px 12px 16px;
@@ -742,6 +743,7 @@ p {
 			color: var(--dialog-headline-color);
 			padding: 0;
 			user-select: none;
+			outline: none;
 		}
 
 		.overlay-message-message {
@@ -752,11 +754,6 @@ p {
 				color: var(--text-highlight-color);
 			}
 
-			&:focus-visible {
-				outline: 2px solid var(--focus-ring-color);
-				outline-offset: 4px;
-				border-radius: 4px;
-			}
 		}
 	}
 
