@@ -78,8 +78,7 @@ export class DialogComponent {
 		if (!popup) {
 			return;
 		}
-		const first = popup.querySelector<HTMLElement>(FOCUSABLE);
-		(first ?? popup).focus();
+		popup.focus();
 	}
 
 	private restoreFocus(): void {
