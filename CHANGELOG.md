@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [1.19.3](https://github.com/ffalt/mah/compare/v1.19.2...v1.19.3) (2026-06-02)
+
+
+### Bug Fixes
+
+* **style:** overlay message element shows focus ring on tab navigation only ([45e2d2a](https://github.com/ffalt/mah/commit/45e2d2a62c9dd6263e973fb0ce48bd438c0069c8))
+
 ## [1.19.2](https://github.com/ffalt/mah/compare/v1.19.0...v1.19.2) (2026-06-02)
 
 
