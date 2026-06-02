@@ -23,7 +23,7 @@ The original open-source Mahjong Solitaire game powering many Mahjong experience
 
 🧩 **84 built-in boards** - from classic layouts like Turtle and Dragon to unique custom designs
 
-🌱 **Random seed base board generator** - enter or generate a custom seed to share or replay a specific randomly generated board for endless replayability
+🌱 **Random seed based board generator** - enter or generate a custom seed to share or replay a specific randomly generated board for endless replayability
 
 🎨 **13 tile image sets** - switch between beautiful tile designs in light and dark styles
 
