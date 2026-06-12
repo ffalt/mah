@@ -58,7 +58,7 @@
     "@angular/build": "21.2.13",
     "@angular/cli": "21.2.13",
     "@angular/compiler-cli": "21.2.15",
-    "@angular/language-service": "21.2.15",
+    "@angular/language-service": "21.2.16",
     "@eslint/js": "10.0.1",
     "@iarna/toml": "2.2.5",
     "@mah/builders": "file:tools/builders",
