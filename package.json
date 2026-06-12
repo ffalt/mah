@@ -34,7 +34,7 @@
   "private": true,
   "dependencies": {
     "@angular/common": "21.2.15",
-    "@angular/compiler": "21.2.15",
+    "@angular/compiler": "21.2.16",
     "@angular/core": "21.2.15",
     "@angular/forms": "21.2.15",
     "@angular/platform-browser": "21.2.15",
