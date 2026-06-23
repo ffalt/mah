@@ -3,11 +3,11 @@ import { imageSetIsKyodai, buildTiles, buildKyodaiSVG, KyodaiTileSets } from './
 type EventHandler = (event?: Event) => void;
 
 class FakeImageSuccess {
+	private readonly handlers = new Map<string, EventHandler>();
+
 	readonly width = 675;
 
 	readonly height = 500;
-
-	private readonly handlers = new Map<string, EventHandler>();
 
 	set src(_url: string) {
 		setTimeout(() => {
@@ -105,7 +105,7 @@ describe('buildKyodaiSVG', () => {
 	});
 
 	it('resolves with svg markup when image loads', async () => {
-		const fakeUrl = 'http://example.com/tiles.jpg';
+		const fakeUrl = 'https://example.com/tiles.jpg';
 		(globalThis as Record<string, unknown>).Image = FakeImageSuccess;
 
 		const result = await buildKyodaiSVG(fakeUrl);
@@ -116,7 +116,7 @@ describe('buildKyodaiSVG', () => {
 	});
 
 	it('rejects when image fails to load', async () => {
-		const fakeUrl = 'http://example.com/bad.jpg';
+		const fakeUrl = 'https://example.com/bad.jpg';
 		(globalThis as Record<string, unknown>).Image = FakeImageError;
 
 		await expect(buildKyodaiSVG(fakeUrl)).rejects.toThrow(`Image ${fakeUrl} could not be loaded.`);

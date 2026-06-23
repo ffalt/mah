@@ -1,5 +1,5 @@
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
-import { TranslateModule } from '@ngx-translate/core';
+import { provideTranslateService } from '@ngx-translate/core';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { SvgdefService } from '../../service/svgdef.service';
@@ -12,8 +12,8 @@ describe('TilePreviewComponent', () => {
 
 	beforeEach(async () =>
 		TestBed.configureTestingModule({
-			imports: [TilePreviewComponent, TranslateModule.forRoot()],
-			providers: [provideHttpClient(), provideHttpClientTesting(), SvgdefService]
+			imports: [TilePreviewComponent],
+			providers: [provideTranslateService(), provideHttpClient(), provideHttpClientTesting(), SvgdefService]
 		})
 			.compileComponents());
 
@@ -67,6 +67,7 @@ describe('TilePreviewComponent', () => {
 	it('should apply dark class when settings.dark is true', () => {
 		component.app.settings.dark = true;
 		fixture.detectChanges();
+		TestBed.tick();
 		const stage = fixture.debugElement.query(By.css('g.preview-stage'));
 		expect(stage.nativeElement.classList.contains('dark')).toBe(true);
 	});
@@ -74,6 +75,7 @@ describe('TilePreviewComponent', () => {
 	it('should apply contrast class when settings.contrast is true', () => {
 		component.app.settings.contrast = true;
 		fixture.detectChanges();
+		TestBed.tick();
 		const stage = fixture.debugElement.query(By.css('g.preview-stage'));
 		expect(stage.nativeElement.classList.contains('contrast')).toBe(true);
 	});
@@ -81,6 +83,7 @@ describe('TilePreviewComponent', () => {
 	it('should apply tile3d class when settings.tile3d is true', () => {
 		component.app.settings.tile3d = true;
 		fixture.detectChanges();
+		TestBed.tick();
 		const stage = fixture.debugElement.query(By.css('g.preview-stage'));
 		expect(stage.nativeElement.classList.contains('tile3d')).toBe(true);
 	});
@@ -88,6 +91,7 @@ describe('TilePreviewComponent', () => {
 	it('should render bevel rect when tile3d is true', () => {
 		component.app.settings.tile3d = true;
 		fixture.detectChanges();
+		TestBed.tick();
 		const bevel = fixture.debugElement.query(By.css('rect.bevel'));
 		expect(bevel).toBeTruthy();
 	});

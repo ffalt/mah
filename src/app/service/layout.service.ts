@@ -10,13 +10,6 @@ import { log } from '../model/log';
 
 @Injectable({ providedIn: 'root' })
 export class LayoutService {
-	layouts: Layouts = { items: [] };
-	loaded = false;
-	selectBoardID?: string | null;
-	private readonly http = inject(HttpClient);
-	private readonly sanitizer = inject(DomSanitizer);
-	private readonly storage = inject(LocalstorageService);
-
 	static layout2loadLayout(layout: Layout, map: CompactMapping): LoadLayout {
 		return {
 			id: layout.id,
@@ -26,6 +19,14 @@ export class LayoutService {
 			map
 		};
 	}
+
+	private readonly http = inject(HttpClient);
+	private readonly sanitizer = inject(DomSanitizer);
+	private readonly storage = inject(LocalstorageService);
+
+	layouts: Layouts = { items: [] };
+	loaded = false;
+	selectBoardID?: string | null;
 
 	async get(): Promise<Layouts> {
 		if (this.loaded) {
@@ -62,7 +63,7 @@ export class LayoutService {
 		this.storage.storeCustomLayouts(customLayouts.length === 0 ? undefined : customLayouts);
 	}
 
-	expandLayout(o: LoadLayout, custom?: boolean): Layout {
+	expandLayout(o: LoadLayout, isCustom?: boolean): Layout {
 		const mapping: Mapping = expandMapping(o.map || []);
 		return {
 			id: o.id && o.id !== '' ? o.id : mappingToID(mapping),
@@ -71,7 +72,7 @@ export class LayoutService {
 			category: o.cat ?? 'Classic',
 			mapping,
 			previewSVG: this.generatePreview(mapping),
-			custom
+			custom: isCustom
 		};
 	}
 

@@ -1,6 +1,6 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
-import { TranslateModule } from '@ngx-translate/core';
+import { provideTranslateService } from '@ngx-translate/core';
 import { LayoutService } from '../../../../service/layout.service';
 import { EditorComponent } from './editor.component';
 import type { Layout } from '../../../../model/types';
@@ -21,8 +21,9 @@ describe('EditorComponent', () => {
 
 	beforeEach(async () => {
 		await TestBed.configureTestingModule({
-			imports: [EditorComponent, TranslateModule.forRoot()],
+			imports: [EditorComponent],
 			providers: [
+				provideTranslateService(),
 				{ provide: LayoutService, useValue: mockLayoutService }
 			],
 			schemas: [NO_ERRORS_SCHEMA]

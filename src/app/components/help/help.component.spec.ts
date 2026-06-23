@@ -1,5 +1,5 @@
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { provideTranslateService, TranslateService } from '@ngx-translate/core';
 import { AppService } from '../../service/app.service';
 import { HelpComponent } from './help.component';
 import { By } from '@angular/platform-browser';
@@ -14,8 +14,8 @@ describe('HelpComponent', () => {
 
 	beforeEach(async () =>
 		TestBed.configureTestingModule({
-			imports: [HelpComponent, TranslateModule.forRoot()],
-			providers: [AppService]
+			imports: [HelpComponent],
+			providers: [provideTranslateService(), AppService]
 		})
 			.compileComponents());
 
@@ -180,6 +180,7 @@ describe('HelpComponent', () => {
 
 			component.ngOnInit();
 			fixture.detectChanges();
+			TestBed.tick();
 		});
 
 		it('should render clear best times button if best times exist', () => {
@@ -192,7 +193,10 @@ describe('HelpComponent', () => {
 			const clearButton = fixture.debugElement.query(By.css('button.clear-times')).nativeElement;
 			jest.spyOn(window, 'confirm').mockReturnValue(true);
 
+			const originalConsoleError = console.error;
+			console.error = jest.fn();
 			clearButton.click();
+			console.error = originalConsoleError;
 
 			expect(clearTimesClickSpy).toHaveBeenCalled();
 		});

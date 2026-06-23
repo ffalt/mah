@@ -97,17 +97,21 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 	}
 
 	ngOnInit(): void {
-		if (this.layout()) {
-			this.refresh();
-			this.hasChanged = false;
+		if (!this.layout()) {
+			return;
 		}
+
+		this.refresh();
+		this.hasChanged = false;
 	}
 
 	ngOnChanges(changes: SimpleChanges): void {
-		if (changes.layout) {
-			this.refresh();
-			this.hasChanged = false;
+		if (!changes.layout) {
+			return;
 		}
+
+		this.refresh();
+		this.hasChanged = false;
 	}
 
 	removeStone(z: number, x: number, y: number): void {
@@ -215,25 +219,13 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 		this.moveAxis(2, delta, CONSTS.mY);
 	}
 
-	private moveAxis(axis: 1 | 2, delta: number, maxBound: number): void {
-		const minKey = axis === 1 ? 'minX' : 'minY';
-		const maxKey = axis === 1 ? 'maxX' : 'maxY';
-		if (this.stats[minKey] + delta < 0 || this.stats[maxKey] + delta >= maxBound - 1) {
-			return;
-		}
-		for (const m of this.layout().mapping) {
-			m[axis] = m[axis] + delta;
-		}
-		this.refresh();
-	}
-
-	moveLayer(xAxis: boolean, delta: number): void {
+	moveLayer(isXAxis: boolean, delta: number): void {
 		const list = this.layout().mapping.filter(m => m[0] === this.currentZ);
 		if (list.length === 0) {
 			return;
 		}
-		const index = xAxis ? 1 : 2;
-		const maxBound = xAxis ? CONSTS.mX : CONSTS.mY;
+		const index = isXAxis ? 1 : 2;
+		const maxBound = isXAxis ? CONSTS.mX : CONSTS.mY;
 		let min = list[0][index];
 		let max = list[0][index];
 		for (const m of list) {
@@ -244,7 +236,7 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 			return;
 		}
 		for (const m of list) {
-			m[index] = m[index] + delta;
+			m[index] += delta;
 		}
 		this.refresh();
 	}
@@ -336,10 +328,12 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 	}
 
 	cancelSolve(): void {
-		if (this.solveWorker) {
-			this.solveWorker.terminate();
-			this.solveWorker = undefined;
+		if (!this.solveWorker) {
+			return;
 		}
+
+		this.solveWorker.terminate();
+		this.solveWorker = undefined;
 	}
 
 	solve(): void {
@@ -357,5 +351,17 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 				this.solveWorker = undefined;
 			});
 		this.solveStats = solveStats;
+	}
+
+	private moveAxis(axis: 1 | 2, delta: number, maxBound: number): void {
+		const minKey = axis === 1 ? 'minX' : 'minY';
+		const maxKey = axis === 1 ? 'maxX' : 'maxY';
+		if (this.stats[minKey] + delta < 0 || this.stats[maxKey] + delta >= maxBound - 1) {
+			return;
+		}
+		for (const m of this.layout().mapping) {
+			m[axis] = m[axis] + delta;
+		}
+		this.refresh();
 	}
 }

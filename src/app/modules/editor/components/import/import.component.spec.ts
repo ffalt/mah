@@ -1,6 +1,6 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
-import { TranslateModule } from '@ngx-translate/core';
+import { provideTranslateService } from '@ngx-translate/core';
 import { LayoutService } from '../../../../service/layout.service';
 import { ImportComponent } from './import.component';
 import type { Layout, LoadLayout } from '../../../../model/types';
@@ -46,8 +46,9 @@ describe('ImportComponent', () => {
 		};
 
 		await TestBed.configureTestingModule({
-			imports: [ImportComponent, TranslateModule.forRoot()],
+			imports: [ImportComponent],
 			providers: [
+				provideTranslateService(),
 				{ provide: LayoutService, useValue: mockLayoutService }
 			],
 			schemas: [NO_ERRORS_SCHEMA]
@@ -142,7 +143,9 @@ describe('ImportComponent', () => {
 			const layout = makeLayout('found-id');
 			mockLayoutService.layouts.items = [layout];
 			const emitted: Array<Layout> = [];
-			component.editEvent.subscribe((value: Layout) => emitted.push(value));
+			component.editEvent.subscribe((value: Layout) => {
+				emitted.push(value);
+			});
 			component.selectLayout('found-id');
 			expect(emitted).toHaveLength(1);
 			expect(emitted[0]).toBe(layout);
@@ -151,7 +154,9 @@ describe('ImportComponent', () => {
 		it('should not emit when no layout matches the id', () => {
 			mockLayoutService.layouts.items = [];
 			const emitted: Array<Layout> = [];
-			component.editEvent.subscribe((value: Layout) => emitted.push(value));
+			component.editEvent.subscribe((value: Layout) => {
+				emitted.push(value);
+			});
 			component.selectLayout('missing-id');
 			expect(emitted).toHaveLength(0);
 		});

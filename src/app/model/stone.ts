@@ -43,6 +43,10 @@ export class Stone implements StonePosition {
 	nodes: StoneNodes = { top: [], left: [], right: [], bottom: [] };
 	effects?: StoneEffects;
 
+	private static hasStone(list: Array<Stone>): boolean {
+		return list.some(stone => !stone.picked);
+	}
+
 	constructor(z: number, x: number, y: number, v: number, groupNr: number) {
 		this.z = z;
 		this.x = x;
@@ -57,10 +61,6 @@ export class Stone implements StonePosition {
 
 	isBlocked(): boolean {
 		return Stone.hasStone(this.nodes.top) || (Stone.hasStone(this.nodes.left) && Stone.hasStone(this.nodes.right));
-	}
-
-	private static hasStone(list: Array<Stone>): boolean {
-		return list.some(stone => !stone.picked);
 	}
 }
 

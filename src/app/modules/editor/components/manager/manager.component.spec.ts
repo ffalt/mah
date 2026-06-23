@@ -1,6 +1,6 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
-import { TranslateModule } from '@ngx-translate/core';
+import { provideTranslateService } from '@ngx-translate/core';
 import { LayoutService } from '../../../../service/layout.service';
 import { WorkerService } from '../../../../service/worker.service';
 import { ManagerComponent } from './manager.component';
@@ -34,8 +34,9 @@ describe('ManagerComponent', () => {
 		mockWorkerService = { solve: jest.fn() };
 
 		await TestBed.configureTestingModule({
-			imports: [ManagerComponent, TranslateModule.forRoot()],
+			imports: [ManagerComponent],
 			providers: [
+				provideTranslateService(),
 				{ provide: LayoutService, useValue: mockLayoutService },
 				{ provide: WorkerService, useValue: mockWorkerService }
 			],
@@ -57,7 +58,9 @@ describe('ManagerComponent', () => {
 		it('should emit the layout via editEvent', () => {
 			const layout = makeLayout('Alpha');
 			const emitted: Array<Layout> = [];
-			component.editEvent.subscribe((value: Layout) => emitted.push(value));
+			component.editEvent.subscribe((value: Layout) => {
+				emitted.push(value);
+			});
 			component.editLayout(layout);
 			expect(emitted).toHaveLength(1);
 			expect(emitted[0]).toBe(layout);

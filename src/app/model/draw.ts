@@ -50,7 +50,7 @@ export function sortDrawItems(items: Array<Draw>): Array<Draw> {
 	});
 }
 
-export function getDrawBoundsViewPortBounds(bounds: Array<number>): Array<number> {
+export function getDrawBoundsViewportBounds(bounds: Array<number>): Array<number> {
 	const border = 20;
 	return [
 		bounds[0] - border,
@@ -60,13 +60,13 @@ export function getDrawBoundsViewPortBounds(bounds: Array<number>): Array<number
 	];
 }
 
-export function getDrawBoundsViewPort(bounds: Array<number>): string {
-	return getDrawBoundsViewPortBounds(bounds).join(' ');
+export function getDrawBoundsViewport(bounds: Array<number>): string {
+	return getDrawBoundsViewportBounds(bounds).join(' ');
 }
 
-export function getDrawViewPort(items: Array<Draw>): string {
+export function getDrawViewport(items: Array<Draw>): string {
 	const bounds = getDrawBounds(items);
-	return getDrawBoundsViewPort(bounds);
+	return getDrawBoundsViewport(bounds);
 }
 
 export function getDrawBounds(items: Array<Draw>): Array<number> {

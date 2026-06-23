@@ -1,4 +1,4 @@
-import { Component, inject, Injector, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Injector, viewChild } from '@angular/core';
 import type { Game } from '../../model/game';
 import type { Stone } from '../../model/stone';
 import type { Layout, Place } from '../../model/types';
@@ -96,7 +96,8 @@ function callFullscreenMethod(
 		IconTilesinfoComponent, IconSettingsComponent, IconHintComponent, IconLogoComponent, IconRestartComponent,
 		IconMenuComponent, IconPauseComponent, IconFullscreenComponent, IconShuffleComponent, IconUndoComponent, IconMuteComponent,
 		IconCloseComponent, IconZenComponent, IconDragHandleComponent
-	]
+	],
+	changeDetection: ChangeDetectionStrategy.Eager
 })
 export class GameComponent {
 	readonly info = viewChild.required<DialogComponent>('info');

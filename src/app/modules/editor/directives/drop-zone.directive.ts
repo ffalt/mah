@@ -51,11 +51,13 @@ export class DropZoneDirective {
 			const items = Array.from(dataTransfer.items);
 			for (const item of items) {
 				// If dropped items aren't files, reject them
-				if (item?.kind === 'file') {
-					const file = item.getAsFile();
-					if (file) {
-						files.push(file);
-					}
+				if (item?.kind !== 'file') {
+					continue;
+				}
+
+				const file = item.getAsFile();
+				if (file) {
+					files.push(file);
 				}
 			}
 			dataTransfer.items.clear();
@@ -83,10 +85,12 @@ export class DropZoneDirective {
 	}
 
 	onBodyDragOver(event: DragEvent): void {
-		if (this.preventBodyDrop()) {
-			event.preventDefault();
-			event.stopPropagation();
+		if (!this.preventBodyDrop()) {
+			return;
 		}
+
+		event.preventDefault();
+		event.stopPropagation();
 	}
 
 	onBodyDrop(event: DragEvent): void {

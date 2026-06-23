@@ -1,6 +1,6 @@
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
-import { TranslateModule } from '@ngx-translate/core';
+import { provideTranslateService } from '@ngx-translate/core';
 import { provideHttpClient } from '@angular/common/http';
 import { AppService } from '../../service/app.service';
 import { SvgdefService } from '../../service/svgdef.service';
@@ -33,8 +33,8 @@ describe('GameComponent', () => {
 
 	beforeEach(async () =>
 		TestBed.configureTestingModule({
-			imports: [GameComponent, TranslateModule.forRoot()],
-			providers: [provideHttpClient(), provideHttpClientTesting(), SvgdefService, AppService]
+			imports: [GameComponent],
+			providers: [provideTranslateService(), provideHttpClient(), provideHttpClientTesting(), SvgdefService, AppService]
 		})
 			.compileComponents());
 
@@ -204,6 +204,7 @@ describe('GameComponent', () => {
 	it('should render control buttons', () => {
 		component.game.mode = GAME_MODE_EASY;
 		fixture.detectChanges();
+		TestBed.tick();
 
 		const pauseButton = fixture.debugElement.query(By.css('.ctrl-game button:nth-child(1)'));
 		const shuffleButton = fixture.debugElement.query(By.css('.ctrl-game button:nth-child(2)'));
@@ -221,6 +222,7 @@ describe('GameComponent', () => {
 	it('should call game functions when control buttons are clicked', () => {
 		component.game.mode = GAME_MODE_EASY;
 		fixture.detectChanges();
+		TestBed.tick();
 
 		const toggleSpy = jest.spyOn(component.game, 'toggle');
 		const shuffleSpy = jest.spyOn(component, 'onShuffle');
@@ -252,6 +254,7 @@ describe('GameComponent', () => {
 
 		// Force change detection to update the button state
 		fixture.detectChanges();
+		TestBed.tick();
 
 		const undoButton = fixture.debugElement.query(By.css('.ctrl-game button:nth-child(3)')).nativeElement;
 		const backSpy = jest.spyOn(component.game, 'back');
@@ -310,6 +313,7 @@ describe('GameComponent', () => {
 	it('should render control buttons in expert mode', () => {
 		component.game.mode = GAME_MODE_EXPERT;
 		fixture.detectChanges();
+		TestBed.tick();
 
 		const pauseButton = fixture.debugElement.query(By.css('.ctrl-game button:nth-child(1)'));
 		const restartButton = fixture.debugElement.query(By.css('.ctrl-game button:nth-child(2)'));
@@ -323,6 +327,7 @@ describe('GameComponent', () => {
 	it('should call game functions when control buttons in expert mode are clicked', () => {
 		component.game.mode = GAME_MODE_EXPERT;
 		fixture.detectChanges();
+		TestBed.tick();
 
 		const toggleSpy = jest.spyOn(component.game, 'toggle');
 		const newGameSpy = jest.spyOn(component, 'newGame');
@@ -336,6 +341,7 @@ describe('GameComponent', () => {
 
 	it('should swap menu bars for zen controls when zen mode is enabled', () => {
 		component.toggleZenMode();
+		fixture.componentRef.changeDetectorRef.markForCheck();
 		fixture.detectChanges();
 
 		expect(fixture.debugElement.query(By.css('.controls-top'))).toBeFalsy();
@@ -353,6 +359,7 @@ describe('GameComponent', () => {
 
 		component.toggleZenMode();
 		fixture.detectChanges();
+		TestBed.tick();
 
 		const zenActionButtons = fixture.debugElement.queryAll(By.css('.zen-controls .button'));
 		zenActionButtons[0].nativeElement.click(); // pause
@@ -376,6 +383,7 @@ describe('GameComponent', () => {
 
 		component.toggleZenMode();
 		fixture.detectChanges();
+		TestBed.tick();
 
 		const zenButtons = fixture.debugElement.queryAll(By.css('.zen-controls .button'));
 		expect(zenButtons).toHaveLength(4); // pause, undo, hint, exit
@@ -398,6 +406,7 @@ describe('GameComponent', () => {
 
 		component.toggleZenMode();
 		fixture.detectChanges();
+		TestBed.tick();
 
 		const zenButtons = fixture.debugElement.queryAll(By.css('.zen-controls .button'));
 		expect(zenButtons).toHaveLength(2); // pause, exit only
@@ -412,6 +421,7 @@ describe('GameComponent', () => {
 	it('should start dragging zen controls when pointer down on drag handle', () => {
 		component.toggleZenMode();
 		fixture.detectChanges();
+		TestBed.tick();
 
 		const toolbar = fixture.debugElement.query(By.css('.zen-controls')).nativeElement;
 		const handle = fixture.debugElement.query(By.css('.zen-controls .drag-handle')).nativeElement;
@@ -437,6 +447,7 @@ describe('GameComponent', () => {
 	it('should update and clamp zen controls position while dragging', () => {
 		component.toggleZenMode();
 		fixture.detectChanges();
+		TestBed.tick();
 
 		const toolbar = fixture.debugElement.query(By.css('.zen-controls')).nativeElement;
 		const handle = fixture.debugElement.query(By.css('.zen-controls .drag-handle')).nativeElement;
@@ -464,6 +475,7 @@ describe('GameComponent', () => {
 	it('should stop zen controls drag on pointer up', () => {
 		component.toggleZenMode();
 		fixture.detectChanges();
+		TestBed.tick();
 
 		const toolbar = fixture.debugElement.query(By.css('.zen-controls')).nativeElement;
 		const handle = fixture.debugElement.query(By.css('.zen-controls .drag-handle')).nativeElement;
@@ -488,6 +500,7 @@ describe('GameComponent', () => {
 	it('should move zen controls with ArrowRight on drag handle', () => {
 		component.toggleZenMode();
 		fixture.detectChanges();
+		TestBed.tick();
 
 		const toolbar = fixture.debugElement.query(By.css('.zen-controls')).nativeElement;
 		const handle = fixture.debugElement.query(By.css('.zen-controls .drag-handle')).nativeElement;
@@ -508,6 +521,7 @@ describe('GameComponent', () => {
 	it('should clamp keyboard movement inside viewport', () => {
 		component.toggleZenMode();
 		fixture.detectChanges();
+		TestBed.tick();
 
 		const toolbar = fixture.debugElement.query(By.css('.zen-controls')).nativeElement;
 		const handle = fixture.debugElement.query(By.css('.zen-controls .drag-handle')).nativeElement;

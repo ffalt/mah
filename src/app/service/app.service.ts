@@ -44,7 +44,7 @@ export class AppService implements OnDestroy {
 	setLang(): void {
 		const userLang =
 			(!this.settings.lang || this.settings.lang === LangAuto) ?
-				(navigator.language.split('-')[0] || DEFAULT_LANGUAGE).toLowerCase() : // use navigator lang if available
+				(navigator.language.split('-', 1)[0] || DEFAULT_LANGUAGE).toLowerCase() : // use navigator lang if available
 				this.settings.lang;
 		if (Object.keys(LANGUAGES).includes(userLang)) {
 			this.translate.use(userLang);

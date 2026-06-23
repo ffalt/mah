@@ -76,12 +76,12 @@ export class ExportComponent implements OnInit, OnChanges {
 			alert(this.translate.instant('EDITOR_BUILD_IN_EXISTS'));
 			return;
 		}
-		const removeIDs = [this.exportLayout.id];
+		const idsToRemove = [this.exportLayout.id];
 		const layout = this.layout();
 		if (layout.originalId) {
-			removeIDs.push(layout.originalId);
+			idsToRemove.push(layout.originalId);
 		}
-		this.layoutService.removeCustomLayout(removeIDs);
+		this.layoutService.removeCustomLayout(idsToRemove);
 		this.saveAsCopy();
 	}
 

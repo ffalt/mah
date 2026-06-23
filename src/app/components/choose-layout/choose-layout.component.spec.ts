@@ -1,6 +1,6 @@
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
-import { TranslateModule } from '@ngx-translate/core';
+import { provideTranslateService } from '@ngx-translate/core';
 import { provideHttpClient } from '@angular/common/http';
 import { LayoutService } from '../../service/layout.service';
 import { GAME_MODE_EASY, GAME_MODE_STANDARD } from '../../model/consts';
@@ -18,8 +18,8 @@ describe('ChooseLayoutComponent', () => {
 
 	beforeEach(async () =>
 		TestBed.configureTestingModule({
-			imports: [ChooseLayoutComponent, TranslateModule.forRoot()],
-			providers: [provideHttpClient(), provideHttpClientTesting(), LayoutService, LocalstorageService]
+			imports: [ChooseLayoutComponent],
+			providers: [provideTranslateService(), provideHttpClient(), provideHttpClientTesting(), LayoutService, LocalstorageService]
 		})
 			.compileComponents());
 

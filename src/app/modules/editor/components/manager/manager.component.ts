@@ -36,10 +36,12 @@ export class ManagerComponent implements OnChanges, OnDestroy {
 	}
 
 	ngOnDestroy(): void {
-		if (this.worker) {
-			this.worker.terminate();
-			this.worker = undefined;
+		if (!this.worker) {
+			return;
 		}
+
+		this.worker.terminate();
+		this.worker = undefined;
 	}
 
 	editLayout(layout: Layout): void {

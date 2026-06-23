@@ -115,7 +115,17 @@ const commonUnicornRules = {
 	"unicorn/prefer-string-replace-all": "off",
 	"unicorn/no-useless-undefined": "off",
 	"unicorn/prefer-spread": "off",
-	"unicorn/prevent-abbreviations": [
+	"unicorn/consistent-class-member-order": ["error", { "order": [
+		"private-field",
+		"public-field",
+		"static-field",
+		"static-block",
+		"static-method",
+		"constructor",
+		"public-method",
+		"private-method"
+	] }],
+	"unicorn/name-replacements": [
 		"error",
 		{
 			"replacements": {
@@ -173,6 +183,7 @@ export default ts.config(
 			...commonStylisticRules,
 			...commonTypeScriptRules,
 			...commonUnicornRules,
+			"unicorn/no-global-object-property-assignment": "off",
 			"@angular-eslint/component-max-inline-declarations": "error",
 			"@angular-eslint/directive-selector": ["error", { type: "attribute", prefix: "app", style: "camelCase" }],
 			"@angular-eslint/no-attribute-decorator": "error",
@@ -209,6 +220,10 @@ export default ts.config(
 			...commonStylisticRules,
 			...commonTypeScriptRules,
 			...commonUnicornRules,
+			"unicorn/max-nested-calls": "off",
+			"unicorn/no-global-object-property-assignment": "off",
+			"@typescript-eslint/no-unnecessary-type-assertion": "off",
+			"unicorn/no-top-level-assignment-in-function": "off",
 			"jest/no-disabled-tests": "warn",
 			"jest/no-focused-tests": "error",
 			"jest/no-identical-title": "error",

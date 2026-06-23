@@ -24,17 +24,17 @@ describe('Matrix', () => {
 		it('should return false for empty levels array', () => {
 			matrix.init(0, 0, 0);
 
-			const result = matrix.inBounds(0, 0, 0);
+			const isInBounds = matrix.inBounds(0, 0, 0);
 
-			expect(result).toBe(false);
+			expect(isInBounds).toBe(false);
 		});
 
 		it('should return false when levels[0] is undefined', () => {
 			matrix.init(0, 0, 0);
 
-			const result = matrix.inBounds(0, 0, 0);
+			const isInBounds = matrix.inBounds(0, 0, 0);
 
-			expect(result).toBe(false);
+			expect(isInBounds).toBe(false);
 		});
 
 		it('should handle negative coordinates', () => {
@@ -71,9 +71,9 @@ describe('Matrix', () => {
 			matrix.init(5, 5, 2);
 			matrix.levels[0] = null as never;
 
-			const result = matrix.inBounds(0, 0, 0);
+			const isInBounds = matrix.inBounds(0, 0, 0);
 
-			expect(result).toBe(false);
+			expect(isInBounds).toBe(false);
 		});
 	});
 
@@ -117,9 +117,9 @@ describe('Matrix', () => {
 		it('should return true for empty levels', () => {
 			matrix.init(0, 0, 0);
 
-			const result = matrix.isTilePosInvalid(0, 0, 0);
+			const isTilePosInvalid = matrix.isTilePosInvalid(0, 0, 0);
 
-			expect(result).toBe(true);
+			expect(isTilePosInvalid).toBe(true);
 		});
 
 		it('should return true when there is no right column', () => {
@@ -137,9 +137,9 @@ describe('Matrix', () => {
 		it('should return false for valid empty position without surrounding tiles', () => {
 			matrix.init(5, 5, 2);
 
-			const result = matrix.isTilePosInvalid(0, 1, 1);
+			const isTilePosInvalid = matrix.isTilePosInvalid(0, 1, 1);
 
-			expect(result).toBe(false);
+			expect(isTilePosInvalid).toBe(false);
 		});
 
 		it('should return true when surrounded by tiles', () => {
@@ -149,18 +149,18 @@ describe('Matrix', () => {
 			matrix.setValue(0, 1, 1, 1);
 			matrix.setValue(0, 2, 1, 1);
 
-			const result = matrix.isTilePosInvalid(0, 1, 1);
+			const isTilePosInvalid = matrix.isTilePosInvalid(0, 1, 1);
 
-			expect(result).toBe(true);
+			expect(isTilePosInvalid).toBe(true);
 		});
 
 		it('should return true when there is any adjacent tile', () => {
 			matrix.init(5, 5, 2);
 			matrix.setValue(0, 2, 3, 1);
 
-			const result = matrix.isTilePosInvalid(0, 1, 2);
+			const isTilePosInvalid = matrix.isTilePosInvalid(0, 1, 2);
 
-			expect(result).toBe(true);
+			expect(isTilePosInvalid).toBe(true);
 		});
 	});
 

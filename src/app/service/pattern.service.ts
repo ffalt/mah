@@ -179,14 +179,9 @@ function svgPattern(
 		if (shouldUseAlternateColor(index)) {
 			color = colors.length > 1 ? colors[1] : colors[0];
 		}
-		let strokeFill: string;
-		if (mode === 'stroke-join') {
-			strokeFill = ` stroke='${color}' fill='none'`;
-		} else if (mode === 'stroke') {
-			strokeFill = ` stroke='${color}' fill='none'`;
-		} else {
-			strokeFill = ` stroke='none' fill='${color}'`;
-		}
+		const strokeFill = mode === 'stroke-join' || mode === 'stroke' ?
+			` stroke='${color}' fill='none'` :
+			` stroke='none' fill='${color}'`;
 		const transform = spacing[0] / 2 === 0 ? '' : ` transform='translate(${spacing[0] / 2},${vHeight})'`;
 		return `<path d='${paths[index]}' stroke-width='${stroke}'${strokeFill} ${transform}${joinMode}/>`;
 	}

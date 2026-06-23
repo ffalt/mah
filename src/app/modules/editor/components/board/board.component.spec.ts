@@ -80,7 +80,9 @@ describe('BoardComponent', () => {
 			const stone = new Stone(0, 1, 2, 3, 0);
 			const draw = { source: stone } as Draw;
 			const emitted: Array<Stone | undefined> = [];
-			component.clickStoneEvent.subscribe((value: Stone | undefined) => emitted.push(value));
+			component.clickStoneEvent.subscribe((value: Stone | undefined) => {
+				emitted.push(value);
+			});
 			const event = { stopPropagation: jest.fn() } as unknown as MouseEvent;
 			component.onClickStone(event, draw);
 			expect(emitted).toHaveLength(1);
@@ -90,7 +92,9 @@ describe('BoardComponent', () => {
 
 		it('should emit undefined when no draw is provided', () => {
 			const emitted: Array<Stone | undefined> = [];
-			component.clickStoneEvent.subscribe((value: Stone | undefined) => emitted.push(value));
+			component.clickStoneEvent.subscribe((value: Stone | undefined) => {
+				emitted.push(value);
+			});
 			const event = { stopPropagation: jest.fn() } as unknown as MouseEvent;
 			component.onClickStone(event);
 			expect(emitted).toHaveLength(1);
@@ -112,7 +116,9 @@ describe('BoardComponent', () => {
 		it('should emit draw and stop propagation', () => {
 			const draw = { z: 0, x: 1, y: 1 } as Draw;
 			const emitted: Array<Draw> = [];
-			component.clickDrawEvent.subscribe((value: Draw) => emitted.push(value));
+			component.clickDrawEvent.subscribe((value: Draw) => {
+				emitted.push(value);
+			});
 			const event = { stopPropagation: jest.fn() } as unknown as MouseEvent;
 			component.onClickDraw(event, draw);
 			expect(emitted).toHaveLength(1);

@@ -109,7 +109,7 @@ export async function convertKmahjongg(data: string, filename: string): Promise<
 		const h = Number((lines.find(line => line.startsWith('h')) ?? 'h16').split('').slice().join(''));
 		const name = (lines.find(line => line.startsWith('# name:')) ?? '').slice(7).trim();
 		layout.name = name ?? layout.name;
-		layout.name = layout.name.length === 0 ? filename.split('.')[0] : layout.name;
+		layout.name = layout.name.length === 0 ? filename.split('.', 1)[0] : layout.name;
 		const by = (lines.find(line => line.startsWith('# by:')) ?? '').slice(5).trim();
 		layout.by = by || layout.by;
 		lines = lines.filter(line => !line.startsWith('h') && !line.startsWith('w') && !line.startsWith('d') && !line.startsWith('#'));
@@ -125,7 +125,7 @@ export async function convertKyodai(data: string, filename: string): Promise<Imp
 	const version = lines[0] || '';
 	if (['Kyodai 3.0', 'Kyodai 6.0'].includes(version)) {
 		const nameCat = (lines[1] || '').split('::');
-		const name = nameCat[0].length === 0 ? filename.split('.')[0] : nameCat[0];
+		const name = nameCat[0].length === 0 ? filename.split('.', 1)[0] : nameCat[0];
 		const cat = nameCat[1] || 'uncategorized';
 		const board = lines[2] || '';
 		const layout = await convert3400Matrix(name, board);
@@ -143,8 +143,8 @@ function createCompactMappingBoard(mapping: Mapping): MappingBoard {
 	const board: MappingBoard = {};
 	const list = sortMapping(mapping);
 	for (const m of list) {
-		board[m[0]] = board[m[0]] || {};
-		board[m[0]][m[2]] = board[m[0]][m[2]] || [];
+		board[m[0]] ||= {};
+		board[m[0]][m[2]] ||= [];
 		board[m[0]][m[2]].push(m[1]);
 	}
 	return board;

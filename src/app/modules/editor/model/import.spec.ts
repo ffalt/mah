@@ -79,8 +79,8 @@ describe('convertMatrix', () => {
 		const cellsPerMatrix = 20 * 34;
 		const board = `${'0'.repeat(cellsPerMatrix)}1${'0'.repeat(cellsPerMatrix * 4 - 1)}`;
 		const result = await convertMatrix(5, 20, 34, 'Test', board);
-		const found = result.mapping.some(place => place[0] === 1 && place[1] === 0 && place[2] === 0);
-		expect(found).toBe(true);
+		const isFound = result.mapping.some(place => place[0] === 1 && place[1] === 0 && place[2] === 0);
+		expect(isFound).toBe(true);
 	});
 });
 
@@ -351,14 +351,14 @@ describe('cleanImportLayout', () => {
 type FileReaderHandler = (event: ProgressEvent<FileReader>) => void;
 
 let fakeReaderContent = '';
-let fakeReaderShouldFail = false;
+let shouldFakeReaderFail = false;
 
 class FakeFileReader {
-	get result(): string | null {
-		return fakeReaderShouldFail ? null : fakeReaderContent;
-	}
-
 	private readonly handlers = new Map<string, FileReaderHandler>();
+
+	get result(): string | null {
+		return shouldFakeReaderFail ? null : fakeReaderContent;
+	}
 
 	addEventListener(event: string, handler: FileReaderHandler): void {
 		this.handlers.set(event, handler);
@@ -366,7 +366,7 @@ class FakeFileReader {
 
 	readAsText(_file: File, _encoding: string): void {
 		setTimeout(() => {
-			if (fakeReaderShouldFail) {
+			if (shouldFakeReaderFail) {
 				const fakeEvent = {
 					target: { error: { message: 'read error' } }
 				} as unknown as ProgressEvent<FileReader>;
@@ -392,14 +392,14 @@ describe('readFile', () => {
 
 	it('should resolve with file content on success', async () => {
 		fakeReaderContent = 'file content';
-		fakeReaderShouldFail = false;
+		shouldFakeReaderFail = false;
 		const file = new File(['file content'], 'test.txt');
 		const result = await readFile(file);
 		expect(result).toBe('file content');
 	});
 
 	it('should reject with error message on read error', async () => {
-		fakeReaderShouldFail = true;
+		shouldFakeReaderFail = true;
 		const file = new File(['data'], 'test.txt');
 		await expect(readFile(file)).rejects.toThrow('Reading File failed');
 	});
@@ -414,7 +414,7 @@ describe('importLayouts', () => {
 
 	beforeEach(() => {
 		originalFileReader = global.FileReader;
-		fakeReaderShouldFail = false;
+		shouldFakeReaderFail = false;
 		(global as Record<string, unknown>).FileReader = FakeFileReader;
 	});
 

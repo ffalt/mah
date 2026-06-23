@@ -1,6 +1,6 @@
 import { Component, type OnChanges, type OnInit, type SimpleChanges, input, output } from '@angular/core';
 import { Stone } from '../../../../model/stone';
-import { type Draw, calcDrawPos, getDrawViewPort, sortDrawItems } from '../../../../model/draw';
+import { type Draw, calcDrawPos, getDrawViewport, sortDrawItems } from '../../../../model/draw';
 import type { Matrix } from '../../model/matrix';
 
 interface Level {
@@ -104,6 +104,6 @@ export class BoardComponent implements OnInit, OnChanges {
 			}
 		}
 		this.drawStones = sortDrawItems(stones);
-		this.viewport = getDrawViewPort(this.drawCells);
+		this.viewport = getDrawViewport(this.drawCells);
 	}
 }

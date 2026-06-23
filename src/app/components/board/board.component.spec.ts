@@ -1,5 +1,5 @@
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
-import { TranslateModule } from '@ngx-translate/core';
+import { provideTranslateService } from '@ngx-translate/core';
 import { SvgdefService } from '../../service/svgdef.service';
 import { AppService } from '../../service/app.service';
 import { BoardComponent } from './board.component';
@@ -26,8 +26,8 @@ describe('BoardComponent', () => {
 
 	beforeEach(async () =>
 		TestBed.configureTestingModule({
-			imports: [BoardComponent, TranslateModule.forRoot()],
-			providers: [provideHttpClient(), provideHttpClientTesting(), SvgdefService, AppService]
+			imports: [BoardComponent],
+			providers: [provideTranslateService(), provideHttpClient(), provideHttpClientTesting(), SvgdefService, AppService]
 		})
 			.compileComponents());
 

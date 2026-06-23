@@ -1,11 +1,12 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { DeferLoadScrollHostDirective } from './defer-load-scroll-host.directive';
 import { DeferLoadService } from './defer-load.service';
 
 @Component({
 	template: `<div appDeferLoadScrollHost [scrollTo]="scrollTarget" style="overflow:auto;height:200px"></div>`,
-	imports: [DeferLoadScrollHostDirective]
+	imports: [DeferLoadScrollHostDirective],
+	changeDetection: ChangeDetectionStrategy.Eager
 })
 class TestHostComponent {
 	scrollTarget: HTMLElement | undefined;
@@ -57,11 +58,18 @@ describe('DeferLoadScrollHostDirective', () => {
 			document.body.append(target);
 
 			const hostElement = fixture.nativeElement.querySelector('div');
+			let capturedScrollTop = 0;
+			Object.defineProperty(hostElement, 'scrollTop', {
+				set: (value: number) => { capturedScrollTop = value; },
+				get: () => capturedScrollTop,
+				configurable: true
+			});
 
 			component.scrollTarget = target;
 			fixture.detectChanges();
+			TestBed.tick();
 
-			expect(hostElement.scrollTop).toBe(300 - 50); // offsetTop - offsetHeight
+			expect(capturedScrollTop).toBe(300 - 50); // offsetTop - offsetHeight
 
 			target.remove();
 		});

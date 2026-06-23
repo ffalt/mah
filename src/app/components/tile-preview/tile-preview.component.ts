@@ -1,4 +1,4 @@
-import { Component, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
 import { ImageSetLoaderComponent } from '../image-set-loader/image-set-loader.component';
 import { AppService } from '../../service/app.service';
 import { imageSetIsKyodai } from '../../model/tilesets';
@@ -7,7 +7,8 @@ import { imageSetIsKyodai } from '../../model/tilesets';
 	selector: 'app-tile-preview',
 	templateUrl: './tile-preview.component.html',
 	styleUrls: ['./tile-preview.component.scss'],
-	imports: [ImageSetLoaderComponent]
+	imports: [ImageSetLoaderComponent],
+	changeDetection: ChangeDetectionStrategy.Eager
 })
 export class TilePreviewComponent {
 	readonly tile = input<string>('t_dr_red');

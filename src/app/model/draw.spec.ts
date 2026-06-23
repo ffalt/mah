@@ -1,4 +1,4 @@
-import { calcDrawPos, sortDrawItems, getDrawBoundsViewPort, getDrawViewPort, getDrawBounds, mappingToDrawItems, type Draw } from './draw';
+import { calcDrawPos, sortDrawItems, getDrawBoundsViewport, getDrawViewport, getDrawBounds, mappingToDrawItems, type Draw } from './draw';
 import { Stone } from './stone';
 import { CONSTS } from './consts';
 import type { Mapping } from './types';
@@ -75,14 +75,14 @@ describe('Draw', () => {
 	describe('getDrawBoundsViewPort', () => {
 		it('should calculate viewport from bounds correctly', () => {
 			const bounds = [10, 20, 30, 40];
-			const viewport = getDrawBoundsViewPort(bounds);
+			const viewport = getDrawBoundsViewport(bounds);
 			expect(viewport).toBe('-10 0 70 80');
 		});
 	});
 
 	describe('getDrawViewPort', () => {
 		it('should calculate viewport from items correctly', () => {
-			const viewport = getDrawViewPort(boundsItems);
+			const viewport = getDrawViewport(boundsItems);
 			expect(viewport).toBeDefined();
 			expect(typeof viewport).toBe('string');
 		});

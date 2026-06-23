@@ -1,5 +1,5 @@
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
-import { TranslateModule } from '@ngx-translate/core';
+import { provideTranslateService } from '@ngx-translate/core';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { SvgdefService } from '../../service/svgdef.service';
@@ -12,8 +12,8 @@ describe('TilesetDefsComponent', () => {
 
 	beforeEach(async () =>
 		TestBed.configureTestingModule({
-			imports: [TilesetDefsComponent, TranslateModule.forRoot()],
-			providers: [provideHttpClient(), provideHttpClientTesting(), SvgdefService]
+			imports: [TilesetDefsComponent],
+			providers: [provideTranslateService(), provideHttpClient(), provideHttpClientTesting(), SvgdefService]
 		})
 			.compileComponents());
 

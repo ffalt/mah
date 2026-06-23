@@ -1,5 +1,5 @@
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
-import { TranslateModule } from '@ngx-translate/core';
+import { provideTranslateService } from '@ngx-translate/core';
 import { provideHttpClient } from '@angular/common/http';
 import { SvgdefService } from '../../service/svgdef.service';
 import { AppService } from '../../service/app.service';
@@ -14,8 +14,8 @@ describe('TilesInfoComponent', () => {
 
 	beforeEach(async () =>
 		TestBed.configureTestingModule({
-			imports: [TilesInfoComponent, TranslateModule.forRoot()],
-			providers: [provideHttpClient(), SvgdefService, AppService]
+			imports: [TilesInfoComponent],
+			providers: [provideTranslateService(), provideHttpClient(), SvgdefService, AppService]
 		})
 			.compileComponents());
 

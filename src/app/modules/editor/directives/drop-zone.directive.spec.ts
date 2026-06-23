@@ -7,13 +7,15 @@ import { DropZoneDirective } from './drop-zone.directive';
 	template: '<div appDropZone></div>',
 	imports: [DropZoneDirective]
 })
-class TestHostComponent {}
+class TestHostComponent {
+}
 
 @Component({
 	template: '<div appDropZone [preventBodyDrop]="false"></div>',
 	imports: [DropZoneDirective]
 })
-class TestHostNoPreventComponent {}
+class TestHostNoPreventComponent {
+}
 
 function makeEvent(overrides: Partial<{ dataTransfer: unknown }> = {}): DragEvent {
 	return {
@@ -109,7 +111,9 @@ describe('DropZoneDirective', () => {
 
 			it('should emit files from dataTransfer.items', () => {
 				const emitted: Array<Array<File>> = [];
-				directive.appDropZone.subscribe(files => emitted.push(files));
+				directive.appDropZone.subscribe(files => {
+					emitted.push(files);
+				});
 
 				const mockFile = new File(['content'], 'test.txt');
 				const itemsArray = [{ kind: 'file', getAsFile: () => mockFile }];
@@ -131,7 +135,9 @@ describe('DropZoneDirective', () => {
 
 			it('should skip items that are not files', () => {
 				const emitted: Array<Array<File>> = [];
-				directive.appDropZone.subscribe(files => emitted.push(files));
+				directive.appDropZone.subscribe(files => {
+					emitted.push(files);
+				});
 
 				const itemsArray = [{ kind: 'string', getAsFile: () => null }];
 				const mockDataTransfer = {
@@ -149,7 +155,9 @@ describe('DropZoneDirective', () => {
 
 			it('should emit files from dataTransfer.files when items is not present', () => {
 				const emitted: Array<Array<File>> = [];
-				directive.appDropZone.subscribe(files => emitted.push(files));
+				directive.appDropZone.subscribe(files => {
+					emitted.push(files);
+				});
 
 				const mockFile = new File(['content'], 'test.txt');
 				const clearDataMock = jest.fn();
@@ -170,7 +178,9 @@ describe('DropZoneDirective', () => {
 
 			it('should do nothing extra when dataTransfer is null', () => {
 				const emitted: Array<Array<File>> = [];
-				directive.appDropZone.subscribe(files => emitted.push(files));
+				directive.appDropZone.subscribe(files => {
+					emitted.push(files);
+				});
 
 				const event = makeEvent({ dataTransfer: null });
 

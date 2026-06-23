@@ -1,6 +1,6 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
-import { TranslateModule } from '@ngx-translate/core';
+import { provideTranslateService } from '@ngx-translate/core';
 import { LayoutComponent } from './layout.component';
 import { WorkerService } from '../../../../service/worker.service';
 import { LayoutService } from '../../../../service/layout.service';
@@ -32,8 +32,9 @@ describe('LayoutComponent', () => {
 
 	beforeEach(async () => {
 		await TestBed.configureTestingModule({
-			imports: [LayoutComponent, TranslateModule.forRoot()],
+			imports: [LayoutComponent],
 			providers: [
+				provideTranslateService(),
 				{ provide: WorkerService, useValue: mockWorkerService },
 				{ provide: LayoutService, useValue: mockLayoutService }
 			],
@@ -90,8 +91,8 @@ describe('LayoutComponent', () => {
 			const layout = makeEditLayout();
 			init(layout);
 			component.removeStone(0, 0, 0);
-			const found = layout.mapping.some(m => m[0] === 0 && m[1] === 0 && m[2] === 0);
-			expect(found).toBe(false);
+			const isFound = layout.mapping.some(m => m[0] === 0 && m[1] === 0 && m[2] === 0);
+			expect(isFound).toBe(false);
 		});
 	});
 

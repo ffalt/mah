@@ -1,6 +1,6 @@
 import { Component, ElementRef, type OnChanges, type OnInit, type SimpleChanges, inject, input, output } from '@angular/core';
 import { Backgrounds, Themes } from '../../model/consts';
-import { type Draw, calcDrawPos, getDrawBounds, sortDrawItems, getDrawBoundsViewPortBounds } from '../../model/draw';
+import { type Draw, calcDrawPos, getDrawBounds, sortDrawItems, getDrawBoundsViewportBounds } from '../../model/draw';
 import type { Stone } from '../../model/stone';
 import { AppService } from '../../service/app.service';
 import { imageSetIsKyodai } from '../../model/tilesets';
@@ -209,7 +209,7 @@ export class BoardComponent implements OnInit, OnChanges {
 
 	private setTransformStage(): void {
 		if (this.rotate) {
-			const [minX, minY, width, height] = getDrawBoundsViewPortBounds(this.bounds);
+			const [minX, minY, width, height] = getDrawBoundsViewportBounds(this.bounds);
 			const cx = minX + width / 2;
 			const cy = minY + height / 2;
 			this.transformStage = `rotate(90 ${cx} ${cy})`;
@@ -228,7 +228,7 @@ export class BoardComponent implements OnInit, OnChanges {
 	}
 
 	private setViewPort(): void {
-		let [minX, minY, width, height] = getDrawBoundsViewPortBounds(this.bounds);
+		let [minX, minY, width, height] = getDrawBoundsViewportBounds(this.bounds);
 		if (this.rotate) {
 			const cx = minX + width / 2;
 			const cy = minY + height / 2;

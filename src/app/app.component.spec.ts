@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { BrowserModule } from '@angular/platform-browser';
-import { TranslateModule } from '@ngx-translate/core';
+import { provideTranslateService } from '@ngx-translate/core';
 import { provideHttpClient } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { AppService } from './service/app.service';
@@ -21,8 +21,8 @@ const MOCK_LAYOUT: Layout = {
 
 describe('AppComponent', () => {
 	beforeEach(async () => TestBed.configureTestingModule({
-		imports: [AppComponent, BrowserModule, TranslateModule.forRoot()],
-		providers: [provideHttpClient(), AppService, SvgdefService, LayoutService]
+		imports: [AppComponent, BrowserModule],
+		providers: [provideTranslateService(), provideHttpClient(), AppService, SvgdefService, LayoutService]
 	}).compileComponents());
 
 	it('should create the app', async () => {

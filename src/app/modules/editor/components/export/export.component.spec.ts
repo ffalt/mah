@@ -1,6 +1,6 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { provideTranslateService, TranslateService } from '@ngx-translate/core';
 import { ExportComponent } from './export.component';
 import { LayoutService } from '../../../../service/layout.service';
 import * as exportModel from '../../model/export';
@@ -28,8 +28,9 @@ describe('ExportComponent', () => {
 
 	beforeEach(async () => {
 		await TestBed.configureTestingModule({
-			imports: [ExportComponent, TranslateModule.forRoot()],
+			imports: [ExportComponent],
 			providers: [
+				provideTranslateService(),
 				{ provide: LayoutService, useValue: mockLayoutService }
 			],
 			schemas: [NO_ERRORS_SCHEMA]
@@ -97,7 +98,9 @@ describe('ExportComponent', () => {
 			init();
 			const downloadSpy = jest.spyOn(exportModel, 'downloadLayout').mockImplementation(() => undefined);
 			const savedEvents: Array<boolean> = [];
-			component.savedEvent.subscribe((value: boolean) => savedEvents.push(value));
+			component.savedEvent.subscribe((value: boolean) => {
+				savedEvents.push(value);
+			});
 
 			component.download();
 
@@ -112,7 +115,9 @@ describe('ExportComponent', () => {
 			const layout = { ...editLayout };
 			init(layout);
 			const savedEvents: Array<boolean> = [];
-			component.savedEvent.subscribe((value: boolean) => savedEvents.push(value));
+			component.savedEvent.subscribe((value: boolean) => {
+				savedEvents.push(value);
+			});
 
 			component.saveAsCopy();
 

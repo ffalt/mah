@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { AppService } from './app.service';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 import { Game } from '../model/game';
 import { Settings } from '../model/settings';
 import { LocalstorageService } from './localstorage.service';
@@ -63,8 +63,7 @@ describe('AppService', () => {
 				AppService,
 				{ provide: TranslateService, useValue: translateService },
 				{ provide: LocalstorageService, useValue: mockStorage }
-			],
-			imports: [TranslateModule.forRoot()]
+			]
 		});
 
 		// Mock constructors

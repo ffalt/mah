@@ -1,5 +1,5 @@
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
-import { TranslateModule } from '@ngx-translate/core';
+import { provideTranslateService } from '@ngx-translate/core';
 import { DialogComponent } from './dialog.component';
 import { By } from '@angular/platform-browser';
 
@@ -9,7 +9,8 @@ describe('DialogComponent', () => {
 
 	beforeEach(async () =>
 		TestBed.configureTestingModule({
-			imports: [DialogComponent, TranslateModule.forRoot()]
+			imports: [DialogComponent],
+		providers: [provideTranslateService()]
 		})
 			.compileComponents());
 
