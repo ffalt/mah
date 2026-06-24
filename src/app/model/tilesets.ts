@@ -1,6 +1,7 @@
+/* eslint-disable unicorn/prefer-https */
 import { hashCode } from './hash';
 
-export function imageSetIsKyodai(name: string): boolean {
+export function isKyodaiImageSet(name: string): boolean {
 	return ['kyodai', 'kyodai-black'].includes(name);
 }
 
@@ -254,7 +255,7 @@ export async function buildKyodaiSVG(tileSetUrl?: string): Promise<string> {
 		return '<svg><defs></defs></svg>';
 	}
 
-	const range = (start: number, end: number) => [...(Array.from({ length: end })).keys()].map(x => x + start);
+	const range = (start: number, end: number) => Array.from({ length: end }, (_, index) => index + start);
 
 	const kyodai = [
 		range(1, 9).map(nr => `do${nr}`),

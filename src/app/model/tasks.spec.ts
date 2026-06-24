@@ -1,14 +1,8 @@
 import { solveGame, statsSolveMapping } from './tasks';
-import { Solver } from './solver/solver';
+import type { Solver } from './solver/solver';
 import { Builder, MODE_SOLVABLE } from './builder';
-import { Tiles } from './tiles';
 import type { StonePosition } from './stone';
 import type { Mapping, Place } from './types';
-
-// Mock dependencies
-jest.mock('./solver/solver');
-jest.mock('./builder');
-jest.mock('./tiles');
 
 describe('Tasks', () => {
 	describe('solveGame', () => {
@@ -21,21 +15,22 @@ describe('Tasks', () => {
 			const mockResult = 0; // Solvable
 			const mockOrder: Array<Place> = [[0, 0, 0], [0, 1, 0]];
 
-			// Setup mocks
-			(Solver.prototype.solveLayout as jest.Mock).mockReturnValue(mockResult);
-			(Solver.prototype.writeGame as jest.Mock).mockReturnValue(mockOrder);
+			// Stub solver injected in place of the real one
+			const solveLayout = vi.fn().mockReturnValue(mockResult);
+			const writeGame = vi.fn().mockReturnValue(mockOrder);
+			const solver = { solveLayout, writeGame } as unknown as Solver;
 
 			// Create finish callback mock
-			const finishCallback = jest.fn();
+			const finishCallback = vi.fn();
 
 			// Call the function
-			solveGame(stones, finishCallback);
+			solveGame(stones, finishCallback, solver);
 
 			// Verify solver was called with the stones
-			expect(Solver.prototype.solveLayout).toHaveBeenCalledWith(stones);
+			expect(solveLayout).toHaveBeenCalledWith(stones);
 
 			// Verify writeGame was called
-			expect(Solver.prototype.writeGame).toHaveBeenCalled();
+			expect(writeGame).toHaveBeenCalled();
 
 			// Verify finish callback was called with the expected result
 			expect(finishCallback).toHaveBeenCalledWith({
@@ -55,36 +50,29 @@ describe('Tasks', () => {
 				{ x: 1, y: 0, z: 0, v: 1, groupNr: 1 }
 			];
 
-			// Setup mocks
-			(Builder.prototype.build as jest.Mock).mockReturnValue(mockStones);
-
-			// First round: solvable
-			(Solver.prototype.solveLayout as jest.Mock).mockReturnValueOnce(0);
-			// Second round: unsolvable
-			(Solver.prototype.solveLayout as jest.Mock).mockReturnValueOnce(2);
-			// Third round: solvable
-			(Solver.prototype.solveLayout as jest.Mock).mockReturnValueOnce(0);
+			// Stub builder and solver injected in place of the real ones
+			const build = vi.fn().mockReturnValue(mockStones);
+			const builder = { build } as unknown as Builder;
+			const solveLayout = vi.fn()
+				.mockReturnValueOnce(0) // First round: solvable
+				.mockReturnValueOnce(2) // Second round: unsolvable
+				.mockReturnValueOnce(0); // Third round: solvable
+			const solver = { solveLayout } as unknown as Solver;
 
 			// Create callback mocks
-			const progressCallback = jest.fn();
-			const finishCallback = jest.fn();
+			const progressCallback = vi.fn();
+			const finishCallback = vi.fn();
 
 			// Call the function
-			statsSolveMapping(mapping, rounds, progressCallback, finishCallback);
-
-			// Verify Tiles constructor was called with mapping length
-			expect(Tiles).toHaveBeenCalledWith(mapping.length);
-
-			// Verify Builder was constructed with the Tiles instance
-			expect(Builder).toHaveBeenCalled();
+			statsSolveMapping(mapping, rounds, progressCallback, finishCallback, solver, builder);
 
 			// Verify build was called for each round
-			expect(Builder.prototype.build).toHaveBeenCalledTimes(rounds);
-			expect(Builder.prototype.build).toHaveBeenCalledWith(MODE_SOLVABLE, mapping);
+			expect(build).toHaveBeenCalledTimes(rounds);
+			expect(build).toHaveBeenCalledWith(MODE_SOLVABLE, mapping);
 
 			// Verify solveLayout was called for each round
-			expect(Solver.prototype.solveLayout).toHaveBeenCalledTimes(rounds);
-			expect(Solver.prototype.solveLayout).toHaveBeenCalledWith(mockStones);
+			expect(solveLayout).toHaveBeenCalledTimes(rounds);
+			expect(solveLayout).toHaveBeenCalledWith(mockStones);
 
 			// Verify progress callback was called for each round
 			expect(progressCallback).toHaveBeenCalledTimes(rounds);
@@ -101,21 +89,24 @@ describe('Tasks', () => {
 			const mapping: Mapping = [[0, 0, 0], [0, 1, 0]];
 			const rounds = 1;
 
-			// Setup mocks
-			(Builder.prototype.build as jest.Mock).mockReturnValue(undefined);
+			// Stub builder and solver injected in place of the real ones
+			const build = vi.fn().mockReturnValue(undefined);
+			const builder = { build } as unknown as Builder;
+			const solveLayout = vi.fn();
+			const solver = { solveLayout } as unknown as Solver;
 
 			// Create callback mocks
-			const progressCallback = jest.fn();
-			const finishCallback = jest.fn();
+			const progressCallback = vi.fn();
+			const finishCallback = vi.fn();
 
 			// Call the function
-			statsSolveMapping(mapping, rounds, progressCallback, finishCallback);
+			statsSolveMapping(mapping, rounds, progressCallback, finishCallback, solver, builder);
 
 			// Verify build was called
-			expect(Builder.prototype.build).toHaveBeenCalledTimes(rounds);
+			expect(build).toHaveBeenCalledTimes(rounds);
 
 			// Verify solveLayout was not called
-			expect(Solver.prototype.solveLayout).not.toHaveBeenCalled();
+			expect(solveLayout).not.toHaveBeenCalled();
 
 			// Verify progress callback was not called
 			expect(progressCallback).not.toHaveBeenCalled();

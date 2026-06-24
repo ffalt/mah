@@ -49,9 +49,9 @@ export class SolverWriter {
 		const qtmA = qtk.member[a] as Tile;
 		const qtmB = qtk.member[b] as Tile;
 		const tilesExist = qtmA && qtmB;
-		const tilesNotPlayed = tilesExist && !qtmA.isPlayed;
-		const tilesPlayable = tilesExist && isPlayable(qtmA) && isPlayable(qtmB);
-		if (tilesExist && tilesNotPlayed && tilesPlayable) {
+		const isTileNotPlayed = tilesExist && !qtmA.isPlayed;
+		const isTilePlayable = tilesExist && isPlayable(qtmA) && isPlayable(qtmB);
+		if (tilesExist && isTileNotPlayed && isTilePlayable) {
 			this.writePair(k, a, b);
 			qtmA.isPlayed = true;
 			qtmB.isPlayed = true;

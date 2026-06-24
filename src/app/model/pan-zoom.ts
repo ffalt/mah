@@ -60,28 +60,32 @@ export class PanZoom {
 	}
 
 	onMouseDown(event: MouseEvent): void {
-		if (this.scale > 1) {
-			event.preventDefault();
-			this.lastMouseX = event.clientX;
-			this.lastMouseY = event.clientY;
-			this.initialMouseX = event.clientX;
-			this.initialMouseY = event.clientY;
+		if (this.scale <= 1) {
+			return;
 		}
+
+		event.preventDefault();
+		this.lastMouseX = event.clientX;
+		this.lastMouseY = event.clientY;
+		this.initialMouseX = event.clientX;
+		this.initialMouseY = event.clientY;
 	}
 
 	onMouseMove(event: MouseEvent): void {
-		if (this.scale > 1) {
-			if (!this.isPanning && this.initialMouseX !== 0 && this.initialMouseY !== 0) {
-				const dx = event.clientX - this.initialMouseX;
-				const dy = event.clientY - this.initialMouseY;
-				if (Math.hypot(dx, dy) >= PAN_THRESHOLD) {
-					this.isPanning = true;
-				}
+		if (this.scale <= 1) {
+			return;
+		}
+
+		if (!this.isPanning && this.initialMouseX !== 0 && this.initialMouseY !== 0) {
+			const dx = event.clientX - this.initialMouseX;
+			const dy = event.clientY - this.initialMouseY;
+			if (Math.hypot(dx, dy) >= PAN_THRESHOLD) {
+				this.isPanning = true;
 			}
-			if (this.isPanning) {
-				event.preventDefault();
-				this.updatePanning(event);
-			}
+		}
+		if (this.isPanning) {
+			event.preventDefault();
+			this.updatePanning(event);
 		}
 	}
 
@@ -196,10 +200,7 @@ export class PanZoom {
 			if (finalPoints.length === 2) {
 				const currentDistance = this.distance(finalPoints[0], finalPoints[1]);
 				const relativeScale = currentDistance / this.initialDistance;
-				let newScale = this.initialScale;
-				if (Math.abs(relativeScale - 1) >= 0.1) {
-					newScale = this.initialScale * relativeScale;
-				}
+				const newScale = Math.abs(relativeScale - 1) >= 0.1 ? this.initialScale * relativeScale : this.initialScale;
 				const centerX = (finalPoints[0].x + finalPoints[1].x) / 2;
 				const centerY = (finalPoints[0].y + finalPoints[1].y) / 2;
 				this.zoomSVGValue(newScale, centerX, centerY);
@@ -240,9 +241,7 @@ export class PanZoom {
 
 	setPanValue(x: number, y: number): void {
 		// Compute pan bounds relative to the scaled content size within the container.
-		// Allow a small visual margin to avoid hard edges during interactions.
 		const { width: containerWidth, height: containerHeight } = this.getContainerSize();
-		const margin = 50;
 
 		// Handle edge case: container not properly sized
 		if (containerWidth <= 0 || containerHeight <= 0) {
@@ -255,6 +254,8 @@ export class PanZoom {
 			return;
 		}
 
+		// Allow a small visual margin to avoid hard edges during interactions.
+		const margin = 50;
 		// Extra size introduced by scaling (when scale <= 1, extra is 0 and panning is effectively disabled elsewhere)
 		const extraWidth = Math.max(0, (this.scale - 1) * containerWidth);
 		const extraHeight = Math.max(0, (this.scale - 1) * containerHeight);
@@ -305,6 +306,6 @@ export class PanZoom {
 	}
 
 	private extractTouchPoints(touches: TouchList): Array<TouchPoint> {
-		return Array.from(touches).map(t => ({ x: t.clientX, y: t.clientY, identifier: t.identifier }));
+		return Array.from(touches, t => ({ x: t.clientX, y: t.clientY, identifier: t.identifier }));
 	}
 }

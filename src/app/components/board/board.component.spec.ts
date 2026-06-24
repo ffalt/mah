@@ -35,7 +35,7 @@ describe('BoardComponent', () => {
 		fixture = TestBed.createComponent(BoardComponent);
 		component = fixture.componentInstance;
 		appService = TestBed.inject(AppService);
-		jest.spyOn(window, 'requestAnimationFrame').mockImplementation(callback => {
+		vi.spyOn(window, 'requestAnimationFrame').mockImplementation(callback => {
 			callback(0);
 			return 0;
 		});
@@ -88,7 +88,7 @@ describe('BoardComponent', () => {
 			fixture.componentRef.setInput('stones', testStones);
 			fixture.detectChanges();
 
-			const clickSpy = jest.spyOn(component.clickEvent, 'emit');
+			const clickSpy = vi.spyOn(component.clickEvent, 'emit');
 
 			// Simulate a click on the stone
 			component.onClickUp(new MouseEvent('mouseup'), component.drawStones[0]);
@@ -97,7 +97,7 @@ describe('BoardComponent', () => {
 		});
 
 		it('should emit undefined clickEvent when clicking outside stones', () => {
-			const clickSpy = jest.spyOn(component.clickEvent, 'emit');
+			const clickSpy = vi.spyOn(component.clickEvent, 'emit');
 
 			// Simulate a click on the board (not on a stone)
 			component.onMouseUp(new MouseEvent('mouseup'));
@@ -186,8 +186,10 @@ describe('BoardComponent', () => {
 
 		it('should update pan values when panning', () => {
 			// Mock element dimensions
-			Object.defineProperty(component.element.nativeElement, 'offsetWidth', { value: 1000 });
-			Object.defineProperty(component.element.nativeElement, 'offsetHeight', { value: 800 });
+			Object.defineProperties(component.element.nativeElement, {
+				offsetWidth: { value: 1000 },
+				offsetHeight: { value: 800 }
+			});
 			// Set initial scale to enable panning
 			component.scale = 1.5;
 			const initialPanX = component.panX;
@@ -205,7 +207,7 @@ describe('BoardComponent', () => {
 
 	describe('Event handling', () => {
 		it('should handle wheel events for zooming', () => {
-			const zoomSpy = jest.spyOn(component.panZoom, 'zoomSVGValue');
+			const zoomSpy = vi.spyOn(component.panZoom, 'zoomSVGValue');
 			const wheelEvent = new WheelEvent('wheel', { deltaY: -100 });
 
 			component.onWheel(wheelEvent);
@@ -233,7 +235,7 @@ describe('BoardComponent', () => {
 			component.panZoom.lastMouseX = 100;
 			component.panZoom.lastMouseY = 100;
 
-			const setPanSpy = jest.spyOn(component.panZoom, 'setPanValue');
+			const setPanSpy = vi.spyOn(component.panZoom, 'setPanValue');
 			const mouseEvent = new MouseEvent('mousemove', { clientX: 120, clientY: 130 });
 
 			component.onMouseMove(mouseEvent);
@@ -246,7 +248,7 @@ describe('BoardComponent', () => {
 		it('should handle mouse up events when panning', () => {
 			// Set up panning state
 			component.panZoom.isPanning = true;
-			const clickSpy = jest.spyOn(component.clickEvent, 'emit');
+			const clickSpy = vi.spyOn(component.clickEvent, 'emit');
 
 			component.onMouseUp(new MouseEvent('mouseup'));
 
@@ -257,7 +259,7 @@ describe('BoardComponent', () => {
 		it('should handle mouse up events when not panning', () => {
 			// Set up non-panning state
 			component.panZoom.isPanning = false;
-			const clickSpy = jest.spyOn(component.clickEvent, 'emit');
+			const clickSpy = vi.spyOn(component.clickEvent, 'emit');
 
 			component.onMouseUp(new MouseEvent('mouseup'));
 
@@ -265,7 +267,7 @@ describe('BoardComponent', () => {
 		});
 
 		it('should handle resize events', () => {
-			const resizeSpy = jest.spyOn(component as unknown as HackBoardComponent, 'resize');
+			const resizeSpy = vi.spyOn(component as unknown as HackBoardComponent, 'resize');
 			const resizeEvent = new Event('resize');
 			Object.defineProperty(resizeEvent, 'target', { value: window });
 
@@ -314,7 +316,7 @@ describe('BoardComponent', () => {
 			component.scale = 1.5;
 			component.panZoom.lastPinch = 0; // Ensure enough time has passed
 
-			const setPanSpy = jest.spyOn(component.panZoom, 'setPanValue');
+			const setPanSpy = vi.spyOn(component.panZoom, 'setPanValue');
 
 			// Create a touch event with one touch point
 			const touchEvent = new TouchEvent('touchmove', {
@@ -342,7 +344,7 @@ describe('BoardComponent', () => {
 
 	describe('Indicators', () => {
 		it('should display indicators when zooming', () => {
-			const displaySpy = jest.spyOn(component.indicators, 'display');
+			const displaySpy = vi.spyOn(component.indicators, 'display');
 			const wheelEvent = new WheelEvent('wheel', { deltaY: -100, clientX: 100, clientY: 100 });
 
 			component.onWheel(wheelEvent);
@@ -357,7 +359,7 @@ describe('BoardComponent', () => {
 			component.panZoom.lastMouseX = 100;
 			component.panZoom.lastMouseY = 100;
 
-			const displaySpy = jest.spyOn(component.indicators, 'display');
+			const displaySpy = vi.spyOn(component.indicators, 'display');
 			const mouseEvent = new MouseEvent('mousemove', { clientX: 120, clientY: 130 });
 
 			component.updatePanning(mouseEvent);
@@ -367,8 +369,8 @@ describe('BoardComponent', () => {
 
 		it('should hide indicators after display', () => {
 			const mockIndicator = { state: 'hidden', x: 100, y: 100, size: 10, top: 95, left: 95 };
-			jest.spyOn(component.indicators, 'display').mockReturnValue(mockIndicator);
-			const hideSpy = jest.spyOn(component.indicators, 'hide');
+			vi.spyOn(component.indicators, 'display').mockReturnValue(mockIndicator);
+			const hideSpy = vi.spyOn(component.indicators, 'hide');
 			const wheelEvent = new WheelEvent('wheel', { deltaY: -100, clientX: 100, clientY: 100 });
 
 			component.onWheel(wheelEvent);
@@ -395,7 +397,7 @@ describe('BoardComponent', () => {
 			component.panZoom.isPanning = false;
 			component.scale = 1.5;
 
-			const setPanSpy = jest.spyOn(component.panZoom, 'setPanValue');
+			const setPanSpy = vi.spyOn(component.panZoom, 'setPanValue');
 			const mouseEvent = new MouseEvent('mousemove', { clientX: 120, clientY: 130 });
 
 			component.onMouseMove(mouseEvent);
@@ -405,8 +407,10 @@ describe('BoardComponent', () => {
 
 		it('should clamp pan values within bounds', () => {
 			// Mock element dimensions
-			Object.defineProperty(component.element.nativeElement, 'offsetWidth', { value: 1000 });
-			Object.defineProperty(component.element.nativeElement, 'offsetHeight', { value: 800 });
+			Object.defineProperties(component.element.nativeElement, {
+				offsetWidth: { value: 1000 },
+				offsetHeight: { value: 800 }
+			});
 
 			// Try to pan beyond bounds
 			component.setPanValue(-2000, 2000);

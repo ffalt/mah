@@ -1,6 +1,7 @@
 import { Settings } from './settings';
 import { ImageSetDefault, LangDefault, ThemeDefault } from './consts';
 import type { SettingsStore, StorageProvider } from './types';
+import { Mock } from 'vitest';
 
 describe('Settings', () => {
 	let settings: Settings;
@@ -9,12 +10,12 @@ describe('Settings', () => {
 	beforeEach(() => {
 		// Create mock storage provider
 		mockStorageProvider = {
-			getSettings: jest.fn(),
-			storeSettings: jest.fn(),
-			getState: jest.fn(),
-			storeState: jest.fn(),
-			getScore: jest.fn(),
-			storeScore: jest.fn()
+			getSettings: vi.fn(),
+			storeSettings: vi.fn(),
+			getState: vi.fn(),
+			storeState: vi.fn(),
+			getScore: vi.fn(),
+			storeScore: vi.fn()
 		};
 
 		// Create settings instance
@@ -58,7 +59,7 @@ describe('Settings', () => {
 				kyodaiUrl: 'test-url'
 			};
 
-			(mockStorageProvider.getSettings as jest.Mock).mockReturnValue(storedSettings);
+			(mockStorageProvider.getSettings as Mock).mockReturnValue(storedSettings);
 
 			const result = settings.load();
 
@@ -76,7 +77,7 @@ describe('Settings', () => {
 		});
 
 		it('should use default values for missing settings', () => {
-			(mockStorageProvider.getSettings as jest.Mock).mockReturnValue({
+			(mockStorageProvider.getSettings as Mock).mockReturnValue({
 				background: 'test-background'
 			});
 
@@ -90,12 +91,12 @@ describe('Settings', () => {
 		});
 
 		it('should handle load failure', () => {
-			(mockStorageProvider.getSettings as jest.Mock).mockImplementation(() => {
+			(mockStorageProvider.getSettings as Mock).mockImplementation(() => {
 				throw new Error('Test error');
 			});
 
 			const originalConsoleError = console.error;
-			console.error = jest.fn();
+			console.error = vi.fn();
 			const result = settings.load();
 			console.error = originalConsoleError;
 
@@ -139,12 +140,12 @@ describe('Settings', () => {
 		});
 
 		it('should handle save failure', () => {
-			(mockStorageProvider.storeSettings as jest.Mock).mockImplementation(() => {
+			(mockStorageProvider.storeSettings as Mock).mockImplementation(() => {
 				throw new Error('Test error');
 			});
 
 			const originalConsoleError = console.error;
-			console.error = jest.fn();
+			console.error = vi.fn();
 			const result = settings.save();
 			console.error = originalConsoleError;
 

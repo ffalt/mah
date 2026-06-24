@@ -80,16 +80,18 @@ export class Game {
 		if (!stone) {
 			return;
 		}
-		stone.effects = stone.effects || {};
+		stone.effects ||= {};
 		if (stone.effects.wiggleTimer !== undefined) {
 			clearTimeout(stone.effects.wiggleTimer);
 		}
 		stone.effects.wiggle = true;
 		stone.effects.wiggleTimer = setTimeout(() => {
-			if (stone.effects) {
-				stone.effects.wiggle = false;
-				stone.effects.wiggleTimer = undefined;
+			if (!stone.effects) {
+				return;
 			}
+
+			stone.effects.wiggle = false;
+			stone.effects.wiggleTimer = undefined;
 		}, 300);
 	}
 
@@ -250,10 +252,12 @@ export class Game {
 	}
 
 	private clearSaveTimer(): void {
-		if (this.saveTimer !== undefined) {
-			clearTimeout(this.saveTimer);
-			this.saveTimer = undefined;
+		if (this.saveTimer === undefined) {
+			return;
 		}
+
+		clearTimeout(this.saveTimer);
+		this.saveTimer = undefined;
 	}
 
 	private startMatchesHighlight(stone: Stone): void {

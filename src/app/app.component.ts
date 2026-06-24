@@ -74,22 +74,20 @@ export class AppComponent implements OnInit {
 	}
 
 	toggleEditor(): void {
-		if (environment.editor) {
-			if (this.editorLoading) {
-				return;
+		if (!environment.editor || this.editorLoading) {
+			return;
+		}
+		this.editorVisible = !this.editorVisible;
+		if (this.editorVisible) {
+			this.app.game.pause();
+			this.editorLoading = true;
+			this.loadEditor();
+		} else {
+			if (this.editorSubscription) {
+				this.editorSubscription.unsubscribe();
+				this.editorSubscription = undefined;
 			}
-			this.editorVisible = !this.editorVisible;
-			if (this.editorVisible) {
-				this.app.game.pause();
-				this.editorLoading = true;
-				this.loadEditor();
-			} else {
-				if (this.editorSubscription) {
-					this.editorSubscription.unsubscribe();
-					this.editorSubscription = undefined;
-				}
-				this.editorPlaceholder().clear();
-			}
+			this.editorPlaceholder().clear();
 		}
 	}
 
@@ -124,8 +122,8 @@ export class AppComponent implements OnInit {
 				const layout = this.layoutService.expandLayout(custom, true);
 				result.push(layout.id);
 				if (
-					!this.layoutService.layouts.items.some(l => l.id === layout.id) &&
-					!imported.some(l => l.id === layout.id)
+					this.layoutService.layouts.items.every(l => l.id !== layout.id) &&
+					imported.every(l => l.id !== layout.id)
 				) {
 					imported.push(LayoutService.layout2loadLayout(layout, custom.map));
 				}
@@ -147,12 +145,12 @@ export class AppComponent implements OnInit {
 			if (this.app.game.isRunning()) {
 				this.app.game.pause();
 			}
-		}, false);
+		}, { capture: false });
 		window.addEventListener('blur', () => {
 			if (this.app.game.isRunning()) {
 				this.app.game.pause();
 			}
-		}, false);
+		}, { capture: false });
 		if (environment.onWindowBlur) {
 			(environment.onWindowBlur as onWindowBlur)(() => {
 				if (this.app.game.isRunning()) {

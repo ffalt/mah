@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { of, throwError } from 'rxjs';
 
 import { generatePatternList, PatternService } from './pattern.service';
+import { Mocked } from 'vitest';
 
 function getPatternsDirectory(): string {
 	// This spec file lives in src/app/service -> assets is at src/assets
@@ -61,13 +62,13 @@ interface HackPatternService {
 
 describe('PatternService', () => {
 	let service: PatternService;
-	let mockHttpClient: jest.Mocked<HttpClient>;
+	let mockHttpClient: Mocked<HttpClient>;
 
 	beforeEach(() => {
 		// Create mock for HttpClient
 		mockHttpClient = {
-			get: jest.fn()
-		} as unknown as jest.Mocked<HttpClient>;
+			get: vi.fn()
+		} as unknown as Mocked<HttpClient>;
 
 		// Configure TestBed
 		TestBed.configureTestingModule({
@@ -240,7 +241,7 @@ describe('PatternService', () => {
 			const patternJson = '{"path":["M0,0"],"width":100,"height":100,"mode":"fill"}';
 			const colors = ['#FF0000', '#00FF00'];
 
-			jest.spyOn(service, 'get').mockResolvedValue(patternJson);
+			vi.spyOn(service, 'get').mockResolvedValue(patternJson);
 
 			// Act
 			const result = await service.svgDataUrl('test-pattern', colors);

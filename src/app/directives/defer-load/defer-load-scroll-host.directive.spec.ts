@@ -1,12 +1,14 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { DeferLoadScrollHostDirective } from './defer-load-scroll-host.directive';
 import { DeferLoadService } from './defer-load.service';
+import { Mock } from 'vitest';
+import { markAndDetect } from '../../change-detection.spec-helpers';
 
 @Component({
-	template: `<div appDeferLoadScrollHost [scrollTo]="scrollTarget" style="overflow:auto;height:200px"></div>`,
-	imports: [DeferLoadScrollHostDirective],
-	changeDetection: ChangeDetectionStrategy.Eager
+	template: `
+		<div appDeferLoadScrollHost [scrollTo]="scrollTarget" style="overflow:auto;height:200px"></div>`,
+	imports: [DeferLoadScrollHostDirective]
 })
 class TestHostComponent {
 	scrollTarget: HTMLElement | undefined;
@@ -15,10 +17,10 @@ class TestHostComponent {
 describe('DeferLoadScrollHostDirective', () => {
 	let fixture: ComponentFixture<TestHostComponent>;
 	let component: TestHostComponent;
-	let mockService: { notifyScroll: jest.Mock };
+	let mockService: { notifyScroll: Mock };
 
 	beforeEach(() => {
-		mockService = { notifyScroll: jest.fn() };
+		mockService = { notifyScroll: vi.fn() };
 		TestBed.configureTestingModule({
 			imports: [TestHostComponent],
 			providers: [{ provide: DeferLoadService, useValue: mockService }]
@@ -53,21 +55,24 @@ describe('DeferLoadScrollHostDirective', () => {
 		it('should scroll to target element when scrollTo input changes', () => {
 			const target = document.createElement('div');
 			target.id = 'target-element';
-			Object.defineProperty(target, 'offsetTop', { value: 300, configurable: true });
-			Object.defineProperty(target, 'offsetHeight', { value: 50, configurable: true });
+			Object.defineProperties(target, {
+				offsetTop: { value: 300, configurable: true },
+				offsetHeight: { value: 50, configurable: true }
+			});
 			document.body.append(target);
 
 			const hostElement = fixture.nativeElement.querySelector('div');
 			let capturedScrollTop = 0;
 			Object.defineProperty(hostElement, 'scrollTop', {
-				set: (value: number) => { capturedScrollTop = value; },
+				set: (value: number) => {
+					capturedScrollTop = value;
+				},
 				get: () => capturedScrollTop,
 				configurable: true
 			});
 
 			component.scrollTarget = target;
-			fixture.detectChanges();
-			TestBed.tick();
+			markAndDetect(fixture);
 
 			expect(capturedScrollTop).toBe(300 - 50); // offsetTop - offsetHeight
 

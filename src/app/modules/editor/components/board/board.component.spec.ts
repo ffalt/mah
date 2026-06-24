@@ -4,6 +4,7 @@ import { BoardComponent } from './board.component';
 import { Matrix } from '../../model/matrix';
 import { Stone } from '../../../../model/stone';
 import type { Draw } from '../../../../model/draw';
+import { Mock } from 'vitest';
 
 describe('BoardComponent', () => {
 	let component: BoardComponent;
@@ -83,11 +84,11 @@ describe('BoardComponent', () => {
 			component.clickStoneEvent.subscribe((value: Stone | undefined) => {
 				emitted.push(value);
 			});
-			const event = { stopPropagation: jest.fn() } as unknown as MouseEvent;
+			const event = { stopPropagation: vi.fn() } as unknown as MouseEvent;
 			component.onClickStone(event, draw);
 			expect(emitted).toHaveLength(1);
 			expect(emitted[0]).toBe(stone);
-			expect((event.stopPropagation as jest.Mock)).toHaveBeenCalled();
+			expect((event.stopPropagation as Mock)).toHaveBeenCalled();
 		});
 
 		it('should emit undefined when no draw is provided', () => {
@@ -95,7 +96,7 @@ describe('BoardComponent', () => {
 			component.clickStoneEvent.subscribe((value: Stone | undefined) => {
 				emitted.push(value);
 			});
-			const event = { stopPropagation: jest.fn() } as unknown as MouseEvent;
+			const event = { stopPropagation: vi.fn() } as unknown as MouseEvent;
 			component.onClickStone(event);
 			expect(emitted).toHaveLength(1);
 			expect(emitted[0]).toBeUndefined();
@@ -104,7 +105,7 @@ describe('BoardComponent', () => {
 
 	describe('onClickBoard', () => {
 		it('should emit clickBoardEvent', () => {
-			const listener = jest.fn();
+			const listener = vi.fn();
 			component.clickBoardEvent.subscribe(listener);
 			const event = {} as MouseEvent;
 			component.onClickBoard(event);
@@ -119,11 +120,11 @@ describe('BoardComponent', () => {
 			component.clickDrawEvent.subscribe((value: Draw) => {
 				emitted.push(value);
 			});
-			const event = { stopPropagation: jest.fn() } as unknown as MouseEvent;
+			const event = { stopPropagation: vi.fn() } as unknown as MouseEvent;
 			component.onClickDraw(event, draw);
 			expect(emitted).toHaveLength(1);
 			expect(emitted[0]).toBe(draw);
-			expect((event.stopPropagation as jest.Mock)).toHaveBeenCalled();
+			expect((event.stopPropagation as Mock)).toHaveBeenCalled();
 		});
 	});
 

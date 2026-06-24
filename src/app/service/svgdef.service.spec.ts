@@ -1,14 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClient } from '@angular/common/http';
-import { SvgdefService } from './svgdef.service';
+import { KYODAI_TILES, SvgdefService } from './svgdef.service';
 import { of, throwError } from 'rxjs';
-import * as tilesets from '../model/tilesets';
-
-// Mock the tilesets module
-jest.mock('../model/tilesets', () => ({
-	imageSetIsKyodai: jest.fn(),
-	buildKyodaiSVG: jest.fn()
-}));
+import { Mocked } from 'vitest';
 
 interface CacheItem {
 	data?: string;
@@ -25,19 +19,27 @@ interface HackSvgdefService {
 
 describe('SvgdefService', () => {
 	let service: SvgdefService;
-	let mockHttpClient: jest.Mocked<HttpClient>;
+	let mockHttpClient: Mocked<HttpClient>;
+	let mockKyodai: { isKyodaiImageSet: ReturnType<typeof vi.fn>; buildKyodaiSVG: ReturnType<typeof vi.fn> };
 
 	beforeEach(() => {
 		// Create mock for HttpClient
 		mockHttpClient = {
-			get: jest.fn()
-		} as unknown as jest.Mocked<HttpClient>;
+			get: vi.fn()
+		} as unknown as Mocked<HttpClient>;
+
+		// Stub the Kyodai tileset helpers
+		mockKyodai = {
+			isKyodaiImageSet: vi.fn(),
+			buildKyodaiSVG: vi.fn()
+		};
 
 		// Configure TestBed
 		TestBed.configureTestingModule({
 			providers: [
 				SvgdefService,
-				{ provide: HttpClient, useValue: mockHttpClient }
+				{ provide: HttpClient, useValue: mockHttpClient },
+				{ provide: KYODAI_TILES, useValue: mockKyodai }
 			]
 		});
 
@@ -57,27 +59,27 @@ describe('SvgdefService', () => {
 	});
 
 	describe('get', () => {
-		it('should return Kyodai SVG when imageSetIsKyodai returns true', async () => {
+		it('should return Kyodai SVG when isKyodaiImageSet returns true', async () => {
 			// Arrange
 			const kyodaiSvg = '<svg><defs></defs></svg>';
 			const kyodaiUrl = 'https://example.com/kyodai.jpg';
-			(tilesets.imageSetIsKyodai as jest.Mock).mockReturnValue(true);
-			(tilesets.buildKyodaiSVG as jest.Mock).mockResolvedValue(kyodaiSvg);
+			mockKyodai.isKyodaiImageSet.mockReturnValue(true);
+			mockKyodai.buildKyodaiSVG.mockResolvedValue(kyodaiSvg);
 
 			// Act
 			const result = await service.get('kyodai', kyodaiUrl);
 
 			// Assert
 			expect(result).toBe(kyodaiSvg);
-			expect(tilesets.imageSetIsKyodai).toHaveBeenCalledWith('kyodai');
-			expect(tilesets.buildKyodaiSVG).toHaveBeenCalledWith(kyodaiUrl);
+			expect(mockKyodai.isKyodaiImageSet).toHaveBeenCalledWith('kyodai');
+			expect(mockKyodai.buildKyodaiSVG).toHaveBeenCalledWith(kyodaiUrl);
 			expect(mockHttpClient.get).not.toHaveBeenCalled();
 		});
 
 		it('should return cached data if available', async () => {
 			// Arrange
 			const cachedSvg = '<svg>cached</svg>';
-			(tilesets.imageSetIsKyodai as jest.Mock).mockReturnValue(false);
+			mockKyodai.isKyodaiImageSet.mockReturnValue(false);
 
 			// Set up cache with data
 			(service as unknown as HackSvgdefService).cache.cache = {
@@ -89,7 +91,7 @@ describe('SvgdefService', () => {
 
 			// Assert
 			expect(result).toBe(cachedSvg);
-			expect(tilesets.imageSetIsKyodai).toHaveBeenCalledWith('test-set');
+			expect(mockKyodai.isKyodaiImageSet).toHaveBeenCalledWith('test-set');
 			expect(mockHttpClient.get).not.toHaveBeenCalled();
 		});
 
@@ -97,7 +99,7 @@ describe('SvgdefService', () => {
 			// Arrange
 			const pendingSvg = '<svg>pending</svg>';
 			const pendingPromise = Promise.resolve(pendingSvg);
-			(tilesets.imageSetIsKyodai as jest.Mock).mockReturnValue(false);
+			mockKyodai.isKyodaiImageSet.mockReturnValue(false);
 
 			// Set up cache with pending request
 			(service as unknown as HackSvgdefService).cache.cache = {
@@ -109,14 +111,14 @@ describe('SvgdefService', () => {
 
 			// Assert
 			expect(result).toBe(pendingSvg);
-			expect(tilesets.imageSetIsKyodai).toHaveBeenCalledWith('test-set');
+			expect(mockKyodai.isKyodaiImageSet).toHaveBeenCalledWith('test-set');
 			expect(mockHttpClient.get).not.toHaveBeenCalled();
 		});
 
 		it('should fetch SVG from HTTP if not cached', async () => {
 			// Arrange
 			const httpSvg = '<svg>http</svg>';
-			(tilesets.imageSetIsKyodai as jest.Mock).mockReturnValue(false);
+			mockKyodai.isKyodaiImageSet.mockReturnValue(false);
 			mockHttpClient.get.mockReturnValue(of(httpSvg));
 
 			// Act
@@ -124,7 +126,7 @@ describe('SvgdefService', () => {
 
 			// Assert
 			expect(result).toBe(httpSvg);
-			expect(tilesets.imageSetIsKyodai).toHaveBeenCalledWith('test-set');
+			expect(mockKyodai.isKyodaiImageSet).toHaveBeenCalledWith('test-set');
 			expect(mockHttpClient.get).toHaveBeenCalledWith('assets/svg/test-set.svg', { responseType: 'text' });
 
 			// Verify cache was updated with the SVG data
@@ -135,12 +137,12 @@ describe('SvgdefService', () => {
 		it('should handle HTTP errors', async () => {
 			// Arrange
 			const error = new Error('HTTP error');
-			(tilesets.imageSetIsKyodai as jest.Mock).mockReturnValue(false);
+			mockKyodai.isKyodaiImageSet.mockReturnValue(false);
 			mockHttpClient.get.mockReturnValue(throwError(() => error));
 
 			// Act & Assert
 			await expect(service.get('test-set')).rejects.toThrow('HTTP error');
-			expect(tilesets.imageSetIsKyodai).toHaveBeenCalledWith('test-set');
+			expect(mockKyodai.isKyodaiImageSet).toHaveBeenCalledWith('test-set');
 			expect(mockHttpClient.get).toHaveBeenCalledWith('assets/svg/test-set.svg', { responseType: 'text' });
 
 			// Verify cache was cleaned up after error
@@ -151,7 +153,7 @@ describe('SvgdefService', () => {
 		it('should prevent race condition by sharing pending requests', async () => {
 			// Arrange
 			const httpSvg = '<svg>http</svg>';
-			(tilesets.imageSetIsKyodai as jest.Mock).mockReturnValue(false);
+			mockKyodai.isKyodaiImageSet.mockReturnValue(false);
 			mockHttpClient.get.mockReturnValue(of(httpSvg));
 
 			// Act - Make two simultaneous requests for the same resource
@@ -171,13 +173,13 @@ describe('SvgdefService', () => {
 		it('should handle errors from buildKyodaiSVG', async () => {
 			// Arrange
 			const error = new Error('Kyodai error');
-			(tilesets.imageSetIsKyodai as jest.Mock).mockReturnValue(true);
-			(tilesets.buildKyodaiSVG as jest.Mock).mockRejectedValue(error);
+			mockKyodai.isKyodaiImageSet.mockReturnValue(true);
+			mockKyodai.buildKyodaiSVG.mockRejectedValue(error);
 
 			// Act & Assert
 			await expect(service.get('kyodai')).rejects.toThrow('Kyodai error');
-			expect(tilesets.imageSetIsKyodai).toHaveBeenCalledWith('kyodai');
-			expect(tilesets.buildKyodaiSVG).toHaveBeenCalledWith(undefined);
+			expect(mockKyodai.isKyodaiImageSet).toHaveBeenCalledWith('kyodai');
+			expect(mockKyodai.buildKyodaiSVG).toHaveBeenCalledWith(undefined);
 			expect(mockHttpClient.get).not.toHaveBeenCalled();
 		});
 	});

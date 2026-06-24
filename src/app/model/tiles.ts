@@ -51,7 +51,7 @@ export class StoneTiles extends Tiles {
 		const groupMap: { [groupNr: number]: { v: number; tiles: Array<{ v: number; groupNr: number; img: { id: string } }> } } = {};
 		for (const stone of stones) {
 			const tile = { v: stone.v, groupNr: stone.groupNr, img: { id: stone.img.id ?? '' } };
-			groupMap[stone.groupNr] = groupMap[stone.groupNr] || { v: stone.groupNr, tiles: [] };
+			groupMap[stone.groupNr] ||= { v: stone.groupNr, tiles: [] };
 			groupMap[stone.groupNr].tiles.push(tile);
 			this.list[stone.v] = tile;
 		}

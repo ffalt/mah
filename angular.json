@@ -146,6 +146,41 @@
 							"src/**/*.html"
 						]
 					}
+				},
+				"test-build": {
+					"builder": "@angular/build:application",
+					"options": {
+						"browser": "src/main.ts",
+						"polyfills": [
+							"zone.js"
+						],
+						"tsConfig": "tsconfig.app.json",
+						"assets": [
+							"src/favicon.ico",
+							"src/assets"
+						],
+						"styles": [
+							"src/fonts/kulim-park/css/kulim-park.css",
+							"src/styles.scss"
+						],
+						"webWorkerTsConfig": "tsconfig.worker.json"
+					}
+				},
+				"test": {
+					"builder": "@angular/build:unit-test",
+					"options": {
+						"buildTarget": "mah:test-build",
+						"tsConfig": "tsconfig.spec.json",
+						"runner": "vitest",
+						"runnerConfig": "vitest.config.mjs",
+						"include": [
+							"src/**/*.spec.ts"
+						],
+						"exclude": [
+							"resources/**",
+							"node_modules/**"
+						]
+					}
 				}
 			}
 		}

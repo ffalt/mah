@@ -69,7 +69,7 @@ export class DeferLoadService {
 		const userAgent = window.navigator.userAgent;
 		const matches = userAgent.match(/Edge\/(\d*)\./i);
 		const isEdge = !!matches && matches.length > 1;
-		const isEdgeVersion16OrBetter = isEdge && (!!matches && Number.parseInt(matches[1], 10) > 15);
+		const isEdgeVersion16OrBetter = isEdge && (!!matches && Math.trunc(Number(matches[1])) > 15);
 		return hasIntersectionObserver && (!isEdge || isEdgeVersion16OrBetter);
 	}
 }

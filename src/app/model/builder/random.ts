@@ -36,11 +36,13 @@ export class RandomBoardBuilder extends BuilderBase {
 	private static hasFreePair(stones: Array<Stone>): boolean {
 		const byGroup: { [g: number]: number } = {};
 		for (const stone of stones) {
-			if (!stone.isBlocked()) {
-				byGroup[stone.groupNr] = (byGroup[stone.groupNr] ?? 0) + 1;
-				if (byGroup[stone.groupNr] >= 2) {
-					return true;
-				}
+			if (stone.isBlocked()) {
+				continue;
+			}
+
+			byGroup[stone.groupNr] = (byGroup[stone.groupNr] ?? 0) + 1;
+			if (byGroup[stone.groupNr] >= 2) {
+				return true;
 			}
 		}
 		return false;

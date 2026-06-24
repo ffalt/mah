@@ -1,12 +1,13 @@
 // Mock zzfx before importing the module that uses it
-jest.mock('zzfx', () => ({ zzfx: jest.fn() }));
+vi.mock('zzfx', () => ({ zzfx: vi.fn() }));
 
 import { zzfx } from 'zzfx';
 import { Sound, SOUNDS } from './sound';
+import { Mock } from 'vitest';
 
 describe('Sound', () => {
 	let sound: Sound;
-	const zzfxMock = zzfx as unknown as jest.Mock;
+	const zzfxMock = zzfx as unknown as Mock;
 
 	beforeEach(() => {
 		// Reset mock

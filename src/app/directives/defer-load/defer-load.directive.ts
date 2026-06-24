@@ -10,7 +10,7 @@ export class DeferLoadDirective implements AfterViewInit, OnDestroy {
 	private intersectionObserver?: IntersectionObserver;
 	private scrollSubscription?: Subscription;
 	private observeSubscription?: Subscription;
-	private timeoutId?: number;
+	private timeoutId?: ReturnType<typeof setTimeout>;
 	private readonly timeoutLoadMS: number = 20;
 	private readonly elementRef = inject(ElementRef);
 	private readonly deferLoadService = inject(DeferLoadService);
@@ -56,7 +56,7 @@ export class DeferLoadDirective implements AfterViewInit, OnDestroy {
 		this.timeoutId = setTimeout(() => {
 			this.loadAndUnobserve();
 			this.cancelDelayLoad();
-		}, this.timeoutLoadMS) as unknown as number;
+		}, this.timeoutLoadMS);
 	}
 
 	private manageIntersection(entry: IntersectionObserverEntry): void {
@@ -106,7 +106,7 @@ export class DeferLoadDirective implements AfterViewInit, OnDestroy {
 	private loadFromScroll(): void {
 		setTimeout(() => {
 			this.load();
-		});
+		}, 0);
 	}
 
 	private addScrollListeners(): void {
@@ -120,14 +120,16 @@ export class DeferLoadDirective implements AfterViewInit, OnDestroy {
 			if (this.checkInView(this.deferLoadService.currentViewport)) {
 				this.loadFromScroll();
 			}
-		});
+		}, 0);
 	}
 
 	private unobserve(): void {
-		if (this.intersectionObserver && this.elementRef.nativeElement) {
-			this.intersectionObserver.unobserve(this.elementRef.nativeElement as Element);
-			this.intersectionObserver = undefined;
+		if (!(this.intersectionObserver && this.elementRef.nativeElement)) {
+			return;
 		}
+
+		this.intersectionObserver.unobserve(this.elementRef.nativeElement as Element);
+		this.intersectionObserver = undefined;
 	}
 
 	private removeListeners(): void {

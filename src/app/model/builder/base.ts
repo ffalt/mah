@@ -59,9 +59,9 @@ export abstract class BuilderBase implements BuilderType {
 		for (const stone of stones) {
 			const tile = tiles.list[stone.v];
 			stone.img = tile?.img ?? {};
-			groups[stone.groupNr] = groups[stone.groupNr] || [];
+			groups[stone.groupNr] ||= [];
 			groups[stone.groupNr].push(stone);
-			stone.nodes = BuilderBase.collectNodes(stones, stone);
+			stone.nodes = this.collectNodes(stones, stone);
 		}
 		for (const key of Object.keys(groups)) {
 			const group: Array<Stone> = groups[Number(key)];

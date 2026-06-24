@@ -9,12 +9,12 @@ import type { Cell } from '../../model/cell';
 import type { Stone } from '../../../../model/stone';
 
 const mockWorkerService = {
-	solve: jest.fn().mockReturnValue(undefined)
+	solve: vi.fn()
 };
 
 const mockLayoutService = {
-	generatePreview: jest.fn().mockReturnValue('svg:preview'),
-	storeCustomBoards: jest.fn(),
+	generatePreview: vi.fn(),
+	storeCustomBoards: vi.fn(),
 	layouts: { items: [] }
 };
 
@@ -31,6 +31,8 @@ describe('LayoutComponent', () => {
 	let fixture: ComponentFixture<LayoutComponent>;
 
 	beforeEach(async () => {
+		mockLayoutService.generatePreview.mockReturnValue('svg:preview');
+
 		await TestBed.configureTestingModule({
 			imports: [LayoutComponent],
 			providers: [
@@ -152,7 +154,7 @@ describe('LayoutComponent', () => {
 	describe('cancelSolve()', () => {
 		it('terminates solveWorker if present', () => {
 			init();
-			const fakeWorker = { terminate: jest.fn() } as unknown as Worker;
+			const fakeWorker = { terminate: vi.fn() } as unknown as Worker;
 			component.solveWorker = fakeWorker;
 			component.cancelSolve();
 			expect(fakeWorker.terminate).toHaveBeenCalled();
@@ -181,7 +183,7 @@ describe('LayoutComponent', () => {
 
 		it('does nothing if solveWorker already exists', () => {
 			init();
-			const fakeWorker = { terminate: jest.fn() } as unknown as Worker;
+			const fakeWorker = { terminate: vi.fn() } as unknown as Worker;
 			component.solveWorker = fakeWorker;
 			component.solve();
 			expect(mockWorkerService.solve).not.toHaveBeenCalled();
@@ -264,7 +266,7 @@ describe('LayoutComponent', () => {
 	describe('moveLayerX()', () => {
 		it('delegates to moveLayer with xAxis=true', () => {
 			init();
-			const moveLayerSpy = jest.spyOn(component, 'moveLayer');
+			const moveLayerSpy = vi.spyOn(component, 'moveLayer');
 			component.moveLayerX(1);
 			expect(moveLayerSpy).toHaveBeenCalledWith(true, 1);
 		});
@@ -273,7 +275,7 @@ describe('LayoutComponent', () => {
 	describe('moveLayerY()', () => {
 		it('delegates to moveLayer with xAxis=false', () => {
 			init();
-			const moveLayerSpy = jest.spyOn(component, 'moveLayer');
+			const moveLayerSpy = vi.spyOn(component, 'moveLayer');
 			component.moveLayerY(1);
 			expect(moveLayerSpy).toHaveBeenCalledWith(false, 1);
 		});
@@ -467,7 +469,7 @@ describe('LayoutComponent', () => {
 	describe('onCellClick()', () => {
 		it('delegates to onPosClick with cell coordinates', () => {
 			init();
-			const onPosClickSpy = jest.spyOn(component, 'onPosClick');
+			const onPosClickSpy = vi.spyOn(component, 'onPosClick');
 			const cell: Cell = { z: 0, x: 10, y: 10 };
 			component.onCellClick(cell);
 			expect(onPosClickSpy).toHaveBeenCalledWith(0, 10, 10);
@@ -477,7 +479,7 @@ describe('LayoutComponent', () => {
 	describe('onStoneClick()', () => {
 		it('delegates to onPosClick when stone is provided', () => {
 			init();
-			const onPosClickSpy = jest.spyOn(component, 'onPosClick');
+			const onPosClickSpy = vi.spyOn(component, 'onPosClick');
 			const stone = { z: 0, x: 10, y: 10 } as unknown as Stone;
 			component.onStoneClick(stone);
 			expect(onPosClickSpy).toHaveBeenCalledWith(0, 10, 10);
@@ -485,7 +487,7 @@ describe('LayoutComponent', () => {
 
 		it('does nothing when stone is undefined', () => {
 			init();
-			const onPosClickSpy = jest.spyOn(component, 'onPosClick');
+			const onPosClickSpy = vi.spyOn(component, 'onPosClick');
 			component.onStoneClick(undefined);
 			expect(onPosClickSpy).not.toHaveBeenCalled();
 		});

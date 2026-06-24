@@ -5,7 +5,9 @@ import { rng } from '../rng';
 export function shuffleArray<T>(array: Array<T>): Array<T> {
 	for (let index = array.length - 1; index > 0; index--) {
 		const swapIndex = Math.floor(rng() * (index + 1));
-		[array[index], array[swapIndex]] = [array[swapIndex], array[index]];
+		const temporary = array[index];
+		array[index] = array[swapIndex];
+		array[swapIndex] = temporary;
 	}
 	return array;
 }
@@ -272,19 +274,19 @@ export function generateBaseLayerWithShapes(
 
 	// Phase 3: fill to maxTarget, allowing size reuse after unique sizes are exhausted
 	if (total < maxTarget) {
-		let progress = true;
-		let allowReuse = false;
-		while (progress && total < maxTarget) {
-			const sizePool = allowReuse ? [...allSizes] : allSizes.filter(([w, h]) => !usedSizes.has(`${w}x${h}`));
-			if (sizePool.length === 0 && !allowReuse) {
-				allowReuse = true;
+		let canProgress = true;
+		let canReuse = false;
+		while (canProgress && total < maxTarget) {
+			const sizePool = canReuse ? [...allSizes] : allSizes.filter(([w, h]) => !usedSizes.has(`${w}x${h}`));
+			if (sizePool.length === 0 && !canReuse) {
+				canReuse = true;
 				continue;
 			}
 			shuffleArray(sizePool);
 			shuffleArray(anchors);
 			const previous = total;
 			total = placeSizesGeneric(total, sizePool, anchors, minTarget, maxTarget, tryPlace);
-			progress = total > previous;
+			canProgress = total > previous;
 		}
 	}
 

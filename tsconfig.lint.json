@@ -22,12 +22,10 @@
 		"target": "ES2022",
 		"useDefineForClassFields": false,
 		"typeRoots": [
-			"./node_modules/@types",
-			"./node_modules"
+			"./node_modules/@types"
 		],
 		"types": [
-			"node",
-			"vitest/globals"
+			"node"
 		]
 	},
 	"angularCompilerOptions": {
@@ -36,7 +34,11 @@
 		"strictTemplates": true,
 		"strictInjectionParameters": true
 	},
+	"include": [
+		"**/*.ts"
+	],
 	"exclude": [
-		"local"
+		"local",
+		"node_modules"
 	]
 }

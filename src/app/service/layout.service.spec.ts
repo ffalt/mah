@@ -2,48 +2,48 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClient } from '@angular/common/http';
 import { DomSanitizer } from '@angular/platform-browser';
 import { of, throwError } from 'rxjs';
-import { LayoutService } from './layout.service';
+import { LAYOUT_SVG, LayoutService, MAPPING_HELPERS } from './layout.service';
 import { LocalstorageService } from './localstorage.service';
-import { expandMapping, mappingToID } from '../model/mapping';
-import { generateBase64SVG } from '../model/layout-svg';
 import type { CompactMapping, Layout, LoadLayout, Mapping, SafeUrlSVG } from '../model/types';
-
-// Mock dependencies
-jest.mock('../model/mapping', () => ({
-	expandMapping: jest.fn(),
-	mappingToID: jest.fn()
-}));
-
-jest.mock('../model/layout-svg', () => ({
-	generateBase64SVG: jest.fn()
-}));
+import { Mocked } from 'vitest';
 
 describe('LayoutService', () => {
 	let service: LayoutService;
-	let mockHttpClient: jest.Mocked<HttpClient>;
-	let mockDomSanitizer: jest.Mocked<DomSanitizer>;
-	let mockLocalstorageService: jest.Mocked<LocalstorageService>;
+	let mockHttpClient: Mocked<HttpClient>;
+	let mockDomSanitizer: Mocked<DomSanitizer>;
+	let mockLocalstorageService: Mocked<LocalstorageService>;
+	let mockMapping: { expandMapping: ReturnType<typeof vi.fn>; mappingToID: ReturnType<typeof vi.fn> };
+	let mockLayoutSvg: { generateBase64SVG: ReturnType<typeof vi.fn> };
 
 	beforeEach(() => {
 		// Create mocks for dependencies
 		mockHttpClient = {
-			get: jest.fn()
-		} as unknown as jest.Mocked<HttpClient>;
+			get: vi.fn()
+		} as unknown as Mocked<HttpClient>;
 
 		mockDomSanitizer = {
-			bypassSecurityTrustUrl: jest.fn()
-		} as unknown as jest.Mocked<DomSanitizer>;
+			bypassSecurityTrustUrl: vi.fn()
+		} as unknown as Mocked<DomSanitizer>;
 
 		mockLocalstorageService = {
-			getCustomLayouts: jest.fn(),
-			storeCustomLayouts: jest.fn(),
-			getSettings: jest.fn(),
-			storeSettings: jest.fn(),
-			getState: jest.fn(),
-			storeState: jest.fn(),
-			getScore: jest.fn(),
-			storeScore: jest.fn()
-		} as unknown as jest.Mocked<LocalstorageService>;
+			getCustomLayouts: vi.fn(),
+			storeCustomLayouts: vi.fn(),
+			getSettings: vi.fn(),
+			storeSettings: vi.fn(),
+			getState: vi.fn(),
+			storeState: vi.fn(),
+			getScore: vi.fn(),
+			storeScore: vi.fn()
+		} as unknown as Mocked<LocalstorageService>;
+
+		// Stub the pure model helpers
+		mockMapping = {
+			expandMapping: vi.fn(),
+			mappingToID: vi.fn()
+		};
+		mockLayoutSvg = {
+			generateBase64SVG: vi.fn()
+		};
 
 		// Configure TestBed
 		TestBed.configureTestingModule({
@@ -51,7 +51,9 @@ describe('LayoutService', () => {
 				LayoutService,
 				{ provide: HttpClient, useValue: mockHttpClient },
 				{ provide: DomSanitizer, useValue: mockDomSanitizer },
-				{ provide: LocalstorageService, useValue: mockLocalstorageService }
+				{ provide: LocalstorageService, useValue: mockLocalstorageService },
+				{ provide: MAPPING_HELPERS, useValue: mockMapping },
+				{ provide: LAYOUT_SVG, useValue: mockLayoutSvg }
 			]
 		});
 
@@ -123,8 +125,8 @@ describe('LayoutService', () => {
 
 			mockHttpClient.get.mockReturnValue(of(serverLayouts));
 			mockLocalstorageService.getCustomLayouts.mockReturnValue(customLayouts);
-			(expandMapping as jest.Mock).mockReturnValue(expandedMapping);
-			(generateBase64SVG as jest.Mock).mockReturnValue('data:image/svg+xml;base64,...');
+			mockMapping.expandMapping.mockReturnValue(expandedMapping);
+			mockLayoutSvg.generateBase64SVG.mockReturnValue('data:image/svg+xml;base64,...');
 			mockDomSanitizer.bypassSecurityTrustUrl.mockReturnValue(safeUrl);
 
 			// Act
@@ -149,12 +151,14 @@ describe('LayoutService', () => {
 			const expandedMapping: Mapping = [[0, 0, 0]];
 			const safeUrl = 'data:image/svg+xml;base64,...' as SafeUrlSVG;
 
-			const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation();
+			const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {
+				// nop
+			});
 
 			mockHttpClient.get.mockReturnValue(throwError(() => new Error('Network error')));
 			mockLocalstorageService.getCustomLayouts.mockReturnValue(customLayouts);
-			(expandMapping as jest.Mock).mockReturnValue(expandedMapping);
-			(generateBase64SVG as jest.Mock).mockReturnValue('data:image/svg+xml;base64,...');
+			mockMapping.expandMapping.mockReturnValue(expandedMapping);
+			mockLayoutSvg.generateBase64SVG.mockReturnValue('data:image/svg+xml;base64,...');
 			mockDomSanitizer.bypassSecurityTrustUrl.mockReturnValue(safeUrl);
 
 			// Act
@@ -252,8 +256,8 @@ describe('LayoutService', () => {
 			const expandedMapping: Mapping = [[0, 0, 0]];
 			const safeUrl = 'data:image/svg+xml;base64,...' as SafeUrlSVG;
 
-			(expandMapping as jest.Mock).mockReturnValue(expandedMapping);
-			(generateBase64SVG as jest.Mock).mockReturnValue('data:image/svg+xml;base64,...');
+			mockMapping.expandMapping.mockReturnValue(expandedMapping);
+			mockLayoutSvg.generateBase64SVG.mockReturnValue('data:image/svg+xml;base64,...');
 			mockDomSanitizer.bypassSecurityTrustUrl.mockReturnValue(safeUrl);
 
 			// Act
@@ -269,8 +273,8 @@ describe('LayoutService', () => {
 				previewSVG: safeUrl,
 				custom: undefined
 			});
-			expect(expandMapping).toHaveBeenCalledWith(loadLayout.map);
-			expect(generateBase64SVG).toHaveBeenCalledWith(expandedMapping);
+			expect(mockMapping.expandMapping).toHaveBeenCalledWith(loadLayout.map);
+			expect(mockLayoutSvg.generateBase64SVG).toHaveBeenCalledWith(expandedMapping);
 			expect(mockDomSanitizer.bypassSecurityTrustUrl).toHaveBeenCalledWith('data:image/svg+xml;base64,...');
 		});
 
@@ -286,9 +290,9 @@ describe('LayoutService', () => {
 			const safeUrl = 'data:image/svg+xml;base64,...' as SafeUrlSVG;
 			const generatedId = 'generated-id';
 
-			(expandMapping as jest.Mock).mockReturnValue(expandedMapping);
-			(mappingToID as jest.Mock).mockReturnValue(generatedId);
-			(generateBase64SVG as jest.Mock).mockReturnValue('data:image/svg+xml;base64,...');
+			mockMapping.expandMapping.mockReturnValue(expandedMapping);
+			mockMapping.mappingToID.mockReturnValue(generatedId);
+			mockLayoutSvg.generateBase64SVG.mockReturnValue('data:image/svg+xml;base64,...');
 			mockDomSanitizer.bypassSecurityTrustUrl.mockReturnValue(safeUrl);
 
 			// Act
@@ -296,7 +300,7 @@ describe('LayoutService', () => {
 
 			// Assert
 			expect(result.id).toBe(generatedId);
-			expect(mappingToID).toHaveBeenCalledWith(expandedMapping);
+			expect(mockMapping.mappingToID).toHaveBeenCalledWith(expandedMapping);
 		});
 
 		it('should set custom flag if provided', () => {
@@ -310,8 +314,8 @@ describe('LayoutService', () => {
 			const expandedMapping: Mapping = [[0, 0, 0]];
 			const safeUrl = 'data:image/svg+xml;base64,...' as SafeUrlSVG;
 
-			(expandMapping as jest.Mock).mockReturnValue(expandedMapping);
-			(generateBase64SVG as jest.Mock).mockReturnValue('data:image/svg+xml;base64,...');
+			mockMapping.expandMapping.mockReturnValue(expandedMapping);
+			mockLayoutSvg.generateBase64SVG.mockReturnValue('data:image/svg+xml;base64,...');
 			mockDomSanitizer.bypassSecurityTrustUrl.mockReturnValue(safeUrl);
 
 			// Act
@@ -370,7 +374,7 @@ describe('LayoutService', () => {
 			};
 
 			// Mock expandLayout
-			jest.spyOn(service, 'expandLayout').mockReturnValue(expandedLayout);
+			vi.spyOn(service, 'expandLayout').mockReturnValue(expandedLayout);
 
 			// Act
 			service.storeCustomBoards(newCustomLayouts);
@@ -389,7 +393,7 @@ describe('LayoutService', () => {
 			const mapping: Mapping = [[0, 0, 0]];
 			const safeUrl = 'data:image/svg+xml;base64,...' as SafeUrlSVG;
 
-			(generateBase64SVG as jest.Mock).mockReturnValue('data:image/svg+xml;base64,...');
+			mockLayoutSvg.generateBase64SVG.mockReturnValue('data:image/svg+xml;base64,...');
 			mockDomSanitizer.bypassSecurityTrustUrl.mockReturnValue(safeUrl);
 
 			// Act
@@ -397,7 +401,7 @@ describe('LayoutService', () => {
 
 			// Assert
 			expect(result).toBe(safeUrl);
-			expect(generateBase64SVG).toHaveBeenCalledWith(mapping);
+			expect(mockLayoutSvg.generateBase64SVG).toHaveBeenCalledWith(mapping);
 			expect(mockDomSanitizer.bypassSecurityTrustUrl).toHaveBeenCalledWith('data:image/svg+xml;base64,...');
 		});
 	});

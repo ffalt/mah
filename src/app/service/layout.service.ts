@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { Injectable, InjectionToken, inject } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { firstValueFrom, catchError, of } from 'rxjs';
 import { expandMapping, mappingToID } from '../model/mapping';
@@ -7,6 +7,18 @@ import { generateBase64SVG } from '../model/layout-svg';
 import type { CompactMapping, Layout, Layouts, LoadLayout, Mapping, SafeUrlSVG } from '../model/types';
 import { LocalstorageService } from './localstorage.service';
 import { log } from '../model/log';
+
+// Injectable seams for the pure model helpers so tests can supply stubs via DI
+// instead of mocking the modules.
+export const MAPPING_HELPERS = new InjectionToken<{ expandMapping: typeof expandMapping; mappingToID: typeof mappingToID }>('MAPPING_HELPERS', {
+	providedIn: 'root',
+	factory: () => ({ expandMapping, mappingToID })
+});
+
+export const LAYOUT_SVG = new InjectionToken<{ generateBase64SVG: typeof generateBase64SVG }>('LAYOUT_SVG', {
+	providedIn: 'root',
+	factory: () => ({ generateBase64SVG })
+});
 
 @Injectable({ providedIn: 'root' })
 export class LayoutService {
@@ -23,6 +35,8 @@ export class LayoutService {
 	private readonly http = inject(HttpClient);
 	private readonly sanitizer = inject(DomSanitizer);
 	private readonly storage = inject(LocalstorageService);
+	private readonly mapping = inject(MAPPING_HELPERS);
+	private readonly layoutSvg = inject(LAYOUT_SVG);
 
 	layouts: Layouts = { items: [] };
 	loaded = false;
@@ -64,9 +78,9 @@ export class LayoutService {
 	}
 
 	expandLayout(o: LoadLayout, isCustom?: boolean): Layout {
-		const mapping: Mapping = expandMapping(o.map || []);
+		const mapping: Mapping = this.mapping.expandMapping(o.map || []);
 		return {
-			id: o.id && o.id !== '' ? o.id : mappingToID(mapping),
+			id: o.id && o.id !== '' ? o.id : this.mapping.mappingToID(mapping),
 			name: o.name,
 			by: o.by,
 			category: o.cat ?? 'Classic',
@@ -87,7 +101,7 @@ export class LayoutService {
 	}
 
 	generatePreview(mapping: Mapping): SafeUrlSVG {
-		return this.sanitizer.bypassSecurityTrustUrl(generateBase64SVG(mapping)) as SafeUrlSVG;
+		return this.sanitizer.bypassSecurityTrustUrl(this.layoutSvg.generateBase64SVG(mapping)) as SafeUrlSVG;
 	}
 
 	private async requestBoards(): Promise<Array<LoadLayout>> {

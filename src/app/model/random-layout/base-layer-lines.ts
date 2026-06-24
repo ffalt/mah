@@ -93,11 +93,13 @@ function trimEdges(present: Set<string>, snakeKeys: Set<string>, xs: Array<numbe
 	const bottomCut = rng() < 0.4 ? randChoice([0, 2]) : 0;
 	for (const yy of ys) {
 		for (const xx of xs) {
-			if (xx < leftCut || xx > xMax - rightCut || yy < topCut || yy > yMax - bottomCut) {
-				const k0 = key(0, xx, yy);
-				if (!snakeKeys.has(k0)) {
-					present.delete(k0);
-				}
+			if (!(xx < leftCut || xx > xMax - rightCut || yy < topCut || yy > yMax - bottomCut)) {
+				continue;
+			}
+
+			const k0 = key(0, xx, yy);
+			if (!snakeKeys.has(k0)) {
+				present.delete(k0);
 			}
 		}
 	}
@@ -120,11 +122,13 @@ function addNearSnake(present: Set<string>, snakeKeys: Set<string>, xs: Array<nu
 	const others: Array<Place> = [];
 	for (const yy of ys) {
 		for (const xx of xs) {
-			if (!present.has(key(0, xx, yy))) {
-				const neighbors: Array<[number, number]> = [[xx - 2, yy], [xx + 2, yy], [xx, yy - 2], [xx, yy + 2]];
-				const adjSnake = neighbors.some(([nx, ny]) => snakeKeys.has(key(0, nx, ny)));
-				(adjSnake ? nearSnake : others).push([0, xx, yy]);
+			if (present.has(key(0, xx, yy))) {
+				continue;
 			}
+
+			const neighbors: Array<[number, number]> = [[xx - 2, yy], [xx + 2, yy], [xx, yy - 2], [xx, yy + 2]];
+			const adjSnake = neighbors.some(([nx, ny]) => snakeKeys.has(key(0, nx, ny)));
+			(adjSnake ? nearSnake : others).push([0, xx, yy]);
 		}
 	}
 	shuffleArray(nearSnake);

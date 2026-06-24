@@ -116,7 +116,7 @@ export class LayoutListComponent implements OnInit, OnChanges {
 		for (const item of this.randomGroup.layouts) {
 			setTimeout(() => {
 				this.generateRandomLayout(item);
-			});
+			}, 0);
 		}
 	}
 
@@ -144,7 +144,7 @@ export class LayoutListComponent implements OnInit, OnChanges {
 			if (id) {
 				setTimeout(() => {
 					this.select(id);
-				});
+				}, 0);
 			}
 		}
 	}
@@ -210,14 +210,16 @@ export class LayoutListComponent implements OnInit, OnChanges {
 	}
 
 	select(id?: string): void {
-		if (id) {
-			for (const g of this.groups) {
-				for (const layout of g.layouts) {
-					layout.selected = layout.layout.id === id;
-				}
-			}
-			this.scrollToItem(id);
+		if (!id) {
+			return;
 		}
+
+		for (const g of this.groups) {
+			for (const layout of g.layouts) {
+				layout.selected = layout.layout.id === id;
+			}
+		}
+		this.scrollToItem(id);
 	}
 
 	toggleGroupExpanded(event: Event, group: LayoutGroup): void {

@@ -5,15 +5,14 @@
 		"types": []
 	},
 	"files": [
-		"src/main.ts"
+		"./src/main.ts"
 	],
 	"include": [
 		"src/**/*.ts"
 	],
 	"exclude": [
-		"src/environments/environment.apps.ts",
-		"src/**/*.worker.ts",
-		"src/**/*.spec.ts",
-		"src/**/*.spec-helpers.ts"
+		"./src/**/*.worker.ts",
+		"./src/**/*.spec.ts",
+		"./src/**/*.specs-helpers.ts"
 	]
 }

@@ -46,7 +46,7 @@ describe('SettingsComponent', () => {
 
 	describe('Kyodai URL management', () => {
 		it('should update Kyodai URL', () => {
-			const saveSpy = jest.spyOn(appService.settings, 'save');
+			const saveSpy = vi.spyOn(appService.settings, 'save');
 			const testUrl = 'https://example.com/tileset';
 			const event = { target: { value: testUrl } } as unknown as Event;
 
@@ -57,7 +57,7 @@ describe('SettingsComponent', () => {
 		});
 
 		it('should clear Kyodai URL', () => {
-			const saveSpy = jest.spyOn(appService.settings, 'save');
+			const saveSpy = vi.spyOn(appService.settings, 'save');
 			appService.settings.kyodaiUrl = 'https://example.com/tileset';
 
 			component.clearKyodaiUrl();
@@ -70,12 +70,12 @@ describe('SettingsComponent', () => {
 			// Mock the kyodaiInput viewChild
 			const mockNativeElement = { value: '' };
 			const mockElementReference = { nativeElement: mockNativeElement };
-			jest.spyOn(component, 'kyodaiInput').mockReturnValue(mockElementReference as ElementRef<HTMLInputElement>);
+			vi.spyOn(component, 'kyodaiInput').mockReturnValue(mockElementReference as ElementRef<HTMLInputElement>);
 
 			const testUrl = 'https://example.com/tileset';
 			const event = {
-				preventDefault: jest.fn(),
-				stopPropagation: jest.fn(),
+				preventDefault: vi.fn(),
+				stopPropagation: vi.fn(),
 				target: { value: testUrl }
 			} as unknown as Event;
 
@@ -87,13 +87,13 @@ describe('SettingsComponent', () => {
 		});
 
 		it('should apply Kyodai URL', () => {
-			const saveSpy = jest.spyOn(appService.settings, 'save');
+			const saveSpy = vi.spyOn(appService.settings, 'save');
 			const testUrl = 'https://example.com/tileset';
 
 			// Mock the kyodaiInput viewChild
 			const mockNativeElement = { value: testUrl };
 			const mockElementReference = { nativeElement: mockNativeElement };
-			jest.spyOn(component, 'kyodaiInput').mockReturnValue(mockElementReference as ElementRef<HTMLInputElement>);
+			vi.spyOn(component, 'kyodaiInput').mockReturnValue(mockElementReference as ElementRef<HTMLInputElement>);
 
 			component.applyKyodaiUrl();
 
@@ -135,7 +135,7 @@ describe('SettingsComponent', () => {
 		it('should have a method to set language', () => {
 			// Instead of testing the click event, test the change handler directly
 			appService.settings.lang = 'en';
-			component.app.setLang = jest.fn();
+			component.app.setLang = vi.fn();
 
 			// Call the change handler directly (simulating what happens when radio is clicked)
 			appService.settings.lang = 'auto';
@@ -147,7 +147,7 @@ describe('SettingsComponent', () => {
 
 		it('should have a method to set background', () => {
 			// Instead of testing the click event, test the change handler directly
-			const saveSpy = jest.spyOn(appService.settings, 'save');
+			const saveSpy = vi.spyOn(appService.settings, 'save');
 			appService.settings.background = '';
 
 			// Set a background value directly (simulating what happens when radio is clicked)
@@ -160,7 +160,7 @@ describe('SettingsComponent', () => {
 
 		it('should have a method to set theme', () => {
 			// Instead of testing the click event, test the change handler directly
-			const saveSpy = jest.spyOn(appService.settings, 'save');
+			const saveSpy = vi.spyOn(appService.settings, 'save');
 			appService.settings.theme = '';
 
 			// Set a theme value directly (simulating what happens when radio is clicked)
@@ -173,7 +173,7 @@ describe('SettingsComponent', () => {
 
 		it('should have a method to set tileset', () => {
 			// Instead of testing the click event, test the change handler directly
-			const saveSpy = jest.spyOn(appService.settings, 'save');
+			const saveSpy = vi.spyOn(appService.settings, 'save');
 			appService.settings.tileset = '';
 
 			// Set a tileset value directly (simulating what happens when radio is clicked)
@@ -185,7 +185,7 @@ describe('SettingsComponent', () => {
 		});
 
 		it('should update app settings when 3D is toggled', () => {
-			const saveSpy = jest.spyOn(appService.settings, 'save');
+			const saveSpy = vi.spyOn(appService.settings, 'save');
 			const initialValue = appService.settings.tile3d;
 			const threeDCheckbox = fixture.debugElement.queryAll(By.css('input[type="checkbox"]'))[0].nativeElement;
 
@@ -197,7 +197,7 @@ describe('SettingsComponent', () => {
 		});
 
 		it('should update app settings when contrast is toggled', () => {
-			const saveSpy = jest.spyOn(appService.settings, 'save');
+			const saveSpy = vi.spyOn(appService.settings, 'save');
 			const initialValue = appService.settings.contrast;
 			const contrastCheckbox = fixture.debugElement.queryAll(By.css('input[type="checkbox"]'))[1].nativeElement;
 
@@ -209,7 +209,7 @@ describe('SettingsComponent', () => {
 		});
 
 		it('should update app settings when dark mode is toggled', () => {
-			const saveSpy = jest.spyOn(appService.settings, 'save');
+			const saveSpy = vi.spyOn(appService.settings, 'save');
 			const initialValue = appService.settings.dark;
 			const darkCheckbox = fixture.debugElement.queryAll(By.css('input[type="checkbox"]'))[2].nativeElement;
 

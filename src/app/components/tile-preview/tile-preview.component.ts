@@ -1,21 +1,20 @@
-import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { ImageSetLoaderComponent } from '../image-set-loader/image-set-loader.component';
 import { AppService } from '../../service/app.service';
-import { imageSetIsKyodai } from '../../model/tilesets';
+import { isKyodaiImageSet } from '../../model/tilesets';
 
 @Component({
 	selector: 'app-tile-preview',
 	templateUrl: './tile-preview.component.html',
 	styleUrls: ['./tile-preview.component.scss'],
-	imports: [ImageSetLoaderComponent],
-	changeDetection: ChangeDetectionStrategy.Eager
+	imports: [ImageSetLoaderComponent]
 })
 export class TilePreviewComponent {
 	readonly tile = input<string>('t_dr_red');
 	readonly app = inject(AppService);
 
 	get isKyodai(): boolean {
-		return imageSetIsKyodai(this.app.settings.tileset);
+		return isKyodaiImageSet(this.app.settings.tileset);
 	}
 
 	get imagePos(): Array<number> {

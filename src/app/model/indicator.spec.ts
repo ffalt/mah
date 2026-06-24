@@ -4,12 +4,12 @@ describe('Indicator', () => {
 	let indicator: Indicator;
 
 	beforeEach(() => {
-		jest.useFakeTimers();
+		vi.useFakeTimers();
 		indicator = new Indicator();
 	});
 
 	afterEach(() => {
-		jest.useRealTimers();
+		vi.useRealTimers();
 	});
 
 	it('should initialize with empty gestureIndicators', () => {
@@ -43,7 +43,7 @@ describe('Indicator', () => {
 
 		it('should transition to "visible" after 100ms', () => {
 			const result = indicator.display(100, 200, 30)!;
-			jest.advanceTimersByTime(100);
+			vi.advanceTimersByTime(100);
 			expect(result.state).toBe('visible');
 		});
 
@@ -75,33 +75,33 @@ describe('Indicator', () => {
 
 		it('should set state to "hidden" after 500ms', () => {
 			const gi = indicator.display(100, 200, 30)!;
-			jest.advanceTimersByTime(100); // become visible
+			vi.advanceTimersByTime(100); // become visible
 			indicator.hide(gi);
-			jest.advanceTimersByTime(500);
+			vi.advanceTimersByTime(500);
 			expect(gi.state).toBe('hidden');
 		});
 
 		it('should remove indicator after 750ms total (500ms hide + 250ms remove)', () => {
 			const gi = indicator.display(100, 200, 30)!;
 			indicator.hide(gi);
-			jest.advanceTimersByTime(750);
+			vi.advanceTimersByTime(750);
 			expect(indicator.gestureIndicators).toHaveLength(0);
 		});
 
 		it('should not remove indicator before 750ms', () => {
 			const gi = indicator.display(100, 200, 30)!;
 			indicator.hide(gi);
-			jest.advanceTimersByTime(600);
+			vi.advanceTimersByTime(600);
 			expect(indicator.gestureIndicators).toHaveLength(1);
 		});
 
 		it('should cancel and restart the hide timer when called again', () => {
 			const gi = indicator.display(100, 200, 30)!;
-			jest.advanceTimersByTime(100);
+			vi.advanceTimersByTime(100);
 			indicator.hide(gi);
-			jest.advanceTimersByTime(300); // partway through first timer
+			vi.advanceTimersByTime(300); // partway through first timer
 			indicator.hide(gi); // restart
-			jest.advanceTimersByTime(500); // 500ms from second hide call
+			vi.advanceTimersByTime(500); // 500ms from second hide call
 			expect(gi.state).toBe('hidden');
 		});
 
@@ -109,7 +109,7 @@ describe('Indicator', () => {
 			const gi = indicator.display(100, 200, 30)!;
 			// pass a plain object matching coordinates
 			indicator.hide({ state: gi.state, x: 100, y: 200 });
-			jest.advanceTimersByTime(750);
+			vi.advanceTimersByTime(750);
 			expect(indicator.gestureIndicators).toHaveLength(0);
 		});
 	});
@@ -143,7 +143,7 @@ describe('Indicator', () => {
 			indicator.hide(gi);
 			indicator.removeIndicator(gi);
 			// Advancing time should not cause errors after removal
-			expect(() => jest.advanceTimersByTime(1000)).not.toThrow();
+			expect(() => vi.advanceTimersByTime(1000)).not.toThrow();
 			expect(indicator.gestureIndicators).toHaveLength(0);
 		});
 

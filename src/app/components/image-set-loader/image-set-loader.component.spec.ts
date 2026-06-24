@@ -4,6 +4,7 @@ import { SvgdefService } from '../../service/svgdef.service';
 import { ImageSetLoaderComponent } from './image-set-loader.component';
 import type { ElementRef } from '@angular/core';
 import { log } from '../../model/log';
+import { Mock } from 'vitest';
 
 interface HackImageSetLoaderComponent {
 	elementRef: ElementRef;
@@ -24,15 +25,15 @@ interface HackImageSetLoaderComponent {
 describe('ImageSetLoaderComponent', () => {
 	let component: ImageSetLoaderComponent;
 	let fixture: ComponentFixture<ImageSetLoaderComponent>;
-	let httpClientSpy: { get: jest.Mock };
-	let SvgdefServiceSpy: { get: jest.Mock };
+	let httpClientSpy: { get: Mock };
+	let SvgdefServiceSpy: { get: Mock };
 
 	beforeEach(async () => {
 		httpClientSpy = {
-			get: jest.fn()
+			get: vi.fn()
 		};
 		SvgdefServiceSpy = {
-			get: jest.fn()
+			get: vi.fn()
 		};
 
 		await TestBed.configureTestingModule({
@@ -67,7 +68,7 @@ describe('ImageSetLoaderComponent', () => {
 		});
 
 		it('should accept kyodaiUrl input', () => {
-			const testUrl = 'http://example.com/kyodai';
+			const testUrl = 'https://example.com/kyodai';
 			fixture.componentRef.setInput('kyodaiUrl', testUrl);
 			fixture.detectChanges();
 
@@ -96,7 +97,7 @@ describe('ImageSetLoaderComponent', () => {
 
 	describe('ngOnChanges', () => {
 		it('should call getImageSet when changes occur', () => {
-			const getImageSetSpy = jest.spyOn(component as unknown as HackImageSetLoaderComponent, 'getImageSet');
+			const getImageSetSpy = vi.spyOn(component as unknown as HackImageSetLoaderComponent, 'getImageSet');
 			component.ngOnChanges({});
 			expect(getImageSetSpy).toHaveBeenCalled();
 		});
@@ -118,7 +119,7 @@ describe('ImageSetLoaderComponent', () => {
 	describe('Service interactions', () => {
 		it('should call svgDef.get with correct parameters', async () => {
 			const testImageSet = 'test-image-set';
-			const testUrl = 'http://example.com/kyodai';
+			const testUrl = 'https://example.com/kyodai';
 			const testSvg = '<svg><defs>Test SVG content</defs></svg>';
 
 			fixture.componentRef.setInput('imageSet', testImageSet);
@@ -126,7 +127,7 @@ describe('ImageSetLoaderComponent', () => {
 			fixture.detectChanges();
 
 			SvgdefServiceSpy.get.mockResolvedValue(testSvg);
-			jest.spyOn(component as unknown as HackImageSetLoaderComponent, 'setImageSet');
+			vi.spyOn(component as unknown as HackImageSetLoaderComponent, 'setImageSet');
 
 			(component as unknown as HackImageSetLoaderComponent).loadImageSet();
 
@@ -144,8 +145,8 @@ describe('ImageSetLoaderComponent', () => {
 			fixture.detectChanges();
 
 			SvgdefServiceSpy.get.mockRejectedValue('Error loading SVG');
-			jest.spyOn(component as unknown as HackImageSetLoaderComponent, 'setError');
-			jest.spyOn(log, 'error').mockImplementation(jest.fn());
+			vi.spyOn(component as unknown as HackImageSetLoaderComponent, 'setError');
+			vi.spyOn(log, 'error').mockImplementation(vi.fn());
 
 			(component as unknown as HackImageSetLoaderComponent).loadImageSet();
 
@@ -180,44 +181,42 @@ describe('ImageSetLoaderComponent', () => {
 				}
 			};
 
-			jest.spyOn(component as unknown as HackImageSetLoaderComponent, 'prepareDefs').mockReturnValue('<use id="test"></use>');
+			vi.spyOn(component as unknown as HackImageSetLoaderComponent, 'prepareDefs').mockReturnValue('<use id="test"></use>');
 			(component as unknown as HackImageSetLoaderComponent).elementRef = mockElementReference as ElementRef;
 
-			jest.useFakeTimers();
+			vi.useFakeTimers();
 
 			(component as unknown as HackImageSetLoaderComponent).setImageSet(testSvg);
 
 			// We need to wait for the setTimeout
-			jest.advanceTimersByTime(2);
+			vi.advanceTimersByTime(2);
 
 			expect(mockElementReference.nativeElement.innerHTML).toBe('<use id="test"></use>');
 
-			jest.useRealTimers();
+			vi.useRealTimers();
 		});
 	});
 
 	describe('Loading state', () => {
 		it('should set loading state with spinner icons', () => {
-			jest.spyOn(component as unknown as HackImageSetLoaderComponent, 'setImageSet');
+			const setImageSetSpy = vi.spyOn(component as unknown as HackImageSetLoaderComponent, 'setImageSet');
 
 			(component as unknown as HackImageSetLoaderComponent).setLoading();
 
-			expect((component as unknown as HackImageSetLoaderComponent).setImageSet).toHaveBeenCalled();
-			const setImageSet = (component as unknown as HackImageSetLoaderComponent).setImageSet;
-			const svgContent = (setImageSet as unknown as jest.SpyInstance<void, [string]>).mock.calls[0][0];
+			expect(setImageSetSpy).toHaveBeenCalled();
+			const svgContent = setImageSetSpy.mock.calls[0][0];
 			expect(svgContent).toContain('mah-tile-spinner');
 		});
 	});
 
 	describe('Error state', () => {
 		it('should set error state with error icons', () => {
-			jest.spyOn(component as unknown as HackImageSetLoaderComponent, 'setImageSet');
+			const setImageSetSpy = vi.spyOn(component as unknown as HackImageSetLoaderComponent, 'setImageSet');
 
 			(component as unknown as HackImageSetLoaderComponent).setError();
 
-			expect((component as unknown as HackImageSetLoaderComponent).setImageSet).toHaveBeenCalled();
-			const setImageSet = (component as unknown as HackImageSetLoaderComponent).setImageSet;
-			const svgContent = (setImageSet as unknown as jest.SpyInstance<void, [string]>).mock.calls[0][0];
+			expect(setImageSetSpy).toHaveBeenCalled();
+			const svgContent = setImageSetSpy.mock.calls[0][0];
 			expect(svgContent).toContain('mah-error-icon');
 		});
 	});
@@ -227,7 +226,7 @@ describe('ImageSetLoaderComponent', () => {
 			fixture.componentRef.setInput('imageSet', undefined);
 			fixture.detectChanges();
 
-			jest.spyOn(component as unknown as HackImageSetLoaderComponent, 'setLoading');
+			vi.spyOn(component as unknown as HackImageSetLoaderComponent, 'setLoading');
 
 			(component as unknown as HackImageSetLoaderComponent).getImageSet();
 
@@ -240,22 +239,22 @@ describe('ImageSetLoaderComponent', () => {
 			fixture.componentRef.setInput('imageSet', testImageSet);
 			fixture.detectChanges();
 
-			jest.spyOn(component as unknown as HackImageSetLoaderComponent, 'setLoading');
-			jest.spyOn(component as unknown as HackImageSetLoaderComponent, 'loadImageSet');
+			vi.spyOn(component as unknown as HackImageSetLoaderComponent, 'setLoading');
+			vi.spyOn(component as unknown as HackImageSetLoaderComponent, 'loadImageSet');
 			SvgdefServiceSpy.get.mockResolvedValue('<svg><defs></defs></svg>');
 
-			jest.useFakeTimers();
+			vi.useFakeTimers();
 
 			(component as unknown as HackImageSetLoaderComponent).getImageSet();
 
 			expect((component as unknown as HackImageSetLoaderComponent).setLoading).toHaveBeenCalled();
 
 			// We need to wait for the setTimeout
-			jest.advanceTimersByTime(2);
+			vi.advanceTimersByTime(2);
 
 			expect((component as unknown as HackImageSetLoaderComponent).loadImageSet).toHaveBeenCalled();
 
-			jest.useRealTimers();
+			vi.useRealTimers();
 		});
 	});
 });

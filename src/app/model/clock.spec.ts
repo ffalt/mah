@@ -1,12 +1,13 @@
 import { Clock } from './clock';
+import { Mock, MockInstance } from 'vitest';
 
 describe('Clock', () => {
 	let clock: Clock;
 	let originalSetTimeout: typeof window.setTimeout;
 	let originalClearTimeout: typeof window.clearTimeout;
-	let mockSetTimeout: jest.Mock;
-	let mockClearTimeout: jest.Mock;
-	let dateNowSpy: jest.SpyInstance;
+	let mockSetTimeout: Mock;
+	let mockClearTimeout: Mock;
+	let dateNowSpy: MockInstance;
 
 	beforeEach(() => {
 		clock = new Clock();
@@ -14,13 +15,13 @@ describe('Clock', () => {
 		// Mock setTimeout and clearTimeout
 		originalSetTimeout = window.setTimeout;
 		originalClearTimeout = window.clearTimeout;
-		mockSetTimeout = jest.fn().mockReturnValue(123); // Return a fake timer ID
-		mockClearTimeout = jest.fn();
+		mockSetTimeout = vi.fn().mockReturnValue(123); // Return a fake timer ID
+		mockClearTimeout = vi.fn();
 		window.setTimeout = mockSetTimeout as unknown as typeof window.setTimeout;
 		window.clearTimeout = mockClearTimeout;
 
 		// Mock Date.now
-		dateNowSpy = jest.spyOn(Date, 'now');
+		dateNowSpy = vi.spyOn(Date, 'now');
 		dateNowSpy.mockReturnValue(1000); // Initial time
 	});
 

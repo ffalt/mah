@@ -6,6 +6,7 @@ import type { Music } from './music';
 import { STATES, GAME_MODE_STANDARD, GAME_MODE_EASY, GAME_MODE_EXPERT } from './consts';
 import { Stone } from './stone';
 import type { GameStateStore, Layout, StorageProvider } from './types';
+import { Mock } from 'vitest';
 
 describe('Game', () => {
 	let game: Game;
@@ -18,28 +19,28 @@ describe('Game', () => {
 	beforeEach(() => {
 		// Create mock storage
 		mockStorage = {
-			getState: jest.fn(),
-			storeState: jest.fn(),
-			getScore: jest.fn(),
-			storeScore: jest.fn()
+			getState: vi.fn(),
+			storeState: vi.fn(),
+			getScore: vi.fn(),
+			storeScore: vi.fn()
 		} as unknown as StorageProvider;
 
 		// Create mock board
 		mockBoard = {
-			update: jest.fn(),
-			clearSelection: jest.fn(),
-			setStoneSelected: jest.fn(),
-			clearHints: jest.fn(),
-			hint: jest.fn(),
-			shuffle: jest.fn(),
-			back: jest.fn(),
-			load: jest.fn(),
-			save: jest.fn().mockReturnValue([]),
-			reset: jest.fn(),
-			applyMapping: jest.fn(),
-			pick: jest.fn(),
-			highlightMatches: jest.fn(),
-			clearMatches: jest.fn(),
+			update: vi.fn(),
+			clearSelection: vi.fn(),
+			setStoneSelected: vi.fn(),
+			clearHints: vi.fn(),
+			hint: vi.fn(),
+			shuffle: vi.fn(),
+			back: vi.fn(),
+			load: vi.fn(),
+			save: vi.fn().mockReturnValue([]),
+			reset: vi.fn(),
+			applyMapping: vi.fn(),
+			pick: vi.fn(),
+			highlightMatches: vi.fn(),
+			clearMatches: vi.fn(),
 			selected: undefined,
 			count: 10,
 			free: [],
@@ -49,20 +50,20 @@ describe('Game', () => {
 		// Create mock clock
 		mockClock = {
 			elapsed: 0,
-			run: jest.fn(),
-			pause: jest.fn(),
-			reset: jest.fn()
+			run: vi.fn(),
+			pause: vi.fn(),
+			reset: vi.fn()
 		};
 
 		// Create mock sound
 		mockSound = {
-			play: jest.fn()
+			play: vi.fn()
 		};
 
 		// Create mock music
 		mockMusic = {
-			play: jest.fn(),
-			pause: jest.fn()
+			play: vi.fn(),
+			pause: vi.fn()
 		};
 
 		game = new Game(mockStorage);
@@ -79,7 +80,7 @@ describe('Game', () => {
 	}
 
 	function mockSelectStone(stone: Stone): void {
-		(mockBoard.setStoneSelected as jest.Mock).mockImplementation(() => {
+		(mockBoard.setStoneSelected as Mock).mockImplementation(() => {
 			mockBoard.selected = stone;
 		});
 	}
@@ -294,7 +295,7 @@ describe('Game', () => {
 		});
 
 		it('should highlight match partners on selection in easy mode', () => {
-			jest.useFakeTimers();
+			vi.useFakeTimers();
 			const stone = makeRemovableStone();
 			mockSelectStone(stone);
 
@@ -303,9 +304,9 @@ describe('Game', () => {
 			game.click(stone);
 
 			expect(mockBoard.highlightMatches).toHaveBeenCalledWith(stone);
-			jest.runAllTimers();
+			vi.runAllTimers();
 			expect(mockBoard.clearMatches).toHaveBeenCalled();
-			jest.useRealTimers();
+			vi.useRealTimers();
 		});
 
 		it('should not highlight match partners in standard mode', () => {
@@ -333,7 +334,7 @@ describe('Game', () => {
 		});
 
 		it('should clear match highlights when a match is resolved', () => {
-			jest.useFakeTimers();
+			vi.useFakeTimers();
 			const stone1 = makeRemovableStone();
 			const stone2 = makeRemovableStone();
 			mockSelectStone(stone1);
@@ -346,7 +347,7 @@ describe('Game', () => {
 			game.click(stone2);
 
 			expect(mockBoard.clearMatches).toHaveBeenCalled();
-			jest.useRealTimers();
+			vi.useRealTimers();
 		});
 	});
 
@@ -379,7 +380,7 @@ describe('Game', () => {
 				stones: []
 			};
 
-			(mockStorage.getState as jest.Mock).mockReturnValue(state);
+			(mockStorage.getState as Mock).mockReturnValue(state);
 
 			const result = game.load();
 
@@ -392,7 +393,7 @@ describe('Game', () => {
 		});
 
 		it('should handle load failure', () => {
-			(mockStorage.getState as jest.Mock).mockReturnValue(undefined);
+			(mockStorage.getState as Mock).mockReturnValue(undefined);
 
 			const result = game.load();
 

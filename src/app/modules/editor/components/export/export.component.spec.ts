@@ -16,8 +16,8 @@ const editLayout: EditLayout = {
 
 const mockLayoutService = {
 	layouts: { items: [] },
-	storeCustomBoards: jest.fn(),
-	removeCustomLayout: jest.fn()
+	storeCustomBoards: vi.fn(),
+	removeCustomLayout: vi.fn()
 };
 
 describe('ExportComponent', () => {
@@ -96,10 +96,10 @@ describe('ExportComponent', () => {
 	describe('download()', () => {
 		it('calls downloadLayout and emits savedEvent', () => {
 			init();
-			const downloadSpy = jest.spyOn(exportModel, 'downloadLayout').mockImplementation(() => undefined);
+			const downloadSpy = vi.spyOn(exportModel, 'downloadLayout').mockImplementation(() => undefined);
 			const savedEvents: Array<boolean> = [];
-			component.savedEvent.subscribe((value: boolean) => {
-				savedEvents.push(value);
+			component.savedEvent.subscribe((isCalled: boolean) => {
+				savedEvents.push(isCalled);
 			});
 
 			component.download();
@@ -115,8 +115,8 @@ describe('ExportComponent', () => {
 			const layout = { ...editLayout };
 			init(layout);
 			const savedEvents: Array<boolean> = [];
-			component.savedEvent.subscribe((value: boolean) => {
-				savedEvents.push(value);
+			component.savedEvent.subscribe((isCalled: boolean) => {
+				savedEvents.push(isCalled);
 			});
 
 			component.saveAsCopy();
@@ -133,7 +133,7 @@ describe('ExportComponent', () => {
 			mockLayoutService.layouts = { items: [{ id: 'other-id', custom: false } as unknown as never] };
 			const layout = { ...editLayout };
 			init(layout);
-			const saveAsCopySpy = jest.spyOn(component, 'saveAsCopy');
+			const saveAsCopySpy = vi.spyOn(component, 'saveAsCopy');
 
 			component.save();
 
@@ -154,8 +154,8 @@ describe('ExportComponent', () => {
 
 		it('shows alert and returns when layout id matches a built-in item', () => {
 			init();
-			const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => undefined);
-			jest.spyOn(translateService, 'instant').mockReturnValue('built-in exists');
+			const alertSpy = vi.spyOn(window, 'alert').mockImplementation(() => undefined);
+			vi.spyOn(translateService, 'instant').mockReturnValue('built-in exists');
 			const exportId = component.exportLayout.id;
 			mockLayoutService.layouts = {
 				items: [{ id: exportId, custom: false } as unknown as never]

@@ -2,18 +2,13 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideTranslateService } from '@ngx-translate/core';
 import { LayoutService } from '../../../../service/layout.service';
-import { ImportComponent } from './import.component';
+import { IMPORT_API, ImportComponent } from './import.component';
 import type { Layout, LoadLayout } from '../../../../model/types';
-
-jest.mock('../../model/import', () => ({
-	importLayouts: jest.fn()
-}));
+import { Mock } from 'vitest';
 
 beforeEach(() => {
-	jest.spyOn(console, 'error').mockImplementation(() => undefined);
+	vi.spyOn(console, 'error').mockImplementation(() => undefined);
 });
-
-import { importLayouts as importLayoutsFunction } from '../../model/import';
 
 const makeLayout = (id: string): Layout => ({
 	id,
@@ -34,22 +29,27 @@ describe('ImportComponent', () => {
 	let fixture: ComponentFixture<ImportComponent>;
 	let mockLayoutService: {
 		layouts: { items: Array<Layout> };
-		expandLayout: jest.Mock;
-		storeCustomBoards: jest.Mock;
+		expandLayout: Mock;
+		storeCustomBoards: Mock;
 	};
+	let mockImportApi: { importLayouts: Mock };
 
 	beforeEach(async () => {
 		mockLayoutService = {
 			layouts: { items: [] },
-			expandLayout: jest.fn(),
-			storeCustomBoards: jest.fn()
+			expandLayout: vi.fn(),
+			storeCustomBoards: vi.fn()
+		};
+		mockImportApi = {
+			importLayouts: vi.fn()
 		};
 
 		await TestBed.configureTestingModule({
 			imports: [ImportComponent],
 			providers: [
 				provideTranslateService(),
-				{ provide: LayoutService, useValue: mockLayoutService }
+				{ provide: LayoutService, useValue: mockLayoutService },
+				{ provide: IMPORT_API, useValue: mockImportApi }
 			],
 			schemas: [NO_ERRORS_SCHEMA]
 		}).compileComponents();
@@ -67,14 +67,14 @@ describe('ImportComponent', () => {
 
 	describe('selectFiles', () => {
 		it('should do nothing when files is null', () => {
-			const importFilesSpy = jest.spyOn(component, 'importFiles');
+			const importFilesSpy = vi.spyOn(component, 'importFiles');
 			const event = { currentTarget: { files: null } } as unknown as Event;
 			component.selectFiles(event);
 			expect(importFilesSpy).not.toHaveBeenCalled();
 		});
 
 		it('should call importFiles when files are present', () => {
-			const importFilesSpy = jest.spyOn(component, 'importFiles').mockImplementation(() => {
+			const importFilesSpy = vi.spyOn(component, 'importFiles').mockImplementation(() => {
 				// nop
 			});
 			const mockFile = new File(['{}'], 'test.mah');
@@ -89,10 +89,10 @@ describe('ImportComponent', () => {
 		it('should add to logs and call storeCustomBoards on successful import', async () => {
 			const loadLayout = makeLoadLayout('new-id');
 			const layout = makeLayout('new-id');
-			(importLayoutsFunction as jest.Mock).mockResolvedValue([loadLayout]);
+			mockImportApi.importLayouts.mockResolvedValue([loadLayout]);
 			mockLayoutService.expandLayout.mockReturnValue(layout);
 			mockLayoutService.layouts.items = [];
-			(LayoutService as unknown as { layout2loadLayout: jest.Mock }).layout2loadLayout = jest.fn().mockReturnValue(loadLayout);
+			(LayoutService as unknown as { layout2loadLayout: Mock }).layout2loadLayout = vi.fn().mockReturnValue(loadLayout);
 
 			const mockFile = new File(['{}'], 'boards.mah');
 			await component.importLayouts([mockFile]);
@@ -105,7 +105,7 @@ describe('ImportComponent', () => {
 		it('should add error log for duplicate layout', async () => {
 			const loadLayout = makeLoadLayout('dup-id');
 			const layout = makeLayout('dup-id');
-			(importLayoutsFunction as jest.Mock).mockResolvedValue([loadLayout]);
+			mockImportApi.importLayouts.mockResolvedValue([loadLayout]);
 			mockLayoutService.expandLayout.mockReturnValue(layout);
 			mockLayoutService.layouts.items = [layout];
 
@@ -118,7 +118,7 @@ describe('ImportComponent', () => {
 		});
 
 		it('should add error log when import throws', async () => {
-			(importLayoutsFunction as jest.Mock).mockRejectedValue(new Error('Bad file'));
+			mockImportApi.importLayouts.mockRejectedValue(new Error('Bad file'));
 
 			const mockFile = new File(['bad'], 'broken.mah');
 			await component.importLayouts([mockFile]);
@@ -130,7 +130,7 @@ describe('ImportComponent', () => {
 
 		it('should clear logs at the start of each import', async () => {
 			component.logs = [{ msg: 'old', isError: true }];
-			(importLayoutsFunction as jest.Mock).mockResolvedValue([]);
+			mockImportApi.importLayouts.mockResolvedValue([]);
 
 			await component.importLayouts([]);
 
@@ -164,7 +164,7 @@ describe('ImportComponent', () => {
 
 	describe('onDropFiles', () => {
 		it('should call importFiles with the provided files', () => {
-			const importFilesSpy = jest.spyOn(component, 'importFiles').mockImplementation(() => {
+			const importFilesSpy = vi.spyOn(component, 'importFiles').mockImplementation(() => {
 				// nop
 			});
 			const files = [new File(['{}'], 'test.mah')];

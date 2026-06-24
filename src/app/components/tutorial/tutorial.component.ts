@@ -91,7 +91,7 @@ export class TutorialComponent {
 	}
 
 	private wiggleStone(stone: Stone): void {
-		stone.effects = stone.effects || {};
+		stone.effects ||= {};
 		stone.effects.wiggle = true;
 		setTimeout(() => {
 			if (stone.effects) {

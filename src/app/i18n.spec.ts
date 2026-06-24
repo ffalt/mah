@@ -6,7 +6,7 @@ const i18nDir = path.join(__dirname, '..', 'assets', 'i18n');
 describe('i18n translations', () => {
 	const enData = JSON.parse(fs.readFileSync(path.join(i18nDir, 'en.json'), 'utf8')) as Record<string, string>;
 	const enKeys = Object.keys(enData);
-	const files = fs.readdirSync(i18nDir).filter(f => f.endsWith('.json') && f !== 'en.json').sort();
+	const files = fs.readdirSync(i18nDir).filter(f => f.endsWith('.json') && f !== 'en.json');
 
 	for (const file of files) {
 		const lang = file.replace('.json', '');

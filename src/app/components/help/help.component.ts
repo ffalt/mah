@@ -1,4 +1,4 @@
-import { Component, inject, output, type OnInit, type Type, ChangeDetectionStrategy } from '@angular/core';
+import { Component, inject, output, type OnInit, type Type } from '@angular/core';
 import { NgComponentOutlet } from '@angular/common';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { clickExternalHref } from '../../model/external-links';
@@ -33,8 +33,7 @@ interface Stat {
 	selector: 'app-help',
 	templateUrl: './help.component.html',
 	styleUrls: ['./help.component.scss'],
-	imports: [TranslatePipe, DurationPipe, NgComponentOutlet],
-	changeDetection: ChangeDetectionStrategy.Eager
+	imports: [TranslatePipe, DurationPipe, NgComponentOutlet]
 })
 export class HelpComponent implements OnInit {
 	readonly showTutorial = output();

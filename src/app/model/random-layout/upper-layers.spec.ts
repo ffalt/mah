@@ -165,7 +165,7 @@ describe('fillLayout', () => {
 		//             tiles at (8,8) and (10,8) with an existing z=1 tile at (9,8) trigger
 		//             the present.has(kh) path (overhang at (9,8) is already occupied)
 		it('covers overhang out-of-bounds and already-occupied rejection', () => {
-			jest.spyOn(rngModule, 'rng').mockReturnValue(0.1);
+			vi.spyOn(rngModule, 'rng').mockReturnValue(0.1);
 			// (0,8): left-edge tile - direction [-1,0] proposes ox=-1 → out of bounds
 			// (8,8) + (10,8): small-bridge pair that supports (1,9,8)
 			// (1,9,8): pre-existing z=1 tile - blocks the overhang proposed by (10,8)→[-1,0]→(9,8)
@@ -176,13 +176,13 @@ describe('fillLayout', () => {
 		});
 
 		it('covers rng >= 0.25 path (no overhangs proposed)', () => {
-			jest.spyOn(rngModule, 'rng').mockReturnValue(0.5);
+			vi.spyOn(rngModule, 'rng').mockReturnValue(0.5);
 			const result = fillLayout(buildSmallBase(), false, false);
 			expect(result.length % 2).toBe(0);
 		});
 
 		it('overhang proposals do not break layout validity', () => {
-			jest.spyOn(rngModule, 'rng').mockReturnValue(0.1);
+			vi.spyOn(rngModule, 'rng').mockReturnValue(0.1);
 			const result = fillLayout(buildDenseBase(), false, false);
 			expect(result.length % 2).toBe(0);
 			expect(result.length).toBeGreaterThan(0);

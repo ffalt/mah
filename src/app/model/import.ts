@@ -1,5 +1,6 @@
 import type { LoadLayout, MahFormat } from './types';
 import { log } from './log';
+import { fromBase64 } from './base64';
 
 export const MAX_IMPORT_BOARDS = 1000;
 
@@ -20,6 +21,7 @@ export function isValidLoadLayout(board: unknown): board is LoadLayout {
 	if (b.by !== undefined && (typeof b.by !== 'string' || b.by.length > 200)) {
 		return false;
 	}
+	// eslint-disable-next-line unicorn/prefer-boolean-return
 	if (b.cat !== undefined && (typeof b.cat !== 'string' || b.cat.length > 200)) {
 		return false;
 	}
@@ -33,7 +35,7 @@ export function parseImportString(base64jsonString: string | null): Array<LoadLa
 	try {
 		let decoded: string;
 		try {
-			decoded = atob(base64jsonString);
+			decoded = fromBase64(base64jsonString);
 		} catch (error) {
 			log.warn('Import failed: Invalid base64 encoding', error);
 			return [];

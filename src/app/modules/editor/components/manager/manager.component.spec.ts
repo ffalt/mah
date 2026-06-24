@@ -5,6 +5,7 @@ import { LayoutService } from '../../../../service/layout.service';
 import { WorkerService } from '../../../../service/worker.service';
 import { ManagerComponent } from './manager.component';
 import type { Layout } from '../../../../model/types';
+import { Mock } from 'vitest';
 
 const makeLayout = (name: string, overrides: Partial<Layout> = {}): Layout => ({
 	id: name,
@@ -20,18 +21,18 @@ describe('ManagerComponent', () => {
 	let fixture: ComponentFixture<ManagerComponent>;
 	let mockLayoutService: {
 		layouts: { items: Array<Layout> };
-		removeCustomLayout: jest.Mock;
-		removeAllCustomLayouts: jest.Mock;
+		removeCustomLayout: Mock;
+		removeAllCustomLayouts: Mock;
 	};
-	let mockWorkerService: { solve: jest.Mock };
+	let mockWorkerService: { solve: Mock };
 
 	beforeEach(async () => {
 		mockLayoutService = {
 			layouts: { items: [] },
-			removeCustomLayout: jest.fn(),
-			removeAllCustomLayouts: jest.fn()
+			removeCustomLayout: vi.fn(),
+			removeAllCustomLayouts: vi.fn()
 		};
-		mockWorkerService = { solve: jest.fn() };
+		mockWorkerService = { solve: vi.fn() };
 
 		await TestBed.configureTestingModule({
 			imports: [ManagerComponent],
@@ -131,7 +132,7 @@ describe('ManagerComponent', () => {
 		it('should toggle sortDesc when clicking the same column', () => {
 			component.sortColumn = 1;
 			component.sortDesc = true;
-			const event = { stopPropagation: jest.fn() } as unknown as MouseEvent;
+			const event = { stopPropagation: vi.fn() } as unknown as MouseEvent;
 			component.clickSortBy(event, 1);
 			expect(component.sortDesc).toBe(false);
 		});
@@ -139,7 +140,7 @@ describe('ManagerComponent', () => {
 		it('should not toggle sortDesc when clicking a different column', () => {
 			component.sortColumn = 1;
 			component.sortDesc = true;
-			const event = { stopPropagation: jest.fn() } as unknown as MouseEvent;
+			const event = { stopPropagation: vi.fn() } as unknown as MouseEvent;
 			component.clickSortBy(event, 2);
 			expect(component.sortDesc).toBe(true);
 		});
@@ -169,25 +170,25 @@ describe('ManagerComponent', () => {
 	describe('removeCustomBoard', () => {
 		it('should call layoutService.removeCustomLayout and stop propagation', () => {
 			const layout = makeLayout('Custom', { custom: true });
-			const event = { stopPropagation: jest.fn() } as unknown as MouseEvent;
+			const event = { stopPropagation: vi.fn() } as unknown as MouseEvent;
 			component.removeCustomBoard(event, layout);
 			expect(mockLayoutService.removeCustomLayout).toHaveBeenCalledWith([layout.id]);
-			expect((event.stopPropagation as jest.Mock)).toHaveBeenCalled();
+			expect((event.stopPropagation as Mock)).toHaveBeenCalled();
 		});
 	});
 
 	describe('removeCustomLayouts', () => {
 		it('should call layoutService.removeAllCustomLayouts and stop propagation', () => {
-			const event = { stopPropagation: jest.fn() } as unknown as MouseEvent;
+			const event = { stopPropagation: vi.fn() } as unknown as MouseEvent;
 			component.removeCustomLayouts(event);
 			expect(mockLayoutService.removeAllCustomLayouts).toHaveBeenCalled();
-			expect((event.stopPropagation as jest.Mock)).toHaveBeenCalled();
+			expect((event.stopPropagation as Mock)).toHaveBeenCalled();
 		});
 	});
 
 	describe('ngOnDestroy', () => {
 		it('should terminate and clear worker on destroy', () => {
-			const mockWorker = { terminate: jest.fn() } as unknown as Worker;
+			const mockWorker = { terminate: vi.fn() } as unknown as Worker;
 			component.worker = mockWorker;
 			component.ngOnDestroy();
 			expect(mockWorker.terminate).toHaveBeenCalled();

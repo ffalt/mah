@@ -116,7 +116,8 @@ export async function convertKmahjongg(data: string, filename: string): Promise<
 		layout.mapping = await convertKmahjonggLines(lines, Number.isNaN(h) ? 16 : h);
 		return layout;
 	}
-	return Promise.reject(new Error(`Unknown .layout format ${JSON.stringify((version ?? '').slice(0, 50))}`));
+	const info = JSON.stringify((version ?? '').slice(0, 50));
+	return Promise.reject(new Error(`Unknown .layout format ${info}`));
 }
 
 export async function convertKyodai(data: string, filename: string): Promise<ImportLayout> {
@@ -125,14 +126,15 @@ export async function convertKyodai(data: string, filename: string): Promise<Imp
 	const version = lines[0] || '';
 	if (['Kyodai 3.0', 'Kyodai 6.0'].includes(version)) {
 		const nameCat = (lines[1] || '').split('::');
-		const name = nameCat[0].length === 0 ? filename.split('.', 1)[0] : nameCat[0];
+		const name = nameCat[0] || filename.split('.', 1)[0];
 		const cat = nameCat[1] || 'uncategorized';
 		const board = lines[2] || '';
 		const layout = await convert3400Matrix(name, board);
 		layout.cat = cat || layout.cat;
 		return layout;
 	}
-	return Promise.reject(new Error(`Unknown .lay format ${JSON.stringify((version || '').slice(0, 50))}`));
+	const versionPreview = JSON.stringify((version || '').slice(0, 50));
+	return Promise.reject(new Error(`Unknown .lay format ${versionPreview}`));
 }
 
 interface MappingBoard {
@@ -169,24 +171,22 @@ export function compactY(z: number, y: number, board: MappingBoard): CompactMapp
 		}
 		return [mappingEntry.start, mappingEntry.count];
 	});
-	return [Number(y), (cells.length === 1 && !Array.isArray(cells[0])) ? cells[0] : cells];
+	return [y, (cells.length === 1 && !Array.isArray(cells[0])) ? cells[0] : cells];
 }
 
 export function compactMapping(mapping: Mapping): CompactMapping {
 	const board = createCompactMappingBoard(mapping);
 	const result: CompactMapping = [];
 	for (const z of Object.keys(board)) {
-		const rows: Array<CompactMappingY> = [];
-		for (const y of Object.keys(board[Number(z)])) {
-			rows.push(compactY(Number(z), Number(y), board));
-		}
+		const rows: Array<CompactMappingY> =
+			Array.from(Object.keys(board[Number(z)]), y => compactY(Number(z), Number(y), board));
 		result.push([Number(z), rows]);
 	}
 	return result;
 }
 
 export function cleanNameCapitalized(s: string): string {
-	return s.trim().split(' ').map(s => s[0].toUpperCase() + s.slice(1)).join(' ')
+	return s.trim().split(' ').filter(Boolean).map(s => s.at(0)!.toUpperCase() + s.slice(1)).join(' ')
 		.replace(/"/g, '')
 		.replace(/(^'|'$)/gm, '');
 }

@@ -56,10 +56,12 @@ export class ChooseLayoutComponent {
 	}
 
 	onStart(layout: Layout): void {
-		if (layout) {
-			this.startEvent.emit({ layout, buildMode: this.buildMode(), gameMode: this.gameMode() });
-			this.storage.storeLastPlayed(layout.id);
+		if (!layout) {
+			return;
 		}
+
+		this.startEvent.emit({ layout, buildMode: this.buildMode(), gameMode: this.gameMode() });
+		this.storage.storeLastPlayed(layout.id);
 	}
 
 	openGeneratorInfo(event: Event): void {

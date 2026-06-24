@@ -116,7 +116,7 @@ export function generatePatternList(): Array<{ id: string; title: string }> {
 	}
 	return result.map(p => ({
 		id: p.id,
-		title: p.id.split('-').map(s => s[0].toUpperCase() + s.slice(1)).join(' ')
+		title: p.id.split('-').map(s => s.at(0)!.toUpperCase() + s.slice(1)).join(' ')
 	}));
 }
 

@@ -6,6 +6,7 @@ import { By } from '@angular/platform-browser';
 import { LayoutService } from '../../service/layout.service';
 import { LocalstorageService } from '../../service/localstorage.service';
 import type { LayoutScoreStore } from '../../model/types';
+import { markAndDetect } from '../../change-detection.spec-helpers';
 
 describe('HelpComponent', () => {
 	let component: HelpComponent;
@@ -176,11 +177,10 @@ describe('HelpComponent', () => {
 				}]
 			};
 			const mockResult: LayoutScoreStore = { winCount: 1, loseCount: 1, bestTime: 100, playTime: 200 };
-			jest.spyOn(localstorageService, 'getScore').mockReturnValue(mockResult);
+			vi.spyOn(localstorageService, 'getScore').mockReturnValue(mockResult);
 
 			component.ngOnInit();
-			fixture.detectChanges();
-			TestBed.tick();
+			markAndDetect(fixture);
 		});
 
 		it('should render clear best times button if best times exist', () => {
@@ -189,12 +189,12 @@ describe('HelpComponent', () => {
 		});
 
 		it('should call clearTimesClick when clear times button is clicked', () => {
-			const clearTimesClickSpy = jest.spyOn(component, 'clearTimesClick');
+			const clearTimesClickSpy = vi.spyOn(component, 'clearTimesClick');
 			const clearButton = fixture.debugElement.query(By.css('button.clear-times')).nativeElement;
-			jest.spyOn(window, 'confirm').mockReturnValue(true);
+			vi.spyOn(window, 'confirm').mockReturnValue(true);
 
 			const originalConsoleError = console.error;
-			console.error = jest.fn();
+			console.error = vi.fn();
 			clearButton.click();
 			console.error = originalConsoleError;
 
@@ -202,8 +202,8 @@ describe('HelpComponent', () => {
 		});
 
 		it('should call clearTimes when confirmed', () => {
-			jest.spyOn(window, 'confirm').mockReturnValue(true);
-			const clearTimesSpy = jest.spyOn(component, 'clearTimes')
+			vi.spyOn(window, 'confirm').mockReturnValue(true);
+			const clearTimesSpy = vi.spyOn(component, 'clearTimes')
 				.mockImplementation(async () => Promise.resolve());
 
 			component.clearTimesClick();
@@ -212,8 +212,8 @@ describe('HelpComponent', () => {
 		});
 
 		it('should not call clearTimes when not confirmed', () => {
-			jest.spyOn(window, 'confirm').mockReturnValue(false);
-			const clearTimesSpy = jest.spyOn(component, 'clearTimes');
+			vi.spyOn(window, 'confirm').mockReturnValue(false);
+			const clearTimesSpy = vi.spyOn(component, 'clearTimes');
 
 			component.clearTimesClick();
 

@@ -372,7 +372,7 @@ class FakeFileReader {
 				} as unknown as ProgressEvent<FileReader>;
 				this.handlers.get('error')?.(fakeEvent);
 			} else {
-				this.handlers.get('load')?.({ target: this } as ProgressEvent<FileReader>);
+				this.handlers.get('load')?.({ target: this } as unknown as ProgressEvent<FileReader>);
 			}
 		}, 0);
 	}

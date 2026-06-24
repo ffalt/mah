@@ -238,7 +238,7 @@ export class Board {
 		const hash: { [index: string]: Array<Stone> } = {};
 		for (const stone of this.free) {
 			const gn = stone.groupNr.toString();
-			hash[gn] = hash[gn] || [];
+			hash[gn] ||= [];
 			hash[gn].push(stone);
 		}
 		return Object.keys(hash)

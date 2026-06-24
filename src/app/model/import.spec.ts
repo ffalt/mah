@@ -1,8 +1,6 @@
 import { isValidLoadLayout, MAX_IMPORT_BOARDS, parseImportString } from './import';
-
-jest.mock('./log', () => ({ log: { warn: jest.fn(), error: jest.fn() } }));
-
 import { b64, makeBoard, makeMah, VALID_MAP } from './import.spec-helpers';
+import { toBase64 } from './base64';
 
 describe('isValidLoadLayout', () => {
 	it('returns false for null', () => {
@@ -38,7 +36,7 @@ describe('isValidLoadLayout', () => {
 	});
 
 	it('returns false when name is whitespace only', () => {
-		expect(isValidLoadLayout({ name: '   ', map: VALID_MAP })).toBe(false);
+		expect(isValidLoadLayout({ name: ' '.repeat(3), map: VALID_MAP })).toBe(false);
 	});
 
 	it('returns false when name exceeds 200 characters', () => {
@@ -112,7 +110,7 @@ describe('parseImportString', () => {
 	});
 
 	it('returns [] for valid base64 but invalid JSON', () => {
-		const notJson = Buffer.from('not json at all').toString('base64');
+		const notJson = toBase64('not json at all');
 		expect(parseImportString(notJson)).toEqual([]);
 	});
 

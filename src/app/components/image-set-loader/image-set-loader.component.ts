@@ -39,7 +39,7 @@ export class ImageSetLoaderComponent implements OnChanges {
 			'';
 		const safePrefix = (this.prefix() ?? '').replace(/[^a-zA-Z0-9_-]/g, '');
 		return s.replace(/xlink:href="\./g, 'xlink:href="assets/svg')
-			.replace(/ id="t_/g, ` id="${safePrefix}t_`);
+			.replace(/ id="t_/g, () => ` id="${safePrefix}t_`);
 	}
 
 	private setError(): void {

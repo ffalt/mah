@@ -70,8 +70,8 @@ describe('ChooseLayoutComponent', () => {
 			category: 'Test',
 			mapping: []
 		};
-		const spy = jest.spyOn(component.startEvent, 'emit');
-		const storageSpy = jest.spyOn(storageService, 'storeLastPlayed');
+		const spy = vi.spyOn(component.startEvent, 'emit');
+		const storageSpy = vi.spyOn(storageService, 'storeLastPlayed');
 
 		// Act
 		component.onStart(layout);
@@ -87,7 +87,7 @@ describe('ChooseLayoutComponent', () => {
 
 	it('should select a random layout and call onStart when randomGame is called', () => {
 		// Arrange
-		const spy = jest.spyOn(component, 'onStart');
+		const spy = vi.spyOn(component, 'onStart');
 
 		// Act
 		component.randomGame();
@@ -111,7 +111,7 @@ describe('ChooseLayoutComponent', () => {
 	it('should update gameMode when select is changed', () => {
 		// Arrange
 		const select = fixture.debugElement.query(By.css('#game-mode-select')).nativeElement;
-		const gameModeSpy = jest.spyOn(component.gameMode, 'set');
+		const gameModeSpy = vi.spyOn(component.gameMode, 'set');
 
 		// Act
 		select.value = GAME_MODE_STANDARD;
@@ -134,7 +134,7 @@ describe('ChooseLayoutComponent', () => {
 	it('should call randomGame when random game button is clicked', () => {
 		// Arrange
 		const button = fixture.debugElement.query(By.css('.start-links button')).nativeElement;
-		const spy = jest.spyOn(component, 'randomGame');
+		const spy = vi.spyOn(component, 'randomGame');
 
 		// Act
 		button.click();

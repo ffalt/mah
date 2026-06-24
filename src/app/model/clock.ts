@@ -38,9 +38,11 @@ export class Clock {
 	}
 
 	private clearTimer(): void {
-		if (this.timer !== undefined) {
-			clearTimeout(this.timer);
-			this.timer = undefined;
+		if (this.timer === undefined) {
+			return;
 		}
+
+		clearTimeout(this.timer);
+		this.timer = undefined;
 	}
 }

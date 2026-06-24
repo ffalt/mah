@@ -10,6 +10,7 @@ import { GAME_MODE_EASY, GAME_MODE_EXPERT, GAME_MODE_STANDARD } from '../../mode
 import { type BUILD_MODE_ID, MODE_SOLVABLE } from '../../model/builder';
 import { environment } from '../../../environments/environment';
 import { Stone } from '../../model/stone';
+import { markAndDetect } from '../../change-detection.spec-helpers';
 
 const zenControlsDefaultRect: DOMRect = {
 	x: 20, y: 30, left: 20, top: 30, right: 220, bottom: 90, width: 200, height: 60,
@@ -25,8 +26,8 @@ describe('GameComponent', () => {
 		const mockBoard = {
 			...component.game.board,
 			undo: [1, 2, 3],
-			reset: jest.fn(),
-			clearMatches: jest.fn()
+			reset: vi.fn(),
+			clearMatches: vi.fn()
 		};
 		Object.defineProperty(component.game, 'board', { value: mockBoard });
 	}
@@ -57,16 +58,16 @@ describe('GameComponent', () => {
 
 	it('should handle key events', () => {
 		// Spy on methods that should be called
-		const helpSpy = jest.spyOn(component.help(), 'toggle');
-		const infoSpy = jest.spyOn(component.info(), 'toggle');
-		const settingsSpy = jest.spyOn(component.settings(), 'toggle');
-		const hintSpy = jest.spyOn(component.game, 'hint');
-		const shuffleSpy = jest.spyOn(component.game, 'shuffle');
-		const backSpy = jest.spyOn(component.game, 'back');
-		const pauseSpy = jest.spyOn(component.game, 'pause');
-		const resumeSpy = jest.spyOn(component.game, 'resume');
-		const isRunningSpy = jest.spyOn(component.game, 'isRunning').mockReturnValue(true);
-		const isPausedSpy = jest.spyOn(component.game, 'isPaused').mockReturnValue(false);
+		const helpSpy = vi.spyOn(component.help(), 'toggle');
+		const infoSpy = vi.spyOn(component.info(), 'toggle');
+		const settingsSpy = vi.spyOn(component.settings(), 'toggle');
+		const hintSpy = vi.spyOn(component.game, 'hint');
+		const shuffleSpy = vi.spyOn(component.game, 'shuffle');
+		const backSpy = vi.spyOn(component.game, 'back');
+		const pauseSpy = vi.spyOn(component.game, 'pause');
+		const resumeSpy = vi.spyOn(component.game, 'resume');
+		const isRunningSpy = vi.spyOn(component.game, 'isRunning').mockReturnValue(true);
+		const isPausedSpy = vi.spyOn(component.game, 'isPaused').mockReturnValue(false);
 
 		// Test different key handlers
 		component.handleKeyDownEventKey('h');
@@ -100,7 +101,7 @@ describe('GameComponent', () => {
 	it('should handle dialog exit with Escape key', () => {
 		// Spy on dialog toggle methods
 		const helpDialog = component.help();
-		const helpSpy = jest.spyOn(helpDialog, 'toggle');
+		const helpSpy = vi.spyOn(helpDialog, 'toggle');
 
 		// Initialize the visible model to true
 		helpDialog.visible.set(true);
@@ -118,9 +119,9 @@ describe('GameComponent', () => {
 	});
 
 	it('should handle stone clicks', () => {
-		const clickSpy = jest.spyOn(component.game, 'click');
-		const soundPlaySpy = jest.spyOn(component.game.sound, 'play')
-			.mockImplementation(jest.fn);
+		const clickSpy = vi.spyOn(component.game, 'click');
+		const soundPlaySpy = vi.spyOn(component.game.sound, 'play')
+			.mockImplementation(vi.fn());
 		const stone = new Stone(0, 0, 0, 0, 0);
 
 		component.stoneClick(stone);
@@ -129,10 +130,10 @@ describe('GameComponent', () => {
 	});
 
 	it('should toggle game state when dialog state changes', () => {
-		const pauseSpy = jest.spyOn(component.game, 'pause');
-		const resumeSpy = jest.spyOn(component.game, 'resume');
-		const isPausedSpy = jest.spyOn(component.game, 'isPaused').mockReturnValue(false);
-		const saveSpy = jest.spyOn(appService.settings, 'save');
+		const pauseSpy = vi.spyOn(component.game, 'pause');
+		const resumeSpy = vi.spyOn(component.game, 'resume');
+		const isPausedSpy = vi.spyOn(component.game, 'isPaused').mockReturnValue(false);
+		const saveSpy = vi.spyOn(appService.settings, 'save');
 
 		// Test dialog opening
 		component.toggleDialogState(true);
@@ -146,10 +147,10 @@ describe('GameComponent', () => {
 	});
 
 	it('should handle message clicks', () => {
-		const resumeSpy = jest.spyOn(component.game, 'resume');
-		const resetSpy = jest.spyOn(component.game, 'reset');
-		const isPausedSpy = jest.spyOn(component.game, 'isPaused').mockReturnValue(true);
-		const showNewGameSpy = jest.spyOn(component, 'showNewGame');
+		const resumeSpy = vi.spyOn(component.game, 'resume');
+		const resetSpy = vi.spyOn(component.game, 'reset');
+		const isPausedSpy = vi.spyOn(component.game, 'isPaused').mockReturnValue(true);
+		const showNewGameSpy = vi.spyOn(component, 'showNewGame');
 
 		// Test when game is paused
 		component.clickMessage();
@@ -163,8 +164,8 @@ describe('GameComponent', () => {
 	});
 
 	it('should start a new game', () => {
-		const pauseSpy = jest.spyOn(component.game, 'pause');
-		const showNewGameSpy = jest.spyOn(component, 'showNewGame');
+		const pauseSpy = vi.spyOn(component.game, 'pause');
+		const showNewGameSpy = vi.spyOn(component, 'showNewGame');
 
 		component.newGame();
 		expect(pauseSpy).toHaveBeenCalled();
@@ -172,9 +173,9 @@ describe('GameComponent', () => {
 	});
 
 	it('should start game with provided data', () => {
-		const resetSpy = jest.spyOn(component.game, 'reset');
-		const startSpy = jest.spyOn(component.game, 'start');
-		const visibleSetSpy = jest.spyOn(component.newgame().visible, 'set');
+		const resetSpy = vi.spyOn(component.game, 'reset');
+		const startSpy = vi.spyOn(component.game, 'start');
+		const visibleSetSpy = vi.spyOn(component.newgame().visible, 'set');
 
 		const gameData = {
 			layout: { id: 'test', name: 'Test Layout', category: 'Test', mapping: [] },
@@ -203,8 +204,7 @@ describe('GameComponent', () => {
 
 	it('should render control buttons', () => {
 		component.game.mode = GAME_MODE_EASY;
-		fixture.detectChanges();
-		TestBed.tick();
+		markAndDetect(fixture);
 
 		const pauseButton = fixture.debugElement.query(By.css('.ctrl-game button:nth-child(1)'));
 		const shuffleButton = fixture.debugElement.query(By.css('.ctrl-game button:nth-child(2)'));
@@ -221,13 +221,12 @@ describe('GameComponent', () => {
 
 	it('should call game functions when control buttons are clicked', () => {
 		component.game.mode = GAME_MODE_EASY;
-		fixture.detectChanges();
-		TestBed.tick();
+		markAndDetect(fixture);
 
-		const toggleSpy = jest.spyOn(component.game, 'toggle');
-		const shuffleSpy = jest.spyOn(component, 'onShuffle');
-		const hintSpy = jest.spyOn(component, 'onHint');
-		const newGameSpy = jest.spyOn(component, 'newGame');
+		const toggleSpy = vi.spyOn(component.game, 'toggle');
+		const shuffleSpy = vi.spyOn(component, 'onShuffle');
+		const hintSpy = vi.spyOn(component, 'onHint');
+		const newGameSpy = vi.spyOn(component, 'newGame');
 
 		const pauseButton = fixture.debugElement.query(By.css('.ctrl-game button:nth-child(1)')).nativeElement;
 		const hintButton = fixture.debugElement.query(By.css('.ctrl-game button:nth-child(4)')).nativeElement;
@@ -253,11 +252,10 @@ describe('GameComponent', () => {
 		overrideBoardWithUndo();
 
 		// Force change detection to update the button state
-		fixture.detectChanges();
-		TestBed.tick();
+		markAndDetect(fixture);
 
 		const undoButton = fixture.debugElement.query(By.css('.ctrl-game button:nth-child(3)')).nativeElement;
-		const backSpy = jest.spyOn(component.game, 'back');
+		const backSpy = vi.spyOn(component.game, 'back');
 
 		undoButton.click();
 		expect(backSpy).toHaveBeenCalled();
@@ -290,10 +288,10 @@ describe('GameComponent', () => {
 		component.game.mode = GAME_MODE_STANDARD;
 		fixture.detectChanges();
 
-		const toggleSpy = jest.spyOn(component.game, 'toggle');
-		const undoSpy = jest.spyOn(component, 'onUndo');
-		const hintSpy = jest.spyOn(component, 'onHint');
-		const newGameSpy = jest.spyOn(component, 'newGame');
+		const toggleSpy = vi.spyOn(component.game, 'toggle');
+		const undoSpy = vi.spyOn(component, 'onUndo');
+		const hintSpy = vi.spyOn(component, 'onHint');
+		const newGameSpy = vi.spyOn(component, 'newGame');
 
 		fixture.debugElement.query(By.css('.ctrl-game button:nth-child(1)')).nativeElement.click(); // pause
 		fixture.debugElement.query(By.css('.ctrl-game button:nth-child(3)')).nativeElement.click(); // hint
@@ -312,8 +310,7 @@ describe('GameComponent', () => {
 
 	it('should render control buttons in expert mode', () => {
 		component.game.mode = GAME_MODE_EXPERT;
-		fixture.detectChanges();
-		TestBed.tick();
+		markAndDetect(fixture);
 
 		const pauseButton = fixture.debugElement.query(By.css('.ctrl-game button:nth-child(1)'));
 		const restartButton = fixture.debugElement.query(By.css('.ctrl-game button:nth-child(2)'));
@@ -326,11 +323,10 @@ describe('GameComponent', () => {
 
 	it('should call game functions when control buttons in expert mode are clicked', () => {
 		component.game.mode = GAME_MODE_EXPERT;
-		fixture.detectChanges();
-		TestBed.tick();
+		markAndDetect(fixture);
 
-		const toggleSpy = jest.spyOn(component.game, 'toggle');
-		const newGameSpy = jest.spyOn(component, 'newGame');
+		const toggleSpy = vi.spyOn(component.game, 'toggle');
+		const newGameSpy = vi.spyOn(component, 'newGame');
 
 		fixture.debugElement.query(By.css('.ctrl-game button:nth-child(1)')).nativeElement.click(); // pause
 		fixture.debugElement.query(By.css('.ctrl-game button:nth-child(2)')).nativeElement.click(); // restart
@@ -341,8 +337,7 @@ describe('GameComponent', () => {
 
 	it('should swap menu bars for zen controls when zen mode is enabled', () => {
 		component.toggleZenMode();
-		fixture.componentRef.changeDetectorRef.markForCheck();
-		fixture.detectChanges();
+		markAndDetect(fixture);
 
 		expect(fixture.debugElement.query(By.css('.controls-top'))).toBeFalsy();
 		expect(fixture.debugElement.query(By.css('.controls-bottom'))).toBeFalsy();
@@ -353,13 +348,12 @@ describe('GameComponent', () => {
 		component.game.mode = GAME_MODE_EASY;
 		overrideBoardWithUndo();
 
-		const toggleSpy = jest.spyOn(component.game, 'toggle');
-		const hintSpy = jest.spyOn(component, 'onHint').mockImplementation(jest.fn());
-		const backSpy = jest.spyOn(component, 'onUndo').mockImplementation(jest.fn());
+		const toggleSpy = vi.spyOn(component.game, 'toggle');
+		const hintSpy = vi.spyOn(component, 'onHint').mockImplementation(vi.fn());
+		const backSpy = vi.spyOn(component, 'onUndo').mockImplementation(vi.fn());
 
 		component.toggleZenMode();
-		fixture.detectChanges();
-		TestBed.tick();
+		markAndDetect(fixture);
 
 		const zenActionButtons = fixture.debugElement.queryAll(By.css('.zen-controls .button'));
 		zenActionButtons[0].nativeElement.click(); // pause
@@ -377,13 +371,12 @@ describe('GameComponent', () => {
 		component.game.mode = GAME_MODE_STANDARD;
 		overrideBoardWithUndo();
 
-		const toggleSpy = jest.spyOn(component.game, 'toggle');
-		const hintSpy = jest.spyOn(component, 'onHint').mockImplementation(jest.fn());
-		const backSpy = jest.spyOn(component, 'onUndo').mockImplementation(jest.fn());
+		const toggleSpy = vi.spyOn(component.game, 'toggle');
+		const hintSpy = vi.spyOn(component, 'onHint').mockImplementation(vi.fn());
+		const backSpy = vi.spyOn(component, 'onUndo').mockImplementation(vi.fn());
 
 		component.toggleZenMode();
-		fixture.detectChanges();
-		TestBed.tick();
+		markAndDetect(fixture);
 
 		const zenButtons = fixture.debugElement.queryAll(By.css('.zen-controls .button'));
 		expect(zenButtons).toHaveLength(4); // pause, undo, hint, exit
@@ -402,11 +395,10 @@ describe('GameComponent', () => {
 	it('should call important actions from the zen controls in expert mode', () => {
 		component.game.mode = GAME_MODE_EXPERT;
 
-		const toggleSpy = jest.spyOn(component.game, 'toggle');
+		const toggleSpy = vi.spyOn(component.game, 'toggle');
 
 		component.toggleZenMode();
-		fixture.detectChanges();
-		TestBed.tick();
+		markAndDetect(fixture);
 
 		const zenButtons = fixture.debugElement.queryAll(By.css('.zen-controls .button'));
 		expect(zenButtons).toHaveLength(2); // pause, exit only
@@ -420,21 +412,20 @@ describe('GameComponent', () => {
 
 	it('should start dragging zen controls when pointer down on drag handle', () => {
 		component.toggleZenMode();
-		fixture.detectChanges();
-		TestBed.tick();
+		markAndDetect(fixture);
 
 		const toolbar = fixture.debugElement.query(By.css('.zen-controls')).nativeElement;
 		const handle = fixture.debugElement.query(By.css('.zen-controls .drag-handle')).nativeElement;
-		const setPointerCaptureSpy = jest.fn();
+		const setPointerCaptureSpy = vi.fn();
 		Object.defineProperty(handle, 'setPointerCapture', { value: setPointerCaptureSpy, configurable: true });
-		jest.spyOn(toolbar, 'getBoundingClientRect').mockReturnValue(zenControlsDefaultRect);
+		vi.spyOn(toolbar, 'getBoundingClientRect').mockReturnValue(zenControlsDefaultRect);
 
 		const event = {
 			currentTarget: handle,
 			clientX: 100,
 			clientY: 100,
 			pointerId: 1,
-			preventDefault: jest.fn()
+			preventDefault: vi.fn()
 		};
 
 		component.startZenControlsDrag(event);
@@ -446,26 +437,25 @@ describe('GameComponent', () => {
 
 	it('should update and clamp zen controls position while dragging', () => {
 		component.toggleZenMode();
-		fixture.detectChanges();
-		TestBed.tick();
+		markAndDetect(fixture);
 
 		const toolbar = fixture.debugElement.query(By.css('.zen-controls')).nativeElement;
 		const handle = fixture.debugElement.query(By.css('.zen-controls .drag-handle')).nativeElement;
-		Object.defineProperty(handle, 'setPointerCapture', { value: jest.fn(), configurable: true });
-		jest.spyOn(toolbar, 'getBoundingClientRect').mockReturnValue(zenControlsDefaultRect);
+		Object.defineProperty(handle, 'setPointerCapture', { value: vi.fn(), configurable: true });
+		vi.spyOn(toolbar, 'getBoundingClientRect').mockReturnValue(zenControlsDefaultRect);
 
 		component.startZenControlsDrag({
 			currentTarget: handle,
 			clientX: 100,
 			clientY: 100,
 			pointerId: 1,
-			preventDefault: jest.fn()
+			preventDefault: vi.fn()
 		});
 
 		component.onZenControlsDrag({
 			clientX: 2000,
 			clientY: 2000,
-			preventDefault: jest.fn()
+			preventDefault: vi.fn()
 		});
 
 		expect(component.zenControlsTranslateX).toBe(window.innerWidth - 228);
@@ -474,22 +464,21 @@ describe('GameComponent', () => {
 
 	it('should stop zen controls drag on pointer up', () => {
 		component.toggleZenMode();
-		fixture.detectChanges();
-		TestBed.tick();
+		markAndDetect(fixture);
 
 		const toolbar = fixture.debugElement.query(By.css('.zen-controls')).nativeElement;
 		const handle = fixture.debugElement.query(By.css('.zen-controls .drag-handle')).nativeElement;
-		Object.defineProperty(handle, 'setPointerCapture', { value: jest.fn(), configurable: true });
-		const releasePointerCaptureSpy = jest.fn();
+		Object.defineProperty(handle, 'setPointerCapture', { value: vi.fn(), configurable: true });
+		const releasePointerCaptureSpy = vi.fn();
 		Object.defineProperty(handle, 'releasePointerCapture', { value: releasePointerCaptureSpy, configurable: true });
-		jest.spyOn(toolbar, 'getBoundingClientRect').mockReturnValue(zenControlsDefaultRect);
+		vi.spyOn(toolbar, 'getBoundingClientRect').mockReturnValue(zenControlsDefaultRect);
 
 		component.startZenControlsDrag({
 			currentTarget: handle,
 			clientX: 100,
 			clientY: 100,
 			pointerId: 5,
-			preventDefault: jest.fn()
+			preventDefault: vi.fn()
 		});
 
 		component.stopZenControlsDrag();
@@ -499,16 +488,15 @@ describe('GameComponent', () => {
 
 	it('should move zen controls with ArrowRight on drag handle', () => {
 		component.toggleZenMode();
-		fixture.detectChanges();
-		TestBed.tick();
+		markAndDetect(fixture);
 
 		const toolbar = fixture.debugElement.query(By.css('.zen-controls')).nativeElement;
 		const handle = fixture.debugElement.query(By.css('.zen-controls .drag-handle')).nativeElement;
-		jest.spyOn(toolbar, 'getBoundingClientRect').mockReturnValue(zenControlsDefaultRect);
+		vi.spyOn(toolbar, 'getBoundingClientRect').mockReturnValue(zenControlsDefaultRect);
 		const event = {
 			key: 'ArrowRight',
 			currentTarget: handle,
-			preventDefault: jest.fn()
+			preventDefault: vi.fn()
 		} as unknown as KeyboardEvent;
 
 		component.onZenControlsHandleKeyDown(event);
@@ -520,12 +508,11 @@ describe('GameComponent', () => {
 
 	it('should clamp keyboard movement inside viewport', () => {
 		component.toggleZenMode();
-		fixture.detectChanges();
-		TestBed.tick();
+		markAndDetect(fixture);
 
 		const toolbar = fixture.debugElement.query(By.css('.zen-controls')).nativeElement;
 		const handle = fixture.debugElement.query(By.css('.zen-controls .drag-handle')).nativeElement;
-		jest.spyOn(toolbar, 'getBoundingClientRect').mockReturnValue({
+		vi.spyOn(toolbar, 'getBoundingClientRect').mockReturnValue({
 			x: window.innerWidth - 208,
 			y: window.innerHeight - 68,
 			left: window.innerWidth - 208,
@@ -540,7 +527,7 @@ describe('GameComponent', () => {
 		component.onZenControlsHandleKeyDown({
 			key: 'ArrowRight',
 			currentTarget: handle,
-			preventDefault: jest.fn()
+			preventDefault: vi.fn()
 		});
 
 		expect(component.zenControlsTranslateX).toBe(0);
@@ -549,7 +536,7 @@ describe('GameComponent', () => {
 
 	it('should check fullscreen capability', () => {
 		// Spy on the component's method
-		const isFullscreenEnabledSpy = jest.spyOn(component, 'isFullscreenEnabled');
+		const isFullscreenEnabledSpy = vi.spyOn(component, 'isFullscreenEnabled');
 
 		// Test with fullscreen enabled
 		isFullscreenEnabledSpy.mockReturnValue(true);
@@ -562,9 +549,9 @@ describe('GameComponent', () => {
 
 	it('should handle fullscreen toggle', () => {
 		// Spy on the component's methods
-		const isFullscreenSpy = jest.spyOn(component, 'isFullscreen').mockReturnValue(true);
-		const exitFullscreenSpy = jest.spyOn(component, 'exitFullscreen').mockImplementation(jest.fn());
-		const requestFullscreenSpy = jest.spyOn(component, 'requestFullscreen').mockImplementation(jest.fn());
+		const isFullscreenSpy = vi.spyOn(component, 'isFullscreen').mockReturnValue(true);
+		const exitFullscreenSpy = vi.spyOn(component, 'exitFullscreen').mockImplementation(vi.fn());
+		const requestFullscreenSpy = vi.spyOn(component, 'requestFullscreen').mockImplementation(vi.fn());
 
 		// Test exit fullscreen when already in fullscreen mode
 		component.enterFullScreen();
@@ -579,8 +566,8 @@ describe('GameComponent', () => {
 	});
 
 	it('should handle key event with Escape key', () => {
-		const handleKeyDownDialogExitSpy = jest.spyOn(component, 'handleKeyDownDialogExit').mockReturnValue(true);
-		const handleKeyDownEventKeySpy = jest.spyOn(component, 'handleKeyDownEventKey');
+		const handleKeyDownDialogExitSpy = vi.spyOn(component, 'handleKeyDownDialogExit').mockReturnValue(true);
+		const handleKeyDownEventKeySpy = vi.spyOn(component, 'handleKeyDownEventKey');
 
 		// Create mock event
 		const event = new KeyboardEvent('keydown', { key: 'Escape' });
@@ -594,7 +581,7 @@ describe('GameComponent', () => {
 	});
 
 	it('should ignore key events from input elements', () => {
-		const handleKeyDownEventKeySpy = jest.spyOn(component, 'handleKeyDownEventKey');
+		const handleKeyDownEventKeySpy = vi.spyOn(component, 'handleKeyDownEventKey');
 
 		// Create mock event with input target
 		const mockTarget = document.createElement('input');

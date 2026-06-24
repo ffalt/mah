@@ -2,14 +2,24 @@
 	"extends": "./tsconfig.json",
 	"compilerOptions": {
 		"outDir": "./out-tsc/spec",
-		"isolatedModules": true,
+		"typeRoots": [
+			"./node_modules/@types",
+			"./node_modules"
+		],
 		"types": [
-			"jest",
+			"vitest/globals",
 			"node"
 		]
 	},
 	"include": [
+		"./src/**/*.ts",
 		"./src/**/*.spec.ts",
-		"./src/**/*.d.ts"
+		"./src/**/*.d.ts",
+		"./src/**/*.specs-helpers.ts",
+		"./setup-vitest.ts",
+		"./vitest.mocks.ts"
+	],
+	"files": [
+		"./setup-vitest.ts"
 	]
 }

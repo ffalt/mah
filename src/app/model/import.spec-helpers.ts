@@ -1,7 +1,9 @@
+import { toBase64 } from './base64';
+
 export const VALID_MAP = [[0, [[0, 0]]]];
 
 export function b64(json: unknown): string {
-	return Buffer.from(JSON.stringify(json)).toString('base64');
+	return toBase64(JSON.stringify(json));
 }
 
 export function makeBoard(overrides: Partial<Record<string, unknown>> = {}): Record<string, unknown> {

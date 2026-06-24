@@ -262,7 +262,7 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 		const mapping = this.layout().mapping;
 		for (const m of mapping) {
 			if (m[0] > layer) {
-				m[0] = m[0] + 1;
+				m[0] += 1;
 			} else if (m[0] === layer) {
 				dups.push(m);
 			}
@@ -282,7 +282,7 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 		this.layout().mapping = this.layout().mapping.filter(m => m[0] !== layer);
 		for (const m of this.layout().mapping) {
 			if (m[0] > layer) {
-				m[0] = m[0] - 1;
+				m[0] -= 1;
 			}
 		}
 		this.totalZ = Math.max(this.totalZ - 1, 1);
@@ -294,7 +294,7 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 		const mapping = this.layout().mapping;
 		for (const m of mapping) {
 			if (m[0] > layer) {
-				m[0] = m[0] + 1;
+				m[0] += 1;
 			}
 		}
 		this.refresh();
@@ -307,13 +307,13 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 		const mapping = this.layout().mapping;
 		for (const m of mapping) {
 			if (m[0] === layer) {
-				m[0] = m[0] + deltaZ;
+				m[0] += deltaZ;
 			} else if (m[0] === layer + deltaZ) {
 				m[0] = layer;
 			}
 		}
 		if (layer === this.currentZ) {
-			this.currentZ = this.currentZ + deltaZ;
+			this.currentZ += deltaZ;
 		}
 		this.refresh();
 	}
@@ -353,13 +353,14 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 		this.solveStats = solveStats;
 	}
 
-	private moveAxis(axis: 1 | 2, delta: number, maxBound: number): void {
+	moveAxis(axis: 1 | 2, delta: number, maxBound: number): void {
 		const minKey = axis === 1 ? 'minX' : 'minY';
 		const maxKey = axis === 1 ? 'maxX' : 'maxY';
 		if (this.stats[minKey] + delta < 0 || this.stats[maxKey] + delta >= maxBound - 1) {
 			return;
 		}
 		for (const m of this.layout().mapping) {
+			// eslint-disable-next-line unicorn/operator-assignment
 			m[axis] = m[axis] + delta;
 		}
 		this.refresh();

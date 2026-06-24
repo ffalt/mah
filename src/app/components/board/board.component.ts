@@ -3,7 +3,7 @@ import { Backgrounds, Themes } from '../../model/consts';
 import { type Draw, calcDrawPos, getDrawBounds, sortDrawItems, getDrawBoundsViewportBounds } from '../../model/draw';
 import type { Stone } from '../../model/stone';
 import { AppService } from '../../service/app.service';
-import { imageSetIsKyodai } from '../../model/tilesets';
+import { isKyodaiImageSet } from '../../model/tilesets';
 import { ImageSetLoaderComponent } from '../image-set-loader/image-set-loader.component';
 import { Indicator } from '../../model/indicator';
 import { PanZoom } from '../../model/pan-zoom';
@@ -114,7 +114,7 @@ export class BoardComponent implements OnInit, OnChanges {
 		if (changes.imageSet) {
 			this.prefix = `b_${changes.imageSet.currentValue}_`;
 			this.urlPrefix = `#b_${changes.imageSet.currentValue}_`;
-			const isKyodai = imageSetIsKyodai(changes.imageSet.currentValue);
+			const isKyodai = isKyodaiImageSet(changes.imageSet.currentValue);
 			this.imagePos = isKyodai ? [0, 0, 75, 100] : [6, 6, 63, 88];
 			this.imageCut = isKyodai ? [1, 1, 73, 98] : [0, 0, 65, 90];
 		}

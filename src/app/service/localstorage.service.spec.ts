@@ -2,16 +2,17 @@ import { TestBed } from '@angular/core/testing';
 import { LocalstorageService } from './localstorage.service';
 import { log } from '../model/log';
 import type { GameStateStore, LayoutScoreStore, LoadLayout, SettingsStore } from '../model/types';
+import { Mock, MockInstance } from 'vitest';
 
 describe('LocalstorageService', () => {
 	let service: LocalstorageService;
 	let localStorageMock: {
-		getItem: jest.Mock;
-		setItem: jest.Mock;
-		removeItem: jest.Mock;
+		getItem: Mock;
+		setItem: Mock;
+		removeItem: Mock;
 	};
 	let originalLocalStorage: Storage;
-	let logWarnSpy: jest.SpyInstance;
+	let logWarnSpy: MockInstance;
 
 	beforeEach(() => {
 		// Save original localStorage
@@ -19,9 +20,9 @@ describe('LocalstorageService', () => {
 
 		// Create localStorage mock
 		localStorageMock = {
-			getItem: jest.fn(),
-			setItem: jest.fn(),
-			removeItem: jest.fn()
+			getItem: vi.fn(),
+			setItem: vi.fn(),
+			removeItem: vi.fn()
 		};
 
 		// Replace localStorage with mock
@@ -36,8 +37,8 @@ describe('LocalstorageService', () => {
 		});
 
 		service = TestBed.inject(LocalstorageService);
-		jest.clearAllMocks(); // clear calls accumulated during service construction
-		logWarnSpy = jest.spyOn(log, 'warn').mockReturnValue(undefined);
+		vi.clearAllMocks(); // clear calls accumulated during service construction
+		logWarnSpy = vi.spyOn(log, 'warn').mockReturnValue(undefined);
 	});
 
 	afterEach(() => {
@@ -54,7 +55,7 @@ describe('LocalstorageService', () => {
 
 		it('should call updateData during initialization', () => {
 			// Create a new instance to verify constructor behavior
-			const updateDataSpy = jest.spyOn(LocalstorageService.prototype as unknown as HackLocalstorgageService, 'updateData');
+			const updateDataSpy = vi.spyOn(LocalstorageService.prototype as unknown as HackLocalstorgageService, 'updateData');
 			let newService!: LocalstorageService;
 			TestBed.runInInjectionContext(() => {
 				newService = new LocalstorageService();

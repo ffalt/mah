@@ -17,9 +17,9 @@ class TestHostComponent {
 }
 
 const mockObserver = {
-	observe: jest.fn(),
-	unobserve: jest.fn(),
-	disconnect: jest.fn()
+	observe: vi.fn(),
+	unobserve: vi.fn(),
+	disconnect: vi.fn()
 };
 
 function makeMockService(overrides: Partial<DeferLoadService> = {}): Partial<DeferLoadService> {
@@ -29,7 +29,7 @@ function makeMockService(overrides: Partial<DeferLoadService> = {}): Partial<Def
 		observeNotify: new EventEmitter<Array<IntersectionObserverEntry>>(),
 		scrollNotify: new EventEmitter<ScrollNotifyEvent>(),
 		currentViewport: new Rect(0, 0, 1024, 768),
-		getObserver: jest.fn().mockReturnValue(mockObserver),
+		getObserver: vi.fn().mockReturnValue(mockObserver),
 		...overrides
 	};
 }
@@ -50,11 +50,11 @@ describe('DeferLoadDirective', () => {
 	}
 
 	beforeEach(() => {
-		jest.useFakeTimers();
+		vi.useFakeTimers();
 	});
 
 	afterEach(() => {
-		jest.useRealTimers();
+		vi.useRealTimers();
 		TestBed.resetTestingModule();
 	});
 
@@ -68,7 +68,7 @@ describe('DeferLoadDirective', () => {
 		it('should not emit when preRender is false', () => {
 			configure({ isBrowser: false });
 			fixture.detectChanges();
-			jest.runAllTimers();
+			vi.runAllTimers();
 			expect(component.loadCount).toBe(0);
 		});
 
@@ -96,7 +96,7 @@ describe('DeferLoadDirective', () => {
 			const entries = [{ time: 1, isIntersecting: true, target }] as unknown as Array<IntersectionObserverEntry>;
 			(mockService.observeNotify as EventEmitter<Array<IntersectionObserverEntry>>).emit(entries);
 			expect(component.loadCount).toBe(0);
-			jest.advanceTimersByTime(20);
+			vi.advanceTimersByTime(20);
 			expect(component.loadCount).toBe(1);
 		});
 
@@ -104,7 +104,7 @@ describe('DeferLoadDirective', () => {
 			fixture.detectChanges();
 			const entries = [{ time: 1, isIntersecting: true, target: document.createElement('div') }] as unknown as Array<IntersectionObserverEntry>;
 			(mockService.observeNotify as EventEmitter<Array<IntersectionObserverEntry>>).emit(entries);
-			jest.advanceTimersByTime(20);
+			vi.advanceTimersByTime(20);
 			expect(component.loadCount).toBe(0);
 		});
 
@@ -119,7 +119,7 @@ describe('DeferLoadDirective', () => {
 			(mockService.observeNotify as EventEmitter<Array<IntersectionObserverEntry>>).emit(
 				[{ time: 2, isIntersecting: false, target }] as unknown as Array<IntersectionObserverEntry>
 			);
-			jest.advanceTimersByTime(20);
+			vi.advanceTimersByTime(20);
 			expect(component.loadCount).toBe(0);
 		});
 
@@ -129,7 +129,7 @@ describe('DeferLoadDirective', () => {
 			(mockService.observeNotify as EventEmitter<Array<IntersectionObserverEntry>>).emit(
 				[{ time: 1, isIntersecting: true, target }] as unknown as Array<IntersectionObserverEntry>
 			);
-			jest.advanceTimersByTime(20);
+			vi.advanceTimersByTime(20);
 			expect(mockObserver.unobserve).toHaveBeenCalled();
 		});
 	});
@@ -141,19 +141,19 @@ describe('DeferLoadDirective', () => {
 
 		it('should emit when the element is in the scrolled viewport', () => {
 			configure({ isBrowser: true, hasIntersectionObserver: false, currentViewport: offscreenViewport });
-			jest.spyOn(Rect, 'fromElement').mockReturnValue(new Rect(0, 100, 100, 200));
+			vi.spyOn(Rect, 'fromElement').mockReturnValue(new Rect(0, 100, 100, 200));
 			fixture.detectChanges();
 			(mockService.scrollNotify as EventEmitter<ScrollNotifyEvent>).emit({ rect: new Rect(0, 50, 1024, 300) });
-			jest.runAllTimers();
+			vi.runAllTimers();
 			expect(component.loadCount).toBe(1);
 		});
 
 		it('should not emit when element is outside the scrolled viewport', () => {
 			configure({ isBrowser: true, hasIntersectionObserver: false, currentViewport: offscreenViewport });
-			jest.spyOn(Rect, 'fromElement').mockReturnValue(new Rect(0, 500, 100, 600));
+			vi.spyOn(Rect, 'fromElement').mockReturnValue(new Rect(0, 500, 100, 600));
 			fixture.detectChanges();
 			(mockService.scrollNotify as EventEmitter<ScrollNotifyEvent>).emit({ rect: new Rect(0, 0, 1024, 100) });
-			jest.runAllTimers();
+			vi.runAllTimers();
 			expect(component.loadCount).toBe(0);
 		});
 	});

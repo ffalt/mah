@@ -48,10 +48,7 @@ export abstract class SolvableBoardBuilderBase extends BuilderBase {
 	}
 
 	private buildSolvableWithRetries(mapping: Mapping, tiles: Tiles, maxRuns: number, breadth: BreadthConstraint | undefined): Array<Stone> | undefined {
-		const stones: Array<Stone> = [];
-		for (const st of mapping) {
-			stones.push(new Stone(st[0], st[1], st[2], 0, 0));
-		}
+		const stones: Array<Stone> = Array.from(mapping, st => new Stone(st[0], st[1], st[2], 0, 0));
 		BuilderBase.fillStones(stones, tiles);
 
 		let runs = 0;
@@ -75,10 +72,7 @@ export abstract class SolvableBoardBuilderBase extends BuilderBase {
 
 	private buildSolvableAlternative(mapping: Mapping, tiles: Tiles): Array<Stone> | undefined {
 		for (let attempt = 0; attempt < MAX_ALTERNATIVE_ATTEMPTS; attempt++) {
-			const stones: Array<Stone> = [];
-			for (const st of mapping) {
-				stones.push(new Stone(st[0], st[1], st[2], 0, 0));
-			}
+			const stones: Array<Stone> = Array.from(mapping, st => new Stone(st[0], st[1], st[2], 0, 0));
 			BuilderBase.fillStones(stones, tiles);
 
 			const pairs = this.assignTilePairs(stones, tiles, attempt % 2 !== 0, undefined);

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, Injector, viewChild } from '@angular/core';
+import { Component, inject, Injector, viewChild } from '@angular/core';
 import type { Game } from '../../model/game';
 import type { Stone } from '../../model/stone';
 import type { Layout, Place } from '../../model/types';
@@ -61,19 +61,21 @@ function callFullscreenMethod(
 	action: string
 ): void {
 	for (const method of methods) {
-		if (typeof target[method] === 'function') {
-			try {
-				const result = (target[method] as () => unknown)();
-				if (result instanceof Promise) {
-					result.catch(error => {
-						log.warn(`Failed to ${action}:`, error);
-					});
-				}
-			} catch (error) {
-				log.warn(`Failed to ${action}:`, error);
-			}
-			return;
+		if (typeof target[method] !== 'function') {
+			continue;
 		}
+
+		try {
+			const result = (target[method] as () => unknown)();
+			if (result instanceof Promise) {
+				result.catch(error => {
+					log.warn(`Failed to ${action}:`, error);
+				});
+			}
+		} catch (error) {
+			log.warn(`Failed to ${action}:`, error);
+		}
+		return;
 	}
 }
 
@@ -96,8 +98,7 @@ function callFullscreenMethod(
 		IconTilesinfoComponent, IconSettingsComponent, IconHintComponent, IconLogoComponent, IconRestartComponent,
 		IconMenuComponent, IconPauseComponent, IconFullscreenComponent, IconShuffleComponent, IconUndoComponent, IconMuteComponent,
 		IconCloseComponent, IconZenComponent, IconDragHandleComponent
-	],
-	changeDetection: ChangeDetectionStrategy.Eager
+	]
 })
 export class GameComponent {
 	readonly info = viewChild.required<DialogComponent>('info');

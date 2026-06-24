@@ -25,12 +25,14 @@ function computeBelowWindow(current: Mapping, z: number): TilesWindow | null {
 	let minY = Y_MAX;
 	let maxY = 0;
 	for (const [zz, xx, yy] of current) {
-		if (zz === z - 1) {
-			minX = Math.min(minX, xx);
-			maxX = Math.max(maxX, xx);
-			minY = Math.min(minY, yy);
-			maxY = Math.max(maxY, yy);
+		if (zz !== z - 1) {
+			continue;
 		}
+
+		minX = Math.min(minX, xx);
+		maxX = Math.max(maxX, xx);
+		minY = Math.min(minY, yy);
+		maxY = Math.max(maxY, yy);
 	}
 	return minX > maxX || minY > maxY ? null : expandWindow(minX, maxX, minY, maxY);
 }

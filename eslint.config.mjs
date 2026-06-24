@@ -1,11 +1,12 @@
 import eslint from "@eslint/js";
 import angular from "angular-eslint";
 import ts from "typescript-eslint";
-import pluginJest from "eslint-plugin-jest";
 import globals from "globals";
 import rxjsX from "eslint-plugin-rxjs-x";
 import unicorn from "eslint-plugin-unicorn";
 import stylistic from "@stylistic/eslint-plugin";
+import vitestGlobals from "eslint-plugin-vitest-globals";
+import vitest from "@vitest/eslint-plugin";
 
 // Common rules shared across configurations
 const commonRules = {
@@ -102,7 +103,9 @@ const commonTypeScriptRules = {
 };
 
 const commonUnicornRules = {
+	"unicorn/prefer-await": "off",
 	"unicorn/prefer-top-level-await": "off",
+	"unicorn/consistent-class-member-order": "off",
 	"unicorn/relative-url-style": "off",
 	"unicorn/no-useless-promise-resolve-reject": "off",
 	"unicorn/consistent-function-scoping": "off",
@@ -115,16 +118,9 @@ const commonUnicornRules = {
 	"unicorn/prefer-string-replace-all": "off",
 	"unicorn/no-useless-undefined": "off",
 	"unicorn/prefer-spread": "off",
-	"unicorn/consistent-class-member-order": ["error", { "order": [
-		"private-field",
-		"public-field",
-		"static-field",
-		"static-block",
-		"static-method",
-		"constructor",
-		"public-method",
-		"private-method"
-	] }],
+	"unicorn/consistent-boolean-name": "off",
+	"unicorn/no-computed-property-existence-check": "off",
+	"unicorn/prefer-global-number-constants": "off",
 	"unicorn/name-replacements": [
 		"error",
 		{
@@ -157,14 +153,17 @@ export default ts.config(
 		]
 	},
 	{
-		files: ["**/*.ts"],
-		ignores: ["**/*.spec.ts", "jest-global-mocks.ts"],
+		files: [
+			"**/*.ts",
+			"setup-vitest.ts"
+		],
+		ignores: ["**/*.spec.ts", "vitest.mocks.ts"],
 		languageOptions: {
 			ecmaVersion: 2020,
 			sourceType: "script",
 			globals: globals.browser,
 			parserOptions: {
-				project: ["tsconfig.json", "tsconfig.worker.json", "tsconfig.app.json"],
+				project: ["tsconfig.lint.json"],
 				createDefaultProgram: true
 			}
 		},
@@ -196,15 +195,20 @@ export default ts.config(
 		}
 	},
 	{
-		files: ["**/*.spec.ts", "jest-global-mocks.ts"],
+		files: ["**/*.spec.ts", "vitest.mocks.ts", "setup-vitest.ts"],
 		languageOptions: {
 			ecmaVersion: 2020,
 			sourceType: "script",
-			globals: pluginJest.environments.globals.globals,
+			globals: {
+				...vitestGlobals.environments.env.globals
+			},
 			parserOptions: {
-				project: ["tsconfig.json", "tsconfig.worker.json"],
+				project: ["tsconfig.lint.json"],
 				createDefaultProgram: true
 			}
+		},
+		plugins: {
+			vitest
 		},
 		extends: [
 			eslint.configs.recommended,
@@ -213,23 +217,19 @@ export default ts.config(
 			...angular.configs.tsRecommended,
 			unicorn.configs.recommended,
 			stylistic.configs.recommended,
-			pluginJest.configs["flat/recommended"]
+			vitestGlobals.configs["flat/recommended"]
 		],
 		rules: {
 			...commonRules,
 			...commonStylisticRules,
 			...commonTypeScriptRules,
 			...commonUnicornRules,
+			...vitest.configs.recommended.rules,
 			"unicorn/max-nested-calls": "off",
 			"unicorn/no-global-object-property-assignment": "off",
-			"@typescript-eslint/no-unnecessary-type-assertion": "off",
 			"unicorn/no-top-level-assignment-in-function": "off",
-			"jest/no-disabled-tests": "warn",
-			"jest/no-focused-tests": "error",
-			"jest/no-identical-title": "error",
-			"jest/prefer-to-have-length": "warn",
-			"jest/valid-expect": "error",
-			"jest/expect-expect": [
+			"@typescript-eslint/no-unnecessary-type-assertion": "off",
+			"vitest/expect-expect": [
 				"error",
 				{
 					"assertFunctionNames": [

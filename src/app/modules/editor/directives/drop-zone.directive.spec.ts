@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DropZoneDirective } from './drop-zone.directive';
+import { Mock } from 'vitest';
 
 @Component({
 	template: '<div appDropZone></div>',
@@ -19,8 +20,8 @@ class TestHostNoPreventComponent {
 
 function makeEvent(overrides: Partial<{ dataTransfer: unknown }> = {}): DragEvent {
 	return {
-		preventDefault: jest.fn(),
-		stopPropagation: jest.fn(),
+		preventDefault: vi.fn(),
+		stopPropagation: vi.fn(),
 		...overrides
 	} as unknown as DragEvent;
 }
@@ -52,8 +53,8 @@ describe('DropZoneDirective', () => {
 				const event = makeEvent();
 				directive.onDragOver(event);
 
-				expect((event.stopPropagation as jest.Mock)).toHaveBeenCalled();
-				expect((event.preventDefault as jest.Mock)).toHaveBeenCalled();
+				expect((event.stopPropagation as Mock)).toHaveBeenCalled();
+				expect((event.preventDefault as Mock)).toHaveBeenCalled();
 				expect(directive.active).toBe(true);
 				expect(emitCount).toBe(1);
 			});
@@ -84,8 +85,8 @@ describe('DropZoneDirective', () => {
 				const event = makeEvent();
 				directive.onBodyDragOver(event);
 
-				expect((event.preventDefault as jest.Mock)).toHaveBeenCalled();
-				expect((event.stopPropagation as jest.Mock)).toHaveBeenCalled();
+				expect((event.preventDefault as Mock)).toHaveBeenCalled();
+				expect((event.stopPropagation as Mock)).toHaveBeenCalled();
 			});
 		});
 
@@ -94,7 +95,7 @@ describe('DropZoneDirective', () => {
 				const event = makeEvent();
 				directive.onBodyDrop(event);
 
-				expect((event.preventDefault as jest.Mock)).toHaveBeenCalled();
+				expect((event.preventDefault as Mock)).toHaveBeenCalled();
 			});
 		});
 
@@ -105,7 +106,7 @@ describe('DropZoneDirective', () => {
 
 				directive.onDrop(event);
 
-				expect((event.preventDefault as jest.Mock)).toHaveBeenCalled();
+				expect((event.preventDefault as Mock)).toHaveBeenCalled();
 				expect(directive.active).toBe(false);
 			});
 
@@ -117,11 +118,11 @@ describe('DropZoneDirective', () => {
 
 				const mockFile = new File(['content'], 'test.txt');
 				const itemsArray = [{ kind: 'file', getAsFile: () => mockFile }];
-				const clearMock = jest.fn();
+				const clearMock = vi.fn();
 				const mockDataTransfer = {
 					items: Object.assign(itemsArray, { clear: clearMock }),
 					files: null,
-					clearData: jest.fn()
+					clearData: vi.fn()
 				};
 				const event = makeEvent({ dataTransfer: mockDataTransfer });
 
@@ -141,9 +142,9 @@ describe('DropZoneDirective', () => {
 
 				const itemsArray = [{ kind: 'string', getAsFile: () => null }];
 				const mockDataTransfer = {
-					items: Object.assign(itemsArray, { clear: jest.fn() }),
+					items: Object.assign(itemsArray, { clear: vi.fn() }),
 					files: null,
-					clearData: jest.fn()
+					clearData: vi.fn()
 				};
 				const event = makeEvent({ dataTransfer: mockDataTransfer });
 
@@ -160,7 +161,7 @@ describe('DropZoneDirective', () => {
 				});
 
 				const mockFile = new File(['content'], 'test.txt');
-				const clearDataMock = jest.fn();
+				const clearDataMock = vi.fn();
 				const mockDataTransfer = {
 					items: undefined,
 					files: [mockFile] as unknown as FileList,
@@ -205,15 +206,15 @@ describe('DropZoneDirective', () => {
 			const event = makeEvent();
 			directive.onBodyDragOver(event);
 
-			expect((event.preventDefault as jest.Mock)).not.toHaveBeenCalled();
-			expect((event.stopPropagation as jest.Mock)).not.toHaveBeenCalled();
+			expect((event.preventDefault as Mock)).not.toHaveBeenCalled();
+			expect((event.stopPropagation as Mock)).not.toHaveBeenCalled();
 		});
 
 		it('should not prevent default on onBodyDrop', () => {
 			const event = makeEvent();
 			directive.onBodyDrop(event);
 
-			expect((event.preventDefault as jest.Mock)).not.toHaveBeenCalled();
+			expect((event.preventDefault as Mock)).not.toHaveBeenCalled();
 		});
 	});
 });

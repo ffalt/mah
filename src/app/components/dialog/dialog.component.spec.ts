@@ -10,7 +10,7 @@ describe('DialogComponent', () => {
 	beforeEach(async () =>
 		TestBed.configureTestingModule({
 			imports: [DialogComponent],
-		providers: [provideTranslateService()]
+			providers: [provideTranslateService()]
 		})
 			.compileComponents());
 
@@ -88,7 +88,7 @@ describe('DialogComponent', () => {
 		});
 
 		it('should emit clickEvent with new visible state', () => {
-			const clickSpy = jest.spyOn(component.clickEvent, 'emit');
+			const clickSpy = vi.spyOn(component.clickEvent, 'emit');
 			component.visible.set(false);
 			fixture.detectChanges();
 
@@ -187,7 +187,7 @@ describe('DialogComponent', () => {
 		});
 
 		it('should emit clickEvent when dialog is closed via overlay click', () => {
-			const clickSpy = jest.spyOn(component.clickEvent, 'emit');
+			const clickSpy = vi.spyOn(component.clickEvent, 'emit');
 			component.visible.set(true);
 			fixture.detectChanges();
 
@@ -198,7 +198,7 @@ describe('DialogComponent', () => {
 		});
 
 		it('should emit clickEvent when dialog is closed via close button click', () => {
-			const clickSpy = jest.spyOn(component.clickEvent, 'emit');
+			const clickSpy = vi.spyOn(component.clickEvent, 'emit');
 			component.visible.set(true);
 			fixture.detectChanges();
 
@@ -213,7 +213,7 @@ describe('DialogComponent', () => {
 			fixture.detectChanges();
 
 			const popupElement = fixture.debugElement.query(By.css('.overlay-popup'));
-			const stopPropagationSpy = jest.fn();
+			const stopPropagationSpy = vi.fn();
 			popupElement.triggerEventHandler('click', { stopPropagation: stopPropagationSpy });
 
 			expect(stopPropagationSpy).toHaveBeenCalled();

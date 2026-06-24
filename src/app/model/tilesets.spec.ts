@@ -1,4 +1,4 @@
-import { imageSetIsKyodai, buildTiles, buildKyodaiSVG, KyodaiTileSets } from './tilesets';
+import { isKyodaiImageSet, buildTiles, buildKyodaiSVG, KyodaiTileSets } from './tilesets';
 
 type EventHandler = (event?: Event) => void;
 
@@ -35,22 +35,22 @@ class FakeImageError {
 }
 
 beforeEach(() => {
-	jest.spyOn(console, 'error').mockImplementation(() => undefined);
+	vi.spyOn(console, 'error').mockImplementation(() => undefined);
 });
 
-describe('imageSetIsKyodai', () => {
+describe('isKyodaiImageSet', () => {
 	it('returns true for kyodai', () => {
-		expect(imageSetIsKyodai('kyodai')).toBe(true);
+		expect(isKyodaiImageSet('kyodai')).toBe(true);
 	});
 
 	it('returns true for kyodai-black', () => {
-		expect(imageSetIsKyodai('kyodai-black')).toBe(true);
+		expect(isKyodaiImageSet('kyodai-black')).toBe(true);
 	});
 
 	it('returns false for other names', () => {
-		expect(imageSetIsKyodai('default')).toBe(false);
-		expect(imageSetIsKyodai('')).toBe(false);
-		expect(imageSetIsKyodai('kyodai-other')).toBe(false);
+		expect(isKyodaiImageSet('default')).toBe(false);
+		expect(isKyodaiImageSet('')).toBe(false);
+		expect(isKyodaiImageSet('kyodai-other')).toBe(false);
 	});
 });
 

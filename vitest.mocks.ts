@@ -1,5 +1,7 @@
 /* eslint-disable max-classes-per-file, @typescript-eslint/promise-function-async */
 
+import { vi } from 'vitest';
+
 Object.defineProperty(window, 'CSS', { value: null });
 
 Object.defineProperty(document, 'doctype', { value: '<!DOCTYPE html>' });
@@ -11,8 +13,16 @@ Object.defineProperty(window, 'getComputedStyle', {
 	})
 });
 
-window.HTMLCanvasElement.prototype.getContext = jest.fn();
-window.HTMLCanvasElement.prototype.toDataURL = jest.fn();
+window.HTMLCanvasElement.prototype.getContext = vi.fn();
+window.HTMLCanvasElement.prototype.toDataURL = vi.fn();
+
+if (!window.HTMLElement.prototype.scrollTo) {
+	window.HTMLElement.prototype.scrollTo = vi.fn();
+}
+
+if (!window.Element.prototype.scrollTo) {
+	window.Element.prototype.scrollTo = vi.fn();
+}
 
 Object.defineProperty(document.body.style, 'transform', {
 	value: () => ({
@@ -69,18 +79,6 @@ const localStorageMock = (() => {
 })();
 
 Object.defineProperty(window, 'localStorage', { value: localStorageMock });
-
-jest.mock('./src/app/worker/create-stats-solve.worker.ts', () => ({
-	createStatsSolveWorker: () => {
-		// nope
-	}
-}));
-
-jest.mock('./src/app/worker/create-solve.worker.ts', () => ({
-	createSolveWorker: () => {
-		// mope
-	}
-}));
 
 // Minimal Web Audio API mock so libraries (like zzfx) that use AudioContext work in tests.
 
@@ -184,10 +182,10 @@ Object.defineProperty(window, 'AudioContext', { value: MockAudioContext });
 Object.defineProperty(window, 'webkitAudioContext', { value: MockAudioContext });
 Object.defineProperty(window, 'StereoPannerNode', { value: MockStereoPannerNode });
 Object.defineProperty(global, 'Audio', {
-	value: jest.fn().mockImplementation(() => ({
+	value: vi.fn().mockImplementation(() => ({
 		src: '',
-		load: jest.fn(),
-		play: jest.fn().mockReturnValue(Promise.resolve()),
-		pause: jest.fn()
+		load: vi.fn(),
+		play: vi.fn().mockReturnValue(Promise.resolve()),
+		pause: vi.fn()
 	}))
 });

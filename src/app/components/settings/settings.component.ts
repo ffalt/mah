@@ -34,7 +34,7 @@ export class SettingsComponent implements AfterViewInit {
 	readonly backs = Backgrounds;
 	readonly themes = Themes;
 	readonly PatternBackground = PATTERN_BACKGROUND;
-	readonly languages = Object.keys(LANGUAGES).map(key => ({ key, title: LANGUAGES[key] }));
+	readonly languages = Object.entries(LANGUAGES).map(([key, value]) => ({ key, title: value }));
 	readonly app = inject(AppService);
 	readonly tabs = SETTINGS_TABS;
 	readonly patterns = generatePatternList();

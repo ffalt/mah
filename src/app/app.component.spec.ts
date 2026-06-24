@@ -10,6 +10,7 @@ import type { Layout, LoadLayout } from './model/types';
 import { log } from './model/log';
 
 import { b64, makeBoard, makeMah } from './model/import.spec-helpers';
+import { Mock } from 'vitest';
 
 const MOCK_LAYOUT: Layout = {
 	id: 'test-id',
@@ -40,8 +41,8 @@ describe('AppComponent', () => {
 			app = fixture.componentInstance;
 			layoutService = app.layoutService;
 			layoutService.layouts.items = [];
-			jest.spyOn(layoutService, 'expandLayout').mockReturnValue(MOCK_LAYOUT);
-			jest.spyOn(layoutService, 'storeCustomBoards').mockImplementation(() => undefined);
+			vi.spyOn(layoutService, 'expandLayout').mockReturnValue(MOCK_LAYOUT);
+			vi.spyOn(layoutService, 'storeCustomBoards').mockImplementation(() => undefined);
 		});
 
 		const checkImport = async (app: AppComponent, input: string | null): Promise<Array<string>> =>
@@ -68,7 +69,7 @@ describe('AppComponent', () => {
 		it('imports multiple valid boards', async () => {
 			const board2 = makeBoard({ id: 'id-2', name: 'Board 2' });
 			const layout2: Layout = { ...MOCK_LAYOUT, id: 'id-2', name: 'Board 2' };
-			(layoutService.expandLayout as jest.Mock)
+			(layoutService.expandLayout as Mock)
 				.mockReturnValueOnce(MOCK_LAYOUT)
 				.mockReturnValueOnce(layout2);
 			const result = await checkImport(app, b64(makeMah([makeBoard(), board2])));
@@ -79,13 +80,13 @@ describe('AppComponent', () => {
 		it('does not store duplicate board ids within the same import', async () => {
 			const result = await checkImport(app, b64(makeMah([makeBoard(), makeBoard()])));
 			expect(result).toEqual(['test-id', 'test-id']);
-			const storedBoards: Array<LoadLayout> = (layoutService.storeCustomBoards as jest.Mock).mock.calls[0][0];
+			const storedBoards: Array<LoadLayout> = (layoutService.storeCustomBoards as Mock).mock.calls[0][0];
 			expect(storedBoards).toHaveLength(1);
 		});
 
 		it('skips a board when expandLayout throws', async () => {
-			jest.spyOn(log, 'warn').mockImplementation(() => undefined);
-			(layoutService.expandLayout as jest.Mock).mockImplementationOnce(() => {
+			vi.spyOn(log, 'warn').mockImplementation(() => undefined);
+			(layoutService.expandLayout as Mock).mockImplementationOnce(() => {
 				throw new Error('expand error');
 			});
 			expect(await checkImport(app, b64(makeMah()))).toEqual([]);
@@ -93,10 +94,10 @@ describe('AppComponent', () => {
 		});
 
 		it('logs a warning when boards were parsed but none could be expanded', async () => {
-			(layoutService.expandLayout as jest.Mock).mockImplementation(() => {
+			(layoutService.expandLayout as Mock).mockImplementation(() => {
 				throw new Error('expand error');
 			});
-			const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => undefined);
+			const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
 			await checkImport(app, b64(makeMah()));
 			expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('no valid boards'));
 		});

@@ -1,3 +1,4 @@
+import { Mock, MockInstance } from 'vitest';
 import type { Layout, Mapping } from '../../../model/types';
 import {
 	centerMappingBounds,
@@ -158,25 +159,25 @@ describe('generateExportKyodai', () => {
 });
 
 describe('downloadLayout', () => {
-	let mockClick: jest.Mock;
-	let createObjectURLSpy: jest.Mock;
-	let createElementSpy: jest.SpyInstance;
+	let mockClick: Mock;
+	let objectURLSpy: Mock;
+	let elementSpy: MockInstance;
 
 	beforeEach(() => {
-		mockClick = jest.fn();
+		mockClick = vi.fn();
 		const mockAnchor = { href: '', download: '', click: mockClick };
-		createElementSpy = jest.spyOn(document, 'createElement').mockReturnValue(mockAnchor as unknown as HTMLElement);
-		createObjectURLSpy = jest.fn().mockReturnValue('blob:url');
-		(window.URL as Record<string, unknown>).createObjectURL = createObjectURLSpy;
+		elementSpy = vi.spyOn(document, 'createElement').mockReturnValue(mockAnchor as unknown as HTMLElement);
+		objectURLSpy = vi.fn().mockReturnValue('blob:url');
+		(window.URL as unknown as Record<string, unknown>).createObjectURL = objectURLSpy;
 	});
 
 	afterEach(() => {
-		createElementSpy.mockRestore();
+		elementSpy.mockRestore();
 	});
 
 	it('should set href from createObjectURL', () => {
 		const mockAnchor = { href: '', download: '', click: mockClick };
-		createElementSpy.mockReturnValue(mockAnchor);
+		elementSpy.mockReturnValue(mockAnchor);
 
 		downloadLayout('file.mah', 'content', 'text/json');
 
@@ -185,7 +186,7 @@ describe('downloadLayout', () => {
 
 	it('should set the download attribute to the filename', () => {
 		const mockAnchor = { href: '', download: '', click: mockClick };
-		createElementSpy.mockReturnValue(mockAnchor);
+		elementSpy.mockReturnValue(mockAnchor);
 
 		downloadLayout('my-file.mah', 'content', 'text/json');
 
@@ -201,28 +202,28 @@ describe('downloadLayout', () => {
 	it('should call createObjectURL with a Blob', () => {
 		downloadLayout('file.mah', 'data', 'text/plain');
 
-		expect(createObjectURLSpy).toHaveBeenCalledWith(expect.any(Blob));
+		expect(objectURLSpy).toHaveBeenCalledWith(expect.any(Blob));
 	});
 });
 
 describe('downloadMahLayouts', () => {
-	let mockClick: jest.Mock;
-	let createElementSpy: jest.SpyInstance;
+	let mockClick: Mock;
+	let elementSpy: MockInstance;
 
 	beforeEach(() => {
-		mockClick = jest.fn();
+		mockClick = vi.fn();
 		const mockAnchor = { href: '', download: '', click: mockClick };
-		createElementSpy = jest.spyOn(document, 'createElement').mockReturnValue(mockAnchor as unknown as HTMLElement);
-		(window.URL as Record<string, unknown>).createObjectURL = jest.fn().mockReturnValue('blob:url');
+		elementSpy = vi.spyOn(document, 'createElement').mockReturnValue(mockAnchor as unknown as HTMLElement);
+		(window.URL as unknown as Record<string, unknown>).createObjectURL = vi.fn().mockReturnValue('blob:url');
 	});
 
 	afterEach(() => {
-		createElementSpy.mockRestore();
+		elementSpy.mockRestore();
 	});
 
 	it('should trigger a download with filename mah-layouts.mah', () => {
 		const mockAnchor = { href: '', download: '', click: mockClick };
-		createElementSpy.mockReturnValue(mockAnchor);
+		elementSpy.mockReturnValue(mockAnchor);
 
 		downloadMahLayouts([makeLayout()]);
 

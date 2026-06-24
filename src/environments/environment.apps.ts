@@ -25,6 +25,7 @@ export function onWindowBlur(callback: () => void): void {
 	listen('tauri://blur', () => {
 		callback();
 	}).then(un => {
+		// eslint-disable-next-line unicorn/no-top-level-assignment-in-function
 		_tauriUnlistenBlur = un;
 	}).catch(error => console.error(error));
 }

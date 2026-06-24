@@ -1,5 +1,6 @@
 import { getDrawViewport, mappingToDrawItems } from './draw';
 import type { Mapping } from './types';
+import { toBase64 } from './base64';
 
 export function generateSVG(mapping: Mapping): string {
 	const items = mappingToDrawItems(mapping);
@@ -15,5 +16,5 @@ export function generateSVG(mapping: Mapping): string {
 }
 
 export function generateBase64SVG(mapping: Mapping): string {
-	return `data:image/svg+xml;base64,${window.btoa(generateSVG(mapping))}`;
+	return `data:image/svg+xml;base64,${toBase64(generateSVG(mapping))}`;
 }

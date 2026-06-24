@@ -1,39 +1,36 @@
 import { TestBed } from '@angular/core/testing';
-import { WorkerService } from './worker.service';
+import { SOLVE_TASKS, WORKER_FACTORIES, WorkerService } from './worker.service';
 import type { StonePosition } from '../model/stone';
 import type { Mapping } from '../model/types';
-import * as tasks from '../model/tasks';
-
-jest.mock('../model/tasks', () => ({
-	solveGame: jest.fn(),
-	statsSolveMapping: jest.fn()
-}));
-
-jest.mock('../worker/create-solve.worker', () => ({
-	createSolveWorker: jest.fn()
-}));
-
-jest.mock('../worker/create-stats-solve.worker', () => ({
-	createStatsSolveWorker: jest.fn()
-}));
-
-import { createSolveWorker } from '../worker/create-solve.worker';
-import { createStatsSolveWorker } from '../worker/create-stats-solve.worker';
 
 class FakeWorker {}
 
 class MockWorker extends EventTarget {
-	postMessage = jest.fn();
-	terminate = jest.fn();
+	postMessage = vi.fn();
+	terminate = vi.fn();
 }
 
 describe('WorkerService', () => {
 	let service: WorkerService;
 	let originalWorker: typeof Worker;
+	let mockTasks: { solveGame: ReturnType<typeof vi.fn>; statsSolveMapping: ReturnType<typeof vi.fn> };
+	let mockFactories: { createSolveWorker: ReturnType<typeof vi.fn>; createStatsSolveWorker: ReturnType<typeof vi.fn> };
 
 	beforeEach(() => {
+		mockTasks = {
+			solveGame: vi.fn(),
+			statsSolveMapping: vi.fn()
+		};
+		mockFactories = {
+			createSolveWorker: vi.fn(),
+			createStatsSolveWorker: vi.fn()
+		};
 		TestBed.configureTestingModule({
-			providers: [WorkerService]
+			providers: [
+				WorkerService,
+				{ provide: SOLVE_TASKS, useValue: mockTasks },
+				{ provide: WORKER_FACTORIES, useValue: mockFactories }
+			]
 		});
 		service = TestBed.inject(WorkerService);
 		originalWorker = global.Worker;
@@ -52,7 +49,7 @@ describe('WorkerService', () => {
 			const stones: Array<StonePosition> = [
 				{ x: 0, y: 0, z: 0, v: 1, groupNr: 1 }
 			];
-			const finish = jest.fn();
+			const finish = vi.fn();
 
 			// @ts-expect-error - Mocking Worker
 			global.Worker = undefined;
@@ -60,35 +57,35 @@ describe('WorkerService', () => {
 			const result = service.solveGame(stones, finish);
 
 			expect(result).toBeUndefined();
-			expect(tasks.solveGame).toHaveBeenCalledWith(stones, finish);
+			expect(mockTasks.solveGame).toHaveBeenCalledWith(stones, finish);
 		});
 
 		it('should return undefined and call fallback when worker creation fails', () => {
 			const stones: Array<StonePosition> = [
 				{ x: 0, y: 0, z: 0, v: 1, groupNr: 1 }
 			];
-			const finish = jest.fn();
+			const finish = vi.fn();
 
 			// @ts-expect-error - Mocking Worker
 			global.Worker = FakeWorker;
-			(createSolveWorker as jest.Mock).mockReturnValue(null);
+			mockFactories.createSolveWorker.mockReturnValue(null);
 
 			const result = service.solveGame(stones, finish);
 
 			expect(result).toBeUndefined();
-			expect(tasks.solveGame).toHaveBeenCalledWith(stones, finish);
+			expect(mockTasks.solveGame).toHaveBeenCalledWith(stones, finish);
 		});
 
 		it('should return worker and call finish when result message is received', () => {
 			const stones: Array<StonePosition> = [
 				{ x: 0, y: 0, z: 0, v: 1, groupNr: 1 }
 			];
-			const finish = jest.fn();
+			const finish = vi.fn();
 			const mockWorker = new MockWorker();
 
 			// @ts-expect-error - Mocking Worker
 			global.Worker = FakeWorker;
-			(createSolveWorker as jest.Mock).mockReturnValue(mockWorker);
+			mockFactories.createSolveWorker.mockReturnValue(mockWorker);
 
 			const result = service.solveGame(stones, finish);
 
@@ -106,12 +103,12 @@ describe('WorkerService', () => {
 			const stones: Array<StonePosition> = [
 				{ x: 0, y: 0, z: 0, v: 1, groupNr: 1 }
 			];
-			const finish = jest.fn();
+			const finish = vi.fn();
 			const mockWorker = new MockWorker();
 
 			// @ts-expect-error - Mocking Worker
 			global.Worker = FakeWorker;
-			(createSolveWorker as jest.Mock).mockReturnValue(mockWorker);
+			mockFactories.createSolveWorker.mockReturnValue(mockWorker);
 
 			service.solveGame(stones, finish);
 
@@ -125,19 +122,19 @@ describe('WorkerService', () => {
 			const stones: Array<StonePosition> = [
 				{ x: 0, y: 0, z: 0, v: 1, groupNr: 1 }
 			];
-			const finish = jest.fn();
+			const finish = vi.fn();
 			const mockWorker = new MockWorker();
 
 			// @ts-expect-error - Mocking Worker
 			global.Worker = FakeWorker;
-			(createSolveWorker as jest.Mock).mockReturnValue(mockWorker);
+			mockFactories.createSolveWorker.mockReturnValue(mockWorker);
 
 			service.solveGame(stones, finish);
 
 			mockWorker.dispatchEvent(new Event('error'));
 
 			expect(mockWorker.terminate).toHaveBeenCalled();
-			expect(tasks.solveGame).toHaveBeenCalledWith(stones, finish);
+			expect(mockTasks.solveGame).toHaveBeenCalledWith(stones, finish);
 		});
 	});
 
@@ -145,8 +142,8 @@ describe('WorkerService', () => {
 		it('should call fallback when Worker is not available', () => {
 			const mapping: Mapping = [[0, 0, 0]];
 			const rounds = 10;
-			const callback = jest.fn();
-			const finish = jest.fn();
+			const callback = vi.fn();
+			const finish = vi.fn();
 
 			// @ts-expect-error - Mocking Worker
 			global.Worker = undefined;
@@ -154,35 +151,35 @@ describe('WorkerService', () => {
 			const result = service.solve(mapping, rounds, callback, finish);
 
 			expect(result).toBeUndefined();
-			expect(tasks.statsSolveMapping).toHaveBeenCalledWith(mapping, rounds, callback, finish);
+			expect(mockTasks.statsSolveMapping).toHaveBeenCalledWith(mapping, rounds, callback, finish);
 		});
 
 		it('should return undefined and call fallback when worker creation fails', () => {
 			const mapping: Mapping = [[0, 0, 0]];
 			const rounds = 10;
-			const callback = jest.fn();
-			const finish = jest.fn();
+			const callback = vi.fn();
+			const finish = vi.fn();
 
 			// @ts-expect-error - Mocking Worker
 			global.Worker = FakeWorker;
-			(createStatsSolveWorker as jest.Mock).mockReturnValue(null);
+			mockFactories.createStatsSolveWorker.mockReturnValue(null);
 
 			const result = service.solve(mapping, rounds, callback, finish);
 
 			expect(result).toBeUndefined();
-			expect(tasks.statsSolveMapping).toHaveBeenCalledWith(mapping, rounds, callback, finish);
+			expect(mockTasks.statsSolveMapping).toHaveBeenCalledWith(mapping, rounds, callback, finish);
 		});
 
 		it('should return worker, call callback on progress, and call finish when result is received', () => {
 			const mapping: Mapping = [[0, 0, 0]];
 			const rounds = 10;
-			const callback = jest.fn();
-			const finish = jest.fn();
+			const callback = vi.fn();
+			const finish = vi.fn();
 			const mockWorker = new MockWorker();
 
 			// @ts-expect-error - Mocking Worker
 			global.Worker = FakeWorker;
-			(createStatsSolveWorker as jest.Mock).mockReturnValue(mockWorker);
+			mockFactories.createStatsSolveWorker.mockReturnValue(mockWorker);
 
 			const result = service.solve(mapping, rounds, callback, finish);
 
@@ -205,13 +202,13 @@ describe('WorkerService', () => {
 		it('should stop receiving progress after result is received', () => {
 			const mapping: Mapping = [[0, 0, 0]];
 			const rounds = 5;
-			const callback = jest.fn();
-			const finish = jest.fn();
+			const callback = vi.fn();
+			const finish = vi.fn();
 			const mockWorker = new MockWorker();
 
 			// @ts-expect-error - Mocking Worker
 			global.Worker = FakeWorker;
-			(createStatsSolveWorker as jest.Mock).mockReturnValue(mockWorker);
+			mockFactories.createStatsSolveWorker.mockReturnValue(mockWorker);
 
 			service.solve(mapping, rounds, callback, finish);
 
@@ -227,20 +224,20 @@ describe('WorkerService', () => {
 		it('should call fallback and terminate on worker error', () => {
 			const mapping: Mapping = [[0, 0, 0]];
 			const rounds = 10;
-			const callback = jest.fn();
-			const finish = jest.fn();
+			const callback = vi.fn();
+			const finish = vi.fn();
 			const mockWorker = new MockWorker();
 
 			// @ts-expect-error - Mocking Worker
 			global.Worker = FakeWorker;
-			(createStatsSolveWorker as jest.Mock).mockReturnValue(mockWorker);
+			mockFactories.createStatsSolveWorker.mockReturnValue(mockWorker);
 
 			service.solve(mapping, rounds, callback, finish);
 
 			mockWorker.dispatchEvent(new Event('error'));
 
 			expect(mockWorker.terminate).toHaveBeenCalled();
-			expect(tasks.statsSolveMapping).toHaveBeenCalledWith(mapping, rounds, callback, finish);
+			expect(mockTasks.statsSolveMapping).toHaveBeenCalledWith(mapping, rounds, callback, finish);
 		});
 	});
 });

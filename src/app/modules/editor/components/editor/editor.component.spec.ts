@@ -2,17 +2,16 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideTranslateService } from '@ngx-translate/core';
 import { LayoutService } from '../../../../service/layout.service';
-import { EditorComponent } from './editor.component';
+import { EXPORT_API, EditorComponent } from './editor.component';
 import type { Layout } from '../../../../model/types';
-
-jest.mock('../../model/export', () => ({
-	downloadMahLayouts: jest.fn()
-}));
-
-import { downloadMahLayouts } from '../../model/export';
+import { Mock } from 'vitest';
 
 const mockLayoutService = {
 	layouts: { items: [] as Array<Layout> }
+};
+
+const mockExportApi: { downloadMahLayouts: Mock } = {
+	downloadMahLayouts: vi.fn()
 };
 
 describe('EditorComponent', () => {
@@ -24,7 +23,8 @@ describe('EditorComponent', () => {
 			imports: [EditorComponent],
 			providers: [
 				provideTranslateService(),
-				{ provide: LayoutService, useValue: mockLayoutService }
+				{ provide: LayoutService, useValue: mockLayoutService },
+				{ provide: EXPORT_API, useValue: mockExportApi }
 			],
 			schemas: [NO_ERRORS_SCHEMA]
 		}).compileComponents();
@@ -43,7 +43,7 @@ describe('EditorComponent', () => {
 
 	describe('close', () => {
 		it('should emit closeEvent when in manager mode', () => {
-			const listener = jest.fn();
+			const listener = vi.fn();
 			component.closeEvent.subscribe(listener);
 			component.close();
 			expect(listener).toHaveBeenCalledTimes(1);
@@ -136,7 +136,7 @@ describe('EditorComponent', () => {
 			const items: Array<Layout> = [{ id: '1', name: 'L', category: 'Cat', mapping: [] }];
 			mockLayoutService.layouts.items = items;
 			component.exportLayouts();
-			expect(downloadMahLayouts).toHaveBeenCalledWith(items);
+			expect(mockExportApi.downloadMahLayouts).toHaveBeenCalledWith(items);
 		});
 	});
 });

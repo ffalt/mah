@@ -43,33 +43,9 @@ describe('Layout SVG', () => {
 	});
 
 	describe('generateBase64SVG', () => {
-		let originalBtoa: typeof window.btoa;
-
-		beforeEach(() => {
-			// Save original btoa function
-			originalBtoa = window.btoa;
-
-			// Mock btoa function
-			window.btoa = jest.fn((input: string) => Buffer.from(input).toString('base64'));
-		});
-
-		afterEach(() => {
-			// Restore original btoa function
-			window.btoa = originalBtoa;
-		});
-
 		it('should generate base64 encoded SVG data URL from mapping', () => {
-			const mapping: Mapping = [
-				[0, 0, 0]
-			];
-
-			const dataUrl = generateBase64SVG(mapping);
-
-			// Check that it's a valid data URL
-			expect(dataUrl).toMatch(/^data:image\/svg\+xml;base64,/);
-
-			// Check that btoa was called with the SVG string
-			expect(window.btoa).toHaveBeenCalledWith(generateSVG(mapping));
+			const mapping: Mapping = [[0, 0, 0]];
+			expect(generateBase64SVG(mapping)).toMatch(/^data:image\/svg\+xml;base64,/);
 		});
 	});
 });

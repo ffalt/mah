@@ -114,7 +114,7 @@ describe('Board', () => {
 			board.stones = [stone1, stone2];
 
 			// Mock update method to avoid dependencies
-			board.update = jest.fn();
+			board.update = vi.fn();
 
 			board.pick(stone1, stone2);
 
