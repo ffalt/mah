@@ -33,46 +33,44 @@ Object.defineProperty(document.body.style, 'transform', {
 
 const localStorageMock = (() => {
 	const localStorage: Record<string, unknown> = {};
-	Object.defineProperty(localStorage, 'getItem', {
-		value: (key: string) => (localStorage[key] === undefined) ? null : localStorage[key],
-		writable: false,
-		configurable: false,
-		enumerable: false
-	});
-
-	Object.defineProperty(localStorage, 'setItem', {
-		value: (sKey: string, sValue: unknown) => {
-			localStorage[sKey] = sValue;
+	Object.defineProperties(localStorage, {
+		getItem: {
+			value: (key: string) => (localStorage[key] === undefined) ? null : localStorage[key],
+			writable: false,
+			configurable: false,
+			enumerable: false
 		},
-		writable: false,
-		configurable: false,
-		enumerable: false
-	});
-
-	Object.defineProperty(localStorage, 'removeItem', {
-		value: (sKey: string) => {
-			delete localStorage[sKey];
+		setItem: {
+			value: (sKey: string, sValue: unknown) => {
+				localStorage[sKey] = sValue;
+			},
+			writable: false,
+			configurable: false,
+			enumerable: false
 		},
-		writable: false,
-		configurable: false,
-		enumerable: false
-	});
-
-	Object.defineProperty(localStorage, 'length', {
-		get: () => Object.keys(localStorage).length,
-		configurable: false,
-		enumerable: false
-	});
-
-	Object.defineProperty(localStorage, 'clear', {
-		value: () => {
-			for (const key of Object.keys(localStorage)) {
-				delete localStorage[key];
-			}
+		removeItem: {
+			value: (sKey: string) => {
+				delete localStorage[sKey];
+			},
+			writable: false,
+			configurable: false,
+			enumerable: false
 		},
-		writable: false,
-		configurable: false,
-		enumerable: false
+		length: {
+			get: () => Object.keys(localStorage).length,
+			configurable: false,
+			enumerable: false
+		},
+		clear: {
+			value: () => {
+				for (const key of Object.keys(localStorage)) {
+					delete localStorage[key];
+				}
+			},
+			writable: false,
+			configurable: false,
+			enumerable: false
+		}
 	});
 
 	return localStorage;
@@ -178,9 +176,11 @@ class MockAudioContext {
 	}
 }
 
-Object.defineProperty(window, 'AudioContext', { value: MockAudioContext });
-Object.defineProperty(window, 'webkitAudioContext', { value: MockAudioContext });
-Object.defineProperty(window, 'StereoPannerNode', { value: MockStereoPannerNode });
+Object.defineProperties(window, {
+	AudioContext: { value: MockAudioContext },
+	webkitAudioContext: { value: MockAudioContext },
+	StereoPannerNode: { value: MockStereoPannerNode }
+});
 Object.defineProperty(global, 'Audio', {
 	value: vi.fn().mockImplementation(() => ({
 		src: '',

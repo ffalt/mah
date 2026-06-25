@@ -6,7 +6,6 @@ import { By } from '@angular/platform-browser';
 import { LayoutService } from '../../service/layout.service';
 import { LocalstorageService } from '../../service/localstorage.service';
 import type { LayoutScoreStore } from '../../model/types';
-import { markAndDetect } from '../../change-detection.spec-helpers';
 
 describe('HelpComponent', () => {
 	let component: HelpComponent;
@@ -180,7 +179,7 @@ describe('HelpComponent', () => {
 			vi.spyOn(localstorageService, 'getScore').mockReturnValue(mockResult);
 
 			component.ngOnInit();
-			markAndDetect(fixture);
+			fixture.detectChanges();
 		});
 
 		it('should render clear best times button if best times exist', () => {

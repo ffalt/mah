@@ -78,7 +78,7 @@ function unPx(v) {
 		return null;
 	}
 	const m = /(-?\d*\.?\d+)/.exec(String(v));
-	return m ? Number.parseFloat(m[1]) : null;
+	return m ? Number(m[1]) : null;
 }
 
 function execGroup(text, re) {
@@ -104,6 +104,9 @@ function parseImages(svgText) {
 		const attributes = m[1];
 		const id = execGroup(attributes, /id\s*=\s*"([^"]+)"/);
 		const href = execFirstGroup(attributes, [/xlink:href\s*=\s*"([^"]+)"/, /href\s*=\s*"([^"]+)"/]);
+		if (!id || !href) {
+			continue;
+		}
 		const width = unPx(execGroup(attributes, /width\s*=\s*"([^"]+)"/));
 		const height = unPx(execGroup(attributes, /height\s*=\s*"([^"]+)"/));
 		// Check class, style and filter attributes (support both double and single quotes)
@@ -114,9 +117,6 @@ function parseImages(svgText) {
 		const styleHasInvert = /\bfilter\s*:\s*[^;]*invert\(\s*(?:100%|1)\s*\)/i.test(style);
 		const filterHasInvert = /\binvert\(\s*(?:100%|1)\s*\)/i.test(filterAttribute);
 		const invert = classHasInverse || styleHasInvert || filterHasInvert;
-		if (!id || !href) {
-			continue;
-		}
 		images.set(id, { href, width, height, invert });
 	}
 	return images;
@@ -161,14 +161,14 @@ function parseScaleTile(v) {
 		return v;
 	}
 	const s = String(v).toLowerCase();
-	return s === "1" || s === "true" || s === "yes" || s === "on";
+	return ["1", "true", "yes", "on"].includes(s);
 }
 
 function parseCellOverride(v) {
 	if (v == null) {
 		return null;
 	}
-	return Math.max(1, Math.round(Number.parseFloat(v)));
+	return Math.max(1, Math.round(Number(v)));
 }
 
 function buildConfig() {
@@ -187,8 +187,8 @@ function buildConfig() {
 		imagesDirectory,
 		outPath,
 		bg: arguments_.bg || "#00000000",
-		scale: arguments_.scale ? Number.parseFloat(arguments_.scale) : 1,
-		pad: arguments_.pad ? Number.parseFloat(arguments_.pad) : 0,
+		scale: arguments_.scale ? Number(arguments_.scale) : 1,
+		pad: arguments_.pad ? Number(arguments_.pad) : 0,
 		wantOxipng: !!arguments_.oxipng,
 		oxiArguments: (arguments_.oxipngArgs && String(arguments_.oxipngArgs).trim().length > 0) ? String(arguments_.oxipngArgs).split(/\s+/) : [],
 		useColors256: !!arguments_.colors256,
@@ -207,7 +207,7 @@ async function loadSvgLayout(svgPath) {
 }
 
 function buildOffsets(sizes) {
-	const offsets = Array.from({ length: sizes.length }).fill(0);
+	const offsets = Array.from({ length: sizes.length }, () => 0);
 	for (let index = 1; index < sizes.length; index++) {
 		offsets[index] = offsets[index - 1] + sizes[index - 1];
 	}
@@ -219,8 +219,8 @@ function buildGeometry(uses, imageDefs, config) {
 	const uniqueY = [...new Set(uses.map(u => u.y))].sort((a, b) => a - b);
 	const xToCol = new Map(uniqueX.map((x, index) => [x, index]));
 	const yToRow = new Map(uniqueY.map((y, index) => [y, index]));
-	const colWidths = Array.from({ length: uniqueX.length }).fill(config.cellWOverride ?? MIN_CELL_W);
-	const rowHeights = Array.from({ length: uniqueY.length }).fill(config.cellHOverride ?? MIN_CELL_H);
+	const colWidths = Array.from({ length: uniqueX.length }, () => config.cellWOverride ?? MIN_CELL_W);
+	const rowHeights = Array.from({ length: uniqueY.length }, () => config.cellHOverride ?? MIN_CELL_H);
 
 	if (config.cellWOverride == null || config.cellHOverride == null) {
 		for (const u of uses) {
@@ -230,10 +230,10 @@ function buildGeometry(uses, imageDefs, config) {
 			const baseCellW = config.cellWOverride ?? (u.width ?? definition?.width ?? MIN_CELL_W);
 			const baseCellH = config.cellHOverride ?? (u.height ?? definition?.height ?? MIN_CELL_H);
 			if (config.cellWOverride == null && col != null) {
-				colWidths[col] = Math.max(colWidths[col], Math.max(baseCellW, MIN_CELL_W));
+				colWidths[col] = Math.max(colWidths[col], baseCellW, MIN_CELL_W);
 			}
 			if (config.cellHOverride == null && row != null) {
-				rowHeights[row] = Math.max(rowHeights[row], Math.max(baseCellH, MIN_CELL_H));
+				rowHeights[row] = Math.max(rowHeights[row], baseCellH, MIN_CELL_H);
 			}
 		}
 	}
@@ -313,24 +313,24 @@ async function prepareTileBuffer(filePath, imageDefinition, prePlacement, config
 	const intrinsicW = meta.width || imageDefinition?.width || prePlacement.cellW;
 	const intrinsicH = meta.height || imageDefinition?.height || prePlacement.cellH;
 	const { targetW, targetH } = fitSizeInCell(intrinsicW, intrinsicH, prePlacement.cellW, prePlacement.cellH, config.scale, config.scaleTile);
-	const inputBuf = await createResizedInputBuffer(filePath, intrinsicW, intrinsicH, targetW, targetH, config.scaleTile);
-	return { inputBuf, targetW, targetH };
+	const inputBuffer = await createResizedInputBuffer(filePath, intrinsicW, intrinsicH, targetW, targetH, config.scaleTile);
+	return { inputBuf: inputBuffer, targetW, targetH };
 }
 
-async function maybeApplyInvert(inputBuf, u, imageDefinition, config) {
+async function maybeApplyInvert(inputBuffer, u, imageDefinition, config) {
 	const shouldInvert = !!(u.invert || imageDefinition?.invert);
 	if (config.debug) {
 		const invertSource = [u.invert ? "use" : null, imageDefinition?.invert ? "image" : null].filter(Boolean).join("+") || "none";
 		console.log(`[tile] ${u.id} invert=${shouldInvert} (source: ${invertSource})`);
 	}
 	if (!shouldInvert) {
-		return inputBuf;
+		return inputBuffer;
 	}
 	try {
-		return await applyDarkBgColormap(inputBuf, { avoidDarkRed: config.avoidDarkRed, avoidDarkGreen: config.avoidDarkGreen });
+		return await applyDarkBgColormap(inputBuffer, { avoidDarkRed: config.avoidDarkRed, avoidDarkGreen: config.avoidDarkGreen });
 	} catch (error) {
 		console.warn(`[warn] Failed to apply dark colormap to ${u.id}:`, error?.message || error);
-		return inputBuf;
+		return inputBuffer;
 	}
 }
 
@@ -359,13 +359,13 @@ async function buildCompositeForUse(u, imageDefs, geometry, config) {
 
 	const prePlacement = computeTilePlacement(u, geometry, 0, 0, config);
 	const { inputBuf: initialBuffer, targetW, targetH } = await prepareTileBuffer(source.filePath, imageDefinition, prePlacement, config);
-	const inputBuf = await maybeApplyInvert(initialBuffer, u, imageDefinition, config);
+	const inputBuffer = await maybeApplyInvert(initialBuffer, u, imageDefinition, config);
 
-	const rmeta = await sharp(inputBuf).metadata();
+	const rmeta = await sharp(inputBuffer).metadata();
 	const sourceW = rmeta.width || targetW;
 	const sourceH = rmeta.height || targetH;
 	const { left, top } = computeTilePlacement(u, geometry, sourceW, sourceH, config);
-	return { input: inputBuf, left, top };
+	return { input: inputBuffer, left, top };
 }
 
 async function writeOutputPng(outPath, canvasW, canvasH, composites, bg, useColors256) {
@@ -486,39 +486,39 @@ function hsvToRgb(h, s, v) {
 }
 
 function srgbToLinear(u) {
-	return u <= 0.040_45 ? u / 12.92 : ((u + 0.055) / 1.055 ** 2.4);
+	return u <= 0.04045 ? u / 12.92 : ((u + 0.055) / 1.055 ** 2.4);
 }
 
 function linearToSrgb(u) {
-	return u <= 0.003_130_8 ? 12.92 * u : 1.055 * u ** (1 / 2.4) - 0.055;
+	return u <= 0.0031308 ? 12.92 * u : 1.055 * u ** (1 / 2.4) - 0.055;
 }
 
 function rgbToOklab(r, g, b) {
 	const rl = srgbToLinear(r);
 	const gl = srgbToLinear(g);
 	const bl = srgbToLinear(b);
-	const l_ = 0.412_221_470_8 * rl + 0.536_332_536_3 * gl + 0.051_445_992_9 * bl;
-	const m_ = 0.211_903_498_2 * rl + 0.680_699_545_1 * gl + 0.107_396_956_6 * bl;
-	const s_ = 0.088_302_461_9 * rl + 0.281_718_837_6 * gl + 0.629_978_700_5 * bl;
+	const l_ = 0.4122214708 * rl + 0.5363325363 * gl + 0.0514459929 * bl;
+	const m_ = 0.2119034982 * rl + 0.6806995451 * gl + 0.1073969566 * bl;
+	const s_ = 0.0883024619 * rl + 0.2817188376 * gl + 0.6299787005 * bl;
 	const l = Math.cbrt(l_);
 	const m = Math.cbrt(m_);
 	const s = Math.cbrt(s_);
-	const L = 0.210_454_255_3 * l + 0.793_617_785 * m - 0.004_072_046_8 * s;
-	const A = 1.977_998_495_1 * l - 2.428_592_205 * m + 0.450_593_709_9 * s;
-	const B = 0.025_904_037_1 * l + 0.782_771_766_2 * m - 0.808_675_766 * s;
+	const L = 0.2104542553 * l + 0.793617785 * m - 0.0040720468 * s;
+	const A = 1.9779984951 * l - 2.428592205 * m + 0.4505937099 * s;
+	const B = 0.0259040371 * l + 0.7827717662 * m - 0.808675766 * s;
 	return [L, A, B];
 }
 
 function oklabToRgb(L, A, B) {
-	const l = L + 0.396_337_777_4 * A + 0.215_803_757_3 * B;
-	const m = L - 0.105_561_345_8 * A - 0.063_854_172_8 * B;
-	const s = L - 0.089_484_177_5 * A - 1.291_485_548 * B;
+	const l = L + 0.3963377774 * A + 0.2158037573 * B;
+	const m = L - 0.1055613458 * A - 0.0638541728 * B;
+	const s = L - 0.0894841775 * A - 1.291485548 * B;
 	const l3 = l * l * l;
 	const m3 = m * m * m;
 	const s3 = s * s * s;
-	const rl = +4.076_741_662_1 * l3 - 3.307_711_591_3 * m3 + 0.230_969_929_2 * s3;
-	const gl = -1.268_438_004_6 * l3 + 2.609_757_401_1 * m3 - 0.341_319_396_5 * s3;
-	const bl = -0.004_196_086_3 * l3 - 0.703_418_614_7 * m3 + 1.707_614_701 * s3;
+	const rl = 4.0767416621 * l3 - 3.3077115913 * m3 + 0.2309699292 * s3;
+	const gl = -1.2684380046 * l3 + 2.6097574011 * m3 - 0.3413193965 * s3;
+	const bl = -0.0041960863 * l3 - 0.7034186147 * m3 + 1.707614701 * s3;
 	let r = linearToSrgb(rl);
 	let g = linearToSrgb(gl);
 	let b = linearToSrgb(bl);
@@ -537,12 +537,12 @@ function buildLuminanceMaps(out, width, height) {
 			const a = out[index + 3];
 			if (a <= 1) {
 				lumArray[y * width + x] = 0;
-				continue;
+			} else {
+				const r = out[index] / 255;
+				const g = out[index + 1] / 255;
+				const b = out[index + 2] / 255;
+				lumArray[y * width + x] = 0.2126 * r + 0.7152 * g + 0.0722 * b;
 			}
-			const r = out[index] / 255;
-			const g = out[index + 1] / 255;
-			const b = out[index + 2] / 255;
-			lumArray[y * width + x] = 0.2126 * r + 0.7152 * g + 0.0722 * b;
 		}
 	}
 	const rangeArray = new Float32Array(width * height);
@@ -552,20 +552,18 @@ function buildLuminanceMaps(out, width, height) {
 			let hi = 0;
 			for (let dy = -1; dy <= 1; dy++) {
 				const yy = y + dy;
-				if (yy < 0 || yy >= height) {
-					continue;
-				}
-				for (let dx = -1; dx <= 1; dx++) {
-					const xx = x + dx;
-					if (xx < 0 || xx >= width) {
-						continue;
-					}
-					const v = lumArray[yy * width + xx];
-					if (v < lo) {
-						lo = v;
-					}
-					if (v > hi) {
-						hi = v;
+				if (yy >= 0 && yy < height) {
+					for (let dx = -1; dx <= 1; dx++) {
+						const xx = x + dx;
+						if (xx >= 0 && xx < width) {
+							const v = lumArray[yy * width + xx];
+							if (v < lo) {
+								lo = v;
+							}
+							if (v > hi) {
+								hi = v;
+							}
+						}
 					}
 				}
 			}
@@ -753,8 +751,8 @@ function applyGreenSafeguard(cr, cg, callback, options) {
 	return hsvToRgb(fh, fs, fv);
 }
 
-async function applyDarkBgColormap(inputBuf, options = {}) {
-	const { data, info } = await sharp(inputBuf)
+async function applyDarkBgColormap(inputBuffer, options = {}) {
+	const { data, info } = await sharp(inputBuffer)
 		.ensureAlpha()
 		.raw()
 		.toBuffer({ resolveWithObject: true });

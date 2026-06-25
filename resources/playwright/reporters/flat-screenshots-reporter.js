@@ -90,7 +90,12 @@ async function makeFlatTargetPath(outputDirectory, parts, extension, preferredBa
 	return candidate;
 }
 
-class FlatScreenshotsReporter {
+export default class FlatScreenshotsReporter {
+	#runIdMarker;
+	outputDir;
+	projectOutDirs;
+	config;
+
 	onBegin(config) {
 		this.config = config;
 		// Prefer the top-level outputDir (per-run dated folder in our config)
@@ -98,7 +103,8 @@ class FlatScreenshotsReporter {
 		// Build a quick lookup for per-project outputDirs so artifacts land in the right
 		// run folder even if Playwright uses project-specific subdirs.
 		this.projectOutDirs = new Map();
-		for (const proj of config.projects || []) {
+		const projects = config.projects || [];
+		for (const proj of projects) {
 			const name = proj.name;
 			// Playwright resolves project.outputDir to an absolute path.
 			const pOut = proj.outputDir || this.outputDir;
@@ -109,9 +115,9 @@ class FlatScreenshotsReporter {
 		// Remember marker path so we can remove it onEnd (see playwright.config getStableRunSubdir)
 		try {
 			const resultsRoot = path.join(process.cwd(), "results");
-			this._runIdMarker = path.join(resultsRoot, ".pw-run-id");
+			this.#runIdMarker = path.join(resultsRoot, ".pw-run-id");
 		} catch {
-			this._runIdMarker = undefined;
+			this.#runIdMarker = undefined;
 		}
 	}
 
@@ -137,6 +143,7 @@ class FlatScreenshotsReporter {
 		const seen = new Set();
 		const dedupedTitleSegments = [];
 		for (const seg of normalizedTitleSegments) {
+			// eslint-disable-next-line unicorn/prefer-continue
 			if (!seen.has(seg)) {
 				seen.add(seg);
 				dedupedTitleSegments.push(seg);
@@ -144,8 +151,8 @@ class FlatScreenshotsReporter {
 		}
 
 		const testTitle = sanitizeSegment(dedupedTitleSegments.join("-")) || sanitizeSegment(test.title);
-
-		for (const att of result.attachments || []) {
+		const attachments = result.attachments || [];
+		for (const att of attachments) {
 			const isImage = (att.contentType?.startsWith("image/")) || /\.png$/i.test(att.name || "");
 			if (!isImage) {
 				continue;
@@ -164,6 +171,7 @@ class FlatScreenshotsReporter {
 					const partsSeen = new Set();
 					const ordered = [];
 					for (const p of parts) {
+						// eslint-disable-next-line unicorn/prefer-continue
 						if (!partsSeen.has(p)) {
 							partsSeen.add(p);
 							ordered.push(p);
@@ -202,12 +210,13 @@ class FlatScreenshotsReporter {
 					// Determine extension only once and strip it from the preferred base name
 					const parsed = path.parse(att.name || "attachment");
 					const hasPng = att.contentType === "image/png" || /\.png$/i.test(parsed.ext || "");
-					const extension = hasPng ? ".png" : (att.contentType?.split("/")[1] ? `.${att.contentType.split("/")[1]}` : ".bin");
+					const extension = hasPng ? ".png" : (att.contentType?.split("/", 2)[1] ? `.${att.contentType.split("/", 2)[1]}` : ".bin");
 					const cleanName = sanitizeSegment(parsed.name || "attachment");
 					const parts = [projectName, testTitle, cleanName].filter(Boolean);
 					const partsSeen = new Set();
 					const ordered = [];
 					for (const p of parts) {
+						// eslint-disable-next-line unicorn/prefer-continue
 						if (!partsSeen.has(p)) {
 							partsSeen.add(p);
 							ordered.push(p);
@@ -215,8 +224,8 @@ class FlatScreenshotsReporter {
 					}
 					const preferredBase = ordered.join("-");
 					const target = await makeFlatTargetPath(outDirectory, [], extension, preferredBase);
-					const buf = Buffer.isBuffer(att.body) ? att.body : Buffer.from(att.body);
-					await fsp.writeFile(target, buf);
+					const buffer = Buffer.isBuffer(att.body) ? att.body : Buffer.from(att.body);
+					await fsp.writeFile(target, buffer);
 				} catch (error) {
 					console.warn(`[flat-screenshots-reporter] Could not write attachment image ${att.name}:`, error?.message || error);
 				}
@@ -226,9 +235,9 @@ class FlatScreenshotsReporter {
 
 	async onEnd() {
 		// Clean up the run-id marker so the next run generates a fresh subdir (unless provided via env)
-		if (this._runIdMarker) {
+		if (this.#runIdMarker) {
 			try {
-				await fsp.unlink(this._runIdMarker);
+				await fsp.unlink(this.#runIdMarker);
 			} catch {
 				/* ignore */
 			}
@@ -243,5 +252,3 @@ class FlatScreenshotsReporter {
 		}
 	}
 }
-
-export default FlatScreenshotsReporter;

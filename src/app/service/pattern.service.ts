@@ -7,6 +7,30 @@ export interface PatternEntry {
 	title: string;
 }
 
+function expandSuffix(prefix: string, suffix: number | string | Array<number>): Array<{ id: string }> {
+	if (Array.isArray(suffix)) {
+		if (suffix.length !== 2) {
+			return [];
+		}
+		const [start, end] = suffix;
+		if (typeof start !== 'number' || typeof end !== 'number') {
+			return [];
+		}
+		if (start > end) {
+			return [];
+		}
+		const ids: Array<{ id: string }> = [];
+		for (let index = start; index <= end; index++) {
+			ids.push({ id: `${prefix}-${index}` });
+		}
+		return ids;
+	}
+	if (typeof suffix === 'number' || typeof suffix === 'string') {
+		return [{ id: `${prefix}-${suffix}` }];
+	}
+	return [];
+}
+
 export function generatePatternList(): Array<{ id: string; title: string }> {
 	const groups = {
 		'adjointed': ['circles', 'diamonds'],
@@ -95,23 +119,7 @@ export function generatePatternList(): Array<{ id: string; title: string }> {
 			continue;
 		}
 		for (const suffix of suffixes) {
-			if (Array.isArray(suffix)) {
-				if (suffix.length !== 2) {
-					continue;
-				}
-				const [start, end] = suffix;
-				if (typeof start !== 'number' || typeof end !== 'number') {
-					continue;
-				}
-				if (start > end) {
-					continue;
-				}
-				for (let index = start; index <= end; index++) {
-					result.push({ id: `${prefix}-${index}` });
-				}
-			} else if (typeof suffix === 'number' || typeof suffix === 'string') {
-				result.push({ id: `${prefix}-${suffix}` });
-			}
+			result.push(...expandSuffix(prefix, suffix));
 		}
 	}
 	return result.map(p => ({

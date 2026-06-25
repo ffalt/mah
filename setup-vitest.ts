@@ -12,6 +12,10 @@ Object.assign(globalThis as Record<string, unknown>, {
 });
 
 beforeEach(() => {
-	vi.spyOn(console, 'error').mockImplementation(() => {});
-	vi.spyOn(console, 'warn').mockImplementation(() => {});
+	vi.spyOn(console, 'error').mockImplementation(() => {
+		// nop
+	});
+	vi.spyOn(console, 'warn').mockImplementation(() => {
+		// nop
+	});
 });

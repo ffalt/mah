@@ -154,7 +154,7 @@ function extractTPPreviewEntries(svgText) {
 			return 0;
 		}
 		const mm = /-?\d*\.?\d+(?:e[+-]?\d+)?/i.exec(String(s));
-		return mm ? Number.parseFloat(mm[0]) : 0;
+		return mm ? Number(mm[0]) : 0;
 	};
 	const getAttribute = (attributes, name) => {
 		const re = new RegExp(String.raw`${name}\s*=\s*(?:"([^"]*)"|'([^']*)')`, "i");
@@ -170,13 +170,13 @@ function extractTPPreviewEntries(svgText) {
 		}
 		const tTranslate = tstr.match(/translate\(([^)]*)\)/i);
 		if (tTranslate) {
-			const p = tTranslate[1].split(/[ ,]+/).map(v => Number.parseFloat(v)).filter(v => !Number.isNaN(v));
+			const p = tTranslate[1].split(/[ ,]+/).map(Number).filter(v => !Number.isNaN(v));
 			tr.x += p[0] || 0;
 			tr.y += p[1] || 0;
 		}
 		const tMatrix = tstr.match(/matrix\(([^)]*)\)/i);
 		if (tMatrix) {
-			const p = tMatrix[1].split(/[ ,]+/).map(v => Number.parseFloat(v)).filter(v => !Number.isNaN(v));
+			const p = tMatrix[1].split(/[ ,]+/).map(Number).filter(v => !Number.isNaN(v));
 			if (p.length >= 6) {
 				tr.x += p[4] || 0;
 				tr.y += p[5] || 0;
@@ -233,7 +233,7 @@ function extractTPPreviewEntries(svgText) {
 			tx += selfT.x;
 			ty += selfT.y;
 
-			name = name || getAttribute(attributes, "id") || getAttribute(attributes, "data-name") || getAttribute(attributes, "name") || getAttribute(attributes, "aria-label") || "";
+			name ||= getAttribute(attributes, "id") || getAttribute(attributes, "data-name") || getAttribute(attributes, "name") || getAttribute(attributes, "aria-label") || "";
 
 			entries.push({
 				name: sanitizeName(name),
@@ -346,27 +346,27 @@ async function main() {
 		console.error("Missing required arguments: --src, --png are required.");
 		process.exit(1);
 	}
-	let cols = arguments_.cols ? Number.parseInt(arguments_.cols, 10) : undefined;
-	let rows = arguments_.rows ? Number.parseInt(arguments_.rows, 10) : undefined;
-	const density = arguments_.density ? Number.parseInt(arguments_.density, 10) : 384; // higher density for crisp rasterization
-	const maxWidth = arguments_.maxWidth ? Number.parseInt(arguments_.maxWidth, 10) : 1080;
+	let cols = arguments_.cols ? Math.trunc(Number(arguments_.cols)) : undefined;
+	let rows = arguments_.rows ? Math.trunc(Number(arguments_.rows)) : undefined;
+	const density = arguments_.density ? Math.trunc(Number(arguments_.density)) : 384; // higher density for crisp rasterization
+	const maxWidth = arguments_.maxWidth ? Math.trunc(Number(arguments_.maxWidth)) : 1080;
 	// Optional: force output size based on cell dimensions (pixels per grid cell)
-	const cellWidth = arguments_.cellWidth ? Number.parseInt(arguments_.cellWidth, 10) : (arguments_.cellW ? Number.parseInt(arguments_.cellW, 10) : undefined);
-	const cellHeight = arguments_.cellHeight ? Number.parseInt(arguments_.cellHeight, 10) : (arguments_.cellH ? Number.parseInt(arguments_.cellH, 10) : undefined);
+	const cellWidth = arguments_.cellWidth ? Math.trunc(Number(arguments_.cellWidth)) : (arguments_.cellW ? Math.trunc(Number(arguments_.cellW)) : undefined);
+	const cellHeight = arguments_.cellHeight ? Math.trunc(Number(arguments_.cellHeight)) : (arguments_.cellH ? Math.trunc(Number(arguments_.cellH)) : undefined);
 	const colors256 = Boolean(arguments_.colors256);
 	const useOxipng = Boolean(arguments_.oxipng);
 	const oxipngArguments = typeof arguments_.oxipngArgs === "string" ? arguments_.oxipngArgs.split(/\s+/).filter(Boolean) : [];
 
-	const tileWidth = arguments_.tileWidth ? Number.parseInt(arguments_.tileWidth, 10) : undefined;
-	const tileHeight = arguments_.tileHeight ? Number.parseInt(arguments_.tileHeight, 10) : undefined;
+	const tileWidth = arguments_.tileWidth ? Math.trunc(Number(arguments_.tileWidth)) : undefined;
+	const tileHeight = arguments_.tileHeight ? Math.trunc(Number(arguments_.tileHeight)) : undefined;
 	// Optional minimum output size for each exported tile (only upscale; preserve aspect ratio)
-	const tileOutWidth = arguments_.tileOutWidth ? Number.parseInt(arguments_.tileOutWidth, 10) : undefined;
-	const tileOutHeight = arguments_.tileOutHeight ? Number.parseInt(arguments_.tileOutHeight, 10) : undefined;
+	const tileOutWidth = arguments_.tileOutWidth ? Math.trunc(Number(arguments_.tileOutWidth)) : undefined;
+	const tileOutHeight = arguments_.tileOutHeight ? Math.trunc(Number(arguments_.tileOutHeight)) : undefined;
 	// Optional: export only rows starting from a given row number (1-based; 0 allowed to mean first row)
 	const startRowArgument = arguments_["start-row"] ?? arguments_.startRow;
 	let startRow0 = 0;
 	if (startRowArgument !== undefined) {
-		const sr = Number.parseInt(startRowArgument, 10);
+		const sr = Math.trunc(Number(startRowArgument));
 		if (!Number.isNaN(sr) && sr > 1) {
 			startRow0 = sr - 1; // treat as 1-based by default
 		} // allow 0 explicitly
@@ -422,7 +422,7 @@ async function main() {
 	} else if (Number.isFinite(maxWidth) && maxWidth > 0) {
 		raster = raster.resize({ width: maxWidth, withoutEnlargement: true });
 	}
-	const pngOptions = { compressionLevel: 9, adaptiveFiltering: true, ...(colors256 ? { palette: true, colors: 256 } : {}) };
+	const pngOptions = { compressionLevel: 9, adaptiveFiltering: true, ...(colors256 && { palette: true, colors: 256 }) };
 	const pngPipeline = raster.png(pngOptions);
 	const pngBuffer = await pngPipeline.toBuffer();
 	const meta = await sharp(pngBuffer).metadata();
@@ -490,7 +490,7 @@ async function main() {
 		let nameGrid = null;
 		if (detected?.entries) {
 			// Prepare a cols x rows name grid
-			nameGrid = Array.from({ length: rows }, () => Array.from({ length: cols }).fill(null));
+			nameGrid = Array.from({ length: rows }, () => Array.from({ length: cols }, () => null));
 			for (const entry of detected.entries) {
 				const r = Math.min(rows - 1, Math.max(0, entry.row));
 				const c = Math.min(cols - 1, Math.max(0, entry.col));

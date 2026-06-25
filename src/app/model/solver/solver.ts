@@ -63,28 +63,32 @@ export class Solver {
 		return writer.write();
 	}
 
+	private unrotateGroupMembers(index: number): void {
+		switch (this.tileGroups[index].rotation) {
+			case 1: {
+				const t: Tile | undefined = this.tileGroups[index].member[1];
+				this.tileGroups[index].member[1] = this.tileGroups[index].member[2];
+				this.tileGroups[index].member[2] = this.tileGroups[index].member[3];
+				this.tileGroups[index].member[3] = t;
+				break;
+			}
+			case 2: {
+				const t: Tile | undefined = this.tileGroups[index].member[3];
+				this.tileGroups[index].member[3] = this.tileGroups[index].member[2];
+				this.tileGroups[index].member[2] = this.tileGroups[index].member[1];
+				this.tileGroups[index].member[1] = t;
+				break;
+			}
+			default: {
+				break;
+			}
+		}
+	}
+
 	// stores the solution found
 	private unrotateGroups(): void {
 		for (let index = 0; index < this.nGroups; index++) {
-			switch (this.tileGroups[index].rotation) {
-				case 1: {
-					const t: Tile | undefined = this.tileGroups[index].member[1];
-					this.tileGroups[index].member[1] = this.tileGroups[index].member[2];
-					this.tileGroups[index].member[2] = this.tileGroups[index].member[3];
-					this.tileGroups[index].member[3] = t;
-					break;
-				}
-				case 2: {
-					const t: Tile | undefined = this.tileGroups[index].member[3];
-					this.tileGroups[index].member[3] = this.tileGroups[index].member[2];
-					this.tileGroups[index].member[2] = this.tileGroups[index].member[1];
-					this.tileGroups[index].member[1] = t;
-					break;
-				}
-				default: {
-					break;
-				}
-			}
+			this.unrotateGroupMembers(index);
 			this.tileGroups[index].rotation = 0;
 		}
 	}

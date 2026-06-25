@@ -7,13 +7,13 @@
 		</svg>
 		<clipPath id="preview-image-clip">
 			<rect
-				[attr.x]="imageCut[0]"
-				[attr.y]="imageCut[1]"
-				[attr.width]="imageCut[2]"
-				[attr.height]="imageCut[3]"
+				[attr.x]="imageCut()[0]"
+				[attr.y]="imageCut()[1]"
+				[attr.width]="imageCut()[2]"
+				[attr.height]="imageCut()[3]"
 				rx="10" ry="10" fill="#fff"/>
 		</clipPath>
-		<defs app-image-set-loader [imageSet]="app.settings.tileset" [kyodaiUrl]="app.settings.kyodaiUrl" [dark]="app.settings.dark" prefix="preview_"></defs>
+		<defs app-image-set-loader [imageSet]="tileset()" [kyodaiUrl]="kyodaiUrl()" [dark]="dark()" prefix="preview_"></defs>
 	</defs>
 	<style>
 		g.preview-stage g.draw rect.shadow {
@@ -111,10 +111,10 @@
 			display: unset;
 		}
 	</style>
-	<g class="preview-stage" [class.dark]="app.settings.dark" [class.contrast]="app.settings.contrast" [class.tile3d]="app.settings.tile3d">
+	<g class="preview-stage" [class.dark]="dark()" [class.contrast]="contrast()" [class.tile3d]="tile3d()">
 		<g class="draw">
 			<g class="tile">
-				@if (app.settings.tile3d) {
+				@if (tile3d()) {
 					<rect class="shadow" x="5" y="5" width="75" height="100" rx="10" ry="10"></rect>
 					<rect class="stone" x="0" y="0" width="75" height="100" rx="10" ry="10"></rect>
 					<rect class="bevel" x="1" y="1" width="73" height="98" rx="9" ry="9"></rect>
@@ -124,10 +124,10 @@
 				}
 				<use
 					[attr.xlink:href]="'#preview_' + tile()"
-					[attr.x]="imagePos[0]"
-					[attr.y]="imagePos[1]"
-					[attr.width]="imagePos[2]"
-					[attr.height]="imagePos[3]"
+					[attr.x]="imagePos()[0]"
+					[attr.y]="imagePos()[1]"
+					[attr.width]="imagePos()[2]"
+					[attr.height]="imagePos()[3]"
 					clip-path="url(#preview-image-clip)"
 				/>
 				<use class="front" xlink:href="#preview-front" x="0" y="0" width="75" height="100"/>

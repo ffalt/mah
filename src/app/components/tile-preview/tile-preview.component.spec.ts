@@ -5,7 +5,6 @@ import { provideHttpClient } from '@angular/common/http';
 import { SvgdefService } from '../../service/svgdef.service';
 import { TilePreviewComponent } from './tile-preview.component';
 import { By } from '@angular/platform-browser';
-import { markAndDetect } from '../../change-detection.spec-helpers';
 
 describe('TilePreviewComponent', () => {
 	let component: TilePreviewComponent;
@@ -65,36 +64,36 @@ describe('TilePreviewComponent', () => {
 		expect(shadow).toBeTruthy();
 	});
 
-	it('should apply dark class when settings.dark is true', () => {
-		component.app.settings.dark = true;
-		markAndDetect(fixture);
+	it('should apply dark class when dark input is true', () => {
+		fixture.componentRef.setInput('dark', true);
+		fixture.detectChanges();
 		const stage = fixture.debugElement.query(By.css('g.preview-stage'));
 		expect(stage.nativeElement.classList.contains('dark')).toBe(true);
 	});
 
-	it('should apply contrast class when settings.contrast is true', () => {
-		component.app.settings.contrast = true;
-		markAndDetect(fixture);
+	it('should apply contrast class when contrast input is true', () => {
+		fixture.componentRef.setInput('contrast', true);
+		fixture.detectChanges();
 		const stage = fixture.debugElement.query(By.css('g.preview-stage'));
 		expect(stage.nativeElement.classList.contains('contrast')).toBe(true);
 	});
 
-	it('should apply tile3d class when settings.tile3d is true', () => {
-		component.app.settings.tile3d = true;
-		markAndDetect(fixture);
+	it('should apply tile3d class when tile3d input is true', () => {
+		fixture.componentRef.setInput('tile3d', true);
+		fixture.detectChanges();
 		const stage = fixture.debugElement.query(By.css('g.preview-stage'));
 		expect(stage.nativeElement.classList.contains('tile3d')).toBe(true);
 	});
 
 	it('should render bevel rect when tile3d is true', () => {
-		component.app.settings.tile3d = true;
-		markAndDetect(fixture);
+		fixture.componentRef.setInput('tile3d', true);
+		fixture.detectChanges();
 		const bevel = fixture.debugElement.query(By.css('rect.bevel'));
 		expect(bevel).toBeTruthy();
 	});
 
 	it('should not render bevel rect when tile3d is false', () => {
-		component.app.settings.tile3d = false;
+		fixture.componentRef.setInput('tile3d', false);
 		fixture.detectChanges();
 		const bevel = fixture.debugElement.query(By.css('rect.bevel'));
 		expect(bevel).toBeFalsy();

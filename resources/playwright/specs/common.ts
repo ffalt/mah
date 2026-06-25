@@ -184,8 +184,6 @@ export async function captureInfoScreenshots(page: Page) {
 }
 
 export async function captureDialogScreenshots(page: Page, overlay: Locator, name: string, scrollSelector: string) {
-	const overlap = 100;
-	const maxShots = 10;
 	const popup = overlay.locator('.overlay-popup');
 	const target = (await popup.count()) ? popup : overlay;
 	const rootHandle = await target.elementHandle();
@@ -213,6 +211,8 @@ export async function captureDialogScreenshots(page: Page, overlay: Locator, nam
 	if (scrollHeight <= clientHeight + 2) {
 		return;
 	}
+	const overlap = 100;
+	const maxShots = 10;
 	for (let index = 0; index < maxShots - 1; index++) {
 		const nextTop = Math.min(scrollHeight - clientHeight, scrollTop + Math.max(0, clientHeight - overlap));
 		if (nextTop <= scrollTop + 1) {

@@ -1,4 +1,5 @@
 import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { ChangeDetectionStrategy } from '@angular/core';
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideTranslateService } from '@ngx-translate/core';
 import { provideHttpClient } from '@angular/common/http';
@@ -10,7 +11,6 @@ import { GAME_MODE_EASY, GAME_MODE_EXPERT, GAME_MODE_STANDARD } from '../../mode
 import { type BUILD_MODE_ID, MODE_SOLVABLE } from '../../model/builder';
 import { environment } from '../../../environments/environment';
 import { Stone } from '../../model/stone';
-import { markAndDetect } from '../../change-detection.spec-helpers';
 
 const zenControlsDefaultRect: DOMRect = {
 	x: 20, y: 30, left: 20, top: 30, right: 220, bottom: 90, width: 200, height: 60,
@@ -37,6 +37,7 @@ describe('GameComponent', () => {
 			imports: [GameComponent],
 			providers: [provideTranslateService(), provideHttpClient(), provideHttpClientTesting(), SvgdefService, AppService]
 		})
+			.overrideComponent(GameComponent, { set: { changeDetection: ChangeDetectionStrategy.Default } })
 			.compileComponents());
 
 	beforeEach(() => {
@@ -204,7 +205,7 @@ describe('GameComponent', () => {
 
 	it('should render control buttons', () => {
 		component.game.mode = GAME_MODE_EASY;
-		markAndDetect(fixture);
+		fixture.detectChanges();
 
 		const pauseButton = fixture.debugElement.query(By.css('.ctrl-game button:nth-child(1)'));
 		const shuffleButton = fixture.debugElement.query(By.css('.ctrl-game button:nth-child(2)'));
@@ -221,7 +222,7 @@ describe('GameComponent', () => {
 
 	it('should call game functions when control buttons are clicked', () => {
 		component.game.mode = GAME_MODE_EASY;
-		markAndDetect(fixture);
+		fixture.detectChanges();
 
 		const toggleSpy = vi.spyOn(component.game, 'toggle');
 		const shuffleSpy = vi.spyOn(component, 'onShuffle');
@@ -252,7 +253,7 @@ describe('GameComponent', () => {
 		overrideBoardWithUndo();
 
 		// Force change detection to update the button state
-		markAndDetect(fixture);
+		fixture.detectChanges();
 
 		const undoButton = fixture.debugElement.query(By.css('.ctrl-game button:nth-child(3)')).nativeElement;
 		const backSpy = vi.spyOn(component.game, 'back');
@@ -310,7 +311,7 @@ describe('GameComponent', () => {
 
 	it('should render control buttons in expert mode', () => {
 		component.game.mode = GAME_MODE_EXPERT;
-		markAndDetect(fixture);
+		fixture.detectChanges();
 
 		const pauseButton = fixture.debugElement.query(By.css('.ctrl-game button:nth-child(1)'));
 		const restartButton = fixture.debugElement.query(By.css('.ctrl-game button:nth-child(2)'));
@@ -323,7 +324,7 @@ describe('GameComponent', () => {
 
 	it('should call game functions when control buttons in expert mode are clicked', () => {
 		component.game.mode = GAME_MODE_EXPERT;
-		markAndDetect(fixture);
+		fixture.detectChanges();
 
 		const toggleSpy = vi.spyOn(component.game, 'toggle');
 		const newGameSpy = vi.spyOn(component, 'newGame');
@@ -337,7 +338,7 @@ describe('GameComponent', () => {
 
 	it('should swap menu bars for zen controls when zen mode is enabled', () => {
 		component.toggleZenMode();
-		markAndDetect(fixture);
+		fixture.detectChanges();
 
 		expect(fixture.debugElement.query(By.css('.controls-top'))).toBeFalsy();
 		expect(fixture.debugElement.query(By.css('.controls-bottom'))).toBeFalsy();
@@ -353,7 +354,7 @@ describe('GameComponent', () => {
 		const backSpy = vi.spyOn(component, 'onUndo').mockImplementation(vi.fn());
 
 		component.toggleZenMode();
-		markAndDetect(fixture);
+		fixture.detectChanges();
 
 		const zenActionButtons = fixture.debugElement.queryAll(By.css('.zen-controls .button'));
 		zenActionButtons[0].nativeElement.click(); // pause
@@ -376,7 +377,7 @@ describe('GameComponent', () => {
 		const backSpy = vi.spyOn(component, 'onUndo').mockImplementation(vi.fn());
 
 		component.toggleZenMode();
-		markAndDetect(fixture);
+		fixture.detectChanges();
 
 		const zenButtons = fixture.debugElement.queryAll(By.css('.zen-controls .button'));
 		expect(zenButtons).toHaveLength(4); // pause, undo, hint, exit
@@ -398,7 +399,7 @@ describe('GameComponent', () => {
 		const toggleSpy = vi.spyOn(component.game, 'toggle');
 
 		component.toggleZenMode();
-		markAndDetect(fixture);
+		fixture.detectChanges();
 
 		const zenButtons = fixture.debugElement.queryAll(By.css('.zen-controls .button'));
 		expect(zenButtons).toHaveLength(2); // pause, exit only
@@ -412,7 +413,7 @@ describe('GameComponent', () => {
 
 	it('should start dragging zen controls when pointer down on drag handle', () => {
 		component.toggleZenMode();
-		markAndDetect(fixture);
+		fixture.detectChanges();
 
 		const toolbar = fixture.debugElement.query(By.css('.zen-controls')).nativeElement;
 		const handle = fixture.debugElement.query(By.css('.zen-controls .drag-handle')).nativeElement;
@@ -437,7 +438,7 @@ describe('GameComponent', () => {
 
 	it('should update and clamp zen controls position while dragging', () => {
 		component.toggleZenMode();
-		markAndDetect(fixture);
+		fixture.detectChanges();
 
 		const toolbar = fixture.debugElement.query(By.css('.zen-controls')).nativeElement;
 		const handle = fixture.debugElement.query(By.css('.zen-controls .drag-handle')).nativeElement;
@@ -464,7 +465,7 @@ describe('GameComponent', () => {
 
 	it('should stop zen controls drag on pointer up', () => {
 		component.toggleZenMode();
-		markAndDetect(fixture);
+		fixture.detectChanges();
 
 		const toolbar = fixture.debugElement.query(By.css('.zen-controls')).nativeElement;
 		const handle = fixture.debugElement.query(By.css('.zen-controls .drag-handle')).nativeElement;
@@ -488,7 +489,7 @@ describe('GameComponent', () => {
 
 	it('should move zen controls with ArrowRight on drag handle', () => {
 		component.toggleZenMode();
-		markAndDetect(fixture);
+		fixture.detectChanges();
 
 		const toolbar = fixture.debugElement.query(By.css('.zen-controls')).nativeElement;
 		const handle = fixture.debugElement.query(By.css('.zen-controls .drag-handle')).nativeElement;
@@ -508,7 +509,7 @@ describe('GameComponent', () => {
 
 	it('should clamp keyboard movement inside viewport', () => {
 		component.toggleZenMode();
-		markAndDetect(fixture);
+		fixture.detectChanges();
 
 		const toolbar = fixture.debugElement.query(By.css('.zen-controls')).nativeElement;
 		const handle = fixture.debugElement.query(By.css('.zen-controls .drag-handle')).nativeElement;

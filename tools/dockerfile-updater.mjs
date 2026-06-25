@@ -4,4 +4,4 @@ export const readVersion = contents => {
 };
 
 export const writeVersion = (contents, version) =>
-	contents.replace(/^(ARG MAH_VERSION=).+$/m, `$1${version}`);
+	contents.replace(/^(ARG MAH_VERSION=).+$/m, (_match, prefix) => `${prefix}${version}`);

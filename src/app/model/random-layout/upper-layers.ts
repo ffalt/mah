@@ -48,26 +48,22 @@ function bucketCandidates(present: Set<string>, z: number, win: TilesWindow): {
 	const zb = z - 1;
 	for (let y = win.minY; y <= win.maxY; y++) {
 		for (let x = win.minX; x <= win.maxX; x++) {
-			const kHere = key(z, x, y);
-			if (present.has(kHere) || !inBounds(x, y, z)) {
-				continue;
-			}
-			const hasDirect = present.has(key(zb, x, y));
-			const hasSmall = present.has(key(zb, x - 1, y)) && present.has(key(zb, x + 1, y));
-			const hasLarge =
-				present.has(key(zb, x - 1, y - 1)) &&
-				present.has(key(zb, x + 1, y - 1)) &&
-				present.has(key(zb, x - 1, y + 1)) &&
-				present.has(key(zb, x + 1, y + 1));
-			if (!(hasDirect || hasSmall || hasLarge)) {
-				continue;
-			}
-			if (hasLarge) {
-				bridgeLarge.push([x, y]);
-			} else if (hasSmall) {
-				bridgeSmall.push([x, y]);
-			} else if (hasDirect) {
-				direct.push([x, y]);
+			// eslint-disable-next-line unicorn/prefer-continue
+			if (!present.has(key(z, x, y)) && inBounds(x, y, z)) {
+				const hasDirect = present.has(key(zb, x, y));
+				const hasSmall = present.has(key(zb, x - 1, y)) && present.has(key(zb, x + 1, y));
+				const hasLarge =
+					present.has(key(zb, x - 1, y - 1)) &&
+					present.has(key(zb, x + 1, y - 1)) &&
+					present.has(key(zb, x - 1, y + 1)) &&
+					present.has(key(zb, x + 1, y + 1));
+				if (hasLarge) {
+					bridgeLarge.push([x, y]);
+				} else if (hasSmall) {
+					bridgeSmall.push([x, y]);
+				} else if (hasDirect) {
+					direct.push([x, y]);
+				}
 			}
 		}
 	}
@@ -82,17 +78,16 @@ function maybeProposeOverhangs(present: Set<string>, z: number, win: TilesWindow
 	const zb = z - 1;
 	for (let y = win.minY; y <= win.maxY; y++) {
 		for (let x = win.minX; x <= win.maxX; x++) {
-			if (!present.has(key(zb, x, y))) {
-				continue;
+			// eslint-disable-next-line unicorn/prefer-continue
+			if (present.has(key(zb, x, y))) {
+				const directions: NonEmptyArray<[number, number]> = [[-1, 0], [1, 0], [0, -1], [0, 1]];
+				const [dx, dy] = randChoice(directions);
+				const ox = x + dx;
+				const oy = y + dy;
+				if (inBounds(ox, oy, z) && !present.has(key(z, ox, oy))) {
+					overhangs.push([ox, oy]);
+				}
 			}
-			const directions: NonEmptyArray<[number, number]> = [[-1, 0], [1, 0], [0, -1], [0, 1]];
-			const [dx, dy] = randChoice(directions);
-			const ox = x + dx;
-			const oy = y + dy;
-			if (!inBounds(ox, oy, z) || present.has(key(z, ox, oy))) {
-				continue;
-			}
-			overhangs.push([ox, oy]);
 		}
 	}
 	return overhangs;
@@ -257,17 +252,14 @@ function symmetricFill(mapping: Mapping, mirrorX: boolean, mirrorY: boolean): Ma
 			const candidates: Array<[number, number]> = [];
 			for (let y = 0; y <= Y_MAX; y++) {
 				for (let x = 0; x <= X_MAX; x++) {
-					if (present.has(key(z, x, y))) {
-						continue;
+					if (!present.has(key(z, x, y))) {
+						candidates.push([x, y]);
 					}
-					candidates.push([x, y]);
 				}
 			}
 			shuffleArray(candidates);
-			for (const [x, y] of candidates) {
-				if (mapping.length >= TARGET_COUNT) {
-					break;
-				}
+			for (let index = 0; index < candidates.length && mapping.length < TARGET_COUNT; index++) {
+				const [x, y] = candidates[index];
 				if (tryPlaceOrbit(mapping, present, z, x, y, mirrorX, mirrorY, mirX, mirY)) {
 					progress = true;
 				}
@@ -296,10 +288,7 @@ function tryAddOne(mapping: Mapping, present: Set<string>, win: TilesWindow): bo
 	for (let z = Z_MAX; z >= 0; z--) {
 		for (let y = win.minY; y <= win.maxY; y++) {
 			for (let x = win.minX; x <= win.maxX; x++) {
-				if (!inBounds(x, y, z) || present.has(key(z, x, y))) {
-					continue;
-				}
-				if (isSupported(present, z, x, y) && !blocksOverlap(present, z, x, y)) {
+				if (inBounds(x, y, z) && !present.has(key(z, x, y)) && isSupported(present, z, x, y) && !blocksOverlap(present, z, x, y)) {
 					candidates.push([z, x, y]);
 				}
 			}

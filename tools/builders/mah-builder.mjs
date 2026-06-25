@@ -24,7 +24,7 @@ export function createIndexHtmlTransformer(config = {}) {
 	return async function indexHtmlTransformer(indexHtml) {
 		let out = indexHtml;
 		for (const [key, value] of Object.entries(values)) {
-			out = out.replace(new RegExp(key, "g"), String(value));
+			out = out.replace(new RegExp(key, "g"), () => String(value));
 		}
 		return out;
 	};

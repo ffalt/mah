@@ -21,7 +21,7 @@ async function main() {
 
 	const content = changelog.replaceAll("\r\n", "\n");
 	const headingRegex = /^##\s.*$/gm;
-	const matches = [...content.matchAll(headingRegex)];
+	const matches = content.matchAll(headingRegex).toArray();
 
 	if (matches.length === 0) {
 		console.error("No release headings (\"## \") found in CHANGELOG.md");

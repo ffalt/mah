@@ -39,10 +39,7 @@ export function blocksOverlap(present: Set<string>, z: number, x: number, y: num
 	// center (x,y) checked before via uniqueness
 	for (let dy = -1; dy <= 1; dy++) {
 		for (let dx = -1; dx <= 1; dx++) {
-			if (dx === 0 && dy === 0) {
-				continue;
-			}
-			if (present.has(key(z, x + dx, y + dy))) {
+			if (!(dx === 0 && dy === 0) && present.has(key(z, x + dx, y + dy))) {
 				return true;
 			}
 		}
@@ -127,10 +124,9 @@ export function markBufferPoints(points: Array<[number, number]>, radius: number
 			for (let dx = -radius; dx <= radius; dx++) {
 				const bx = px + dx;
 				const by = py + dy;
-				if (!inBounds(bx, by, z)) {
-					continue;
+				if (inBounds(bx, by, z)) {
+					blocked.add(key(z, bx, by));
 				}
-				blocked.add(key(z, bx, by));
 			}
 		}
 	}
@@ -160,6 +156,31 @@ export function buildUnitGrids(xMax: number, yMax: number, step = 1): { xs: Arra
 	return { xs, ys };
 }
 
+function fillAnchors(
+	total: number,
+	w: number,
+	h: number,
+	anchors: Array<[number, number]>,
+	minTarget: number,
+	maxTarget: number,
+	tryPlace: (x0: number, y0: number, w: number, h: number) => number
+): number {
+	let result = total;
+	for (const [x0, y0] of anchors) {
+		if (result >= maxTarget) {
+			break;
+		}
+		const added = tryPlace(x0, y0, w, h);
+		if (added > 0) {
+			result += added;
+			if (result >= minTarget && result <= maxTarget) {
+				break;
+			}
+		}
+	}
+	return result;
+}
+
 export function placeSizesGeneric(
 	startTotal: number,
 	sizes: Array<[number, number]>,
@@ -173,18 +194,7 @@ export function placeSizesGeneric(
 		if (total >= maxTarget) {
 			break;
 		}
-		for (const [x0, y0] of anchors) {
-			if (total >= maxTarget) {
-				break;
-			}
-			const added = tryPlace(x0, y0, w, h);
-			if (added > 0) {
-				total += added;
-				if (total >= minTarget && total <= maxTarget) {
-					break;
-				}
-			}
-		}
+		total = fillAnchors(total, w, h, anchors, minTarget, maxTarget, tryPlace);
 		if (total >= minTarget && total <= maxTarget) {
 			break;
 		}

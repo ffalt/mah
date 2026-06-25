@@ -1,6 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 import path from 'node:path';
 import fs from 'node:fs';
+import process from 'node:process';
 
 function getStableRunDirectory(): string {
 	if (process.env.PW_RESULTS_SUBDIR?.trim()) {

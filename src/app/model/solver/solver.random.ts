@@ -161,15 +161,12 @@ export class SolverRandomSolve {
 			let remainingTiles = this.nTilesCount;
 			initializeGameState();
 
-			while (true) {
-				const match = findMatchToPlay();
-				if (!match) {
-					break;
-				}
-
+			let match = findMatchToPlay();
+			while (match) {
 				const group = this.tileGroups[match.groupIndex];
 				const tileIndices = findPlayableTiles(group, match.matchIndex);
 				remainingTiles = playMatch(group, tileIndices, remainingTiles);
+				match = findMatchToPlay();
 			}
 
 			resetState();

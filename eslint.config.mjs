@@ -127,7 +127,8 @@ const commonUnicornRules = {
 			"replacements": {
 				"env": false,
 				"doc": false,
-				"num": false
+				"num": false,
+				"application": false
 			}
 		}
 	]

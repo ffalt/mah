@@ -146,7 +146,13 @@
 						</label>
 					</li>
 				</ul>
-				<app-tile-preview [tile]="'t_dr_red'"/>
+				<app-tile-preview
+						[tile]="'t_dr_red'"
+						[tileset]="app.settings.tileset"
+						[kyodaiUrl]="app.settings.kyodaiUrl"
+						[dark]="app.settings.dark"
+						[contrast]="app.settings.contrast"
+						[tile3d]="app.settings.tile3d"/>
 			</div>
 		</fieldset>
 	</section>

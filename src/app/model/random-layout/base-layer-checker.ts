@@ -52,10 +52,9 @@ function punchHoles(base: Set<string>, baseZ: number, xs: Array<number>, ys: Arr
 function buildInitialChecker(present: Set<string>, xs: Array<number>, ys: Array<number>): void {
 	for (const y of ys) {
 		for (const x of xs) {
-			if ((x % 2 !== 0) || (y % 2 !== 0)) {
-				continue;
+			if ((x % 2 === 0) && (y % 2 === 0)) {
+				present.add(key(0, x, y));
 			}
-			present.add(key(0, x, y));
 		}
 	}
 }

@@ -3,7 +3,6 @@ import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { DeferLoadScrollHostDirective } from './defer-load-scroll-host.directive';
 import { DeferLoadService } from './defer-load.service';
 import { Mock } from 'vitest';
-import { markAndDetect } from '../../change-detection.spec-helpers';
 
 @Component({
 	template: `
@@ -72,7 +71,7 @@ describe('DeferLoadScrollHostDirective', () => {
 			});
 
 			component.scrollTarget = target;
-			markAndDetect(fixture);
+			fixture.detectChanges();
 
 			expect(capturedScrollTop).toBe(300 - 50); // offsetTop - offsetHeight
 

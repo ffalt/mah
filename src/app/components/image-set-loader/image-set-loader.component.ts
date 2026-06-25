@@ -53,6 +53,7 @@ export class ImageSetLoaderComponent implements OnChanges {
 	}
 
 	private setImageSet(svg: string): void {
+		// eslint-disable-next-line unicorn/prefer-dom-node-replace-children
 		this.elementRef.nativeElement.innerHTML = '';
 		const defs = this.prepareDefs(svg);
 		setTimeout(() => {
