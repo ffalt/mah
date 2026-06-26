@@ -14,6 +14,9 @@ export default defineConfig({
 		globals: true,
 		environment: "jsdom",
 		setupFiles: ["./setup-vitest.ts"],
-		mockReset: true
+		mockReset: true,
+		coverage: {
+			reportsDirectory: "coverage"
+		}
 	}
 });

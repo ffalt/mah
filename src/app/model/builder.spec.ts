@@ -8,6 +8,10 @@ import { describe, it, expect } from 'vitest';
 
 const filepath = './src/assets/data/boards.json';
 
+// Building and solving many boards per layout is compute-heavy and can exceed
+// vitest's default 5s timeout on large layouts, especially on slower CI machines.
+const buildTimeout = 60_000;
+
 const loadLayouts: Array<LoadLayout> = JSON.parse(readFileSync(filepath).toString());
 const layouts: Array<Layout> = loadLayouts.map(o => {
 	const mapping = expandMapping(o.map || []);
@@ -48,12 +52,12 @@ describe('builder', () => {
 	describe.each(layouts)('Layout $name $mapping.length', layout => {
 		it('with solvable build should not have blank tiles', async () => {
 			expectNoBlankTiles('MODE_SOLVABLE', layout);
-		});
+		}, buildTimeout);
 		it('with solvable build should be solvable', async () => {
 			expectWinnable('MODE_SOLVABLE', layout);
-		});
+		}, buildTimeout);
 		it('with random build should not have blank tiles', async () => {
 			expectNoBlankTiles('MODE_RANDOM', layout);
-		});
+		}, buildTimeout);
 	});
 });

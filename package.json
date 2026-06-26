@@ -26,7 +26,7 @@
     "clean": "rimraf dist",
     "test": "ng test --watch=false",
     "test:watch": "ng test",
-    "coverage": "ng test --coverage",
+    "coverage": "ng test --coverage --watch=false",
     "lint:scss": "stylelint \"**/*.scss\"",
     "lint:css": "stylelint \"**/*.css\"",
     "lint": "ng lint && eslint .",

@@ -173,6 +173,11 @@
 						"tsConfig": "tsconfig.spec.json",
 						"runner": "vitest",
 						"runnerConfig": "vitest.config.mjs",
+						"coverageReporters": [
+							"text-summary",
+							"html",
+							"lcovonly"
+						],
 						"include": [
 							"src/**/*.spec.ts"
 						],
