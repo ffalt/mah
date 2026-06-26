@@ -11,7 +11,7 @@ interface Level {
 
 @Component({
 	selector: 'app-editor-board',
-	changeDetection: ChangeDetectionStrategy.Eager,
+	changeDetection: ChangeDetectionStrategy.OnPush,
 	templateUrl: './board.component.html',
 	styleUrls: ['./board.component.scss']
 })

@@ -17,7 +17,7 @@ export interface StartEvent {
 
 @Component({
 	selector: 'app-choose-layout',
-	changeDetection: ChangeDetectionStrategy.Eager,
+	changeDetection: ChangeDetectionStrategy.OnPush,
 	templateUrl: './choose-layout.component.html',
 	styleUrls: ['./choose-layout.component.scss'],
 	imports: [LayoutListComponent, TranslatePipe, IconInfoComponent, IconCloseComponent]

@@ -5,7 +5,7 @@ import { isKyodaiImageSet } from '../../model/tilesets';
 
 @Component({
 	selector: 'app-tile-preview',
-	changeDetection: ChangeDetectionStrategy.Eager,
+	changeDetection: ChangeDetectionStrategy.OnPush,
 	templateUrl: './tile-preview.component.html',
 	styleUrls: ['./tile-preview.component.scss'],
 	imports: [ImageSetLoaderComponent]

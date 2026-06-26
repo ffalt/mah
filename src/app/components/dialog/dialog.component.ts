@@ -7,7 +7,7 @@ const FOCUSABLE = 'button:not([disabled]), [href], input:not([disabled]), select
 
 @Component({
 	selector: 'app-dialog',
-	changeDetection: ChangeDetectionStrategy.Eager,
+	changeDetection: ChangeDetectionStrategy.OnPush,
 	templateUrl: './dialog.component.html',
 	styleUrls: ['./dialog.component.scss'],
 	imports: [TranslatePipe, IconLogoComponent, IconCloseComponent]

@@ -6,7 +6,7 @@ import { svg_error_icon, svgSpinnerIcon } from './svg';
 
 @Component({
 	selector: '[app-image-set-loader]',
-	changeDetection: ChangeDetectionStrategy.Eager,
+	changeDetection: ChangeDetectionStrategy.OnPush,
 	template: '<svg:defs></svg:defs>'
 })
 export class ImageSetLoaderComponent implements OnChanges {

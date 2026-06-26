@@ -4,7 +4,7 @@ import { ImageSetLoaderComponent } from '../image-set-loader/image-set-loader.co
 
 @Component({
 	selector: 'app-tile',
-	changeDetection: ChangeDetectionStrategy.Eager,
+	changeDetection: ChangeDetectionStrategy.OnPush,
 	templateUrl: './tile.component.html',
 	styleUrls: ['./tile.component.scss'],
 	imports: [ImageSetLoaderComponent, TranslatePipe]
