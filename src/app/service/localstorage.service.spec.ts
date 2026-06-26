@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { LocalstorageService } from './localstorage.service';
 import { log } from '../model/log';
 import type { GameStateStore, LayoutScoreStore, LoadLayout, SettingsStore } from '../model/types';
-import { Mock, MockInstance } from 'vitest';
+import { Mock, MockInstance, describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
 
 describe('LocalstorageService', () => {
 	let service: LocalstorageService;

@@ -16,6 +16,7 @@ import {
 	TILES_EXT,
 	TILES_INFOS
 } from './consts';
+import { describe, it, expect } from 'vitest';
 
 describe('Constants', () => {
 	describe('CONSTS', () => {

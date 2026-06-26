@@ -75,7 +75,7 @@ Play instantly in the browser, or grab a native build for your platform:
 > **Unsigned apps/installers (macOS and Windows)**
 >
 > The macOS and Windows builds are not yet code-signed. Your OS may show a warning the first time you run the app - this is normal for unsigned software and **does not mean the files are malicious**.
-> If you prefer to skip these warnings, just [play in your browser](https://ffalt.github.io/mah/) instead.
+> If you prefer to skip these warnings, [play in your browser](https://ffalt.github.io/mah/) instead.
 
 <details>
 <summary>🍎 <strong>macOS</strong> - bypassing Gatekeeper</summary>
@@ -143,7 +143,7 @@ services:
       - "8080:80"
 ```
 
-For building your own docker container, see [resources/docker](resources/docker/).
+For building your own docker container, see [resources/docker](./resources/docker/README.md).
 
 ---
 

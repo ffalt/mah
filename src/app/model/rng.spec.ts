@@ -1,4 +1,5 @@
 import { rng, mulberry32, stringToSeed, seedRNG, resetRNG, generateLayoutSeed } from './rng';
+import { describe, it, expect, afterEach } from 'vitest';
 
 describe('rng', () => {
 	afterEach(() => {

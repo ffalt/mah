@@ -1,5 +1,6 @@
 import { TUTORIAL_STEPS, createTutorialBoard } from './tutorial';
 import { Board } from './board';
+import { describe, it, expect } from 'vitest';
 
 describe('TUTORIAL_STEPS', () => {
 	it('is a non-empty array', () => {

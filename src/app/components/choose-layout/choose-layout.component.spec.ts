@@ -9,6 +9,7 @@ import { MODE_SOLVABLE, MODE_RANDOM } from '../../model/builder';
 import { LocalstorageService } from '../../service/localstorage.service';
 import { By } from '@angular/platform-browser';
 import type { Layout } from '../../model/types';
+import { describe, beforeEach, it, expect, vi } from 'vitest';
 
 describe('ChooseLayoutComponent', () => {
 	let component: ChooseLayoutComponent;

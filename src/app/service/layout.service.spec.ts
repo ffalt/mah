@@ -5,7 +5,7 @@ import { of, throwError } from 'rxjs';
 import { LAYOUT_SVG, LayoutService, MAPPING_HELPERS } from './layout.service';
 import { LocalstorageService } from './localstorage.service';
 import type { CompactMapping, Layout, LoadLayout, Mapping, SafeUrlSVG } from '../model/types';
-import { Mocked } from 'vitest';
+import { Mocked, describe, beforeEach, it, expect, vi } from 'vitest';
 
 describe('LayoutService', () => {
 	let service: LayoutService;

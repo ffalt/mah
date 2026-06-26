@@ -5,6 +5,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { SvgdefService } from '../../service/svgdef.service';
 import { TilesetDefsComponent } from './tileset-defs.component';
 import { By } from '@angular/platform-browser';
+import { describe, beforeEach, it, expect } from 'vitest';
 
 describe('TilesetDefsComponent', () => {
 	let component: TilesetDefsComponent;

@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClient } from '@angular/common/http';
 import { KYODAI_TILES, SvgdefService } from './svgdef.service';
 import { of, throwError } from 'rxjs';
-import { Mocked } from 'vitest';
+import { Mocked, describe, beforeEach, it, expect, vi } from 'vitest';
 
 interface CacheItem {
 	data?: string;

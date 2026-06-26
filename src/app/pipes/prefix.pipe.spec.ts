@@ -1,4 +1,5 @@
 import { PrefixPipe } from './prefix.pipe';
+import { describe, it, expect } from 'vitest';
 
 describe('PrefixPipe', () => {
 	it('create an instance', () => {

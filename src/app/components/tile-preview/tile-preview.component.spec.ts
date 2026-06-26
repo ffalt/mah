@@ -5,6 +5,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { SvgdefService } from '../../service/svgdef.service';
 import { TilePreviewComponent } from './tile-preview.component';
 import { By } from '@angular/platform-browser';
+import { describe, beforeEach, it, expect } from 'vitest';
 
 describe('TilePreviewComponent', () => {
 	let component: TilePreviewComponent;

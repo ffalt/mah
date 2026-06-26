@@ -11,6 +11,7 @@ import { GAME_MODE_EASY, GAME_MODE_EXPERT, GAME_MODE_STANDARD } from '../../mode
 import { type BUILD_MODE_ID, MODE_SOLVABLE } from '../../model/builder';
 import { environment } from '../../../environments/environment';
 import { Stone } from '../../model/stone';
+import { describe, beforeEach, it, expect, vi } from 'vitest';
 
 const zenControlsDefaultRect: DOMRect = {
 	x: 20, y: 30, left: 20, top: 30, right: 220, bottom: 90, width: 200, height: 60,

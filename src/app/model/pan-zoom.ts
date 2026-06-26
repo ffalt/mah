@@ -245,7 +245,7 @@ export class PanZoom {
 
 		// Handle edge case: container not properly sized
 		if (containerWidth <= 0 || containerHeight <= 0) {
-			// Still update pan values to prevent inconsistent state, but reset to origin
+			// Still update pan values to prevent inconsistent state but reset to origin
 			// since we can't calculate proper bounds without container dimensions
 			if (this.panX !== 0 || this.panY !== 0) {
 				this.panX = 0;

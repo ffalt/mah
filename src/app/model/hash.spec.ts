@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs';
 import type { LoadLayout } from './types';
 import { expandMapping, mappingToID } from './mapping';
+import { describe, it, expect } from 'vitest';
 
 const filepath = './src/assets/data/boards.json';
 

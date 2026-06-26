@@ -2,6 +2,7 @@ import { SolvableBoardBuilder, SolvableBoardBuilderBase } from './solvable';
 import { Tiles } from '../tiles';
 import type { Mapping } from '../types';
 import { BuilderModes, MODE_SOLVABLE } from '../builder';
+import { describe, beforeEach, it, expect } from 'vitest';
 
 // A flat 4-stone mapping - 2 pairs, no overlaps, no blocking
 const MAPPING_4: Mapping = [[0, 0, 0], [0, 2, 0], [0, 4, 0], [0, 6, 0]];

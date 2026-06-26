@@ -1,5 +1,6 @@
 import { Solver } from './solver';
 import type { StonePosition } from '../stone';
+import { describe, beforeEach, it, expect } from 'vitest';
 
 describe('Solver', () => {
 	let solver: Solver;

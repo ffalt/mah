@@ -6,6 +6,7 @@ import { By } from '@angular/platform-browser';
 import { LayoutService } from '../../service/layout.service';
 import { LocalstorageService } from '../../service/localstorage.service';
 import type { LayoutScoreStore } from '../../model/types';
+import { describe, beforeEach, it, expect, vi } from 'vitest';
 
 describe('HelpComponent', () => {
 	let component: HelpComponent;

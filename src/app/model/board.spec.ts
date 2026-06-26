@@ -1,5 +1,6 @@
 import { Board } from './board';
 import { Stone } from './stone';
+import { describe, beforeEach, it, expect, vi } from 'vitest';
 
 describe('Board', () => {
 	let board: Board;

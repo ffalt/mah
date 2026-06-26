@@ -1,5 +1,6 @@
 import { blocksOverlap, inBounds, key } from './utilities';
 import { X_MAX, Y_MAX, Z_MAX } from './consts';
+import { describe, it, expect } from 'vitest';
 
 describe('inBounds', () => {
 	it('returns true for the origin (0, 0, 0)', () => {

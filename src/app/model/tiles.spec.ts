@@ -1,5 +1,6 @@
 import { Tiles } from './tiles';
 import { TILES, TILES_EXT } from './consts';
+import { describe, it, expect } from 'vitest';
 
 describe('Tiles', () => {
 	describe('initialization', () => {

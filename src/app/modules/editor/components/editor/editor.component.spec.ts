@@ -4,7 +4,7 @@ import { provideTranslateService } from '@ngx-translate/core';
 import { LayoutService } from '../../../../service/layout.service';
 import { EXPORT_API, EditorComponent } from './editor.component';
 import type { Layout } from '../../../../model/types';
-import { Mock } from 'vitest';
+import { Mock, describe, beforeEach, it, expect, vi } from 'vitest';
 
 const mockLayoutService = {
 	layouts: { items: [] as Array<Layout> }

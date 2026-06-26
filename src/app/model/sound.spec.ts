@@ -1,9 +1,10 @@
+import { Mock, describe, beforeEach, it, expect, vi } from 'vitest';
+
 // Mock zzfx before importing the module that uses it
 vi.mock('zzfx', () => ({ zzfx: vi.fn() }));
 
 import { zzfx } from 'zzfx';
 import { Sound, SOUNDS } from './sound';
-import { Mock } from 'vitest';
 
 describe('Sound', () => {
 	let sound: Sound;

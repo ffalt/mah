@@ -1,5 +1,5 @@
 import { Clock } from './clock';
-import { Mock, MockInstance } from 'vitest';
+import { Mock, MockInstance, describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
 
 describe('Clock', () => {
 	let clock: Clock;
@@ -48,7 +48,7 @@ describe('Clock', () => {
 		});
 
 		it('should clear the timer if running', () => {
-			// Setup a running timer
+			// Set up a running timer
 			clock.run();
 			expect(mockSetTimeout).toHaveBeenCalled();
 

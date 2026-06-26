@@ -7,7 +7,7 @@ import { LocalstorageService } from './localstorage.service';
 import { DEFAULT_LANGUAGE } from '../model/languages';
 import { LangAuto } from '../model/consts';
 import type { Sound } from '../model/sound';
-import { Mock } from 'vitest';
+import { Mock, describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
 
 describe('AppService', () => {
 	let service: AppService;

@@ -4,7 +4,7 @@ import { SvgdefService } from '../../service/svgdef.service';
 import { ImageSetLoaderComponent } from './image-set-loader.component';
 import type { ElementRef } from '@angular/core';
 import { log } from '../../model/log';
-import { Mock } from 'vitest';
+import { Mock, describe, beforeEach, it, expect, vi } from 'vitest';
 
 interface HackImageSetLoaderComponent {
 	elementRef: ElementRef;

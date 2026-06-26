@@ -2,6 +2,7 @@ import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideTranslateService } from '@ngx-translate/core';
 import { DialogComponent } from './dialog.component';
 import { By } from '@angular/platform-browser';
+import { describe, beforeEach, it, expect, vi } from 'vitest';
 
 describe('DialogComponent', () => {
 	let component: DialogComponent;

@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { SOLVE_TASKS, WORKER_FACTORIES, WorkerService } from './worker.service';
 import type { StonePosition } from '../model/stone';
 import type { Mapping } from '../model/types';
+import { describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
 
 class FakeWorker {}
 

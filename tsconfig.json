@@ -26,8 +26,7 @@
 			"./node_modules"
 		],
 		"types": [
-			"node",
-			"vitest/globals"
+			"node"
 		]
 	},
 	"angularCompilerOptions": {

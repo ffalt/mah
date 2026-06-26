@@ -1,4 +1,5 @@
 import { isKyodaiImageSet, buildTiles, buildKyodaiSVG, KyodaiTileSets } from './tilesets';
+import { describe, beforeEach, it, expect, vi } from 'vitest';
 
 type EventHandler = (event?: Event) => void;
 

@@ -9,6 +9,7 @@ import { ImportComponent } from '../import/import.component';
 import { ManagerComponent } from '../manager/manager.component';
 import { IconCloseComponent } from '../../../../components/icons/icon-close.component';
 import { IconLogoComponent } from '../../../../components/icons/icon-logo.component';
+import { DropZoneDirective } from '../../directives/drop-zone.directive';
 
 // Injectable seam for the export helper so tests can supply a stub via DI
 // instead of mocking the module.
@@ -22,7 +23,7 @@ export const EXPORT_API = new InjectionToken<{ downloadMahLayouts: typeof downlo
 	changeDetection: ChangeDetectionStrategy.Eager,
 	templateUrl: './editor.component.html',
 	styleUrls: ['./editor.component.scss'],
-	imports: [LayoutComponent, IconLogoComponent, ImportComponent, ManagerComponent, TranslatePipe, IconCloseComponent]
+	imports: [DropZoneDirective, LayoutComponent, IconLogoComponent, ImportComponent, ManagerComponent, TranslatePipe, IconCloseComponent]
 })
 export class EditorComponent {
 	readonly closeEvent = output();

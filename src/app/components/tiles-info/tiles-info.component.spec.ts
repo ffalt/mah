@@ -6,6 +6,7 @@ import { AppService } from '../../service/app.service';
 import { TilesInfoComponent } from './tiles-info.component';
 import { By } from '@angular/platform-browser';
 import { ImageSets, TILES_INFOS } from '../../model/consts';
+import { describe, beforeEach, it, expect } from 'vitest';
 
 describe('TilesInfoComponent', () => {
 	let component: TilesInfoComponent;

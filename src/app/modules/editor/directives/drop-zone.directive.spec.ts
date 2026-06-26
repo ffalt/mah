@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DropZoneDirective } from './drop-zone.directive';
-import { Mock } from 'vitest';
+import { Mock, describe, beforeEach, it, expect, vi } from 'vitest';
 
 @Component({
 	template: '<div appDropZone></div>',

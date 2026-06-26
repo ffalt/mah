@@ -1,4 +1,5 @@
 import { Music } from './music';
+import { describe, beforeEach, it, expect } from 'vitest';
 
 describe('Music', () => {
 	let music: Music;

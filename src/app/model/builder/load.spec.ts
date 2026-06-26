@@ -1,6 +1,7 @@
 import { LoadBoardBuilder } from './load';
 import { Tiles } from '../tiles';
 import type { StoneMapping } from '../types';
+import { describe, beforeEach, it, expect } from 'vitest';
 
 describe('LoadBoardBuilder', () => {
 	let builder: LoadBoardBuilder;

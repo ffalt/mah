@@ -1,12 +1,13 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { DeferLoadScrollHostDirective } from './defer-load-scroll-host.directive';
 import { DeferLoadService } from './defer-load.service';
-import { Mock } from 'vitest';
+import { Mock, describe, beforeEach, it, expect, vi } from 'vitest';
 
 @Component({
 	template: `
 		<div appDeferLoadScrollHost [scrollTo]="scrollTarget" style="overflow:auto;height:200px"></div>`,
+	changeDetection: ChangeDetectionStrategy.Eager,
 	imports: [DeferLoadScrollHostDirective]
 })
 class TestHostComponent {

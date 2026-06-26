@@ -2,6 +2,7 @@ import { calcDrawPos, sortDrawItems, getDrawBoundsViewport, getDrawViewport, get
 import { Stone } from './stone';
 import { CONSTS } from './consts';
 import type { Mapping } from './types';
+import { describe, it, expect } from 'vitest';
 
 describe('Draw', () => {
 	const stone = new Stone(0, 0, 0, 0, 0);

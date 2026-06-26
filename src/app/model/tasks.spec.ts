@@ -3,6 +3,7 @@ import type { Solver } from './solver/solver';
 import { Builder, MODE_SOLVABLE } from './builder';
 import type { StonePosition } from './stone';
 import type { Mapping, Place } from './types';
+import { describe, it, expect, vi } from 'vitest';
 
 describe('Tasks', () => {
 	describe('solveGame', () => {

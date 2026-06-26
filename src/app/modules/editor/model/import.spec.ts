@@ -14,6 +14,7 @@ import {
 	readFile,
 	sortMapping
 } from './import';
+import { describe, beforeEach, afterEach, it, expect } from 'vitest';
 
 describe('sortMapping', () => {
 	it('should sort by z first', () => {

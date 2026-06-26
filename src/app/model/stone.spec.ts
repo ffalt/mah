@@ -1,4 +1,5 @@
 import { Stone, safeGetStone } from './stone';
+import { describe, it, expect } from 'vitest';
 
 describe('Stone', () => {
 	describe('initialization', () => {

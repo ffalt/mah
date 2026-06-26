@@ -5,7 +5,7 @@ import { LayoutService } from '../../../../service/layout.service';
 import { WorkerService } from '../../../../service/worker.service';
 import { ManagerComponent } from './manager.component';
 import type { Layout } from '../../../../model/types';
-import { Mock } from 'vitest';
+import { Mock, describe, beforeEach, it, expect, vi } from 'vitest';
 
 const makeLayout = (name: string, overrides: Partial<Layout> = {}): Layout => ({
 	id: name,

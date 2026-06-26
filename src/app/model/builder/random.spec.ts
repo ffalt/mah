@@ -1,6 +1,7 @@
 import { RandomBoardBuilder } from './random';
 import { Tiles } from '../tiles';
 import type { Mapping } from '../types';
+import { describe, beforeEach, it, expect } from 'vitest';
 
 describe('RandomBoardBuilder', () => {
 	let builder: RandomBoardBuilder;

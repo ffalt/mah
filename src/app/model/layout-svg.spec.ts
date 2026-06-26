@@ -1,5 +1,6 @@
 import { generateSVG, generateBase64SVG } from './layout-svg';
 import type { Mapping } from './types';
+import { describe, it, expect } from 'vitest';
 
 describe('Layout SVG', () => {
 	describe('generateSVG', () => {

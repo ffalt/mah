@@ -1,5 +1,6 @@
 import { Matrix } from './matrix';
 import type { Mapping } from '../../../model/types';
+import { describe, beforeEach, it, expect } from 'vitest';
 
 describe('Matrix', () => {
 	let matrix: Matrix;

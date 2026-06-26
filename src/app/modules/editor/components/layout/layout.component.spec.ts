@@ -7,6 +7,7 @@ import { LayoutService } from '../../../../service/layout.service';
 import type { EditLayout } from '../../model/edit-layout';
 import type { Cell } from '../../model/cell';
 import type { Stone } from '../../../../model/stone';
+import { describe, it, beforeEach, expect, vi } from 'vitest';
 
 const mockWorkerService = {
 	solve: vi.fn()

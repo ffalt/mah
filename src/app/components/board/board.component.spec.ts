@@ -8,6 +8,7 @@ import { Stone } from '../../model/stone';
 import { Backgrounds } from '../../model/consts';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { describe, beforeEach, it, expect, vi } from 'vitest';
 
 interface HackBoardComponent {
 	resize(element: { innerHeight: number; innerWidth: number }): void;
@@ -277,7 +278,7 @@ describe('BoardComponent', () => {
 		});
 
 		it('should handle touch start events for panning', () => {
-			// Create a touch event with one touch point
+			// Create a touch event with one touchpoint
 			const touchEvent = new TouchEvent('touchstart', {
 				touches: [{ identifier: 0, clientX: 100, clientY: 100 } as Touch]
 			});
@@ -291,7 +292,7 @@ describe('BoardComponent', () => {
 		});
 
 		it('should handle touch start events for pinching', () => {
-			// Create a touch event with two touch points
+			// Create a touch event with two touchpoints
 			const touchEvent = new TouchEvent('touchstart', {
 				touches: [
 					{ identifier: 0, clientX: 100, clientY: 100 } as Touch,
@@ -318,7 +319,7 @@ describe('BoardComponent', () => {
 
 			const setPanSpy = vi.spyOn(component.panZoom, 'setPanValue');
 
-			// Create a touch event with one touch point
+			// Create a touch event with one touchpoint
 			const touchEvent = new TouchEvent('touchmove', {
 				touches: [{ identifier: 0, clientX: 120, clientY: 130 } as Touch]
 			});

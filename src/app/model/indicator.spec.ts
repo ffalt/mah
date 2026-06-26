@@ -1,4 +1,5 @@
 import { Indicator } from './indicator';
+import { describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
 
 describe('Indicator', () => {
 	let indicator: Indicator;

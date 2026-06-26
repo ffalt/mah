@@ -2,6 +2,7 @@ import { expandMapping, mappingToID, mappingBounds } from './mapping';
 import type { CompactMapping, LoadLayout, Mapping } from './types';
 import { readFileSync } from 'node:fs';
 import { compactMapping } from '../modules/editor/model/import';
+import { describe, it, expect, test } from 'vitest';
 
 const filepath = './src/assets/data/boards.json';
 const loadLayouts: Array<LoadLayout> = JSON.parse(readFileSync(filepath).toString());

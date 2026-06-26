@@ -11,6 +11,7 @@ import { Backgrounds, ImageSets, Themes } from '../../model/consts';
 import { KyodaiTileSets } from '../../model/tilesets';
 import { environment } from '../../../environments/environment';
 import type { ElementRef } from '@angular/core';
+import { describe, beforeEach, it, expect, vi } from 'vitest';
 
 describe('SettingsComponent', () => {
 	let component: SettingsComponent;

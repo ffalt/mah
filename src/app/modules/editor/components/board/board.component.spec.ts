@@ -4,7 +4,7 @@ import { BoardComponent } from './board.component';
 import { Matrix } from '../../model/matrix';
 import { Stone } from '../../../../model/stone';
 import type { Draw } from '../../../../model/draw';
-import { Mock } from 'vitest';
+import { Mock, describe, beforeEach, it, expect, vi } from 'vitest';
 
 describe('BoardComponent', () => {
 	let component: BoardComponent;

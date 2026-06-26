@@ -1,16 +1,20 @@
-import { Component, EventEmitter } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter } from '@angular/core';
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { DeferLoadDirective } from './defer-load.directive';
 import { DeferLoadService, type ScrollNotifyEvent } from './defer-load.service';
 import { Rect } from './rect';
+import { describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
 
 @Component({
-	template: `<div appDeferLoad (appDeferLoad)="onLoad()" [preRender]="preRender"></div>`,
+	template: `
+		<div appDeferLoad (appDeferLoad)="onLoad()" [preRender]="preRender"></div>`,
+	changeDetection: ChangeDetectionStrategy.Eager,
 	imports: [DeferLoadDirective]
 })
 class TestHostComponent {
 	preRender = false;
 	loadCount = 0;
+
 	onLoad(): void {
 		this.loadCount++;
 	}
@@ -135,8 +139,8 @@ describe('DeferLoadDirective', () => {
 	});
 
 	describe('scroll listener path', () => {
-		// Use a currentViewport that does not intersect the test element so the
-		// initial on-init check in addScrollListeners does not trigger a load.
+		// Use a currentViewport that does not intersect the test element
+		// so the initial on-init check in addScrollListeners does not trigger a load.
 		const offscreenViewport = new Rect(0, -500, 1024, -1);
 
 		it('should emit when the element is in the scrolled viewport', () => {

@@ -3,12 +3,11 @@ import path from 'node:path';
 import { TestBed } from '@angular/core/testing';
 import { HttpClient } from '@angular/common/http';
 import { of, throwError } from 'rxjs';
-
 import { generatePatternList, PatternService } from './pattern.service';
-import { Mocked } from 'vitest';
+import { Mocked, describe, beforeEach, it, expect, vi } from 'vitest';
 
 function getPatternsDirectory(): string {
-	// This spec file lives in src/app/service -> assets is at src/assets
+	// This spec file lives in src/app/service -> assets are at src/assets
 	return path.resolve(__dirname, '../../assets/patterns');
 }
 

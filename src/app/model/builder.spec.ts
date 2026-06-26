@@ -4,6 +4,7 @@ import { type BUILD_MODE_ID, Builder } from './builder';
 import { expandMapping, mappingToID } from './mapping';
 import { Solver } from './solver/solver';
 import { Tiles } from './tiles';
+import { describe, it, expect } from 'vitest';
 
 const filepath = './src/assets/data/boards.json';
 

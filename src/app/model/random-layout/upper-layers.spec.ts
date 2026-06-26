@@ -4,6 +4,7 @@ import { TARGET_COUNT, X_MAX, Y_MAX } from './consts';
 import type { Mapping } from '../types';
 import { key, isSupported, blocksOverlap } from './utilities';
 import { seedRNG, resetRNG } from '../rng';
+import { describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
 
 // Deterministic small base layer: row of tiles across the center
 function buildSmallBase(): Mapping {
