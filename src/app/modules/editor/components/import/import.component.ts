@@ -1,4 +1,4 @@
-import { Component, InjectionToken, inject, output, signal, ChangeDetectionStrategy } from '@angular/core';
+import { Component, inject, output, signal, ChangeDetectionStrategy } from '@angular/core';
 import type { Layout, LoadLayout } from '../../../../model/types';
 import { LayoutService } from '../../../../service/layout.service';
 import { log } from '../../../../model/log';
@@ -6,13 +6,6 @@ import { importLayouts } from '../../model/import';
 import { TranslatePipe } from '@ngx-translate/core';
 import { DropZoneDirective } from '../../directives/drop-zone.directive';
 import { IconOkComponent } from '../../../../components/icons/icon-ok.component';
-
-// Injectable seam for the import helper so tests can supply a stub via DI
-// instead of mocking the module.
-export const IMPORT_API = new InjectionToken<{ importLayouts: typeof importLayouts }>('IMPORT_API', {
-	providedIn: 'root',
-	factory: () => ({ importLayouts })
-});
 
 @Component({
 	selector: 'app-import-component',
@@ -24,7 +17,6 @@ export const IMPORT_API = new InjectionToken<{ importLayouts: typeof importLayou
 export class ImportComponent {
 	readonly editEvent = output<Layout>();
 	readonly logs = signal<Array<{ msg: string; isError?: boolean; id?: string }>>([]);
-	readonly importApi = inject(IMPORT_API);
 	readonly layoutService = inject(LayoutService);
 
 	selectFiles(event: Event): void {
@@ -40,7 +32,7 @@ export class ImportComponent {
 		const imported: Array<LoadLayout> = [];
 		for (const file of files) {
 			try {
-				const loadLayouts: Array<LoadLayout> = await this.importApi.importLayouts(file);
+				const loadLayouts: Array<LoadLayout> = await importLayouts(file);
 				for (const loadLayout of loadLayouts) {
 					const layout = this.layoutService.expandLayout(loadLayout, true);
 					if (

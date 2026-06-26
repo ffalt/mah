@@ -1,8 +1,20 @@
 import { TestBed } from '@angular/core/testing';
-import { SOLVE_TASKS, WORKER_FACTORIES, WorkerService } from './worker.service';
+import { WorkerService } from './worker.service';
+import * as workerFactorySolve from '../worker/create-solve.worker';
+import * as workerFactoryStats from '../worker/create-stats-solve.worker';
+import * as tasks from '../model/tasks';
 import type { StonePosition } from '../model/stone';
 import type { Mapping } from '../model/types';
-import { describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
+import { Mock, describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
+
+const mockTasks = {
+	solveGame: vi.spyOn(tasks, 'solveGame'),
+	statsSolveMapping: vi.spyOn(tasks, 'statsSolveMapping')
+};
+const mockFactories = {
+	createSolveWorker: vi.spyOn(workerFactorySolve, 'createSolveWorker') as unknown as Mock,
+	createStatsSolveWorker: vi.spyOn(workerFactoryStats, 'createStatsSolveWorker') as unknown as Mock
+};
 
 class FakeWorker {}
 
@@ -14,24 +26,10 @@ class MockWorker extends EventTarget {
 describe('WorkerService', () => {
 	let service: WorkerService;
 	let originalWorker: typeof Worker;
-	let mockTasks: { solveGame: ReturnType<typeof vi.fn>; statsSolveMapping: ReturnType<typeof vi.fn> };
-	let mockFactories: { createSolveWorker: ReturnType<typeof vi.fn>; createStatsSolveWorker: ReturnType<typeof vi.fn> };
 
 	beforeEach(() => {
-		mockTasks = {
-			solveGame: vi.fn(),
-			statsSolveMapping: vi.fn()
-		};
-		mockFactories = {
-			createSolveWorker: vi.fn(),
-			createStatsSolveWorker: vi.fn()
-		};
 		TestBed.configureTestingModule({
-			providers: [
-				WorkerService,
-				{ provide: SOLVE_TASKS, useValue: mockTasks },
-				{ provide: WORKER_FACTORIES, useValue: mockFactories }
-			]
+			providers: [WorkerService]
 		});
 		service = TestBed.inject(WorkerService);
 		originalWorker = global.Worker;

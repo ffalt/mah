@@ -2,16 +2,15 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideTranslateService } from '@ngx-translate/core';
 import { LayoutService } from '../../../../service/layout.service';
-import { EXPORT_API, EditorComponent } from './editor.component';
+import * as exportModule from '../../model/export';
+import { EditorComponent } from './editor.component';
 import type { Layout } from '../../../../model/types';
-import { Mock, describe, beforeEach, it, expect, vi } from 'vitest';
+import { describe, beforeEach, it, expect, vi } from 'vitest';
+
+const downloadMahLayoutsSpy = vi.spyOn(exportModule, 'downloadMahLayouts');
 
 const mockLayoutService = {
 	layouts: { items: [] as Array<Layout> }
-};
-
-const mockExportApi: { downloadMahLayouts: Mock } = {
-	downloadMahLayouts: vi.fn()
 };
 
 describe('EditorComponent', () => {
@@ -23,8 +22,7 @@ describe('EditorComponent', () => {
 			imports: [EditorComponent],
 			providers: [
 				provideTranslateService(),
-				{ provide: LayoutService, useValue: mockLayoutService },
-				{ provide: EXPORT_API, useValue: mockExportApi }
+				{ provide: LayoutService, useValue: mockLayoutService }
 			],
 			schemas: [NO_ERRORS_SCHEMA]
 		}).compileComponents();
@@ -136,7 +134,7 @@ describe('EditorComponent', () => {
 			const items: Array<Layout> = [{ id: '1', name: 'L', category: 'Cat', mapping: [] }];
 			mockLayoutService.layouts.items = items;
 			component.exportLayouts();
-			expect(mockExportApi.downloadMahLayouts).toHaveBeenCalledWith(items);
+			expect(downloadMahLayoutsSpy).toHaveBeenCalledWith(items);
 		});
 	});
 });

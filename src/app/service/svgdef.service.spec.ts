@@ -1,8 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClient } from '@angular/common/http';
-import { KYODAI_TILES, SvgdefService } from './svgdef.service';
+import { SvgdefService } from './svgdef.service';
+import * as tilesets from '../model/tilesets';
 import { of, throwError } from 'rxjs';
 import { Mocked, describe, beforeEach, it, expect, vi } from 'vitest';
+
+const mockKyodai = {
+	isKyodaiImageSet: vi.spyOn(tilesets, 'isKyodaiImageSet'),
+	buildKyodaiSVG: vi.spyOn(tilesets, 'buildKyodaiSVG')
+};
 
 interface CacheItem {
 	data?: string;
@@ -20,7 +26,6 @@ interface HackSvgdefService {
 describe('SvgdefService', () => {
 	let service: SvgdefService;
 	let mockHttpClient: Mocked<HttpClient>;
-	let mockKyodai: { isKyodaiImageSet: ReturnType<typeof vi.fn>; buildKyodaiSVG: ReturnType<typeof vi.fn> };
 
 	beforeEach(() => {
 		// Create mock for HttpClient
@@ -28,18 +33,11 @@ describe('SvgdefService', () => {
 			get: vi.fn()
 		} as unknown as Mocked<HttpClient>;
 
-		// Stub the Kyodai tileset helpers
-		mockKyodai = {
-			isKyodaiImageSet: vi.fn(),
-			buildKyodaiSVG: vi.fn()
-		};
-
 		// Configure TestBed
 		TestBed.configureTestingModule({
 			providers: [
 				SvgdefService,
-				{ provide: HttpClient, useValue: mockHttpClient },
-				{ provide: KYODAI_TILES, useValue: mockKyodai }
+				{ provide: HttpClient, useValue: mockHttpClient }
 			]
 		});
 

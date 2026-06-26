@@ -2,18 +2,26 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClient } from '@angular/common/http';
 import { DomSanitizer } from '@angular/platform-browser';
 import { of, throwError } from 'rxjs';
-import { LAYOUT_SVG, LayoutService, MAPPING_HELPERS } from './layout.service';
+import { LayoutService } from './layout.service';
 import { LocalstorageService } from './localstorage.service';
+import * as mappingModule from '../model/mapping';
+import * as layoutSvgModule from '../model/layout-svg';
 import type { CompactMapping, Layout, LoadLayout, Mapping, SafeUrlSVG } from '../model/types';
 import { Mocked, describe, beforeEach, it, expect, vi } from 'vitest';
+
+const mockMapping = {
+	expandMapping: vi.spyOn(mappingModule, 'expandMapping'),
+	mappingToID: vi.spyOn(mappingModule, 'mappingToID')
+};
+const mockLayoutSvg = {
+	generateBase64SVG: vi.spyOn(layoutSvgModule, 'generateBase64SVG')
+};
 
 describe('LayoutService', () => {
 	let service: LayoutService;
 	let mockHttpClient: Mocked<HttpClient>;
 	let mockDomSanitizer: Mocked<DomSanitizer>;
 	let mockLocalstorageService: Mocked<LocalstorageService>;
-	let mockMapping: { expandMapping: ReturnType<typeof vi.fn>; mappingToID: ReturnType<typeof vi.fn> };
-	let mockLayoutSvg: { generateBase64SVG: ReturnType<typeof vi.fn> };
 
 	beforeEach(() => {
 		// Create mocks for dependencies
@@ -36,24 +44,13 @@ describe('LayoutService', () => {
 			storeScore: vi.fn()
 		} as unknown as Mocked<LocalstorageService>;
 
-		// Stub the pure model helpers
-		mockMapping = {
-			expandMapping: vi.fn(),
-			mappingToID: vi.fn()
-		};
-		mockLayoutSvg = {
-			generateBase64SVG: vi.fn()
-		};
-
 		// Configure TestBed
 		TestBed.configureTestingModule({
 			providers: [
 				LayoutService,
 				{ provide: HttpClient, useValue: mockHttpClient },
 				{ provide: DomSanitizer, useValue: mockDomSanitizer },
-				{ provide: LocalstorageService, useValue: mockLocalstorageService },
-				{ provide: MAPPING_HELPERS, useValue: mockMapping },
-				{ provide: LAYOUT_SVG, useValue: mockLayoutSvg }
+				{ provide: LocalstorageService, useValue: mockLocalstorageService }
 			]
 		});
 

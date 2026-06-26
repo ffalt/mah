@@ -1,4 +1,4 @@
-import { Component, InjectionToken, inject, output, signal, viewChild, ChangeDetectionStrategy } from '@angular/core';
+import { Component, inject, output, signal, viewChild, ChangeDetectionStrategy } from '@angular/core';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { LayoutService } from '../../../../service/layout.service';
 import { LayoutComponent } from '../layout/layout.component';
@@ -10,13 +10,6 @@ import { ManagerComponent } from '../manager/manager.component';
 import { IconCloseComponent } from '../../../../components/icons/icon-close.component';
 import { IconLogoComponent } from '../../../../components/icons/icon-logo.component';
 import { DropZoneDirective } from '../../directives/drop-zone.directive';
-
-// Injectable seam for the export helper so tests can supply a stub via DI
-// instead of mocking the module.
-export const EXPORT_API = new InjectionToken<{ downloadMahLayouts: typeof downloadMahLayouts }>('EXPORT_API', {
-	providedIn: 'root',
-	factory: () => ({ downloadMahLayouts })
-});
 
 @Component({
 	selector: 'app-editor-component',
@@ -32,7 +25,6 @@ export class EditorComponent {
 	readonly layout = signal<EditLayout | undefined>(undefined);
 	readonly layoutService = inject(LayoutService);
 	readonly translate = inject(TranslateService);
-	private readonly exportApi = inject(EXPORT_API);
 
 	save() {
 		const layoutComponent = this.layoutComponent();
@@ -67,7 +59,7 @@ export class EditorComponent {
 	}
 
 	exportLayouts() {
-		this.exportApi.downloadMahLayouts(this.layoutService.layouts.items);
+		downloadMahLayouts(this.layoutService.layouts.items);
 	}
 
 	newLayout() {

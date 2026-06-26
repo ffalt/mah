@@ -3,9 +3,12 @@ import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { provideTranslateService } from '@ngx-translate/core';
 import { LayoutService } from '../../../../service/layout.service';
-import { IMPORT_API, ImportComponent } from './import.component';
+import * as importModule from '../../model/import';
+import { ImportComponent } from './import.component';
 import type { Layout, LoadLayout } from '../../../../model/types';
 import { Mock, describe, beforeEach, it, expect, vi } from 'vitest';
+
+const mockImportLayouts = vi.spyOn(importModule, 'importLayouts');
 
 beforeEach(() => {
 	vi.spyOn(console, 'error').mockImplementation(() => undefined);
@@ -33,7 +36,6 @@ describe('ImportComponent', () => {
 		expandLayout: Mock;
 		storeCustomBoards: Mock;
 	};
-	let mockImportApi: { importLayouts: Mock };
 
 	beforeEach(async () => {
 		mockLayoutService = {
@@ -41,16 +43,12 @@ describe('ImportComponent', () => {
 			expandLayout: vi.fn(),
 			storeCustomBoards: vi.fn()
 		};
-		mockImportApi = {
-			importLayouts: vi.fn()
-		};
 
 		await TestBed.configureTestingModule({
 			imports: [ImportComponent],
 			providers: [
 				provideTranslateService(),
-				{ provide: LayoutService, useValue: mockLayoutService },
-				{ provide: IMPORT_API, useValue: mockImportApi }
+				{ provide: LayoutService, useValue: mockLayoutService }
 			],
 			schemas: [NO_ERRORS_SCHEMA]
 		}).compileComponents();
@@ -90,7 +88,7 @@ describe('ImportComponent', () => {
 		it('should add to logs and call storeCustomBoards on successful import', async () => {
 			const loadLayout = makeLoadLayout('new-id');
 			const layout = makeLayout('new-id');
-			mockImportApi.importLayouts.mockResolvedValue([loadLayout]);
+			mockImportLayouts.mockResolvedValue([loadLayout]);
 			mockLayoutService.expandLayout.mockReturnValue(layout);
 			mockLayoutService.layouts.items = [];
 			(LayoutService as unknown as { layout2loadLayout: Mock }).layout2loadLayout = vi.fn().mockReturnValue(loadLayout);
@@ -107,7 +105,7 @@ describe('ImportComponent', () => {
 		it('should render imported logs in the view after import resolves', async () => {
 			const loadLayout = makeLoadLayout('view-id');
 			const layout = makeLayout('view-id');
-			mockImportApi.importLayouts.mockResolvedValue([loadLayout]);
+			mockImportLayouts.mockResolvedValue([loadLayout]);
 			mockLayoutService.expandLayout.mockReturnValue(layout);
 			mockLayoutService.layouts.items = [];
 			(LayoutService as unknown as { layout2loadLayout: Mock }).layout2loadLayout = vi.fn().mockReturnValue(loadLayout);
@@ -123,7 +121,7 @@ describe('ImportComponent', () => {
 		it('should add error log for duplicate layout', async () => {
 			const loadLayout = makeLoadLayout('dup-id');
 			const layout = makeLayout('dup-id');
-			mockImportApi.importLayouts.mockResolvedValue([loadLayout]);
+			mockImportLayouts.mockResolvedValue([loadLayout]);
 			mockLayoutService.expandLayout.mockReturnValue(layout);
 			mockLayoutService.layouts.items = [layout];
 
@@ -136,7 +134,7 @@ describe('ImportComponent', () => {
 		});
 
 		it('should add error log when import throws', async () => {
-			mockImportApi.importLayouts.mockRejectedValue(new Error('Bad file'));
+			mockImportLayouts.mockRejectedValue(new Error('Bad file'));
 
 			const mockFile = new File(['bad'], 'broken.mah');
 			await component.importLayouts([mockFile]);
@@ -148,7 +146,7 @@ describe('ImportComponent', () => {
 
 		it('should clear logs at the start of each import', async () => {
 			component.logs.set([{ msg: 'old', isError: true }]);
-			mockImportApi.importLayouts.mockResolvedValue([]);
+			mockImportLayouts.mockResolvedValue([]);
 
 			await component.importLayouts([]);
 

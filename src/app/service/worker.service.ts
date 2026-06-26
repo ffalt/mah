@@ -1,4 +1,4 @@
-import { InjectionToken, inject, Service } from '@angular/core';
+import { Service } from '@angular/core';
 import type { Mapping, Place } from '../model/types';
 import { solveGame, statsSolveMapping } from '../model/tasks';
 import { createStatsSolveWorker } from '../worker/create-stats-solve.worker';
@@ -20,26 +20,11 @@ interface StatsMessage {
 	result?: Array<number>;
 }
 
-// Injectable seams for the worker factories and synchronous fallbacks so tests can
-// supply stubs via DI instead of mocking the modules.
-export const WORKER_FACTORIES = new InjectionToken<{ createSolveWorker: typeof createSolveWorker; createStatsSolveWorker: typeof createStatsSolveWorker }>('WORKER_FACTORIES', {
-	providedIn: 'root',
-	factory: () => ({ createSolveWorker, createStatsSolveWorker })
-});
-
-export const SOLVE_TASKS = new InjectionToken<{ solveGame: typeof solveGame; statsSolveMapping: typeof statsSolveMapping }>('SOLVE_TASKS', {
-	providedIn: 'root',
-	factory: () => ({ solveGame, statsSolveMapping })
-});
-
 @Service()
 export class WorkerService {
-	private readonly factories = inject(WORKER_FACTORIES);
-	private readonly tasks = inject(SOLVE_TASKS);
-
 	solveGame(stones: Array<StonePosition>, finish: (data: SolveGameResult) => void): Worker | undefined {
 		if (typeof Worker !== 'undefined') {
-			const worker = this.factories.createSolveWorker();
+			const worker = createSolveWorker();
 			if (worker) {
 				const messages$ = fromEvent<MessageEvent<SolveGameMessage>>(worker, 'message').pipe(
 					map(event => event.data),
@@ -60,7 +45,7 @@ export class WorkerService {
 
 				worker.addEventListener('error', () => {
 					worker.terminate();
-					this.tasks.solveGame(stones, finish);
+					solveGame(stones, finish);
 				});
 
 				worker.postMessage({ stones });
@@ -68,13 +53,13 @@ export class WorkerService {
 			}
 		}
 		// Web Workers not supported or worker creation failed - use synchronous fallback
-		this.tasks.solveGame(stones, finish);
+		solveGame(stones, finish);
 		return undefined;
 	}
 
 	solve(mapping: Mapping, rounds: number, callback: (progress: Array<number>) => void, finish: (result: Array<number>) => void): Worker | undefined {
 		if (typeof Worker !== 'undefined') {
-			const worker = this.factories.createStatsSolveWorker();
+			const worker = createStatsSolveWorker();
 			if (worker) {
 				const messages$ = fromEvent<MessageEvent<StatsMessage>>(worker, 'message').pipe(
 					map(event => event.data),
@@ -104,7 +89,7 @@ export class WorkerService {
 
 				worker.addEventListener('error', () => {
 					worker.terminate();
-					this.tasks.statsSolveMapping(mapping, rounds, callback, finish);
+					statsSolveMapping(mapping, rounds, callback, finish);
 				});
 
 				worker.postMessage({ mapping, rounds });
@@ -112,7 +97,7 @@ export class WorkerService {
 			}
 		}
 		// Web Workers not supported or worker creation failed - use synchronous fallback
-		this.tasks.statsSolveMapping(mapping, rounds, callback, finish);
+		statsSolveMapping(mapping, rounds, callback, finish);
 		return undefined;
 	}
 }
