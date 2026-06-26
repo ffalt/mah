@@ -131,6 +131,7 @@ describe('EditorComponent', () => {
 
 	describe('exportLayouts', () => {
 		it('should call downloadMahLayouts with layout items', () => {
+			downloadMahLayoutsSpy.mockImplementation(() => undefined);
 			const items: Array<Layout> = [{ id: '1', name: 'L', category: 'Cat', mapping: [] }];
 			mockLayoutService.layouts.items = items;
 			component.exportLayouts();
