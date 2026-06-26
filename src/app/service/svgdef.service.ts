@@ -10,9 +10,7 @@ export const KYODAI_TILES = new InjectionToken<{ isKyodaiImageSet: typeof isKyod
 	factory: () => ({ isKyodaiImageSet, buildKyodaiSVG })
 });
 
-@Injectable({
-	providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class SvgdefService {
 	private readonly cache = new HttpCache(inject(HttpClient));
 	private readonly kyodai = inject(KYODAI_TILES);

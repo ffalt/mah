@@ -29,8 +29,8 @@ export class ChooseLayoutComponent {
 	buildModes = BuilderModes;
 	gameModes = GameModes;
 	activeInfo = signal<'generator' | 'mode' | null>(null);
-	layoutService = inject(LayoutService);
-	storage = inject(LocalstorageService);
+	readonly layoutService = inject(LayoutService);
+	readonly storage = inject(LocalstorageService);
 	private readonly elementRef = inject(ElementRef);
 	private previousFocus: Element | null = null;
 

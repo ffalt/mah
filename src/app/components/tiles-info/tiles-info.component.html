@@ -1,4 +1,4 @@
-<app-tileset-defs [imageSet]="tileset" [kyodaiUrl]="kyodaiUrl" [isDark]="isDark"></app-tileset-defs>
+<app-tileset-defs [imageSet]="tileset()" [kyodaiUrl]="kyodaiUrl" [isDark]="isDark()"></app-tileset-defs>
 <div class="tiles-content">
 	@for (suit of TILES_INFOS; track suit) {
 		@for (group of suit.groups; track group) {
@@ -8,7 +8,7 @@
 					@for (tile of group.tiles; track tile; let i = $index) {
 						<div class="tile">
 							<div>
-								<app-tile [tile]="tile" [sharedPrefix]="'shared_'" [isDark]="isDark"></app-tile>
+								<app-tile [tile]="tile" [sharedPrefix]="'shared_'" [isDark]="isDark()"></app-tile>
 							</div>
 							<div>{{ tile | translate }}</div>
 						</div>
@@ -21,24 +21,24 @@
 <div class="tiles-footer">
 	<form class="tiles-form">
 		<div class="tiles-select">
-			@if (selectedSet) {
-				<app-license-link link="https://github.com/ffalt/mah/blob/main/src/assets/svg/README.md#{{ selectedSet.id }}svg" [licenseKey]="selectedSet.license"></app-license-link>
+			@if (selectedSet(); as set) {
+				<app-license-link link="https://github.com/ffalt/mah/blob/main/src/assets/svg/README.md#{{ set.id }}svg" [licenseKey]="set.license"></app-license-link>
 			}
-			<select [attr.aria-label]="'TILESET' | translate" (change)="tileset = $any($event.target).value">
+			<select [attr.aria-label]="'TILESET' | translate" (change)="tileset.set($any($event.target).value)">
 				@for (imageset of sets; track imageset) {
-					<option [value]="imageset.id" [selected]="tileset === imageset.id">{{ imageset.name }}</option>
+					<option [value]="imageset.id" [selected]="tileset() === imageset.id">{{ imageset.name }}</option>
 				}
 				@if (canKyodai && kyodaiUrl) {
-					<option value="kyodai" [selected]="tileset === 'kyodai'">{{ 'KYODAI_TILESET' | translate }}</option>
+					<option value="kyodai" [selected]="tileset() === 'kyodai'">{{ 'KYODAI_TILESET' | translate }}</option>
 				}
 			</select>
 		</div>
-		<label><input type="checkbox" [checked]="isDark" (change)="isDark = !isDark;">{{ 'TILES_DARK' | translate }}</label>
+		<label><input type="checkbox" [checked]="isDark()" (change)="isDark.set(!isDark())">{{ 'TILES_DARK' | translate }}</label>
 		<div class="tiles-reference">
 			<a (click)="clickExternalHref($event)" rel="noopener" target="_blank" href="{{'READ_MORE_WIKIPEDIA_URL' | translate}}">{{ 'READ_MORE_WIKIPEDIA' | translate }}</a>
 		</div>
 		<button type="button"
-						[disabled]="!selectedSet || ((selectedSet.id === app.settings.tileset) && (isDark === app.settings.dark))"
+						[disabled]="!selectedSet() || ((selectedSet()?.id === app.settings.tileset) && (isDark() === app.settings.dark))"
 						(click)="applyTileset()">{{ 'USE_NOW' | translate }}
 		</button>
 	</form>

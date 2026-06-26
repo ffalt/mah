@@ -41,11 +41,11 @@ describe('TilesInfoComponent', () => {
 		});
 
 		it('should initialize tileset from AppService settings', () => {
-			expect(component.tileset).toEqual(appService.settings.tileset);
+			expect(component.tileset()).toEqual(appService.settings.tileset);
 		});
 
 		it('should initialize isDark from AppService settings', () => {
-			expect(component.isDark).toEqual(appService.settings.dark);
+			expect(component.isDark()).toEqual(appService.settings.dark);
 		});
 
 		it('should initialize kyodaiUrl from AppService settings', () => {
@@ -94,7 +94,7 @@ describe('TilesInfoComponent', () => {
 		it('should render checkbox for dark mode', () => {
 			const checkbox = fixture.debugElement.query(By.css('input[type="checkbox"]'));
 			expect(checkbox).toBeTruthy();
-			expect(checkbox.properties.checked).toBe(component.isDark);
+			expect(checkbox.properties.checked).toBe(component.isDark());
 		});
 
 		it('should render Wikipedia reference link', () => {
@@ -118,18 +118,18 @@ describe('TilesInfoComponent', () => {
 			selectElement.dispatchEvent(new Event('change'));
 			fixture.detectChanges();
 
-			expect(component.tileset).toBe(newTileset);
+			expect(component.tileset()).toBe(newTileset);
 		});
 
 		it('should toggle isDark when checkbox is clicked', () => {
 			const checkbox = fixture.debugElement.query(By.css('input[type="checkbox"]')).nativeElement;
-			const initialValue = component.isDark;
+			const initialValue = component.isDark();
 
 			// Simulate checkbox click
 			checkbox.click();
 			fixture.detectChanges();
 
-			expect(component.isDark).toBe(!initialValue);
+			expect(component.isDark()).toBe(!initialValue);
 		});
 	});
 });

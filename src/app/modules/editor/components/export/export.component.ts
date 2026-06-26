@@ -1,4 +1,4 @@
-import { Component, type OnChanges, type OnInit, type SimpleChanges, inject, input, output, ChangeDetectionStrategy } from '@angular/core';
+import { Component, type OnChanges, type OnInit, type SimpleChanges, inject, input, output, signal, ChangeDetectionStrategy } from '@angular/core';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import type { Layout, LoadLayout } from '../../../../model/types';
 import { LayoutService } from '../../../../service/layout.service';
@@ -36,7 +36,7 @@ const EXPORT_FORMATS = [
 
 @Component({
 	selector: 'app-editor-export-component',
-	changeDetection: ChangeDetectionStrategy.Eager,
+	changeDetection: ChangeDetectionStrategy.OnPush,
 	templateUrl: './export.component.html',
 	styleUrls: ['./export.component.scss'],
 	imports: [LayoutPreviewComponent, TranslatePipe]
@@ -45,13 +45,12 @@ export class ExportComponent implements OnInit, OnChanges {
 	readonly layout = input.required<EditLayout>();
 	readonly savedEvent = output<boolean>();
 	readonly exportFormats: Array<Format> = EXPORT_FORMATS;
-	format: Format = this.exportFormats[0];
-	exportLayout: LoadLayout;
-	layoutName: string;
-	result: string;
-	filename: string;
-	translate = inject(TranslateService);
-	layoutService = inject(LayoutService);
+	readonly format = signal<Format>(this.exportFormats[0]);
+	readonly exportLayout = signal<LoadLayout | undefined>(undefined);
+	readonly result = signal('');
+	readonly filename = signal('');
+	readonly translate = inject(TranslateService);
+	readonly layoutService = inject(LayoutService);
 
 	ngOnInit(): void {
 		if (this.layout()) {
@@ -66,18 +65,26 @@ export class ExportComponent implements OnInit, OnChanges {
 	}
 
 	saveAsCopy(): void {
-		this.layoutService.storeCustomBoards([this.exportLayout]);
+		const exportLayout = this.exportLayout();
+		if (!exportLayout) {
+			return;
+		}
+		this.layoutService.storeCustomBoards([exportLayout]);
 		const layout = this.layout();
-		layout.originalId = this.exportLayout.id;
+		layout.originalId = exportLayout.id;
 		this.savedEvent.emit(true);
 	}
 
 	save(): void {
-		if (this.layoutService.layouts.items.some(l => !l.custom && l.id === this.exportLayout.id)) {
+		const exportLayout = this.exportLayout();
+		if (!exportLayout) {
+			return;
+		}
+		if (this.layoutService.layouts.items.some(l => !l.custom && l.id === exportLayout.id)) {
 			alert(this.translate.instant('EDITOR_BUILD_IN_EXISTS'));
 			return;
 		}
-		const idsToRemove = [this.exportLayout.id];
+		const idsToRemove = [exportLayout.id];
 		const layout = this.layout();
 		if (layout.originalId) {
 			idsToRemove.push(layout.originalId);
@@ -87,20 +94,21 @@ export class ExportComponent implements OnInit, OnChanges {
 	}
 
 	chooseFormat(ef: Format): void {
-		this.format = ef;
+		this.format.set(ef);
 		this.update();
 	}
 
 	download(): void {
-		downloadLayout(this.filename, this.result, this.format.type);
+		downloadLayout(this.filename(), this.result(), this.format().type);
 		this.savedEvent.emit(true);
 	}
 
 	update(): void {
 		const layout = this.layout();
-		this.layoutName = layout.name.toLocaleLowerCase().replace(/ /g, '_');
-		this.result = this.format.func(layout);
-		this.filename = `${this.layoutName}.${this.format.ext}`;
-		this.exportLayout = generateExportLayout(layout);
+		const format = this.format();
+		const layoutName = layout.name.toLocaleLowerCase().replace(/ /g, '_');
+		this.result.set(format.func(layout));
+		this.filename.set(`${layoutName}.${format.ext}`);
+		this.exportLayout.set(generateExportLayout(layout));
 	}
 }

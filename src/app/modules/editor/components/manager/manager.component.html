@@ -5,22 +5,22 @@
 		<td class="col-name sortable"
 			tabindex="0"
 			role="columnheader"
-			[attr.aria-sort]="sortColumn===1 ? (sortDesc ? 'ascending' : 'descending') : 'none'"
+			[attr.aria-sort]="sortColumn()===1 ? (sortDesc() ? 'ascending' : 'descending') : 'none'"
 			(click)="clickSortBy($event,1)"
 			(keydown.enter)="activateSortBy(1)"
 			(keydown.space)="$event.preventDefault(); activateSortBy(1)"
-			[class.sort-up]="sortColumn===1 && sortDesc" [class.sort-down]="sortColumn===1 && !sortDesc">{{ 'EDITOR_LAYOUT_NAME' | translate }} <span class="arrow"></span></td>
+			[class.sort-up]="sortColumn()===1 && sortDesc()" [class.sort-down]="sortColumn()===1 && !sortDesc()">{{ 'EDITOR_LAYOUT_NAME' | translate }} <span class="arrow"></span></td>
 		<td class="col-cat sortable"
 			tabindex="0"
 			role="columnheader"
-			[attr.aria-sort]="sortColumn===3 ? (sortDesc ? 'ascending' : 'descending') : 'none'"
+			[attr.aria-sort]="sortColumn()===3 ? (sortDesc() ? 'ascending' : 'descending') : 'none'"
 			(click)="clickSortBy($event,3)"
 			(keydown.enter)="activateSortBy(3)"
 			(keydown.space)="$event.preventDefault(); activateSortBy(3)"
-			[class.sort-up]="sortColumn===3 && sortDesc" [class.sort-down]="sortColumn===3 && !sortDesc">{{ 'EDITOR_LAYOUT_CATEGORY' | translate }} <span class="arrow"></span>
+			[class.sort-up]="sortColumn()===3 && sortDesc()" [class.sort-down]="sortColumn()===3 && !sortDesc()">{{ 'EDITOR_LAYOUT_CATEGORY' | translate }} <span class="arrow"></span>
 			<div>
 			<label>
-				<input type="checkbox" [checked]="showBuildIn" (change)="toggleBuildIn()">
+				<input type="checkbox" [checked]="showBuildIn()" (change)="toggleBuildIn()">
 				{{'EDITOR_SHOW_BUILDIN' | translate}}
 			</label>
 			</div>
@@ -28,11 +28,11 @@
 		<td class="col-stats sortable"
 			tabindex="0"
 			role="columnheader"
-			[attr.aria-sort]="sortColumn===4 ? (sortDesc ? 'ascending' : 'descending') : 'none'"
+			[attr.aria-sort]="sortColumn()===4 ? (sortDesc() ? 'ascending' : 'descending') : 'none'"
 			(click)="clickSortBy($event,4)"
 			(keydown.enter)="activateSortBy(4)"
 			(keydown.space)="$event.preventDefault(); activateSortBy(4)"
-			[class.sort-up]="sortColumn===4 && sortDesc" [class.sort-down]="sortColumn===4 && !sortDesc">{{ 'EDITOR_LAYOUT_NR_OF_STONES' | translate }} <span class="arrow"></span></td>
+			[class.sort-up]="sortColumn()===4 && sortDesc()" [class.sort-down]="sortColumn()===4 && !sortDesc()">{{ 'EDITOR_LAYOUT_NR_OF_STONES' | translate }} <span class="arrow"></span></td>
 		<td class="col-test">{{ 'EDITOR_COLUMN_TEST' | translate }}
 			<button type="button" (click)="testLayouts($event)" title="{{ 'EDITOR_TEST_RUN' | translate }}" [attr.aria-label]="'EDITOR_TEST_RUN' | translate">
 				<app-icon-execute />
@@ -46,7 +46,7 @@
 	</tr>
 	</thead>
 	<tbody>
-	@for (layout of layouts; track layout) {
+	@for (layout of layouts(); track layout) {
 		<tr class="layout"
 			tabindex="0"
 			[attr.aria-label]="layout.name"
@@ -63,13 +63,13 @@
 				<button type="button" (click)="testLayout($event, layout)" title="{{ 'EDITOR_TEST_RUN' | translate }}" [attr.aria-label]="'EDITOR_TEST_RUN' | translate">
 					<app-icon-execute />
 				</button>
-				@if (test[layout.id]) {
+				@if (test()[layout.id]; as result) {
 					<div>
-						@if (test[layout.id]?.win) {
-							<div>{{ 'EDITOR_TEST_SOLVED' | translate }}: {{ test[layout.id]?.win }}</div>
+						@if (result.win) {
+							<div>{{ 'EDITOR_TEST_SOLVED' | translate }}: {{ result.win }}</div>
 						}
-						@if (test[layout.id]?.fail) {
-							<div class="fail">{{ 'EDITOR_TEST_FAILED' | translate }}: {{ test[layout.id]?.fail }}</div>
+						@if (result.fail) {
+							<div class="fail">{{ 'EDITOR_TEST_FAILED' | translate }}: {{ result.fail }}</div>
 						}
 					</div>
 				}

@@ -8,7 +8,7 @@ import { describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
 @Component({
 	template: `
 		<div appDeferLoad (appDeferLoad)="onLoad()" [preRender]="preRender"></div>`,
-	changeDetection: ChangeDetectionStrategy.Eager,
+	changeDetection: ChangeDetectionStrategy.OnPush,
 	imports: [DeferLoadDirective]
 })
 class TestHostComponent {

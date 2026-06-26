@@ -1,5 +1,6 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { provideTranslateService } from '@ngx-translate/core';
 import { LayoutService } from '../../../../service/layout.service';
 import { IMPORT_API, ImportComponent } from './import.component';
@@ -97,9 +98,26 @@ describe('ImportComponent', () => {
 			const mockFile = new File(['{}'], 'boards.mah');
 			await component.importLayouts([mockFile]);
 
-			expect(component.logs).toHaveLength(1);
-			expect(component.logs[0].isError).toBeFalsy();
+			expect(component.logs()).toHaveLength(1);
+			expect(component.logs()[0].isError).toBeFalsy();
 			expect(mockLayoutService.storeCustomBoards).toHaveBeenCalled();
+		});
+
+		// OnPush: the view must re-render once the async import populates the logs signal
+		it('should render imported logs in the view after import resolves', async () => {
+			const loadLayout = makeLoadLayout('view-id');
+			const layout = makeLayout('view-id');
+			mockImportApi.importLayouts.mockResolvedValue([loadLayout]);
+			mockLayoutService.expandLayout.mockReturnValue(layout);
+			mockLayoutService.layouts.items = [];
+			(LayoutService as unknown as { layout2loadLayout: Mock }).layout2loadLayout = vi.fn().mockReturnValue(loadLayout);
+
+			const mockFile = new File(['{}'], 'boards.mah');
+			await component.importLayouts([mockFile]);
+			fixture.detectChanges();
+
+			const logEntries = fixture.debugElement.queryAll(By.css('.log-zone p.layout'));
+			expect(logEntries).toHaveLength(1);
 		});
 
 		it('should add error log for duplicate layout', async () => {
@@ -112,8 +130,8 @@ describe('ImportComponent', () => {
 			const mockFile = new File(['{}'], 'boards.mah');
 			await component.importLayouts([mockFile]);
 
-			expect(component.logs).toHaveLength(1);
-			expect(component.logs[0].isError).toBe(true);
+			expect(component.logs()).toHaveLength(1);
+			expect(component.logs()[0].isError).toBe(true);
 			expect(mockLayoutService.storeCustomBoards).not.toHaveBeenCalled();
 		});
 
@@ -123,18 +141,18 @@ describe('ImportComponent', () => {
 			const mockFile = new File(['bad'], 'broken.mah');
 			await component.importLayouts([mockFile]);
 
-			expect(component.logs).toHaveLength(1);
-			expect(component.logs[0].isError).toBe(true);
+			expect(component.logs()).toHaveLength(1);
+			expect(component.logs()[0].isError).toBe(true);
 			expect(mockLayoutService.storeCustomBoards).not.toHaveBeenCalled();
 		});
 
 		it('should clear logs at the start of each import', async () => {
-			component.logs = [{ msg: 'old', isError: true }];
+			component.logs.set([{ msg: 'old', isError: true }]);
 			mockImportApi.importLayouts.mockResolvedValue([]);
 
 			await component.importLayouts([]);
 
-			expect(component.logs).toHaveLength(0);
+			expect(component.logs()).toHaveLength(0);
 		});
 	});
 

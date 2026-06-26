@@ -62,17 +62,17 @@
 	</fieldset>
 	<fieldset class="stats">
 		<legend>{{ 'STATS' | translate }}</legend>
-		@if (stats.items.length === 0) {
+		@if (stats().items.length === 0) {
 			<p class="stats-empty">{{ 'STATS_EMPTY' | translate }}</p>
 		} @else {
 			<ul class="stats-total-list">
 				<li>
 					<span class="stats-name">{{ 'STATS_WIN_GAMES' | translate }}</span>
-					<span class="stats-desc">{{ stats.winCount }}</span>
+					<span class="stats-desc">{{ stats().winCount }}</span>
 				</li>
 				<li>
 					<span class="stats-name">{{ 'STATS_LOSE_GAMES' | translate }}</span>
-					<span class="stats-desc">{{ stats.loseCount }}</span>
+					<span class="stats-desc">{{ stats().loseCount }}</span>
 				</li>
 			</ul>
 			<div class="stats-list">
@@ -87,7 +87,7 @@
 				</tr>
 				</thead>
 				<tbody>
-					@for (item of stats.items; track item) {
+					@for (item of stats().items; track item) {
 						<tr class="stats-item">
 							<td class="stats-name">{{ item.name }}</td>
 							<td class="stats-plays-win">{{ item.winCount }}</td>

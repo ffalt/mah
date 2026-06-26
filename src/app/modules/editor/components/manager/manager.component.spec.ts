@@ -70,11 +70,11 @@ describe('ManagerComponent', () => {
 
 	describe('toggleBuildIn', () => {
 		it('should toggle showBuildIn flag', () => {
-			expect(component.showBuildIn).toBe(true);
+			expect(component.showBuildIn()).toBe(true);
 			component.toggleBuildIn();
-			expect(component.showBuildIn).toBe(false);
+			expect(component.showBuildIn()).toBe(false);
 			component.toggleBuildIn();
-			expect(component.showBuildIn).toBe(true);
+			expect(component.showBuildIn()).toBe(true);
 		});
 	});
 
@@ -90,35 +90,35 @@ describe('ManagerComponent', () => {
 		});
 
 		it('should sort by name with sortDesc true (A first)', () => {
-			component.sortDesc = true;
+			component.sortDesc.set(true);
 			component.sortBy(1);
-			expect(component.layouts[0].name).toBe('Alpha');
-			expect(component.layouts[2].name).toBe('Zebra');
+			expect(component.layouts()[0].name).toBe('Alpha');
+			expect(component.layouts()[2].name).toBe('Zebra');
 		});
 
 		it('should sort by name with sortDesc false (Z first)', () => {
-			component.sortDesc = false;
+			component.sortDesc.set(false);
 			component.sortBy(1);
-			expect(component.layouts[0].name).toBe('Zebra');
+			expect(component.layouts()[0].name).toBe('Zebra');
 		});
 
 		it('should sort by author (column 2) with sortDesc true', () => {
-			component.sortDesc = true;
+			component.sortDesc.set(true);
 			component.sortBy(2);
-			expect(component.layouts[0].by).toBe('Adam');
+			expect(component.layouts()[0].by).toBe('Adam');
 		});
 
 		it('should sort by category (column 3) with sortDesc true', () => {
-			component.sortDesc = true;
+			component.sortDesc.set(true);
 			component.sortBy(3);
-			expect(component.layouts[0].category).toBe('A');
+			expect(component.layouts()[0].category).toBe('A');
 		});
 
 		it('should sort by tile count (column 4) with sortDesc true', () => {
-			component.sortDesc = true;
+			component.sortDesc.set(true);
 			component.sortBy(4);
-			expect(component.layouts[0].mapping).toHaveLength(1);
-			expect(component.layouts[2].mapping).toHaveLength(3);
+			expect(component.layouts()[0].mapping).toHaveLength(1);
+			expect(component.layouts()[2].mapping).toHaveLength(3);
 		});
 	});
 
@@ -130,19 +130,19 @@ describe('ManagerComponent', () => {
 		});
 
 		it('should toggle sortDesc when clicking the same column', () => {
-			component.sortColumn = 1;
-			component.sortDesc = true;
+			component.sortColumn.set(1);
+			component.sortDesc.set(true);
 			const event = { stopPropagation: vi.fn() } as unknown as MouseEvent;
 			component.clickSortBy(event, 1);
-			expect(component.sortDesc).toBe(false);
+			expect(component.sortDesc()).toBe(false);
 		});
 
 		it('should not toggle sortDesc when clicking a different column', () => {
-			component.sortColumn = 1;
-			component.sortDesc = true;
+			component.sortColumn.set(1);
+			component.sortDesc.set(true);
 			const event = { stopPropagation: vi.fn() } as unknown as MouseEvent;
 			component.clickSortBy(event, 2);
-			expect(component.sortDesc).toBe(true);
+			expect(component.sortDesc()).toBe(true);
 		});
 	});
 
@@ -151,7 +151,7 @@ describe('ManagerComponent', () => {
 			const layouts: Array<Layout> = [makeLayout('BoardA'), makeLayout('BoardB')];
 			fixture.componentRef.setInput('inputLayouts', layouts);
 			fixture.detectChanges();
-			expect(component.layouts).toHaveLength(2);
+			expect(component.layouts()).toHaveLength(2);
 		});
 
 		it('should filter out built-in layouts when showBuildIn is false', () => {
@@ -160,10 +160,10 @@ describe('ManagerComponent', () => {
 				makeLayout('BuiltIn', { custom: false })
 			];
 			fixture.componentRef.setInput('inputLayouts', layouts);
-			component.showBuildIn = false;
+			component.showBuildIn.set(false);
 			component.update();
-			expect(component.layouts).toHaveLength(1);
-			expect(component.layouts[0].custom).toBe(true);
+			expect(component.layouts()).toHaveLength(1);
+			expect(component.layouts()[0].custom).toBe(true);
 		});
 	});
 
@@ -183,6 +183,28 @@ describe('ManagerComponent', () => {
 			component.removeCustomLayouts(event);
 			expect(mockLayoutService.removeAllCustomLayouts).toHaveBeenCalled();
 			expect((event.stopPropagation as Mock)).toHaveBeenCalled();
+		});
+	});
+
+	describe('startTestLayout', () => {
+		// OnPush: the async worker callbacks must update the test signal so the view re-renders
+		it('updates the test signal when the worker reports progress and finishes', () => {
+			const layout = makeLayout('Solvable', { custom: true });
+			let progressCallback: ((progress: [number, number]) => void) | undefined;
+			let finishCallback: ((finish: [number, number]) => void) | undefined;
+			mockWorkerService.solve.mockImplementation((_mapping, _max, progress, finish) => {
+				progressCallback = progress;
+				finishCallback = finish;
+				return { terminate: vi.fn() } as unknown as Worker;
+			});
+
+			component.startTestLayout(layout);
+			progressCallback?.([2, 1]);
+			expect(component.test()[layout.id]).toEqual({ win: 2, fail: 1 });
+
+			finishCallback?.([5, 0]);
+			expect(component.test()[layout.id]).toEqual({ win: 5, fail: 0 });
+			expect(component.worker).toBeUndefined();
 		});
 	});
 

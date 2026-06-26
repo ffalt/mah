@@ -1,4 +1,4 @@
-import { Component, InjectionToken, inject, output, ChangeDetectionStrategy } from '@angular/core';
+import { Component, InjectionToken, inject, output, signal, ChangeDetectionStrategy } from '@angular/core';
 import type { Layout, LoadLayout } from '../../../../model/types';
 import { LayoutService } from '../../../../service/layout.service';
 import { log } from '../../../../model/log';
@@ -16,16 +16,16 @@ export const IMPORT_API = new InjectionToken<{ importLayouts: typeof importLayou
 
 @Component({
 	selector: 'app-import-component',
-	changeDetection: ChangeDetectionStrategy.Eager,
+	changeDetection: ChangeDetectionStrategy.OnPush,
 	templateUrl: './import.component.html',
 	styleUrls: ['./import.component.scss'],
 	imports: [TranslatePipe, DropZoneDirective, IconOkComponent]
 })
 export class ImportComponent {
 	readonly editEvent = output<Layout>();
-	layoutService = inject(LayoutService);
-	private readonly importApi = inject(IMPORT_API);
-	logs: Array<{ msg: string; isError?: boolean; id?: string }> = [];
+	readonly logs = signal<Array<{ msg: string; isError?: boolean; id?: string }>>([]);
+	readonly importApi = inject(IMPORT_API);
+	readonly layoutService = inject(LayoutService);
 
 	selectFiles(event: Event): void {
 		const element = event.currentTarget as HTMLInputElement;
@@ -36,7 +36,7 @@ export class ImportComponent {
 	}
 
 	async importLayouts(files: Array<File>): Promise<void> {
-		this.logs = [];
+		this.logs.set([]);
 		const imported: Array<LoadLayout> = [];
 		for (const file of files) {
 			try {
@@ -48,15 +48,15 @@ export class ImportComponent {
 						imported.every(l => l.id !== layout.id)
 					) {
 						imported.push(LayoutService.layout2loadLayout(layout, loadLayout.map));
-						this.logs.push({ msg: `Imported: "${file.name}"`, id: layout.id });
+						this.logs.update(logs => [...logs, { msg: `Imported: "${file.name}"`, id: layout.id }]);
 					} else {
 						log.error(`Similar layout to "${layout.name}" already available. Import rejected`);
-						this.logs.push({ msg: `Similar layout to "${layout.name}" already available. Import rejected.`, isError: true });
+						this.logs.update(logs => [...logs, { msg: `Similar layout to "${layout.name}" already available. Import rejected.`, isError: true }]);
 					}
 				}
 			} catch (error) {
 				log.error('Error importing', file, error);
-				this.logs.push({ msg: `ERROR importing "${file.name}". Invalid file.`, isError: true });
+				this.logs.update(logs => [...logs, { msg: `ERROR importing "${file.name}". Invalid file.`, isError: true }]);
 			}
 		}
 		if (imported.length > 0) {

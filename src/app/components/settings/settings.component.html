@@ -2,9 +2,9 @@
 	<input class="tabs-input" type="radio" name="settings-tab"
 		[id]="`tab-${tab.id}`"
 		role="tab"
-		[attr.aria-selected]="selectedTab === tab.id"
+		[attr.aria-selected]="selectedTab() === tab.id"
 		[attr.aria-controls]="'panel-'+tab.id"
-		[checked]="selectedTab === tab.id"
+		[checked]="selectedTab() === tab.id"
 		(change)="setSelectedTab(tab.id)"/>
 }
 <div class="tabs-labels" role="tablist" [attr.aria-label]="'SETTINGS_TABS' | translate">

@@ -8,7 +8,7 @@
 		<input name="file" type="file" multiple (change)="selectFiles($event)" [attr.aria-label]="'EDITOR_IMPORT_DROP' | translate">
 	</div>
 	<div class="log-zone">
-		@for (log of logs; track log) {
+		@for (log of logs(); track log) {
 			<p class="layout" [class.is-error]="log.isError">
 				@if (log.id) {
 					<button type="button" class="log-link" (click)="selectLayout(log.id)"><app-icon-ok /> {{ log.msg }}</button>

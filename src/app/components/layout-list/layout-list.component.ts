@@ -1,4 +1,4 @@
-import { Component, type OnChanges, type SimpleChanges, inject, input, output, viewChild, type ElementRef, type OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, type OnChanges, type SimpleChanges, ChangeDetectorRef, inject, input, output, signal, viewChild, type ElementRef, type OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import type { Layout } from '../../model/types';
 import { LocalstorageService } from '../../service/localstorage.service';
@@ -41,7 +41,7 @@ export interface RandomLayoutGroup extends LayoutGroup {
 
 @Component({
 	selector: 'app-layout-list',
-	changeDetection: ChangeDetectionStrategy.Eager,
+	changeDetection: ChangeDetectionStrategy.OnPush,
 	templateUrl: './layout-list.component.html',
 	styleUrls: ['./layout-list.component.scss'],
 	imports: [
@@ -54,10 +54,10 @@ export class LayoutListComponent implements OnInit, OnChanges {
 	readonly layouts = input<Array<Layout>>();
 	readonly startEvent = output<Layout>();
 	readonly scrollHost = viewChild.required<ElementRef<HTMLElement>>('scrollHost');
-	groups: Array<LayoutGroup> = [];
-	randomMirrorX: string = 'random';
-	randomMirrorY: string = 'random';
-	randomGroup: RandomLayoutGroup = {
+	readonly groups = signal<Array<LayoutGroup>>([]);
+	readonly randomMirrorX = signal('random');
+	readonly randomMirrorY = signal('random');
+	readonly randomGroup: RandomLayoutGroup = {
 		name: '',
 		layouts: [], expanded: true, isRandom: true
 	};
@@ -65,10 +65,11 @@ export class LayoutListComponent implements OnInit, OnChanges {
 	private readonly storage = inject(LocalstorageService);
 	private readonly translate = inject(TranslateService);
 	private readonly layoutService = inject(LayoutService);
+	private readonly cdr = inject(ChangeDetectorRef);
 
 	ngOnInit(): void {
-		this.randomMirrorX = this.storage.getLastMirrorX() ?? 'random';
-		this.randomMirrorY = this.storage.getLastMirrorY() ?? 'random';
+		this.randomMirrorX.set(this.storage.getLastMirrorX() ?? 'random');
+		this.randomMirrorY.set(this.storage.getLastMirrorY() ?? 'random');
 		this.buildRandomGroup();
 	}
 
@@ -93,13 +94,13 @@ export class LayoutListComponent implements OnInit, OnChanges {
 	}
 
 	randomMirrorXSet(value: string): void {
-		this.randomMirrorX = value;
+		this.randomMirrorX.set(value);
 		this.storage.setLastMirrorX(value);
 		this.generateRandomLayouts();
 	}
 
 	randomMirrorYSet(value: string): void {
-		this.randomMirrorY = value;
+		this.randomMirrorY.set(value);
 		this.storage.setLastMirrorY(value);
 		this.generateRandomLayouts();
 	}
@@ -108,8 +109,8 @@ export class LayoutListComponent implements OnInit, OnChanges {
 		layoutItem.layoutSeed = layoutSeed ?? generateLayoutSeed();
 		seedRNG(layoutItem.layoutSeed);
 		const mapping = generateRandomMapping(
-			this.randomMirrorX as RandomSymmetry,
-			this.randomMirrorY as RandomSymmetry,
+			this.randomMirrorX() as RandomSymmetry,
+			this.randomMirrorY() as RandomSymmetry,
 			'random'
 		);
 		resetRNG();
@@ -121,6 +122,8 @@ export class LayoutListComponent implements OnInit, OnChanges {
 		for (const item of this.randomGroup.layouts) {
 			setTimeout(() => {
 				this.generateRandomLayout(item);
+				// previews are produced async, so nudge the OnPush view to render them
+				this.cdr.markForCheck();
 			}, 0);
 		}
 	}
@@ -149,6 +152,8 @@ export class LayoutListComponent implements OnInit, OnChanges {
 			if (id) {
 				setTimeout(() => {
 					this.select(id);
+					// selection happens async, so nudge the OnPush view to render it
+					this.cdr.markForCheck();
 				}, 0);
 			}
 		}
@@ -179,7 +184,7 @@ export class LayoutListComponent implements OnInit, OnChanges {
 			g[layout.category].layouts.push({ layout, playCount: (score.winCount ?? 0) + (score.loseCount ?? 0), bestTime: score.bestTime, visible: false });
 		}
 		groups.push(this.randomGroup);
-		this.groups = groups;
+		this.groups.set(groups);
 	}
 
 	scrollToElement(element: HTMLElement, container: HTMLElement): void {
@@ -219,7 +224,7 @@ export class LayoutListComponent implements OnInit, OnChanges {
 			return;
 		}
 
-		for (const g of this.groups) {
+		for (const g of this.groups()) {
 			for (const layout of g.layouts) {
 				layout.selected = layout.layout.id === id;
 			}

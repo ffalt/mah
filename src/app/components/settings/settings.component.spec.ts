@@ -132,6 +132,21 @@ describe('SettingsComponent', () => {
 		});
 	});
 
+	describe('Tab selection', () => {
+		// OnPush: selecting a tab updates the signal and the view re-renders the checked state
+		it('updates selectedTab and reflects the checked state in the view', () => {
+			const tabInputs = fixture.debugElement.queryAll(By.css('input[name="settings-tab"]'));
+			expect(component.selectedTab()).toBe(component.tabs[0].id);
+
+			const targetIndex = 2;
+			tabInputs[targetIndex].nativeElement.dispatchEvent(new Event('change'));
+			fixture.detectChanges();
+
+			expect(component.selectedTab()).toBe(component.tabs[targetIndex].id);
+			expect(tabInputs[targetIndex].nativeElement.checked).toBe(true);
+		});
+	});
+
 	describe('Settings interactions', () => {
 		it('should have a method to set language', () => {
 			// Instead of testing the click event, test the change handler directly

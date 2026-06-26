@@ -1,14 +1,14 @@
-@if (groups.length > 1) {
+@if (groups().length > 1) {
 	<div class="headline-anchors">
-		@for (group of groups; track group; let i = $index) {
+		@for (group of groups(); track group; let i = $index) {
 			<a [href]="'#group-' + i" (click)="scrollToGroup($event, i)">{{ group.name | translateGroup }}</a>
 		}
 	</div>
 }
 <div #scrollHost class="groups">
-	@for (group of groups; track group; let i = $index) {
+	@for (group of groups(); track group; let i = $index) {
 		<div class="group" id="group-{{i}}">
-			@if (groups.length > 1) {
+			@if (groups().length > 1) {
 				<div
 					class="group-name"
 					tabindex="0"
@@ -68,9 +68,9 @@
 									{{ 'MIRROR_X' | translate }}
 								</label>
 								<select id="random-setting-vertical" (change)="this.randomMirrorXSet($any($event.target).value)">
-									<option value="random" [selected]="this.randomMirrorX ==='random'">{{ 'RANDOM_MIRROR' | translate }}</option>
-									<option value="true" [selected]="this.randomMirrorX ==='true'">{{ 'YES' | translate }}</option>
-									<option value="false" [selected]="this.randomMirrorX ==='false'">{{ 'NO' | translate }}</option>
+									<option value="random" [selected]="this.randomMirrorX() ==='random'">{{ 'RANDOM_MIRROR' | translate }}</option>
+									<option value="true" [selected]="this.randomMirrorX() ==='true'">{{ 'YES' | translate }}</option>
+									<option value="false" [selected]="this.randomMirrorX() ==='false'">{{ 'NO' | translate }}</option>
 								</select>
 							</div>
 							<div class="random-options">
@@ -79,9 +79,9 @@
 									{{ 'MIRROR_Y' | translate }}
 								</label>
 								<select id="random-setting-horizontal" (change)="this.randomMirrorYSet($any($event.target).value)">
-									<option value="random" [selected]="this.randomMirrorY ==='random'">{{ 'RANDOM_MIRROR' | translate }}</option>
-									<option value="true" [selected]="this.randomMirrorY ==='true'">{{ 'YES' | translate }}</option>
-									<option value="false" [selected]="this.randomMirrorY ==='false'">{{ 'NO' | translate }}</option>
+									<option value="random" [selected]="this.randomMirrorY() ==='random'">{{ 'RANDOM_MIRROR' | translate }}</option>
+									<option value="true" [selected]="this.randomMirrorY() ==='true'">{{ 'YES' | translate }}</option>
+									<option value="false" [selected]="this.randomMirrorY() ==='false'">{{ 'NO' | translate }}</option>
 								</select>
 							</div>
 							<div>

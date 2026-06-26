@@ -12,9 +12,7 @@ export interface ScrollNotifyEvent {
 	rect: Rect;
 }
 
-@Injectable({
-	providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class DeferLoadService {
 	scrollNotify = new EventEmitter<ScrollNotifyEvent>();
 	observeNotify = new EventEmitter<Array<IntersectionObserverEntry>>();

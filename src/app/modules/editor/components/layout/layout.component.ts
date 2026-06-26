@@ -1,4 +1,4 @@
-import { Component, type OnChanges, type OnDestroy, type OnInit, type SimpleChanges, inject, model, ChangeDetectionStrategy } from '@angular/core';
+import { Component, type OnChanges, type OnDestroy, type OnInit, type SimpleChanges, inject, model, signal, ChangeDetectionStrategy } from '@angular/core';
 import { Matrix } from '../../model/matrix';
 import { CONSTS } from '../../../../model/consts';
 import { WorkerService } from '../../../../service/worker.service';
@@ -53,7 +53,7 @@ interface EditLevel {
 
 @Component({
 	selector: 'app-editor-layout-component',
-	changeDetection: ChangeDetectionStrategy.Eager,
+	changeDetection: ChangeDetectionStrategy.OnPush,
 	templateUrl: './layout.component.html',
 	styleUrls: ['./layout.component.scss'],
 	imports: [CommonModule, BoardComponent, LayoutPreviewComponent, ExportComponent, TranslatePipe, IconCloseComponent,
@@ -62,22 +62,22 @@ interface EditLevel {
 })
 export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 	readonly layout = model.required<EditLayout>();
-	level: EditLevel;
-	stats: Stats;
-	solveStats?: SolveStats;
-	solveWorker?: Worker;
-	currentZ = 0;
+	readonly level = signal<EditLevel | undefined>(undefined);
+	readonly stats = signal<Stats | undefined>(undefined);
+	readonly solveStats = signal<SolveStats | undefined>(undefined);
+	readonly solveWorker = signal<Worker | undefined>(undefined);
+	readonly currentZ = signal(0);
+	readonly saveDialog = signal(false);
+	readonly mirrorX = signal(false);
+	readonly mirrorY = signal(false);
+	readonly svg = signal<SafeUrlSVG | undefined>(undefined);
 	totalZ = 1;
 	totalY = CONSTS.mY;
 	totalX = CONSTS.mX;
 	matrix: Matrix = new Matrix();
-	saveDialog: boolean = false;
 	hasChanged: boolean = false;
-	mirrorX: boolean = false;
-	mirrorY: boolean = false;
-	svg: SafeUrlSVG;
-	worker = inject(WorkerService);
-	layoutService = inject(LayoutService);
+	readonly worker = inject(WorkerService);
+	readonly layoutService = inject(LayoutService);
 
 	ngOnDestroy(): void {
 		this.cancelSolve();
@@ -88,7 +88,7 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 		return {
 			name: layout.name,
 			totalCount: layout.mapping.length,
-			layerCount: layout.mapping.filter(m => m[0] === this.currentZ).length,
+			layerCount: layout.mapping.filter(m => m[0] === this.currentZ()).length,
 			countInvalid: (layout.mapping.length > 144) || !!(layout.mapping.length % 2),
 			...extents,
 			width: extents.maxX - extents.minX,
@@ -140,13 +140,13 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 		if (this.matrix.isTile(z, x, y)) {
 			this.removeStone(z, x, y);
 			const toRemove: Array<[number, number, number]> = [];
-			if (this.mirrorX) {
+			if (this.mirrorX()) {
 				toRemove.push([z, this.mirrorXValue(x), y]);
 			}
-			if (this.mirrorY) {
+			if (this.mirrorY()) {
 				toRemove.push([z, x, this.mirrorYValue(y)]);
 			}
-			if (this.mirrorX && this.mirrorY) {
+			if (this.mirrorX() && this.mirrorY()) {
 				toRemove.push([z, this.mirrorXValue(x), this.mirrorYValue(y)]);
 			}
 			for (const [zz, xx, yy] of toRemove) {
@@ -157,15 +157,15 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 		} else {
 			this.addStone(z, x, y);
 			const toAdd: Array<[number, number, number]> = [];
-			if (this.mirrorX) {
+			if (this.mirrorX()) {
 				const xM = this.mirrorXValue(x);
 				toAdd.push([z, xM, y]);
 			}
-			if (this.mirrorY) {
+			if (this.mirrorY()) {
 				const yM = this.mirrorYValue(y);
 				toAdd.push([z, x, yM]);
 			}
-			if (this.mirrorX && this.mirrorY) {
+			if (this.mirrorX() && this.mirrorY()) {
 				const xM = this.mirrorXValue(x);
 				const yM = this.mirrorYValue(y);
 				toAdd.push([z, xM, yM]);
@@ -194,8 +194,8 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 	}
 
 	selectLevel(z: number): void {
-		this.level = { z, rows: this.matrix.levels[z], showTiles: true };
-		this.currentZ = z;
+		this.level.set({ z, rows: this.matrix.levels[z], showTiles: true });
+		this.currentZ.set(z);
 		this.refresh();
 	}
 
@@ -206,10 +206,12 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 		}
 		this.hasChanged = true;
 		this.matrix.applyMapping(layout.mapping, this.totalZ, this.totalX, this.totalY);
-		this.stats = this.getStats(layout);
-		this.level = { z: this.currentZ, rows: this.matrix.levels[this.currentZ], showTiles: true };
-		this.svg = this.layoutService.generatePreview(optimizeMapping(layout.mapping));
-		layout.previewSVG = this.svg;
+		const currentZ = this.currentZ();
+		this.stats.set(this.getStats(layout));
+		this.level.set({ z: currentZ, rows: this.matrix.levels[currentZ], showTiles: true });
+		const svg = this.layoutService.generatePreview(optimizeMapping(layout.mapping));
+		this.svg.set(svg);
+		layout.previewSVG = svg;
 	}
 
 	moveX(delta: number): void {
@@ -221,7 +223,7 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 	}
 
 	moveLayer(isXAxis: boolean, delta: number): void {
-		const list = this.layout().mapping.filter(m => m[0] === this.currentZ);
+		const list = this.layout().mapping.filter(m => m[0] === this.currentZ());
 		if (list.length === 0) {
 			return;
 		}
@@ -243,11 +245,11 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 	}
 
 	toggleMirrorX(): void {
-		this.mirrorX = !this.mirrorX;
+		this.mirrorX.set(!this.mirrorX());
 	}
 
 	toggleMirrorY(): void {
-		this.mirrorY = !this.mirrorY;
+		this.mirrorY.set(!this.mirrorY());
 	}
 
 	moveLayerX(deltaX: number): void {
@@ -313,51 +315,53 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 				m[0] = layer;
 			}
 		}
-		if (layer === this.currentZ) {
-			this.currentZ += deltaZ;
+		if (layer === this.currentZ()) {
+			this.currentZ.set(this.currentZ() + deltaZ);
 		}
 		this.refresh();
 	}
 
 	toggleSave(): void {
-		this.saveDialog = !this.saveDialog;
+		this.saveDialog.set(!this.saveDialog());
 	}
 
 	toggleAfterSave(): void {
-		this.saveDialog = false;
+		this.saveDialog.set(false);
 		this.hasChanged = false;
 	}
 
 	cancelSolve(): void {
-		if (!this.solveWorker) {
+		const worker = this.solveWorker();
+		if (!worker) {
 			return;
 		}
 
-		this.solveWorker.terminate();
-		this.solveWorker = undefined;
+		worker.terminate();
+		this.solveWorker.set(undefined);
 	}
 
 	solve(): void {
-		if (this.solveWorker) {
+		if (this.solveWorker()) {
 			return;
 		}
-		const solveStats = { fail: 0, won: 0 };
-		this.solveWorker = this.worker.solve(this.layout().mapping, 1000,
+		this.solveStats.set({ fail: 0, won: 0 });
+		this.solveWorker.set(this.worker.solve(this.layout().mapping, 1000,
 			progress => {
-				solveStats.won = progress[0];
-				solveStats.fail = progress[1];
+				this.solveStats.set({ won: progress[0], fail: progress[1] });
 			}, result => {
-				solveStats.won = result[0];
-				solveStats.fail = result[1];
-				this.solveWorker = undefined;
-			});
-		this.solveStats = solveStats;
+				this.solveStats.set({ won: result[0], fail: result[1] });
+				this.solveWorker.set(undefined);
+			}));
 	}
 
 	moveAxis(axis: 1 | 2, delta: number, maxBound: number): void {
+		const stats = this.stats();
+		if (!stats) {
+			return;
+		}
 		const minKey = axis === 1 ? 'minX' : 'minY';
 		const maxKey = axis === 1 ? 'maxX' : 'maxY';
-		if (this.stats[minKey] + delta < 0 || this.stats[maxKey] + delta >= maxBound - 1) {
+		if (stats[minKey] + delta < 0 || stats[maxKey] + delta >= maxBound - 1) {
 			return;
 		}
 		for (const m of this.layout().mapping) {

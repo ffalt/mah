@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { DeferLoadScrollHostDirective } from './defer-load-scroll-host.directive';
 import { DeferLoadService } from './defer-load.service';
@@ -6,12 +6,12 @@ import { Mock, describe, beforeEach, it, expect, vi } from 'vitest';
 
 @Component({
 	template: `
-		<div appDeferLoadScrollHost [scrollTo]="scrollTarget" style="overflow:auto;height:200px"></div>`,
-	changeDetection: ChangeDetectionStrategy.Eager,
+		<div appDeferLoadScrollHost [scrollTo]="scrollTarget()" style="overflow:auto;height:200px"></div>`,
+	changeDetection: ChangeDetectionStrategy.OnPush,
 	imports: [DeferLoadScrollHostDirective]
 })
 class TestHostComponent {
-	scrollTarget: HTMLElement | undefined;
+	readonly scrollTarget = signal<HTMLElement | undefined>(undefined);
 }
 
 describe('DeferLoadScrollHostDirective', () => {
@@ -71,7 +71,7 @@ describe('DeferLoadScrollHostDirective', () => {
 				configurable: true
 			});
 
-			component.scrollTarget = target;
+			component.scrollTarget.set(target);
 			fixture.detectChanges();
 
 			expect(capturedScrollTop).toBe(300 - 50); // offsetTop - offsetHeight
@@ -81,7 +81,7 @@ describe('DeferLoadScrollHostDirective', () => {
 
 		it('should not scroll when scrollTo input is undefined', () => {
 			const hostElement = fixture.nativeElement.querySelector('div');
-			component.scrollTarget = undefined;
+			component.scrollTarget.set(undefined);
 			fixture.detectChanges();
 			expect(hostElement.scrollTop).toBe(0);
 		});
@@ -90,7 +90,7 @@ describe('DeferLoadScrollHostDirective', () => {
 			const target = document.createElement('div');
 			// no id set
 			const hostElement = fixture.nativeElement.querySelector('div');
-			component.scrollTarget = target;
+			component.scrollTarget.set(target);
 			fixture.detectChanges();
 			expect(hostElement.scrollTop).toBe(0);
 		});

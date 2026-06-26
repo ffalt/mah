@@ -219,5 +219,22 @@ describe('HelpComponent', () => {
 
 			expect(clearTimesSpy).not.toHaveBeenCalled();
 		});
+
+		// OnPush: the async stats reset must still re-render the view
+		it('should reset the stats view after clearing times', async () => {
+			expect(component.stats().items.length).toBeGreaterThan(0);
+			expect(fixture.debugElement.query(By.css('.stats-list table'))).toBeTruthy();
+
+			vi.spyOn(window, 'confirm').mockReturnValue(true);
+			vi.spyOn(component, 'clearTimes').mockResolvedValue();
+
+			component.clearTimesClick();
+			await fixture.whenStable();
+			fixture.detectChanges();
+
+			expect(component.stats().items).toHaveLength(0);
+			expect(fixture.debugElement.query(By.css('.stats-empty'))).toBeTruthy();
+			expect(fixture.debugElement.query(By.css('.stats-list table'))).toBeFalsy();
+		});
 	});
 });

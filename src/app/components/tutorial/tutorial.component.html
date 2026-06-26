@@ -23,12 +23,12 @@
 } @else {
 	<div class="tutorial-main">
 		<div class="tutorial-instruction">
-			<h2>{{ currentStep.titleKey | translate }}</h2>
-			<p>{{ currentStep.descriptionKey | translate }}</p>
+			<h2>{{ currentStep().titleKey | translate }}</h2>
+			<p>{{ currentStep().descriptionKey | translate }}</p>
 		</div>
 		<div class="tutorial-board">
 			<app-board
-				[stones]="board.stones"
+				[stones]="board().stones"
 				[theme]="app.settings.theme"
 				[imageSet]="app.settings.tileset"
 				[kyodaiUrl]="app.settings.kyodaiUrl"

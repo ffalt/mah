@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, viewChild, type AfterViewInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ElementRef, inject, signal, viewChild, type AfterViewInit, ChangeDetectionStrategy } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Backgrounds, ImageSetDefault, ImageSets, PATTERN_BACKGROUND, Themes } from '../../model/consts';
 import { AppService } from '../../service/app.service';
@@ -19,7 +19,7 @@ const SETTINGS_TABS = [
 
 @Component({
 	selector: 'app-settings',
-	changeDetection: ChangeDetectionStrategy.Eager,
+	changeDetection: ChangeDetectionStrategy.OnPush,
 	templateUrl: './settings.component.html',
 	styleUrls: ['./settings.component.scss'],
 	imports: [TranslatePipe, LicenseLinkComponent, TilePreviewComponent],
@@ -39,7 +39,7 @@ export class SettingsComponent implements AfterViewInit {
 	readonly app = inject(AppService);
 	readonly tabs = SETTINGS_TABS;
 	readonly patterns = generatePatternList();
-	selectedTab: string = this.app.getCachedValue('settings.selectedTab') as string | undefined ?? SETTINGS_TABS[0].id;
+	readonly selectedTab = signal<string>(this.app.getCachedValue('settings.selectedTab') as string | undefined ?? SETTINGS_TABS[0].id);
 
 	private readonly element = inject(ElementRef);
 
@@ -83,7 +83,7 @@ export class SettingsComponent implements AfterViewInit {
 	}
 
 	setSelectedTab(tab: string): void {
-		this.selectedTab = tab;
+		this.selectedTab.set(tab);
 		this.app.cacheValue('settings.selectedTab', tab);
 	}
 

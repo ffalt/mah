@@ -1,4 +1,4 @@
-import { Component, type OnChanges, type OnDestroy, type SimpleChanges, inject, input, output, ChangeDetectionStrategy } from '@angular/core';
+import { Component, type OnChanges, type OnDestroy, type SimpleChanges, inject, input, output, signal, ChangeDetectionStrategy } from '@angular/core';
 import type { Layout } from '../../../../model/types';
 import { LayoutService } from '../../../../service/layout.service';
 import { WorkerService } from '../../../../service/worker.service';
@@ -9,7 +9,7 @@ import { IconExecuteComponent } from '../../../../components/icons/icon-execute.
 
 @Component({
 	selector: 'app-manager-component',
-	changeDetection: ChangeDetectionStrategy.Eager,
+	changeDetection: ChangeDetectionStrategy.OnPush,
 	templateUrl: './manager.component.html',
 	styleUrls: ['./manager.component.scss'],
 	imports: [LayoutPreviewComponent, TranslatePipe, IconDeleteComponent, IconExecuteComponent]
@@ -17,14 +17,14 @@ import { IconExecuteComponent } from '../../../../components/icons/icon-execute.
 export class ManagerComponent implements OnChanges, OnDestroy {
 	readonly inputLayouts = input<Array<Layout>>();
 	readonly editEvent = output<Layout>();
-	layouts: Array<Layout>;
-	test: { [key: string]: { win: number; fail: number; msg?: string } | undefined } = {};
-	sortColumn: number = 1;
-	sortDesc: boolean = true;
-	showBuildIn: boolean = true;
+	readonly layouts = signal<Array<Layout>>([]);
+	readonly test = signal<{ [key: string]: { win: number; fail: number; msg?: string } | undefined }>({});
+	readonly sortColumn = signal(1);
+	readonly sortDesc = signal(true);
+	readonly showBuildIn = signal(true);
 	worker?: Worker;
-	layoutService = inject(LayoutService);
-	workerService = inject(WorkerService);
+	readonly layoutService = inject(LayoutService);
+	readonly workerService = inject(WorkerService);
 
 	constructor() {
 		this.update();
@@ -50,13 +50,13 @@ export class ManagerComponent implements OnChanges, OnDestroy {
 	}
 
 	toggleBuildIn() {
-		this.showBuildIn = !this.showBuildIn;
+		this.showBuildIn.set(!this.showBuildIn());
 		this.update();
 	}
 
 	activateSortBy(column: number): void {
-		if (this.sortColumn === column) {
-			this.sortDesc = !this.sortDesc;
+		if (this.sortColumn() === column) {
+			this.sortDesc.set(!this.sortDesc());
 		}
 		this.sortBy(column);
 	}
@@ -68,11 +68,12 @@ export class ManagerComponent implements OnChanges, OnDestroy {
 	update() {
 		const inputLayouts = this.inputLayouts();
 		if (inputLayouts) {
-			this.layouts = inputLayouts.sort((a, b) => a.name.localeCompare(b.name));
-			if (!this.showBuildIn) {
-				this.layouts = this.layouts.filter(l => l.custom);
+			let layouts = [...inputLayouts].sort((a, b) => a.name.localeCompare(b.name));
+			if (!this.showBuildIn()) {
+				layouts = layouts.filter(l => l.custom);
 			}
-			this.sortBy(this.sortColumn);
+			this.layouts.set(layouts);
+			this.sortBy(this.sortColumn());
 		}
 	}
 
@@ -89,8 +90,9 @@ export class ManagerComponent implements OnChanges, OnDestroy {
 	}
 
 	sortBy(column: number) {
-		this.sortColumn = column;
-		this.layouts = this.layouts.sort((a, b) => {
+		this.sortColumn.set(column);
+		const sortDesc = this.sortDesc();
+		this.layouts.set([...this.layouts()].sort((a, b) => {
 			let result: number;
 			switch (column) {
 				case 1: {
@@ -113,8 +115,8 @@ export class ManagerComponent implements OnChanges, OnDestroy {
 					result = 0;
 				}
 			}
-			return (this.sortDesc ? 1 : -1) * result;
-		});
+			return (sortDesc ? 1 : -1) * result;
+		}));
 	}
 
 	testLayout(event: MouseEvent, layout: Layout): void {
@@ -128,11 +130,11 @@ export class ManagerComponent implements OnChanges, OnDestroy {
 			this.worker = undefined;
 			return;
 		}
-		this.test[layout.id] = undefined;
+		this.test.update(test => ({ ...test, [layout.id]: undefined }));
 		this.worker = this.workerService.solve(layout.mapping, 10, progress => {
-			this.test[layout.id] = { win: progress[0], fail: progress[1] };
+			this.test.update(test => ({ ...test, [layout.id]: { win: progress[0], fail: progress[1] } }));
 		}, finish => {
-			this.test[layout.id] = { win: finish[0], fail: finish[1] };
+			this.test.update(test => ({ ...test, [layout.id]: { win: finish[0], fail: finish[1] } }));
 			this.worker = undefined;
 			if (callback) {
 				callback();
@@ -149,7 +151,7 @@ export class ManagerComponent implements OnChanges, OnDestroy {
 	}
 
 	testNextLayout(): void {
-		const next = this.layouts.find(l => !this.test[l.id]);
+		const next = this.layouts().find(l => !this.test()[l.id]);
 		if (next) {
 			this.startTestLayout(next, () => {
 				this.testNextLayout();

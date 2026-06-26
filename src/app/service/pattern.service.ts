@@ -211,9 +211,7 @@ function svgPattern(
 	].join('');
 }
 
-@Injectable({
-	providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class PatternService {
 	private readonly cache = new HttpCache(inject(HttpClient));
 

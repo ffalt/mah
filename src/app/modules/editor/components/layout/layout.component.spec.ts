@@ -61,14 +61,14 @@ describe('LayoutComponent', () => {
 	describe('refresh()', () => {
 		it('updates stats after refresh', () => {
 			init();
-			expect(component.stats).toBeDefined();
-			expect(component.stats.totalCount).toBe(4);
+			expect(component.stats()).toBeDefined();
+			expect(component.stats()?.totalCount).toBe(4);
 		});
 
 		it('sets svg preview via layoutService', () => {
 			init();
 			expect(mockLayoutService.generatePreview).toHaveBeenCalled();
-			expect(component.svg).toBe('svg:preview');
+			expect(component.svg()).toBe('svg:preview');
 		});
 
 		it('sets hasChanged to true', () => {
@@ -119,35 +119,35 @@ describe('LayoutComponent', () => {
 		it('sets currentZ and level', () => {
 			init();
 			component.selectLevel(0);
-			expect(component.currentZ).toBe(0);
-			expect(component.level).toBeDefined();
-			expect(component.level.z).toBe(0);
+			expect(component.currentZ()).toBe(0);
+			expect(component.level()).toBeDefined();
+			expect(component.level()?.z).toBe(0);
 		});
 	});
 
 	describe('toggleSave()', () => {
 		it('toggles saveDialog from false to true', () => {
 			init();
-			expect(component.saveDialog).toBe(false);
+			expect(component.saveDialog()).toBe(false);
 			component.toggleSave();
-			expect(component.saveDialog).toBe(true);
+			expect(component.saveDialog()).toBe(true);
 		});
 
 		it('toggles saveDialog from true to false', () => {
 			init();
-			component.saveDialog = true;
+			component.saveDialog.set(true);
 			component.toggleSave();
-			expect(component.saveDialog).toBe(false);
+			expect(component.saveDialog()).toBe(false);
 		});
 	});
 
 	describe('toggleAfterSave()', () => {
 		it('sets saveDialog to false and hasChanged to false', () => {
 			init();
-			component.saveDialog = true;
+			component.saveDialog.set(true);
 			component.hasChanged = true;
 			component.toggleAfterSave();
-			expect(component.saveDialog).toBe(false);
+			expect(component.saveDialog()).toBe(false);
 			expect(component.hasChanged).toBe(false);
 		});
 	});
@@ -156,15 +156,15 @@ describe('LayoutComponent', () => {
 		it('terminates solveWorker if present', () => {
 			init();
 			const fakeWorker = { terminate: vi.fn() } as unknown as Worker;
-			component.solveWorker = fakeWorker;
+			component.solveWorker.set(fakeWorker);
 			component.cancelSolve();
 			expect(fakeWorker.terminate).toHaveBeenCalled();
-			expect(component.solveWorker).toBeUndefined();
+			expect(component.solveWorker()).toBeUndefined();
 		});
 
 		it('does nothing when solveWorker is absent', () => {
 			init();
-			component.solveWorker = undefined;
+			component.solveWorker.set(undefined);
 			expect(() => component.cancelSolve()).not.toThrow();
 		});
 	});
@@ -179,15 +179,46 @@ describe('LayoutComponent', () => {
 				expect.any(Function),
 				expect.any(Function)
 			);
-			expect(component.solveStats).toBeDefined();
+			expect(component.solveStats()).toBeDefined();
 		});
 
 		it('does nothing if solveWorker already exists', () => {
 			init();
 			const fakeWorker = { terminate: vi.fn() } as unknown as Worker;
-			component.solveWorker = fakeWorker;
+			component.solveWorker.set(fakeWorker);
 			component.solve();
 			expect(mockWorkerService.solve).not.toHaveBeenCalled();
+		});
+
+		// OnPush: the async worker callbacks must update the signals so the view re-renders
+		it('updates solveStats when the worker reports progress', () => {
+			init();
+			let progressCallback: ((progress: [number, number]) => void) | undefined;
+			mockWorkerService.solve.mockImplementation((_mapping, _max, progress) => {
+				progressCallback = progress;
+				return { terminate: vi.fn() } as unknown as Worker;
+			});
+			component.solve();
+
+			progressCallback?.([3, 2]);
+
+			expect(component.solveStats()).toEqual({ won: 3, fail: 2 });
+		});
+
+		it('clears solveWorker and stores stats when the worker reports the result', () => {
+			init();
+			let resultCallback: ((result: [number, number]) => void) | undefined;
+			mockWorkerService.solve.mockImplementation((_mapping, _max, _progress, result) => {
+				resultCallback = result;
+				return { terminate: vi.fn() } as unknown as Worker;
+			});
+			component.solve();
+			expect(component.solveWorker()).toBeDefined();
+
+			resultCallback?.([5, 0]);
+
+			expect(component.solveStats()).toEqual({ won: 5, fail: 0 });
+			expect(component.solveWorker()).toBeUndefined();
 		});
 	});
 
@@ -241,7 +272,7 @@ describe('LayoutComponent', () => {
 				mapping: [[0, 5, 5], [0, 7, 5], [1, 5, 5]] as Array<[number, number, number]>
 			};
 			init(layout);
-			component.currentZ = 0;
+			component.currentZ.set(0);
 			component.moveLayer(true, 2);
 			expect(layout.mapping[0][1]).toBe(7);
 			expect(layout.mapping[1][1]).toBe(9);
@@ -257,7 +288,7 @@ describe('LayoutComponent', () => {
 				mapping: [[0, 5, 5], [1, 5, 5]] as Array<[number, number, number]>
 			};
 			init(layout);
-			component.currentZ = 0;
+			component.currentZ.set(0);
 			component.moveLayer(false, 2);
 			expect(layout.mapping[0][2]).toBe(7);
 			expect(layout.mapping[1][2]).toBe(5);
@@ -285,22 +316,22 @@ describe('LayoutComponent', () => {
 	describe('toggleMirrorX()', () => {
 		it('toggles mirrorX', () => {
 			init();
-			expect(component.mirrorX).toBe(false);
+			expect(component.mirrorX()).toBe(false);
 			component.toggleMirrorX();
-			expect(component.mirrorX).toBe(true);
+			expect(component.mirrorX()).toBe(true);
 			component.toggleMirrorX();
-			expect(component.mirrorX).toBe(false);
+			expect(component.mirrorX()).toBe(false);
 		});
 	});
 
 	describe('toggleMirrorY()', () => {
 		it('toggles mirrorY', () => {
 			init();
-			expect(component.mirrorY).toBe(false);
+			expect(component.mirrorY()).toBe(false);
 			component.toggleMirrorY();
-			expect(component.mirrorY).toBe(true);
+			expect(component.mirrorY()).toBe(true);
 			component.toggleMirrorY();
-			expect(component.mirrorY).toBe(false);
+			expect(component.mirrorY()).toBe(false);
 		});
 	});
 
@@ -504,7 +535,7 @@ describe('LayoutComponent', () => {
 				mapping: [] as Array<[number, number, number]>
 			};
 			init(layout);
-			component.mirrorX = true;
+			component.mirrorX.set(true);
 			const before = layout.mapping.length;
 			component.onPosClick(0, 10, 10);
 			expect(layout.mapping.length).toBeGreaterThan(before);
@@ -519,7 +550,7 @@ describe('LayoutComponent', () => {
 				mapping: [] as Array<[number, number, number]>
 			};
 			init(layout);
-			component.mirrorY = true;
+			component.mirrorY.set(true);
 			const before = layout.mapping.length;
 			component.onPosClick(0, 10, 10);
 			expect(layout.mapping.length).toBeGreaterThan(before);

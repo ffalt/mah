@@ -21,14 +21,14 @@ type onWindowBlur = (callback: () => void) => void;
 export class AppComponent implements OnInit {
 	readonly gameComponent = viewChild.required<GameComponent>('gameComponent');
 	readonly editorPlaceholder = viewChild.required('editorPlaceholder', { read: ViewContainerRef });
-	app = inject(AppService);
+	readonly app = inject(AppService);
+	readonly layoutService = inject(LayoutService);
+	readonly ngZone = inject(NgZone);
+	readonly meta = inject(Meta);
 	loading = true;
 	editorSubscription?: OutputRefSubscription;
 	editorVisible: boolean = false;
 	editorLoading: boolean = false;
-	layoutService = inject(LayoutService);
-	ngZone = inject(NgZone);
-	meta = inject(Meta);
 
 	constructor() {
 		this.updateName();

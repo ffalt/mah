@@ -1,4 +1,4 @@
-import { Component, inject, output, type OnInit, type Type, ChangeDetectionStrategy } from '@angular/core';
+import { Component, inject, output, signal, type OnInit, type Type, ChangeDetectionStrategy } from '@angular/core';
 import { NgComponentOutlet } from '@angular/common';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { clickExternalHref } from '../../model/external-links';
@@ -31,18 +31,18 @@ interface Stat {
 
 @Component({
 	selector: 'app-help',
-	changeDetection: ChangeDetectionStrategy.Eager,
+	changeDetection: ChangeDetectionStrategy.OnPush,
 	templateUrl: './help.component.html',
 	styleUrls: ['./help.component.scss'],
 	imports: [TranslatePipe, DurationPipe, NgComponentOutlet]
 })
 export class HelpComponent implements OnInit {
 	readonly showTutorial = output();
-	stats: Stat = {
+	readonly stats = signal<Stat>({
 		items: [],
 		winCount: 0,
 		loseCount: 0
-	};
+	});
 
 	private readonly layoutService = inject(LayoutService);
 	private readonly storage = inject(LocalstorageService);
@@ -60,7 +60,7 @@ export class HelpComponent implements OnInit {
 	];
 
 	ngOnInit(): void {
-		this.stats = this.buildStats();
+		this.stats.set(this.buildStats());
 	}
 
 	private buildStats(): Stat {
@@ -98,11 +98,11 @@ export class HelpComponent implements OnInit {
 		if (confirm(this.translate.instant('BEST_TIMES_CLEAR_SURE'))) {
 			this.clearTimes()
 				.then(() => {
-					this.stats = {
+					this.stats.set({
 						items: [],
 						winCount: 0,
 						loseCount: 0
-					};
+					});
 				})
 				.catch(error => log.error(error));
 		}

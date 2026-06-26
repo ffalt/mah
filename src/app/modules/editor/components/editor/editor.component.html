@@ -1,6 +1,6 @@
 <div class="editor-content">
 	<button type="button" class="close" (click)="close()" [attr.aria-label]="'CLOSE' | translate"><app-icon-close /></button>
-	<div class="editor-manager" [class.visible]="mode==='manager'">
+	<div class="editor-manager" [class.visible]="mode()==='manager'">
 		<div class="editor-nav buttons">
 			<ul>
 				<li class="editor-title"><app-icon-logo /> {{ 'EDITOR_TITLE' | translate }}</li>
@@ -9,7 +9,7 @@
 					<button type="button" (click)="newLayout()" title="{{ 'EDITOR_NEW_LONG' | translate }}">{{ 'EDITOR_NEW' | translate }}</button>
 				</li>
 				<li>
-					<button type="button" (click)="mode='import'" title="{{ 'EDITOR_IMPORT_LONG' | translate }}">{{ 'EDITOR_IMPORT' | translate }}</button>
+					<button type="button" (click)="mode.set('import')" title="{{ 'EDITOR_IMPORT_LONG' | translate }}">{{ 'EDITOR_IMPORT' | translate }}</button>
 				</li>
 				<li>
 					<button type="button" (click)="exportLayouts()" title="{{ 'EDITOR_EXPORT_LONG' | translate }}">{{ 'EDITOR_EXPORT' | translate }}</button>
@@ -20,7 +20,7 @@
 			<app-manager-component [inputLayouts]="layoutService.layouts.items" (editEvent)="editLayout($event)"></app-manager-component>
 		</div>
 	</div>
-	@if (mode === 'import') {
+	@if (mode() === 'import') {
 		<div>
 			<div class="editor-nav">
 				<ul>
@@ -32,7 +32,7 @@
 			</div>
 		</div>
 	}
-	@if (mode === 'edit' && !!layout) {
+	@if (mode() === 'edit' && layout(); as layout) {
 		<div>
 			<div class="editor-nav buttons">
 				<ul>

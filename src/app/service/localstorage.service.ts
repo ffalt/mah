@@ -2,9 +2,7 @@ import { Injectable } from '@angular/core';
 import type { GameStateStore, LayoutScoreStore, LoadLayout, SettingsStore, StorageProvider } from '../model/types';
 import { log } from '../model/log';
 
-@Injectable({
-	providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class LocalstorageService implements StorageProvider {
 	private readonly prefix = 'mah.';
 

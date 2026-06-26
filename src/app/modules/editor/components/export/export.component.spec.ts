@@ -54,26 +54,21 @@ describe('ExportComponent', () => {
 	});
 
 	describe('update()', () => {
-		it('sets layoutName from layout name', () => {
-			init();
-			expect(component.layoutName).toBe('test_board');
-		});
-
 		it('sets filename with current format extension', () => {
 			init();
-			expect(component.filename).toBe('test_board.mah');
+			expect(component.filename()).toBe('test_board.mah');
 		});
 
 		it('sets result as non-empty string', () => {
 			init();
-			expect(typeof component.result).toBe('string');
-			expect(component.result.length).toBeGreaterThan(0);
+			expect(typeof component.result()).toBe('string');
+			expect(component.result().length).toBeGreaterThan(0);
 		});
 
 		it('sets exportLayout with id and name', () => {
 			init();
-			expect(component.exportLayout).toBeDefined();
-			expect(component.exportLayout.name).toBe('Test Board');
+			expect(component.exportLayout()).toBeDefined();
+			expect(component.exportLayout()?.name).toBe('Test Board');
 		});
 	});
 
@@ -82,15 +77,15 @@ describe('ExportComponent', () => {
 			init();
 			const kyodaiFormat = component.exportFormats[1];
 			component.chooseFormat(kyodaiFormat);
-			expect(component.format).toBe(kyodaiFormat);
-			expect(component.filename).toBe('test_board.lay');
+			expect(component.format()).toBe(kyodaiFormat);
+			expect(component.filename()).toBe('test_board.lay');
 		});
 
 		it('switches to kmahjongg format', () => {
 			init();
 			const kmahFormat = component.exportFormats[2];
 			component.chooseFormat(kmahFormat);
-			expect(component.format.ext).toBe('layout');
+			expect(component.format().ext).toBe('layout');
 		});
 	});
 
@@ -105,7 +100,7 @@ describe('ExportComponent', () => {
 
 			component.download();
 
-			expect(downloadSpy).toHaveBeenCalledWith(component.filename, component.result, component.format.type);
+			expect(downloadSpy).toHaveBeenCalledWith(component.filename(), component.result(), component.format().type);
 			expect(savedEvents).toHaveLength(1);
 			expect(savedEvents[0]).toBe(true);
 		});
@@ -122,8 +117,8 @@ describe('ExportComponent', () => {
 
 			component.saveAsCopy();
 
-			expect(layoutService.storeCustomBoards).toHaveBeenCalledWith([component.exportLayout]);
-			expect(layout.originalId).toBe(component.exportLayout.id);
+			expect(layoutService.storeCustomBoards).toHaveBeenCalledWith([component.exportLayout()]);
+			expect(layout.originalId).toBe(component.exportLayout()?.id);
 			expect(savedEvents).toHaveLength(1);
 			expect(savedEvents[0]).toBe(true);
 		});
@@ -157,7 +152,7 @@ describe('ExportComponent', () => {
 			init();
 			const alertSpy = vi.spyOn(window, 'alert').mockImplementation(() => undefined);
 			vi.spyOn(translateService, 'instant').mockReturnValue('built-in exists');
-			const exportId = component.exportLayout.id;
+			const exportId = component.exportLayout()!.id;
 			mockLayoutService.layouts = {
 				items: [{ id: exportId, custom: false } as unknown as never]
 			};

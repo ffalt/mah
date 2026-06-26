@@ -107,7 +107,7 @@ export class GameComponent {
 	readonly help = viewChild.required<DialogComponent>('help');
 	readonly newgame = viewChild.required<DialogComponent>('newgame');
 	readonly tutorial = viewChild.required<DialogComponent>('tutorial');
-	app = inject(AppService);
+	readonly app = inject(AppService);
 	game: Game;
 	fullScreenEnabled: boolean = true;
 	menuOpen: boolean = false;

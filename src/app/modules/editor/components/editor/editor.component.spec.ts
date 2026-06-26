@@ -38,7 +38,7 @@ describe('EditorComponent', () => {
 
 	it('should create with mode manager', () => {
 		expect(component).toBeTruthy();
-		expect(component.mode).toBe('manager');
+		expect(component.mode()).toBe('manager');
 	});
 
 	describe('close', () => {
@@ -50,24 +50,24 @@ describe('EditorComponent', () => {
 		});
 
 		it('should set mode to manager when in edit mode with no layout', () => {
-			component.mode = 'edit';
-			component.layout = undefined;
+			component.mode.set('edit');
+			component.layout.set(undefined);
 			component.close();
-			expect(component.mode).toBe('manager');
+			expect(component.mode()).toBe('manager');
 		});
 
 		it('should set mode to manager when edit has no unsaved changes', () => {
-			component.mode = 'edit';
-			component.layout = {
+			component.mode.set('edit');
+			component.layout.set({
 				id: '',
 				originalId: 'test',
 				name: 'Test',
 				by: '',
 				category: 'Custom',
 				mapping: []
-			};
+			});
 			component.close();
-			expect(component.mode).toBe('manager');
+			expect(component.mode()).toBe('manager');
 		});
 	});
 
@@ -82,13 +82,13 @@ describe('EditorComponent', () => {
 				mapping: [[0, 1, 2]]
 			};
 			component.editLayout(layout);
-			expect(component.mode).toBe('edit');
-			expect(component.layout).toBeDefined();
-			expect(component.layout?.originalId).toBe('abc');
-			expect(component.layout?.name).toBe('My Board');
-			expect(component.layout?.by).toBe('Author');
-			expect(component.layout?.category).toBe('Classic');
-			expect(component.layout?.mapping).toHaveLength(1);
+			expect(component.mode()).toBe('edit');
+			expect(component.layout()).toBeDefined();
+			expect(component.layout()?.originalId).toBe('abc');
+			expect(component.layout()?.name).toBe('My Board');
+			expect(component.layout()?.by).toBe('Author');
+			expect(component.layout()?.category).toBe('Classic');
+			expect(component.layout()?.mapping).toHaveLength(1);
 		});
 
 		it('should default category to Custom for non-custom layout', () => {
@@ -101,24 +101,24 @@ describe('EditorComponent', () => {
 				mapping: []
 			};
 			component.editLayout(layout);
-			expect(component.layout?.category).toBe('Custom');
+			expect(component.layout()?.category).toBe('Custom');
 		});
 	});
 
 	describe('newLayout', () => {
 		it('should create an empty edit layout', () => {
 			component.newLayout();
-			expect(component.mode).toBe('edit');
-			expect(component.layout?.name).toBe('New Board');
-			expect(component.layout?.mapping).toHaveLength(0);
-			expect(component.layout?.category).toBe('Custom');
+			expect(component.mode()).toBe('edit');
+			expect(component.layout()?.name).toBe('New Board');
+			expect(component.layout()?.mapping).toHaveLength(0);
+			expect(component.layout()?.category).toBe('Custom');
 		});
 	});
 
 	describe('onDragFiles', () => {
 		it('should set mode to import', () => {
 			component.onDragFiles();
-			expect(component.mode).toBe('import');
+			expect(component.mode()).toBe('import');
 		});
 	});
 
@@ -127,7 +127,7 @@ describe('EditorComponent', () => {
 			expect(() => {
 				component.onDropFiles();
 			}).not.toThrow();
-			expect(component.mode).toBe('manager');
+			expect(component.mode()).toBe('manager');
 		});
 	});
 

@@ -24,7 +24,7 @@
 						[id]="'format_'+ef.name"
 						type="radio"
 						[value]="ef" name="format"
-						[checked]="( format === ef )"
+						[checked]="( format() === ef )"
 						(change)="chooseFormat(ef);"
 					>
 					<label [for]="'format_'+ef.name">{{ ef.name }}</label>
@@ -33,12 +33,12 @@
 		</ul>
 	</fieldset>
 	<div class="export-preview">
-		<pre>{{ this.result }}</pre>
+		<pre>{{ this.result() }}</pre>
 	</div>
 	<br/>
 	<div class="buttons">
-		<button type="button" class="text-button" (click)="download()">{{ 'EDITOR_LAYOUT_DOWNLOAD' | translate }} {{ filename }}</button>
-		@if (this.layout() && this.layout().originalId && exportLayout.id !== this.layout().originalId) {
+		<button type="button" class="text-button" (click)="download()">{{ 'EDITOR_LAYOUT_DOWNLOAD' | translate }} {{ filename() }}</button>
+		@if (this.layout() && this.layout().originalId && exportLayout()?.id !== this.layout().originalId) {
 			<button type="button" class="text-button" (click)="saveAsCopy()">{{ 'EDITOR_LAYOUT_SAVE_AS_COPY' | translate }}</button>
 		}
 		<button type="button" class="text-button" (click)="save()">{{ 'EDITOR_LAYOUT_SAVE' | translate }}</button>
