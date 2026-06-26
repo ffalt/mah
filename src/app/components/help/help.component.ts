@@ -1,4 +1,4 @@
-import { Component, inject, output, type OnInit, type Type } from '@angular/core';
+import { Component, inject, output, type OnInit, type Type, ChangeDetectionStrategy } from '@angular/core';
 import { NgComponentOutlet } from '@angular/common';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { clickExternalHref } from '../../model/external-links';
@@ -31,6 +31,7 @@ interface Stat {
 
 @Component({
 	selector: 'app-help',
+	changeDetection: ChangeDetectionStrategy.Eager,
 	templateUrl: './help.component.html',
 	styleUrls: ['./help.component.scss'],
 	imports: [TranslatePipe, DurationPipe, NgComponentOutlet]

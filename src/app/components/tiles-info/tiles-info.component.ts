@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ImageSetDefault, ImageSets, TILES_INFOS } from '../../model/consts';
 import { AppService } from '../../service/app.service';
 import { TileComponent } from '../tile/tile.component';
@@ -10,6 +10,7 @@ import { clickExternalHref } from '../../model/external-links';
 
 @Component({
 	selector: 'app-tiles-info',
+	changeDetection: ChangeDetectionStrategy.Eager,
 	templateUrl: './tiles-info.component.html',
 	styleUrls: ['./tiles-info.component.scss'],
 	imports: [TileComponent, TranslatePipe, LicenseLinkComponent, TilesetDefsComponent]

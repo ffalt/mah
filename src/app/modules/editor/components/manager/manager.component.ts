@@ -1,4 +1,4 @@
-import { Component, type OnChanges, type OnDestroy, type SimpleChanges, inject, input, output } from '@angular/core';
+import { Component, type OnChanges, type OnDestroy, type SimpleChanges, inject, input, output, ChangeDetectionStrategy } from '@angular/core';
 import type { Layout } from '../../../../model/types';
 import { LayoutService } from '../../../../service/layout.service';
 import { WorkerService } from '../../../../service/worker.service';
@@ -9,6 +9,7 @@ import { IconExecuteComponent } from '../../../../components/icons/icon-execute.
 
 @Component({
 	selector: 'app-manager-component',
+	changeDetection: ChangeDetectionStrategy.Eager,
 	templateUrl: './manager.component.html',
 	styleUrls: ['./manager.component.scss'],
 	imports: [LayoutPreviewComponent, TranslatePipe, IconDeleteComponent, IconExecuteComponent]

@@ -1,4 +1,4 @@
-import { Component, inject, Injector, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Injector, viewChild } from '@angular/core';
 import type { Game } from '../../model/game';
 import type { Stone } from '../../model/stone';
 import type { Layout, Place } from '../../model/types';
@@ -83,6 +83,7 @@ function callFullscreenMethod(
 	selector: 'app-game-component',
 	templateUrl: './game-component.component.html',
 	styleUrls: ['./game-component.component.scss'],
+	changeDetection: ChangeDetectionStrategy.Eager,
 	host: {
 		'(document:keydown)': 'handleKeyDownEvent($event)',
 		'(document:pointermove)': 'onZenControlsDrag($event)',

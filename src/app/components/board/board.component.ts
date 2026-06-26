@@ -1,4 +1,4 @@
-import { Component, ElementRef, type OnChanges, type OnInit, type SimpleChanges, inject, input, output } from '@angular/core';
+import { Component, ElementRef, type OnChanges, type OnInit, type SimpleChanges, inject, input, output, ChangeDetectionStrategy } from '@angular/core';
 import { Backgrounds, Themes } from '../../model/consts';
 import { type Draw, calcDrawPos, getDrawBounds, sortDrawItems, getDrawBoundsViewportBounds } from '../../model/draw';
 import type { Stone } from '../../model/stone';
@@ -17,6 +17,7 @@ const defaultH = 960;
 
 @Component({
 	selector: 'app-board',
+	changeDetection: ChangeDetectionStrategy.Eager,
 	templateUrl: './board.component.html',
 	styleUrls: ['./board.component.scss'],
 	host: {

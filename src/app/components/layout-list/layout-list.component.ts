@@ -1,4 +1,4 @@
-import { Component, type OnChanges, type SimpleChanges, inject, input, output, viewChild, type ElementRef, type OnInit } from '@angular/core';
+import { Component, type OnChanges, type SimpleChanges, inject, input, output, viewChild, type ElementRef, type OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import type { Layout } from '../../model/types';
 import { LocalstorageService } from '../../service/localstorage.service';
@@ -41,9 +41,14 @@ export interface RandomLayoutGroup extends LayoutGroup {
 
 @Component({
 	selector: 'app-layout-list',
+	changeDetection: ChangeDetectionStrategy.Eager,
 	templateUrl: './layout-list.component.html',
 	styleUrls: ['./layout-list.component.scss'],
-	imports: [LayoutPreviewComponent, DurationPipe, TranslatePipe, TranslateGroupPipe, DeferLoadScrollHostDirective, DeferLoadDirective, IconDeleteComponent, IconMirrorVerticalComponent, IconMirrorHorizontalComponent]
+	imports: [
+		DurationPipe, TranslatePipe, TranslateGroupPipe,
+		DeferLoadScrollHostDirective, DeferLoadDirective, IconDeleteComponent,
+		LayoutPreviewComponent, IconMirrorVerticalComponent, IconMirrorHorizontalComponent
+	]
 })
 export class LayoutListComponent implements OnInit, OnChanges {
 	readonly layouts = input<Array<Layout>>();

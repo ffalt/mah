@@ -1,4 +1,4 @@
-import { Component, type OnChanges, type OnInit, type SimpleChanges, inject, input, output } from '@angular/core';
+import { Component, type OnChanges, type OnInit, type SimpleChanges, inject, input, output, ChangeDetectionStrategy } from '@angular/core';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import type { Layout, LoadLayout } from '../../../../model/types';
 import { LayoutService } from '../../../../service/layout.service';
@@ -36,6 +36,7 @@ const EXPORT_FORMATS = [
 
 @Component({
 	selector: 'app-editor-export-component',
+	changeDetection: ChangeDetectionStrategy.Eager,
 	templateUrl: './export.component.html',
 	styleUrls: ['./export.component.scss'],
 	imports: [LayoutPreviewComponent, TranslatePipe]

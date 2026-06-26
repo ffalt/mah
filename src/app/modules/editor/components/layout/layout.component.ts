@@ -1,4 +1,4 @@
-import { Component, type OnChanges, type OnDestroy, type OnInit, type SimpleChanges, inject, model } from '@angular/core';
+import { Component, type OnChanges, type OnDestroy, type OnInit, type SimpleChanges, inject, model, ChangeDetectionStrategy } from '@angular/core';
 import { Matrix } from '../../model/matrix';
 import { CONSTS } from '../../../../model/consts';
 import { WorkerService } from '../../../../service/worker.service';
@@ -53,6 +53,7 @@ interface EditLevel {
 
 @Component({
 	selector: 'app-editor-layout-component',
+	changeDetection: ChangeDetectionStrategy.Eager,
 	templateUrl: './layout.component.html',
 	styleUrls: ['./layout.component.scss'],
 	imports: [CommonModule, BoardComponent, LayoutPreviewComponent, ExportComponent, TranslatePipe, IconCloseComponent,

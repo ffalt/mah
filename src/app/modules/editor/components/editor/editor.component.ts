@@ -1,4 +1,4 @@
-import { Component, InjectionToken, inject, output, viewChild } from '@angular/core';
+import { Component, InjectionToken, inject, output, viewChild, ChangeDetectionStrategy } from '@angular/core';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { LayoutService } from '../../../../service/layout.service';
 import { LayoutComponent } from '../layout/layout.component';
@@ -19,6 +19,7 @@ export const EXPORT_API = new InjectionToken<{ downloadMahLayouts: typeof downlo
 
 @Component({
 	selector: 'app-editor-component',
+	changeDetection: ChangeDetectionStrategy.Eager,
 	templateUrl: './editor.component.html',
 	styleUrls: ['./editor.component.scss'],
 	imports: [LayoutComponent, IconLogoComponent, ImportComponent, ManagerComponent, TranslatePipe, IconCloseComponent]

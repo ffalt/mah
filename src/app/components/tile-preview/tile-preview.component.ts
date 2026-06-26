@@ -1,10 +1,11 @@
-import { Component, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { ImageSetLoaderComponent } from '../image-set-loader/image-set-loader.component';
 import { ImageSetDefault } from '../../model/consts';
 import { isKyodaiImageSet } from '../../model/tilesets';
 
 @Component({
 	selector: 'app-tile-preview',
+	changeDetection: ChangeDetectionStrategy.Eager,
 	templateUrl: './tile-preview.component.html',
 	styleUrls: ['./tile-preview.component.scss'],
 	imports: [ImageSetLoaderComponent]

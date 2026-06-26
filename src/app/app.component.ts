@@ -1,4 +1,4 @@
-import { Component, type OnInit, type OutputRefSubscription, ViewContainerRef, inject, viewChild, NgZone } from '@angular/core';
+import { Component, type OnInit, type OutputRefSubscription, ViewContainerRef, inject, viewChild, NgZone, ChangeDetectionStrategy } from '@angular/core';
 import { Meta } from '@angular/platform-browser';
 import { environment } from '../environments/environment';
 import { AppService } from './service/app.service';
@@ -12,6 +12,7 @@ type onWindowBlur = (callback: () => void) => void;
 
 @Component({
 	selector: 'app-root',
+	changeDetection: ChangeDetectionStrategy.Eager,
 	templateUrl: './app.component.html',
 	styleUrls: ['./app.component.scss'],
 	host: { '(document:keydown)': 'handleKeyDownEvent($event)' },

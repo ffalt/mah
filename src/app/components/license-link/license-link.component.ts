@@ -1,9 +1,10 @@
-import { Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { Licenses } from '../../model/consts';
 import { clickExternalHref } from '../../model/external-links';
 
 @Component({
 	selector: 'app-license-link',
+	changeDetection: ChangeDetectionStrategy.Eager,
 	templateUrl: './license-link.component.html',
 	styleUrls: ['./license-link.component.scss']
 })

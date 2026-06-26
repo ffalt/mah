@@ -1,4 +1,4 @@
-import { Component, ElementRef, type OnChanges, type SimpleChanges, inject, input } from '@angular/core';
+import { Component, ElementRef, type OnChanges, type SimpleChanges, inject, input, ChangeDetectionStrategy } from '@angular/core';
 import { SvgdefService } from '../../service/svgdef.service';
 import { log } from '../../model/log';
 import { TILES } from '../../model/consts';
@@ -6,6 +6,7 @@ import { svg_error_icon, svgSpinnerIcon } from './svg';
 
 @Component({
 	selector: '[app-image-set-loader]',
+	changeDetection: ChangeDetectionStrategy.Eager,
 	template: '<svg:defs></svg:defs>'
 })
 export class ImageSetLoaderComponent implements OnChanges {

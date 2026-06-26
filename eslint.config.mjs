@@ -184,6 +184,7 @@ export default ts.config(
 			...commonTypeScriptRules,
 			...commonUnicornRules,
 			"unicorn/no-global-object-property-assignment": "off",
+			"@angular-eslint/prefer-on-push-component-change-detection": "off",
 			"@angular-eslint/component-max-inline-declarations": "error",
 			"@angular-eslint/directive-selector": ["error", { type: "attribute", prefix: "app", style: "camelCase" }],
 			"@angular-eslint/no-attribute-decorator": "error",
@@ -229,6 +230,7 @@ export default ts.config(
 			"unicorn/max-nested-calls": "off",
 			"unicorn/no-global-object-property-assignment": "off",
 			"unicorn/no-top-level-assignment-in-function": "off",
+			"@angular-eslint/prefer-on-push-component-change-detection": "off",
 			"@typescript-eslint/no-unnecessary-type-assertion": "off",
 			"vitest/expect-expect": [
 				"error",

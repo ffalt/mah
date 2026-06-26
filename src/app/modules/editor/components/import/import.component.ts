@@ -1,4 +1,4 @@
-import { Component, InjectionToken, inject, output } from '@angular/core';
+import { Component, InjectionToken, inject, output, ChangeDetectionStrategy } from '@angular/core';
 import type { Layout, LoadLayout } from '../../../../model/types';
 import { LayoutService } from '../../../../service/layout.service';
 import { log } from '../../../../model/log';
@@ -16,6 +16,7 @@ export const IMPORT_API = new InjectionToken<{ importLayouts: typeof importLayou
 
 @Component({
 	selector: 'app-import-component',
+	changeDetection: ChangeDetectionStrategy.Eager,
 	templateUrl: './import.component.html',
 	styleUrls: ['./import.component.scss'],
 	imports: [TranslatePipe, DropZoneDirective, IconOkComponent]

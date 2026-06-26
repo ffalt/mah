@@ -3,9 +3,9 @@ import type { Layout, SafeUrlSVG } from '../../model/types';
 
 @Component({
 	selector: 'app-layout-preview',
+	changeDetection: ChangeDetectionStrategy.OnPush,
 	templateUrl: './layout-preview.component.html',
-	styleUrls: ['./layout-preview.component.scss'],
-	changeDetection: ChangeDetectionStrategy.OnPush
+	styleUrls: ['./layout-preview.component.scss']
 })
 export class LayoutPreviewComponent implements OnChanges {
 	readonly layout = input<Layout>();
