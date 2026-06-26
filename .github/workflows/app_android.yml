@@ -41,7 +41,7 @@ jobs:
           echo "NDK_HOME=$ANDROID_HOME/ndk/26.1.10909125/" > $GITHUB_ENV
 
       - name: Install Rust stable
-        uses: dtolnay/rust-toolchain@3c5f7ea28cd621ae0bf5283f0e981fb97b8a7af9 # v 1.94.1
+        uses: dtolnay/rust-toolchain@67ef31d5b988238dd797d409d6f9574278e20537 # v 1.94.1
         with:
           toolchain: stable
 
