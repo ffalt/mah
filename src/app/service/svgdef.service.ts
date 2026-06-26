@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { buildKyodaiSVG, isKyodaiImageSet } from '../model/tilesets';
-import { Injectable, InjectionToken, inject } from '@angular/core';
+import { InjectionToken, inject, Service } from '@angular/core';
 import { HttpCache } from './http-cache';
 
 // Injectable seam for the Kyodai tileset helpers so tests can supply stubs via DI
@@ -10,7 +10,7 @@ export const KYODAI_TILES = new InjectionToken<{ isKyodaiImageSet: typeof isKyod
 	factory: () => ({ isKyodaiImageSet, buildKyodaiSVG })
 });
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class SvgdefService {
 	private readonly cache = new HttpCache(inject(HttpClient));
 	private readonly kyodai = inject(KYODAI_TILES);

@@ -1,4 +1,4 @@
-import { Injectable, type OnDestroy, inject } from '@angular/core';
+import { type OnDestroy, inject, Service } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Game } from '../model/game';
 import { DEFAULT_LANGUAGE, LANGUAGES } from '../model/languages';
@@ -6,7 +6,7 @@ import { Settings } from '../model/settings';
 import { LangAuto } from '../model/consts';
 import { LocalstorageService } from './localstorage.service';
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class AppService implements OnDestroy {
 	name: string = 'Mah Jong';
 	cache: Record<string, unknown> = {};

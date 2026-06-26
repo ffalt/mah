@@ -1,4 +1,4 @@
-import { Injectable, InjectionToken, inject } from '@angular/core';
+import { InjectionToken, inject, Service } from '@angular/core';
 import type { Mapping, Place } from '../model/types';
 import { solveGame, statsSolveMapping } from '../model/tasks';
 import { createStatsSolveWorker } from '../worker/create-stats-solve.worker';
@@ -32,7 +32,7 @@ export const SOLVE_TASKS = new InjectionToken<{ solveGame: typeof solveGame; sta
 	factory: () => ({ solveGame, statsSolveMapping })
 });
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class WorkerService {
 	private readonly factories = inject(WORKER_FACTORIES);
 	private readonly tasks = inject(SOLVE_TASKS);

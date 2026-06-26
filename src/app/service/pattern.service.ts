@@ -1,11 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { inject, Service } from '@angular/core';
 import { HttpCache } from './http-cache';
-
-export interface PatternEntry {
-	id: string;
-	title: string;
-}
 
 function expandSuffix(prefix: string, suffix: number | string | Array<number>): Array<{ id: string }> {
 	if (Array.isArray(suffix)) {
@@ -211,7 +206,7 @@ function svgPattern(
 	].join('');
 }
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class PatternService {
 	private readonly cache = new HttpCache(inject(HttpClient));
 

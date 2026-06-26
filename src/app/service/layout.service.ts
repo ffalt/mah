@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, InjectionToken, inject } from '@angular/core';
+import { InjectionToken, inject, Service } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { firstValueFrom, catchError, of } from 'rxjs';
 import { expandMapping, mappingToID } from '../model/mapping';
@@ -20,7 +20,7 @@ export const LAYOUT_SVG = new InjectionToken<{ generateBase64SVG: typeof generat
 	factory: () => ({ generateBase64SVG })
 });
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class LayoutService {
 	static layout2loadLayout(layout: Layout, map: CompactMapping): LoadLayout {
 		return {
