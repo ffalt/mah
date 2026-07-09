@@ -57,8 +57,8 @@ export function getDrawBoundsViewportBounds(bounds: Array<number>): Array<number
 	return [
 		bounds[0] - border,
 		bounds[1] - border,
-		bounds[2] + (border * 2),
-		bounds[3] + (border * 2)
+		bounds[2] - bounds[0] + (border * 2),
+		bounds[3] - bounds[1] + (border * 2)
 	];
 }
 
