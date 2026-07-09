@@ -1,8 +1,10 @@
+import { signal, type WritableSignal } from '@angular/core';
+
 interface GestureIndicator {
 	x: number;
 	y: number;
 	size: number;
-	state: string;
+	state: WritableSignal<'hidden' | 'visible'>;
 	transform?: string;
 	top: number;
 	left: number;
@@ -11,18 +13,19 @@ interface GestureIndicator {
 }
 
 export class Indicator {
-	gestureIndicators: Array<GestureIndicator> = [];
+	readonly gestureIndicators = signal<Array<GestureIndicator>>([]);
 
-	hide(gestureIndicator?: { state: string; x: number; y: number }) {
+	hide(gestureIndicator?: { x: number; y: number }) {
 		const indicator = gestureIndicator;
 		if (!indicator) {
 			return;
 		}
 
 		// Find by reference first, then fall back to coordinate match
+		const list = this.gestureIndicators();
 		const fullIndicator =
-			this.gestureIndicators.find(gi => gi === indicator) ??
-			this.gestureIndicators.find(gi => gi.x === indicator.x && gi.y === indicator.y);
+			list.find(gi => gi === indicator) ??
+			list.find(gi => gi.x === indicator.x && gi.y === indicator.y);
 
 		if (!fullIndicator) {
 			return;
@@ -33,12 +36,12 @@ export class Indicator {
 
 		// Schedule hide state change
 		fullIndicator.hideTimerId = setTimeout(() => {
-			fullIndicator.state = 'hidden';
+			fullIndicator.state.set('hidden');
 			fullIndicator.hideTimerId = undefined;
 
 			// Schedule removal
 			fullIndicator.removeTimerId = setTimeout(() => {
-				this.removeIndicator(gestureIndicator);
+				this.removeIndicator(fullIndicator);
 				fullIndicator.removeTimerId = undefined;
 			}, 250);
 		}, 500);
@@ -55,22 +58,20 @@ export class Indicator {
 		}
 	}
 
-	removeIndicator(gestureIndicator: { state: string; x: number; y: number }) {
-		for (let index = 0; index < this.gestureIndicators.length; index++) {
-			const indicator = this.gestureIndicators[index];
-			if (indicator.x === gestureIndicator.x && indicator.y === gestureIndicator.y) {
-				// Cancel any pending timers before removing
-				this.cancelHideTimer(indicator);
-				this.gestureIndicators.splice(index, 1);
-				break;
-			}
+	removeIndicator(gestureIndicator: { x: number; y: number }) {
+		const target = this.gestureIndicators().find(indicator => indicator.x === gestureIndicator.x && indicator.y === gestureIndicator.y);
+		if (target) {
+			// Cancel any pending timers before removing
+			this.cancelHideTimer(target);
+			this.gestureIndicators.update(list => list.filter(indicator => indicator !== target));
 		}
 	}
 
 	setSize(nr: number, size: number): void {
-		this.gestureIndicators[nr].size = size;
-		this.gestureIndicators[nr].top = this.gestureIndicators[nr].y - (size / 2);
-		this.gestureIndicators[nr].left = this.gestureIndicators[nr].x - (size / 2);
+		const indicator = this.gestureIndicators()[nr];
+		indicator.size = size;
+		indicator.top = indicator.y - (size / 2);
+		indicator.left = indicator.x - (size / 2);
 	}
 
 	display(x: number, y: number, size: number): GestureIndicator | undefined {
@@ -81,11 +82,11 @@ export class Indicator {
 				size,
 				top: y - (size / 2),
 				left: x - (size / 2),
-				state: 'hidden'
+				state: signal<'hidden' | 'visible'>('hidden')
 			};
-			this.gestureIndicators.push(gestureIndicator);
+			this.gestureIndicators.update(list => [...list, gestureIndicator]);
 			setTimeout(() => {
-				gestureIndicator.state = 'visible';
+				gestureIndicator.state.set('visible');
 			}, 100);
 			return gestureIndicator;
 		}

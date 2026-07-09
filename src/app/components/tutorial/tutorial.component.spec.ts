@@ -93,7 +93,7 @@ describe('TutorialComponent', () => {
 		it('should clear the board selection when clicking empty space', () => {
 			component.start();
 			fixture.detectChanges();
-			const stone = component.board().stones[0];
+			const stone = component.board().stones()[0];
 			component.board().setStoneSelected(stone);
 			expect(component.board().selected).toBe(stone);
 

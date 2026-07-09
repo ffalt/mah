@@ -21,8 +21,8 @@ export class AppService implements OnDestroy {
 		this.settings.load();
 		this.setLang();
 		this.game.init();
-		this.game.sound.enabled = this.settings.sounds;
-		this.game.music.enabled = this.settings.music;
+		this.game.sound.enabled = this.settings.sounds();
+		this.game.music.enabled = this.settings.music();
 	}
 
 	ngOnDestroy(): void {
@@ -42,10 +42,11 @@ export class AppService implements OnDestroy {
 	}
 
 	setLang(): void {
+		const lang = this.settings.lang();
 		const userLang =
-			(!this.settings.lang || this.settings.lang === LangAuto) ?
+			(!lang || lang === LangAuto) ?
 				(navigator.language.split('-', 1)[0] || DEFAULT_LANGUAGE).toLowerCase() : // use navigator lang if available
-				this.settings.lang;
+				lang;
 		if (Object.keys(LANGUAGES).includes(userLang)) {
 			this.translate.use(userLang);
 		} else {
@@ -54,14 +55,14 @@ export class AppService implements OnDestroy {
 	}
 
 	toggleSound(): void {
-		this.settings.sounds = !this.settings.sounds;
-		this.game.sound.enabled = this.settings.sounds;
+		this.settings.sounds.set(!this.settings.sounds());
+		this.game.sound.enabled = this.settings.sounds();
 		this.settings.save();
 	}
 
 	toggleMusic(): void {
-		this.settings.music = !this.settings.music;
-		this.game.music.enabled = this.settings.music;
+		this.settings.music.set(!this.settings.music());
+		this.game.music.enabled = this.settings.music();
 		this.game.music.toggle();
 		this.settings.save();
 	}

@@ -1,4 +1,4 @@
-<div class="sr-only" aria-live="polite" aria-atomic="true">{{ announceText }}</div>
+<div class="sr-only" aria-live="polite" aria-atomic="true">{{ announceText() }}</div>
 
 <app-dialog
 	#tutorial (clickEvent)="toggleDialogState($event)" className="overlay-tutorial overlay-size-small"
@@ -33,8 +33,8 @@
 	}
 </app-dialog>
 
-<app-dialog (clickEvent)="clickMessage()" [visible]="!!game.message" className="overlay-message overlay-size-auto" [noCloseButton]="true">
-	@if (game.message) {
+<app-dialog (clickEvent)="clickMessage()" [visible]="!!game.message()" className="overlay-message overlay-size-auto" [noCloseButton]="true">
+	@if (game.message(); as message) {
 		<div
 			class="overlay-message-message"
 			role="button"
@@ -43,13 +43,13 @@
 			(keydown.enter)="clickMessage($event)"
 			(keydown.space)="clickMessage($event)"
 		>
-			@if (game.message.messageID) {
-				<div>{{ game.message.messageID | translate }}</div>
+			@if (message.messageID) {
+				<div>{{ message.messageID | translate }}</div>
 			}
-			@if (game.message.playTime) {
-				<div>{{ game.message.playTime | duration }}</div>
+			@if (message.playTime) {
+				<div>{{ message.playTime | duration }}</div>
 			}
-			@if (game.message.askShuffle) {
+			@if (message.askShuffle) {
 				<div class="overlay-message-actions">
 					<button
 						type="button"
@@ -93,7 +93,7 @@
 				</button>
 			}
 			@if (gameModeStandard) {
-				<button type="button" class="button" (click)="onUndo()" title="{{'UNDO_LONG' | translate}}" [attr.disabled]="game.board.undo.length===0 ? true : null">
+				<button type="button" class="button" (click)="onUndo()" title="{{'UNDO_LONG' | translate}}" [attr.disabled]="game.board.undo().length===0 ? true : null">
 					<app-icon-undo/>
 					<span class="label">{{ 'UNDO' | translate }}</span>
 				</button>
@@ -111,12 +111,12 @@
 }
 <app-board
 	class="board"
-	[stones]="game.board.stones"
-	[theme]="app.settings.theme"
-	[imageSet]="app.settings.tileset"
-	[kyodaiUrl]="app.settings.kyodaiUrl"
-	[background]="app.settings.background"
-	[pattern]="app.settings.pattern"
+	[stones]="game.board.stones()"
+	[theme]="app.settings.theme()"
+	[imageSet]="app.settings.tileset()"
+	[kyodaiUrl]="app.settings.kyodaiUrl()"
+	[background]="app.settings.background()"
+	[pattern]="app.settings.pattern()"
 	(clickEvent)="stoneClick($event)"
 />
 @if (zenMode) {
@@ -133,7 +133,7 @@
 			<app-icon-pause/>
 		</button>
 		@if (gameModeStandard) {
-			<button type="button" class="button" (click)="onUndo()" title="{{'UNDO_LONG' | translate}}" [attr.aria-label]="'UNDO' | translate" [attr.disabled]="game.board.undo.length===0 ? true : null">
+			<button type="button" class="button" (click)="onUndo()" title="{{'UNDO_LONG' | translate}}" [attr.aria-label]="'UNDO' | translate" [attr.disabled]="game.board.undo().length===0 ? true : null">
 				<app-icon-undo/>
 			</button>
 			<button type="button" class="button" (click)="onHint()" title="{{'HINT_LONG' | translate}}" [attr.aria-label]="'HINT' | translate">
@@ -168,7 +168,7 @@
 				<button type="button" class="button" (click)="settings.toggle()" title="{{'OPEN_SETTINGS' | translate}}" [attr.aria-label]="'SETTINGS' | translate" role="menuitem">
 					<app-icon-settings/>
 				</button>
-				<button type="button" class="button" [class.inactive]="!app.settings.sounds" (click)="app.toggleSound()" title="{{'AUDIO_SOUNDS' | translate}}" [attr.aria-label]="'AUDIO_SOUNDS' | translate" [attr.aria-pressed]="!app.settings.sounds" role="menuitem">
+				<button type="button" class="button" [class.inactive]="!app.settings.sounds()" (click)="app.toggleSound()" title="{{'AUDIO_SOUNDS' | translate}}" [attr.aria-label]="'AUDIO_SOUNDS' | translate" [attr.aria-pressed]="!app.settings.sounds()" role="menuitem">
 					<app-icon-mute/>
 				</button>
 				<button type="button" class="button" (click)="info.toggle()" title="{{'TILES_INFO' | translate}}" [attr.aria-label]="'TILES_INFO' | translate" role="menuitem">
@@ -185,10 +185,10 @@
 			</div>
 		</div>
 		<div class="ctrl ctrl-time">
-			<span class="label text"><small>{{ 'STONES' | translate }}:</small> <span>{{ game.board.count }}</span></span>
-			<span class="label text"><small>{{ 'FREE' | translate }}:</small> <span>{{ game.board.free.length }}</span></span>
-			@if (app.settings.showClock) {
-				<span class="time">{{ game.clock.elapsed | duration }}</span>
+			<span class="label text"><small>{{ 'STONES' | translate }}:</small> <span>{{ game.board.count() }}</span></span>
+			<span class="label text"><small>{{ 'FREE' | translate }}:</small> <span>{{ game.board.free().length }}</span></span>
+			@if (app.settings.showClock()) {
+				<app-clock class="time"/>
 			}
 		</div>
 	</div>

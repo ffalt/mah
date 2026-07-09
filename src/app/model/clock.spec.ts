@@ -36,15 +36,15 @@ describe('Clock', () => {
 		});
 
 		it('should initialize with zero elapsed time', () => {
-			expect(clock.elapsed).toBe(0);
+			expect(clock.elapsed()).toBe(0);
 		});
 	});
 
 	describe('reset', () => {
 		it('should reset elapsed time to zero', () => {
-			clock.elapsed = 5000;
+			clock.elapsed.set(5000);
 			clock.reset();
-			expect(clock.elapsed).toBe(0);
+			expect(clock.elapsed()).toBe(0);
 		});
 
 		it('should clear the timer if running', () => {
@@ -92,14 +92,14 @@ describe('Clock', () => {
 
 			clock.pause();
 
-			expect(clock.elapsed).toBe(2000); // 3000 - 1000 = 2000
+			expect(clock.elapsed()).toBe(2000); // 3000 - 1000 = 2000
 		});
 
 		it('should do nothing if not running', () => {
 			clock.pause();
 
 			expect(mockClearTimeout).not.toHaveBeenCalled();
-			expect(clock.elapsed).toBe(0);
+			expect(clock.elapsed()).toBe(0);
 		});
 	});
 
@@ -120,7 +120,7 @@ describe('Clock', () => {
 			stepCallback();
 
 			// Check elapsed time was updated
-			expect(clock.elapsed).toBe(1500); // 2500 - 1000 = 1500
+			expect(clock.elapsed()).toBe(1500); // 2500 - 1000 = 1500
 
 			// Check a new timer was set
 			expect(mockSetTimeout).toHaveBeenCalled();

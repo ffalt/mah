@@ -20,8 +20,8 @@
 				<li>
 					<input
 						type="radio" name="lang" id="lang0" value="auto"
-						[checked]="( app.settings.lang === 'auto' )"
-						(change)="app.settings.lang = 'auto'; app.setLang();"
+						[checked]="( app.settings.lang() === 'auto' )"
+						(change)="app.settings.lang.set('auto'); app.setLang();"
 						[attr.aria-label]="'LANG_AUTO' | translate"
 					/>
 					<label for="lang0">{{ 'LANG_AUTO' | translate }}</label>
@@ -30,8 +30,8 @@
 					<li>
 						<input
 							type="radio" name="lang" [id]="'lang'+(i+1)" [value]="lang.key"
-							[checked]="( app.settings.lang === lang.key )"
-							(change)="app.settings.lang = lang.key;app.setLang();"
+							[checked]="( app.settings.lang() === lang.key )"
+							(change)="app.settings.lang.set(lang.key);app.setLang();"
 							[attr.aria-label]="lang.title"
 						/>
 						<label [for]="'lang'+(i+1)">{{ lang.title }}</label>
@@ -49,8 +49,8 @@
 					<li>
 						<input
 							type="radio" name="imageset" id="imageset{{i}}" [value]="imageset.id"
-							[checked]="app.settings.tileset === imageset.id"
-							(change)="app.settings.tileset = imageset.id;app.settings.save();"
+							[checked]="app.settings.tileset() === imageset.id"
+							(change)="app.settings.tileset.set(imageset.id);app.settings.save();"
 							[attr.aria-label]="imageset.name"
 						/>
 						<label for="imageset{{i}}">
@@ -63,8 +63,8 @@
 					<li>
 						<input
 							type="radio" name="imageset" value="kyodai" id="imageset-kyodai"
-							[checked]="app.settings.tileset === 'kyodai'"
-							(change)="app.settings.tileset = 'kyodai';app.settings.save();"
+							[checked]="app.settings.tileset() === 'kyodai'"
+							(change)="app.settings.tileset.set('kyodai');app.settings.save();"
 							[attr.aria-label]="'KYODAI_TILESET' | translate"
 						/>
 						<label for="imageset-kyodai">{{ 'KYODAI_TILESET' | translate }}</label>
@@ -73,13 +73,13 @@
 			</ul>
 		</fieldset>
 
-		@if (canKyodai && app.settings.tileset === 'kyodai') {
+		@if (canKyodai && app.settings.tileset() === 'kyodai') {
 			<fieldset class="kyodai-settings">
 				<legend id="kyodai-legend">{{ 'KYODAI_TILESET_SETTINGS' | translate }}</legend>
 				<div class="input-wrapper">
 								<textarea
 									#kyodaiInput name="kyodai"
-									[value]="app.settings.kyodaiUrl ? app.settings.kyodaiUrl : ''"
+									[value]="app.settings.kyodaiUrl() ? app.settings.kyodaiUrl() : ''"
 									(change)="updateKyodaiUrl($event)"
 									aria-labelledby="kyodai-legend"
 									placeholder="{{ 'KYODAI_TILESET_URL_PLACEHOLDER' | translate }}"
@@ -119,8 +119,8 @@
 						<label class="check">
 							<input
 								type="checkbox"
-								[checked]="app.settings.tile3d"
-								(change)="app.settings.tile3d = !app.settings.tile3d;app.settings.save();"
+								[checked]="app.settings.tile3d()"
+								(change)="app.settings.tile3d.set(!app.settings.tile3d());app.settings.save();"
 							>
 							<span>{{ 'TILES_3D' | translate }}</span>
 						</label>
@@ -129,8 +129,8 @@
 						<label class="check">
 							<input
 								type="checkbox"
-								[checked]="app.settings.contrast"
-								(change)="app.settings.contrast = !app.settings.contrast;app.settings.save();"
+								[checked]="app.settings.contrast()"
+								(change)="app.settings.contrast.set(!app.settings.contrast());app.settings.save();"
 							>
 							<span>{{ 'HIGHER_CONTRAST' | translate }}</span>
 						</label>
@@ -139,8 +139,8 @@
 						<label class="check">
 							<input
 								type="checkbox"
-								[checked]="app.settings.dark"
-								(change)="app.settings.dark = !app.settings.dark;app.settings.save();"
+								[checked]="app.settings.dark()"
+								(change)="app.settings.dark.set(!app.settings.dark());app.settings.save();"
 							>
 							<span>{{ 'TILES_DARK' | translate }}</span>
 						</label>
@@ -148,11 +148,11 @@
 				</ul>
 				<app-tile-preview
 						[tile]="'t_dr_red'"
-						[tileset]="app.settings.tileset"
-						[kyodaiUrl]="app.settings.kyodaiUrl"
-						[dark]="app.settings.dark"
-						[contrast]="app.settings.contrast"
-						[tile3d]="app.settings.tile3d"/>
+						[tileset]="app.settings.tileset()"
+						[kyodaiUrl]="app.settings.kyodaiUrl()"
+						[dark]="app.settings.dark()"
+						[contrast]="app.settings.contrast()"
+						[tile3d]="app.settings.tile3d()"/>
 			</div>
 		</fieldset>
 	</section>
@@ -165,8 +165,8 @@
 					<li>
 						<input
 							type="radio" name="color" id="color{{i}}" [value]="theme.id"
-							[checked]="app.settings.theme === theme.id"
-							(change)="app.settings.theme = theme.id || '';app.settings.save();"
+							[checked]="app.settings.theme() === theme.id"
+							(change)="app.settings.theme.set(theme.id || '');app.settings.save();"
 							[attr.aria-label]="theme.name | translate"
 						/>
 						<label for="color{{i}}">{{ theme.name | translate }}</label>
@@ -188,7 +188,7 @@
 					<li>
 						<input
 							type="radio" name="back" id="back{{i}}" [value]="back.img"
-							[checked]="app.settings.background === back.img"
+							[checked]="app.settings.background() === back.img"
 							(change)="setBackground(back.img)"
 							[attr.aria-label]="back.name | translate"
 						/>
@@ -204,7 +204,7 @@
 				}
 			</ul>
 		</fieldset>
-		@if (app.settings.background === PatternBackground) {
+		@if (app.settings.background() === PatternBackground) {
 			<fieldset class="pattern-settings">
 				<legend id="pattern-legend">{{ 'PATTERN_SETTINGS' | translate }}</legend>
 				<ul class="radio radio-patterns" role="group" aria-labelledby="pattern-legend">
@@ -212,8 +212,8 @@
 						<li>
 							<input
 								type="radio" name="pattern" id="pattern{{i}}" [value]="pattern.id"
-								[checked]="app.settings.pattern === pattern.id"
-								(change)="app.settings.pattern = pattern.id;app.settings.save();"
+								[checked]="app.settings.pattern() === pattern.id"
+								(change)="app.settings.pattern.set(pattern.id);app.settings.save();"
 								[attr.aria-label]="pattern.title"
 							/>
 							<label for="pattern{{i}}">{{ pattern.title }}</label>
@@ -231,8 +231,8 @@
 					<label class="check">
 						<input
 							type="checkbox"
-							[checked]="app.settings.confetti"
-							(change)="app.settings.confetti = !app.settings.confetti;app.settings.save();"
+							[checked]="app.settings.confetti()"
+							(change)="app.settings.confetti.set(!app.settings.confetti());app.settings.save();"
 						>
 						<span>{{ 'VICTORY_CONFETTI' | translate }}</span>
 					</label>
@@ -241,8 +241,8 @@
 					<label class="check">
 						<input
 							type="checkbox"
-							[checked]="app.settings.showClock"
-							(change)="app.settings.showClock = !app.settings.showClock;app.settings.save();"
+							[checked]="app.settings.showClock()"
+							(change)="app.settings.showClock.set(!app.settings.showClock());app.settings.save();"
 						>
 						<span>{{ 'SHOW_CLOCK' | translate }}</span>
 					</label>

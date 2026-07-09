@@ -12,7 +12,7 @@ describe('Stone', () => {
 			expect(stone.y).toBe(2);
 			expect(stone.v).toBe(3);
 			expect(stone.groupNr).toBe(4);
-			expect(stone.picked).toBe(false);
+			expect(stone.picked()).toBe(false);
 		});
 	});
 
@@ -79,7 +79,7 @@ describe('Stone', () => {
 		it('should return false if all stones on top are picked', () => {
 			const stone = new Stone(0, 0, 0, 1, 1);
 			const topStone = new Stone(1, 0, 0, 2, 2);
-			topStone.picked = true;
+			topStone.picked.set(true);
 
 			stone.nodes = {
 				top: [topStone],
@@ -95,7 +95,7 @@ describe('Stone', () => {
 			const stone = new Stone(0, 1, 0, 1, 1);
 			const leftStone = new Stone(0, 0, 0, 2, 2);
 			const rightStone = new Stone(0, 2, 0, 3, 3);
-			rightStone.picked = true;
+			rightStone.picked.set(true);
 
 			stone.nodes = {
 				top: [],

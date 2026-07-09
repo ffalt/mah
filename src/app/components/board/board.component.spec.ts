@@ -1,3 +1,4 @@
+import { signal } from '@angular/core';
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideTranslateService } from '@ngx-translate/core';
 import { SvgdefService } from '../../service/svgdef.service';
@@ -55,7 +56,7 @@ describe('BoardComponent', () => {
 			const testBackground = Backgrounds[1].img;
 			fixture.componentRef.setInput('background', testBackground);
 			fixture.detectChanges();
-			expect(component.backgroundUrl).toContain(testBackground);
+			expect(component.backgroundUrl()).toContain(testBackground);
 		});
 
 		it('should accept imageSet input', () => {
@@ -112,7 +113,7 @@ describe('BoardComponent', () => {
 			const svgElement = fixture.debugElement.query(By.css('svg.board-svg'));
 			expect(svgElement).toBeTruthy();
 			expect(svgElement.attributes.preserveAspectRatio).toBe('xMidYMid meet');
-			expect(svgElement.attributes.viewBox).toBe(component.viewport);
+			expect(svgElement.attributes.viewBox).toBe(component.viewport());
 		});
 
 		it('should render stones when provided', () => {
@@ -128,7 +129,7 @@ describe('BoardComponent', () => {
 
 		it('should add selected class to selected stones', () => {
 			const testStone = makeTestStone();
-			testStone.selected = true;
+			testStone.selected.set(true);
 			const testStones = [testStone];
 
 			fixture.componentRef.setInput('stones', testStones);
@@ -140,7 +141,7 @@ describe('BoardComponent', () => {
 
 		it('should add hidden class to picked stones', () => {
 			const testStone = makeTestStone();
-			testStone.picked = true;
+			testStone.picked.set(true);
 			const testStones = [testStone];
 
 			fixture.componentRef.setInput('stones', testStones);
@@ -152,7 +153,7 @@ describe('BoardComponent', () => {
 
 		it('should add hinted class to hinted stones', () => {
 			const testStone = makeTestStone();
-			testStone.hinted = true;
+			testStone.hinted.set(true);
 			const testStones = [testStone];
 
 			fixture.componentRef.setInput('stones', testStones);
@@ -165,9 +166,9 @@ describe('BoardComponent', () => {
 
 	describe('Transformation and scaling', () => {
 		it('should update transformSVG when zooming', () => {
-			const initialTransform = component.transformSVG;
+			const initialTransform = component.transformSVG();
 			component.zoomSVGValue(1.5, 100, 100);
-			expect(component.transformSVG).not.toBe(initialTransform);
+			expect(component.transformSVG()).not.toBe(initialTransform);
 			expect(component.scale).toBe(1.5);
 		});
 
@@ -369,7 +370,7 @@ describe('BoardComponent', () => {
 		});
 
 		it('should hide indicators after display', () => {
-			const mockIndicator = { state: 'hidden', x: 100, y: 100, size: 10, top: 95, left: 95 };
+			const mockIndicator = { state: signal<'hidden' | 'visible'>('hidden'), x: 100, y: 100, size: 10, top: 95, left: 95 };
 			vi.spyOn(component.indicators, 'display').mockReturnValue(mockIndicator);
 			const hideSpy = vi.spyOn(component.indicators, 'hide');
 			const wheelEvent = new WheelEvent('wheel', { deltaY: -100, clientX: 100, clientY: 100 });

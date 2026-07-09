@@ -1,3 +1,4 @@
+import { signal, type WritableSignal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { AppService } from './app.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -18,7 +19,7 @@ describe('AppService', () => {
 		sound: { enabled: boolean };
 		music: { enabled: boolean; toggle: Mock; play: Mock; pause: Mock; toggleMusic: Mock };
 	};
-	let mockSettings: { load: Mock; save: Mock; sounds: boolean; music: boolean; lang: string };
+	let mockSettings: { load: Mock; save: Mock; sounds: WritableSignal<boolean>; music: WritableSignal<boolean>; lang: WritableSignal<string> };
 	let mockStorage: Partial<LocalstorageService>;
 	let originalNavigator: Navigator;
 
@@ -53,9 +54,9 @@ describe('AppService', () => {
 		mockSettings = {
 			load: vi.fn(),
 			save: vi.fn(),
-			sounds: true,
-			music: false,
-			lang: 'en'
+			sounds: signal(true),
+			music: signal(false),
+			lang: signal('en')
 		};
 
 		TestBed.configureTestingModule({
@@ -100,19 +101,19 @@ describe('AppService', () => {
 
 	describe('setLang', () => {
 		it('should use navigator language when settings.lang is auto', () => {
-			mockSettings.lang = LangAuto;
+			mockSettings.lang.set(LangAuto);
 			service.setLang();
 			expect(translateService.use).toHaveBeenCalledWith('en');
 		});
 
 		it('should use settings.lang when it is set', () => {
-			mockSettings.lang = 'de';
+			mockSettings.lang.set('de');
 			service.setLang();
 			expect(translateService.use).toHaveBeenCalledWith('de');
 		});
 
 		it('should use default language when navigator language is not supported', () => {
-			mockSettings.lang = LangAuto;
+			mockSettings.lang.set(LangAuto);
 			Object.defineProperty(window.navigator, 'language', { value: 'xx-XX' });
 			service.setLang();
 			expect(translateService.use).toHaveBeenCalledWith(DEFAULT_LANGUAGE);
@@ -121,19 +122,19 @@ describe('AppService', () => {
 
 	describe('toggleSound', () => {
 		it('should toggle sound setting', () => {
-			mockSettings.sounds = true;
+			mockSettings.sounds.set(true);
 			mockGame.sound.enabled = true;
 			service.toggleSound();
-			expect(mockSettings.sounds).toBe(false);
+			expect(mockSettings.sounds()).toBe(false);
 			expect(mockGame.sound.enabled).toBe(false);
 			expect(mockSettings.save).toHaveBeenCalled();
 		});
 
 		it('should toggle sound from off to on', () => {
-			mockSettings.sounds = false;
+			mockSettings.sounds.set(false);
 			mockGame.sound.enabled = false;
 			service.toggleSound();
-			expect(mockSettings.sounds).toBe(true);
+			expect(mockSettings.sounds()).toBe(true);
 			expect(mockGame.sound.enabled).toBe(true);
 			expect(mockSettings.save).toHaveBeenCalled();
 		});
@@ -141,20 +142,20 @@ describe('AppService', () => {
 
 	describe('toggleMusic', () => {
 		it('should toggle music setting', () => {
-			mockSettings.music = true;
+			mockSettings.music.set(true);
 			mockGame.music.enabled = true;
 			service.toggleMusic();
-			expect(mockSettings.music).toBe(false);
+			expect(mockSettings.music()).toBe(false);
 			expect(mockGame.music.enabled).toBe(false);
 			expect(mockGame.music.toggle).toHaveBeenCalled();
 			expect(mockSettings.save).toHaveBeenCalled();
 		});
 
 		it('should toggle music from off to on', () => {
-			mockSettings.music = false;
+			mockSettings.music.set(false);
 			mockGame.music.enabled = false;
 			service.toggleMusic();
-			expect(mockSettings.music).toBe(true);
+			expect(mockSettings.music()).toBe(true);
 			expect(mockGame.music.enabled).toBe(true);
 			expect(mockGame.music.toggle).toHaveBeenCalled();
 			expect(mockSettings.save).toHaveBeenCalled();

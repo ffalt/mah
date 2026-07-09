@@ -1,4 +1,4 @@
-import { Component, type OnInit, type OutputRefSubscription, ViewContainerRef, inject, viewChild, NgZone, ChangeDetectionStrategy } from '@angular/core';
+import { Component, type OnInit, type OutputRefSubscription, ViewContainerRef, inject, signal, viewChild, NgZone, ChangeDetectionStrategy } from '@angular/core';
 import { Meta } from '@angular/platform-browser';
 import { environment } from '../environments/environment';
 import { AppService } from './service/app.service';
@@ -12,7 +12,7 @@ type onWindowBlur = (callback: () => void) => void;
 
 @Component({
 	selector: 'app-root',
-	changeDetection: ChangeDetectionStrategy.Eager,
+	changeDetection: ChangeDetectionStrategy.OnPush,
 	templateUrl: './app.component.html',
 	styleUrls: ['./app.component.scss'],
 	host: { '(document:keydown)': 'handleKeyDownEvent($event)' },
@@ -25,9 +25,9 @@ export class AppComponent implements OnInit {
 	readonly layoutService = inject(LayoutService);
 	readonly ngZone = inject(NgZone);
 	readonly meta = inject(Meta);
-	loading = true;
+	readonly loading = signal(true);
 	editorSubscription?: OutputRefSubscription;
-	editorVisible: boolean = false;
+	readonly editorVisible = signal(false);
 	editorLoading: boolean = false;
 
 	constructor() {
@@ -78,8 +78,8 @@ export class AppComponent implements OnInit {
 		if (!environment.editor || this.editorLoading) {
 			return;
 		}
-		this.editorVisible = !this.editorVisible;
-		if (this.editorVisible) {
+		this.editorVisible.update(visible => !visible);
+		if (this.editorVisible()) {
 			this.app.game.pause();
 			this.editorLoading = true;
 			this.loadEditor();
@@ -94,7 +94,7 @@ export class AppComponent implements OnInit {
 
 	private async init(): Promise<void> {
 		await this.layoutService.get();
-		this.loading = false;
+		this.loading.set(false);
 		const parameters = new URLSearchParams(window.location.search);
 		const layoutIDs = await this.checkImport(parameters.get('mah'));
 		this.layoutService.selectBoardID = parameters.get('board') ?? layoutIDs[0];

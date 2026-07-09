@@ -27,15 +27,15 @@ export class TilesInfoComponent {
 	readonly selectedSet = computed(() => this.sets.find(s => s.id === this.tileset()));
 
 	applyTileset(): void {
-		this.app.settings.tileset = this.tileset();
-		this.app.settings.dark = this.isDark();
+		this.app.settings.tileset.set(this.tileset());
+		this.app.settings.dark.set(this.isDark());
 		this.app.settings.save();
 	}
 
 	constructor() {
-		this.tileset.set(this.app.settings.tileset);
-		this.isDark.set(this.app.settings.dark);
-		this.kyodaiUrl = this.app.settings.kyodaiUrl;
+		this.tileset.set(this.app.settings.tileset());
+		this.isDark.set(this.app.settings.dark());
+		this.kyodaiUrl = this.app.settings.kyodaiUrl();
 	}
 
 	protected readonly clickExternalHref = clickExternalHref;

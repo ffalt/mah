@@ -41,15 +41,15 @@ describe('TilesInfoComponent', () => {
 		});
 
 		it('should initialize tileset from AppService settings', () => {
-			expect(component.tileset()).toEqual(appService.settings.tileset);
+			expect(component.tileset()).toEqual(appService.settings.tileset());
 		});
 
 		it('should initialize isDark from AppService settings', () => {
-			expect(component.isDark()).toEqual(appService.settings.dark);
+			expect(component.isDark()).toEqual(appService.settings.dark());
 		});
 
 		it('should initialize kyodaiUrl from AppService settings', () => {
-			expect(component.kyodaiUrl).toEqual(appService.settings.kyodaiUrl);
+			expect(component.kyodaiUrl).toEqual(appService.settings.kyodaiUrl());
 		});
 	});
 

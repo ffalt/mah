@@ -50,18 +50,18 @@ export class SettingsComponent implements AfterViewInit {
 	}
 
 	setBackground(background: string) {
-		this.app.settings.background = background;
+		this.app.settings.background.set(background);
 		this.app.settings.save();
 	}
 
 	updateKyodaiUrl(event: Event): void {
-		this.app.settings.kyodaiUrl = (event.target as HTMLTextAreaElement | HTMLInputElement).value;
+		this.app.settings.kyodaiUrl.set((event.target as HTMLTextAreaElement | HTMLInputElement).value);
 		this.app.settings.save();
 	}
 
 	clearKyodaiUrl(): void {
-		this.app.settings.kyodaiUrl = undefined;
-		this.app.settings.tileset = ImageSetDefault;
+		this.app.settings.kyodaiUrl.set(undefined);
+		this.app.settings.tileset.set(ImageSetDefault);
 		this.app.settings.save();
 	}
 
@@ -77,7 +77,7 @@ export class SettingsComponent implements AfterViewInit {
 	applyKyodaiUrl(): void {
 		const kyodaiInput = this.kyodaiInput();
 		if (kyodaiInput?.nativeElement) {
-			this.app.settings.kyodaiUrl = kyodaiInput.nativeElement.value;
+			this.app.settings.kyodaiUrl.set(kyodaiInput.nativeElement.value);
 			this.app.settings.save();
 		}
 	}

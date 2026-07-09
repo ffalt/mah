@@ -126,7 +126,7 @@ export class PanZoom {
 			this.isPinching = true;
 			this.initialDistance = this.distance(this.touchPoints[0], this.touchPoints[1]);
 			this.initialScale = this.scale;
-			this.indicators.gestureIndicators = [];
+			this.indicators.gestureIndicators.set([]);
 			const centerX = (this.touchPoints[0].x + this.touchPoints[1].x) / 2;
 			const centerY = (this.touchPoints[0].y + this.touchPoints[1].y) / 2;
 			this.indicators.display(centerX, centerY, 30);
@@ -144,8 +144,8 @@ export class PanZoom {
 			const relativeScale = this.initialDistance > 0 ? currentDistance / this.initialDistance : 1;
 			const centerX = (this.touchPoints[0].x + this.touchPoints[1].x) / 2;
 			const centerY = (this.touchPoints[0].y + this.touchPoints[1].y) / 2;
-			if (this.indicators.gestureIndicators[0]) {
-				const gi = this.indicators.gestureIndicators[0];
+			if (this.indicators.gestureIndicators()[0]) {
+				const gi = this.indicators.gestureIndicators()[0];
 				gi.x = centerX;
 				gi.y = centerY;
 				gi.top = centerY - (gi.size / 2);
@@ -182,7 +182,7 @@ export class PanZoom {
 		event.preventDefault();
 
 		if (this.isPinching) {
-			const indicator = this.indicators.gestureIndicators.at(0);
+			const indicator = this.indicators.gestureIndicators().at(0);
 			if (indicator) {
 				this.indicators.hide(indicator);
 			}

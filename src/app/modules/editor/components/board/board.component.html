@@ -62,7 +62,7 @@
 		@for (draw of drawStones; track gridID(draw)) {
 			<g
 				class="draw"
-				[class.selected]="draw.source.selected" [class.hidden]="draw.source.picked" [class.hinted]="draw.source.hinted"
+				[class.selected]="draw.source.selected()" [class.hidden]="draw.source.picked()" [class.hinted]="draw.source.hinted()"
 				[attr.transform]="draw.pos.translate" (mousedown)="onClickStone($event, draw)"
 			>
 				<g class="tile">

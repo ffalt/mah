@@ -55,7 +55,7 @@ export abstract class SolvableBoardBuilderBase extends BuilderBase {
 		let pairs = this.assignTilePairs(stones, tiles, false, breadth);
 		while (pairs.length === 0 && runs < maxRuns) {
 			for (const stone of stones) {
-				stone.picked = false;
+				stone.picked.set(false);
 				stone.v = 0;
 				stone.groupNr = 0;
 			}
@@ -85,7 +85,7 @@ export abstract class SolvableBoardBuilderBase extends BuilderBase {
 
 	private finalizeBoard(stones: Array<Stone>, tiles: Tiles): Array<Stone> {
 		for (const stone of stones) {
-			stone.picked = false;
+			stone.picked.set(false);
 		}
 		BuilderBase.fillStones(stones, tiles);
 		stones.sort((a, b) => a.v - b.v);
@@ -117,7 +117,7 @@ export abstract class SolvableBoardBuilderBase extends BuilderBase {
 		const randomPairs = BuilderBase.randomList(allPairs);
 		for (const pair of randomPairs) {
 			const freestones: Array<Stone> = stones.filter((stone: Stone) =>
-				!stone.picked && !stone.isBlocked());
+				!stone.picked() && !stone.isBlocked());
 			if (freestones.length < 2) {
 				return [];
 			}
@@ -129,11 +129,11 @@ export abstract class SolvableBoardBuilderBase extends BuilderBase {
 			place1.v = pair[0].v;
 			place1.img = pair[0].img;
 			place1.groupNr = pair[0].groupNr;
-			place1.picked = true;
+			place1.picked.set(true);
 			place2.v = pair[1].v;
 			place2.img = pair[1].img;
 			place2.groupNr = pair[1].groupNr;
-			place2.picked = true;
+			place2.picked.set(true);
 			pairs.push(pair);
 		}
 		return pairs;

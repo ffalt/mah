@@ -1,3 +1,4 @@
+import { signal } from '@angular/core';
 import { Board } from './board';
 import { Clock } from './clock';
 import { GAME_MODE_EASY, GAME_MODE_EXPERT, type GAME_MODE_ID, GAME_MODE_ID_DEFAULT, STATES } from './consts';
@@ -13,8 +14,8 @@ export class Game {
 	board: Board = new Board();
 	sound: Sound = new Sound();
 	music: Music = new Music();
-	state: number = STATES.idle;
-	message?: { messageID?: string; playTime?: number; askShuffle?: boolean };
+	readonly state = signal<number>(STATES.idle);
+	readonly message = signal<{ messageID?: string; playTime?: number; askShuffle?: boolean } | undefined>(undefined);
 	onWin?: () => void;
 	layoutID?: string = undefined;
 	mode: GAME_MODE_ID = GAME_MODE_ID_DEFAULT;
@@ -35,10 +36,10 @@ export class Game {
 	init(): void {
 		this.load();
 		this.board.update();
-		if (this.state === STATES.run) {
+		if (this.state() === STATES.run) {
 			this.pause();
 		}
-		this.message = { messageID: this.isPaused() ? 'MSG_CONTINUE_SAVE' : 'MSG_START' };
+		this.message.set({ messageID: this.isPaused() ? 'MSG_CONTINUE_SAVE' : 'MSG_START' });
 	}
 
 	click(stone?: Stone): boolean {
@@ -48,13 +49,13 @@ export class Game {
 			this.board.clearHints();
 			return false;
 		}
-		if (!this.isRunning() || stone.state.blocked) {
+		if (!this.isRunning() || stone.state().blocked) {
 			this.sound.play(SOUNDS.NOPE);
 			this.wiggleStone(stone);
 			this.board.clearHints();
 			return true;
 		}
-		if (this.clock.elapsed === 0) {
+		if (this.clock.elapsed() === 0) {
 			this.clock.run();
 		}
 		if (this.board.selected && stone && stone !== this.board.selected && stone.groupNr === this.board.selected.groupNr) {
@@ -63,7 +64,7 @@ export class Game {
 			this.board.clearHints();
 			return true;
 		}
-		if (!stone.hinted) {
+		if (!stone.hinted()) {
 			this.board.clearHints();
 		}
 		this.board.setStoneSelected(this.board.selected === stone ? undefined : stone);
@@ -80,31 +81,26 @@ export class Game {
 		if (!stone) {
 			return;
 		}
-		stone.effects ||= {};
-		if (stone.effects.wiggleTimer !== undefined) {
-			clearTimeout(stone.effects.wiggleTimer);
+		if (stone.wiggleTimer !== undefined) {
+			clearTimeout(stone.wiggleTimer);
 		}
-		stone.effects.wiggle = true;
-		stone.effects.wiggleTimer = setTimeout(() => {
-			if (!stone.effects) {
-				return;
-			}
-
-			stone.effects.wiggle = false;
-			stone.effects.wiggleTimer = undefined;
+		stone.wiggle.set(true);
+		stone.wiggleTimer = setTimeout(() => {
+			stone.wiggle.set(false);
+			stone.wiggleTimer = undefined;
 		}, 300);
 	}
 
 	isRunning(): boolean {
-		return this.state === STATES.run;
+		return this.state() === STATES.run;
 	}
 
 	isPaused(): boolean {
-		return this.state === STATES.pause;
+		return this.state() === STATES.pause;
 	}
 
 	isIdle(): boolean {
-		return this.state === STATES.idle;
+		return this.state() === STATES.idle;
 	}
 
 	resume(): void {
@@ -120,9 +116,9 @@ export class Game {
 	}
 
 	toggle(): void {
-		if (this.state === STATES.run) {
+		if (this.state() === STATES.run) {
 			this.pause();
-		} else if (this.state === STATES.pause) {
+		} else if (this.state() === STATES.pause) {
 			this.resume();
 		}
 	}
@@ -183,11 +179,11 @@ export class Game {
 		try {
 			const store: GameStateStore | undefined = this.storage.getState();
 			if (store?.stones) {
-				this.clock.elapsed = store.elapsed ?? 0;
+				this.clock.elapsed.set(store.elapsed ?? 0);
 				this.layoutID = store.layout;
 				this.mode = store.gameMode ?? GAME_MODE_ID_DEFAULT;
 				this.board.buildMode = store.buildMode ?? MODE_SOLVABLE;
-				this.state = store.state ?? STATES.idle;
+				this.state.set(store.state ?? STATES.idle);
 				this.board.load(store.stones, store.undo ?? []);
 				return true;
 			}
@@ -203,12 +199,12 @@ export class Game {
 		}
 		try {
 			this.storage.storeState({
-				elapsed: this.clock.elapsed,
-				state: this.state,
+				elapsed: this.clock.elapsed(),
+				state: this.state(),
 				layout: this.layoutID,
 				gameMode: this.mode,
 				buildMode: this.board.buildMode,
-				undo: this.board.undo,
+				undo: this.board.undo(),
 				stones: this.board.save()
 			});
 		} catch (error) {
@@ -219,7 +215,7 @@ export class Game {
 	gameOverEasyModeShuffle(): void {
 		for (let index = 0; index < 10; index++) {
 			this.shuffle();
-			if (this.board.free.length > 0) {
+			if (this.board.free().length > 0) {
 				this.resume();
 				return;
 			}
@@ -235,9 +231,9 @@ export class Game {
 	}
 
 	checkGameState(): boolean {
-		if (this.board.count < 2) {
+		if (this.board.count() < 2) {
 			this.gameOverWinning();
-		} else if (this.board.free.length === 0) {
+		} else if (this.board.free().length === 0) {
 			if (this.mode === GAME_MODE_EASY && this.board.countUnblocked() > 1) {
 				this.gameOverEasyMode();
 				return false;
@@ -298,7 +294,7 @@ export class Game {
 	}
 
 	private gameOverWinning(): void {
-		const playTime = this.clock.elapsed;
+		const playTime = this.clock.elapsed();
 		if (!this.isStorableLayoutId()) {
 			this.gameOver('MSG_GOOD', playTime);
 			this.sound.play(SOUNDS.WIN);
@@ -330,8 +326,8 @@ export class Game {
 
 	private gameOverEasyMode() {
 		this.clock.pause();
-		this.message = { messageID: 'MSG_FAIL', askShuffle: true };
-		this.state = STATES.pause;
+		this.message.set({ messageID: 'MSG_FAIL', askShuffle: true });
+		this.state.set(STATES.pause);
 		this.delayedSave();
 		this.music.pause();
 	}
@@ -352,7 +348,7 @@ export class Game {
 	}
 
 	private setState(state: number, messageID?: string, playTime?: number): void {
-		this.message = messageID ? { messageID, playTime } : undefined;
-		this.state = state;
+		this.message.set(messageID ? { messageID, playTime } : undefined);
+		this.state.set(state);
 	}
 }

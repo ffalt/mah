@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, Injector, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Injector, signal, viewChild } from '@angular/core';
 import type { Game } from '../../model/game';
 import type { Stone } from '../../model/stone';
 import type { Layout, Place } from '../../model/types';
@@ -15,6 +15,7 @@ import { ChooseLayoutComponent } from '../choose-layout/choose-layout.component'
 import { TranslatePipe } from '@ngx-translate/core';
 import { BoardComponent } from '../board/board.component';
 import { TutorialComponent } from '../tutorial/tutorial.component';
+import { ClockComponent } from '../clock/clock.component';
 import { DurationPipe } from '../../pipes/duration.pipe';
 import { IconTilesinfoComponent } from '../icons/icon-tilesinfo.component';
 import { IconSettingsComponent } from '../icons/icon-settings.component';
@@ -83,7 +84,7 @@ function callFullscreenMethod(
 	selector: 'app-game-component',
 	templateUrl: './game-component.component.html',
 	styleUrls: ['./game-component.component.scss'],
-	changeDetection: ChangeDetectionStrategy.Eager,
+	changeDetection: ChangeDetectionStrategy.OnPush,
 	host: {
 		'(document:keydown)': 'handleKeyDownEvent($event)',
 		'(document:pointermove)': 'onZenControlsDrag($event)',
@@ -92,7 +93,7 @@ function callFullscreenMethod(
 		'[class.zen-mode]': 'zenMode'
 	},
 	imports: [
-		BoardComponent, DurationPipe, TranslatePipe,
+		BoardComponent, ClockComponent, DurationPipe, TranslatePipe,
 
 		HelpComponent, TilesInfoComponent, SettingsComponent, ChooseLayoutComponent, TutorialComponent, DialogComponent,
 
@@ -113,7 +114,7 @@ export class GameComponent {
 	menuOpen: boolean = false;
 	zenMode: boolean = false;
 	title: string = '';
-	announceText: string = '';
+	readonly announceText = signal('');
 	zenControlsTranslateX: number = 0;
 	zenControlsTranslateY: number = 0;
 
@@ -146,7 +147,7 @@ export class GameComponent {
 	}
 
 	triggerConfetti(): void {
-		if (!this.app.settings.confetti) {
+		if (!this.app.settings.confetti()) {
 			return;
 		}
 		const confetti = new Confetti();
@@ -269,7 +270,7 @@ export class GameComponent {
 
 	completeTutorial(): void {
 		this.tutorial().visible.set(false);
-		this.app.settings.tutorialCompleted = true;
+		this.app.settings.tutorialCompleted.set(true);
 		this.app.settings.save();
 		if (this.app.game.isIdle()) {
 			this.showNewGame();
@@ -277,7 +278,7 @@ export class GameComponent {
 	}
 
 	start() {
-		if (this.app.settings.tutorialCompleted) {
+		if (this.app.settings.tutorialCompleted()) {
 			this.showNewGame();
 		} else {
 			this.showTutorial();
@@ -369,7 +370,8 @@ export class GameComponent {
 			settings.toggle();
 			return true;
 		}
-		if (this.game.message && !this.game.message.askShuffle) {
+		const message = this.game.message();
+		if (message && !message.askShuffle) {
 			this.clickMessage();
 			return true;
 		}
@@ -391,11 +393,11 @@ export class GameComponent {
 	}
 
 	stoneClick(stone?: Stone): void {
-		const previousCount = this.game.board.count;
+		const previousCount = this.game.board.count();
 		this.game.click(stone);
-		const newCount = this.game.board.count;
+		const newCount = this.game.board.count();
 		if (newCount < previousCount) {
-			const message = this.game.message?.messageID;
+			const message = this.game.message()?.messageID;
 			if (message === 'MSG_BEST' || message === 'MSG_GOOD') {
 				this.announce(this.app.translate.instant('ANNOUNCE_GAME_WON'));
 			} else if (message === 'MSG_FAIL') {
@@ -427,12 +429,12 @@ export class GameComponent {
 	}
 
 	private announce(text: string): void {
-		this.announceText = '';
+		this.announceText.set('');
 		if (this.announceTimer !== undefined) {
 			clearTimeout(this.announceTimer);
 		}
 		this.announceTimer = setTimeout(() => {
-			this.announceText = text;
+			this.announceText.set(text);
 			this.announceTimer = undefined;
 		}, 50);
 	}
@@ -519,7 +521,7 @@ export class GameComponent {
 			event.preventDefault();
 		}
 		if (this.game.isPaused()) {
-			if (this.game.message?.askShuffle) {
+			if (this.game.message()?.askShuffle) {
 				return;
 			}
 			this.game.resume();
@@ -552,13 +554,13 @@ export class GameComponent {
 			if (!t1 || !t2) {
 				return;
 			}
-			const stones = this.game.board.stones.filter(s => (
+			const stones = this.game.board.stones().filter(s => (
 				((s.z === t1[0]) && (s.x === t1[1]) && (s.y === t1[2])) ||
 				((s.z === t2[0]) && (s.x === t2[1]) && (s.y === t2[2])))
 			);
 			if (stones.length > 1) {
 				for (const stone of stones) {
-					stone.selected = true;
+					stone.selected.set(true);
 				}
 				setTimeout(() => {
 					this.game.board.pick(stones[0], stones[1]);
@@ -567,7 +569,7 @@ export class GameComponent {
 			}
 		};
 
-		workerService.solveGame(this.game.board.stones.filter(s => !s.picked).map(s => s.toPosition()), data => {
+		workerService.solveGame(this.game.board.stones().filter(s => !s.picked()).map(s => s.toPosition()), data => {
 			play(0, data.order);
 		});
 	}

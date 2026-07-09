@@ -32,18 +32,18 @@ describe('createTutorialBoard', () => {
 
 	it('returns a board with stones for a valid mapping', () => {
 		const board = createTutorialBoard(TUTORIAL_STEPS[0].board);
-		expect(board.stones.length).toBeGreaterThan(0);
+		expect(board.stones().length).toBeGreaterThan(0);
 	});
 
 	it('returns a board with stones for every tutorial step', () => {
 		for (const step of TUTORIAL_STEPS) {
 			const board = createTutorialBoard(step.board);
-			expect(board.stones).toHaveLength(step.board.length);
+			expect(board.stones()).toHaveLength(step.board.length);
 		}
 	});
 
 	it('returns an empty board for an empty mapping', () => {
 		const board = createTutorialBoard([]);
-		expect(board.stones).toHaveLength(0);
+		expect(board.stones()).toHaveLength(0);
 	});
 });

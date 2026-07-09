@@ -28,15 +28,15 @@ describe('Settings', () => {
 		});
 
 		it('should initialize with default values', () => {
-			expect(settings.lang).toBe(LangDefault);
-			expect(settings.sounds).toBe(true);
-			expect(settings.tileset).toBe(ImageSetDefault);
-			expect(settings.music).toBe(false);
-			expect(settings.contrast).toBe(false);
-			expect(settings.dark).toBe(false);
-			expect(settings.tile3d).toBe(false);
-			expect(settings.background).toBe('');
-			expect(settings.theme).toBe(ThemeDefault);
+			expect(settings.lang()).toBe(LangDefault);
+			expect(settings.sounds()).toBe(true);
+			expect(settings.tileset()).toBe(ImageSetDefault);
+			expect(settings.music()).toBe(false);
+			expect(settings.contrast()).toBe(false);
+			expect(settings.dark()).toBe(false);
+			expect(settings.tile3d()).toBe(false);
+			expect(settings.background()).toBe('');
+			expect(settings.theme()).toBe(ThemeDefault);
 			expect(settings.stats).toEqual({
 				games: 0,
 				bestTime: 0
@@ -64,16 +64,16 @@ describe('Settings', () => {
 			const result = settings.load();
 
 			expect(result).toBe(true);
-			expect(settings.lang).toBe('de');
-			expect(settings.sounds).toBe(false);
-			expect(settings.music).toBe(true);
-			expect(settings.contrast).toBe(true);
-			expect(settings.dark).toBe(true);
-			expect(settings.tile3d).toBe(true);
-			expect(settings.background).toBe('test-background');
-			expect(settings.theme).toBe('test-theme');
-			expect(settings.tileset).toBe('test-tileset');
-			expect(settings.kyodaiUrl).toBe('test-url');
+			expect(settings.lang()).toBe('de');
+			expect(settings.sounds()).toBe(false);
+			expect(settings.music()).toBe(true);
+			expect(settings.contrast()).toBe(true);
+			expect(settings.dark()).toBe(true);
+			expect(settings.tile3d()).toBe(true);
+			expect(settings.background()).toBe('test-background');
+			expect(settings.theme()).toBe('test-theme');
+			expect(settings.tileset()).toBe('test-tileset');
+			expect(settings.kyodaiUrl()).toBe('test-url');
 		});
 
 		it('should use default values for missing settings', () => {
@@ -84,10 +84,10 @@ describe('Settings', () => {
 			const result = settings.load();
 
 			expect(result).toBe(true);
-			expect(settings.lang).toBe(LangDefault);
-			expect(settings.tileset).toBe(ImageSetDefault);
-			expect(settings.theme).toBe(ThemeDefault);
-			expect(settings.background).toBe('test-background');
+			expect(settings.lang()).toBe(LangDefault);
+			expect(settings.tileset()).toBe(ImageSetDefault);
+			expect(settings.theme()).toBe(ThemeDefault);
+			expect(settings.background()).toBe('test-background');
 		});
 
 		it('should handle load failure', () => {
@@ -106,17 +106,17 @@ describe('Settings', () => {
 
 	describe('save', () => {
 		it('should save settings to storage', () => {
-			settings.lang = 'de';
-			settings.sounds = false;
-			settings.music = true;
-			settings.contrast = true;
-			settings.dark = true;
-			settings.confetti = true;
-			settings.tile3d = true;
-			settings.background = 'test-background';
-			settings.theme = 'test-theme';
-			settings.tileset = 'test-tileset';
-			settings.kyodaiUrl = 'test-url';
+			settings.lang.set('de');
+			settings.sounds.set(false);
+			settings.music.set(true);
+			settings.contrast.set(true);
+			settings.dark.set(true);
+			settings.confetti.set(true);
+			settings.tile3d.set(true);
+			settings.background.set('test-background');
+			settings.theme.set('test-theme');
+			settings.tileset.set('test-tileset');
+			settings.kyodaiUrl.set('test-url');
 
 			const result = settings.save();
 

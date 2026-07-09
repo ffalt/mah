@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, computed, inject, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, output, signal } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import type { Board } from '../../model/board';
 import { SOUNDS, type Sound } from '../../model/sound';
@@ -24,7 +24,6 @@ export class TutorialComponent {
 	readonly currentStep = computed(() => this.steps[this.currentStepIndex()]);
 
 	readonly app = inject(AppService);
-	private readonly cdr = inject(ChangeDetectorRef);
 	private readonly sound: Sound;
 	private feedbackTimer?: ReturnType<typeof setTimeout>;
 
@@ -38,10 +37,10 @@ export class TutorialComponent {
 			board.clearSelection();
 			return;
 		}
-		if (stone.picked) {
+		if (stone.picked()) {
 			return;
 		}
-		if (stone.state.blocked) {
+		if (stone.state().blocked) {
 			this.sound.play(SOUNDS.NOPE);
 			this.wiggleStone(stone);
 			this.showFeedback('TUTORIAL_FEEDBACK_BLOCKED');
@@ -51,7 +50,7 @@ export class TutorialComponent {
 			if (stone.groupNr === board.selected.groupNr) {
 				board.pick(board.selected, stone);
 				this.sound.play(SOUNDS.MATCH);
-				if (board.count === 0) {
+				if (board.count() === 0) {
 					this.onStepComplete();
 				}
 			} else {
@@ -90,14 +89,9 @@ export class TutorialComponent {
 	}
 
 	private wiggleStone(stone: Stone): void {
-		stone.effects ||= {};
-		stone.effects.wiggle = true;
+		stone.wiggle.set(true);
 		setTimeout(() => {
-			if (stone.effects) {
-				stone.effects.wiggle = false;
-			}
-			// wiggle lives on the stone (not a signal), so nudge the view to drop the effect
-			this.cdr.markForCheck();
+			stone.wiggle.set(false);
 		}, 300);
 	}
 

@@ -1,3 +1,4 @@
+import { signal } from '@angular/core';
 import { Game } from './game';
 import type { Board } from './board';
 import type { Clock } from './clock';
@@ -5,7 +6,7 @@ import { type Sound, SOUNDS } from './sound';
 import type { Music } from './music';
 import { STATES, GAME_MODE_STANDARD, GAME_MODE_EASY, GAME_MODE_EXPERT } from './consts';
 import { Stone } from './stone';
-import type { GameStateStore, Layout, StorageProvider } from './types';
+import type { GameStateStore, Layout, Place, StorageProvider } from './types';
 import { Mock, describe, beforeEach, it, expect, vi } from 'vitest';
 
 describe('Game', () => {
@@ -42,14 +43,14 @@ describe('Game', () => {
 			highlightMatches: vi.fn(),
 			clearMatches: vi.fn(),
 			selected: undefined,
-			count: 10,
-			free: [],
-			undo: []
+			count: signal(10),
+			free: signal<Array<Stone>>([]),
+			undo: signal<Array<Place>>([])
 		};
 
 		// Create mock clock
 		mockClock = {
-			elapsed: 0,
+			elapsed: signal(0),
 			run: vi.fn(),
 			pause: vi.fn(),
 			reset: vi.fn()
@@ -75,7 +76,7 @@ describe('Game', () => {
 
 	function makeRemovableStone(): Stone {
 		const stone = new Stone(0, 0, 0, 1, 1);
-		stone.state = { blocked: false, removable: true };
+		stone.state.set({ blocked: false, removable: true });
 		return stone;
 	}
 
@@ -91,7 +92,7 @@ describe('Game', () => {
 		});
 
 		it('should initialize with default state', () => {
-			expect(game.state).toBe(STATES.idle);
+			expect(game.state()).toBe(STATES.idle);
 			expect(game.mode).toBe(GAME_MODE_STANDARD);
 			expect(game.layoutID).toBeUndefined();
 		});
@@ -101,32 +102,32 @@ describe('Game', () => {
 
 			expect(mockStorage.getState).toHaveBeenCalled();
 			expect(mockBoard.update).toHaveBeenCalled();
-			expect(game.message).toBeDefined();
+			expect(game.message()).toBeDefined();
 		});
 	});
 
 	describe('game state', () => {
 		it('should check if game is running', () => {
-			game.state = STATES.run;
+			game.state.set(STATES.run);
 			expect(game.isRunning()).toBe(true);
 
-			game.state = STATES.pause;
+			game.state.set(STATES.pause);
 			expect(game.isRunning()).toBe(false);
 		});
 
 		it('should check if game is paused', () => {
-			game.state = STATES.pause;
+			game.state.set(STATES.pause);
 			expect(game.isPaused()).toBe(true);
 
-			game.state = STATES.run;
+			game.state.set(STATES.run);
 			expect(game.isPaused()).toBe(false);
 		});
 
 		it('should check if game is idle', () => {
-			game.state = STATES.idle;
+			game.state.set(STATES.idle);
 			expect(game.isIdle()).toBe(true);
 
-			game.state = STATES.run;
+			game.state.set(STATES.run);
 			expect(game.isIdle()).toBe(false);
 		});
 	});
@@ -137,7 +138,7 @@ describe('Game', () => {
 
 			expect(mockBoard.clearHints).toHaveBeenCalled();
 			expect(mockBoard.update).toHaveBeenCalled();
-			expect(game.state).toBe(STATES.run);
+			expect(game.state()).toBe(STATES.run);
 		});
 
 		it('should pause the game', () => {
@@ -145,7 +146,7 @@ describe('Game', () => {
 			game.pause();
 
 			expect(mockClock.pause).toHaveBeenCalled();
-			expect(game.state).toBe(STATES.pause);
+			expect(game.state()).toBe(STATES.pause);
 			expect(mockStorage.storeState).toHaveBeenCalled();
 			expect(mockMusic.pause).toHaveBeenCalled();
 		});
@@ -155,20 +156,20 @@ describe('Game', () => {
 
 			expect(mockBoard.clearHints).toHaveBeenCalled();
 			expect(mockBoard.update).toHaveBeenCalled();
-			expect(game.state).toBe(STATES.run);
+			expect(game.state()).toBe(STATES.run);
 			expect(mockClock.run).toHaveBeenCalled();
 			expect(mockMusic.play).toHaveBeenCalled();
 		});
 
 		it('should toggle between run and pause', () => {
-			game.state = STATES.run;
+			game.state.set(STATES.run);
 			game.toggle();
 
-			expect(game.state).toBe(STATES.pause);
+			expect(game.state()).toBe(STATES.pause);
 
 			game.toggle();
 
-			expect(game.state).toBe(STATES.run);
+			expect(game.state()).toBe(STATES.run);
 		});
 
 		it('should reset the game', () => {
@@ -176,7 +177,7 @@ describe('Game', () => {
 
 			expect(mockClock.reset).toHaveBeenCalled();
 			expect(mockBoard.reset).toHaveBeenCalled();
-			expect(game.state).toBe(STATES.idle);
+			expect(game.state()).toBe(STATES.idle);
 		});
 
 		it('should start a new game', () => {
@@ -193,7 +194,7 @@ describe('Game', () => {
 			expect(game.mode).toBe(GAME_MODE_STANDARD);
 			expect(mockBoard.applyMapping).toHaveBeenCalledWith(layout.mapping, 'MODE_SOLVABLE');
 			expect(mockBoard.update).toHaveBeenCalled();
-			expect(game.state).toBe(STATES.run);
+			expect(game.state()).toBe(STATES.run);
 		});
 	});
 
@@ -228,7 +229,7 @@ describe('Game', () => {
 
 		it('should undo in standard mode', () => {
 			game.mode = GAME_MODE_STANDARD;
-			game.state = STATES.run;
+			game.state.set(STATES.run);
 			game.back();
 
 			expect(mockBoard.back).toHaveBeenCalled();
@@ -236,7 +237,7 @@ describe('Game', () => {
 
 		it('should not undo in expert mode', () => {
 			game.mode = GAME_MODE_EXPERT;
-			game.state = STATES.run;
+			game.state.set(STATES.run);
 			game.back();
 
 			expect(mockBoard.back).not.toHaveBeenCalled();
@@ -252,9 +253,9 @@ describe('Game', () => {
 
 		it('should play nope sound when clicking blocked stone', () => {
 			const stone = new Stone(0, 0, 0, 1, 1);
-			stone.state = { blocked: true, removable: false };
+			stone.state.set({ blocked: true, removable: false });
 
-			game.state = STATES.run;
+			game.state.set(STATES.run);
 			game.click(stone);
 
 			expect(mockSound.play).toHaveBeenCalledWith(SOUNDS.NOPE);
@@ -263,7 +264,7 @@ describe('Game', () => {
 		it('should select stone when clicking unblocked stone', () => {
 			const stone = makeRemovableStone();
 
-			game.state = STATES.run;
+			game.state.set(STATES.run);
 			game.click(stone);
 
 			expect(mockBoard.setStoneSelected).toHaveBeenCalledWith(stone);
@@ -273,7 +274,7 @@ describe('Game', () => {
 		it('should clear hints when clicking any unblocked stone', () => {
 			const stone = makeRemovableStone();
 
-			game.state = STATES.run;
+			game.state.set(STATES.run);
 			game.click(stone);
 
 			expect(mockBoard.clearHints).toHaveBeenCalled();
@@ -281,14 +282,14 @@ describe('Game', () => {
 
 		it('should match stones when clicking matching stone', () => {
 			const stone1 = new Stone(0, 0, 0, 1, 1);
-			stone1.state = { blocked: false, removable: true };
+			stone1.state.set({ blocked: false, removable: true });
 
 			const stone2 = new Stone(0, 1, 0, 1, 1);
-			stone2.state = { blocked: false, removable: true };
+			stone2.state.set({ blocked: false, removable: true });
 
 			mockBoard.selected = stone1;
 
-			game.state = STATES.run;
+			game.state.set(STATES.run);
 			game.click(stone2);
 
 			expect(mockBoard.pick).toHaveBeenCalledWith(stone1, stone2);
@@ -300,7 +301,7 @@ describe('Game', () => {
 			mockSelectStone(stone);
 
 			game.mode = GAME_MODE_EASY;
-			game.state = STATES.run;
+			game.state.set(STATES.run);
 			game.click(stone);
 
 			expect(mockBoard.highlightMatches).toHaveBeenCalledWith(stone);
@@ -314,7 +315,7 @@ describe('Game', () => {
 			mockSelectStone(stone);
 
 			game.mode = GAME_MODE_STANDARD;
-			game.state = STATES.run;
+			game.state.set(STATES.run);
 			game.click(stone);
 
 			expect(mockBoard.highlightMatches).not.toHaveBeenCalled();
@@ -326,7 +327,7 @@ describe('Game', () => {
 			mockSelectStone(stone);
 
 			game.mode = GAME_MODE_EXPERT;
-			game.state = STATES.run;
+			game.state.set(STATES.run);
 			game.click(stone);
 
 			expect(mockBoard.highlightMatches).not.toHaveBeenCalled();
@@ -340,7 +341,7 @@ describe('Game', () => {
 			mockSelectStone(stone1);
 
 			game.mode = GAME_MODE_STANDARD;
-			game.state = STATES.run;
+			game.state.set(STATES.run);
 			game.click(stone1);
 
 			mockBoard.selected = stone1;
@@ -355,8 +356,8 @@ describe('Game', () => {
 		it('should save game state', () => {
 			game.layoutID = 'test';
 			game.mode = GAME_MODE_STANDARD;
-			game.state = STATES.pause;
-			mockClock.elapsed = 1000;
+			game.state.set(STATES.pause);
+			mockClock.elapsed!.set(1000);
 
 			game.save();
 
@@ -385,10 +386,10 @@ describe('Game', () => {
 			const result = game.load();
 
 			expect(result).toBe(true);
-			expect(mockClock.elapsed).toBe(1000);
+			expect(mockClock.elapsed!()).toBe(1000);
 			expect(game.layoutID).toBe('test');
 			expect(game.mode).toBe(GAME_MODE_EASY);
-			expect(game.state).toBe(STATES.pause);
+			expect(game.state()).toBe(STATES.pause);
 			expect(mockBoard.load).toHaveBeenCalledWith([], []);
 		});
 

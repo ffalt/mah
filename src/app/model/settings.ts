@@ -1,21 +1,22 @@
+import { signal } from '@angular/core';
 import { ImageSetDefault, LangDefault, ThemeDefault } from './consts';
 import type { SettingsStore, StorageProvider } from './types';
 
 export class Settings {
-	lang = LangDefault;
-	sounds = true;
-	tileset = ImageSetDefault;
-	music = false;
-	contrast = false;
-	dark = false;
-	tile3d = false;
-	confetti = true;
-	showClock = true;
-	background = '';
-	pattern?: string;
-	kyodaiUrl?: string;
-	theme = ThemeDefault;
-	tutorialCompleted = false;
+	readonly lang = signal(LangDefault);
+	readonly sounds = signal(true);
+	readonly tileset = signal(ImageSetDefault);
+	readonly music = signal(false);
+	readonly contrast = signal(false);
+	readonly dark = signal(false);
+	readonly tile3d = signal(false);
+	readonly confetti = signal(true);
+	readonly showClock = signal(true);
+	readonly background = signal('');
+	readonly pattern = signal<string | undefined>(undefined);
+	readonly kyodaiUrl = signal<string | undefined>(undefined);
+	readonly theme = signal(ThemeDefault);
+	readonly tutorialCompleted = signal(false);
 	stats = {
 		games: 0,
 		bestTime: 0
@@ -28,20 +29,20 @@ export class Settings {
 		try {
 			const store: SettingsStore | undefined = this.storageProvider.getSettings();
 			if (store) {
-				this.lang = store.lang ?? LangDefault;
-				this.tileset = store.tileset ?? ImageSetDefault;
-				this.background = store.background ?? this.background;
-				this.pattern = store.pattern;
-				this.theme = store.theme ?? ThemeDefault;
-				this.contrast = store.contrast ?? false;
-				this.dark = store.dark ?? false;
-				this.tile3d = store.tile3d ?? false;
-				this.confetti = store.confetti ?? true;
-				this.showClock = store.showClock ?? true;
-				this.sounds = store.sounds ?? this.sounds;
-				this.music = store.music ?? this.music;
-				this.kyodaiUrl = store.kyodaiUrl;
-				this.tutorialCompleted = store.tutorialCompleted ?? true;
+				this.lang.set(store.lang ?? LangDefault);
+				this.tileset.set(store.tileset ?? ImageSetDefault);
+				this.background.set(store.background ?? this.background());
+				this.pattern.set(store.pattern);
+				this.theme.set(store.theme ?? ThemeDefault);
+				this.contrast.set(store.contrast ?? false);
+				this.dark.set(store.dark ?? false);
+				this.tile3d.set(store.tile3d ?? false);
+				this.confetti.set(store.confetti ?? true);
+				this.showClock.set(store.showClock ?? true);
+				this.sounds.set(store.sounds ?? this.sounds());
+				this.music.set(store.music ?? this.music());
+				this.kyodaiUrl.set(store.kyodaiUrl);
+				this.tutorialCompleted.set(store.tutorialCompleted ?? true);
 			}
 			return true;
 		} catch (error) {
@@ -53,20 +54,20 @@ export class Settings {
 	save(): boolean {
 		try {
 			this.storageProvider.storeSettings({
-				lang: this.lang,
-				sounds: this.sounds,
-				music: this.music,
-				contrast: this.contrast,
-				dark: this.dark,
-				tile3d: this.tile3d,
-				confetti: this.confetti,
-				showClock: this.showClock,
-				background: this.background,
-				pattern: this.pattern,
-				theme: this.theme,
-				tileset: this.tileset,
-				kyodaiUrl: this.kyodaiUrl,
-				tutorialCompleted: this.tutorialCompleted
+				lang: this.lang(),
+				sounds: this.sounds(),
+				music: this.music(),
+				contrast: this.contrast(),
+				dark: this.dark(),
+				tile3d: this.tile3d(),
+				confetti: this.confetti(),
+				showClock: this.showClock(),
+				background: this.background(),
+				pattern: this.pattern(),
+				theme: this.theme(),
+				tileset: this.tileset(),
+				kyodaiUrl: this.kyodaiUrl(),
+				tutorialCompleted: this.tutorialCompleted()
 			});
 			return true;
 		} catch (error) {

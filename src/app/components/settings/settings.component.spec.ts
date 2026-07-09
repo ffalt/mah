@@ -53,17 +53,17 @@ describe('SettingsComponent', () => {
 
 			component.updateKyodaiUrl(event);
 
-			expect(appService.settings.kyodaiUrl).toBe(testUrl);
+			expect(appService.settings.kyodaiUrl()).toBe(testUrl);
 			expect(saveSpy).toHaveBeenCalled();
 		});
 
 		it('should clear Kyodai URL', () => {
 			const saveSpy = vi.spyOn(appService.settings, 'save');
-			appService.settings.kyodaiUrl = 'https://example.com/tileset';
+			appService.settings.kyodaiUrl.set('https://example.com/tileset');
 
 			component.clearKyodaiUrl();
 
-			expect(appService.settings.kyodaiUrl).toBeUndefined();
+			expect(appService.settings.kyodaiUrl()).toBeUndefined();
 			expect(saveSpy).toHaveBeenCalled();
 		});
 
@@ -98,7 +98,7 @@ describe('SettingsComponent', () => {
 
 			component.applyKyodaiUrl();
 
-			expect(appService.settings.kyodaiUrl).toBe(testUrl);
+			expect(appService.settings.kyodaiUrl()).toBe(testUrl);
 			expect(saveSpy).toHaveBeenCalled();
 		});
 	});
@@ -150,89 +150,89 @@ describe('SettingsComponent', () => {
 	describe('Settings interactions', () => {
 		it('should have a method to set language', () => {
 			// Instead of testing the click event, test the change handler directly
-			appService.settings.lang = 'en';
+			appService.settings.lang.set('en');
 			component.app.setLang = vi.fn();
 
 			// Call the change handler directly (simulating what happens when radio is clicked)
-			appService.settings.lang = 'auto';
+			appService.settings.lang.set('auto');
 			appService.setLang();
 
-			expect(appService.settings.lang).toBe('auto');
+			expect(appService.settings.lang()).toBe('auto');
 			expect(component.app.setLang).toHaveBeenCalled();
 		});
 
 		it('should have a method to set background', () => {
 			// Instead of testing the click event, test the change handler directly
 			const saveSpy = vi.spyOn(appService.settings, 'save');
-			appService.settings.background = '';
+			appService.settings.background.set('');
 
 			// Set a background value directly (simulating what happens when radio is clicked)
-			appService.settings.background = 'test-background';
+			appService.settings.background.set('test-background');
 			appService.settings.save();
 
-			expect(appService.settings.background).toBe('test-background');
+			expect(appService.settings.background()).toBe('test-background');
 			expect(saveSpy).toHaveBeenCalled();
 		});
 
 		it('should have a method to set theme', () => {
 			// Instead of testing the click event, test the change handler directly
 			const saveSpy = vi.spyOn(appService.settings, 'save');
-			appService.settings.theme = '';
+			appService.settings.theme.set('');
 
 			// Set a theme value directly (simulating what happens when radio is clicked)
-			appService.settings.theme = 'test-theme';
+			appService.settings.theme.set('test-theme');
 			appService.settings.save();
 
-			expect(appService.settings.theme).toBe('test-theme');
+			expect(appService.settings.theme()).toBe('test-theme');
 			expect(saveSpy).toHaveBeenCalled();
 		});
 
 		it('should have a method to set tileset', () => {
 			// Instead of testing the click event, test the change handler directly
 			const saveSpy = vi.spyOn(appService.settings, 'save');
-			appService.settings.tileset = '';
+			appService.settings.tileset.set('');
 
 			// Set a tileset value directly (simulating what happens when radio is clicked)
-			appService.settings.tileset = 'test-tileset';
+			appService.settings.tileset.set('test-tileset');
 			appService.settings.save();
 
-			expect(appService.settings.tileset).toBe('test-tileset');
+			expect(appService.settings.tileset()).toBe('test-tileset');
 			expect(saveSpy).toHaveBeenCalled();
 		});
 
 		it('should update app settings when 3D is toggled', () => {
 			const saveSpy = vi.spyOn(appService.settings, 'save');
-			const initialValue = appService.settings.tile3d;
+			const initialValue = appService.settings.tile3d();
 			const threeDCheckbox = fixture.debugElement.queryAll(By.css('input[type="checkbox"]'))[0].nativeElement;
 
 			threeDCheckbox.click();
 			fixture.detectChanges();
 
-			expect(appService.settings.tile3d).toBe(!initialValue);
+			expect(appService.settings.tile3d()).toBe(!initialValue);
 			expect(saveSpy).toHaveBeenCalled();
 		});
 
 		it('should update app settings when contrast is toggled', () => {
 			const saveSpy = vi.spyOn(appService.settings, 'save');
-			const initialValue = appService.settings.contrast;
+			const initialValue = appService.settings.contrast();
 			const contrastCheckbox = fixture.debugElement.queryAll(By.css('input[type="checkbox"]'))[1].nativeElement;
 
 			contrastCheckbox.click();
 			fixture.detectChanges();
 
-			expect(appService.settings.contrast).toBe(!initialValue);
+			expect(appService.settings.contrast()).toBe(!initialValue);
 			expect(saveSpy).toHaveBeenCalled();
 		});
 
 		it('should update app settings when dark mode is toggled', () => {
 			const saveSpy = vi.spyOn(appService.settings, 'save');
-			const initialValue = appService.settings.dark;
+			const initialValue = appService.settings.dark();
 			const darkCheckbox = fixture.debugElement.queryAll(By.css('input[type="checkbox"]'))[2].nativeElement;
 
 			darkCheckbox.click();
 			fixture.detectChanges();
 
-			expect(appService.settings.dark).toBe(!initialValue);
+			expect(appService.settings.dark()).toBe(!initialValue);
 			expect(saveSpy).toHaveBeenCalled();
 		});
 	});

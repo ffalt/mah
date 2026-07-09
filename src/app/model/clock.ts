@@ -1,12 +1,14 @@
+import { signal } from '@angular/core';
+
 export class Clock {
-	elapsed = 0;
+	readonly elapsed = signal(0);
 	private lastTime = 0;
 	private timer?: ReturnType<typeof setTimeout> = undefined;
 
 	reset(): void {
 		this.clearTimer();
 		this.lastTime = 0;
-		this.elapsed = 0;
+		this.elapsed.set(0);
 	}
 
 	run(): void {
@@ -24,12 +26,12 @@ export class Clock {
 			return;
 		}
 		this.clearTimer();
-		this.elapsed += Date.now() - this.lastTime;
+		this.elapsed.update(value => value + (Date.now() - this.lastTime));
 	}
 
 	private step(): void {
 		const newTime = Date.now();
-		this.elapsed += newTime - this.lastTime;
+		this.elapsed.update(value => value + (newTime - this.lastTime));
 		this.lastTime = newTime;
 		this.clearTimer();
 		this.timer = setTimeout(() => {

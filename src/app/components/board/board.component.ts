@@ -1,4 +1,4 @@
-import { Component, ElementRef, type OnChanges, type OnInit, type SimpleChanges, inject, input, output, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ElementRef, type OnChanges, type OnInit, type SimpleChanges, inject, input, output, signal, ChangeDetectionStrategy } from '@angular/core';
 import { Backgrounds, Themes } from '../../model/consts';
 import { type Draw, calcDrawPos, getDrawBounds, sortDrawItems, getDrawBoundsViewportBounds } from '../../model/draw';
 import type { Stone } from '../../model/stone';
@@ -17,12 +17,12 @@ const defaultH = 960;
 
 @Component({
 	selector: 'app-board',
-	changeDetection: ChangeDetectionStrategy.Eager,
+	changeDetection: ChangeDetectionStrategy.OnPush,
 	templateUrl: './board.component.html',
 	styleUrls: ['./board.component.scss'],
 	host: {
-		'[style.background-image]': 'backgroundUrl',
-		'[class.background-repeat]': 'backgroundRepeat',
+		'[style.background-image]': 'backgroundUrl()',
+		'[class.background-repeat]': 'backgroundRepeat()',
 		'(wheel)': 'onWheel($event)',
 		'(window:resize)': 'onResize($event)',
 		'(mousedown)': 'onMouseDown($event)',
@@ -45,14 +45,14 @@ export class BoardComponent implements OnInit, OnChanges {
 	readonly stones = input<Array<Stone>>();
 	readonly noRotate = input(false);
 	readonly clickEvent = output<Stone | undefined>();
-	backgroundUrl: string | undefined;
-	backgroundRepeat: boolean | undefined;
+	readonly backgroundUrl = signal<string | undefined>(undefined);
+	readonly backgroundRepeat = signal<boolean | undefined>(undefined);
 	indicators = new Indicator();
 	drawStones: Array<Draw> = [];
-	rotate: boolean = false;
-	transformSVG: string = '';
-	transformStage: string = '';
-	viewport: string = `0 0 ${defaultW} ${defaultH}`;
+	readonly rotate = signal(false);
+	readonly transformSVG = signal('');
+	readonly transformStage = signal('');
+	readonly viewport = signal(`0 0 ${defaultW} ${defaultH}`);
 	prefix: string = '';
 	urlPrefix: string = '';
 	imagePos: Array<number> = [1, 1, 69, 88];
@@ -64,7 +64,7 @@ export class BoardComponent implements OnInit, OnChanges {
 		() => ({ width: this.element.nativeElement.offsetWidth || 0, height: this.element.nativeElement.offsetHeight || 0 }),
 		this.indicators,
 		() => {
-			this.transformSVG = this.panZoom.transformSVG;
+			this.transformSVG.set(this.panZoom.transformSVG);
 			this.setTransformStage();
 		}
 	);
@@ -156,7 +156,7 @@ export class BoardComponent implements OnInit, OnChanges {
 	tileLabel(draw: Draw): string {
 		const name = draw.url ? this.app.translate.instant(draw.url) : '';
 		const layer = draw.source.z + 1;
-		const key = draw.source.hinted ? 'TILE_LABEL_HINTED' : 'TILE_LABEL';
+		const key = draw.source.hinted() ? 'TILE_LABEL_HINTED' : 'TILE_LABEL';
 		return this.app.translate.instant(key, { name, layer });
 	}
 
@@ -209,28 +209,28 @@ export class BoardComponent implements OnInit, OnChanges {
 	}
 
 	private setTransformStage(): void {
-		if (this.rotate) {
+		if (this.rotate()) {
 			const [minX, minY, width, height] = getDrawBoundsViewportBounds(this.bounds);
 			const cx = minX + width / 2;
 			const cy = minY + height / 2;
-			this.transformStage = `rotate(90 ${cx} ${cy})`;
+			this.transformStage.set(`rotate(90 ${cx} ${cy})`);
 		} else {
-			this.transformStage = '';
+			this.transformStage.set('');
 		}
 	}
 
 	private resize(element: { innerHeight: number; innerWidth: number }): void {
 		const r = this.noRotate() ? false : element.innerHeight > element.innerWidth;
 		this.panZoom.reset();
-		if (r !== this.rotate) {
-			this.rotate = r;
+		if (r !== this.rotate()) {
+			this.rotate.set(r);
 		}
 		this.updateViewPort();
 	}
 
 	private setViewPort(): void {
 		let [minX, minY, width, height] = getDrawBoundsViewportBounds(this.bounds);
-		if (this.rotate) {
+		if (this.rotate()) {
 			const cx = minX + width / 2;
 			const cy = minY + height / 2;
 			const rW = height;
@@ -240,7 +240,7 @@ export class BoardComponent implements OnInit, OnChanges {
 			width = rW;
 			height = rH;
 		}
-		this.viewport = `${minX} ${minY} ${width} ${height}`;
+		this.viewport.set(`${minX} ${minY} ${width} ${height}`);
 	}
 
 	private updateStones(stones: Array<Stone>): void {
@@ -261,44 +261,43 @@ export class BoardComponent implements OnInit, OnChanges {
 					visible: true,
 					url: stone.img?.id,
 					pos: calcDrawPos(stone.z, stone.x, stone.y),
-					source: stone,
-					className: stone.effects?.wiggle ? 'wiggle' : undefined
+					source: stone
 				}));
 		this.bounds = getDrawBounds(items);
 		this.drawStones = sortDrawItems(items);
 		this.setViewPort();
 		this.panZoom.syncTransformSVG();
-		this.transformSVG = this.panZoom.transformSVG;
+		this.transformSVG.set(this.panZoom.transformSVG);
 		this.setTransformStage();
 	}
 
 	private cssBarColors(): Array<string> {
-		const theme = Themes.find(t => t.id === this.app.settings.theme) ?? Themes[0];
+		const theme = Themes.find(t => t.id === this.app.settings.theme()) ?? Themes[0];
 		return theme.colors;
 	}
 
 	private updateMahBackground(pattern?: string): void {
-		this.backgroundUrl = '';
+		this.backgroundUrl.set('');
 		if (!pattern) {
 			return;
 		}
 		this.patternService
 			.svgDataUrl(pattern, this.cssBarColors())
-			.then(dataUrl => this.backgroundUrl = dataUrl)
+			.then(dataUrl => this.backgroundUrl.set(dataUrl))
 			.catch(error => log.error(error));
 	}
 
 	private updateBackground(background: string): void {
 		const bg = Backgrounds.find(b => b.img === background);
 		if (!bg) {
-			this.backgroundUrl = undefined;
+			this.backgroundUrl.set(undefined);
 			return;
 		}
-		this.backgroundRepeat = !!bg.repeat;
+		this.backgroundRepeat.set(!!bg.repeat);
 		if (bg.type === 'MAH') {
 			this.updateMahBackground(this.pattern());
 			return;
 		}
-		this.backgroundUrl = `url("assets/img/${bg.img}.${(bg.type ?? 'jpg')}")`;
+		this.backgroundUrl.set(`url("assets/img/${bg.img}.${(bg.type ?? 'jpg')}")`);
 	}
 }

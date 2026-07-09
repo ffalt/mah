@@ -95,7 +95,7 @@ export function createTutorialBoard(mapping: StoneMapping): Board {
 	const builder = new Builder(tiles);
 	const stones = builder.load(mapping);
 	if (stones) {
-		board.stones = stones;
+		board.stones.set(stones);
 		board.update();
 	}
 	return board;

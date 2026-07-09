@@ -15,11 +15,11 @@ describe('Board', () => {
 		});
 
 		it('should initialize with empty state', () => {
-			expect(board.stones).toEqual([]);
-			expect(board.free).toEqual([]);
-			expect(board.count).toBe(0);
+			expect(board.stones()).toEqual([]);
+			expect(board.free()).toEqual([]);
+			expect(board.count()).toBe(0);
 			expect(board.selected).toBeUndefined();
-			expect(board.undo).toEqual([]);
+			expect(board.undo()).toEqual([]);
 			expect(board.hints.groups).toEqual([]);
 			expect(board.hints.current).toBeUndefined();
 		});
@@ -30,7 +30,7 @@ describe('Board', () => {
 			const stone = new Stone(0, 0, 0, 1, 1);
 			board.setStoneSelected(stone);
 			expect(board.selected).toBe(stone);
-			expect(stone.selected).toBe(true);
+			expect(stone.selected()).toBe(true);
 		});
 
 		it('should clear selection', () => {
@@ -38,7 +38,7 @@ describe('Board', () => {
 			board.setStoneSelected(stone);
 			board.clearSelection();
 			expect(board.selected).toBeUndefined();
-			expect(stone.selected).toBe(false);
+			expect(stone.selected()).toBe(false);
 		});
 	});
 
@@ -46,7 +46,7 @@ describe('Board', () => {
 		it('should clear hints', () => {
 			// Setup a hint state first
 			const stone = new Stone(0, 0, 0, 1, 1);
-			stone.hinted = true;
+			stone.hinted.set(true);
 			board.hints = {
 				groups: [{ group: 1, stones: [stone] }],
 				current: { group: 1, stones: [stone] }
@@ -54,7 +54,7 @@ describe('Board', () => {
 
 			board.clearHints();
 
-			expect(stone.hinted).toBe(false);
+			expect(stone.hinted()).toBe(false);
 			expect(board.hints.groups).toEqual([]);
 			expect(board.hints.current).toBeUndefined();
 		});
@@ -66,27 +66,27 @@ describe('Board', () => {
 			const partner1 = new Stone(0, 2, 0, 1, 5);
 			const partner2 = new Stone(0, 4, 0, 1, 5);
 			const other = new Stone(0, 6, 0, 1, 9);
-			board.free = [selected, partner1, partner2, other];
+			board.free.set([selected, partner1, partner2, other]);
 
 			board.highlightMatches(selected);
 
-			expect(selected.matched).toBe(false);
-			expect(partner1.matched).toBe(true);
-			expect(partner2.matched).toBe(true);
-			expect(other.matched).toBe(false);
+			expect(selected.matched()).toBe(false);
+			expect(partner1.matched()).toBe(true);
+			expect(partner2.matched()).toBe(true);
+			expect(other.matched()).toBe(false);
 		});
 
 		it('should clear matched flags on all stones', () => {
 			const stone1 = new Stone(0, 0, 0, 1, 1);
 			const stone2 = new Stone(0, 1, 0, 1, 1);
-			stone1.matched = true;
-			stone2.matched = true;
-			board.stones = [stone1, stone2];
+			stone1.matched.set(true);
+			stone2.matched.set(true);
+			board.stones.set([stone1, stone2]);
 
 			board.clearMatches();
 
-			expect(stone1.matched).toBe(false);
-			expect(stone2.matched).toBe(false);
+			expect(stone1.matched()).toBe(false);
+			expect(stone2.matched()).toBe(false);
 		});
 	});
 
@@ -94,34 +94,34 @@ describe('Board', () => {
 		it('should reset the board', () => {
 			// Setup some state
 			const stone = new Stone(0, 0, 0, 1, 1);
-			board.stones = [stone];
-			board.free = [stone];
-			board.count = 1;
+			board.stones.set([stone]);
+			board.free.set([stone]);
+			board.count.set(1);
 			board.setStoneSelected(stone);
-			board.undo = [[0, 0, 0]];
+			board.undo.set([[0, 0, 0]]);
 
 			board.reset();
 
-			expect(board.stones).toEqual([]);
-			expect(board.free).toEqual([]);
-			expect(board.count).toBe(0);
+			expect(board.stones()).toEqual([]);
+			expect(board.free()).toEqual([]);
+			expect(board.count()).toBe(0);
 			expect(board.selected).toBeUndefined();
-			expect(board.undo).toEqual([]);
+			expect(board.undo()).toEqual([]);
 		});
 
 		it('should pick stones', () => {
 			const stone1 = new Stone(0, 0, 0, 1, 1);
 			const stone2 = new Stone(0, 1, 0, 1, 1);
-			board.stones = [stone1, stone2];
+			board.stones.set([stone1, stone2]);
 
 			// Mock update method to avoid dependencies
 			board.update = vi.fn();
 
 			board.pick(stone1, stone2);
 
-			expect(stone1.picked).toBe(true);
-			expect(stone2.picked).toBe(true);
-			expect(board.undo).toEqual([[0, 0, 0], [0, 1, 0]]);
+			expect(stone1.picked()).toBe(true);
+			expect(stone2.picked()).toBe(true);
+			expect(board.undo()).toEqual([[0, 0, 0], [0, 1, 0]]);
 			expect(board.update).toHaveBeenCalled();
 		});
 	});
@@ -130,7 +130,7 @@ describe('Board', () => {
 		it('should save the board state', () => {
 			const stone1 = new Stone(0, 0, 0, 1, 1);
 			const stone2 = new Stone(0, 1, 0, 2, 1);
-			board.stones = [stone1, stone2];
+			board.stones.set([stone1, stone2]);
 
 			const savedState = board.save();
 

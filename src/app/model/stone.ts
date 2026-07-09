@@ -1,3 +1,5 @@
+import { signal } from '@angular/core';
+
 export interface StonePosition {
 	x: number;
 	y: number;
@@ -9,11 +11,6 @@ export interface StonePosition {
 export interface StoneState {
 	blocked: boolean;
 	removable: boolean;
-}
-
-export interface StoneEffects {
-	wiggle?: boolean;
-	wiggleTimer?: ReturnType<typeof setTimeout>;
 }
 
 export interface StoneImg {
@@ -33,18 +30,19 @@ export class Stone implements StonePosition {
 	z: number;
 	v: number;
 	groupNr: number;
-	hinted: boolean = false;
-	matched: boolean = false;
-	selected: boolean = false;
-	picked: boolean = false;
-	state: StoneState = { blocked: false, removable: false };
+	readonly hinted = signal(false);
+	readonly matched = signal(false);
+	readonly selected = signal(false);
+	readonly picked = signal(false);
+	readonly wiggle = signal(false);
+	readonly state = signal<StoneState>({ blocked: false, removable: false }, { equal: (a, b) => a.blocked === b.blocked && a.removable === b.removable });
+	wiggleTimer?: ReturnType<typeof setTimeout>;
 	group: Array<Stone> = [];
 	img: StoneImg = {};
 	nodes: StoneNodes = { top: [], left: [], right: [], bottom: [] };
-	effects?: StoneEffects;
 
 	private static hasStone(list: Array<Stone>): boolean {
-		return list.some(stone => !stone.picked);
+		return list.some(stone => !stone.picked());
 	}
 
 	constructor(z: number, x: number, y: number, v: number, groupNr: number) {

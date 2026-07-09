@@ -11,6 +11,7 @@ import { GAME_MODE_EASY, GAME_MODE_EXPERT, GAME_MODE_STANDARD } from '../../mode
 import { type BUILD_MODE_ID, MODE_SOLVABLE } from '../../model/builder';
 import { environment } from '../../../environments/environment';
 import { Stone } from '../../model/stone';
+import type { Place } from '../../model/types';
 import { describe, beforeEach, it, expect, vi } from 'vitest';
 
 const zenControlsDefaultRect: DOMRect = {
@@ -24,13 +25,9 @@ describe('GameComponent', () => {
 	let appService: AppService;
 
 	function overrideBoardWithUndo(): void {
-		const mockBoard = {
-			...component.game.board,
-			undo: [1, 2, 3],
-			reset: vi.fn(),
-			clearMatches: vi.fn()
-		};
-		Object.defineProperty(component.game, 'board', { value: mockBoard });
+		component.game.board.undo.set([[0, 0, 0], [0, 0, 0]] as Array<Place>);
+		vi.spyOn(component.game.board, 'reset').mockImplementation(vi.fn());
+		vi.spyOn(component.game.board, 'clearMatches').mockImplementation(vi.fn());
 	}
 
 	beforeEach(async () =>
@@ -45,7 +42,7 @@ describe('GameComponent', () => {
 		fixture = TestBed.createComponent(GameComponent);
 		component = fixture.componentInstance;
 		appService = TestBed.inject(AppService);
-		appService.settings.tutorialCompleted = true;
+		appService.settings.tutorialCompleted.set(true);
 		fixture.detectChanges();
 	});
 
@@ -115,7 +112,7 @@ describe('GameComponent', () => {
 
 		// Reset and test with no dialogs open and no game message
 		helpDialog.visible.set(false);
-		component.game.message = undefined;
+		component.game.message.set(undefined);
 		const noDialogResult = component.handleKeyDownDialogExit();
 		expect(noDialogResult).toBe(false);
 	});

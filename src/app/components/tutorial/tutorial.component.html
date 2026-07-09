@@ -28,10 +28,10 @@
 		</div>
 		<div class="tutorial-board">
 			<app-board
-				[stones]="board().stones"
-				[theme]="app.settings.theme"
-				[imageSet]="app.settings.tileset"
-				[kyodaiUrl]="app.settings.kyodaiUrl"
+				[stones]="board().stones()"
+				[theme]="app.settings.theme()"
+				[imageSet]="app.settings.tileset()"
+				[kyodaiUrl]="app.settings.kyodaiUrl()"
 				[background]="''"
 				[noRotate]="true"
 				(clickEvent)="onStoneClick($event)"
