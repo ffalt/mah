@@ -21,7 +21,6 @@ export function isValidLoadLayout(board: unknown): board is LoadLayout {
 	if (b.by !== undefined && (typeof b.by !== 'string' || b.by.length > 200)) {
 		return false;
 	}
-	// eslint-disable-next-line unicorn/prefer-boolean-return
 	if (b.cat !== undefined && (typeof b.cat !== 'string' || b.cat.length > 200)) {
 		return false;
 	}

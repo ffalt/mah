@@ -38,17 +38,13 @@ test.describe('tutorial', () => {
 
 				// Iterate through each tutorial step
 				for (let index = 0; index <= TUTORIAL_STEPS; index++) {
-					await page.evaluate(() => {
-						document.querySelector('button.tutorial-btn-next')?.setAttribute('style', 'display: hidden');
-					});
+					await nextButton.evaluate(element => element.setAttribute('style', 'display: hidden'));
 
 					await screenshot(page, `tutorial-${index + 1}`);
 
 					// Click next button if not the last step
 					if (index < TUTORIAL_STEPS) {
-						await page.evaluate(() => {
-							document.querySelector('button.tutorial-btn-next')?.setAttribute('style', 'display: block');
-						});
+						await nextButton.evaluate(element => element.setAttribute('style', 'display: block'));
 						await nextButton.click();
 						await page.waitForTimeout(500);
 					}

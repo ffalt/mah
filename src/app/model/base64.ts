@@ -1,5 +1,3 @@
-/* eslint-disable unicorn/prefer-uint8array-base64 */
-
 export function toBase64(value: string): string {
 	return window.btoa(value);
 }
