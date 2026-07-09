@@ -78,6 +78,7 @@ html {
 	--svg-color-1: #9c8969;
 	--svg-color-2: #fff;
 	--svg-color-3: #35a302;
+	--dialog-background-text-color: #256d02;
 
 	background-color: var(--main-bg-color);
 }
@@ -101,17 +102,28 @@ html {
 		--close-color: #ececec;
 		--close-color-hover: #bdbdbd;
 		--overlay-popup-shadow: 5px 5px 5px 0px rgb(0 0 0 / 75%);
+		--dialog-background-text-color: #47b00a;
 	}
 }
 
 .theme-ltgreen {
 	--main-bg-color: #253c46;
+	--dialog-background-text-color: #000;
+
+	@media (prefers-color-scheme: dark) {
+		--dialog-background-text-color: #8ec271;
+	}
 }
 
 .theme-dkgreen {
 	--main-bg-color: #19262e;
 	--main-bg-color-lt: #22353f;
 	--main-bg-color-dk: #142026;
+	--dialog-background-text-color: #256d02;
+
+	@media (prefers-color-scheme: dark) {
+		--dialog-background-text-color: #8ec271;
+	}
 }
 
 .theme-dkblue {
@@ -124,10 +136,12 @@ html {
 	--dialog-text-color: #001552;
 	--dialog-headline-color: #001f73;
 	--text-highlight-color: #01248e;
+	--dialog-background-text-color: #001f73;
 
 	@media (prefers-color-scheme: dark) {
 		--dialog-headline-color: #336dff;
 		--text-highlight-color: #1e51cd;
+		--dialog-background-text-color: #9db8ff;
 	}
 }
 
@@ -141,10 +155,12 @@ html {
 	--dialog-text-color: #34385a;
 	--dialog-headline-color: #0230a3;
 	--text-highlight-color: #0133b6;
+	--dialog-background-text-color: #0230a3;
 
 	@media (prefers-color-scheme: dark) {
 		--dialog-headline-color: #336dff;
 		--text-highlight-color: #1e51cd;
+		--dialog-background-text-color: #9db8ff;
 	}
 }
 
@@ -157,6 +173,11 @@ html {
 	--main-text-color-dk: #8c8c8c;
 	--dialog-text-color: #000;
 	--focus-ring-color: #04c;
+	--dialog-background-text-color: #333;
+
+	@media (prefers-color-scheme: dark) {
+		--dialog-background-text-color: #ddd;
+	}
 }
 
 .theme-brown {
@@ -170,10 +191,12 @@ html {
 	--dialog-text-color: #601616;
 	--dialog-headline-color: #982626;
 	--text-highlight-color: #ad2d2d;
+	--dialog-background-text-color: #601616;
 
 	@media (prefers-color-scheme: dark) {
 		--dialog-headline-color: #d34444;
 		--text-highlight-color: #ad2d2d;
+		--dialog-background-text-color: #e08585;
 	}
 }
 
@@ -181,6 +204,11 @@ html {
 	--main-bg-color: #000;
 	--main-bg-color-lt: #3a3a3a;
 	--main-bg-color-dk: #171717;
+	--dialog-background-text-color: #256d02;
+
+	@media (prefers-color-scheme: dark) {
+		--dialog-background-text-color: #8ec271;
+	}
 }
 
 .theme-cyberpunk {
@@ -193,10 +221,12 @@ html {
 	--dialog-text-color: #0a0e27;
 	--dialog-headline-color: #800280;
 	--text-highlight-color: #800280;
+	--dialog-background-text-color: #800280;
 
 	@media (prefers-color-scheme: dark) {
 		--dialog-headline-color: #00ff9f;
 		--text-highlight-color: #05e491;
+		--dialog-background-text-color: #00ff9f;
 	}
 }
 
@@ -211,10 +241,12 @@ html {
 	--dialog-headline-color: #4a2c1a;
 	--text-highlight-color: #5e3721;
 	--focus-ring-color: #04c;
+	--dialog-background-text-color: #4a2c1a;
 
 	@media (prefers-color-scheme: dark) {
 		--dialog-headline-color: #ddb892;
 		--text-highlight-color: #9d7e52;
+		--dialog-background-text-color: #ddb892;
 	}
 }
 
@@ -229,10 +261,12 @@ html {
 	--dialog-headline-color: #001f73;
 	--text-highlight-color: #01248e;
 	--focus-ring-color: #04c;
+	--dialog-background-text-color: #01579b;
 
 	@media (prefers-color-scheme: dark) {
 		--dialog-headline-color: #81d4fa;
 		--text-highlight-color: #3f8cb1;
+		--dialog-background-text-color: #81d4fa;
 	}
 }
 
@@ -246,10 +280,12 @@ html {
 	--dialog-text-color: #5d1f1a;
 	--dialog-headline-color: #8c3d01;
 	--text-highlight-color: #9c4702;
+	--dialog-background-text-color: #8c3d01;
 
 	@media (prefers-color-scheme: dark) {
 		--dialog-headline-color: #ffb74d;
 		--text-highlight-color: #bf8429;
+		--dialog-background-text-color: #ffb74d;
 	}
 }
 
@@ -263,10 +299,12 @@ html {
 	--dialog-text-color: #0d1b2a;
 	--dialog-headline-color: #a745d8;
 	--text-highlight-color: #b95ced;
+	--dialog-background-text-color: #7b2fa3;
 
 	@media (prefers-color-scheme: dark) {
 		--dialog-headline-color: #00ff9f;
 		--text-highlight-color: #05e491;
+		--dialog-background-text-color: #c77dff;
 	}
 }
 
@@ -280,10 +318,12 @@ html {
 	--dialog-text-color: #0a3d62;
 	--dialog-headline-color: #001f73;
 	--text-highlight-color: #01248e;
+	--dialog-background-text-color: #0a3d62;
 
 	@media (prefers-color-scheme: dark) {
 		--dialog-headline-color: #457b9d;
 		--text-highlight-color: #34607c;
+		--dialog-background-text-color: #a8dadc;
 	}
 }
 
@@ -297,10 +337,12 @@ html {
 	--dialog-text-color: #3d2817;
 	--dialog-headline-color: #2c1810;
 	--text-highlight-color: #512e1e;
+	--dialog-background-text-color: #5c4033;
 
 	@media (prefers-color-scheme: dark) {
 		--dialog-headline-color: #ffd700;
 		--text-highlight-color: #b8860b;
+		--dialog-background-text-color: #ffd700;
 	}
 }
 

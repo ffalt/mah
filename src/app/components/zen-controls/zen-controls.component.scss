@@ -11,7 +11,7 @@
 		border: 1px solid transparent;
 		border-radius: 999px;
 		background-color: transparent;
-		color: var(--main-text-color-dk);
+		color: var(--dialog-background-text-color);
 		cursor: grab;
 		font-family: variables.$text-font;
 		font-size: .85em;
@@ -39,7 +39,7 @@
 		border-radius: 999px;
 		font-family: variables.$text-font;
 		font-size: inherit;
-		color: var(--main-text-color);
+		color: var(--dialog-background-text-color);
 		cursor: pointer;
 		border: 1px solid transparent;
 		background-clip: padding-box;
@@ -49,10 +49,10 @@
 		&:hover {
 			background-image: linear-gradient(
 					to bottom,
-					color-mix(in oklab, var(--main-bg-color-lt) 35%, transparent),
+					color-mix(in oklab, var(--main-bg-color-) 35%, transparent),
 					color-mix(in oklab, var(--main-bg-color) 90%, transparent)
 			);
-			border: 1px solid color-mix(in oklab, var(--main-bg-color-lt) 70%, transparent);
+			border: 1px solid color-mix(in oklab, var(--main-bg-color-) 70%, transparent);
 			background-color: color-mix(in oklab, var(--main-bg-color) 78%, transparent);
 			color: var(--main-text-color-lt);
 		}
