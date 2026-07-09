@@ -4,7 +4,7 @@ import { SvgdefService } from '../../service/svgdef.service';
 import { ImageSetLoaderComponent } from './image-set-loader.component';
 import type { ElementRef } from '@angular/core';
 import { log } from '../../model/log';
-import { Mock, describe, beforeEach, it, expect, vi } from 'vitest';
+import { Mock, describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
 
 interface HackImageSetLoaderComponent {
 	elementRef: ElementRef;
@@ -27,6 +27,14 @@ describe('ImageSetLoaderComponent', () => {
 	let fixture: ComponentFixture<ImageSetLoaderComponent>;
 	let httpClientSpy: { get: Mock };
 	let SvgdefServiceSpy: { get: Mock };
+
+	// zoneless whenStable() does not wait for setTimeout, so flush pending
+	// macrotasks (loadImageSet timers, promise chains) explicitly
+	async function flushAsync(): Promise<void> {
+		await new Promise<void>(resolve => {
+			setTimeout(resolve, 1);
+		});
+	}
 
 	beforeEach(async () => {
 		httpClientSpy = {
@@ -52,6 +60,13 @@ describe('ImageSetLoaderComponent', () => {
 		TestBed.runInInjectionContext(() => {
 			fixture.detectChanges();
 		});
+	});
+
+	afterEach(async () => {
+		// let stray loadImageSet timers run while the svgDef mock still returns
+		// a value; otherwise they fire between tests after mocks are reset
+		SvgdefServiceSpy.get.mockResolvedValue('<svg><defs></defs></svg>');
+		await flushAsync();
 	});
 
 	it('should create', () => {
@@ -134,7 +149,7 @@ describe('ImageSetLoaderComponent', () => {
 			expect(SvgdefServiceSpy.get).toHaveBeenCalledWith(testImageSet, testUrl);
 
 			// Wait for the promise to resolve
-			await fixture.whenStable();
+			await flushAsync();
 			expect((component as unknown as HackImageSetLoaderComponent).setImageSet).toHaveBeenCalledWith(testSvg);
 		});
 
@@ -151,7 +166,7 @@ describe('ImageSetLoaderComponent', () => {
 			(component as unknown as HackImageSetLoaderComponent).loadImageSet();
 
 			// Wait for the promise to reject
-			await fixture.whenStable();
+			await flushAsync();
 			expect((component as unknown as HackImageSetLoaderComponent).setError).toHaveBeenCalled();
 		});
 	});

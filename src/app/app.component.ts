@@ -1,4 +1,4 @@
-import { Component, type OnInit, type OutputRefSubscription, ViewContainerRef, inject, signal, viewChild, NgZone, ChangeDetectionStrategy } from '@angular/core';
+import { Component, type OnInit, type OutputRefSubscription, ViewContainerRef, inject, signal, viewChild, ChangeDetectionStrategy } from '@angular/core';
 import { Meta } from '@angular/platform-browser';
 import { environment } from '../environments/environment';
 import { AppService } from './service/app.service';
@@ -23,7 +23,6 @@ export class AppComponent implements OnInit {
 	readonly editorPlaceholder = viewChild.required('editorPlaceholder', { read: ViewContainerRef });
 	readonly app = inject(AppService);
 	readonly layoutService = inject(LayoutService);
-	readonly ngZone = inject(NgZone);
 	readonly meta = inject(Meta);
 	readonly loading = signal(true);
 	editorSubscription?: OutputRefSubscription;
@@ -155,9 +154,7 @@ export class AppComponent implements OnInit {
 		if (environment.onWindowBlur) {
 			(environment.onWindowBlur as onWindowBlur)(() => {
 				if (this.app.game.isRunning()) {
-					this.ngZone.run(() => {
-						this.app.game.pause();
-					});
+					this.app.game.pause();
 				}
 			});
 			return;

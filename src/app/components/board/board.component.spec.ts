@@ -25,6 +25,16 @@ describe('BoardComponent', () => {
 	let component: BoardComponent;
 	let fixture: ComponentFixture<BoardComponent>;
 	let appService: AppService;
+	let rafCallbacks: Array<FrameRequestCallback>;
+
+	function flushAnimationFrames(): void {
+		while (rafCallbacks.length > 0) {
+			const callback = rafCallbacks.shift();
+			if (callback) {
+				callback(0);
+			}
+		}
+	}
 
 	beforeEach(async () =>
 		TestBed.configureTestingModule({
@@ -37,9 +47,13 @@ describe('BoardComponent', () => {
 		fixture = TestBed.createComponent(BoardComponent);
 		component = fixture.componentInstance;
 		appService = TestBed.inject(AppService);
+		// do not run rAF callbacks synchronously: the zoneless scheduler races
+		// requestAnimationFrame against setTimeout, and a synchronous callback
+		// causes reentrant ApplicationRef.tick() calls that corrupt scheduling
+		rafCallbacks = [];
 		vi.spyOn(window, 'requestAnimationFrame').mockImplementation(callback => {
-			callback(0);
-			return 0;
+			rafCallbacks.push(callback);
+			return rafCallbacks.length;
 		});
 		TestBed.runInInjectionContext(() => {
 			fixture.detectChanges();
@@ -168,6 +182,7 @@ describe('BoardComponent', () => {
 		it('should update transformSVG when zooming', () => {
 			const initialTransform = component.transformSVG();
 			component.zoomSVGValue(1.5, 100, 100);
+			flushAnimationFrames();
 			expect(component.transformSVG()).not.toBe(initialTransform);
 			expect(component.scale).toBe(1.5);
 		});

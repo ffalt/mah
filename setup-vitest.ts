@@ -1,5 +1,4 @@
 import '@angular/compiler';
-import '@analogjs/vitest-angular/setup-zone';
 import './vitest.mocks';
 import { beforeEach, vi } from 'vitest';
 
