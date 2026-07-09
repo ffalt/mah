@@ -99,6 +99,34 @@ describe('LocalstorageService', () => {
 		});
 	});
 
+	describe('getScores', () => {
+		it('should collect all stored scores in one key scan', () => {
+			const entries: Record<string, string> = {
+				'mah.score.layout-a': JSON.stringify({ winCount: 1 }),
+				'mah.settings': JSON.stringify({}),
+				'mah.score.layout-b': JSON.stringify({ bestTime: 500 }),
+				'unrelated': 'x'
+			};
+			const keys = Object.keys(entries);
+			Object.defineProperty(window, 'localStorage', {
+				value: {
+					getItem: vi.fn((key: string) => entries[key] ?? null),
+					setItem: vi.fn(),
+					removeItem: vi.fn(),
+					key: vi.fn((index: number) => keys[index] ?? null),
+					length: keys.length
+				},
+				writable: true
+			});
+
+			const scores = service.getScores();
+
+			expect(scores.size).toBe(2);
+			expect(scores.get('layout-a')).toEqual({ winCount: 1 });
+			expect(scores.get('layout-b')).toEqual({ bestTime: 500 });
+		});
+	});
+
 	describe('getSettings', () => {
 		it('should get settings', () => {
 			const mockSettings: SettingsStore = {

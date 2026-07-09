@@ -1,0 +1,59 @@
+@use "../../style/mixins";
+@use "../../style/variables";
+
+:host {
+	.text {
+		font-variant-numeric: lining-nums;
+	}
+
+	small {
+		margin-right: 6px;
+	}
+
+	.time {
+		padding: 0.3em 0.9em;
+		font-family: variables.$text-font;
+		min-width: 98px;
+		display: inline-block;
+		text-align: center;
+		font-variant-numeric: slashed-zero tabular-nums;
+	}
+
+	@include mixins.respond-to(medium-down) {
+		.label {
+			display: none;
+		}
+
+		.time {
+			min-width: unset;
+		}
+	}
+
+	@include mixins.respond-to(tiny-down) {
+		.text {
+			font-size: variables.$base-font-size * 0.9;
+		}
+	}
+
+	@include mixins.respond-to(femto-down) {
+		.text {
+			font-size: variables.$base-font-size * 0.8;
+		}
+	}
+
+	@include mixins.respond-to-horizontal-device(pad) {
+		.label {
+			display: none;
+		}
+
+		.text {
+			display: none;
+		}
+
+		.time {
+			padding-right: 0.3em;
+			min-width: unset;
+			font-size: 0.8em;
+		}
+	}
+}

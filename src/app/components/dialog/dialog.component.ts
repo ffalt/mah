@@ -1,4 +1,4 @@
-import { Component, ElementRef, effect, inject, input, model, output, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ElementRef, effect, inject, input, model, output } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import { IconCloseComponent } from '../icons/icon-close.component';
 import { IconLogoComponent } from '../icons/icon-logo.component';
@@ -7,7 +7,6 @@ const FOCUSABLE = 'button:not([disabled]), [href], input:not([disabled]), select
 
 @Component({
 	selector: 'app-dialog',
-	changeDetection: ChangeDetectionStrategy.OnPush,
 	templateUrl: './dialog.component.html',
 	styleUrls: ['./dialog.component.scss'],
 	imports: [TranslatePipe, IconLogoComponent, IconCloseComponent]

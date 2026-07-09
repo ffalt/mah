@@ -21,6 +21,7 @@ describe('ManagerComponent', () => {
 	let fixture: ComponentFixture<ManagerComponent>;
 	let mockLayoutService: {
 		layouts: { items: Array<Layout> };
+		getPreview: Mock;
 		removeCustomLayout: Mock;
 		removeAllCustomLayouts: Mock;
 	};
@@ -29,6 +30,7 @@ describe('ManagerComponent', () => {
 	beforeEach(async () => {
 		mockLayoutService = {
 			layouts: { items: [] },
+			getPreview: vi.fn(),
 			removeCustomLayout: vi.fn(),
 			removeAllCustomLayouts: vi.fn()
 		};

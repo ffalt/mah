@@ -1,11 +1,11 @@
-import { ChangeDetectionStrategy, Component, inject, Injector, signal, viewChild } from '@angular/core';
+import { Component, inject, Injector, signal, viewChild } from '@angular/core';
 import type { Game } from '../../model/game';
 import type { Stone } from '../../model/stone';
 import type { Layout, Place } from '../../model/types';
 import { AppService } from '../../service/app.service';
 import { log } from '../../model/log';
 import type { BUILD_MODE_ID } from '../../model/builder';
-import { GAME_MODE_EASY, type GAME_MODE_ID, GAME_MODE_STANDARD } from '../../model/consts';
+import type { GAME_MODE_ID } from '../../model/consts';
 import { environment } from '../../../environments/environment';
 import { DialogComponent } from '../dialog/dialog.component';
 import { HelpComponent } from '../help/help.component';
@@ -15,23 +15,11 @@ import { ChooseLayoutComponent } from '../choose-layout/choose-layout.component'
 import { TranslatePipe } from '@ngx-translate/core';
 import { BoardComponent } from '../board/board.component';
 import { TutorialComponent } from '../tutorial/tutorial.component';
-import { ClockComponent } from '../clock/clock.component';
-import { DurationPipe } from '../../pipes/duration.pipe';
-import { IconTilesinfoComponent } from '../icons/icon-tilesinfo.component';
-import { IconSettingsComponent } from '../icons/icon-settings.component';
-import { IconHintComponent } from '../icons/icon-hint.component';
-import { IconLogoComponent } from '../icons/icon-logo.component';
-import { IconRestartComponent } from '../icons/icon-restart.component';
-import { IconMenuComponent } from '../icons/icon-menu.component';
-import { IconPauseComponent } from '../icons/icon-pause.component';
-import { IconFullscreenComponent } from '../icons/icon-fullscreen.component';
-import { IconShuffleComponent } from '../icons/icon-shuffle.component';
-import { IconUndoComponent } from '../icons/icon-undo.component';
-import { IconMuteComponent } from '../icons/icon-mute.component';
-import { IconCloseComponent } from '../icons/icon-close.component';
-import { IconZenComponent } from '../icons/icon-zen.component';
+import { ControlsTopComponent } from '../controls-top/controls-top.component';
+import { ControlsBottomComponent } from '../controls-bottom/controls-bottom.component';
+import { ZenControlsComponent } from '../zen-controls/zen-controls.component';
+import { GameMessageComponent } from '../game-message/game-message.component';
 import { Confetti } from '../../model/confetti';
-import { IconDragHandleComponent } from '../icons/icon-drag-handle.component';
 
 interface DocumentExtended extends Document {
 	fullScreen: boolean;
@@ -51,10 +39,6 @@ interface HTMLElementExtended extends HTMLElement {
 
 	mozRequestFullScreen(): void;
 }
-
-type ZenDragStartEvent = Pick<PointerEvent, 'currentTarget' | 'clientX' | 'clientY' | 'pointerId' | 'preventDefault'>;
-type ZenDragMoveEvent = Pick<PointerEvent, 'clientX' | 'clientY' | 'preventDefault'>;
-type ZenDragKeyEvent = Pick<KeyboardEvent, 'key' | 'currentTarget' | 'preventDefault'>;
 
 function callFullscreenMethod(
 	target: Record<string, unknown>,
@@ -84,22 +68,13 @@ function callFullscreenMethod(
 	selector: 'app-game-component',
 	templateUrl: './game-component.component.html',
 	styleUrls: ['./game-component.component.scss'],
-	changeDetection: ChangeDetectionStrategy.OnPush,
 	host: {
-		'(document:keydown)': 'handleKeyDownEvent($event)',
-		'(document:pointermove)': 'onZenControlsDrag($event)',
-		'(document:pointerup)': 'stopZenControlsDrag()',
-		'(document:pointercancel)': 'stopZenControlsDrag()',
-		'[class.zen-mode]': 'zenMode'
+		'[class.zen-mode]': 'zenMode()'
 	},
 	imports: [
-		BoardComponent, ClockComponent, DurationPipe, TranslatePipe,
+		BoardComponent, ControlsTopComponent, ControlsBottomComponent, ZenControlsComponent, GameMessageComponent, TranslatePipe,
 
-		HelpComponent, TilesInfoComponent, SettingsComponent, ChooseLayoutComponent, TutorialComponent, DialogComponent,
-
-		IconTilesinfoComponent, IconSettingsComponent, IconHintComponent, IconLogoComponent, IconRestartComponent,
-		IconMenuComponent, IconPauseComponent, IconFullscreenComponent, IconShuffleComponent, IconUndoComponent, IconMuteComponent,
-		IconCloseComponent, IconZenComponent, IconDragHandleComponent
+		HelpComponent, TilesInfoComponent, SettingsComponent, ChooseLayoutComponent, TutorialComponent, DialogComponent
 	]
 })
 export class GameComponent {
@@ -111,33 +86,12 @@ export class GameComponent {
 	readonly app = inject(AppService);
 	game: Game;
 	fullScreenEnabled: boolean = true;
-	menuOpen: boolean = false;
-	zenMode: boolean = false;
 	title: string = '';
+	readonly zenMode = signal(false);
 	readonly announceText = signal('');
-	zenControlsTranslateX: number = 0;
-	zenControlsTranslateY: number = 0;
-
-	get gameModeStandard() {
-		return [GAME_MODE_EASY, GAME_MODE_STANDARD].includes(this.game.mode);
-	}
-
-	get gameModeEasy() {
-		return GAME_MODE_EASY === this.game.mode;
-	}
 
 	private readonly injector = inject(Injector);
 	private announceTimer?: ReturnType<typeof setTimeout>;
-	private zenDragOriginX: number = 0;
-	private zenDragOriginY: number = 0;
-	private zenDragStartX: number = 0;
-	private zenDragStartY: number = 0;
-	private zenDragMinX: number = 0;
-	private zenDragMaxX: number = 0;
-	private zenDragMinY: number = 0;
-	private zenDragMaxY: number = 0;
-	private zenDragPointerId?: number;
-	private zenDragElement?: HTMLElement;
 
 	constructor() {
 		this.game = this.app.game;
@@ -154,114 +108,12 @@ export class GameComponent {
 		confetti.trigger();
 	}
 
-	toggleMenu(): void {
-		this.menuOpen = !this.menuOpen;
-	}
-
-	closeMenu(): void {
-		this.menuOpen = false;
-	}
-
 	toggleZenMode(): void {
-		this.zenMode = !this.zenMode;
-		this.closeMenu();
+		this.zenMode.update(zen => !zen);
 	}
 
 	exitZenMode(): void {
-		this.zenMode = false;
-		this.closeMenu();
-		this.stopZenControlsDrag();
-	}
-
-	startZenControlsDrag(event: ZenDragStartEvent): void {
-		const handle = event.currentTarget;
-		if (!(handle instanceof HTMLElement)) {
-			return;
-		}
-		const toolbar = handle.closest('.zen-controls');
-		if (!(toolbar instanceof HTMLElement)) {
-			return;
-		}
-		event.preventDefault();
-		this.zenDragElement = handle;
-		this.zenDragPointerId = event.pointerId;
-		this.zenDragOriginX = event.clientX;
-		this.zenDragOriginY = event.clientY;
-		this.zenDragStartX = this.zenControlsTranslateX;
-		this.zenDragStartY = this.zenControlsTranslateY;
-		const rect = toolbar.getBoundingClientRect();
-		this.zenDragMinX = 8 - rect.left + this.zenControlsTranslateX;
-		this.zenDragMaxX = window.innerWidth - rect.right - 8 + this.zenControlsTranslateX;
-		this.zenDragMinY = 8 - rect.top + this.zenControlsTranslateY;
-		this.zenDragMaxY = window.innerHeight - rect.bottom - 8 + this.zenControlsTranslateY;
-		if (typeof handle.setPointerCapture === 'function') {
-			handle.setPointerCapture(event.pointerId);
-		}
-	}
-
-	onZenControlsDrag(event: ZenDragMoveEvent): void {
-		if (this.zenDragPointerId === undefined) {
-			return;
-		}
-		event.preventDefault();
-		const x = this.zenDragStartX + event.clientX - this.zenDragOriginX;
-		const y = this.zenDragStartY + event.clientY - this.zenDragOriginY;
-		this.zenControlsTranslateX = Math.max(this.zenDragMinX, Math.min(this.zenDragMaxX, x));
-		this.zenControlsTranslateY = Math.max(this.zenDragMinY, Math.min(this.zenDragMaxY, y));
-	}
-
-	stopZenControlsDrag(): void {
-		if (
-			this.zenDragPointerId !== undefined &&
-			this.zenDragElement &&
-			typeof this.zenDragElement.releasePointerCapture === 'function'
-		) {
-			this.zenDragElement.releasePointerCapture(this.zenDragPointerId);
-		}
-		this.zenDragPointerId = undefined;
-		this.zenDragElement = undefined;
-	}
-
-	onZenControlsHandleKeyDown(event: ZenDragKeyEvent): void {
-		const handle = event.currentTarget;
-		if (!(handle instanceof Element)) {
-			return;
-		}
-		const toolbar = handle.closest('.zen-controls');
-		if (!(toolbar instanceof HTMLElement)) {
-			return;
-		}
-		let deltaX = 0;
-		let deltaY = 0;
-		switch (event.key) {
-			case 'ArrowLeft': {
-				deltaX = -16;
-				break;
-			}
-			case 'ArrowRight': {
-				deltaX = 16;
-				break;
-			}
-			case 'ArrowUp': {
-				deltaY = -16;
-				break;
-			}
-			case 'ArrowDown': {
-				deltaY = 16;
-				break;
-			}
-			default: {
-				return;
-			}
-		}
-		event.preventDefault();
-		const rect = toolbar.getBoundingClientRect();
-		const minX = 8 - rect.left + this.zenControlsTranslateX;
-		const maxX = window.innerWidth - rect.right - 8 + this.zenControlsTranslateX;
-		const minY = 8 - rect.top + this.zenControlsTranslateY;
-		const maxY = window.innerHeight - rect.bottom - 8 + this.zenControlsTranslateY;
-		this.zenControlsTranslateX = Math.max(minX, Math.min(maxX, this.zenControlsTranslateX + deltaX));
-		this.zenControlsTranslateY = Math.max(minY, Math.min(maxY, this.zenControlsTranslateY + deltaY));
+		this.zenMode.set(false);
 	}
 
 	showTutorial(): void {

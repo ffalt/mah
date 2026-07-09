@@ -14,6 +14,33 @@ export class LocalstorageService implements StorageProvider {
 		return this.get<LayoutScoreStore>(`score.${id}`);
 	}
 
+	getScores(): Map<string, LayoutScoreStore> {
+		const scores = new Map<string, LayoutScoreStore>();
+		if (this.localStorageNotAvailable()) {
+			return scores;
+		}
+		// collect the ids first: reading via get() can remove corrupted entries, which would shift the key indices
+		const scorePrefix = `${this.prefix}score.`;
+		const ids: Array<string> = [];
+		try {
+			for (let index = 0; index < localStorage.length; index++) {
+				const key = localStorage.key(index);
+				if (key?.startsWith(scorePrefix)) {
+					ids.push(key.slice(scorePrefix.length));
+				}
+			}
+		} catch (error) {
+			log.warn('localStorage.key failed:', error);
+		}
+		for (const id of ids) {
+			const score = this.getScore(id);
+			if (score) {
+				scores.set(id, score);
+			}
+		}
+		return scores;
+	}
+
 	getSettings(): SettingsStore | undefined {
 		return this.get<SettingsStore>('settings');
 	}

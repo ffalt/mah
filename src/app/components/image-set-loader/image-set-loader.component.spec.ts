@@ -43,6 +43,8 @@ describe('ImageSetLoaderComponent', () => {
 		SvgdefServiceSpy = {
 			get: vi.fn()
 		};
+		// input changes trigger an immediate load, so the mock needs a default response
+		SvgdefServiceSpy.get.mockResolvedValue('<svg><defs></defs></svg>');
 
 		await TestBed.configureTestingModule({
 			providers: [
@@ -199,16 +201,28 @@ describe('ImageSetLoaderComponent', () => {
 			vi.spyOn(component as unknown as HackImageSetLoaderComponent, 'prepareDefs').mockReturnValue('<use id="test"></use>');
 			(component as unknown as HackImageSetLoaderComponent).elementRef = mockElementReference as ElementRef;
 
-			vi.useFakeTimers();
-
 			(component as unknown as HackImageSetLoaderComponent).setImageSet(testSvg);
 
-			// We need to wait for the setTimeout
-			vi.advanceTimersByTime(2);
-
 			expect(mockElementReference.nativeElement.innerHTML).toBe('<use id="test"></use>');
+		});
 
-			vi.useRealTimers();
+		it('should not rewrite the DOM when the prepared defs are unchanged', () => {
+			const testSvg = '<svg><defs><use id="test"></use></defs></svg>';
+			let writeCount = 0;
+			const mockElementReference = {
+				nativeElement: {
+					set innerHTML(_value: string) {
+						writeCount++;
+					}
+				}
+			};
+
+			(component as unknown as HackImageSetLoaderComponent).elementRef = mockElementReference as ElementRef;
+
+			(component as unknown as HackImageSetLoaderComponent).setImageSet(testSvg);
+			(component as unknown as HackImageSetLoaderComponent).setImageSet(testSvg);
+
+			expect(writeCount).toBe(1);
 		});
 	});
 
@@ -248,7 +262,7 @@ describe('ImageSetLoaderComponent', () => {
 			expect((component as unknown as HackImageSetLoaderComponent).setLoading).not.toHaveBeenCalled();
 		});
 
-		it('should call setLoading and loadImageSet when imageSet is set', () => {
+		it('should load immediately and show the loading tiles only after a delay', () => {
 			const testImageSet = 'test-image-set';
 
 			fixture.componentRef.setInput('imageSet', testImageSet);
@@ -256,20 +270,34 @@ describe('ImageSetLoaderComponent', () => {
 
 			vi.spyOn(component as unknown as HackImageSetLoaderComponent, 'setLoading');
 			vi.spyOn(component as unknown as HackImageSetLoaderComponent, 'loadImageSet');
-			SvgdefServiceSpy.get.mockResolvedValue('<svg><defs></defs></svg>');
+			SvgdefServiceSpy.get.mockReturnValue(new Promise(() => undefined)); // keeps loading
 
 			vi.useFakeTimers();
 
 			(component as unknown as HackImageSetLoaderComponent).getImageSet();
 
+			expect((component as unknown as HackImageSetLoaderComponent).loadImageSet).toHaveBeenCalled();
+			expect((component as unknown as HackImageSetLoaderComponent).setLoading).not.toHaveBeenCalled();
+
+			// the spinner tiles appear only when loading takes longer than the delay
+			vi.advanceTimersByTime(100);
+
 			expect((component as unknown as HackImageSetLoaderComponent).setLoading).toHaveBeenCalled();
 
-			// We need to wait for the setTimeout
-			vi.advanceTimersByTime(2);
-
-			expect((component as unknown as HackImageSetLoaderComponent).loadImageSet).toHaveBeenCalled();
-
 			vi.useRealTimers();
+		});
+
+		it('should not show the loading tiles when the set resolves quickly', async () => {
+			const testImageSet = 'test-image-set';
+			SvgdefServiceSpy.get.mockResolvedValue('<svg><defs><use id="test"></use></defs></svg>');
+			vi.spyOn(component as unknown as HackImageSetLoaderComponent, 'setLoading');
+
+			fixture.componentRef.setInput('imageSet', testImageSet);
+			fixture.detectChanges();
+			await flushAsync();
+
+			expect((component as unknown as HackImageSetLoaderComponent).setLoading).not.toHaveBeenCalled();
+			expect((fixture.nativeElement as HTMLElement).innerHTML).toContain('id="test"');
 		});
 	});
 });

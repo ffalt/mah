@@ -1,5 +1,4 @@
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { ChangeDetectionStrategy } from '@angular/core';
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideTranslateService } from '@ngx-translate/core';
 import { provideHttpClient } from '@angular/common/http';
@@ -13,11 +12,6 @@ import { environment } from '../../../environments/environment';
 import { Stone } from '../../model/stone';
 import type { Place } from '../../model/types';
 import { describe, beforeEach, it, expect, vi } from 'vitest';
-
-const zenControlsDefaultRect: DOMRect = {
-	x: 20, y: 30, left: 20, top: 30, right: 220, bottom: 90, width: 200, height: 60,
-	toJSON: () => ({})
-};
 
 describe('GameComponent', () => {
 	let component: GameComponent;
@@ -41,9 +35,7 @@ describe('GameComponent', () => {
 		TestBed.configureTestingModule({
 			imports: [GameComponent],
 			providers: [provideTranslateService(), provideHttpClient(), provideHttpClientTesting(), SvgdefService, AppService]
-		})
-			.overrideComponent(GameComponent, { set: { changeDetection: ChangeDetectionStrategy.Default } })
-			.compileComponents());
+		}).compileComponents());
 
 	beforeEach(() => {
 		fixture = TestBed.createComponent(GameComponent);
@@ -195,76 +187,14 @@ describe('GameComponent', () => {
 		expect(startSpy).toHaveBeenCalledWith(gameData.layout, gameData.buildMode, gameData.gameMode);
 	});
 
-	it('should toggle zen mode and close the menu', () => {
-		component.menuOpen = true;
+	it('should toggle zen mode', () => {
+		component.toggleZenMode();
+
+		expect(component.zenMode()).toBe(true);
 
 		component.toggleZenMode();
 
-		expect(component.zenMode).toBe(true);
-		expect(component.menuOpen).toBe(false);
-
-		component.toggleZenMode();
-
-		expect(component.zenMode).toBe(false);
-	});
-
-	it('should render control buttons', () => {
-		component.game.mode = GAME_MODE_EASY;
-		detectChanges();
-
-		const pauseButton = fixture.debugElement.query(By.css('.ctrl-game button:nth-child(1)'));
-		const shuffleButton = fixture.debugElement.query(By.css('.ctrl-game button:nth-child(2)'));
-		const undoButton = fixture.debugElement.query(By.css('.ctrl-game button:nth-child(3)'));
-		const hintButton = fixture.debugElement.query(By.css('.ctrl-game button:nth-child(4)'));
-		const restartButton = fixture.debugElement.query(By.css('.ctrl-game button:nth-child(5)'));
-
-		expect(pauseButton).toBeTruthy();
-		expect(shuffleButton).toBeTruthy();
-		expect(undoButton).toBeTruthy();
-		expect(hintButton).toBeTruthy();
-		expect(restartButton).toBeTruthy();
-	});
-
-	it('should call game functions when control buttons are clicked', () => {
-		component.game.mode = GAME_MODE_EASY;
-		detectChanges();
-
-		const toggleSpy = vi.spyOn(component.game, 'toggle');
-		const shuffleSpy = vi.spyOn(component, 'onShuffle');
-		const hintSpy = vi.spyOn(component, 'onHint');
-		const newGameSpy = vi.spyOn(component, 'newGame');
-
-		const pauseButton = fixture.debugElement.query(By.css('.ctrl-game button:nth-child(1)')).nativeElement;
-		const hintButton = fixture.debugElement.query(By.css('.ctrl-game button:nth-child(4)')).nativeElement;
-		const restartButton = fixture.debugElement.query(By.css('.ctrl-game button:nth-child(5)')).nativeElement;
-		const shuffleButton = fixture.debugElement.query(By.css('.ctrl-game button:nth-child(2)')).nativeElement;
-
-		pauseButton.click();
-		expect(toggleSpy).toHaveBeenCalled();
-
-		shuffleButton.click();
-		expect(shuffleSpy).toHaveBeenCalled();
-
-		hintButton.click();
-		expect(hintSpy).toHaveBeenCalled();
-
-		restartButton.click();
-		expect(newGameSpy).toHaveBeenCalled();
-	});
-
-	it('should call back function when control buttons are clicked', () => {
-		// Mock the game state to enable the undo button
-		component.game.mode = GAME_MODE_EASY;
-		overrideBoardWithUndo();
-
-		// Force change detection to update the button state
-		fixture.detectChanges();
-
-		const undoButton = fixture.debugElement.query(By.css('.ctrl-game button:nth-child(3)')).nativeElement;
-		const backSpy = vi.spyOn(component.game, 'back');
-
-		undoButton.click();
-		expect(backSpy).toHaveBeenCalled();
+		expect(component.zenMode()).toBe(false);
 	});
 
 	it('should render the zen mode toggle in the bottom controls', () => {
@@ -274,7 +204,7 @@ describe('GameComponent', () => {
 	});
 
 	it('should render control buttons in standard mode', () => {
-		component.game.mode = GAME_MODE_STANDARD;
+		component.game.mode.set(GAME_MODE_STANDARD);
 		detectChanges();
 
 		const pauseButton = fixture.debugElement.query(By.css('.ctrl-game button:nth-child(1)'));
@@ -291,7 +221,7 @@ describe('GameComponent', () => {
 	});
 
 	it('should call game functions when control buttons in standard mode are clicked', () => {
-		component.game.mode = GAME_MODE_STANDARD;
+		component.game.mode.set(GAME_MODE_STANDARD);
 		detectChanges();
 
 		const toggleSpy = vi.spyOn(component.game, 'toggle');
@@ -314,33 +244,6 @@ describe('GameComponent', () => {
 		expect(undoSpy).toHaveBeenCalled();
 	});
 
-	it('should render control buttons in expert mode', () => {
-		component.game.mode = GAME_MODE_EXPERT;
-		detectChanges();
-
-		const pauseButton = fixture.debugElement.query(By.css('.ctrl-game button:nth-child(1)'));
-		const restartButton = fixture.debugElement.query(By.css('.ctrl-game button:nth-child(2)'));
-		const noThirdButton = fixture.debugElement.query(By.css('.ctrl-game button:nth-child(3)'));
-
-		expect(pauseButton).toBeTruthy();
-		expect(restartButton).toBeTruthy();
-		expect(noThirdButton).toBeFalsy();
-	});
-
-	it('should call game functions when control buttons in expert mode are clicked', () => {
-		component.game.mode = GAME_MODE_EXPERT;
-		detectChanges();
-
-		const toggleSpy = vi.spyOn(component.game, 'toggle');
-		const newGameSpy = vi.spyOn(component, 'newGame');
-
-		fixture.debugElement.query(By.css('.ctrl-game button:nth-child(1)')).nativeElement.click(); // pause
-		fixture.debugElement.query(By.css('.ctrl-game button:nth-child(2)')).nativeElement.click(); // restart
-
-		expect(toggleSpy).toHaveBeenCalled();
-		expect(newGameSpy).toHaveBeenCalled();
-	});
-
 	it('should swap menu bars for zen controls when zen mode is enabled', () => {
 		component.toggleZenMode();
 		detectChanges();
@@ -351,7 +254,7 @@ describe('GameComponent', () => {
 	});
 
 	it('should call important actions from the zen controls', () => {
-		component.game.mode = GAME_MODE_EASY;
+		component.game.mode.set(GAME_MODE_EASY);
 		overrideBoardWithUndo();
 
 		const toggleSpy = vi.spyOn(component.game, 'toggle');
@@ -370,11 +273,11 @@ describe('GameComponent', () => {
 		expect(toggleSpy).toHaveBeenCalled();
 		expect(backSpy).toHaveBeenCalled();
 		expect(hintSpy).toHaveBeenCalled();
-		expect(component.zenMode).toBe(false);
+		expect(component.zenMode()).toBe(false);
 	});
 
 	it('should call important actions from the zen controls in standard mode', () => {
-		component.game.mode = GAME_MODE_STANDARD;
+		component.game.mode.set(GAME_MODE_STANDARD);
 		overrideBoardWithUndo();
 
 		const toggleSpy = vi.spyOn(component.game, 'toggle');
@@ -395,11 +298,11 @@ describe('GameComponent', () => {
 		expect(toggleSpy).toHaveBeenCalled();
 		expect(backSpy).toHaveBeenCalled();
 		expect(hintSpy).toHaveBeenCalled();
-		expect(component.zenMode).toBe(false);
+		expect(component.zenMode()).toBe(false);
 	});
 
 	it('should call important actions from the zen controls in expert mode', () => {
-		component.game.mode = GAME_MODE_EXPERT;
+		component.game.mode.set(GAME_MODE_EXPERT);
 
 		const toggleSpy = vi.spyOn(component.game, 'toggle');
 
@@ -413,131 +316,7 @@ describe('GameComponent', () => {
 		zenButtons[1].nativeElement.click(); // exit zen
 
 		expect(toggleSpy).toHaveBeenCalled();
-		expect(component.zenMode).toBe(false);
-	});
-
-	it('should start dragging zen controls when pointer down on drag handle', () => {
-		component.toggleZenMode();
-		detectChanges();
-
-		const toolbar = fixture.debugElement.query(By.css('.zen-controls')).nativeElement;
-		const handle = fixture.debugElement.query(By.css('.zen-controls .drag-handle')).nativeElement;
-		const setPointerCaptureSpy = vi.fn();
-		Object.defineProperty(handle, 'setPointerCapture', { value: setPointerCaptureSpy, configurable: true });
-		vi.spyOn(toolbar, 'getBoundingClientRect').mockReturnValue(zenControlsDefaultRect);
-
-		const event = {
-			currentTarget: handle,
-			clientX: 100,
-			clientY: 100,
-			pointerId: 1,
-			preventDefault: vi.fn()
-		};
-
-		component.startZenControlsDrag(event);
-
-		expect(setPointerCaptureSpy).toHaveBeenCalledWith(1);
-		expect(component.zenControlsTranslateX).toBe(0);
-		expect(component.zenControlsTranslateY).toBe(0);
-	});
-
-	it('should update and clamp zen controls position while dragging', () => {
-		component.toggleZenMode();
-		detectChanges();
-
-		const toolbar = fixture.debugElement.query(By.css('.zen-controls')).nativeElement;
-		const handle = fixture.debugElement.query(By.css('.zen-controls .drag-handle')).nativeElement;
-		Object.defineProperty(handle, 'setPointerCapture', { value: vi.fn(), configurable: true });
-		vi.spyOn(toolbar, 'getBoundingClientRect').mockReturnValue(zenControlsDefaultRect);
-
-		component.startZenControlsDrag({
-			currentTarget: handle,
-			clientX: 100,
-			clientY: 100,
-			pointerId: 1,
-			preventDefault: vi.fn()
-		});
-
-		component.onZenControlsDrag({
-			clientX: 2000,
-			clientY: 2000,
-			preventDefault: vi.fn()
-		});
-
-		expect(component.zenControlsTranslateX).toBe(window.innerWidth - 228);
-		expect(component.zenControlsTranslateY).toBe(window.innerHeight - 98);
-	});
-
-	it('should stop zen controls drag on pointer up', () => {
-		component.toggleZenMode();
-		detectChanges();
-
-		const toolbar = fixture.debugElement.query(By.css('.zen-controls')).nativeElement;
-		const handle = fixture.debugElement.query(By.css('.zen-controls .drag-handle')).nativeElement;
-		Object.defineProperty(handle, 'setPointerCapture', { value: vi.fn(), configurable: true });
-		const releasePointerCaptureSpy = vi.fn();
-		Object.defineProperty(handle, 'releasePointerCapture', { value: releasePointerCaptureSpy, configurable: true });
-		vi.spyOn(toolbar, 'getBoundingClientRect').mockReturnValue(zenControlsDefaultRect);
-
-		component.startZenControlsDrag({
-			currentTarget: handle,
-			clientX: 100,
-			clientY: 100,
-			pointerId: 5,
-			preventDefault: vi.fn()
-		});
-
-		component.stopZenControlsDrag();
-
-		expect(releasePointerCaptureSpy).toHaveBeenCalledWith(5);
-	});
-
-	it('should move zen controls with ArrowRight on drag handle', () => {
-		component.toggleZenMode();
-		detectChanges();
-
-		const toolbar = fixture.debugElement.query(By.css('.zen-controls')).nativeElement;
-		const handle = fixture.debugElement.query(By.css('.zen-controls .drag-handle')).nativeElement;
-		vi.spyOn(toolbar, 'getBoundingClientRect').mockReturnValue(zenControlsDefaultRect);
-		const event = {
-			key: 'ArrowRight',
-			currentTarget: handle,
-			preventDefault: vi.fn()
-		} as unknown as KeyboardEvent;
-
-		component.onZenControlsHandleKeyDown(event);
-
-		expect(component.zenControlsTranslateX).toBe(16);
-		expect(component.zenControlsTranslateY).toBe(0);
-		expect(event.preventDefault).toHaveBeenCalled();
-	});
-
-	it('should clamp keyboard movement inside viewport', () => {
-		component.toggleZenMode();
-		detectChanges();
-
-		const toolbar = fixture.debugElement.query(By.css('.zen-controls')).nativeElement;
-		const handle = fixture.debugElement.query(By.css('.zen-controls .drag-handle')).nativeElement;
-		vi.spyOn(toolbar, 'getBoundingClientRect').mockReturnValue({
-			x: window.innerWidth - 208,
-			y: window.innerHeight - 68,
-			left: window.innerWidth - 208,
-			top: window.innerHeight - 68,
-			right: window.innerWidth - 8,
-			bottom: window.innerHeight - 8,
-			width: 200,
-			height: 60,
-			toJSON: () => ({})
-		});
-
-		component.onZenControlsHandleKeyDown({
-			key: 'ArrowRight',
-			currentTarget: handle,
-			preventDefault: vi.fn()
-		});
-
-		expect(component.zenControlsTranslateX).toBe(0);
-		expect(component.zenControlsTranslateY).toBe(0);
+		expect(component.zenMode()).toBe(false);
 	});
 
 	it('should check fullscreen capability', () => {

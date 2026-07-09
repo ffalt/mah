@@ -168,93 +168,8 @@
 				overflow: clip;
 				box-sizing: border-box;
 
-				app-layout-preview {
-					display: block;
-					width: 100%;
-					height: 200px;
-					text-align: center;
-					padding-bottom: 1.5em;
-				}
-
-				.preview-best-time {
-					position: absolute;
-					right: 0;
-					color: var(--preview-overlay-text);
-					text-shadow: 1px 1px var(--preview-overlay-text-shadow);
-					background-color: var(--preview-overlay-background);
-					border-bottom-left-radius: 3px;
-					padding: 3px 3px 3px 6px;
-					align-items: center;
-
-					button {
-						display: inline-block;
-						min-width: 1.2em;
-						text-align: right;
-						transition: all 100ms;
-						font-size: 0.7em;
-						padding-left: 6px;
-						background: none;
-						border: none;
-						min-height: unset;
-						color: inherit;
-						cursor: pointer;
-
-						&:hover {
-							transform: scale(1.3);
-							color: var(--text-highlight-color);
-						}
-					}
-				}
-
-				.preview-custom-delete {
-					position: absolute;
-					color: var(--preview-overlay-text);
-					text-shadow: 1px 1px var(--preview-overlay-text-shadow);
-					border-bottom-left-radius: 3px;
-					padding: 3px 3px 3px 6px;
-					display: inline-block;
-					min-width: 1.2em;
-					text-align: right;
-					transition: all 100ms;
-					font-size: 0.8em;
-					background: none;
-					border: none;
-					min-height: unset;
-					cursor: pointer;
-					right: 2px;
-					bottom: 2px;
-
-					&:hover {
-						transform: scale(1.3);
-						color: var(--text-highlight-color);
-					}
-				}
-
-				.preview-name {
-					position: absolute;
-					width: 100%;
-					display: block;
-					bottom: 0;
-					background-color: var(--card-text-color-bg);
-					color: var(--card-text-color);
-					text-align: center;
-					font-size: 0.8em;
-					padding: 1px;
-				}
-
-				.preview-best-time {
-					top: 0;
-					display: flex;
-					flex-direction: row;
-					justify-content: center;
-				}
-
 				&.selected, &:hover, &:focus {
 					background-color: var(--card-layout-color-bg-hover);
-
-					.preview-name {
-						background-color: var(--card-text-color-bg-hover);
-					}
 				}
 
 				&.selected {
@@ -263,35 +178,20 @@
 				}
 
 				@include mixins.respond-to(jumbo-down) {
-					&, app-layout-preview {
-						width: 200px;
-						height: 190px;
-					}
+					width: 200px;
+					height: 190px;
 				}
 
 				@include mixins.respond-to(medium-down) {
 					width: 49%;
-
-					app-layout-preview {
-						width: 100%;
-					}
 				}
 
 				@include mixins.respond-to(tiny-down) {
 					width: 96%;
-
-					.preview-name, preview-seed {
-						padding-top: 0;
-					}
 				}
 
 				@include mixins.respond-to-height(small-down) {
 					height: 120px;
-
-					app-layout-preview {
-						width: 100%;
-						height: 100%;
-					}
 				}
 			}
 
@@ -333,30 +233,6 @@
 
 			.previews-random {
 				grid-template-columns: 1fr 1fr 1fr 1fr 2fr;
-
-				.preview-seed {
-					position: absolute;
-					bottom: 0;
-					width: 100%;
-					background-color: var(--card-text-color-bg);
-					box-sizing: border-box;
-
-					.seed-input {
-						width: 100%;
-						background: transparent;
-						border: none;
-						color: var(--card-text-color);
-						font-size: 0.8em;
-						text-align: center;
-						outline: none;
-						cursor: text;
-						padding: 1px 1px 4px;
-
-						&:focus {
-							background-color: var(--card-text-color-bg-hover);
-						}
-					}
-				}
 			}
 
 			.preview {
@@ -366,20 +242,11 @@
 				min-width: 0;
 				box-sizing: border-box;
 				height: 208px;
-
-				app-layout-preview {
-					width: 100%;
-					height: 200px;
-				}
 			}
 
 			@include mixins.respond-to(jumbo-down) {
 				.preview {
 					height: 190px;
-
-					app-layout-preview {
-						height: 190px;
-					}
 				}
 			}
 
@@ -434,10 +301,6 @@
 			@include mixins.respond-to-height(small-down) {
 				.preview {
 					height: 120px;
-
-					app-layout-preview {
-						height: 100%;
-					}
 				}
 			}
 

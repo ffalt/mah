@@ -44,6 +44,24 @@ describe('LayoutListComponent', () => {
 		expect(component.groups().at(-1)?.isRandom).toBe(true);
 	});
 
+	it('keeps card reveal, selection and group collapse state across rebuilds', () => {
+		fixture.componentRef.setInput('layouts', [makeLayout('A', 'Cat1'), makeLayout('B', 'Cat1')]);
+		fixture.detectChanges();
+
+		const group = component.groups()[0];
+		group.expanded.set(false);
+		group.layouts[0].visible.set(true);
+		group.layouts[0].selected.set(true);
+
+		component.buildGroups();
+
+		const rebuilt = component.groups()[0];
+		expect(rebuilt.expanded()).toBe(false);
+		expect(rebuilt.layouts[0].visible()).toBe(true);
+		expect(rebuilt.layouts[0].selected()).toBe(true);
+		expect(rebuilt.layouts[1].visible()).toBe(false);
+	});
+
 	it('updates the mirror signal when changed', () => {
 		component.randomMirrorXSet('true');
 		expect(component.randomMirrorX()).toBe('true');
@@ -52,7 +70,7 @@ describe('LayoutListComponent', () => {
 		expect(component.randomMirrorY()).toBe('false');
 	});
 
-	// OnPush: the random previews are produced inside async setTimeout callbacks
+	// the random previews are produced inside async setTimeout callbacks
 	it('fills random layout previews asynchronously', () => {
 		vi.useFakeTimers();
 		try {
@@ -63,6 +81,6 @@ describe('LayoutListComponent', () => {
 		}
 
 		expect(component.randomGroup.layouts.length).toBeGreaterThan(0);
-		expect(component.randomGroup.layouts.every(item => !!item.layout.previewSVG)).toBe(true);
+		expect(component.randomGroup.layouts.every(item => !!item.previewSVG())).toBe(true);
 	});
 });

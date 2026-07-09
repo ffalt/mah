@@ -1,5 +1,6 @@
-import { type OnDestroy, inject, Service } from '@angular/core';
+import { type OnDestroy, inject, signal, Service } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import type { Subscription } from 'rxjs';
 import { Game } from '../model/game';
 import { DEFAULT_LANGUAGE, LANGUAGES } from '../model/languages';
 import { Settings } from '../model/settings';
@@ -14,11 +15,15 @@ export class AppService implements OnDestroy {
 	settings: Settings;
 	storage = inject(LocalstorageService);
 	translate = inject(TranslateService);
+	readonly lang = signal<string>('');
+
+	private readonly langSubscription: Subscription;
 
 	constructor() {
 		this.game = new Game(this.storage);
 		this.settings = new Settings(this.storage);
 		this.settings.load();
+		this.langSubscription = this.translate.onLangChange.subscribe(event => this.lang.set(event.lang));
 		this.setLang();
 		this.game.init();
 		this.game.sound.enabled = this.settings.sounds();
@@ -26,6 +31,7 @@ export class AppService implements OnDestroy {
 	}
 
 	ngOnDestroy(): void {
+		this.langSubscription.unsubscribe();
 		this.game.destroy();
 	}
 

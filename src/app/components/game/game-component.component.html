@@ -29,86 +29,24 @@
 
 <app-dialog #newgame (clickEvent)="toggleDialogState($event)" className="overlay-newgame overlay-size-large" [title]="'SELECT_BOARD' | translate">
 	@if (newgame.visible()) {
-		<app-choose-layout class="choose" (startEvent)="startGame($event)" [gameMode]="game.mode" [buildMode]="game.board.buildMode"/>
+		<app-choose-layout class="choose" (startEvent)="startGame($event)" [gameMode]="game.mode()" [buildMode]="game.board.buildMode"/>
 	}
 </app-dialog>
 
-<app-dialog (clickEvent)="clickMessage()" [visible]="!!game.message()" className="overlay-message overlay-size-auto" [noCloseButton]="true">
-	@if (game.message(); as message) {
-		<div
-			class="overlay-message-message"
-			role="button"
-			tabindex="0"
-			(click)="clickMessage($event)"
-			(keydown.enter)="clickMessage($event)"
-			(keydown.space)="clickMessage($event)"
-		>
-			@if (message.messageID) {
-				<div>{{ message.messageID | translate }}</div>
-			}
-			@if (message.playTime) {
-				<div>{{ message.playTime | duration }}</div>
-			}
-			@if (message.askShuffle) {
-				<div class="overlay-message-actions">
-					<button
-						type="button"
-						class="button"
-						(click)="onShuffleContinue($event)"
-					>
-						<app-icon-shuffle/>
-						<span class="label">{{ 'SHUFFLE' | translate }}</span>
-					</button>
-					<button
-						type="button"
-						class="button"
-						(click)="onSurrenderGame($event)"
-					>
-						<app-icon-restart/>
-						<span class="label">{{ 'RESTART' | translate }}</span>
-					</button>
-				</div>
-			}
-		</div>
-	}
-</app-dialog>
+<app-game-message (messageEvent)="clickMessage($event)" (shuffleEvent)="onShuffleContinue($event)" (surrenderEvent)="onSurrenderGame($event)"/>
 
-@if (!zenMode) {
-	<div class="controls controls-top">
-		<div class="ctrl ctrl-name">
-			<button type="button" class="button" (click)="help.toggle()" title="{{'OPEN_HELP' | translate}}">
-				<app-icon-logo/>
-				<span class="name">{{ app.name }}</span>
-			</button>
-		</div>
-		<div class="ctrl ctrl-game">
-			<button type="button" class="button" (click)="game.toggle()" title="{{'PAUSE_LONG' | translate}}" [attr.aria-pressed]="game.isPaused()">
-				<app-icon-pause/>
-				<span class="label">{{ 'PAUSE' | translate }}</span>
-			</button>
-			@if (gameModeEasy) {
-				<button type="button" class="button" (click)="onShuffle()" title="{{'SHUFFLE_LONG' | translate}}">
-					<app-icon-shuffle/>
-					<span class="label">{{ 'SHUFFLE' | translate }}</span>
-				</button>
-			}
-			@if (gameModeStandard) {
-				<button type="button" class="button" (click)="onUndo()" title="{{'UNDO_LONG' | translate}}" [attr.disabled]="game.board.undo().length===0 ? true : null">
-					<app-icon-undo/>
-					<span class="label">{{ 'UNDO' | translate }}</span>
-				</button>
-				<button type="button" class="button" (click)="onHint()" title="{{'HINT_LONG' | translate}}">
-					<app-icon-hint/>
-					<span class="label">{{ 'HINT' | translate }}</span>
-				</button>
-			}
-			<button type="button" class="button" (click)="newGame()" title="{{'RESTART_LONG' | translate}}">
-				<app-icon-restart/>
-				<span class="label">{{ 'RESTART' | translate }}</span>
-			</button>
-		</div>
-	</div>
+@if (!zenMode()) {
+	<app-controls-top
+		class="controls controls-top"
+		[gameMode]="game.mode()"
+		(helpEvent)="help.toggle()"
+		(shuffleEvent)="onShuffle()"
+		(undoEvent)="onUndo()"
+		(hintEvent)="onHint()"
+		(newGameEvent)="newGame()"
+	/>
 }
+
 <app-board
 	class="board"
 	[stones]="game.board.stones()"
@@ -119,77 +57,24 @@
 	[pattern]="app.settings.pattern()"
 	(clickEvent)="stoneClick($event)"
 />
-@if (zenMode) {
-	<div
+
+@if (zenMode()) {
+	<app-zen-controls
 		class="zen-controls"
 		role="toolbar"
 		[attr.aria-label]="'ZEN_MODE' | translate"
-		[style.transform]="'translate(' + zenControlsTranslateX + 'px, ' + zenControlsTranslateY + 'px)'"
-	>
-		<button type="button" class="drag-handle" aria-label="Drag controls" title="Drag controls" (pointerdown)="startZenControlsDrag($event)" (keydown)="onZenControlsHandleKeyDown($event)">
-			<app-icon-drag-handle/>
-		</button>
-		<button type="button" class="button" (click)="game.toggle()" title="{{'PAUSE_LONG' | translate}}" [attr.aria-label]="'PAUSE' | translate" [attr.aria-pressed]="game.isPaused()">
-			<app-icon-pause/>
-		</button>
-		@if (gameModeStandard) {
-			<button type="button" class="button" (click)="onUndo()" title="{{'UNDO_LONG' | translate}}" [attr.aria-label]="'UNDO' | translate" [attr.disabled]="game.board.undo().length===0 ? true : null">
-				<app-icon-undo/>
-			</button>
-			<button type="button" class="button" (click)="onHint()" title="{{'HINT_LONG' | translate}}" [attr.aria-label]="'HINT' | translate">
-				<app-icon-hint/>
-			</button>
-		}
-		<button type="button" class="button" (click)="exitZenMode()" title="{{'EXIT_ZEN_MODE_LONG' | translate}}" [attr.aria-label]="'EXIT_ZEN_MODE' | translate">
-			<app-icon-close/>
-		</button>
-	</div>
+		[gameMode]="game.mode()"
+		(undoEvent)="onUndo()"
+		(hintEvent)="onHint()"
+		(exitEvent)="exitZenMode()"
+	/>
 } @else {
-	<div class="controls controls-bottom">
-		<div class="ctrl ctrl-stats">
-			<button
-				type="button" class="button menu-button" title="{{ 'MENU' | translate }}"
-				[attr.aria-label]="'MENU' | translate"
-				aria-haspopup="menu"
-				aria-controls="ctrl-stats-menu"
-				[attr.aria-expanded]="menuOpen"
-				(click)="toggleMenu()"
-				(keydown.escape)="closeMenu()"
-			>
-				<app-icon-menu/>
-			</button>
-			<div
-				class="menu" role="menu" id="ctrl-stats-menu"
-				[class.menu-open]="menuOpen"
-				tabindex="-1"
-				(click)="closeMenu()"
-				(keydown.escape)="closeMenu()"
-			>
-				<button type="button" class="button" (click)="settings.toggle()" title="{{'OPEN_SETTINGS' | translate}}" [attr.aria-label]="'SETTINGS' | translate" role="menuitem">
-					<app-icon-settings/>
-				</button>
-				<button type="button" class="button" [class.inactive]="!app.settings.sounds()" (click)="app.toggleSound()" title="{{'AUDIO_SOUNDS' | translate}}" [attr.aria-label]="'AUDIO_SOUNDS' | translate" [attr.aria-pressed]="!app.settings.sounds()" role="menuitem">
-					<app-icon-mute/>
-				</button>
-				<button type="button" class="button" (click)="info.toggle()" title="{{'TILES_INFO' | translate}}" [attr.aria-label]="'TILES_INFO' | translate" role="menuitem">
-					<app-icon-tilesinfo/>
-				</button>
-				<button type="button" class="button" (click)="toggleZenMode()" title="{{'ZEN_MODE' | translate}}" [attr.aria-label]="'ZEN_MODE' | translate" role="menuitem">
-					<app-icon-zen/>
-				</button>
-				@if (fullScreenEnabled) {
-					<button type="button" class="button" (click)="enterFullScreen()" title="{{'FULLSCREEN' | translate}}" [attr.aria-label]="'FULLSCREEN' | translate" role="menuitem">
-						<app-icon-fullscreen/>
-					</button>
-				}
-			</div>
-		</div>
-		<div class="ctrl ctrl-time">
-			<span class="label text"><small>{{ 'STONES' | translate }}:</small> <span>{{ game.board.count() }}</span></span>
-			<span class="label text"><small>{{ 'FREE' | translate }}:</small> <span>{{ game.board.free().length }}</span></span>
-			@if (app.settings.showClock()) {
-				<app-clock class="time"/>
-			}
-		</div>
-	</div>
+	<app-controls-bottom
+		class="controls controls-bottom"
+		[fullScreenEnabled]="fullScreenEnabled"
+		(settingsEvent)="settings.toggle()"
+		(infoEvent)="info.toggle()"
+		(zenEvent)="toggleZenMode()"
+		(fullscreenEvent)="enterFullScreen()"
+	/>
 }

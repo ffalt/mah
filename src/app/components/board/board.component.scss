@@ -32,24 +32,4 @@ g.stage.dark g.draw:focus-visible rect.stone {
 		user-select: none;
 	}
 
-	.gesture-indicator {
-		user-select: none;
-		position: fixed;
-		top: 0;
-		left: 0;
-		height: 50px;
-		width: 50px;
-		display: block;
-		border-radius: 50%;
-		text-align: center;
-		line-height: 45px;
-		z-index: 10;
-		background-color: var(--gesture-indicator);
-		transform: scale(0, 0);
-		transition: transform 150ms ease-in-out;
-
-		&.visible {
-			transform: scale(1.5, 1.5);
-		}
-	}
 }

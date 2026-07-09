@@ -1,4 +1,4 @@
-import { Component, inject, output, signal, type OnInit, type Type, ChangeDetectionStrategy } from '@angular/core';
+import { Component, inject, output, signal, type OnInit, type Type } from '@angular/core';
 import { NgComponentOutlet } from '@angular/common';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { clickExternalHref } from '../../model/external-links';
@@ -31,7 +31,6 @@ interface Stat {
 
 @Component({
 	selector: 'app-help',
-	changeDetection: ChangeDetectionStrategy.OnPush,
 	templateUrl: './help.component.html',
 	styleUrls: ['./help.component.scss'],
 	imports: [TranslatePipe, DurationPipe, NgComponentOutlet]
@@ -67,8 +66,9 @@ export class HelpComponent implements OnInit {
 		const items = new Array<StatEntry>();
 		let winCount = 0;
 		let loseCount = 0;
+		const scores = this.storage.getScores();
 		for (const layout of this.layoutService.layouts.items) {
-			const score = this.storage.getScore(layout.id);
+			const score = scores.get(layout.id);
 			if (!score) {
 				continue;
 			}

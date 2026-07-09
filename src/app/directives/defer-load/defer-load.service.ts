@@ -15,13 +15,13 @@ export interface ScrollNotifyEvent {
 @Service()
 export class DeferLoadService {
 	scrollNotify = new EventEmitter<ScrollNotifyEvent>();
-	observeNotify = new EventEmitter<Array<IntersectionObserverEntry>>();
 	currentViewport: Rect = new Rect(0, 0, 0, 0);
 	readonly isBrowser: boolean;
 	readonly hasIntersectionObserver: boolean;
 	private readonly scrollSubject = new Subject<ScrollNotifyEvent>();
 	private readonly scrollObservable: Observable<ScrollNotifyEvent>;
 	private readonly platformId = inject(PLATFORM_ID);
+	private readonly intersectionCallbacks = new Map<Element, (entry: IntersectionObserverEntry) => void>();
 	private intersectionObserver?: IntersectionObserver;
 
 	constructor() {
@@ -40,12 +40,22 @@ export class DeferLoadService {
 		this.currentViewport = Rect.fromWindow(window);
 	}
 
-	getObserver(): IntersectionObserver {
-		if (this.intersectionObserver) {
-			return this.intersectionObserver;
-		}
-		this.intersectionObserver = new IntersectionObserver(entries => {
-			this.observeNotify.next(entries);
+	observe(element: Element, callback: (entry: IntersectionObserverEntry) => void): void {
+		this.intersectionCallbacks.set(element, callback);
+		this.getObserver().observe(element);
+	}
+
+	unobserve(element: Element): void {
+		this.intersectionCallbacks.delete(element);
+		this.intersectionObserver?.unobserve(element);
+	}
+
+	private getObserver(): IntersectionObserver {
+		// entries are routed directly to their element's callback, not broadcast to all observers
+		this.intersectionObserver ??= new IntersectionObserver(entries => {
+			for (const entry of entries) {
+				this.intersectionCallbacks.get(entry.target)?.(entry);
+			}
 		}, { threshold: 0 });
 		return this.intersectionObserver;
 	}

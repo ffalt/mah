@@ -1,37 +1,35 @@
-import { Component, type OnChanges, type SimpleChanges, ChangeDetectorRef, inject, input, output, signal, viewChild, type ElementRef, type OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, type OnChanges, type SimpleChanges, type WritableSignal, inject, input, output, signal, viewChild, type ElementRef, type OnInit } from '@angular/core';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
-import type { Layout } from '../../model/types';
+import type { Layout, SafeUrlSVG } from '../../model/types';
 import { LocalstorageService } from '../../service/localstorage.service';
 import { LayoutService } from '../../service/layout.service';
-import { LayoutPreviewComponent } from '../layout-preview/layout-preview.component';
-import { DurationPipe } from '../../pipes/duration.pipe';
 import { DeferLoadScrollHostDirective } from '../../directives/defer-load/defer-load-scroll-host.directive';
-import { DeferLoadDirective } from '../../directives/defer-load/defer-load.directive';
 import { generateRandomMapping } from '../../model/random-layout/random-layout';
 import { RANDOM_LAYOUT_ID_PREFIX, type RandomSymmetry } from '../../model/random-layout/consts';
 import { seedRNG, resetRNG, generateLayoutSeed } from '../../model/rng';
 import { TranslateGroupPipe } from '../../pipes/translate-group.pipe';
-import { IconDeleteComponent } from '../icons/icon-delete.component';
+import { LayoutListItemComponent } from '../layout-list-item/layout-list-item.component';
 import { IconMirrorVerticalComponent } from '../icons/icon-mirror-vertical.component';
 import { IconMirrorHorizontalComponent } from '../icons/icon-mirror-horizontal.component';
 
 export interface LayoutItem {
 	layout: Layout;
-	visible: boolean;
+	readonly visible: WritableSignal<boolean>;
+	readonly selected: WritableSignal<boolean>;
 	playCount?: number;
 	bestTime?: number;
-	selected?: boolean;
 }
 
 export interface LayoutGroup {
 	name: string;
-	expanded: boolean;
+	readonly expanded: WritableSignal<boolean>;
 	isRandom?: boolean;
 	layouts: Array<LayoutItem>;
 }
 
 export interface RandomLayoutItem extends LayoutItem {
-	layoutSeed?: string;
+	readonly layoutSeed: WritableSignal<string>;
+	readonly previewSVG: WritableSignal<SafeUrlSVG | undefined>;
 }
 
 export interface RandomLayoutGroup extends LayoutGroup {
@@ -41,13 +39,12 @@ export interface RandomLayoutGroup extends LayoutGroup {
 
 @Component({
 	selector: 'app-layout-list',
-	changeDetection: ChangeDetectionStrategy.OnPush,
 	templateUrl: './layout-list.component.html',
 	styleUrls: ['./layout-list.component.scss'],
 	imports: [
-		DurationPipe, TranslatePipe, TranslateGroupPipe,
-		DeferLoadScrollHostDirective, DeferLoadDirective, IconDeleteComponent,
-		LayoutPreviewComponent, IconMirrorVerticalComponent, IconMirrorHorizontalComponent
+		TranslatePipe, TranslateGroupPipe,
+		DeferLoadScrollHostDirective, LayoutListItemComponent,
+		IconMirrorVerticalComponent, IconMirrorHorizontalComponent
 	]
 })
 export class LayoutListComponent implements OnInit, OnChanges {
@@ -59,13 +56,12 @@ export class LayoutListComponent implements OnInit, OnChanges {
 	readonly randomMirrorY = signal('random');
 	readonly randomGroup: RandomLayoutGroup = {
 		name: '',
-		layouts: [], expanded: true, isRandom: true
+		layouts: [], expanded: signal(true), isRandom: true
 	};
 
 	private readonly storage = inject(LocalstorageService);
 	private readonly translate = inject(TranslateService);
 	private readonly layoutService = inject(LayoutService);
-	private readonly cdr = inject(ChangeDetectorRef);
 
 	ngOnInit(): void {
 		this.randomMirrorX.set(this.storage.getLastMirrorX() ?? 'random');
@@ -86,7 +82,10 @@ export class LayoutListComponent implements OnInit, OnChanges {
 						category: this.randomGroup.name,
 						mapping: []
 					},
-					visible: false, selected: false
+					visible: signal(false),
+					selected: signal(false),
+					layoutSeed: signal(''),
+					previewSVG: signal<SafeUrlSVG | undefined>(undefined)
 				}
 			);
 		}
@@ -106,26 +105,25 @@ export class LayoutListComponent implements OnInit, OnChanges {
 	}
 
 	generateRandomLayout(layoutItem: RandomLayoutItem, layoutSeed?: string): void {
-		layoutItem.layoutSeed = layoutSeed ?? generateLayoutSeed();
-		seedRNG(layoutItem.layoutSeed);
+		layoutItem.layoutSeed.set(layoutSeed ?? generateLayoutSeed());
+		seedRNG(layoutItem.layoutSeed());
 		const mapping = generateRandomMapping(
 			this.randomMirrorX() as RandomSymmetry,
 			this.randomMirrorY() as RandomSymmetry,
 			'random'
 		);
 		resetRNG();
-		layoutItem.layout.previewSVG = this.layoutService.generatePreview(mapping);
+		layoutItem.previewSVG.set(this.layoutService.generatePreview(mapping));
 		layoutItem.layout.mapping = mapping;
 	}
 
 	generateRandomLayouts(): void {
-		for (const item of this.randomGroup.layouts) {
-			setTimeout(() => {
+		// deferred off the dialog-open path; one batch so all previews land in a single change detection round
+		setTimeout(() => {
+			for (const item of this.randomGroup.layouts) {
 				this.generateRandomLayout(item);
-				// previews are produced async, so nudge the OnPush view to render them
-				this.cdr.markForCheck();
-			}, 0);
-		}
+			}
+		}, 0);
 	}
 
 	regenerateWithSeed(item: RandomLayoutItem, seed: string): void {
@@ -150,19 +148,12 @@ export class LayoutListComponent implements OnInit, OnChanges {
 				id = boardID;
 			}
 			if (id) {
+				// deferred so the list DOM exists when scrolling to the selection
 				setTimeout(() => {
 					this.select(id);
-					// selection happens async, so nudge the OnPush view to render it
-					this.cdr.markForCheck();
 				}, 0);
 			}
 		}
-	}
-
-	onStartEvent(event: Event, layoutItem: LayoutItem): void {
-		event.preventDefault();
-		event.stopPropagation();
-		this.onStart(layoutItem);
 	}
 
 	onStart(layoutItem: LayoutItem): void {
@@ -172,16 +163,33 @@ export class LayoutListComponent implements OnInit, OnChanges {
 	}
 
 	buildGroups(): void {
+		// carry the card and group state over so reveal, selection and collapse survive rebuilds
+		const previousItems = new Map<string, LayoutItem>();
+		const previousGroups = new Map<string, LayoutGroup>();
+		for (const group of this.groups()) {
+			previousGroups.set(group.name, group);
+			for (const item of group.layouts) {
+				previousItems.set(item.layout.id, item);
+			}
+		}
 		const groups: Array<LayoutGroup> = [];
 		const g: { [name: string]: LayoutGroup } = {};
 		const source = this.layouts() ?? this.layoutService.layouts.items;
+		const scores = this.storage.getScores();
 		for (const layout of source) {
 			if (!g[layout.category]) {
-				g[layout.category] = { name: layout.category, layouts: [], expanded: true };
+				g[layout.category] = { name: layout.category, layouts: [], expanded: previousGroups.get(layout.category)?.expanded ?? signal(true) };
 				groups.push(g[layout.category]);
 			}
-			const score = this.storage.getScore(layout.id) || {};
-			g[layout.category].layouts.push({ layout, playCount: (score.winCount ?? 0) + (score.loseCount ?? 0), bestTime: score.bestTime, visible: false });
+			const score = scores.get(layout.id) || {};
+			const previousItem = previousItems.get(layout.id);
+			g[layout.category].layouts.push({
+				layout,
+				playCount: (score.winCount ?? 0) + (score.loseCount ?? 0),
+				bestTime: score.bestTime,
+				visible: previousItem?.visible ?? signal(false),
+				selected: previousItem?.selected ?? signal(false)
+			});
 		}
 		groups.push(this.randomGroup);
 		this.groups.set(groups);
@@ -226,7 +234,7 @@ export class LayoutListComponent implements OnInit, OnChanges {
 
 		for (const g of this.groups()) {
 			for (const layout of g.layouts) {
-				layout.selected = layout.layout.id === id;
+				layout.selected.set(layout.layout.id === id);
 			}
 		}
 		this.scrollToItem(id);
@@ -234,23 +242,23 @@ export class LayoutListComponent implements OnInit, OnChanges {
 
 	toggleGroupExpanded(event: Event, group: LayoutGroup): void {
 		event.preventDefault();
-		group.expanded = !group.expanded;
+		group.expanded.update(expanded => !expanded);
 	}
 
-	clearBestTimeClick(event: MouseEvent, layout: LayoutItem): void {
-		event.stopPropagation();
-		if (confirm(this.translate.instant('BEST_TIME_CLEAR_SURE'))) {
-			this.storage.clearScore(layout.layout.id);
-			layout.bestTime = undefined;
-			layout.playCount = undefined;
+	clearBestTime(layout: LayoutItem): void {
+		if (!confirm(this.translate.instant('BEST_TIME_CLEAR_SURE'))) {
+			return;
 		}
+		this.storage.clearScore(layout.layout.id);
+		layout.bestTime = undefined;
+		layout.playCount = undefined;
 	}
 
-	removeCustomLayout(event: MouseEvent, layout: LayoutItem): void {
-		event.stopPropagation();
-		if (confirm(this.translate.instant('CUSTOM_BOARD_DELETE_SURE'))) {
-			this.layoutService.removeCustomLayout([layout.layout.id]);
-			this.refresh();
+	removeCustom(layout: LayoutItem): void {
+		if (!confirm(this.translate.instant('CUSTOM_BOARD_DELETE_SURE'))) {
+			return;
 		}
+		this.layoutService.removeCustomLayout([layout.layout.id]);
+		this.refresh();
 	}
 }

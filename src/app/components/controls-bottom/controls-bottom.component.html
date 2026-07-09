@@ -1,0 +1,39 @@
+<div class="ctrl ctrl-stats">
+	<button
+		type="button" class="button menu-button" title="{{ 'MENU' | translate }}"
+		[attr.aria-label]="'MENU' | translate"
+		aria-haspopup="menu"
+		aria-controls="ctrl-stats-menu"
+		[attr.aria-expanded]="menuOpen()"
+		(click)="toggleMenu()"
+		(keydown.escape)="closeMenu()"
+	>
+		<app-icon-menu/>
+	</button>
+	<div
+		class="menu" role="menu" id="ctrl-stats-menu"
+		[class.menu-open]="menuOpen()"
+		tabindex="-1"
+		(click)="closeMenu()"
+		(keydown.escape)="closeMenu()"
+	>
+		<button type="button" class="button" (click)="settingsEvent.emit()" title="{{'OPEN_SETTINGS' | translate}}" [attr.aria-label]="'SETTINGS' | translate" role="menuitem">
+			<app-icon-settings/>
+		</button>
+		<button type="button" class="button" [class.inactive]="!app.settings.sounds()" (click)="app.toggleSound()" title="{{'AUDIO_SOUNDS' | translate}}" [attr.aria-label]="'AUDIO_SOUNDS' | translate" [attr.aria-pressed]="!app.settings.sounds()" role="menuitem">
+			<app-icon-mute/>
+		</button>
+		<button type="button" class="button" (click)="infoEvent.emit()" title="{{'TILES_INFO' | translate}}" [attr.aria-label]="'TILES_INFO' | translate" role="menuitem">
+			<app-icon-tilesinfo/>
+		</button>
+		<button type="button" class="button" (click)="zenEvent.emit()" title="{{'ZEN_MODE' | translate}}" [attr.aria-label]="'ZEN_MODE' | translate" role="menuitem">
+			<app-icon-zen/>
+		</button>
+		@if (fullScreenEnabled()) {
+			<button type="button" class="button" (click)="fullscreenEvent.emit()" title="{{'FULLSCREEN' | translate}}" [attr.aria-label]="'FULLSCREEN' | translate" role="menuitem">
+				<app-icon-fullscreen/>
+			</button>
+		}
+	</div>
+</div>
+<app-stats-bar class="ctrl ctrl-time"/>

@@ -1,4 +1,4 @@
-import { Component, type OnChanges, type OnInit, type SimpleChanges, input, output, ChangeDetectionStrategy } from '@angular/core';
+import { Component, type OnChanges, type OnInit, type SimpleChanges, input, output } from '@angular/core';
 import { Stone } from '../../../../model/stone';
 import { type Draw, calcDrawPos, getDrawViewport, sortDrawItems } from '../../../../model/draw';
 import type { Matrix } from '../../model/matrix';
@@ -11,7 +11,6 @@ interface Level {
 
 @Component({
 	selector: 'app-editor-board',
-	changeDetection: ChangeDetectionStrategy.OnPush,
 	templateUrl: './board.component.html',
 	styleUrls: ['./board.component.scss']
 })

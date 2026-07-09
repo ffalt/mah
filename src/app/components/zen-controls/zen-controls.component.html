@@ -1,0 +1,17 @@
+<button type="button" class="drag-handle" aria-label="Drag controls" title="Drag controls" (pointerdown)="startDrag($event)" (keydown)="onHandleKeyDown($event)">
+	<app-icon-drag-handle/>
+</button>
+<button type="button" class="button" (click)="app.game.toggle()" title="{{'PAUSE_LONG' | translate}}" [attr.aria-label]="'PAUSE' | translate" [attr.aria-pressed]="app.game.isPaused()">
+	<app-icon-pause/>
+</button>
+@if (gameModeStandard()) {
+	<button type="button" class="button" (click)="undoEvent.emit()" title="{{'UNDO_LONG' | translate}}" [attr.aria-label]="'UNDO' | translate" [attr.disabled]="app.game.board.undo().length===0 ? true : null">
+		<app-icon-undo/>
+	</button>
+	<button type="button" class="button" (click)="hintEvent.emit()" title="{{'HINT_LONG' | translate}}" [attr.aria-label]="'HINT' | translate">
+		<app-icon-hint/>
+	</button>
+}
+<button type="button" class="button" (click)="exitEvent.emit()" title="{{'EXIT_ZEN_MODE_LONG' | translate}}" [attr.aria-label]="'EXIT_ZEN_MODE' | translate">
+	<app-icon-close/>
+</button>

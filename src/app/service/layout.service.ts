@@ -71,9 +71,13 @@ export class LayoutService {
 			by: o.by,
 			category: o.cat ?? 'Classic',
 			mapping,
-			previewSVG: this.generatePreview(mapping),
 			custom: isCustom
 		};
+	}
+
+	getPreview(layout: Layout): SafeUrlSVG {
+		layout.previewSVG ??= this.generatePreview(layout.mapping);
+		return layout.previewSVG;
 	}
 
 	loadCustomLayouts(): Array<LoadLayout> {

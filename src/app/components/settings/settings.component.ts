@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, signal, viewChild, type AfterViewInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ElementRef, inject, signal, viewChild, type AfterViewInit } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Backgrounds, ImageSetDefault, ImageSets, PATTERN_BACKGROUND, Themes } from '../../model/consts';
 import { AppService } from '../../service/app.service';
@@ -19,7 +19,6 @@ const SETTINGS_TABS = [
 
 @Component({
 	selector: 'app-settings',
-	changeDetection: ChangeDetectionStrategy.OnPush,
 	templateUrl: './settings.component.html',
 	styleUrls: ['./settings.component.scss'],
 	imports: [TranslatePipe, LicenseLinkComponent, TilePreviewComponent],

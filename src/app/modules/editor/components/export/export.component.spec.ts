@@ -17,6 +17,7 @@ const editLayout: EditLayout = {
 
 const mockLayoutService = {
 	layouts: { items: [] },
+	getPreview: vi.fn(),
 	storeCustomBoards: vi.fn(),
 	removeCustomLayout: vi.fn()
 };

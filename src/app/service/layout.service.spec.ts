@@ -251,11 +251,9 @@ describe('LayoutService', () => {
 				map: [[0, [[0, 0]]]]
 			};
 			const expandedMapping: Mapping = [[0, 0, 0]];
-			const safeUrl = 'data:image/svg+xml;base64,...' as SafeUrlSVG;
 
 			mockMapping.expandMapping.mockReturnValue(expandedMapping);
-			mockLayoutSvg.generateBase64SVG.mockReturnValue('data:image/svg+xml;base64,...');
-			mockDomSanitizer.bypassSecurityTrustUrl.mockReturnValue(safeUrl);
+			mockLayoutSvg.generateBase64SVG.mockClear();
 
 			// Act
 			const result = service.expandLayout(loadLayout);
@@ -267,12 +265,11 @@ describe('LayoutService', () => {
 				by: 'Test Author',
 				category: 'Test Category',
 				mapping: expandedMapping,
-				previewSVG: safeUrl,
 				custom: undefined
 			});
 			expect(mockMapping.expandMapping).toHaveBeenCalledWith(loadLayout.map);
-			expect(mockLayoutSvg.generateBase64SVG).toHaveBeenCalledWith(expandedMapping);
-			expect(mockDomSanitizer.bypassSecurityTrustUrl).toHaveBeenCalledWith('data:image/svg+xml;base64,...');
+			// previews are generated lazily via getPreview, not on expand
+			expect(mockLayoutSvg.generateBase64SVG).not.toHaveBeenCalled();
 		});
 
 		it('should generate ID if not provided', () => {
@@ -381,6 +378,23 @@ describe('LayoutService', () => {
 			expect(service.layouts.items).toHaveLength(2);
 			expect(service.layouts.items[1]).toBe(expandedLayout);
 			expect(service.expandLayout).toHaveBeenCalledWith(newCustomLayouts[0], true);
+		});
+	});
+
+	describe('getPreview', () => {
+		it('should generate the preview once and cache it on the layout', () => {
+			// Arrange
+			const layout: Layout = { id: 'test-id', name: 'Test Layout', category: 'Test Category', mapping: [[0, 0, 0]] };
+			const safeUrl = 'data:image/svg+xml;base64,...' as SafeUrlSVG;
+			mockLayoutSvg.generateBase64SVG.mockClear();
+			mockLayoutSvg.generateBase64SVG.mockReturnValue('data:image/svg+xml;base64,...');
+			mockDomSanitizer.bypassSecurityTrustUrl.mockReturnValue(safeUrl);
+
+			// Act & Assert
+			expect(service.getPreview(layout)).toBe(safeUrl);
+			expect(layout.previewSVG).toBe(safeUrl);
+			expect(service.getPreview(layout)).toBe(safeUrl);
+			expect(mockLayoutSvg.generateBase64SVG).toHaveBeenCalledTimes(1);
 		});
 	});
 

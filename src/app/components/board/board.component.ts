@@ -1,14 +1,14 @@
-import { Component, ElementRef, type OnChanges, type OnInit, type SimpleChanges, inject, input, output, signal, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ElementRef, type AfterViewInit, type OnChanges, type OnInit, type SimpleChanges, inject, input, output, signal, viewChild } from '@angular/core';
 import { Backgrounds, Themes } from '../../model/consts';
 import { type Draw, calcDrawPos, getDrawBounds, sortDrawItems, getDrawBoundsViewportBounds } from '../../model/draw';
 import type { Stone } from '../../model/stone';
 import { AppService } from '../../service/app.service';
 import { isKyodaiImageSet } from '../../model/tilesets';
 import { ImageSetLoaderComponent } from '../image-set-loader/image-set-loader.component';
+import { BoardTileComponent } from '../board-tile/board-tile.component';
+import { GestureIndicatorsComponent } from '../gesture-indicators/gesture-indicators.component';
 import { Indicator } from '../../model/indicator';
 import { PanZoom } from '../../model/pan-zoom';
-import { PrefixPipe } from '../../pipes/prefix.pipe';
-import { TranslatePipe } from '@ngx-translate/core';
 import { PatternService } from '../../service/pattern.service';
 import { log } from '../../model/log';
 
@@ -17,7 +17,6 @@ const defaultH = 960;
 
 @Component({
 	selector: 'app-board',
-	changeDetection: ChangeDetectionStrategy.OnPush,
 	templateUrl: './board.component.html',
 	styleUrls: ['./board.component.scss'],
 	host: {
@@ -26,17 +25,15 @@ const defaultH = 960;
 		'(wheel)': 'onWheel($event)',
 		'(window:resize)': 'onResize($event)',
 		'(mousedown)': 'onMouseDown($event)',
-		'(mousemove)': 'onMouseMove($event)',
 		'(mouseup)': 'onMouseUp($event)',
 		'(mouseleave)': 'onMouseUp($event)',
 		'(touchstart)': 'onTouchStart($event)',
-		'(touchmove)': 'onTouchMove($event)',
 		'(touchend)': 'onTouchEnd($event)',
 		'(touchcancel)': 'onTouchEnd($event)'
 	},
-	imports: [ImageSetLoaderComponent, PrefixPipe, TranslatePipe]
+	imports: [ImageSetLoaderComponent, BoardTileComponent, GestureIndicatorsComponent]
 })
-export class BoardComponent implements OnInit, OnChanges {
+export class BoardComponent implements OnInit, OnChanges, AfterViewInit {
 	readonly background = input<string>();
 	readonly theme = input<string>();
 	readonly imageSet = input<string>();
@@ -47,12 +44,12 @@ export class BoardComponent implements OnInit, OnChanges {
 	readonly clickEvent = output<Stone | undefined>();
 	readonly backgroundUrl = signal<string | undefined>(undefined);
 	readonly backgroundRepeat = signal<boolean | undefined>(undefined);
+	readonly rotate = signal(false);
+	readonly boardSVG = viewChild<ElementRef<SVGSVGElement>>('boardSVG');
+	readonly stage = viewChild<ElementRef<SVGGElement>>('stage');
+	readonly viewport = signal(`0 0 ${defaultW} ${defaultH}`);
 	indicators = new Indicator();
 	drawStones: Array<Draw> = [];
-	readonly rotate = signal(false);
-	readonly transformSVG = signal('');
-	readonly transformStage = signal('');
-	readonly viewport = signal(`0 0 ${defaultW} ${defaultH}`);
 	prefix: string = '';
 	urlPrefix: string = '';
 	imagePos: Array<number> = [1, 1, 69, 88];
@@ -64,12 +61,17 @@ export class BoardComponent implements OnInit, OnChanges {
 		() => ({ width: this.element.nativeElement.offsetWidth || 0, height: this.element.nativeElement.offsetHeight || 0 }),
 		this.indicators,
 		() => {
-			this.transformSVG.set(this.panZoom.transformSVG);
+			this.applyTransformSVG();
 			this.setTransformStage();
 		}
 	);
 
 	private bounds: Array<number> = [0, 0, defaultW, defaultH];
+	private stageTransform = '';
+	private readonly mouseMoveListener = (event: MouseEvent) => this.onMouseMove(event);
+	private readonly touchMoveListener = (event: TouchEvent) => this.onTouchMove(event);
+	private mouseMoveAttached = false;
+	private touchMoveAttached = false;
 
 	get scale(): number {
 		return this.panZoom.scale;
@@ -97,6 +99,11 @@ export class BoardComponent implements OnInit, OnChanges {
 
 	ngOnInit(): void {
 		this.resize(window);
+	}
+
+	ngAfterViewInit(): void {
+		this.applyTransformSVG();
+		this.applyTransformStage();
 	}
 
 	ngOnChanges(changes: SimpleChanges): void {
@@ -134,6 +141,9 @@ export class BoardComponent implements OnInit, OnChanges {
 
 	onMouseDown(event: MouseEvent): void {
 		this.panZoom.onMouseDown(event);
+		if (this.panZoom.scale > 1) {
+			this.attachMouseMoveListener();
+		}
 	}
 
 	onMouseMove(event: MouseEvent): void {
@@ -141,6 +151,7 @@ export class BoardComponent implements OnInit, OnChanges {
 	}
 
 	onMouseUp(event: MouseEvent): void {
+		this.detachMouseMoveListener();
 		if (this.panZoom.onMouseUp(event)) {
 			this.clickEvent.emit(undefined);
 		}
@@ -151,13 +162,6 @@ export class BoardComponent implements OnInit, OnChanges {
 			return;
 		}
 		this.clickEvent.emit(draw?.source);
-	}
-
-	tileLabel(draw: Draw): string {
-		const name = draw.url ? this.app.translate.instant(draw.url) : '';
-		const layer = draw.source.z + 1;
-		const key = draw.source.hinted() ? 'TILE_LABEL_HINTED' : 'TILE_LABEL';
-		return this.app.translate.instant(key, { name, layer });
 	}
 
 	onKeyClick(event: Event, draw: Draw): void {
@@ -180,6 +184,7 @@ export class BoardComponent implements OnInit, OnChanges {
 
 	onTouchStart(event: TouchEvent): void {
 		this.panZoom.onTouchStart(event);
+		this.attachTouchMoveListener();
 	}
 
 	onTouchMove(event: TouchEvent): void {
@@ -188,6 +193,9 @@ export class BoardComponent implements OnInit, OnChanges {
 
 	onTouchEnd(event: TouchEvent): void {
 		this.panZoom.onTouchEnd(event);
+		if (event.touches.length === 0) {
+			this.detachTouchMoveListener();
+		}
 	}
 
 	updatePanning(event: MouseEvent): void {
@@ -208,15 +216,64 @@ export class BoardComponent implements OnInit, OnChanges {
 		});
 	}
 
+	private attachMouseMoveListener(): void {
+		if (this.mouseMoveAttached) {
+			return;
+		}
+		this.mouseMoveAttached = true;
+		this.element.nativeElement.addEventListener('mousemove', this.mouseMoveListener);
+	}
+
+	private detachMouseMoveListener(): void {
+		if (!this.mouseMoveAttached) {
+			return;
+		}
+		this.mouseMoveAttached = false;
+		this.element.nativeElement.removeEventListener('mousemove', this.mouseMoveListener);
+	}
+
+	private attachTouchMoveListener(): void {
+		if (this.touchMoveAttached) {
+			return;
+		}
+		this.touchMoveAttached = true;
+		this.element.nativeElement.addEventListener('touchmove', this.touchMoveListener, { passive: false });
+	}
+
+	private detachTouchMoveListener(): void {
+		if (!this.touchMoveAttached) {
+			return;
+		}
+		this.touchMoveAttached = false;
+		this.element.nativeElement.removeEventListener('touchmove', this.touchMoveListener);
+	}
+
 	private setTransformStage(): void {
 		if (this.rotate()) {
 			const [minX, minY, width, height] = getDrawBoundsViewportBounds(this.bounds);
 			const cx = minX + width / 2;
 			const cy = minY + height / 2;
-			this.transformStage.set(`rotate(90 ${cx} ${cy})`);
+			this.stageTransform = `rotate(90 ${cx} ${cy})`;
 		} else {
-			this.transformStage.set('');
+			this.stageTransform = '';
 		}
+		this.applyTransformStage();
+	}
+
+	private applyTransformSVG(): void {
+		const svg = this.boardSVG()?.nativeElement;
+		if (!svg) {
+			return;
+		}
+		svg.style.transform = this.panZoom.transformSVG;
+	}
+
+	private applyTransformStage(): void {
+		const stage = this.stage()?.nativeElement;
+		if (!stage) {
+			return;
+		}
+		stage.setAttribute('transform', this.stageTransform);
 	}
 
 	private resize(element: { innerHeight: number; innerWidth: number }): void {
@@ -259,6 +316,7 @@ export class BoardComponent implements OnInit, OnChanges {
 					y: stone.y,
 					v: stone.v,
 					visible: true,
+					key: `${stone.z}:${stone.x}:${stone.y}`,
 					url: stone.img?.id,
 					pos: calcDrawPos(stone.z, stone.x, stone.y),
 					source: stone
@@ -267,7 +325,7 @@ export class BoardComponent implements OnInit, OnChanges {
 		this.drawStones = sortDrawItems(items);
 		this.setViewPort();
 		this.panZoom.syncTransformSVG();
-		this.transformSVG.set(this.panZoom.transformSVG);
+		this.applyTransformSVG();
 		this.setTransformStage();
 	}
 

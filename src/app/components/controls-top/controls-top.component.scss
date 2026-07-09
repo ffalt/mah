@@ -1,0 +1,39 @@
+@use "../../style/game-controls";
+@use "../../style/mixins";
+@use "../../style/variables";
+
+:host {
+	@include game-controls.controls;
+
+	.ctrl.ctrl-name {
+		font-weight: 600;
+		cursor: pointer;
+
+		app-icon-logo {
+			color: variables.$logo-color;
+		}
+	}
+
+	@include mixins.respond-to(femto-down) {
+		span.name {
+			display: none;
+		}
+	}
+
+	@include mixins.respond-to-horizontal-device(pad) {
+		.ctrl-name {
+			display: flex;
+			flex-direction: column;
+
+			.button {
+				span {
+					display: none;
+				}
+			}
+		}
+
+		.ctrl-game {
+			flex-direction: column-reverse;
+		}
+	}
+}

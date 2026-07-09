@@ -1,0 +1,40 @@
+@if (item().visible()) {
+	@if (random()) {
+		<app-layout-preview class="svg-board" [svg]="previewSVG()" [alt]="item().layout.name"></app-layout-preview>
+	} @else {
+		<app-layout-preview class="svg-board" [layout]="item().layout" [alt]="item().layout.name"></app-layout-preview>
+	}
+} @else {
+	<div class="preview-placeholder" [class.selected]="item().selected()"></div>
+}
+@if (random()) {
+	<div class="preview-seed" tabindex="-1" (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
+		<input
+			type="text" class="seed-input"
+			[value]="seed()"
+			(keyup)="$event.stopPropagation(); seedEvent.emit($any($event.target).value)"
+			[attr.aria-label]="'LAYOUT_SEED_LABEL' | translate"
+			[attr.title]="'LAYOUT_SEED_LABEL' | translate"
+		/>
+	</div>
+} @else {
+	@if (item().bestTime; as bestTime) {
+		<div class="preview-best-time">
+			<span title="{{ 'STATS_BEST' | translate }}">{{ bestTime | duration }}</span>
+			<button type="button" (click)="onClearBestTime($event)" [attr.aria-label]="'BEST_TIME_CLEAR' | translate">
+				<app-icon-delete/>
+			</button>
+		</div>
+	}
+	<div class="preview-name">{{ item().layout.name }}</div>
+	@if (item().layout.custom) {
+		<button type="button"
+			class="preview-custom-delete"
+			(click)="onRemoveCustom($event)"
+			title="{{ 'CUSTOM_BOARD_DELETE' | translate }}"
+			[attr.aria-label]="'CUSTOM_BOARD_DELETE' | translate"
+		>
+			<app-icon-delete/>
+		</button>
+	}
+}

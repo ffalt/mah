@@ -1,0 +1,83 @@
+@use "../../style/mixins";
+@use "../../style/variables";
+
+:host {
+	.drag-handle {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 2.1em;
+		height: 2.1em;
+		border: 1px solid transparent;
+		border-radius: 999px;
+		background-color: transparent;
+		color: var(--main-text-color-dk);
+		cursor: grab;
+		font-family: variables.$text-font;
+		font-size: .85em;
+		line-height: 1;
+		letter-spacing: .05em;
+
+		&:focus-visible {
+			outline: none;
+			box-shadow: 0 0 0 2px var(--main-bg-color),
+			0 0 0 4px var(--focus-ring-color);
+		}
+
+		&:active {
+			cursor: grabbing;
+		}
+	}
+
+	.button {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 2.4em;
+		height: 2.4em;
+		padding: 0;
+		border-radius: 999px;
+		font-family: variables.$text-font;
+		font-size: inherit;
+		color: var(--main-text-color);
+		cursor: pointer;
+		border: 1px solid transparent;
+		background-clip: padding-box;
+		background-color: transparent;
+		transition: color .15s ease, background-color .15s ease, border-color .15s ease, box-shadow .15s ease, transform .05s ease;
+
+		&:hover {
+			background-image: linear-gradient(
+					to bottom,
+					color-mix(in oklab, var(--main-bg-color-lt) 35%, transparent),
+					color-mix(in oklab, var(--main-bg-color) 90%, transparent)
+			);
+			border: 1px solid color-mix(in oklab, var(--main-bg-color-lt) 70%, transparent);
+			background-color: color-mix(in oklab, var(--main-bg-color) 78%, transparent);
+			color: var(--main-text-color-lt);
+		}
+
+		&:active {
+			transform: translateY(1px);
+			box-shadow: inset 0 1px 1px rgb(0 0 0 / 15%),
+			0 0 0 rgb(0 0 0 / 0%);
+		}
+
+		&:focus-visible {
+			outline: none;
+			box-shadow: 0 0 0 2px var(--main-bg-color),
+			0 0 0 4px var(--focus-ring-color);
+		}
+
+		&.inactive {
+			color: var(--main-text-color-dk);
+		}
+	}
+
+	@include mixins.respond-to(tiny-down) {
+		.button {
+			width: 2.2em;
+			height: 2.2em;
+		}
+	}
+}

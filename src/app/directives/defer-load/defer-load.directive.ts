@@ -7,9 +7,8 @@ import { Rect } from './rect';
 export class DeferLoadDirective implements AfterViewInit, OnDestroy {
 	readonly preRender = input<boolean>(false);
 	readonly appDeferLoad = output();
-	private intersectionObserver?: IntersectionObserver;
+	private observing = false;
 	private scrollSubscription?: Subscription;
-	private observeSubscription?: Subscription;
 	private timeoutId?: ReturnType<typeof setTimeout>;
 	private readonly timeoutLoadMS: number = 20;
 	private readonly elementRef = inject(ElementRef);
@@ -68,25 +67,11 @@ export class DeferLoadDirective implements AfterViewInit, OnDestroy {
 	}
 
 	private registerIntersectionObserver(): void {
-		if (this.intersectionObserver) {
+		if (this.observing || !this.elementRef.nativeElement) {
 			return;
 		}
-		this.intersectionObserver = this.deferLoadService.getObserver();
-		if (this.intersectionObserver && this.elementRef.nativeElement) {
-			this.intersectionObserver.observe(this.elementRef.nativeElement as Element);
-			this.observeSubscription = this.deferLoadService.observeNotify
-				.subscribe((entries: Array<IntersectionObserverEntry>) => {
-					this.checkForIntersection(entries);
-				});
-		}
-	}
-
-	private checkForIntersection(entries: Array<IntersectionObserverEntry>) {
-		for (const entry of entries) {
-			if (entry.target === this.elementRef.nativeElement) {
-				this.manageIntersection(entry);
-			}
-		}
+		this.observing = true;
+		this.deferLoadService.observe(this.elementRef.nativeElement as Element, entry => this.manageIntersection(entry));
 	}
 
 	private checkIfIntersecting(entry: IntersectionObserverEntry): boolean {
@@ -124,12 +109,11 @@ export class DeferLoadDirective implements AfterViewInit, OnDestroy {
 	}
 
 	private unobserve(): void {
-		if (!(this.intersectionObserver && this.elementRef.nativeElement)) {
+		if (!this.observing) {
 			return;
 		}
-
-		this.intersectionObserver.unobserve(this.elementRef.nativeElement as Element);
-		this.intersectionObserver = undefined;
+		this.observing = false;
+		this.deferLoadService.unobserve(this.elementRef.nativeElement as Element);
 	}
 
 	private removeListeners(): void {
@@ -138,10 +122,6 @@ export class DeferLoadDirective implements AfterViewInit, OnDestroy {
 			this.scrollSubscription = undefined;
 		}
 		this.unobserve();
-		if (this.observeSubscription) {
-			this.observeSubscription.unsubscribe();
-			this.observeSubscription = undefined;
-		}
 	}
 
 	private checkInView(rect: Rect): boolean {

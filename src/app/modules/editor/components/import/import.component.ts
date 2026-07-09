@@ -1,4 +1,4 @@
-import { Component, inject, output, signal, ChangeDetectionStrategy } from '@angular/core';
+import { Component, inject, output, signal } from '@angular/core';
 import type { Layout, LoadLayout } from '../../../../model/types';
 import { LayoutService } from '../../../../service/layout.service';
 import { log } from '../../../../model/log';
@@ -9,7 +9,6 @@ import { IconOkComponent } from '../../../../components/icons/icon-ok.component'
 
 @Component({
 	selector: 'app-import-component',
-	changeDetection: ChangeDetectionStrategy.OnPush,
 	templateUrl: './import.component.html',
 	styleUrls: ['./import.component.scss'],
 	imports: [TranslatePipe, DropZoneDirective, IconOkComponent]

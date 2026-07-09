@@ -1,4 +1,4 @@
-import { Component, type OnInit, type OutputRefSubscription, ViewContainerRef, inject, signal, viewChild, ChangeDetectionStrategy } from '@angular/core';
+import { Component, type OnInit, type OutputRefSubscription, ViewContainerRef, inject, signal, viewChild } from '@angular/core';
 import { Meta } from '@angular/platform-browser';
 import { environment } from '../environments/environment';
 import { AppService } from './service/app.service';
@@ -12,7 +12,6 @@ type onWindowBlur = (callback: () => void) => void;
 
 @Component({
 	selector: 'app-root',
-	changeDetection: ChangeDetectionStrategy.OnPush,
 	templateUrl: './app.component.html',
 	styleUrls: ['./app.component.scss'],
 	host: { '(document:keydown)': 'handleKeyDownEvent($event)' },
@@ -41,19 +40,31 @@ export class AppComponent implements OnInit {
 			});
 	}
 
+	// the single document keydown listener, delegating to the game component (an own listener there would run every handler twice)
 	handleKeyDownEvent(event: KeyboardEvent): void {
+		if (this.handleEditorKeyDown(event)) {
+			return;
+		}
+		if (!this.editorVisible()) {
+			this.gameComponent().handleKeyDownEvent(event);
+		}
+	}
+
+	handleEditorKeyDown(event: KeyboardEvent): boolean {
+		if (!environment.editor || event.key !== 'e') {
+			return false;
+		}
 		const target = event.target;
 		if (!target) {
-			return;
+			return false;
 		}
 		const nodeName = target instanceof Element ? target.nodeName.toLowerCase() : '';
 		if (nodeName === 'input') {
-			return;
+			return false;
 		}
-		if (environment.editor && event.key === 'e') {
-			this.toggleEditor();
-			event.preventDefault();
-		}
+		this.toggleEditor();
+		event.preventDefault();
+		return true;
 	}
 
 	loadEditor(): void {

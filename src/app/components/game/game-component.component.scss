@@ -35,148 +35,6 @@
 		@include mixins.respond-to(large-down) {
 			font-size: variables.$base-font-size * 1.2;
 		}
-
-		.ctrl, .menu {
-			display: flex;
-			align-items: center;
-			gap: 4px;
-		}
-
-		.ctrl {
-			color: var(--main-text-color);
-			user-select: none;
-
-			.time {
-				padding: 0.3em 0.9em;
-			}
-
-			.link {
-				text-decoration: none;
-				font-weight: 500;
-				color: var(--main-text-color);
-				padding: 0.3em 0.9em;
-				border-radius: 10px;
-				transition: color .15s ease, background-color .15s ease, border-color .15s ease, box-shadow .15s ease, transform .05s ease;
-
-				.icon {
-					margin-right: 0;
-				}
-
-				.icon + .label,
-				.icon + span {
-					margin-left: 6px;
-				}
-
-				&:hover {
-					color: var(--main-text-color-lt);
-				}
-
-				&[disabled] {
-					color: var(--main-text-color-dk);
-				}
-			}
-
-			.button {
-				display: inline-flex;
-				align-items: center;
-				justify-content: center;
-				gap: 6px;
-				border-radius: 10px;
-				font-family: variables.$text-font;
-				color: var(--main-text-color);
-				padding: 0.3em 0.9em;
-				cursor: pointer;
-				border: 1px solid transparent;
-				background-clip: padding-box;
-				transition: color .15s ease, background-color .15s ease, border-color .15s ease, box-shadow .15s ease, transform .05s ease;
-				background-color: transparent;
-				font-size: inherit;
-				flex-wrap: nowrap;
-
-				&:hover {
-					background-image: linear-gradient(
-							to bottom,
-							color-mix(in oklab, var(--main-bg-color-lt) 35%, transparent),
-							color-mix(in oklab, var(--main-bg-color) 90%, transparent)
-					);
-					border: 1px solid color-mix(in oklab, var(--main-bg-color-lt) 70%, transparent);
-					background-color: color-mix(in oklab, var(--main-bg-color) 78%, transparent);
-					color: var(--main-text-color-lt);
-				}
-
-				&:active {
-					transform: translateY(1px);
-					box-shadow: inset 0 1px 1px rgb(0 0 0 / 15%),
-					0 0 0 rgb(0 0 0 / 0%);
-				}
-
-				&:focus-visible {
-					outline: none;
-					box-shadow: 0 0 0 2px var(--main-bg-color),
-					0 0 0 4px var(--focus-ring-color);
-				}
-
-				&[disabled] {
-					opacity: .55;
-					cursor: not-allowed;
-					pointer-events: none;
-					filter: saturate(.75);
-				}
-			}
-
-			&.ctrl-name {
-				font-weight: 600;
-				cursor: pointer;
-
-				app-icon-logo {
-					color: variables.$logo-color;
-				}
-			}
-
-			.inactive {
-				color: var(--main-text-color-dk);
-
-				&:hover {
-					color: var(--main-text-color-dk);
-				}
-			}
-
-			&.ctrl-time {
-				cursor: default;
-				gap: 24px;
-				min-height: calc(#{variables.$base-line-height} * 1em + 0.6em);
-
-				.text {
-					font-variant-numeric: lining-nums;
-				}
-
-				small {
-					margin-right: 6px;
-				}
-
-				.time {
-					font-family: variables.$text-font;
-					min-width: 98px;
-					display: inline-block;
-					text-align: center;
-					font-variant-numeric: slashed-zero tabular-nums;
-				}
-			}
-
-			&.ctrl-stats {
-				cursor: default;
-
-				.menu-button {
-					display: none;
-					width: 2.2em;
-					height: 2.2em;
-					padding: 0;
-					border-radius: 999px;
-					justify-content: center;
-					align-items: center;
-				}
-			}
-		}
 	}
 
 	.controls-top {
@@ -204,78 +62,6 @@
 		box-shadow: 0 8px 26px rgb(0 0 0 / 20%);
 		backdrop-filter: blur(14px);
 		z-index: 2;
-
-		.drag-handle {
-			display: inline-flex;
-			align-items: center;
-			justify-content: center;
-			width: 2.1em;
-			height: 2.1em;
-			border: 1px solid transparent;
-			border-radius: 999px;
-			background-color: transparent;
-			color: var(--main-text-color-dk);
-			cursor: grab;
-			font-family: variables.$text-font;
-			font-size: .85em;
-			line-height: 1;
-			letter-spacing: .05em;
-
-			&:focus-visible {
-				outline: none;
-				box-shadow: 0 0 0 2px var(--main-bg-color),
-				0 0 0 4px var(--focus-ring-color);
-			}
-
-			&:active {
-				cursor: grabbing;
-			}
-		}
-
-		.button {
-			display: inline-flex;
-			align-items: center;
-			justify-content: center;
-			width: 2.4em;
-			height: 2.4em;
-			padding: 0;
-			border-radius: 999px;
-			font-family: variables.$text-font;
-			font-size: inherit;
-			color: var(--main-text-color);
-			cursor: pointer;
-			border: 1px solid transparent;
-			background-clip: padding-box;
-			background-color: transparent;
-			transition: color .15s ease, background-color .15s ease, border-color .15s ease, box-shadow .15s ease, transform .05s ease;
-
-			&:hover {
-				background-image: linear-gradient(
-						to bottom,
-						color-mix(in oklab, var(--main-bg-color-lt) 35%, transparent),
-						color-mix(in oklab, var(--main-bg-color) 90%, transparent)
-				);
-				border: 1px solid color-mix(in oklab, var(--main-bg-color-lt) 70%, transparent);
-				background-color: color-mix(in oklab, var(--main-bg-color) 78%, transparent);
-				color: var(--main-text-color-lt);
-			}
-
-			&:active {
-				transform: translateY(1px);
-				box-shadow: inset 0 1px 1px rgb(0 0 0 / 15%),
-				0 0 0 rgb(0 0 0 / 0%);
-			}
-
-			&:focus-visible {
-				outline: none;
-				box-shadow: 0 0 0 2px var(--main-bg-color),
-				0 0 0 4px var(--focus-ring-color);
-			}
-
-			&.inactive {
-				color: var(--main-text-color-dk);
-			}
-		}
 	}
 
 	.board {
@@ -285,111 +71,10 @@
 		overflow: hidden;
 	}
 
-	@include mixins.respond-to(large-down) {
-		.controls .ctrl .button {
-			font-size: variables.$base-font-size * 1.2;
-			padding: 0.3em;
-		}
-
-		.time {
-			padding: 0.3em;
-		}
-
-		.button .label {
-			display: none;
-		}
-	}
-
-	@include mixins.respond-to(medium-down) {
-		.controls .ctrl .button {
-			font-size: variables.$base-font-size * 1.1;
-		}
-
-		.label {
-			display: none;
-		}
-
-		.ctrl.ctrl-time .time {
-			min-width: unset;
-		}
-	}
-
-	@include mixins.respond-to(small-down) {
-		.controls .ctrl .button {
-			font-size: variables.$base-font-size * 1.0;
-		}
-	}
-
 	@include mixins.respond-to(tiny-down) {
-		.controls .ctrl .button, .controls .ctrl .text {
-			font-size: variables.$base-font-size * 0.9;
-		}
-
 		.zen-controls {
 			gap: 4px;
 			padding: 4px;
-
-			.button {
-				width: 2.2em;
-				height: 2.2em;
-			}
-		}
-	}
-
-	@include mixins.respond-to(femto-down) {
-		.controls .ctrl .button, .controls .ctrl .text {
-			font-size: variables.$base-font-size * 0.8;
-		}
-
-		span.name {
-			display: none;
-		}
-	}
-
-	@include mixins.respond-to(pico-down) {
-		.controls .ctrl {
-			gap: 2px;
-
-			&.ctrl-stats {
-				position: relative;
-
-				.menu-button {
-					display: block;
-				}
-
-				.menu {
-					display: none;
-					position: absolute;
-					bottom: 100%;
-					right: 0;
-					background: var(--dialog-background-color);
-					border: 1px solid var(--dialog-border-color);
-					border-radius: 8px;
-					flex-direction: column;
-					z-index: 10;
-					gap: 6px;
-
-					.button {
-						/* square icon buttons inside the menu */
-						padding: 0;
-						margin-left: 0;
-						width: 2.2em;
-						height: 2.2em;
-						border-radius: 8px;
-					}
-				}
-
-				.menu.menu-open {
-					display: flex;
-				}
-
-				&:hover,
-				&:focus-within {
-					.menu {
-						display: flex;
-					}
-				}
-			}
 		}
 	}
 
@@ -417,25 +102,6 @@
 
 		.controls {
 			padding: 0;
-
-			.ctrl, .menu {
-				flex-direction: column;
-			}
-
-			.label {
-				display: none;
-			}
-
-			.ctrl-name {
-				display: flex;
-				flex-direction: column;
-
-				.button {
-					span {
-						display: none;
-					}
-				}
-			}
 		}
 
 		.controls-top {
@@ -447,10 +113,6 @@
 			left: 0;
 			border-bottom: unset;
 			z-index: 1;
-
-			.ctrl-game {
-				flex-direction: column-reverse;
-			}
 		}
 
 		.controls-bottom {
@@ -462,26 +124,6 @@
 			right: 0;
 			align-items: flex-end;
 			border-top: unset;
-
-			.ctrl {
-				align-items: flex-end;
-
-				.text {
-					display: none;
-				}
-
-				&.ctrl-time .time {
-					padding-right: 0.3em;
-					min-width: unset;
-					font-size: 0.8em;
-				}
-			}
-		}
-	}
-
-	@include mixins.respond-to-horizontal-device(mini) {
-		.controls .ctrl .button {
-			padding: 0.1em;
 		}
 	}
 }

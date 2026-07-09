@@ -1,4 +1,4 @@
-import { Component, ElementRef, effect, inject, model, output, signal, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ElementRef, effect, inject, model, output, signal } from '@angular/core';
 import { type BUILD_MODE_ID, BuilderModes, MODE_SOLVABLE } from '../../model/builder';
 import type { Layout } from '../../model/types';
 import { LayoutService } from '../../service/layout.service';
@@ -17,7 +17,6 @@ export interface StartEvent {
 
 @Component({
 	selector: 'app-choose-layout',
-	changeDetection: ChangeDetectionStrategy.OnPush,
 	templateUrl: './choose-layout.component.html',
 	styleUrls: ['./choose-layout.component.scss'],
 	imports: [LayoutListComponent, TranslatePipe, IconInfoComponent, IconCloseComponent]

@@ -1,0 +1,22 @@
+<svg:g class="tile">
+	@if (draw().url) {
+		<svg:title>{{ draw().url | translate }}</svg:title>
+	}
+	@if (app.settings.tile3d()) {
+		<svg:rect class="shadow" x="5" y="5" width="75" height="100" rx="10" ry="10"></svg:rect>
+		<svg:rect class="stone" x="0" y="0" width="75" height="100" rx="10" ry="10"></svg:rect>
+		<svg:rect class="bevel" x="1" y="1" width="73" height="98" rx="9" ry="9"></svg:rect>
+	} @else {
+		<svg:rect class="shadow" x="3" y="3" width="75" height="100" rx="10" ry="10"></svg:rect>
+		<svg:rect class="stone" x="0" y="0" width="75" height="100" rx="10" ry="10"></svg:rect>
+	}
+	<svg:use
+		[attr.xlink:href]="draw().url | prefix:urlPrefix()"
+		[attr.x]="imagePos()[0]"
+		[attr.y]="imagePos()[1]"
+		[attr.width]="imagePos()[2]"
+		[attr.height]="imagePos()[3]"
+		clip-path="url(#mah-image-clip)"
+	/>
+	<svg:use class="front" xlink:href="#front" x="0" y="0" width="75" height="100"/>
+</svg:g>

@@ -93,7 +93,7 @@ describe('Game', () => {
 
 		it('should initialize with default state', () => {
 			expect(game.state()).toBe(STATES.idle);
-			expect(game.mode).toBe(GAME_MODE_STANDARD);
+			expect(game.mode()).toBe(GAME_MODE_STANDARD);
 			expect(game.layoutID).toBeUndefined();
 		});
 
@@ -191,7 +191,7 @@ describe('Game', () => {
 			game.start(layout, 'MODE_SOLVABLE', GAME_MODE_STANDARD);
 
 			expect(game.layoutID).toBe('test');
-			expect(game.mode).toBe(GAME_MODE_STANDARD);
+			expect(game.mode()).toBe(GAME_MODE_STANDARD);
 			expect(mockBoard.applyMapping).toHaveBeenCalledWith(layout.mapping, 'MODE_SOLVABLE');
 			expect(mockBoard.update).toHaveBeenCalled();
 			expect(game.state()).toBe(STATES.run);
@@ -200,35 +200,35 @@ describe('Game', () => {
 
 	describe('game features', () => {
 		it('should provide hint in standard mode', () => {
-			game.mode = GAME_MODE_STANDARD;
+			game.mode.set(GAME_MODE_STANDARD);
 			game.hint();
 
 			expect(mockBoard.hint).toHaveBeenCalled();
 		});
 
 		it('should not provide hint in expert mode', () => {
-			game.mode = GAME_MODE_EXPERT;
+			game.mode.set(GAME_MODE_EXPERT);
 			game.hint();
 
 			expect(mockBoard.hint).not.toHaveBeenCalled();
 		});
 
 		it('should shuffle in easy mode', () => {
-			game.mode = GAME_MODE_EASY;
+			game.mode.set(GAME_MODE_EASY);
 			game.shuffle();
 
 			expect(mockBoard.shuffle).toHaveBeenCalled();
 		});
 
 		it('should not shuffle in standard mode', () => {
-			game.mode = GAME_MODE_STANDARD;
+			game.mode.set(GAME_MODE_STANDARD);
 			game.shuffle();
 
 			expect(mockBoard.shuffle).not.toHaveBeenCalled();
 		});
 
 		it('should undo in standard mode', () => {
-			game.mode = GAME_MODE_STANDARD;
+			game.mode.set(GAME_MODE_STANDARD);
 			game.state.set(STATES.run);
 			game.back();
 
@@ -236,7 +236,7 @@ describe('Game', () => {
 		});
 
 		it('should not undo in expert mode', () => {
-			game.mode = GAME_MODE_EXPERT;
+			game.mode.set(GAME_MODE_EXPERT);
 			game.state.set(STATES.run);
 			game.back();
 
@@ -300,7 +300,7 @@ describe('Game', () => {
 			const stone = makeRemovableStone();
 			mockSelectStone(stone);
 
-			game.mode = GAME_MODE_EASY;
+			game.mode.set(GAME_MODE_EASY);
 			game.state.set(STATES.run);
 			game.click(stone);
 
@@ -314,7 +314,7 @@ describe('Game', () => {
 			const stone = makeRemovableStone();
 			mockSelectStone(stone);
 
-			game.mode = GAME_MODE_STANDARD;
+			game.mode.set(GAME_MODE_STANDARD);
 			game.state.set(STATES.run);
 			game.click(stone);
 
@@ -326,7 +326,7 @@ describe('Game', () => {
 			const stone = makeRemovableStone();
 			mockSelectStone(stone);
 
-			game.mode = GAME_MODE_EXPERT;
+			game.mode.set(GAME_MODE_EXPERT);
 			game.state.set(STATES.run);
 			game.click(stone);
 
@@ -340,7 +340,7 @@ describe('Game', () => {
 			const stone2 = makeRemovableStone();
 			mockSelectStone(stone1);
 
-			game.mode = GAME_MODE_STANDARD;
+			game.mode.set(GAME_MODE_STANDARD);
 			game.state.set(STATES.run);
 			game.click(stone1);
 
@@ -355,7 +355,7 @@ describe('Game', () => {
 	describe('save and load', () => {
 		it('should save game state', () => {
 			game.layoutID = 'test';
-			game.mode = GAME_MODE_STANDARD;
+			game.mode.set(GAME_MODE_STANDARD);
 			game.state.set(STATES.pause);
 			mockClock.elapsed!.set(1000);
 
@@ -388,7 +388,7 @@ describe('Game', () => {
 			expect(result).toBe(true);
 			expect(mockClock.elapsed!()).toBe(1000);
 			expect(game.layoutID).toBe('test');
-			expect(game.mode).toBe(GAME_MODE_EASY);
+			expect(game.mode()).toBe(GAME_MODE_EASY);
 			expect(game.state()).toBe(STATES.pause);
 			expect(mockBoard.load).toHaveBeenCalledWith([], []);
 		});

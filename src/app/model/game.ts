@@ -18,7 +18,7 @@ export class Game {
 	readonly message = signal<{ messageID?: string; playTime?: number; askShuffle?: boolean } | undefined>(undefined);
 	onWin?: () => void;
 	layoutID?: string = undefined;
-	mode: GAME_MODE_ID = GAME_MODE_ID_DEFAULT;
+	readonly mode = signal<GAME_MODE_ID>(GAME_MODE_ID_DEFAULT);
 	private saveTimer?: ReturnType<typeof setTimeout>;
 	private matchesTimer?: ReturnType<typeof setTimeout>;
 
@@ -69,7 +69,7 @@ export class Game {
 		}
 		this.board.setStoneSelected(this.board.selected === stone ? undefined : stone);
 		this.sound.play(SOUNDS.SELECT);
-		if (this.board.selected && this.mode === GAME_MODE_EASY) {
+		if (this.board.selected && this.mode() === GAME_MODE_EASY) {
 			this.startMatchesHighlight(this.board.selected);
 		} else {
 			this.clearMatchesTimer();
@@ -141,14 +141,14 @@ export class Game {
 
 	start(layout: Layout, buildMode: BUILD_MODE_ID, gameMode: GAME_MODE_ID): void {
 		this.layoutID = layout.id;
-		this.mode = gameMode;
+		this.mode.set(gameMode);
 		this.board.applyMapping(layout.mapping, buildMode);
 		this.board.update();
 		this.run();
 	}
 
 	hint(): void {
-		if (this.mode === GAME_MODE_EXPERT) {
+		if (this.mode() === GAME_MODE_EXPERT) {
 			return;
 		}
 		this.board.hint();
@@ -156,7 +156,7 @@ export class Game {
 	}
 
 	shuffle(): void {
-		if (this.mode !== GAME_MODE_EASY) {
+		if (this.mode() !== GAME_MODE_EASY) {
 			return;
 		}
 		this.board.shuffle();
@@ -164,7 +164,7 @@ export class Game {
 	}
 
 	back(): void {
-		if (this.mode === GAME_MODE_EXPERT) {
+		if (this.mode() === GAME_MODE_EXPERT) {
 			return;
 		}
 		if (!this.isRunning()) {
@@ -181,7 +181,7 @@ export class Game {
 			if (store?.stones) {
 				this.clock.elapsed.set(store.elapsed ?? 0);
 				this.layoutID = store.layout;
-				this.mode = store.gameMode ?? GAME_MODE_ID_DEFAULT;
+				this.mode.set(store.gameMode ?? GAME_MODE_ID_DEFAULT);
 				this.board.buildMode = store.buildMode ?? MODE_SOLVABLE;
 				this.state.set(store.state ?? STATES.idle);
 				this.board.load(store.stones, store.undo ?? []);
@@ -202,7 +202,7 @@ export class Game {
 				elapsed: this.clock.elapsed(),
 				state: this.state(),
 				layout: this.layoutID,
-				gameMode: this.mode,
+				gameMode: this.mode(),
 				buildMode: this.board.buildMode,
 				undo: this.board.undo(),
 				stones: this.board.save()
@@ -234,7 +234,7 @@ export class Game {
 		if (this.board.count() < 2) {
 			this.gameOverWinning();
 		} else if (this.board.free().length === 0) {
-			if (this.mode === GAME_MODE_EASY && this.board.countUnblocked() > 1) {
+			if (this.mode() === GAME_MODE_EASY && this.board.countUnblocked() > 1) {
 				this.gameOverEasyMode();
 				return false;
 			}

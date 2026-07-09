@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject, output, signal } from '@angular/core';
+import { Component, computed, inject, output, signal } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import type { Board } from '../../model/board';
 import { SOUNDS, type Sound } from '../../model/sound';
@@ -9,7 +9,6 @@ import { BoardComponent } from '../board/board.component';
 
 @Component({
 	selector: 'app-tutorial',
-	changeDetection: ChangeDetectionStrategy.OnPush,
 	templateUrl: './tutorial.component.html',
 	styleUrls: ['./tutorial.component.scss'],
 	imports: [BoardComponent, TranslatePipe]

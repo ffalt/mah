@@ -1,0 +1,9 @@
+@for (indicator of indicators().gestureIndicators(); track indicator) {
+	<div
+		class="gesture-indicator"
+		[style.top.px]="indicator.top" [style.left.px]="indicator.left"
+		[style.width.px]="indicator.size" [style.height.px]="indicator.size"
+		[style.transform]="indicator.transform"
+		[class.visible]="indicator.state() === 'visible'"
+	></div>
+}

@@ -1,4 +1,4 @@
-import { Component, inject, output, signal, viewChild, ChangeDetectionStrategy } from '@angular/core';
+import { Component, inject, output, signal, viewChild } from '@angular/core';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { LayoutService } from '../../../../service/layout.service';
 import { LayoutComponent } from '../layout/layout.component';
@@ -13,7 +13,6 @@ import { DropZoneDirective } from '../../directives/drop-zone.directive';
 
 @Component({
 	selector: 'app-editor-component',
-	changeDetection: ChangeDetectionStrategy.OnPush,
 	templateUrl: './editor.component.html',
 	styleUrls: ['./editor.component.scss'],
 	imports: [DropZoneDirective, LayoutComponent, IconLogoComponent, ImportComponent, ManagerComponent, TranslatePipe, IconCloseComponent]

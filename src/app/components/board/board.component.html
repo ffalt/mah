@@ -1,8 +1,8 @@
 <svg
+	#boardSVG
 	xmlns="http://www.w3.org/2000/svg" class="board-svg" preserveAspectRatio="xMidYMid meet"
 	[class.rotate]="rotate()"
 	[attr.viewBox]="viewport()"
-	[style.transform]="transformSVG()"
 	(mouseup)="onMouseUp($event)"
 >
 	<defs>
@@ -281,57 +281,20 @@
 		}
 	</style>
 	<defs app-image-set-loader [imageSet]="imageSet()" [kyodaiUrl]="kyodaiUrl()" [dark]="app.settings.dark()" [prefix]="prefix"></defs>
-	<g class="stage" [attr.transform]="transformStage()" [class.dark]="app.settings.dark()" [class.contrast]="app.settings.contrast()" [class.tile3d]="app.settings.tile3d()">
-		@for (draw of drawStones; track draw.source.z + ':' + draw.source.x + ':' + draw.source.y) {
+	<g #stage class="stage" [class.dark]="app.settings.dark()" [class.contrast]="app.settings.contrast()" [class.tile3d]="app.settings.tile3d()">
+		@for (draw of drawStones; track draw.key) {
 			<g
+				app-board-tile
 				class="draw"
-				[class.selected]="draw.source.selected()"
-				[class.hidden]="draw.source.picked()"
-				[class.hinted]="draw.source.hinted()"
-				[class.matched]="draw.source.matched()"
-				[class.wiggle]="draw.source.wiggle()"
-				[attr.transform]="draw.pos.translate"
-				[attr.role]="!draw.source.picked() && !draw.source.state().blocked ? 'button' : null"
-				[attr.tabindex]="!draw.source.picked() && !draw.source.state().blocked ? 0 : null"
-				[attr.aria-label]="!draw.source.picked() && !draw.source.state().blocked ? tileLabel(draw) : null"
-				[attr.aria-pressed]="!draw.source.picked() && !draw.source.state().blocked ? draw.source.selected() : null"
+				[draw]="draw"
+				[imagePos]="imagePos"
+				[urlPrefix]="urlPrefix"
 				(mouseup)="onClickUp($event, draw)"
 				(touchend)="onTouchTileEnd($event, draw)"
 				(keydown.enter)="onKeyClick($event, draw)"
 				(keydown.space)="onKeyClick($event, draw)"
-			>
-				<g class="tile">
-					@if (draw.url) {
-						<title>{{ draw.url | translate }}</title>
-					}
-					@if (app.settings.tile3d()) {
-						<rect class="shadow" x="5" y="5" width="75" height="100" rx="10" ry="10"></rect>
-						<rect class="stone" x="0" y="0" width="75" height="100" rx="10" ry="10"></rect>
-						<rect class="bevel" x="1" y="1" width="73" height="98" rx="9" ry="9"></rect>
-					} @else {
-						<rect class="shadow" x="3" y="3" width="75" height="100" rx="10" ry="10"></rect>
-						<rect class="stone" x="0" y="0" width="75" height="100" rx="10" ry="10"></rect>
-					}
-					<use
-						[attr.xlink:href]="draw.url | prefix:urlPrefix"
-						[attr.x]="imagePos[0]"
-						[attr.y]="imagePos[1]"
-						[attr.width]="imagePos[2]"
-						[attr.height]="imagePos[3]"
-						clip-path="url(#mah-image-clip)"
-					/>
-					<use class="front" xlink:href="#front" x="0" y="0" width="75" height="100"/>
-				</g>
-			</g>
+			></g>
 		}
 	</g>
 </svg>
-@for (indicator of indicators.gestureIndicators(); track indicator) {
-	<div
-		class="gesture-indicator"
-		[style.top.px]="indicator.top" [style.left.px]="indicator.left"
-		[style.width.px]="indicator.size" [style.height.px]="indicator.size"
-		[style.transform]="indicator.transform"
-		[class.visible]="indicator.state() === 'visible'"
-	></div>
-}
+<app-gesture-indicators [indicators]="indicators"/>

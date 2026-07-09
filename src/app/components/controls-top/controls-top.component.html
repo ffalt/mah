@@ -1,0 +1,32 @@
+<div class="ctrl ctrl-name">
+	<button type="button" class="button" (click)="helpEvent.emit()" title="{{'OPEN_HELP' | translate}}">
+		<app-icon-logo/>
+		<span class="name">{{ app.name }}</span>
+	</button>
+</div>
+<div class="ctrl ctrl-game">
+	<button type="button" class="button" (click)="app.game.toggle()" title="{{'PAUSE_LONG' | translate}}" [attr.aria-pressed]="app.game.isPaused()">
+		<app-icon-pause/>
+		<span class="label">{{ 'PAUSE' | translate }}</span>
+	</button>
+	@if (gameModeEasy()) {
+		<button type="button" class="button" (click)="shuffleEvent.emit()" title="{{'SHUFFLE_LONG' | translate}}">
+			<app-icon-shuffle/>
+			<span class="label">{{ 'SHUFFLE' | translate }}</span>
+		</button>
+	}
+	@if (gameModeStandard()) {
+		<button type="button" class="button" (click)="undoEvent.emit()" title="{{'UNDO_LONG' | translate}}" [attr.disabled]="app.game.board.undo().length===0 ? true : null">
+			<app-icon-undo/>
+			<span class="label">{{ 'UNDO' | translate }}</span>
+		</button>
+		<button type="button" class="button" (click)="hintEvent.emit()" title="{{'HINT_LONG' | translate}}">
+			<app-icon-hint/>
+			<span class="label">{{ 'HINT' | translate }}</span>
+		</button>
+	}
+	<button type="button" class="button" (click)="newGameEvent.emit()" title="{{'RESTART_LONG' | translate}}">
+		<app-icon-restart/>
+		<span class="label">{{ 'RESTART' | translate }}</span>
+	</button>
+</div>

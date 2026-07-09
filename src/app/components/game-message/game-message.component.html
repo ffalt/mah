@@ -1,0 +1,39 @@
+<app-dialog (clickEvent)="messageEvent.emit(undefined)" [visible]="!!app.game.message()" className="overlay-message overlay-size-auto" [noCloseButton]="true">
+	@if (app.game.message(); as message) {
+		<div
+			class="overlay-message-message"
+			role="button"
+			tabindex="0"
+			(click)="messageEvent.emit($event)"
+			(keydown.enter)="messageEvent.emit($event)"
+			(keydown.space)="messageEvent.emit($event)"
+		>
+			@if (message.messageID) {
+				<div>{{ message.messageID | translate }}</div>
+			}
+			@if (message.playTime) {
+				<div>{{ message.playTime | duration }}</div>
+			}
+			@if (message.askShuffle) {
+				<div class="overlay-message-actions">
+					<button
+						type="button"
+						class="button"
+						(click)="shuffleEvent.emit($event)"
+					>
+						<app-icon-shuffle/>
+						<span class="label">{{ 'SHUFFLE' | translate }}</span>
+					</button>
+					<button
+						type="button"
+						class="button"
+						(click)="surrenderEvent.emit($event)"
+					>
+						<app-icon-restart/>
+						<span class="label">{{ 'RESTART' | translate }}</span>
+					</button>
+				</div>
+			}
+		</div>
+	}
+</app-dialog>

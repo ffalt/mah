@@ -1,4 +1,4 @@
-import { Component, ElementRef, type OnChanges, type SimpleChanges, inject, input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ElementRef, type OnChanges, type OnDestroy, type SimpleChanges, inject, input } from '@angular/core';
 import { SvgdefService } from '../../service/svgdef.service';
 import { log } from '../../model/log';
 import { TILES } from '../../model/consts';
@@ -6,19 +6,34 @@ import { svg_error_icon, svgSpinnerIcon } from './svg';
 
 @Component({
 	selector: '[app-image-set-loader]',
-	changeDetection: ChangeDetectionStrategy.OnPush,
 	template: '<svg:defs></svg:defs>'
 })
-export class ImageSetLoaderComponent implements OnChanges {
+export class ImageSetLoaderComponent implements OnChanges, OnDestroy {
 	readonly imageSet = input<string>();
 	readonly kyodaiUrl = input<string>();
 	readonly prefix = input<string>();
 	readonly dark = input<boolean>(false);
 	private readonly elementRef = inject(ElementRef);
 	private readonly svgDef = inject(SvgdefService);
+	private readonly loadingDelayMS: number = 100;
+	private currentDefs?: string;
+	private loadingTimer?: ReturnType<typeof setTimeout>;
+	private loadRequestId = 0;
 
 	ngOnChanges(_: SimpleChanges): void {
 		this.getImageSet();
+	}
+
+	ngOnDestroy(): void {
+		this.clearLoadingTimer();
+	}
+
+	private clearLoadingTimer(): void {
+		if (this.loadingTimer === undefined) {
+			return;
+		}
+		clearTimeout(this.loadingTimer);
+		this.loadingTimer = undefined;
 	}
 
 	private setLoading(): void {
@@ -54,21 +69,30 @@ export class ImageSetLoaderComponent implements OnChanges {
 	}
 
 	private setImageSet(svg: string): void {
-		// eslint-disable-next-line unicorn/prefer-dom-node-replace-children
-		this.elementRef.nativeElement.innerHTML = '';
 		const defs = this.prepareDefs(svg);
-		setTimeout(() => {
-			this.elementRef.nativeElement.innerHTML = defs;
-		}, 0);
+		if (defs === this.currentDefs) {
+			return;
+		}
+		this.currentDefs = defs;
+		this.elementRef.nativeElement.innerHTML = defs;
 	}
 
 	private loadImageSet(): void {
+		const requestId = ++this.loadRequestId;
 		const imageSet = this.imageSet() + (this.dark() ? '-black' : '');
 		this.svgDef.get(imageSet, this.kyodaiUrl())
 			.then(svg => {
+				if (requestId !== this.loadRequestId) {
+					return; // a newer request won the race
+				}
+				this.clearLoadingTimer();
 				this.setImageSet(svg);
 			})
 			.catch(error => {
+				if (requestId !== this.loadRequestId) {
+					return;
+				}
+				this.clearLoadingTimer();
 				this.setError();
 				log.error(error);
 			});
@@ -78,7 +102,12 @@ export class ImageSetLoaderComponent implements OnChanges {
 		if (!this.imageSet()) {
 			return;
 		}
-		this.setLoading();
-		setTimeout(() => this.loadImageSet(), 0);
+		// show the spinner tiles only when loading takes noticeably long; cached sets swap in a single DOM write
+		this.clearLoadingTimer();
+		this.loadingTimer = setTimeout(() => {
+			this.loadingTimer = undefined;
+			this.setLoading();
+		}, this.loadingDelayMS);
+		this.loadImageSet();
 	}
 }

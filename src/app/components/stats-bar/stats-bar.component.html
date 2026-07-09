@@ -1,0 +1,5 @@
+<span class="label text"><small>{{ 'STONES' | translate }}:</small> <span>{{ app.game.board.count() }}</span></span>
+<span class="label text"><small>{{ 'FREE' | translate }}:</small> <span>{{ app.game.board.free().length }}</span></span>
+@if (app.settings.showClock()) {
+	<app-clock class="time"/>
+}

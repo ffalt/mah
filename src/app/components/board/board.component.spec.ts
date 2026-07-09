@@ -94,6 +94,18 @@ describe('BoardComponent', () => {
 			expect(component.drawStones[0].source).toBe(testStones[0]);
 			expect(component.drawStones[1].source).toBe(testStones[1]);
 		});
+
+		it('should reuse tile elements for new stone instances at the same position', () => {
+			fixture.componentRef.setInput('stones', [makeTestStone()]);
+			fixture.detectChanges();
+			const element = fixture.nativeElement.querySelector(':scope g.draw');
+			expect(element).toBeTruthy();
+
+			// shuffle and new-game rebuild stones as new instances, positions stay
+			fixture.componentRef.setInput('stones', [makeTestStone()]);
+			fixture.detectChanges();
+			expect(fixture.nativeElement.querySelector(':scope g.draw')).toBe(element);
+		});
 	});
 
 	describe('Output events', () => {
@@ -179,11 +191,12 @@ describe('BoardComponent', () => {
 	});
 
 	describe('Transformation and scaling', () => {
-		it('should update transformSVG when zooming', () => {
-			const initialTransform = component.transformSVG();
+		it('should update the svg transform when zooming', () => {
+			const svg = fixture.nativeElement.querySelector('svg.board-svg') as SVGSVGElement;
+			const initialTransform = svg.style.transform;
 			component.zoomSVGValue(1.5, 100, 100);
 			flushAnimationFrames();
-			expect(component.transformSVG()).not.toBe(initialTransform);
+			expect(svg.style.transform).not.toBe(initialTransform);
 			expect(component.scale).toBe(1.5);
 		});
 

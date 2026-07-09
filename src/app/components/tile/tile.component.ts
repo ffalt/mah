@@ -1,10 +1,9 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import { ImageSetLoaderComponent } from '../image-set-loader/image-set-loader.component';
 
 @Component({
 	selector: 'app-tile',
-	changeDetection: ChangeDetectionStrategy.OnPush,
 	templateUrl: './tile.component.html',
 	styleUrls: ['./tile.component.scss'],
 	imports: [ImageSetLoaderComponent, TranslatePipe]

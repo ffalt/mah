@@ -1,4 +1,5 @@
 import { signal, type WritableSignal } from '@angular/core';
+import { Subject } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
 import { AppService } from './app.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -12,7 +13,7 @@ import { Mock, describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
 
 describe('AppService', () => {
 	let service: AppService;
-	let translateService: { use: Mock; setTranslation: Mock; setFallbackLang: Mock };
+	let translateService: { use: Mock; setTranslation: Mock; setFallbackLang: Mock; onLangChange: Subject<{ lang: string }> };
 	let mockGame: {
 		init: Mock;
 		destroy: Mock;
@@ -33,7 +34,8 @@ describe('AppService', () => {
 		translateService = {
 			use: vi.fn(),
 			setTranslation: vi.fn(),
-			setFallbackLang: vi.fn()
+			setFallbackLang: vi.fn(),
+			onLangChange: new Subject<{ lang: string }>()
 		};
 
 		mockStorage = {};

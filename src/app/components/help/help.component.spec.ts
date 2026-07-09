@@ -177,7 +177,7 @@ describe('HelpComponent', () => {
 				}]
 			};
 			const mockResult: LayoutScoreStore = { winCount: 1, loseCount: 1, bestTime: 100, playTime: 200 };
-			vi.spyOn(localstorageService, 'getScore').mockReturnValue(mockResult);
+			vi.spyOn(localstorageService, 'getScores').mockReturnValue(new Map([['test-layout', mockResult]]));
 
 			component.ngOnInit();
 			fixture.detectChanges();

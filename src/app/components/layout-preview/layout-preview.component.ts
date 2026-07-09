@@ -1,9 +1,9 @@
-import { ChangeDetectionStrategy, Component, type OnChanges, type SimpleChanges, input, model } from '@angular/core';
+import { Component, type OnChanges, type SimpleChanges, inject, input, model } from '@angular/core';
 import type { Layout, SafeUrlSVG } from '../../model/types';
+import { LayoutService } from '../../service/layout.service';
 
 @Component({
 	selector: 'app-layout-preview',
-	changeDetection: ChangeDetectionStrategy.OnPush,
 	templateUrl: './layout-preview.component.html',
 	styleUrls: ['./layout-preview.component.scss']
 })
@@ -12,6 +12,8 @@ export class LayoutPreviewComponent implements OnChanges {
 	readonly svg = model<SafeUrlSVG>();
 	readonly alt = input<string>();
 
+	private readonly layoutService = inject(LayoutService);
+
 	ngOnChanges(changes: SimpleChanges): void {
 		if (changes.layout) {
 			this.updateLayout(changes.layout.currentValue);
@@ -19,6 +21,6 @@ export class LayoutPreviewComponent implements OnChanges {
 	}
 
 	private updateLayout(layout?: Layout): void {
-		this.svg.set(layout?.previewSVG);
+		this.svg.set(layout ? this.layoutService.getPreview(layout) : undefined);
 	}
 }

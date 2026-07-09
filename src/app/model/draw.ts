@@ -18,6 +18,8 @@ export interface Draw {
 	v: number;
 	pos: DrawPos;
 	visible: boolean;
+	// stable position key, precomputed so @for tracking allocates no strings per diff
+	key?: string;
 	url?: string;
 	className?: string;
 	source: Stone;

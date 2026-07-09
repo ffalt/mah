@@ -72,6 +72,7 @@ export class Indicator {
 		indicator.size = size;
 		indicator.top = indicator.y - (size / 2);
 		indicator.left = indicator.x - (size / 2);
+		this.gestureIndicators.update(list => [...list]);
 	}
 
 	display(x: number, y: number, size: number): GestureIndicator | undefined {

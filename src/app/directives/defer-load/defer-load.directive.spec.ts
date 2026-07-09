@@ -1,14 +1,13 @@
-import { ChangeDetectionStrategy, Component, EventEmitter } from '@angular/core';
+import { Component, EventEmitter } from '@angular/core';
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { DeferLoadDirective } from './defer-load.directive';
 import { DeferLoadService, type ScrollNotifyEvent } from './defer-load.service';
 import { Rect } from './rect';
-import { describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
+import { Mock, describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
 
 @Component({
 	template: `
 		<div appDeferLoad (appDeferLoad)="onLoad()" [preRender]="preRender"></div>`,
-	changeDetection: ChangeDetectionStrategy.OnPush,
 	imports: [DeferLoadDirective]
 })
 class TestHostComponent {
@@ -20,20 +19,14 @@ class TestHostComponent {
 	}
 }
 
-const mockObserver = {
-	observe: vi.fn(),
-	unobserve: vi.fn(),
-	disconnect: vi.fn()
-};
-
 function makeMockService(overrides: Partial<DeferLoadService> = {}): Partial<DeferLoadService> {
 	return {
 		isBrowser: false,
 		hasIntersectionObserver: false,
-		observeNotify: new EventEmitter<Array<IntersectionObserverEntry>>(),
 		scrollNotify: new EventEmitter<ScrollNotifyEvent>(),
 		currentViewport: new Rect(0, 0, 1024, 768),
-		getObserver: vi.fn().mockReturnValue(mockObserver),
+		observe: vi.fn(),
+		unobserve: vi.fn(),
 		...overrides
 	};
 }
@@ -89,52 +82,42 @@ describe('DeferLoadDirective', () => {
 			configure({ isBrowser: true, hasIntersectionObserver: true });
 		});
 
-		it('should register element with the intersection observer', () => {
+		function intersectionCallback(): { element: Element; callback: (entry: IntersectionObserverEntry) => void } {
+			const [element, callback] = (mockService.observe as Mock).mock.calls[0] as [Element, (entry: IntersectionObserverEntry) => void];
+			return { element, callback };
+		}
+
+		it('should register the element with the service', () => {
 			fixture.detectChanges();
-			expect(mockObserver.observe).toHaveBeenCalled();
+			expect(mockService.observe).toHaveBeenCalledWith(fixture.nativeElement.querySelector('div'), expect.any(Function));
 		});
 
 		it('should emit after 20ms delay when element is intersecting', () => {
 			fixture.detectChanges();
-			const target = fixture.nativeElement.querySelector('div');
-			const entries = [{ time: 1, isIntersecting: true, target }] as unknown as Array<IntersectionObserverEntry>;
-			(mockService.observeNotify as EventEmitter<Array<IntersectionObserverEntry>>).emit(entries);
+			const { element, callback } = intersectionCallback();
+			callback({ time: 1, isIntersecting: true, target: element } as unknown as IntersectionObserverEntry);
 			expect(component.loadCount).toBe(0);
 			vi.advanceTimersByTime(20);
 			expect(component.loadCount).toBe(1);
 		});
 
-		it('should not emit when entry is for a different element', () => {
-			fixture.detectChanges();
-			const entries = [{ time: 1, isIntersecting: true, target: document.createElement('div') }] as unknown as Array<IntersectionObserverEntry>;
-			(mockService.observeNotify as EventEmitter<Array<IntersectionObserverEntry>>).emit(entries);
-			vi.advanceTimersByTime(20);
-			expect(component.loadCount).toBe(0);
-		});
-
 		it('should cancel load if element leaves viewport before delay elapses', () => {
 			fixture.detectChanges();
-			const target = fixture.nativeElement.querySelector('div');
+			const { element, callback } = intersectionCallback();
 			// Enter viewport
-			(mockService.observeNotify as EventEmitter<Array<IntersectionObserverEntry>>).emit(
-				[{ time: 1, isIntersecting: true, target }] as unknown as Array<IntersectionObserverEntry>
-			);
+			callback({ time: 1, isIntersecting: true, target: element } as unknown as IntersectionObserverEntry);
 			// Leave before 20ms
-			(mockService.observeNotify as EventEmitter<Array<IntersectionObserverEntry>>).emit(
-				[{ time: 2, isIntersecting: false, target }] as unknown as Array<IntersectionObserverEntry>
-			);
+			callback({ time: 2, isIntersecting: false, target: element } as unknown as IntersectionObserverEntry);
 			vi.advanceTimersByTime(20);
 			expect(component.loadCount).toBe(0);
 		});
 
 		it('should unobserve element after loading', () => {
 			fixture.detectChanges();
-			const target = fixture.nativeElement.querySelector('div');
-			(mockService.observeNotify as EventEmitter<Array<IntersectionObserverEntry>>).emit(
-				[{ time: 1, isIntersecting: true, target }] as unknown as Array<IntersectionObserverEntry>
-			);
+			const { element, callback } = intersectionCallback();
+			callback({ time: 1, isIntersecting: true, target: element } as unknown as IntersectionObserverEntry);
 			vi.advanceTimersByTime(20);
-			expect(mockObserver.unobserve).toHaveBeenCalled();
+			expect(mockService.unobserve).toHaveBeenCalledWith(element);
 		});
 	});
 
@@ -167,7 +150,7 @@ describe('DeferLoadDirective', () => {
 			configure({ isBrowser: true, hasIntersectionObserver: true });
 			fixture.detectChanges();
 			fixture.destroy();
-			expect(mockObserver.unobserve).toHaveBeenCalled();
+			expect(mockService.unobserve).toHaveBeenCalled();
 		});
 	});
 });
