@@ -5,6 +5,7 @@ import { createStatsSolveWorker } from '../worker/create-stats-solve.worker';
 import type { StonePosition } from '../model/stone';
 import { createSolveWorker } from '../worker/create-solve.worker';
 import { fromEvent, filter, map, share, take, takeUntil } from 'rxjs';
+import { log } from '../model/log';
 
 interface SolveGameResult {
 	result: number;
@@ -24,8 +25,8 @@ interface StatsMessage {
 export class WorkerService {
 	solveGame(stones: Array<StonePosition>, finish: (data: SolveGameResult) => void): Worker | undefined {
 		if (typeof Worker !== 'undefined') {
-			const worker = createSolveWorker();
-			if (worker) {
+			try {
+				const worker = createSolveWorker();
 				const messages$ = fromEvent<MessageEvent<SolveGameMessage>>(worker, 'message').pipe(
 					map(event => event.data),
 					share()
@@ -50,6 +51,9 @@ export class WorkerService {
 
 				worker.postMessage({ stones });
 				return worker;
+			} catch (error) {
+				// worker creation can throw under a CSP/webview that blocks module workers; degrade to the main thread
+				log.warn('solve worker creation failed, using synchronous fallback:', error);
 			}
 		}
 		// Web Workers not supported or worker creation failed - use synchronous fallback
@@ -59,8 +63,8 @@ export class WorkerService {
 
 	solve(mapping: Mapping, rounds: number, callback: (progress: Array<number>) => void, finish: (result: Array<number>) => void): Worker | undefined {
 		if (typeof Worker !== 'undefined') {
-			const worker = createStatsSolveWorker();
-			if (worker) {
+			try {
+				const worker = createStatsSolveWorker();
 				const messages$ = fromEvent<MessageEvent<StatsMessage>>(worker, 'message').pipe(
 					map(event => event.data),
 					share()
@@ -94,6 +98,9 @@ export class WorkerService {
 
 				worker.postMessage({ mapping, rounds });
 				return worker;
+			} catch (error) {
+				// worker creation can throw under a CSP/webview that blocks module workers; degrade to the main thread
+				log.warn('stats solve worker creation failed, using synchronous fallback:', error);
 			}
 		}
 		// Web Workers not supported or worker creation failed - use synchronous fallback
