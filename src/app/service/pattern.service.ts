@@ -221,9 +221,10 @@ export class PatternService {
 
 	svgBackground(json: string, colors: Array<string>): string {
 		const pattern = JSON.parse(json);
-
-		const svg = svgPattern(pattern.path, pattern.width, pattern.height, pattern.vHeight ?? 0, pattern.path.length + 1,
-			pattern.mode, ['', ...colors], colors.length + 1, 1, 1, pattern.spacing ?? [0, 0], 0, 1, 0, 0);
+		const maxColors = pattern.path.length + 1;
+		const colorCounts = Math.min(colors.length + 1, maxColors);
+		const svg = svgPattern(pattern.path, pattern.width, pattern.height, pattern.vHeight ?? 0, maxColors,
+			pattern.mode, ['', ...colors], colorCounts, 1, 1, pattern.spacing ?? [0, 0], 0, 1, 0, 0);
 		return encodeCSSSVG(svg);
 	}
 }
