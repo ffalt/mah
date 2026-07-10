@@ -1,5 +1,5 @@
 import type { Mapping } from '../types';
-import type { Tile, Tiles } from '../tiles';
+import type { Tiles } from '../tiles';
 import { type Stone, safeGetStone } from '../stone';
 import { randomExtract, shuffledCopy } from '../array-utilities';
 
@@ -70,9 +70,5 @@ export abstract class BuilderBase implements BuilderType {
 			}
 		}
 		return stones;
-	}
-
-	getTilesInGame(tiles: Tiles, _amount: number): Array<Tile> {
-		return tiles.list.filter((tile: Tile) => tile !== undefined);
 	}
 }

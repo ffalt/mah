@@ -101,6 +101,21 @@ describe('RandomBoardBuilder', () => {
 			expect(stones).toHaveLength(144);
 		});
 
+		it('should place every tile group an even number of times so all stones are matchable', () => {
+			// A sub-144 board: drawing single tiles could leave a group with an odd (unmatchable) count.
+			const mapping: Mapping = Array.from({ length: 30 }, (_, index) => [0, index * 2, 0] as [number, number, number]);
+			const tiles = new Tiles(30);
+			const stones = builder.build(mapping, tiles);
+			expect(stones).toHaveLength(30);
+			const counts: Record<number, number> = {};
+			for (const stone of stones) {
+				counts[stone.groupNr] = (counts[stone.groupNr] ?? 0) + 1;
+			}
+			for (const count of Object.values(counts)) {
+				expect(count % 2).toBe(0);
+			}
+		});
+
 		it('should produce different tile assignments on repeated calls', () => {
 			const mapping: Mapping = Array.from({ length: 16 }, (_, index) => [0, index * 2, 0] as [number, number, number]);
 			let differs = false;

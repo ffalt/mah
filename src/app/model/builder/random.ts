@@ -1,7 +1,8 @@
 import type { Mapping } from '../types';
-import type { Tiles } from '../tiles';
+import type { Tile, Tiles } from '../tiles';
 import { Stone } from '../stone';
 import { BuilderBase } from './base';
+import { shuffledCopy } from '../array-utilities';
 
 const MAX_REROLL_ATTEMPTS = 50;
 
@@ -15,6 +16,21 @@ export class RandomBoardBuilder extends BuilderBase {
 			stones = this.buildOnce(mapping, tiles);
 		}
 		return stones;
+	}
+
+	getTilesInGame(tiles: Tiles, amount: number): Array<Tile> {
+		// Draw complete pairs so every group placed on the board has an even tile count
+		const need = Math.floor(amount / 2) * 2;
+		const result: Array<Tile> = [];
+		for (const group of shuffledCopy(tiles.groups)) {
+			for (let index = 0; index + 1 < group.tiles.length && result.length < need; index += 2) {
+				result.push(group.tiles[index], group.tiles[index + 1]);
+			}
+			if (result.length >= need) {
+				break;
+			}
+		}
+		return result;
 	}
 
 	private buildOnce(mapping: Mapping, tiles: Tiles): Array<Stone> {
