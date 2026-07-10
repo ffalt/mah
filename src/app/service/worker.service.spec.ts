@@ -16,7 +16,8 @@ const mockFactories = {
 	createStatsSolveWorker: vi.spyOn(workerFactoryStats, 'createStatsSolveWorker') as unknown as Mock
 };
 
-class FakeWorker {}
+class FakeWorker {
+}
 
 class MockWorker extends EventTarget {
 	postMessage = vi.fn();
@@ -139,7 +140,7 @@ describe('WorkerService', () => {
 
 	describe('solve', () => {
 		it('should call fallback when Worker is not available', () => {
-			const mapping: Mapping = [[0, 0, 0]];
+			const mapping: Mapping = [[0, 0, 0], [2, 2, 2]];
 			const rounds = 10;
 			const callback = vi.fn();
 			const finish = vi.fn();
@@ -154,7 +155,7 @@ describe('WorkerService', () => {
 		});
 
 		it('should return undefined and call fallback when worker creation fails', () => {
-			const mapping: Mapping = [[0, 0, 0]];
+			const mapping: Mapping = [[0, 0, 0], [2, 2, 2]];
 			const rounds = 10;
 			const callback = vi.fn();
 			const finish = vi.fn();
@@ -170,7 +171,7 @@ describe('WorkerService', () => {
 		});
 
 		it('should return worker, call callback on progress, and call finish when result is received', () => {
-			const mapping: Mapping = [[0, 0, 0]];
+			const mapping: Mapping = [[0, 0, 0], [2, 2, 2]];
 			const rounds = 10;
 			const callback = vi.fn();
 			const finish = vi.fn();
@@ -221,7 +222,7 @@ describe('WorkerService', () => {
 		});
 
 		it('should call fallback and terminate on worker error', () => {
-			const mapping: Mapping = [[0, 0, 0]];
+			const mapping: Mapping = [[0, 0, 0], [2, 2, 2]];
 			const rounds = 10;
 			const callback = vi.fn();
 			const finish = vi.fn();
