@@ -62,6 +62,10 @@ export class WorkerService {
 	}
 
 	solve(mapping: Mapping, rounds: number, callback: (progress: Array<number>) => void, finish: (result: Array<number>) => void): Worker | undefined {
+		if (mapping.length === 0 || mapping.length % 2 !== 0) {
+			finish([0, rounds]);
+			return undefined;
+		}
 		if (typeof Worker !== 'undefined') {
 			try {
 				const worker = createStatsSolveWorker();
