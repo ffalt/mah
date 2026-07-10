@@ -296,6 +296,15 @@ describe('BoardComponent', () => {
 			expect(clickSpy).toHaveBeenCalledWith(undefined);
 		});
 
+		it('should detach the mousemove listener when a tile is tapped while zoomed', () => {
+			component.scale = 1.5;
+			component.panZoom.isPanning = false;
+			const removeSpy = vi.spyOn(component.element.nativeElement, 'removeEventListener');
+			component.onMouseDown(new MouseEvent('mousedown', { clientX: 100, clientY: 100 }));
+			component.onClickUp(new MouseEvent('mouseup'), component.drawStones[0]);
+			expect(removeSpy).toHaveBeenCalledWith('mousemove', expect.any(Function));
+		});
+
 		it('should handle resize events', () => {
 			const resizeSpy = vi.spyOn(component as unknown as HackBoardComponent, 'resize');
 			const resizeEvent = new Event('resize');

@@ -171,6 +171,7 @@ export class BoardComponent implements OnInit, OnChanges, AfterViewInit {
 	}
 
 	onClickUp(event: MouseEvent, draw?: Draw): void {
+		this.detachMouseMoveListener();
 		this.panZoom.initialMouseX = 0;
 		this.panZoom.initialMouseY = 0;
 		if (this.panZoom.isPanning) {
