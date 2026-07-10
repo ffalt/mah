@@ -132,6 +132,15 @@ describe('BoardComponent', () => {
 
 			expect(clickSpy).toHaveBeenCalledWith(undefined);
 		});
+
+		it('should emit the empty-area click once', () => {
+			const clickSpy = vi.spyOn(component.clickEvent, 'emit');
+			const svg = fixture.nativeElement.querySelector('svg.board-svg') as SVGSVGElement;
+
+			svg.dispatchEvent(new MouseEvent('mouseup', { bubbles: true }));
+
+			expect(clickSpy).toHaveBeenCalledTimes(1);
+		});
 	});
 
 	describe('Rendering', () => {
