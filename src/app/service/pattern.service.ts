@@ -185,7 +185,7 @@ function svgPattern(
 		const strokeFill = mode === 'stroke-join' || mode === 'stroke' ?
 			` stroke='${color}' fill='none'` :
 			` stroke='none' fill='${color}'`;
-		const transform = spacing[0] / 2 === 0 ? '' : ` transform='translate(${spacing[0] / 2},${vHeight})'`;
+		const transform = spacing[0] / 2 === 0 ? '' : ` transform='translate(${spacing[0] / 2},${vHeight})' `;
 		return `<path d='${paths[index]}' stroke-width='${stroke}'${strokeFill} ${transform}${joinMode}/>`;
 	}
 
