@@ -54,7 +54,7 @@ describe('Settings', () => {
 				dark: true,
 				tile3d: true,
 				background: 'test-background',
-				theme: 'test-theme',
+				theme: 'dkblue',
 				tileset: 'test-tileset',
 				kyodaiUrl: 'test-url'
 			};
@@ -71,7 +71,7 @@ describe('Settings', () => {
 			expect(settings.dark()).toBe(true);
 			expect(settings.tile3d()).toBe(true);
 			expect(settings.background()).toBe('test-background');
-			expect(settings.theme()).toBe('test-theme');
+			expect(settings.theme()).toBe('dkblue');
 			expect(settings.tileset()).toBe('test-tileset');
 			expect(settings.kyodaiUrl()).toBe('test-url');
 		});
@@ -88,6 +88,17 @@ describe('Settings', () => {
 			expect(settings.tileset()).toBe(ImageSetDefault);
 			expect(settings.theme()).toBe(ThemeDefault);
 			expect(settings.background()).toBe('test-background');
+		});
+
+		it('should fall back to default theme if saved theme does not exist', () => {
+			(mockStorageProvider.getSettings as Mock).mockReturnValue({
+				theme: 'nonexistent-theme'
+			});
+
+			const result = settings.load();
+
+			expect(result).toBe(true);
+			expect(settings.theme()).toBe(ThemeDefault);
 		});
 
 		it('should handle load failure', () => {

@@ -1,5 +1,5 @@
 import { signal } from '@angular/core';
-import { ImageSetDefault, LangDefault, ThemeDefault } from './consts';
+import { ImageSetDefault, LangDefault, ThemeDefault, Themes } from './consts';
 import type { SettingsStore, StorageProvider } from './types';
 
 export class Settings {
@@ -33,7 +33,7 @@ export class Settings {
 				this.tileset.set(store.tileset ?? ImageSetDefault);
 				this.background.set(store.background ?? this.background());
 				this.pattern.set(store.pattern);
-				this.theme.set(store.theme ?? ThemeDefault);
+				this.theme.set(this.validTheme(store.theme) ? store.theme : ThemeDefault);
 				this.contrast.set(store.contrast ?? false);
 				this.dark.set(store.dark ?? false);
 				this.tile3d.set(store.tile3d ?? false);
@@ -49,6 +49,10 @@ export class Settings {
 			console.error('load settings failed', error);
 		}
 		return false;
+	}
+
+	validTheme(theme?: string): boolean {
+		return !!(theme && Themes.some(t => t.id === theme));
 	}
 
 	save(): boolean {
