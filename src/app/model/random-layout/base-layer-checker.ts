@@ -25,16 +25,16 @@ function punchHoles(base: Set<string>, baseZ: number, xs: Array<number>, ys: Arr
 		if (!base.has(k)) {
 			continue;
 		}
-		// 50% chance to remove small 2x1 or 1x2 block to create bigger gaps (now using 1-step grid)
+		// 50% chance to also remove the neighboring cell to create bigger gaps
 		const orient = rng() < 0.5 ? 'h' : 'v';
 		const removed: Array<string> = [k];
 		if (orient === 'h') {
-			if (x + 1 <= xs.at(-1)!) {
-				removed.push(key(baseZ, x + 1, y));
+			if (x + 2 <= xs.at(-1)!) {
+				removed.push(key(baseZ, x + 2, y));
 			}
 		} else {
-			if (y + 1 <= ys.at(-1)!) {
-				removed.push(key(baseZ, x, y + 1));
+			if (y + 2 <= ys.at(-1)!) {
+				removed.push(key(baseZ, x, y + 2));
 			}
 		}
 		let any = false;
