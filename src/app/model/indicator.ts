@@ -69,6 +69,9 @@ export class Indicator {
 
 	setSize(nr: number, size: number): void {
 		const indicator = this.gestureIndicators()[nr];
+		if (!indicator) {
+			return;
+		}
 		indicator.size = size;
 		indicator.top = indicator.y - (size / 2);
 		indicator.left = indicator.x - (size / 2);
