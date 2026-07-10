@@ -17,10 +17,10 @@
 	},
 	"private": true,
 	"dependencies": {
-		"@tauri-apps/api": "2.11.0",
+		"@tauri-apps/api": "2.11.1",
 		"@tauri-apps/plugin-opener": "2.5.4"
 	},
 	"devDependencies": {
-		"@tauri-apps/cli": "2.11.2"
+		"@tauri-apps/cli": "2.11.4"
 	}
 }
