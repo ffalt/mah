@@ -7,6 +7,7 @@ import { log } from './model/log';
 import type { LoadLayout } from './model/types';
 import { parseImportString } from './model/import';
 import { GameComponent } from './components/game/game-component.component';
+import { isFormControlTarget } from './model/dom-utilities';
 
 type onWindowBlur = (callback: () => void) => void;
 
@@ -54,12 +55,7 @@ export class AppComponent implements OnInit {
 		if (!environment.editor || event.key !== 'e') {
 			return false;
 		}
-		const target = event.target;
-		if (!target) {
-			return false;
-		}
-		const nodeName = target instanceof Element ? target.nodeName.toLowerCase() : '';
-		if (nodeName === 'input') {
+		if (isFormControlTarget(event.target)) {
 			return false;
 		}
 		this.toggleEditor();

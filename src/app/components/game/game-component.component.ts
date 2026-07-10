@@ -4,6 +4,7 @@ import type { Stone } from '../../model/stone';
 import type { Layout, Place } from '../../model/types';
 import { AppService } from '../../service/app.service';
 import { log } from '../../model/log';
+import { isFormControlTarget } from '../../model/dom-utilities';
 import type { BUILD_MODE_ID } from '../../model/builder';
 import type { GAME_MODE_ID } from '../../model/consts';
 import { environment } from '../../../environments/environment';
@@ -234,9 +235,7 @@ export class GameComponent {
 		if (event.key === 'Escape' && this.handleKeyDownDialogExit()) {
 			return;
 		}
-		const target = event.target;
-		const nodeName = target instanceof Element ? target.nodeName.toLowerCase() : '';
-		if (nodeName === 'input' || nodeName === 'button') {
+		if (isFormControlTarget(event.target)) {
 			return;
 		}
 		if (this.handleKeyDownEventKey(event.key)) {
