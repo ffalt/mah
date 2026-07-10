@@ -226,8 +226,7 @@ export class Game {
 	surrender(): void {
 		this.storeLostGame();
 		this.sound.play(SOUNDS.OVER);
-		this.setState(STATES.idle);
-		this.clock.reset();
+		this.gameOver();
 	}
 
 	checkGameState(): boolean {
@@ -344,7 +343,8 @@ export class Game {
 	private gameOver(message?: string, playTime?: number): void {
 		this.setState(STATES.idle, message, playTime);
 		this.clock.reset();
-		this.delayedSave();
+		this.clearSaveTimer();
+		this.save();
 	}
 
 	private setState(state: number, messageID?: string, playTime?: number): void {
