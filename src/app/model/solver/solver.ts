@@ -29,6 +29,7 @@ export class Solver {
 	maxDepth: number = 10;
 
 	solveLayout(stones: Array<StonePosition>): number {
+		this.tileList = [];
 		// clear layout pointers
 		for (let row = 0; row < this.maxHeight; row++) {
 			this.lo[row] = [];
