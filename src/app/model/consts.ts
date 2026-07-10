@@ -106,7 +106,7 @@ export const ImageSets: Array<{ id: string; type: 'SVG' | 'PNG'; name: string; l
 ];
 
 export const ImageSetDefault = 'riichi';
-export const ThemeDefault = 'sage';
+export const ThemeDefault = 'ltgreen';
 export const LangAuto = 'auto';
 export const LangDefault = 'auto';
 
