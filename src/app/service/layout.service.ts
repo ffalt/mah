@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Service } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { firstValueFrom, catchError, of } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { expandMapping, mappingToID } from '../model/mapping';
 import { generateBase64SVG } from '../model/layout-svg';
 import type { CompactMapping, Layout, Layouts, LoadLayout, Mapping, SafeUrlSVG } from '../model/types';
@@ -33,8 +33,9 @@ export class LayoutService {
 			return this.layouts;
 		}
 		const items: Array<Layout> = [];
-		const loadLayouts: Array<LoadLayout> = await this.requestBoards();
-		for (const o of loadLayouts) {
+		const loadLayouts: Array<LoadLayout> | undefined = await this.requestBoards();
+		const builtInLayouts: Array<LoadLayout> = loadLayouts ?? [];
+		for (const o of builtInLayouts) {
 			const layout = this.expandLayout(o);
 			if (layout) {
 				items.push(layout);
@@ -48,7 +49,8 @@ export class LayoutService {
 			}
 		}
 		this.layouts = { items };
-		this.loaded = true;
+		// only cache as loaded when the built-in boards were actually fetched; a failed request must be retried on the next get()
+		this.loaded = loadLayouts !== undefined;
 		return this.layouts;
 	}
 
@@ -94,19 +96,12 @@ export class LayoutService {
 		return this.sanitizer.bypassSecurityTrustUrl(generateBase64SVG(mapping)) as SafeUrlSVG;
 	}
 
-	private async requestBoards(): Promise<Array<LoadLayout>> {
+	private async requestBoards(): Promise<Array<LoadLayout> | undefined> {
 		try {
-			return await firstValueFrom(
-				this.http.get<Array<LoadLayout>>('assets/data/boards.json').pipe(
-					catchError((error: unknown) => {
-						log.error('Failed to load boards.json:', error);
-						return of([]);
-					})
-				)
-			);
+			return await firstValueFrom(this.http.get<Array<LoadLayout>>('assets/data/boards.json'));
 		} catch (error) {
-			log.error('Critical error loading boards:', error);
-			return [];
+			log.error('Failed to load boards.json:', error);
+			return undefined;
 		}
 	}
 }

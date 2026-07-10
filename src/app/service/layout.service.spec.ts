@@ -165,9 +165,16 @@ describe('LayoutService', () => {
 			expect(result.items).toHaveLength(1);
 			expect(result.items[0].id).toBe('custom1');
 			expect(result.items[0].custom).toBe(true);
-			expect(service.loaded).toBe(true);
+			// a failed request must NOT be cached as loaded, so the next get() retries
+			expect(service.loaded).toBe(false);
 			expect(consoleErrorSpy).toHaveBeenCalled();
 			expect(mockLocalstorageService.getCustomLayouts).toHaveBeenCalled();
+
+			// Retry: the built-in boards become available once the request succeeds
+			mockHttpClient.get.mockReturnValue(of([{ id: 'server1', name: 'Server 1', cat: 'Category 1', map: [[0, [[0, 0]]]] }]));
+			const retry = await service.get();
+			expect(retry.items.some(l => l.id === 'server1')).toBe(true);
+			expect(service.loaded).toBe(true);
 		});
 	});
 
