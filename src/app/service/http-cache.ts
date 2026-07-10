@@ -13,7 +13,7 @@ export class HttpCache {
 	async get(url: string): Promise<string> {
 		let item = this.cache[url];
 		if (item) {
-			if (item.data) {
+			if (item.data !== undefined) {
 				return item.data;
 			}
 			if (item.request !== undefined) {
