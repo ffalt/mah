@@ -1,6 +1,6 @@
 FROM nginx:alpine
 
-ARG MAH_VERSION=1.19.3
+ARG MAH_VERSION=1.20.0
 
 SHELL ["/bin/ash", "-o", "pipefail", "-c"]
 

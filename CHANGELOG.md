@@ -2,6 +2,35 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [1.20.0](https://github.com/ffalt/mah/compare/v1.19.3...v1.20.0) (2026-07-10)
+
+
+### Features
+
+* **performance:** enhance rendering and loading ([daf17dd](https://github.com/ffalt/mah/commit/daf17ddba1e4800685047b8165f03c9872e9960b))
+* **performance:** remove zone.js ([b5d9a6f](https://github.com/ffalt/mah/commit/b5d9a6f58d2fe45095b1ddd42e6374889a6499a7))
+
+
+### Bug Fixes
+
+* **base-layer-checker:** adjust gap creation logic for larger block removals ([ba20795](https://github.com/ffalt/mah/commit/ba20795e0cdd8076bada3e80d6b8346abfeea367))
+* **board:** detach mousemove listener on tile tap while zoomed ([5fc863d](https://github.com/ffalt/mah/commit/5fc863da9c5a70160349b476b8a04a789ddeaf26))
+* **board:** remove duplicate click event om empty area ([8017dcc](https://github.com/ffalt/mah/commit/8017dcc3af855892eb582bf25516d6c42778dc68))
+* **game:** savE immediately after game over (not delayed) ([595ce49](https://github.com/ffalt/mah/commit/595ce4952066586134381c7d24ce236ca910168d))
+* **http-cache:** ensure data check is strict for cached items ([362419f](https://github.com/ffalt/mah/commit/362419fd0bafe462cf7a8158aa900ddcb8eb3704))
+* **indicator:** check if indicator actually exists ([1bf17b1](https://github.com/ffalt/mah/commit/1bf17b1f6298834f6b0f506d9978083c00b2e993))
+* **layout:** handle failed requests without caching as loaded ([41c43cf](https://github.com/ffalt/mah/commit/41c43cfc60401aa5f939ce7050241e4f926bf329))
+* **pattern:** add space for safe concatenation ([31e559a](https://github.com/ffalt/mah/commit/31e559af9ee8a4d57d2f47da1ecf3a7a41a52c83))
+* **pattern:** limit color counts to maximum allowed in SVG generation ([f45b515](https://github.com/ffalt/mah/commit/f45b515c567e4136eddacd4110f2038d06e98502))
+* **random builder:** ensure even tile placement for matchable stones ([af1b6aa](https://github.com/ffalt/mah/commit/af1b6aa87fbb3291c7f090a5099e49c05e2b09e4))
+* **settings:** validate stored theme setting ([4eb9259](https://github.com/ffalt/mah/commit/4eb925935f99e860df107c6cbc3c0162baaa70ec))
+* **solver:** reset tileList before solving layout ([8c6a49d](https://github.com/ffalt/mah/commit/8c6a49d6932dfeb902fa37e75db1cf4a4e8a1cc6))
+* **svg:** correct viewBox size calculation for stacked tile layouts ([88fbab8](https://github.com/ffalt/mah/commit/88fbab8f3b25b57c1ed5a068fb16ba19b9de082a))
+* **theme:** set default theme color to ltgreen ([43218b7](https://github.com/ffalt/mah/commit/43218b717eba1cea6767424988ea16fd14fed5aa))
+* **worker:** fallback to synchronous execution if workers are not supported ([b93e98c](https://github.com/ffalt/mah/commit/b93e98cd759cf882d801e4adfb4c1abca83aab16))
+* **worker:** handle invalid mapping input in solve method ([67ef9b7](https://github.com/ffalt/mah/commit/67ef9b746c3cfa0a6085acbdf4204bf6fee82f67))
+* **zen-controls:** adjust button text colors ([14d847f](https://github.com/ffalt/mah/commit/14d847f6f29cf6e9a82471d85fcb01e59d9adfcd))
+
 ## [1.19.3](https://github.com/ffalt/mah/compare/v1.19.2...v1.19.3) (2026-06-02)
 
 
