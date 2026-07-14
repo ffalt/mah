@@ -445,7 +445,7 @@ p {
 
 		@include mixins.respond-to(medium-down) {
 			min-height: 32px;
-			padding: 6px 20px 6px 8px;
+			padding: 10px 16px;
 		}
 	}
 
