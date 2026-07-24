@@ -1,6 +1,6 @@
 import { type OnDestroy, inject, signal, Service } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import type { Subscription } from 'rxjs';
+import { firstValueFrom, type Subscription } from 'rxjs';
 import { Game } from '../model/game';
 import { DEFAULT_LANGUAGE, LANGUAGES } from '../model/languages';
 import { Settings } from '../model/settings';
@@ -24,7 +24,6 @@ export class AppService implements OnDestroy {
 		this.settings = new Settings(this.storage);
 		this.settings.load();
 		this.langSubscription = this.translate.onLangChange.subscribe(event => this.lang.set(event.lang));
-		this.setLang();
 		this.game.init();
 		this.game.sound.enabled = this.settings.sounds();
 		this.game.music.enabled = this.settings.music();
@@ -48,16 +47,11 @@ export class AppService implements OnDestroy {
 	}
 
 	setLang(): void {
-		const lang = this.settings.lang();
-		const userLang =
-			(!lang || lang === LangAuto) ?
-				(navigator.language.split('-', 1)[0] || DEFAULT_LANGUAGE).toLowerCase() : // use navigator lang if available
-				lang;
-		if (Object.keys(LANGUAGES).includes(userLang)) {
-			this.translate.use(userLang);
-		} else {
-			this.translate.use(DEFAULT_LANGUAGE);
-		}
+		this.translate.use(this.resolveLang());
+	}
+
+	async preloadLang(): Promise<void> {
+		await firstValueFrom(this.translate.use(this.resolveLang()));
 	}
 
 	toggleSound(): void {
@@ -71,5 +65,14 @@ export class AppService implements OnDestroy {
 		this.game.music.enabled = this.settings.music();
 		this.game.music.toggle();
 		this.settings.save();
+	}
+
+	private resolveLang(): string {
+		const lang = this.settings.lang();
+		const userLang =
+			(!lang || lang === LangAuto) ?
+				(navigator.language.split('-', 1)[0] || DEFAULT_LANGUAGE).toLowerCase() : // use navigator lang if available
+				lang;
+		return Object.keys(LANGUAGES).includes(userLang) ? userLang : DEFAULT_LANGUAGE;
 	}
 }

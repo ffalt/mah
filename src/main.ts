@@ -1,4 +1,4 @@
-import { enableProdMode, importProvidersFrom, provideZonelessChangeDetection } from '@angular/core';
+import { enableProdMode, importProvidersFrom, inject, provideAppInitializer, provideZonelessChangeDetection } from '@angular/core';
 import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
@@ -30,6 +30,9 @@ bootstrapApplication(AppComponent, {
 			fallbackLang: 'en'
 		}),
 		AppService,
+		provideAppInitializer(async () => {
+			await inject(AppService).preloadLang();
+		}),
 		LayoutService,
 		DeferLoadService,
 		SvgdefService,
