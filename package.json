@@ -37,7 +37,7 @@
     "@angular/common": "22.0.6",
     "@angular/compiler": "22.0.6",
     "@angular/core": "22.0.6",
-    "@angular/forms": "22.0.6",
+    "@angular/forms": "22.0.7",
     "@angular/platform-browser": "22.0.6",
     "@angular/platform-server": "22.0.6",
     "@ngx-translate/core": "18.0.0",
