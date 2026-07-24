@@ -29,6 +29,6 @@
 		"kyodai": "node svg-to-png.mjs --src ./kyodai.svg --png ../../src/assets/svg/kyodai-extra.png --colors256 --oxipng --cellWidth 75 --cellHeight 100 --start-row 6"
 	},
 	"dependencies": {
-		"sharp": "0.34.5"
+		"sharp": "0.35.3"
 	}
 }
