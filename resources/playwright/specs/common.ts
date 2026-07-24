@@ -38,8 +38,8 @@ export async function ensureOrientation(page: Page, orientation: 'portrait' | 'l
 		return;
 	}
 	if (
-		(size.height >= size.width && (orientation === 'landscape')) ||
-		(size.width >= size.height && (orientation === 'portrait'))
+		((orientation === 'landscape') && size.height >= size.width) ||
+		((orientation === 'portrait') && size.width >= size.height)
 	) {
 		await page.setViewportSize({ width: size.height, height: size.width });
 	}

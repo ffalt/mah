@@ -150,7 +150,8 @@ export default ts.config(
 			"**/dist/**/*",
 			"**/local/**/*",
 			"**/coverage/**/*",
-			"**/node_modules/**/*"
+			"**/node_modules/**/*",
+			"resources/apps/*"
 		]
 	},
 	{
@@ -230,6 +231,7 @@ export default ts.config(
 			"unicorn/max-nested-calls": "off",
 			"unicorn/no-global-object-property-assignment": "off",
 			"unicorn/no-top-level-assignment-in-function": "off",
+			"unicorn/prefer-dom-node-html-methods": "off",
 			"@angular-eslint/prefer-on-push-component-change-detection": "off",
 			"@typescript-eslint/no-unnecessary-type-assertion": "off",
 			"vitest/expect-expect": [

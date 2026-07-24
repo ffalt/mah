@@ -58,7 +58,7 @@ export class Game {
 		if (this.clock.elapsed() === 0) {
 			this.clock.run();
 		}
-		if (this.board.selected && stone && stone !== this.board.selected && stone.groupNr === this.board.selected.groupNr) {
+		if (stone && this.board.selected && stone !== this.board.selected && stone.groupNr === this.board.selected.groupNr) {
 			this.clearMatchesTimer();
 			this.resolveMatchingStone(stone);
 			this.board.clearHints();

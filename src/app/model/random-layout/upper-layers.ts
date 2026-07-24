@@ -246,7 +246,7 @@ function symmetricFill(mapping: Mapping, mirrorX: boolean, mirrorY: boolean): Ma
 	const present = new Set<string>(mapping.map(p => key(p[0], p[1], p[2])));
 	const { mirX, mirY } = makeMirrorFns(mapping);
 	let progress = true;
-	while (mapping.length < TARGET_COUNT && progress) {
+	while (progress && mapping.length < TARGET_COUNT) {
 		progress = false;
 		for (let z = 0; z <= Z_MAX && mapping.length < TARGET_COUNT; z++) {
 			const candidates: Array<[number, number]> = [];

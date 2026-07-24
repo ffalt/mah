@@ -9,7 +9,7 @@ function pad(num: number): string {
 })
 export class DurationPipe implements PipeTransform {
 	transform(value: number): string {
-		if (Number.isNaN(value) || (value === 0)) {
+		if ((value === 0) || Number.isNaN(value)) {
 			return '-';
 		}
 		const num = Math.floor(value / 1000);

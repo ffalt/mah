@@ -288,7 +288,7 @@ export function generateBaseLayerWithShapes(
 		let canReuse = false;
 		while (canProgress && total < maxTarget) {
 			const sizePool = canReuse ? [...allSizes] : allSizes.filter(([w, h]) => !usedSizes.has(`${w}x${h}`));
-			if (sizePool.length === 0 && !canReuse) {
+			if (!canReuse && sizePool.length === 0) {
 				canReuse = true;
 				continue;
 			}
