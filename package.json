@@ -59,7 +59,7 @@
     "@angular/build": "22.0.6",
     "@angular/cli": "22.0.6",
     "@angular/compiler-cli": "22.0.6",
-    "@angular/language-service": "22.0.6",
+    "@angular/language-service": "22.0.7",
     "@eslint/js": "10.0.1",
     "@iarna/toml": "2.2.5",
     "@mah/builders": "file:tools/builders",
