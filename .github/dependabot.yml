@@ -11,6 +11,10 @@ updates:
       semver-major-days: 30
       semver-minor-days: 14
       semver-patch-days: 5
+    groups:
+      angular:
+        patterns:
+          - "@angular*"
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
