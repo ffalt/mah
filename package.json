@@ -39,7 +39,7 @@
     "@angular/core": "22.0.6",
     "@angular/forms": "22.0.6",
     "@angular/platform-browser": "22.0.6",
-    "@angular/platform-server": "22.0.6",
+    "@angular/platform-server": "22.0.7",
     "@ngx-translate/core": "18.0.0",
     "@ngx-translate/http-loader": "18.0.0",
     "@tauri-apps/plugin-opener": "2.5.4",
