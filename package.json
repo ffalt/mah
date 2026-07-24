@@ -57,7 +57,7 @@
     "@analogjs/vite-plugin-angular": "2.6.3",
     "@analogjs/vitest-angular": "2.6.3",
     "@angular/build": "22.0.6",
-    "@angular/cli": "22.0.6",
+    "@angular/cli": "22.0.7",
     "@angular/compiler-cli": "22.0.6",
     "@angular/language-service": "22.0.6",
     "@eslint/js": "10.0.1",
