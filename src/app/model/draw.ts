@@ -25,6 +25,11 @@ export interface Draw {
 	source: Stone;
 }
 
+export interface DrawLevel {
+	z: number;
+	items: Array<Draw>;
+}
+
 export function calcDrawPos(z: number, x: number, y: number): DrawPos {
 	const pos = {
 		x: ((CONSTS.tileWidth + 2) * x - (z * CONSTS.levelOffset)) / 2,
@@ -36,6 +41,19 @@ export function calcDrawPos(z: number, x: number, y: number): DrawPos {
 	};
 	pos.translate = `translate(${pos.x},${pos.y})`;
 	return pos;
+}
+
+export function groupDrawsByLevel(items: Array<Draw>): Array<DrawLevel> {
+	const levels: Array<DrawLevel> = [];
+	let current: DrawLevel | undefined;
+	for (const draw of items) {
+		if (!current || current.z !== draw.z) {
+			current = { z: draw.z, items: [] };
+			levels.push(current);
+		}
+		current.items.push(draw);
+	}
+	return levels;
 }
 
 export function sortDrawItems(items: Array<Draw>): Array<Draw> {

@@ -5,6 +5,9 @@
 	[attr.viewBox]="viewport()"
 >
 	<defs>
+		<filter id="tile-cast" x="-60%" y="-60%" width="220%" height="220%">
+			<feGaussianBlur in="SourceGraphic" stdDeviation="4"/>
+		</filter>
 		<svg id="front" width="300" height="400" viewBox="0 0 300 400">
 			<path
 				transform="translate(28,-614)"
@@ -109,11 +112,16 @@
 			stroke-width: 3px;
 		}
 
-		g.draw rect.shadow {
-			fill: #191919;
-			opacity: 0.6;
-			stroke-width: 1;
-			stroke: black;
+		g.stage .shadow-layer {
+			pointer-events: none;
+		}
+
+		g.stage rect.shadow {
+			fill: #05120c;
+			opacity: 0.38;
+			stroke-width: 0;
+			stroke: none;
+			filter: url(#tile-cast);
 		}
 
 		g.draw rect.stone {
@@ -122,7 +130,7 @@
 			stroke: black;
 		}
 
-		g.stage.tile3d g.draw rect.shadow {
+		g.stage.tile3d g.draw rect.side {
 			fill: #a89488;
 			opacity: 1;
 			stroke-width: 0;
@@ -162,20 +170,17 @@
 			stroke-width: 2;
 		}
 
-		g.stage.contrast g.draw rect.shadow {
-			opacity: 0.7;
+		g.stage.contrast rect.shadow {
+			opacity: 0.5;
 		}
 
-		g.stage.tile3d.contrast g.draw rect.shadow {
+		g.stage.tile3d.contrast g.draw rect.side {
 			fill: #7a6c63;
-			opacity: 1;
 		}
 
-		g.stage.dark g.draw rect.shadow {
+		g.stage.dark rect.shadow {
 			opacity: 0.6;
-			stroke-width: 1;
-			fill: #9d948c;
-			stroke: green;
+			fill: #000;
 		}
 
 		g.stage.dark g.draw rect.stone {
@@ -184,7 +189,7 @@
 			stroke: #9d948c;
 		}
 
-		g.stage.dark.tile3d g.draw rect.shadow {
+		g.stage.dark.tile3d g.draw rect.side {
 			opacity: 1;
 			stroke-width: 0;
 			fill: #5a524e;
@@ -238,11 +243,11 @@
 			stroke-width: 2;
 		}
 
-		g.stage.dark.contrast g.draw rect.shadow {
-			opacity: 0.7;
+		g.stage.dark.contrast rect.shadow {
+			opacity: 0.75;
 		}
 
-		g.stage.dark.tile3d.contrast g.draw rect.shadow {
+		g.stage.dark.tile3d.contrast g.draw rect.side {
 			fill: #3e3834;
 			opacity: 1;
 		}
@@ -281,18 +286,33 @@
 	</style>
 	<defs app-image-set-loader [imageSet]="imageSet()" [kyodaiUrl]="kyodaiUrl()" [dark]="app.settings.dark()" [prefix]="prefix"></defs>
 	<g #stage class="stage" [class.dark]="app.settings.dark()" [class.contrast]="app.settings.contrast()" [class.tile3d]="app.settings.tile3d()">
-		@for (draw of drawStones; track draw.key) {
-			<g
-				app-board-tile
-				class="draw"
-				[draw]="draw"
-				[imagePos]="imagePos"
-				[urlPrefix]="urlPrefix"
-				(mouseup)="onClickUp($event, draw)"
-				(touchend)="onTouchTileEnd($event, draw)"
-				(keydown.enter)="onKeyClick($event, draw)"
-				(keydown.space)="onKeyClick($event, draw)"
-			></g>
+		@for (level of drawLevels; track level.z) {
+			@if (app.settings.shadows()) {
+				<g class="shadow-layer">
+					@for (draw of level.items; track draw.key) {
+						@if (app.settings.tile3d()) {
+							<rect class="shadow" [attr.transform]="draw.pos.translate" [style.opacity]="draw.source.picked() ? 0 : null" x="-3" y="-2" width="87" height="115" rx="13" ry="13"></rect>
+						} @else {
+							<rect class="shadow" [attr.transform]="draw.pos.translate" [style.opacity]="draw.source.picked() ? 0 : null" x="-1" y="1" width="80" height="104" rx="12" ry="12"></rect>
+						}
+					}
+				</g>
+			}
+			<g class="body-layer">
+				@for (draw of level.items; track draw.key) {
+					<g
+						app-board-tile
+						class="draw"
+						[draw]="draw"
+						[imagePos]="imagePos"
+						[urlPrefix]="urlPrefix"
+						(mouseup)="onClickUp($event, draw)"
+						(touchend)="onTouchTileEnd($event, draw)"
+						(keydown.enter)="onKeyClick($event, draw)"
+						(keydown.space)="onKeyClick($event, draw)"
+					></g>
+				}
+			</g>
 		}
 	</g>
 </svg>

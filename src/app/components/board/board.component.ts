@@ -1,6 +1,6 @@
 import { Component, ElementRef, type AfterViewInit, type OnChanges, type OnInit, type SimpleChanges, inject, input, output, signal, viewChild } from '@angular/core';
 import { Backgrounds, Themes } from '../../model/consts';
-import { type Draw, calcDrawPos, getDrawBounds, sortDrawItems, getDrawBoundsViewportBounds } from '../../model/draw';
+import { type Draw, calcDrawPos, getDrawBounds, sortDrawItems, getDrawBoundsViewportBounds, groupDrawsByLevel, DrawLevel } from '../../model/draw';
 import type { Stone } from '../../model/stone';
 import { AppService } from '../../service/app.service';
 import { isKyodaiImageSet } from '../../model/tilesets';
@@ -50,6 +50,7 @@ export class BoardComponent implements OnInit, OnChanges, AfterViewInit {
 	readonly viewport = signal(`0 0 ${defaultW} ${defaultH}`);
 	indicators = new Indicator();
 	drawStones: Array<Draw> = [];
+	drawLevels: Array<DrawLevel> = [];
 	prefix: string = '';
 	urlPrefix: string = '';
 	imagePos: Array<number> = [1, 1, 69, 88];
@@ -324,6 +325,7 @@ export class BoardComponent implements OnInit, OnChanges, AfterViewInit {
 				}));
 		this.bounds = getDrawBounds(items);
 		this.drawStones = sortDrawItems(items);
+		this.drawLevels = groupDrawsByLevel(this.drawStones);
 		this.setViewPort();
 		this.panZoom.syncTransformSVG();
 		this.applyTransformSVG();

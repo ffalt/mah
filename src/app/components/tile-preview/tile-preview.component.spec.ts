@@ -65,6 +65,20 @@ describe('TilePreviewComponent', () => {
 		expect(shadow).toBeTruthy();
 	});
 
+	it('should not render shadow rect when shadows are disabled', () => {
+		fixture.componentRef.setInput('shadows', false);
+		fixture.detectChanges();
+		const shadow = fixture.debugElement.query(By.css('rect.shadow'));
+		expect(shadow).toBeFalsy();
+	});
+
+	it('should render side rect when tile3d is true', () => {
+		fixture.componentRef.setInput('tile3d', true);
+		fixture.detectChanges();
+		const side = fixture.debugElement.query(By.css('rect.side'));
+		expect(side).toBeTruthy();
+	});
+
 	it('should apply dark class when dark input is true', () => {
 		fixture.componentRef.setInput('dark', true);
 		fixture.detectChanges();

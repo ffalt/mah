@@ -129,6 +129,16 @@
 						<label class="check">
 							<input
 								type="checkbox"
+								[checked]="app.settings.shadows()"
+								(change)="app.settings.shadows.set(!app.settings.shadows());app.settings.save();"
+							>
+							<span>{{ 'TILES_SHADOW' | translate }}</span>
+						</label>
+					</li>
+					<li>
+						<label class="check">
+							<input
+								type="checkbox"
 								[checked]="app.settings.contrast()"
 								(change)="app.settings.contrast.set(!app.settings.contrast());app.settings.save();"
 							>
@@ -152,7 +162,8 @@
 						[kyodaiUrl]="app.settings.kyodaiUrl()"
 						[dark]="app.settings.dark()"
 						[contrast]="app.settings.contrast()"
-						[tile3d]="app.settings.tile3d()"/>
+						[tile3d]="app.settings.tile3d()"
+						[shadows]="app.settings.shadows()"/>
 			</div>
 		</fieldset>
 	</section>

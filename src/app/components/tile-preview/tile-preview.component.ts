@@ -16,6 +16,7 @@ export class TilePreviewComponent {
 	readonly dark = input<boolean>(false);
 	readonly contrast = input<boolean>(false);
 	readonly tile3d = input<boolean>(false);
+	readonly shadows = input<boolean>(true);
 
 	readonly isKyodai = computed(() => isKyodaiImageSet(this.tileset()));
 	readonly imagePos = computed(() => this.isKyodai() ? [0, 0, 75, 100] : [6, 6, 63, 88]);

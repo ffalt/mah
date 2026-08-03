@@ -479,4 +479,55 @@ describe('BoardComponent', () => {
 			expect(component.drawStones).toHaveLength(0);
 		});
 	});
+
+	describe('Shadow layer', () => {
+		it('should group draw stones by level', () => {
+			fixture.componentRef.setInput('stones', [
+				new Stone(0, 0, 0, 0, 0),
+				new Stone(0, 2, 0, 0, 0),
+				new Stone(1, 0, 0, 0, 0)
+			]);
+			fixture.detectChanges();
+
+			expect(component.drawLevels.map(level => level.z)).toEqual([0, 1]);
+			expect(component.drawLevels[0].items).toHaveLength(2);
+			expect(component.drawLevels[1].items).toHaveLength(1);
+		});
+
+		it('should render all shadows of a level before the tiles of that level', () => {
+			fixture.componentRef.setInput('stones', [
+				new Stone(0, 0, 0, 0, 0),
+				new Stone(0, 2, 0, 0, 0)
+			]);
+			fixture.detectChanges();
+
+			const stage = fixture.nativeElement.querySelector('g.stage');
+			const layers = [...stage.children].map((child: Element) => child.getAttribute('class'));
+			expect(layers).toEqual(['shadow-layer', 'body-layer']);
+			expect(stage.querySelectorAll(':scope > g.shadow-layer > rect.shadow')).toHaveLength(2);
+			expect(stage.querySelectorAll(':scope > g.body-layer > g.draw')).toHaveLength(2);
+		});
+
+		it('should hide the shadow of a picked stone', () => {
+			const stone = makeTestStone();
+			fixture.componentRef.setInput('stones', [stone]);
+			fixture.detectChanges();
+
+			const shadow = fixture.nativeElement.querySelector(':scope g.shadow-layer > rect.shadow');
+			expect(shadow.style.opacity).toBe('');
+
+			stone.picked.set(true);
+			fixture.detectChanges();
+			expect(shadow.style.opacity).toBe('0');
+		});
+
+		it('should not render the shadow layer when shadows are disabled', () => {
+			appService.settings.shadows.set(false);
+			fixture.componentRef.setInput('stones', [makeTestStone()]);
+			fixture.detectChanges();
+
+			expect(fixture.nativeElement.querySelector(':scope g.shadow-layer')).toBeNull();
+			expect(fixture.nativeElement.querySelector(':scope g.body-layer > g.draw')).toBeTruthy();
+		});
+	});
 });

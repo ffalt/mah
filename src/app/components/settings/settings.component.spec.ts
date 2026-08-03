@@ -126,9 +126,9 @@ describe('SettingsComponent', () => {
 			expect(radioButtons).toHaveLength(expectedCount);
 		});
 
-		it('should render contrast, dark mode, 3D, confetti and show clock checkboxes', () => {
+		it('should render shadows, contrast, dark mode, 3D, confetti and show clock checkboxes', () => {
 			const checkboxes = fixture.debugElement.queryAll(By.css('input[type="checkbox"]'));
-			expect(checkboxes).toHaveLength(5);
+			expect(checkboxes).toHaveLength(6);
 		});
 	});
 
@@ -212,10 +212,22 @@ describe('SettingsComponent', () => {
 			expect(saveSpy).toHaveBeenCalled();
 		});
 
+		it('should update app settings when shadows are toggled', () => {
+			const saveSpy = vi.spyOn(appService.settings, 'save');
+			const initialValue = appService.settings.shadows();
+			const shadowsCheckbox = fixture.debugElement.queryAll(By.css('input[type="checkbox"]'))[1].nativeElement;
+
+			shadowsCheckbox.click();
+			fixture.detectChanges();
+
+			expect(appService.settings.shadows()).toBe(!initialValue);
+			expect(saveSpy).toHaveBeenCalled();
+		});
+
 		it('should update app settings when contrast is toggled', () => {
 			const saveSpy = vi.spyOn(appService.settings, 'save');
 			const initialValue = appService.settings.contrast();
-			const contrastCheckbox = fixture.debugElement.queryAll(By.css('input[type="checkbox"]'))[1].nativeElement;
+			const contrastCheckbox = fixture.debugElement.queryAll(By.css('input[type="checkbox"]'))[2].nativeElement;
 
 			contrastCheckbox.click();
 			fixture.detectChanges();
@@ -227,7 +239,7 @@ describe('SettingsComponent', () => {
 		it('should update app settings when dark mode is toggled', () => {
 			const saveSpy = vi.spyOn(appService.settings, 'save');
 			const initialValue = appService.settings.dark();
-			const darkCheckbox = fixture.debugElement.queryAll(By.css('input[type="checkbox"]'))[2].nativeElement;
+			const darkCheckbox = fixture.debugElement.queryAll(By.css('input[type="checkbox"]'))[3].nativeElement;
 
 			darkCheckbox.click();
 			fixture.detectChanges();
