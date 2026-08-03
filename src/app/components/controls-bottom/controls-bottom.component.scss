@@ -74,5 +74,9 @@
 		.ctrl {
 			align-items: flex-end;
 		}
+
+		.ctrl.ctrl-time {
+			min-height: unset;
+		}
 	}
 }

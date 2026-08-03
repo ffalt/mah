@@ -42,6 +42,9 @@
 	}
 
 	@include mixins.respond-to-horizontal-device(pad) {
+		width: 100%;
+		align-items: center;
+
 		.label {
 			display: none;
 		}
@@ -53,7 +56,9 @@
 		.time {
 			padding-right: 0.3em;
 			min-width: unset;
-			font-size: 0.8em;
+			padding-left: 0;
+			max-width: 100%;
+			font-size: 0.75em;
 		}
 	}
 }

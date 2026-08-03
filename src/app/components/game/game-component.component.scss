@@ -117,13 +117,14 @@
 
 		.controls-bottom {
 			flex-direction: column;
-			min-width: 90px;
-			max-width: 90px;
+			min-width: 56px;
+			max-width: 56px;
 			height: calc(100svh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
 			position: absolute;
 			right: 0;
 			align-items: flex-end;
 			border-top: unset;
+			overflow: hidden;
 		}
 	}
 }
