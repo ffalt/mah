@@ -140,8 +140,7 @@ export class PanZoom {
 
 		if (this.isPinching && this.touchPoints.length === 2) {
 			const currentDistance = this.distance(this.touchPoints[0], this.touchPoints[1]);
-			// Avoid division by zero if initial distance is zero (both points at same location)
-			const relativeScale = this.initialDistance > 0 ? currentDistance / this.initialDistance : 1;
+			const relativeScale = this.pinchRatio(currentDistance);
 			const centerX = (this.touchPoints[0].x + this.touchPoints[1].x) / 2;
 			const centerY = (this.touchPoints[0].y + this.touchPoints[1].y) / 2;
 			if (this.indicators.gestureIndicators()[0]) {
@@ -199,7 +198,7 @@ export class PanZoom {
 
 			if (finalPoints.length === 2) {
 				const currentDistance = this.distance(finalPoints[0], finalPoints[1]);
-				const relativeScale = currentDistance / this.initialDistance;
+				const relativeScale = this.pinchRatio(currentDistance);
 				const newScale = Math.abs(relativeScale - 1) >= 0.1 ? this.initialScale * relativeScale : this.initialScale;
 				const centerX = (finalPoints[0].x + finalPoints[1].x) / 2;
 				const centerY = (finalPoints[0].y + finalPoints[1].y) / 2;
@@ -299,6 +298,11 @@ export class PanZoom {
 	syncTransformSVG(): void {
 		const scaling = this.scale > 1 ? ` scale(${this.scale})` : '';
 		this.transformSVG = `translate(${this.panX}px, ${this.panY}px)${scaling}`;
+	}
+
+	// initialDistance is 0 when both fingers land on the same pixel - both pinch handlers need to survive that
+	private pinchRatio(currentDistance: number): number {
+		return this.initialDistance > 0 ? currentDistance / this.initialDistance : 1;
 	}
 
 	private distance(p1: TouchPoint, p2: TouchPoint): number {
