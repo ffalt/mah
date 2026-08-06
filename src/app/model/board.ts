@@ -173,7 +173,7 @@ export class Board {
 			return;
 		}
 		this.undo.set(undos);
-		const builder: Builder = new Builder(new Tiles(mapping.length + undos.length));
+		const builder: Builder = new Builder(new Tiles(mapping.length));
 		const stones = builder.load(mapping);
 		if (!stones) {
 			console.warn('Board.load() failed: builder.load() returned null or undefined', { mappingLength: mapping.length });

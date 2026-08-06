@@ -139,5 +139,16 @@ describe('Board', () => {
 				[0, 1, 0, 2]
 			]);
 		});
+
+		it('should restore the picked state of undone stones', () => {
+			const mapping = Array.from({ length: 8 }, (_, index) => [0, index * 2, 0, index + 1] as [number, number, number, number]);
+
+			board.load(mapping, [[0, 0, 0], [0, 2, 0]]);
+
+			const stones = board.stones();
+			expect(stones.length).toBe(8);
+			expect(stones.filter(stone => stone.picked()).map(stone => stone.x)).toEqual([0, 2]);
+			expect(board.undo()).toEqual([[0, 0, 0], [0, 2, 0]]);
+		});
 	});
 });
