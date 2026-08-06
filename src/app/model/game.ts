@@ -140,6 +140,7 @@ export class Game {
 		this.clock.reset();
 		this.setState(STATES.idle);
 		this.board.reset();
+		this.layoutID = undefined;
 	}
 
 	start(layout: Layout, buildMode: BUILD_MODE_ID, gameMode: GAME_MODE_ID): void {
@@ -181,7 +182,7 @@ export class Game {
 	load(): boolean {
 		try {
 			const store: GameStateStore | undefined = this.storage.getState();
-			if (store?.stones) {
+			if (store?.stones?.length) {
 				this.clock.elapsed.set(store.elapsed ?? 0);
 				this.layoutID = store.layout;
 				this.mode.set(store.gameMode ?? GAME_MODE_ID_DEFAULT);

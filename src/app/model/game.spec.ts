@@ -6,7 +6,7 @@ import { type Sound, SOUNDS } from './sound';
 import type { Music } from './music';
 import { STATES, GAME_MODE_STANDARD, GAME_MODE_EASY, GAME_MODE_EXPERT } from './consts';
 import { Stone } from './stone';
-import type { GameStateStore, Layout, Place, StorageProvider } from './types';
+import type { GameStateStore, Layout, Place, StonePlace, StorageProvider } from './types';
 import { Mock, describe, beforeEach, it, expect, vi } from 'vitest';
 
 describe('Game', () => {
@@ -397,13 +397,14 @@ describe('Game', () => {
 		});
 
 		it('should load game state', () => {
+			const stones: Array<StonePlace> = [[0, 0, 0, 1], [0, 2, 0, 1]];
 			const state: GameStateStore = {
 				elapsed: 1000,
 				state: STATES.pause,
 				layout: 'test',
 				gameMode: GAME_MODE_EASY,
 				undo: [],
-				stones: []
+				stones
 			};
 
 			(mockStorage.getState as Mock).mockReturnValue(state);
@@ -415,7 +416,7 @@ describe('Game', () => {
 			expect(game.layoutID).toBe('test');
 			expect(game.mode()).toBe(GAME_MODE_EASY);
 			expect(game.state()).toBe(STATES.pause);
-			expect(mockBoard.load).toHaveBeenCalledWith([], []);
+			expect(mockBoard.load).toHaveBeenCalledWith(stones, []);
 		});
 
 		it('should handle load failure', () => {
@@ -424,6 +425,57 @@ describe('Game', () => {
 			const result = game.load();
 
 			expect(result).toBe(false);
+		});
+
+		it('should not restore a stored board that has no tiles', () => {
+			// what older builds could leave behind
+			(mockStorage.getState as Mock).mockReturnValue({
+				elapsed: 1000,
+				state: STATES.pause,
+				layout: 'test',
+				gameMode: GAME_MODE_EASY,
+				undo: [],
+				stones: []
+			} as GameStateStore);
+
+			const result = game.load();
+
+			expect(result).toBe(false);
+			expect(mockBoard.load).not.toHaveBeenCalled();
+			expect(game.state()).toBe(STATES.idle);
+		});
+
+		it('should offer a new game rather than a continue for an emptied save', () => {
+			(mockStorage.getState as Mock).mockReturnValue({
+				layout: 'test',
+				gameMode: GAME_MODE_EASY,
+				state: STATES.pause,
+				stones: []
+			} as GameStateStore);
+
+			game.init();
+
+			expect(game.message()?.messageID).toBe('MSG_START');
+		});
+
+		it('should not persist anything after a reset', () => {
+			game.layoutID = 'test';
+
+			game.reset();
+			game.save();
+
+			expect(game.layoutID).toBeUndefined();
+			expect(mockStorage.storeState).not.toHaveBeenCalled();
+		});
+
+		it('keeps saving normally once a new game has started', () => {
+			game.reset();
+			game.start({ id: 'next', name: 'Next', category: 'Test', mapping: [[0, 0, 0]] }, 'MODE_SOLVABLE', GAME_MODE_STANDARD);
+
+			game.save();
+
+			expect(game.layoutID).toBe('next');
+			expect(mockStorage.storeState).toHaveBeenCalled();
 		});
 	});
 });
