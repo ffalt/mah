@@ -1,7 +1,7 @@
 import { signal } from '@angular/core';
 import { Board } from './board';
 import { Clock } from './clock';
-import { GAME_MODE_EASY, GAME_MODE_EXPERT, type GAME_MODE_ID, GAME_MODE_ID_DEFAULT, STATES } from './consts';
+import { GAME_MODE_EASY, GAME_MODE_EXPERT, type GAME_MODE_ID, GAME_MODE_ID_DEFAULT, RESCUE_SHUFFLE_ATTEMPTS, STATES } from './consts';
 import { SOUNDS, Sound } from './sound';
 import type { Stone } from './stone';
 import type { GameStateStore, Layout, StorageProvider } from './types';
@@ -217,14 +217,17 @@ export class Game {
 	}
 
 	gameOverEasyModeShuffle(): void {
-		for (let index = 0; index < 10; index++) {
-			this.shuffle();
+		// the retries are one rescue attempt for the player, so they get one sound
+		this.sound.play(SOUNDS.SHUFFLE);
+		for (let index = 0; index < RESCUE_SHUFFLE_ATTEMPTS; index++) {
+			this.board.shuffle();
 			if (this.board.free().length > 0) {
 				this.resume();
 				return;
 			}
 		}
-		this.gameOverEasyMode();
+		// no rescue possible after all attempts, do not re-offer the shuffle prompt
+		this.gameOverLosing();
 	}
 
 	surrender(): void {

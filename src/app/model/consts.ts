@@ -11,6 +11,8 @@ export const STATES = {
 	pause: 2
 };
 
+export const RESCUE_SHUFFLE_ATTEMPTS = 20;
+
 export const GAME_MODE_EASY: GAME_MODE_ID = 'GAME_MODE_EASY';
 export const GAME_MODE_STANDARD: GAME_MODE_ID = 'GAME_MODE_STANDARD';
 export const GAME_MODE_EXPERT: GAME_MODE_ID = 'GAME_MODE_EXPERT';

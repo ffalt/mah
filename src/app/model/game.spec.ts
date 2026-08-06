@@ -4,7 +4,7 @@ import type { Board } from './board';
 import type { Clock } from './clock';
 import { type Sound, SOUNDS } from './sound';
 import type { Music } from './music';
-import { STATES, GAME_MODE_STANDARD, GAME_MODE_EASY, GAME_MODE_EXPERT } from './consts';
+import { STATES, GAME_MODE_STANDARD, GAME_MODE_EASY, GAME_MODE_EXPERT, RESCUE_SHUFFLE_ATTEMPTS } from './consts';
 import { Stone } from './stone';
 import type { GameStateStore, Layout, Place, StonePlace, StorageProvider } from './types';
 import { Mock, describe, beforeEach, it, expect, vi } from 'vitest';
@@ -250,6 +250,42 @@ describe('Game', () => {
 			game.shuffle();
 
 			expect(mockBoard.shuffle).not.toHaveBeenCalled();
+		});
+
+		it('should resume the game when the rescue shuffle frees a stone', () => {
+			game.mode.set(GAME_MODE_EASY);
+			game.layoutID = 'test';
+			(mockBoard.shuffle as Mock).mockImplementation(() => {
+				mockBoard.free!.set([makeRemovableStone()]);
+			});
+
+			game.gameOverEasyModeShuffle();
+
+			expect(mockBoard.shuffle).toHaveBeenCalledTimes(1);
+			expect(game.state()).toBe(STATES.run);
+		});
+
+		it('should play the shuffle sound once no matter how many rescue shuffles it takes', () => {
+			game.mode.set(GAME_MODE_EASY);
+			game.layoutID = 'test';
+
+			game.gameOverEasyModeShuffle();
+
+			expect(mockBoard.shuffle).toHaveBeenCalledTimes(RESCUE_SHUFFLE_ATTEMPTS);
+			expect((mockSound.play as Mock).mock.calls.filter(([sound]) => sound === SOUNDS.SHUFFLE).length).toBe(1);
+		});
+
+		it('should end the game instead of re-offering the shuffle when no rescue shuffle succeeds', () => {
+			game.mode.set(GAME_MODE_EASY);
+			game.layoutID = 'test';
+
+			game.gameOverEasyModeShuffle();
+
+			expect(mockBoard.shuffle).toHaveBeenCalledTimes(RESCUE_SHUFFLE_ATTEMPTS);
+			expect(game.state()).toBe(STATES.idle);
+			expect(game.message()).toEqual({ messageID: 'MSG_FAIL', playTime: undefined });
+			expect(mockSound.play).toHaveBeenCalledWith(SOUNDS.OVER);
+			expect(mockStorage.storeScore).toHaveBeenCalledWith('test', { loseCount: 1 });
 		});
 
 		it('should undo in standard mode', () => {
