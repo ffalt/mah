@@ -21,11 +21,7 @@ export class Indicator {
 			return;
 		}
 
-		// Find by reference first, then fall back to coordinate match
-		const list = this.gestureIndicators();
-		const fullIndicator =
-			list.find(gi => gi === indicator) ??
-			list.find(gi => gi.x === indicator.x && gi.y === indicator.y);
+		const fullIndicator = this.findIndicator(indicator);
 
 		if (!fullIndicator) {
 			return;
@@ -47,6 +43,12 @@ export class Indicator {
 		}, 500);
 	}
 
+	private findIndicator(gestureIndicator: { x: number; y: number }): GestureIndicator | undefined {
+		const list = this.gestureIndicators();
+		const byPosition = (indicator: GestureIndicator) => indicator.x === gestureIndicator.x && indicator.y === gestureIndicator.y;
+		return list.find(indicator => indicator === gestureIndicator) ?? list.find(element => byPosition(element));
+	}
+
 	private cancelHideTimer(indicator: GestureIndicator): void {
 		if (indicator.hideTimerId !== undefined) {
 			clearTimeout(indicator.hideTimerId);
@@ -59,7 +61,7 @@ export class Indicator {
 	}
 
 	removeIndicator(gestureIndicator: { x: number; y: number }) {
-		const target = this.gestureIndicators().find(indicator => indicator.x === gestureIndicator.x && indicator.y === gestureIndicator.y);
+		const target = this.findIndicator(gestureIndicator);
 		if (target) {
 			// Cancel any pending timers before removing
 			this.cancelHideTimer(target);

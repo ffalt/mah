@@ -106,6 +106,15 @@ describe('Indicator', () => {
 			expect(gi.state()).toBe('hidden');
 		});
 
+		it('should do nothing when the indicator is not on screen', () => {
+			indicator.display(100, 200, 30);
+
+			indicator.hide({ x: 999, y: 999 });
+			vi.advanceTimersByTime(750);
+
+			expect(indicator.gestureIndicators()).toHaveLength(1);
+		});
+
 		it('should find indicator by coordinate match when reference is not in array', () => {
 			indicator.display(100, 200, 30);
 			// pass a plain object matching coordinates
@@ -123,6 +132,13 @@ describe('Indicator', () => {
 			expect(gi.size).toBe(60);
 			expect(gi.top).toBe(170); // 200 - 60/2
 			expect(gi.left).toBe(70); // 100 - 60/2
+		});
+
+		it('should ignore an index that is not there', () => {
+			indicator.display(100, 200, 30);
+
+			expect(() => indicator.setSize(5, 60)).not.toThrow();
+			expect(indicator.gestureIndicators()[0].size).toBe(30);
 		});
 	});
 
@@ -153,6 +169,42 @@ describe('Indicator', () => {
 			indicator.display(100, 200, 50); // duplicate coordinates, different size
 			indicator.removeIndicator({ x: 100, y: 200 });
 			expect(indicator.gestureIndicators()).toHaveLength(1);
+		});
+	});
+
+	// a slow drag calls display() on every mouse move, so indicators stacking on one pixel is the normal case
+	describe('indicators sharing a point', () => {
+		let first: ReturnType<Indicator['display']>;
+		let second: ReturnType<Indicator['display']>;
+
+		beforeEach(() => {
+			first = indicator.display(100, 200, 30);
+			second = indicator.display(100, 200, 50);
+		});
+
+		it('removes the one it was handed rather than its twin', () => {
+			indicator.removeIndicator(second!);
+
+			const left = indicator.gestureIndicators();
+			expect(left).toHaveLength(1);
+			expect(left[0]).toBe(first);
+		});
+
+		it('hides and then removes the one it was handed', () => {
+			indicator.hide(second!);
+			vi.advanceTimersByTime(750);
+
+			const left = indicator.gestureIndicators();
+			expect(left).toHaveLength(1);
+			expect(left[0]).toBe(first);
+		});
+
+		it('leaves the twin visible and on screen', () => {
+			indicator.hide(second!);
+			vi.advanceTimersByTime(750);
+
+			expect(first?.state()).toBe('visible');
+			expect(second?.state()).toBe('hidden');
 		});
 	});
 });
