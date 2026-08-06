@@ -6,6 +6,7 @@ import {
 	generateExportKmahjongg,
 	generateExportKyodai
 } from './export';
+import { convertKmahjongg } from './import';
 import { Mock, MockInstance, describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
 
 function makeLayout(overrides: Partial<Layout> = {}): Layout {
@@ -22,7 +23,7 @@ function makeLayout(overrides: Partial<Layout> = {}): Layout {
 describe('generateExportKmahjongg', () => {
 	it('should start with the kmahjongg header line', () => {
 		const result = generateExportKmahjongg(makeLayout());
-		expect(result.startsWith('mahjongg-layout-v1.1')).toBe(true);
+		expect(result.startsWith('kmahjongg-layout-v1.1')).toBe(true);
 	});
 
 	it('should contain the layout name', () => {
@@ -33,6 +34,45 @@ describe('generateExportKmahjongg', () => {
 	it('should contain the by line', () => {
 		const result = generateExportKmahjongg(makeLayout({ by: 'Some Author' }));
 		expect(result).toContain('# by: Some Author');
+	});
+
+	it('leaves out the by line when the board has no author', () => {
+		const result = generateExportKmahjongg(makeLayout({ by: undefined }));
+
+		expect(result).not.toContain('# by:');
+		expect(result).not.toContain('undefined');
+	});
+
+	it('leaves out the by line when the author is blank', () => {
+		const result = generateExportKmahjongg(makeLayout({ by: '' }));
+
+		expect(result).not.toContain('# by:');
+	});
+
+	it('keeps the header lines in order once the author is left out', () => {
+		const lines = generateExportKmahjongg(makeLayout({ by: undefined })).split('\n');
+
+		expect(lines[0]).toBe('kmahjongg-layout-v1.1');
+		expect(lines[1]).toBe('# name: Test Layout');
+		expect(lines[2]).toBe('# category: test-cat');
+	});
+
+	it('carries the name, author and tiles back through an import', async () => {
+		const layout = makeLayout({ name: 'Round Trip', by: 'Some Author' });
+
+		const reimported = await convertKmahjongg(generateExportKmahjongg(layout), 'board.layout');
+
+		expect(reimported.name).toBe('Round Trip');
+		expect(reimported.by).toBe('Some Author');
+		expect(reimported.mapping).toEqual(layout.mapping);
+	});
+
+	it('does not invent an author when the board had none', async () => {
+		const exported = generateExportKmahjongg(makeLayout({ by: undefined }));
+
+		const reimported = await convertKmahjongg(exported, 'board.layout');
+
+		expect(reimported.by).toBeUndefined();
 	});
 
 	it('should contain the category line', () => {

@@ -105,7 +105,8 @@ export async function convertKmahjongg(data: string, filename: string): Promise<
 		layout.mapping = await convertKmahjonggLines(lines.filter(line => !line.startsWith('#')), 16);
 		return layout;
 	}
-	if (['kmahjongg-layout-v1.1'].includes(version)) {
+	// KDE writes the leading k, the boards in the wild and this app's own exporter do not
+	if (['kmahjongg-layout-v1.1', 'mahjongg-layout-v1.1'].includes(version)) {
 		const headerHeight = Number(lines.find(line => line.startsWith('h'))?.slice(1) ?? '');
 		const height = headerHeight > 0 ? headerHeight : 16;
 		const name = (lines.find(line => line.startsWith('# name:')) ?? '').slice(7).trim();

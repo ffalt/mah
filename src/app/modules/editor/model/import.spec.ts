@@ -210,6 +210,24 @@ describe('convertKmahjongg', () => {
 		expect(result.mapping).toEqual([[0, 0, 0], [1, 0, 0]]);
 	});
 
+	// the boards in the wild and this app's own exporter write the header without the leading k
+	it('accepts the v1.1 header without the leading k', async () => {
+		const data = ['mahjongg-layout-v1.1', '# name: Probe', 'w4', 'h2', 'd1', '1...', '..1.'].join('\n');
+
+		const result = await convertKmahjongg(data, 'test.layout');
+
+		expect(result.name).toBe('Probe');
+		expect(result.mapping).toEqual([[0, 0, 0], [0, 2, 1]]);
+	});
+
+	it('still accepts the v1.1 header KDE writes', async () => {
+		const data = ['kmahjongg-layout-v1.1', '# name: Probe', 'w4', 'h2', 'd1', '1...', '..1.'].join('\n');
+
+		const result = await convertKmahjongg(data, 'test.layout');
+
+		expect(result.mapping).toEqual([[0, 0, 0], [0, 2, 1]]);
+	});
+
 	it('should reject unknown version', async () => {
 		await expect(convertKmahjongg('unknown-version-v9.9\n1000', 'test.layout')).rejects.toThrow('Unknown .layout format');
 	});

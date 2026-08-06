@@ -42,9 +42,10 @@ export function generateExportKmahjongg(layout: Layout): string {
 		matrix.setValue(z, x + 1, y + 1, 3);
 	}
 	const result: Array<string> = [
-		'mahjongg-layout-v1.1',
+		'kmahjongg-layout-v1.1',
 		`# name: ${layout.name}`,
-		`# by: ${layout.by}`,
+		// an author-less board leaves the line out entirely, the way the other two exporters do
+		...(layout.by ? [`# by: ${layout.by}`] : []),
 		`# category: ${layout.category}`,
 		'# Board size in quarter tiles',
 		`w${bounds.x + 1}`,
