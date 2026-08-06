@@ -10,11 +10,12 @@ import {
 	convertKmahjonggLines,
 	convertKyodai,
 	convertMatrix,
+	decodeImportText,
 	importLayouts,
 	readFile,
 	sortMapping
 } from './import';
-import { describe, beforeEach, afterEach, it, expect } from 'vitest';
+import { describe, it, expect } from 'vitest';
 
 describe('sortMapping', () => {
 	it('should sort by z first', () => {
@@ -375,79 +376,56 @@ describe('cleanImportLayout', () => {
 	});
 });
 
-type FileReaderHandler = (event: ProgressEvent<FileReader>) => void;
-
-let fakeReaderContent = '';
-let shouldFakeReaderFail = false;
-
-class FakeFileReader {
-	private readonly handlers = new Map<string, FileReaderHandler>();
-
-	get result(): string | null {
-		return shouldFakeReaderFail ? null : fakeReaderContent;
-	}
-
-	addEventListener(event: string, handler: FileReaderHandler): void {
-		this.handlers.set(event, handler);
-	}
-
-	readAsText(_file: File, _encoding: string): void {
-		setTimeout(() => {
-			if (shouldFakeReaderFail) {
-				const fakeEvent = {
-					target: { error: { message: 'read error' } }
-				} as unknown as ProgressEvent<FileReader>;
-				this.handlers.get('error')?.(fakeEvent);
-			} else {
-				this.handlers.get('load')?.({ target: this } as unknown as ProgressEvent<FileReader>);
-			}
-		}, 0);
-	}
-}
-
 describe('readFile', () => {
-	let originalFileReader: typeof FileReader;
-
-	beforeEach(() => {
-		originalFileReader = global.FileReader;
-		(global as Record<string, unknown>).FileReader = FakeFileReader;
-	});
-
-	afterEach(() => {
-		(global as Record<string, unknown>).FileReader = originalFileReader;
-	});
-
 	it('should resolve with file content on success', async () => {
-		fakeReaderContent = 'file content';
-		shouldFakeReaderFail = false;
-		const file = new File(['file content'], 'test.txt');
-		const result = await readFile(file);
+		const result = await readFile(new File(['file content'], 'test.txt'));
 		expect(result).toBe('file content');
 	});
 
 	it('should reject with error message on read error', async () => {
-		shouldFakeReaderFail = true;
-		const file = new File(['data'], 'test.txt');
-		await expect(readFile(file)).rejects.toThrow('Reading File failed');
+		const unreadable = {
+			arrayBuffer: async (): Promise<ArrayBuffer> => {
+				throw new Error('read error');
+			}
+		} as unknown as File;
+		await expect(readFile(unreadable)).rejects.toThrow('Reading File failed: read error');
+	});
+
+	it('reads an accented name back unchanged', async () => {
+		const content = '# name: Grüne Mauer 龍';
+		const result = await readFile(new File([content], 'test.layout'));
+		expect(result).toBe(content);
+	});
+});
+
+describe('decodeImportText', () => {
+	function bytes(...values: Array<number>): ArrayBuffer {
+		return new Uint8Array(values).buffer;
+	}
+
+	it('decodes UTF-8, which is what this app and KDE write', () => {
+		// 'ü' as UTF-8
+		expect(decodeImportText(bytes(0xC3, 0xBC))).toBe('ü');
+	});
+
+	it('strips a UTF-8 byte order mark', () => {
+		expect(decodeImportText(bytes(0xEF, 0xBB, 0xBF, 0x4B, 0x79))).toBe('Ky');
+	});
+
+	it('falls back to windows-1252 for a legacy Kyodai file', () => {
+		// 'ü' as windows-1252, which is not valid UTF-8
+		expect(decodeImportText(bytes(0xFC))).toBe('ü');
+	});
+
+	it('leaves plain ASCII alone either way', () => {
+		expect(decodeImportText(new TextEncoder().encode('Kyodai 6.0').buffer as ArrayBuffer)).toBe('Kyodai 6.0');
 	});
 });
 
 describe('importLayouts', () => {
-	let originalFileReader: typeof FileReader;
-
 	function makeFile(content: string, name: string): File {
 		return new File([content], name, { type: 'text/plain' });
 	}
-
-	beforeEach(() => {
-		originalFileReader = global.FileReader;
-		shouldFakeReaderFail = false;
-		(global as Record<string, unknown>).FileReader = FakeFileReader;
-	});
-
-	afterEach(() => {
-		(global as Record<string, unknown>).FileReader = originalFileReader;
-	});
 
 	it('should reject files larger than 10 MB', async () => {
 		const big = new File([new ArrayBuffer(11 * 1024 * 1024)], 'big.mah');
@@ -459,7 +437,6 @@ describe('importLayouts', () => {
 			mah: '1.0',
 			boards: [{ id: 'abc', name: 'Test', map: [] }]
 		});
-		fakeReaderContent = payload;
 		const file = makeFile(payload, 'boards.mah');
 		const result = await importLayouts(file);
 		expect(result).toHaveLength(1);
@@ -468,14 +445,12 @@ describe('importLayouts', () => {
 
 	it('should reject invalid JSON for .mah file', async () => {
 		const content = 'not json{{';
-		fakeReaderContent = content;
 		const file = makeFile(content, 'boards.mah');
 		await expect(importLayouts(file)).rejects.toThrow('Invalid JSON file');
 	});
 
 	it('should reject valid JSON that is not a mah format', async () => {
 		const content = JSON.stringify({ not: 'mah' });
-		fakeReaderContent = content;
 		const file = makeFile(content, 'boards.mah');
 		await expect(importLayouts(file)).rejects.toThrow('Invalid .mah file format');
 	});
@@ -491,7 +466,6 @@ describe('importLayouts', () => {
 			'10',
 			'01'
 		].join('\n');
-		fakeReaderContent = data;
 		const file = makeFile(data, 'dragon.layout');
 		const result = await importLayouts(file);
 		expect(result).toHaveLength(1);
@@ -500,7 +474,6 @@ describe('importLayouts', () => {
 	it('should parse a .lay (Kyodai 6.0) file', async () => {
 		const board = '0'.repeat(3400);
 		const data = `Kyodai 6.0\nDragon\n${board}\n`;
-		fakeReaderContent = data;
 		const file = makeFile(data, 'dragon.lay');
 		const result = await importLayouts(file);
 		expect(result).toHaveLength(1);
@@ -508,8 +481,41 @@ describe('importLayouts', () => {
 
 	it('should reject an unknown .layout format', async () => {
 		const content = 'unknown-v99\n';
-		fakeReaderContent = content;
 		const file = makeFile(content, 'test.layout');
 		await expect(importLayouts(file)).rejects.toThrow('Unknown .layout format');
+	});
+});
+
+// the real FileReader, so these cover the whole bytes -> text -> layout chain
+describe('importLayouts encoding', () => {
+	it('keeps a non-ASCII name and author in a UTF-8 kmahjongg file', async () => {
+		const data = [
+			'kmahjongg-layout-v1.1',
+			'# name: Grüne Mauer',
+			'# by: Jörg',
+			'w2',
+			'h2',
+			'd1',
+			'10',
+			'01'
+		].join('\n');
+		const result = await importLayouts(new File([data], 'gruene.layout', { type: 'text/plain' }));
+		expect(result[0].name).toBe('Grüne Mauer');
+		expect(result[0].by).toBe('Jörg');
+	});
+
+	it('round-trips a non-ASCII name through the app own .mah format', async () => {
+		const payload = JSON.stringify({ mah: '1.0', boards: [{ id: 'abc', name: 'Drachenmauer für Anfänger 龍', map: [] }] });
+		const result = await importLayouts(new File([payload], 'boards.mah', { type: 'application/json' }));
+		expect(result[0].name).toBe('Drachenmauer für Anfänger 龍');
+	});
+
+	it('still reads a legacy windows-1252 Kyodai file', async () => {
+		const head = new TextEncoder().encode('Kyodai 6.0\nGr');
+		// the windows-1252 byte for u-umlaut, which is not valid UTF-8
+		const umlaut = new Uint8Array([0xFC]);
+		const tail = new TextEncoder().encode(`ne\n${'0'.repeat(3400)}\n`);
+		const result = await importLayouts(new File([head, umlaut, tail], 'gruene.lay', { type: 'text/plain' }));
+		expect(result[0].name).toBe('Grüne');
 	});
 });

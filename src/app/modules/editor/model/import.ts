@@ -212,17 +212,20 @@ export function cleanImportLayout(layout: ImportLayout): LoadLayout {
 	};
 }
 
+export function decodeImportText(buffer: ArrayBuffer): string {
+	try {
+		return new TextDecoder('utf-8', { fatal: true }).decode(buffer);
+	} catch {
+		return new TextDecoder('windows-1252').decode(buffer);
+	}
+}
+
 export async function readFile(file: File): Promise<string> {
-	const reader = new FileReader();
-	return new Promise<string>((resolve, reject) => {
-		reader.addEventListener('load', () => {
-			resolve(reader.result as string);
-		});
-		reader.addEventListener('error', event => {
-			reject(new Error(`Reading File failed: ${event?.target?.error?.message ?? 'unknown error'}`));
-		});
-		reader.readAsText(file, 'ascii');
-	});
+	try {
+		return decodeImportText(await file.arrayBuffer());
+	} catch (error) {
+		throw new Error(`Reading File failed: ${error instanceof Error ? error.message : 'unknown error'}`, { cause: error });
+	}
 }
 
 export async function importLayouts(file: File): Promise<Array<LoadLayout>> {
