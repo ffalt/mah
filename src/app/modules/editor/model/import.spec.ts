@@ -183,6 +183,32 @@ describe('convertKmahjongg', () => {
 		expect(result.name).toBe('fallback');
 	});
 
+	// a v1.1 file is a stack of levels, each one h rows tall
+	function kmahjonggV11(header: Array<string>, rows: Array<string>): string {
+		return ['kmahjongg-layout-v1.1', '# name: Probe', ...header, ...rows].join('\n');
+	}
+
+	// one tile on the first row of level 0 and one on the first row of level 1, for a 16 row level
+	function twoLevelRows(): Array<string> {
+		return Array.from({ length: 17 }, (_value, index) => (index === 0 || index === 16 ? '1...' : '....'));
+	}
+
+	it('splits the rows into levels at the height the h header declares', async () => {
+		const rows = ['1...', '....', '..1.', '....', '.1..', '....'];
+		const result = await convertKmahjongg(kmahjonggV11(['w4', 'h3', 'd2'], rows), 'test.layout');
+		expect(result.mapping).toEqual([[0, 0, 0], [0, 2, 2], [1, 1, 1]]);
+	});
+
+	it('falls back to 16 rows per level when the h header is missing', async () => {
+		const result = await convertKmahjongg(kmahjonggV11(['w4', 'd2'], twoLevelRows()), 'test.layout');
+		expect(result.mapping).toEqual([[0, 0, 0], [1, 0, 0]]);
+	});
+
+	it('falls back rather than splitting the rows at a zero height', async () => {
+		const result = await convertKmahjongg(kmahjonggV11(['w4', 'h0', 'd2'], twoLevelRows()), 'test.layout');
+		expect(result.mapping).toEqual([[0, 0, 0], [1, 0, 0]]);
+	});
+
 	it('should reject unknown version', async () => {
 		await expect(convertKmahjongg('unknown-version-v9.9\n1000', 'test.layout')).rejects.toThrow('Unknown .layout format');
 	});

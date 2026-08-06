@@ -106,14 +106,15 @@ export async function convertKmahjongg(data: string, filename: string): Promise<
 		return layout;
 	}
 	if (['kmahjongg-layout-v1.1'].includes(version)) {
-		const h = Number((lines.find(line => line.startsWith('h')) ?? 'h16').split('').slice().join(''));
+		const headerHeight = Number(lines.find(line => line.startsWith('h'))?.slice(1) ?? '');
+		const height = headerHeight > 0 ? headerHeight : 16;
 		const name = (lines.find(line => line.startsWith('# name:')) ?? '').slice(7).trim();
 		layout.name = name ?? layout.name;
 		layout.name = layout.name.length === 0 ? filename.split('.', 1)[0] : layout.name;
 		const by = (lines.find(line => line.startsWith('# by:')) ?? '').slice(5).trim();
 		layout.by = by || layout.by;
 		lines = lines.filter(line => !line.startsWith('h') && !line.startsWith('w') && !line.startsWith('d') && !line.startsWith('#'));
-		layout.mapping = await convertKmahjonggLines(lines, Number.isNaN(h) ? 16 : h);
+		layout.mapping = await convertKmahjonggLines(lines, height);
 		return layout;
 	}
 	const info = JSON.stringify((version ?? '').slice(0, 50));
