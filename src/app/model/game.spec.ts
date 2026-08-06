@@ -143,12 +143,37 @@ describe('Game', () => {
 
 		it('should pause the game', () => {
 			game.layoutID = 'test';
+			game.state.set(STATES.run);
 			game.pause();
 
 			expect(mockClock.pause).toHaveBeenCalled();
 			expect(game.state()).toBe(STATES.pause);
 			expect(mockStorage.storeState).toHaveBeenCalled();
 			expect(mockMusic.pause).toHaveBeenCalled();
+		});
+
+		it('should not pause a game that is not running', () => {
+			game.layoutID = 'test';
+			for (const state of [STATES.idle, STATES.pause]) {
+				game.state.set(state);
+				game.pause();
+
+				expect(game.state()).toBe(state);
+			}
+			expect(mockClock.pause).not.toHaveBeenCalled();
+			expect(mockStorage.storeState).not.toHaveBeenCalled();
+		});
+
+		it('keeps a finished game finished when a dialog pauses and resumes around it', () => {
+			// what opening and closing a dialog does to a game that already ended
+			game.layoutID = 'test';
+			game.state.set(STATES.idle);
+			game.message.set({ messageID: 'MSG_BEST', playTime: 1000 });
+
+			game.pause();
+
+			expect(game.isPaused()).toBe(false);
+			expect(game.message()?.messageID).toBe('MSG_BEST');
 		});
 
 		it('should resume the game', () => {

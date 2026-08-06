@@ -6,7 +6,7 @@ import { AppService } from '../../service/app.service';
 import { SvgdefService } from '../../service/svgdef.service';
 import { GameComponent } from './game-component.component';
 import { By } from '@angular/platform-browser';
-import { GAME_MODE_EASY, GAME_MODE_EXPERT, GAME_MODE_STANDARD } from '../../model/consts';
+import { GAME_MODE_EASY, GAME_MODE_EXPERT, GAME_MODE_STANDARD, STATES } from '../../model/consts';
 import { type BUILD_MODE_ID, MODE_SOLVABLE } from '../../model/builder';
 import { environment } from '../../../environments/environment';
 import { Stone } from '../../model/stone';
@@ -168,6 +168,30 @@ describe('GameComponent', () => {
 		component.newGame();
 		expect(pauseSpy).toHaveBeenCalled();
 		expect(showNewGameSpy).toHaveBeenCalled();
+	});
+
+	it('leaves a finished game finished when the board picker is opened and closed again', () => {
+		component.game.state.set(STATES.idle);
+		component.game.message.set({ messageID: 'MSG_BEST', playTime: 1000 });
+
+		component.newGame();
+		expect(component.game.isPaused()).toBe(false);
+
+		// closing the picker without choosing a board must not put the finished board back into play
+		component.toggleDialogState(false);
+		expect(component.game.isRunning()).toBe(false);
+		expect(component.game.state()).toBe(STATES.idle);
+		expect(component.game.message()?.messageID).toBe('MSG_BEST');
+	});
+
+	it('still pauses and resumes a running game around a dialog', () => {
+		component.game.state.set(STATES.run);
+
+		component.toggleDialogState(true);
+		expect(component.game.isPaused()).toBe(true);
+
+		component.toggleDialogState(false);
+		expect(component.game.isRunning()).toBe(true);
 	});
 
 	it('should start game with provided data', () => {

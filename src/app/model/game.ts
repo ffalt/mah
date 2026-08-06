@@ -124,6 +124,9 @@ export class Game {
 	}
 
 	pause(): void {
+		if (!this.isRunning()) {
+			return;
+		}
 		this.clock.pause();
 		this.setState(STATES.pause, 'MSG_CONTINUE_PAUSE');
 		this.clearSaveTimer();
