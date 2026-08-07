@@ -280,9 +280,12 @@ export class BoardComponent implements OnInit, OnChanges, AfterViewInit {
 
 	private resize(element: { innerHeight: number; innerWidth: number }): void {
 		const r = this.noRotate() ? false : element.innerHeight > element.innerWidth;
-		this.panZoom.reset();
-		if (r !== this.rotate()) {
+		// only a rotation invalidates the pan/zoom frame - plain resizes (mobile url bar, window drag) must keep the player's view
+		if (r === this.rotate()) {
+			this.panZoom.clampPan();
+		} else {
 			this.rotate.set(r);
+			this.panZoom.reset();
 		}
 		this.updateViewPort();
 	}

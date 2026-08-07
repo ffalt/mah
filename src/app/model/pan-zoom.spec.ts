@@ -97,6 +97,31 @@ describe('PanZoom', () => {
 		});
 	});
 
+	describe('clampPan', () => {
+		it('keeps the scale and a pan that is still in bounds', () => {
+			zoomTo(2);
+			panZoom.setPanValue(-100, -100);
+
+			panZoom.clampPan();
+
+			expect(panZoom.scale).toBe(2);
+			expect(panZoom.panX).toBe(-100);
+			expect(panZoom.panY).toBe(-100);
+			expect(onTransformChange).toHaveBeenCalled();
+		});
+
+		it('pulls a pan that fell out of bounds back in', () => {
+			zoomTo(2);
+			panZoom.panX = -5000;
+			panZoom.panY = -5000;
+
+			panZoom.clampPan();
+
+			expect(panZoom.panX).toBe(-WIDTH - MARGIN);
+			expect(panZoom.panY).toBe(-HEIGHT - MARGIN);
+		});
+	});
+
 	describe('syncTransformSVG', () => {
 		it('leaves the scale out of the transform while it is 1', () => {
 			panZoom.syncTransformSVG();

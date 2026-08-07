@@ -324,6 +324,52 @@ describe('BoardComponent', () => {
 			expect(resizeSpy).toHaveBeenCalled();
 		});
 
+		function setContainerSize(width: number, height: number): void {
+			Object.defineProperties(component.element.nativeElement, {
+				offsetWidth: { value: width, configurable: true },
+				offsetHeight: { value: height, configurable: true }
+			});
+		}
+
+		it('should keep the pan and zoom when a resize does not flip the rotation', () => {
+			setContainerSize(800, 600);
+			component.scale = 2;
+			component.panZoom.setPanValue(-100, -80);
+
+			(component as unknown as HackBoardComponent).resize({ innerWidth: 1000, innerHeight: 800 });
+
+			expect(component.rotate()).toBe(false);
+			expect(component.scale).toBe(2);
+			expect(component.panX).toBe(-100);
+			expect(component.panY).toBe(-80);
+		});
+
+		it('should pull the pan back into bounds when the container shrinks', () => {
+			setContainerSize(800, 600);
+			component.scale = 2;
+			component.panZoom.setPanValue(-800, -600);
+			setContainerSize(200, 150);
+
+			(component as unknown as HackBoardComponent).resize({ innerWidth: 1000, innerHeight: 800 });
+
+			// margin 50 past the extra size the zoom adds
+			expect(component.panX).toBe(-250);
+			expect(component.panY).toBe(-200);
+		});
+
+		it('should reset the pan and zoom when the rotation flips', () => {
+			setContainerSize(800, 600);
+			component.scale = 2;
+			component.panZoom.setPanValue(-100, -80);
+
+			(component as unknown as HackBoardComponent).resize({ innerWidth: 400, innerHeight: 800 });
+
+			expect(component.rotate()).toBe(true);
+			expect(component.scale).toBe(1);
+			expect(component.panX).toBe(0);
+			expect(component.panY).toBe(0);
+		});
+
 		it('should handle touch start events for panning', () => {
 			// Create a touch event with one touchpoint
 			const touchEvent = new TouchEvent('touchstart', {

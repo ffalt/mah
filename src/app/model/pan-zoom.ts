@@ -51,6 +51,12 @@ export class PanZoom {
 		this.updateTransform();
 	}
 
+	// keeps the current zoom but pulls the pan back into the bounds of a changed container size
+	clampPan(): void {
+		this.setPanValue(this.panX, this.panY);
+		this.updateTransform();
+	}
+
 	private resetGestureState(): void {
 		this.isPanning = false;
 		this.isPinching = false;
