@@ -7,6 +7,10 @@ import { SolverPrune } from './solver.prune';
 import { rand } from './solver.tools';
 import { SolverRandomSolve } from './solver.random';
 
+function isGridIndex(value: number): boolean {
+	return Number.isSafeInteger(value) && value >= 0;
+}
+
 export class Solver {
 	nTilesCount: number; // number of tiles
 	nPlays: number; // number of "game simulations" of randomSolve and sureSolve
@@ -23,13 +27,24 @@ export class Solver {
 	nGroups: number;
 	remainMax: number; // search interval for the number of tiles that remains finally
 	remainMin: number;
-	maxGroups: number = 80;
-	maxHeight: number = 40;
-	maxWidth: number = 100;
-	maxDepth: number = 10;
+	// sized per layout by applyBounds()
+	maxGroups: number = 0;
+	maxHeight: number = 0;
+	maxWidth: number = 0;
+	maxDepth: number = 0;
 
 	solveLayout(stones: Array<StonePosition>): number {
 		this.tileList = [];
+		// a previous run may have left a larger grid behind
+		this.lo = [];
+		this.tileGroups = [];
+		this.nGroups = 0;
+		this.qtsIndex = 0;
+		this.nTilesCount = stones.length;
+		if (!this.applyBounds(stones)) {
+			// nothing can be removed from a layout the solver cannot even index
+			return stones.length + 2;
+		}
 		// clear layout pointers
 		for (let row = 0; row < this.maxHeight; row++) {
 			this.lo[row] = [];
@@ -54,8 +69,30 @@ export class Solver {
 			this.tileList.push(t);
 		}
 
-		this.nTilesCount = stones.length;
 		return this.solve(0, 0);
+	}
+
+	// the grid and the group table are sized from the input, so board size and tile count are not capped
+	private applyBounds(stones: Array<StonePosition>): boolean {
+		let height = 0;
+		let width = 0;
+		let depth = 0;
+		let groups = 0;
+		for (const stone of stones) {
+			if (!isGridIndex(stone.y) || !isGridIndex(stone.x) || !isGridIndex(stone.z) || !isGridIndex(stone.groupNr)) {
+				return false;
+			}
+			height = Math.max(height, stone.y + 1);
+			width = Math.max(width, stone.x + 1);
+			depth = Math.max(depth, stone.z + 1);
+			groups = Math.max(groups, stone.groupNr + 1);
+		}
+		this.maxHeight = height;
+		this.maxWidth = width;
+		this.maxDepth = depth;
+		// the search system always walks group 0, so the table is never empty
+		this.maxGroups = Math.max(groups, 1);
+		return true;
 	}
 
 	writeGame(): Array<Place> {

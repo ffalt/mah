@@ -50,6 +50,69 @@ describe('Solver', () => {
 			expect(result).toBeGreaterThan(0);
 		});
 
+		it('should solve a layout taller than the old 40 row grid', () => {
+			const stones: Array<StonePosition> = [
+				{ x: 0, y: 100, z: 0, v: 1, groupNr: 0 },
+				{ x: 2, y: 100, z: 0, v: 1, groupNr: 0 }
+			];
+
+			expect(solver.solveLayout(stones)).toBe(0);
+			expect(solver.writeGame()).toHaveLength(2);
+		});
+
+		it('should solve a layout wider and deeper than the old grid', () => {
+			const stones: Array<StonePosition> = [
+				{ x: 200, y: 0, z: 20, v: 1, groupNr: 0 },
+				{ x: 202, y: 0, z: 20, v: 1, groupNr: 0 }
+			];
+
+			expect(solver.solveLayout(stones)).toBe(0);
+			expect(solver.writeGame()).toHaveLength(2);
+		});
+
+		it('should solve a layout with more groups than the old limit of 80', () => {
+			const stones: Array<StonePosition> = [];
+			for (let group = 0; group < 100; group++) {
+				stones.push(
+					{ x: group * 2, y: 0, z: 0, v: group, groupNr: group },
+					{ x: group * 2, y: 2, z: 0, v: group, groupNr: group }
+				);
+			}
+
+			expect(solver.solveLayout(stones)).toBe(0);
+			expect(solver.writeGame()).toHaveLength(stones.length);
+		});
+
+		it('should reject a layout with coordinates it cannot index', () => {
+			const cases: Array<Array<StonePosition>> = [
+				[{ x: -2, y: 0, z: 0, v: 1, groupNr: 0 }],
+				[{ x: 0, y: -1, z: 0, v: 1, groupNr: 0 }],
+				[{ x: 0, y: 0, z: -1, v: 1, groupNr: 0 }],
+				[{ x: 0, y: 0, z: 0, v: 1, groupNr: -1 }],
+				[{ x: 0.5, y: 0, z: 0, v: 1, groupNr: 0 }]
+			];
+
+			for (const stones of cases) {
+				expect(solver.solveLayout(stones)).toBeGreaterThan(0);
+				expect(solver.writeGame()).toEqual([]);
+			}
+		});
+
+		it('should not carry a grid over from a previous larger layout', () => {
+			solver.solveLayout([
+				{ x: 0, y: 40, z: 0, v: 1, groupNr: 0 },
+				{ x: 2, y: 40, z: 0, v: 1, groupNr: 0 }
+			]);
+
+			const result = solver.solveLayout([
+				{ x: 0, y: 0, z: 0, v: 1, groupNr: 0 },
+				{ x: 2, y: 0, z: 0, v: 1, groupNr: 0 }
+			]);
+
+			expect(result).toBe(0);
+			expect(solver.writeGame()).toHaveLength(2);
+		});
+
 		it('should handle an empty layout', () => {
 			const stones: Array<StonePosition> = [];
 
