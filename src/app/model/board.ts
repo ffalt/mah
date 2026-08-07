@@ -167,18 +167,19 @@ export class Board {
 		this.update();
 	}
 
-	load(mapping: StoneMapping, undos: Array<Place>): void {
-		if (!mapping) {
-			console.warn('Board.load() failed: mapping is null or undefined');
-			return;
+	load(mapping: StoneMapping, undos: Array<Place>): boolean {
+		if (!mapping?.length) {
+			console.warn('Board.load() failed: mapping is empty, null or undefined');
+			return false;
+		}
+		const highestValue = Math.max(0, ...mapping.map(place => place[3]));
+		const builder: Builder = new Builder(new Tiles(Math.max(mapping.length, highestValue)));
+		const stones = builder.load(mapping);
+		if (stones?.length !== mapping.length) {
+			console.warn('Board.load() failed: stored stones could not be restored', { expected: mapping.length, restored: stones?.length ?? 0 });
+			return false;
 		}
 		this.undo.set(undos);
-		const builder: Builder = new Builder(new Tiles(mapping.length));
-		const stones = builder.load(mapping);
-		if (!stones) {
-			console.warn('Board.load() failed: builder.load() returned null or undefined', { mappingLength: mapping.length });
-			return;
-		}
 		for (const undo of undos) {
 			const stone: Stone | undefined = safeGetStone(stones, undo[0], undo[1], undo[2]);
 			if (stone) {
@@ -187,6 +188,7 @@ export class Board {
 		}
 		this.stones.set(stones);
 		this.update();
+		return true;
 	}
 
 	save(): Array<StonePlace> {

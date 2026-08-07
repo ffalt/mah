@@ -143,12 +143,48 @@ describe('Board', () => {
 		it('should restore the picked state of undone stones', () => {
 			const mapping = Array.from({ length: 8 }, (_, index) => [0, index * 2, 0, index + 1] as [number, number, number, number]);
 
-			board.load(mapping, [[0, 0, 0], [0, 2, 0]]);
+			const loaded = board.load(mapping, [[0, 0, 0], [0, 2, 0]]);
 
+			expect(loaded).toBe(true);
 			const stones = board.stones();
 			expect(stones.length).toBe(8);
 			expect(stones.filter(stone => stone.picked()).map(stone => stone.x)).toEqual([0, 2]);
 			expect(board.undo()).toEqual([[0, 0, 0], [0, 2, 0]]);
+		});
+
+		it('should restore a stored tile value above the place count', () => {
+			// a board can hold tiles numbered past its own place count
+			const mapping = Array.from({ length: 8 }, (_, index) => [0, index * 2, 0, index + 137] as [number, number, number, number]);
+
+			const loaded = board.load(mapping, []);
+
+			expect(loaded).toBe(true);
+			expect(board.stones()).toHaveLength(8);
+			for (const stone of board.stones()) {
+				expect(stone.img?.id).toBeDefined();
+			}
+		});
+
+		it('should refuse a stored board whose tiles cannot be resolved', () => {
+			const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+			const mapping = Array.from({ length: 8 }, (_, index) => [0, index * 2, 0, index + 1] as [number, number, number, number]);
+			// a value no tile table can resolve
+			mapping[3][3] = -5;
+
+			const loaded = board.load(mapping, []);
+
+			expect(loaded).toBe(false);
+			expect(board.stones()).toHaveLength(0);
+			expect(board.undo()).toEqual([]);
+			warnSpy.mockRestore();
+		});
+
+		it('should refuse an empty stored board', () => {
+			const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+
+			expect(board.load([], [])).toBe(false);
+			expect(board.stones()).toHaveLength(0);
+			warnSpy.mockRestore();
 		});
 	});
 });

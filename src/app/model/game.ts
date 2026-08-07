@@ -183,18 +183,32 @@ export class Game {
 		try {
 			const store: GameStateStore | undefined = this.storage.getState();
 			if (store?.stones?.length) {
+				if (!this.board.load(store.stones, store.undo ?? [])) {
+					this.discardStoredState();
+					return false;
+				}
 				this.clock.elapsed.set(store.elapsed ?? 0);
 				this.layoutID = store.layout;
 				this.mode.set(store.gameMode ?? GAME_MODE_ID_DEFAULT);
 				this.board.buildMode = store.buildMode ?? MODE_SOLVABLE;
 				this.state.set(store.state ?? STATES.idle);
-				this.board.load(store.stones, store.undo ?? []);
 				return true;
 			}
 		} catch (error) {
 			console.error('load state failed', error);
 		}
 		return false;
+	}
+
+	// a save that cannot be restored
+	private discardStoredState(): void {
+		this.layoutID = undefined;
+		this.state.set(STATES.idle);
+		try {
+			this.storage.storeState();
+		} catch (error) {
+			console.error('clearing state failed', error);
+		}
 	}
 
 	save(): void {

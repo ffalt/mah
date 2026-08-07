@@ -35,7 +35,7 @@ describe('Game', () => {
 			hint: vi.fn(),
 			shuffle: vi.fn(),
 			back: vi.fn(),
-			load: vi.fn(),
+			load: vi.fn().mockReturnValue(true),
 			save: vi.fn().mockReturnValue([]),
 			reset: vi.fn(),
 			applyMapping: vi.fn(),
@@ -461,6 +461,43 @@ describe('Game', () => {
 			const result = game.load();
 
 			expect(result).toBe(false);
+		});
+
+		it('should discard a stored board the board could not restore', () => {
+			(mockBoard.load as Mock).mockReturnValue(false);
+			(mockStorage.getState as Mock).mockReturnValue({
+				elapsed: 1000,
+				state: STATES.pause,
+				layout: 'test',
+				gameMode: GAME_MODE_EASY,
+				undo: [],
+				stones: [[0, 0, 0, 1], [0, 2, 0, 1]]
+			} as GameStateStore);
+
+			const result = game.load();
+
+			expect(result).toBe(false);
+			expect(game.state()).toBe(STATES.idle);
+			expect(game.layoutID).toBeUndefined();
+			// cleared, so the next start does not offer the same broken board again
+			expect(mockStorage.storeState).toHaveBeenCalledWith();
+		});
+
+		it('should offer a new game rather than a continue for a board that failed to restore', () => {
+			(mockBoard.load as Mock).mockReturnValue(false);
+			(mockStorage.getState as Mock).mockReturnValue({
+				elapsed: 1000,
+				state: STATES.pause,
+				layout: 'test',
+				gameMode: GAME_MODE_EASY,
+				undo: [],
+				stones: [[0, 0, 0, 1], [0, 2, 0, 1]]
+			} as GameStateStore);
+
+			game.init();
+
+			expect(game.message()?.messageID).toBe('MSG_START');
+			expect(game.isIdle()).toBe(true);
 		});
 
 		it('should not restore a stored board that has no tiles', () => {
