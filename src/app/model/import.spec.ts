@@ -152,6 +152,14 @@ describe('parseImportString', () => {
 		expect(result[0].name).toBe('Test Board');
 	});
 
+	it('keeps non-ascii board names intact', () => {
+		const board = makeBoard({ name: 'Höhle', by: 'Jörg', cat: '麻雀' });
+		const result = parseImportString(b64(makeMah([board])));
+		expect(result[0].name).toBe('Höhle');
+		expect(result[0].by).toBe('Jörg');
+		expect(result[0].cat).toBe('麻雀');
+	});
+
 	it('returns all valid boards', () => {
 		const boards = [makeBoard({ id: 'id-1', name: 'Board 1' }), makeBoard({ id: 'id-2', name: 'Board 2' })];
 		const result = parseImportString(b64(makeMah(boards)));
