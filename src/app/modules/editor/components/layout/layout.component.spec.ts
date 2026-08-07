@@ -71,10 +71,19 @@ describe('LayoutComponent', () => {
 			expect(component.svg()).toBe('svg:preview');
 		});
 
-		it('sets hasChanged to true', () => {
+		it('leaves hasChanged alone', () => {
 			init();
 			expect(component.hasChanged).toBe(false);
 			component.refresh();
+			expect(component.hasChanged).toBe(false);
+		});
+	});
+
+	describe('change()', () => {
+		it('sets hasChanged to true', () => {
+			init();
+			expect(component.hasChanged).toBe(false);
+			component.change();
 			expect(component.hasChanged).toBe(true);
 		});
 	});
@@ -122,6 +131,43 @@ describe('LayoutComponent', () => {
 			expect(component.currentZ()).toBe(0);
 			expect(component.level()).toBeDefined();
 			expect(component.level()?.z).toBe(0);
+		});
+
+		it('does not mark the layout as changed', () => {
+			init();
+			component.selectLevel(0);
+			component.selectLevel(0);
+			expect(component.hasChanged).toBe(false);
+		});
+	});
+
+	describe('hasChanged', () => {
+		it.each([
+			['onPosClick', (c: LayoutComponent) => c.onPosClick(0, 10, 10)],
+			['moveX', (c: LayoutComponent) => c.moveX(1)],
+			['moveY', (c: LayoutComponent) => c.moveY(1)],
+			['moveLayerX', (c: LayoutComponent) => c.moveLayerX(1)],
+			['moveLayerY', (c: LayoutComponent) => c.moveLayerY(1)],
+			['duplicateLayerZ', (c: LayoutComponent) => c.duplicateLayerZ(0)],
+			['clearLayerZ', (c: LayoutComponent) => c.clearLayerZ(0)],
+			['deleteLayerZ', (c: LayoutComponent) => c.deleteLayerZ(0)],
+			['newLayerBelow', (c: LayoutComponent) => c.newLayerBelow(0)]
+		])('is set by %s', (_name, mutate) => {
+			init();
+			expect(component.hasChanged).toBe(false);
+			mutate(component);
+			expect(component.hasChanged).toBe(true);
+		});
+
+		it('is set by moveLayerZ', () => {
+			init();
+			// moveLayerZ needs a second layer to move into
+			component.newLayerBelow(0);
+			component.hasChanged = false;
+
+			component.moveLayerZ(1, 0);
+
+			expect(component.hasChanged).toBe(true);
 		});
 	});
 

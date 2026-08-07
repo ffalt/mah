@@ -179,7 +179,7 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 				}
 			}
 		}
-		this.refresh();
+		this.change();
 	}
 
 	onCellClick(cell: Cell): void {
@@ -198,12 +198,12 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 		this.refresh();
 	}
 
+	// redraw only - viewing another layer must not mark the layout as modified
 	refresh(): void {
 		const layout = this.layout();
 		if (!layout) {
 			return;
 		}
-		this.hasChanged = true;
 		this.matrix.applyMapping(layout.mapping, this.totalZ, this.totalX, this.totalY);
 		const currentZ = this.currentZ();
 		this.stats.set(this.getStats(layout));
@@ -211,6 +211,11 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 		const svg = this.layoutService.generatePreview(optimizeMapping(layout.mapping));
 		this.svg.set(svg);
 		layout.previewSVG = svg;
+	}
+
+	change(): void {
+		this.hasChanged = true;
+		this.refresh();
 	}
 
 	moveX(delta: number): void {
@@ -240,7 +245,7 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 		for (const m of list) {
 			m[index] += delta;
 		}
-		this.refresh();
+		this.change();
 	}
 
 	toggleMirrorX(): void {
@@ -272,12 +277,12 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 		for (const m of dups) {
 			mapping.push([layer + 1, m[1], m[2]]);
 		}
-		this.refresh();
+		this.change();
 	}
 
 	clearLayerZ(layer: number): void {
 		this.layout().mapping = this.layout().mapping.filter(m => m[0] !== layer);
-		this.refresh();
+		this.change();
 	}
 
 	deleteLayerZ(layer: number): void {
@@ -288,7 +293,7 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 			}
 		}
 		this.totalZ = Math.max(this.totalZ - 1, 1);
-		this.refresh();
+		this.change();
 	}
 
 	newLayerBelow(layer: number): void {
@@ -299,7 +304,7 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 				m[0] += 1;
 			}
 		}
-		this.refresh();
+		this.change();
 	}
 
 	moveLayerZ(deltaZ: number, layer: number): void {
@@ -317,7 +322,7 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 		if (layer === this.currentZ()) {
 			this.currentZ.set(this.currentZ() + deltaZ);
 		}
-		this.refresh();
+		this.change();
 	}
 
 	toggleSave(): void {
@@ -367,6 +372,6 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 			// eslint-disable-next-line unicorn/operator-assignment
 			m[axis] = m[axis] + delta;
 		}
-		this.refresh();
+		this.change();
 	}
 }
