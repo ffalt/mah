@@ -93,24 +93,21 @@ export class Matrix {
 	}
 
 	isTilePosBlocked(z: number, x: number, y: number): boolean {
-		const level = this.levels[z];
-		if (y > 0 && level[x][y - 1] > 0) {
-			return true;
-		}
-		if (!level[x - 1]) {
-			return false;
-		}
-		if (level[x - 1][y] > 0) {
-			return true;
-		}
-		return (y > 0 && level[x - 1][y - 1] > 0);
+		return this.get(z, x, y - 1) > 0 || this.get(z, x - 1, y) > 0 || this.get(z, x - 1, y - 1) > 0;
 	}
 
 	get(z: number, x: number, y: number): number {
+		if (!this.inBounds(z, x, y)) {
+			return 0;
+		}
 		return this.levels[z][x][y] || 0;
 	}
 
+	// a position outside the matrix holds nothing, so writing to it is dropped instead of throwing
 	setValue(z: number, x: number, y: number, value: number): void {
+		if (!this.inBounds(z, x, y)) {
+			return;
+		}
 		this.levels[z][x][y] = value;
 	}
 

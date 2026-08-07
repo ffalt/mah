@@ -192,6 +192,22 @@ describe('Matrix', () => {
 
 			expect(matrix.isTilePosBlocked(0, 2, 2)).toBe(false);
 		});
+
+		it('should not throw for positions outside the matrix', () => {
+			matrix.init(5, 5, 2);
+
+			expect(matrix.isTilePosBlocked(0, 9, 9)).toBe(false);
+			expect(matrix.isTilePosBlocked(9, 0, 0)).toBe(false);
+			expect(matrix.isTilePosBlocked(0, -1, -1)).toBe(false);
+			expect(matrix.isTilePosBlocked(0, 0, 9)).toBe(false);
+		});
+
+		it('should still see a neighbour of a position past the right edge', () => {
+			matrix.init(5, 5, 2);
+			matrix.setValue(0, 4, 4, 1);
+
+			expect(matrix.isTilePosBlocked(0, 5, 4)).toBe(true);
+		});
 	});
 
 	describe('get and setValue', () => {
@@ -206,6 +222,24 @@ describe('Matrix', () => {
 			matrix.setValue(0, 0, 0, 42);
 
 			expect(matrix.get(0, 0, 0)).toBe(42);
+		});
+
+		it('should return 0 for positions outside the matrix', () => {
+			matrix.init(5, 5, 2);
+
+			expect(matrix.get(0, 9, 9)).toBe(0);
+			expect(matrix.get(9, 0, 0)).toBe(0);
+			expect(matrix.get(0, -1, 0)).toBe(0);
+			expect(matrix.get(0, 0, -1)).toBe(0);
+		});
+
+		it('should drop a write outside the matrix instead of throwing', () => {
+			matrix.init(5, 5, 2);
+
+			expect(() => matrix.setValue(0, 9, 9, 1)).not.toThrow();
+			expect(() => matrix.setValue(9, 0, 0, 1)).not.toThrow();
+			expect(() => matrix.setValue(0, -1, 0, 1)).not.toThrow();
+			expect(matrix.get(0, 9, 9)).toBe(0);
 		});
 
 		it('should handle multiple levels', () => {
