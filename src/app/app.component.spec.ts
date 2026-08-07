@@ -32,6 +32,40 @@ describe('AppComponent', () => {
 		expect(app).toBeTruthy();
 	});
 
+	describe('handleEditorKeyDown', () => {
+		let app: AppComponent;
+		let dialogVisible: boolean;
+
+		const pressE = (): boolean => app.handleEditorKeyDown(new KeyboardEvent('keydown', { key: 'e' }));
+
+		beforeEach(() => {
+			const fixture = TestBed.createComponent(AppComponent);
+			app = fixture.componentInstance;
+			dialogVisible = false;
+			// the view is not rendered here, so stand in for the game component the key handler asks
+			Object.defineProperty(app, 'gameComponent', { value: () => ({ isDialogVisible: () => dialogVisible }) });
+			vi.spyOn(app, 'toggleEditor').mockImplementation(() => undefined);
+		});
+
+		it('toggles the editor', () => {
+			expect(pressE()).toBe(true);
+			expect(app.toggleEditor).toHaveBeenCalled();
+		});
+
+		it('does not open the editor on top of a game dialog', () => {
+			dialogVisible = true;
+			expect(pressE()).toBe(false);
+			expect(app.toggleEditor).not.toHaveBeenCalled();
+		});
+
+		it('still closes an open editor while a game dialog is up', () => {
+			dialogVisible = true;
+			app.editorVisible.set(true);
+			expect(pressE()).toBe(true);
+			expect(app.toggleEditor).toHaveBeenCalled();
+		});
+	});
+
 	describe('checkImport', () => {
 		let app: AppComponent;
 		let layoutService: LayoutService;

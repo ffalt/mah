@@ -389,6 +389,43 @@ describe('GameComponent', () => {
 		expect(handleKeyDownEventKeySpy).not.toHaveBeenCalled();
 	});
 
+	it('should not let game shortcuts through while a dialog is open', () => {
+		const handleKeyDownEventKeySpy = vi.spyOn(component, 'handleKeyDownEventKey');
+		component.newgame().visible.set(true);
+
+		for (const key of ['m', 't', 'u', 'p', ' ', 'n', 'g']) {
+			component.handleKeyDownEvent(new KeyboardEvent('keydown', { key }));
+		}
+
+		expect(handleKeyDownEventKeySpy).not.toHaveBeenCalled();
+	});
+
+	it('should not open another dialog on top of an open one', () => {
+		const settingsSpy = vi.spyOn(component.settings(), 'toggle');
+		component.help().visible.set(true);
+
+		component.handleKeyDownEvent(new KeyboardEvent('keydown', { key: 's' }));
+
+		expect(settingsSpy).not.toHaveBeenCalled();
+	});
+
+	it('should still close a dialog with the key that opened it', () => {
+		const helpSpy = vi.spyOn(component.help(), 'toggle');
+		component.help().visible.set(true);
+
+		component.handleKeyDownEvent(new KeyboardEvent('keydown', { key: 'h' }));
+
+		expect(helpSpy).toHaveBeenCalled();
+	});
+
+	it('should report an open dialog', () => {
+		expect(component.isDialogVisible()).toBe(false);
+		component.tutorial().visible.set(true);
+		expect(component.isDialogVisible()).toBe(true);
+		component.tutorial().visible.set(false);
+		expect(component.isDialogVisible()).toBe(false);
+	});
+
 	it('should ignore key events from input elements', () => {
 		const handleKeyDownEventKeySpy = vi.spyOn(component, 'handleKeyDownEventKey');
 

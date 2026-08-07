@@ -231,11 +231,18 @@ export class GameComponent {
 		return false;
 	}
 
+	isDialogVisible(): boolean {
+		return this.tutorial().visible() || this.help().visible() || this.newgame().visible() || this.info().visible() || this.settings().visible();
+	}
+
 	handleKeyDownEvent(event: KeyboardEvent): void {
 		if (event.key === 'Escape' && this.handleKeyDownDialogExit()) {
 			return;
 		}
 		if (isFormControlTarget(event.target)) {
+			return;
+		}
+		if (this.isDialogVisible() && !this.isDialogCloseKey(event.key)) {
 			return;
 		}
 		if (this.handleKeyDownEventKey(event.key)) {
@@ -277,6 +284,11 @@ export class GameComponent {
 	onUndo(): void {
 		this.game.back();
 		this.announce(this.app.translate.instant('ANNOUNCE_UNDO'));
+	}
+
+	private isDialogCloseKey(key: string): boolean {
+		const dialog = { h: this.help(), i: this.info(), s: this.settings() }[key];
+		return !!dialog?.visible();
 	}
 
 	private announce(text: string): void {

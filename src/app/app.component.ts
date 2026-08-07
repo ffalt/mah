@@ -58,6 +58,9 @@ export class AppComponent implements OnInit {
 		if (isFormControlTarget(event.target)) {
 			return false;
 		}
+		if (!this.editorVisible() && this.gameComponent().isDialogVisible()) {
+			return false;
+		}
 		this.toggleEditor();
 		event.preventDefault();
 		return true;
