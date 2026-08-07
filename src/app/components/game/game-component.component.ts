@@ -118,11 +118,11 @@ export class GameComponent {
 	}
 
 	showTutorial(): void {
-		this.tutorial().visible.set(true);
+		this.tutorial().open();
 	}
 
 	completeTutorial(): void {
-		this.tutorial().visible.set(false);
+		this.tutorial().close();
 		this.app.settings.tutorialCompleted.set(true);
 		this.app.settings.save();
 		if (this.app.game.isIdle()) {
@@ -139,7 +139,7 @@ export class GameComponent {
 	}
 
 	showNewGame(): void {
-		this.newgame().visible.set(true);
+		this.newgame().open();
 	}
 
 	handleKeyDownEventKey(key: string): boolean {

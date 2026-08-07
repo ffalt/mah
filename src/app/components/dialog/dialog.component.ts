@@ -43,8 +43,15 @@ export class DialogComponent {
 	}
 
 	toggle() {
-		this.visible.set(!this.visible());
-		this.clickEvent.emit(this.visible());
+		this.setVisible(!this.visible());
+	}
+
+	open() {
+		this.setVisible(true);
+	}
+
+	close() {
+		this.setVisible(false);
 	}
 
 	trapFocus(event: KeyboardEvent): void {
@@ -70,6 +77,14 @@ export class DialogComponent {
 			event.preventDefault();
 			first.focus();
 		}
+	}
+
+	private setVisible(visible: boolean): void {
+		if (this.visible() === visible) {
+			return;
+		}
+		this.visible.set(visible);
+		this.clickEvent.emit(visible);
 	}
 
 	private focusDialog(): void {

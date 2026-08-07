@@ -99,6 +99,45 @@ describe('DialogComponent', () => {
 		});
 	});
 
+	describe('Open and close methods', () => {
+		it('should open and emit', () => {
+			const clickSpy = vi.spyOn(component.clickEvent, 'emit');
+
+			component.open();
+
+			expect(component.visible()).toBe(true);
+			expect(clickSpy).toHaveBeenCalledWith(true);
+		});
+
+		it('should close and emit', () => {
+			component.visible.set(true);
+			fixture.detectChanges();
+			const clickSpy = vi.spyOn(component.clickEvent, 'emit');
+
+			component.close();
+
+			expect(component.visible()).toBe(false);
+			expect(clickSpy).toHaveBeenCalledWith(false);
+		});
+
+		it('should not emit when it is already open', () => {
+			component.open();
+			const clickSpy = vi.spyOn(component.clickEvent, 'emit');
+
+			component.open();
+
+			expect(clickSpy).not.toHaveBeenCalled();
+		});
+
+		it('should not emit when it is already closed', () => {
+			const clickSpy = vi.spyOn(component.clickEvent, 'emit');
+
+			component.close();
+
+			expect(clickSpy).not.toHaveBeenCalled();
+		});
+	});
+
 	describe('Component rendering', () => {
 		it('should not render dialog when visible is false', () => {
 			component.visible.set(false);

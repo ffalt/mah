@@ -96,6 +96,48 @@ describe('GameComponent', () => {
 		expect(resumeSpy).toHaveBeenCalled();
 	});
 
+	describe('dialogs opened by the app', () => {
+		it('should pause a running game when the new game dialog is shown', () => {
+			component.game.state.set(STATES.run);
+
+			component.showNewGame();
+
+			expect(component.newgame().visible()).toBe(true);
+			expect(component.game.isPaused()).toBe(true);
+		});
+
+		it('should pause a running game when the tutorial is shown', () => {
+			component.game.state.set(STATES.run);
+
+			component.showTutorial();
+
+			expect(component.tutorial().visible()).toBe(true);
+			expect(component.game.isPaused()).toBe(true);
+		});
+
+		it('should resume the game when the tutorial is completed', () => {
+			component.game.state.set(STATES.run);
+			component.showTutorial();
+
+			component.completeTutorial();
+
+			expect(component.tutorial().visible()).toBe(false);
+			expect(component.game.isRunning()).toBe(true);
+		});
+
+		it('should not resume the previous game when a new one is started', () => {
+			component.game.state.set(STATES.run);
+			component.showNewGame();
+			const resumeSpy = vi.spyOn(component.game, 'resume');
+			vi.spyOn(component.game, 'start').mockImplementation(vi.fn());
+
+			component.startGame({ layout: { id: 'l', name: 'l', category: 'c', mapping: [] }, buildMode: MODE_SOLVABLE, gameMode: GAME_MODE_STANDARD });
+
+			expect(component.newgame().visible()).toBe(false);
+			expect(resumeSpy).not.toHaveBeenCalled();
+		});
+	});
+
 	it('should handle dialog exit with Escape key', () => {
 		// Spy on dialog toggle methods
 		const helpDialog = component.help();
