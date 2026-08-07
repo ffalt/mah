@@ -201,36 +201,38 @@ describe('generateExportKyodai', () => {
 describe('downloadLayout', () => {
 	let mockClick: Mock;
 	let objectURLSpy: Mock;
+	let revokeURLSpy: Mock;
 	let elementSpy: MockInstance;
+	let anchor: HTMLAnchorElement;
 
 	beforeEach(() => {
+		vi.useFakeTimers();
 		mockClick = vi.fn();
-		const mockAnchor = { href: '', download: '', click: mockClick };
-		elementSpy = vi.spyOn(document, 'createElement').mockReturnValue(mockAnchor as unknown as HTMLElement);
+		// a real element so the append/remove the download does are exercised
+		anchor = document.createElement('a');
+		anchor.click = mockClick;
+		elementSpy = vi.spyOn(document, 'createElement').mockReturnValue(anchor);
 		objectURLSpy = vi.fn().mockReturnValue('blob:url');
+		revokeURLSpy = vi.fn();
 		(window.URL as unknown as Record<string, unknown>).createObjectURL = objectURLSpy;
+		(window.URL as unknown as Record<string, unknown>).revokeObjectURL = revokeURLSpy;
 	});
 
 	afterEach(() => {
 		elementSpy.mockRestore();
+		vi.useRealTimers();
 	});
 
 	it('should set href from createObjectURL', () => {
-		const mockAnchor = { href: '', download: '', click: mockClick };
-		elementSpy.mockReturnValue(mockAnchor);
-
 		downloadLayout('file.mah', 'content', 'text/json');
 
-		expect(mockAnchor.href).toBe('blob:url');
+		expect(anchor.href).toBe('blob:url');
 	});
 
 	it('should set the download attribute to the filename', () => {
-		const mockAnchor = { href: '', download: '', click: mockClick };
-		elementSpy.mockReturnValue(mockAnchor);
-
 		downloadLayout('my-file.mah', 'content', 'text/json');
 
-		expect(mockAnchor.download).toBe('my-file.mah');
+		expect(anchor.download).toBe('my-file.mah');
 	});
 
 	it('should call click on the anchor element', () => {
@@ -244,17 +246,41 @@ describe('downloadLayout', () => {
 
 		expect(objectURLSpy).toHaveBeenCalledWith(expect.any(Blob));
 	});
+
+	it('should click the anchor while it is part of the document', () => {
+		mockClick.mockImplementation(() => {
+			expect(anchor.isConnected).toBe(true);
+		});
+
+		downloadLayout('file.mah', 'content', 'text/json');
+
+		expect(mockClick).toHaveBeenCalled();
+		expect(anchor.isConnected).toBe(false);
+	});
+
+	it('should revoke the object url once the click is done', () => {
+		downloadLayout('file.mah', 'content', 'text/json');
+
+		expect(revokeURLSpy).not.toHaveBeenCalled();
+
+		vi.runAllTimers();
+
+		expect(revokeURLSpy).toHaveBeenCalledWith('blob:url');
+	});
 });
 
 describe('downloadMahLayouts', () => {
 	let mockClick: Mock;
 	let elementSpy: MockInstance;
+	let anchor: HTMLAnchorElement;
 
 	beforeEach(() => {
 		mockClick = vi.fn();
-		const mockAnchor = { href: '', download: '', click: mockClick };
-		elementSpy = vi.spyOn(document, 'createElement').mockReturnValue(mockAnchor as unknown as HTMLElement);
+		anchor = document.createElement('a');
+		anchor.click = mockClick;
+		elementSpy = vi.spyOn(document, 'createElement').mockReturnValue(anchor);
 		(window.URL as unknown as Record<string, unknown>).createObjectURL = vi.fn().mockReturnValue('blob:url');
+		(window.URL as unknown as Record<string, unknown>).revokeObjectURL = vi.fn();
 	});
 
 	afterEach(() => {
@@ -262,12 +288,9 @@ describe('downloadMahLayouts', () => {
 	});
 
 	it('should trigger a download with filename mah-layouts.mah', () => {
-		const mockAnchor = { href: '', download: '', click: mockClick };
-		elementSpy.mockReturnValue(mockAnchor);
-
 		downloadMahLayouts([makeLayout()]);
 
-		expect(mockAnchor.download).toBe('mah-layouts.mah');
+		expect(anchor.download).toBe('mah-layouts.mah');
 	});
 
 	it('should call click', () => {

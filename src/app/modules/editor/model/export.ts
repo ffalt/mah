@@ -104,8 +104,17 @@ export function downloadMahLayouts(layouts: Array<Layout>): void {
 
 export function downloadLayout(filename: string, content: string, type: string): void {
 	const blob = new Blob([content], { type });
+	const url = window.URL.createObjectURL(blob);
 	const a = document.createElement('a');
-	a.href = window.URL.createObjectURL(blob);
+	a.href = url;
 	a.download = filename;
+	// some browsers only act on a programmatic click for an anchor that is part of the document
+	a.style.display = 'none';
+	document.body.append(a);
 	a.click();
+	a.remove();
+	// the browser reads the blob after the click returns, so drop the url a tick later
+	setTimeout(() => {
+		window.URL.revokeObjectURL(url);
+	}, 0);
 }
