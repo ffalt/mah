@@ -47,7 +47,28 @@ export class PanZoom {
 		this.scale = 1;
 		this.panX = 0;
 		this.panY = 0;
+		this.resetGestureState();
 		this.updateTransform();
+	}
+
+	private resetGestureState(): void {
+		this.isPanning = false;
+		this.isPinching = false;
+		this.hasTouchPanMoved = false;
+		this.hasPinchChanged = false;
+		this.touchPoints = [];
+		this.lastMouseX = 0;
+		this.lastMouseY = 0;
+		this.initialMouseX = 0;
+		this.initialMouseY = 0;
+		this.lastTouchX = 0;
+		this.lastTouchY = 0;
+		this.lastPinch = 0;
+		this.initialDistance = 0;
+		this.initialScale = 1;
+		this.initialTouchX = 0;
+		this.initialTouchY = 0;
+		this.indicators.gestureIndicators.set([]);
 	}
 
 	onWheel(event: WheelEvent): void {

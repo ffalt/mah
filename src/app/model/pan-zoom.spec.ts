@@ -67,6 +67,34 @@ describe('PanZoom', () => {
 			expect(panZoom.panY).toBe(0);
 			expect(onTransformChange).toHaveBeenCalled();
 		});
+
+		it('drops a pinch in progress instead of applying it on the next touch end', () => {
+			zoomTo(2);
+			panZoom.onTouchStart(touchEvent([touch(300, 300, 0), touch(500, 300, 1)]));
+
+			panZoom.reset();
+
+			expect(panZoom.isPinching).toBe(false);
+			expect(panZoom.initialDistance).toBe(0);
+			expect(indicators.gestureIndicators()).toHaveLength(0);
+
+			panZoom.onTouchEnd(touchEvent([], [touch(200, 300, 0), touch(600, 300, 1)]));
+			expect(panZoom.scale).toBe(1);
+		});
+
+		it('drops a pan in progress and clears the tap-swallowing flags', () => {
+			zoomTo(2);
+			panZoom.onTouchStart(touchEvent([touch(300, 300, 0)]));
+			panZoom.hasTouchPanMoved = true;
+			panZoom.hasPinchChanged = true;
+
+			panZoom.reset();
+
+			expect(panZoom.isPanning).toBe(false);
+			expect(panZoom.hasTouchPanMoved).toBe(false);
+			expect(panZoom.hasPinchChanged).toBe(false);
+			expect(panZoom.touchPoints).toHaveLength(0);
+		});
 	});
 
 	describe('syncTransformSVG', () => {
