@@ -116,6 +116,31 @@ describe('buildKyodaiSVG', () => {
 		expect(result).toContain('</svg>');
 	});
 
+	it('escapes the url so it cannot break out of the attribute', async () => {
+		const payload = 'https://example.com/tiles.jpg#"><foreignObject><img src=x onerror=alert(1)>';
+		(globalThis as Record<string, unknown>).Image = FakeImageSuccess;
+
+		const result = await buildKyodaiSVG(payload);
+		expect(result).not.toContain('<foreignObject>');
+
+		const host = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+		host.innerHTML = result;
+		expect(host.querySelector('foreignObject')).toBeNull();
+		expect(host.querySelector('img')).toBeNull();
+		// the payload stays inside the attribute value instead of becoming markup
+		expect(host.querySelector('image')?.getAttribute('xlink:href')).toBe(payload);
+	});
+
+	it('keeps a url with query parameters intact after parsing', async () => {
+		const url = 'https://example.com/tiles.jpg?a=1&b=2';
+		(globalThis as Record<string, unknown>).Image = FakeImageSuccess;
+
+		const result = await buildKyodaiSVG(url);
+		const host = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+		host.innerHTML = result;
+		expect(host.querySelector('image')?.getAttribute('xlink:href')).toBe(url);
+	});
+
 	it('rejects when image fails to load', async () => {
 		const fakeUrl = 'https://example.com/bad.jpg';
 		(globalThis as Record<string, unknown>).Image = FakeImageError;

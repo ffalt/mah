@@ -249,6 +249,15 @@ export function buildTiles(tiles: Array<Array<string>>, imageID: number, rowHeig
 	return result;
 }
 
+function escapeAttributeValue(value: string): string {
+	return value
+		.replace(/&/g, '&amp;')
+		.replace(/"/g, '&quot;')
+		.replace(/'/g, '&apos;')
+		.replace(/</g, '&lt;')
+		.replace(/>/g, '&gt;');
+}
+
 export async function buildKyodaiSVG(tileSetUrl?: string): Promise<string> {
 	if (!tileSetUrl) {
 		return '<svg><defs></defs></svg>';
@@ -276,7 +285,7 @@ export async function buildKyodaiSVG(tileSetUrl?: string): Promise<string> {
 	const imageID = hashCode(tileSetUrl);
 	const extraID = hashCode('kyodai-extra');
 	return `<svg><defs>
-<image id="${imageID}" xlink:href="${tileSetUrl}" x="0" y="0" height="${image.height}" width="${image.width}"/>
+<image id="${imageID}" xlink:href="${escapeAttributeValue(tileSetUrl)}" x="0" y="0" height="${image.height}" width="${image.width}"/>
 <image id="${extraID}" xlink:href="/assets/svg/kyodai-extra.png" x="0" y="0" height="300" width="675"/>
 ${buildTiles(kyodai, imageID, rowHeight, colWidth)}
 ${buildTiles(kyodaiExtra, extraID, 100, 75)}
