@@ -10,6 +10,10 @@ export interface BuilderType {
 export abstract class BuilderBase implements BuilderType {
 	abstract build(mapping: Mapping, tiles: Tiles): Array<Stone>;
 
+	static pairedMapping(mapping: Mapping): Mapping {
+		return mapping.length % 2 === 0 ? mapping : mapping.slice(0, -1);
+	}
+
 	static randomExtract<T>(array: Array<T>): T {
 		return randomExtract(array);
 	}

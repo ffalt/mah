@@ -7,7 +7,8 @@ import { shuffledCopy } from '../array-utilities';
 const MAX_REROLL_ATTEMPTS = 50;
 
 export class RandomBoardBuilder extends BuilderBase {
-	build(mapping: Mapping, tiles: Tiles): Array<Stone> {
+	build(places: Mapping, tiles: Tiles): Array<Stone> {
+		const mapping = BuilderBase.pairedMapping(places);
 		let stones: Array<Stone> = [];
 		for (let attempt = 0; attempt < MAX_REROLL_ATTEMPTS; attempt++) {
 			stones = this.buildOnce(mapping, tiles);

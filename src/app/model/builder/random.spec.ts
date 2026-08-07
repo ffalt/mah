@@ -150,6 +150,20 @@ describe('RandomBoardBuilder', () => {
 			hasFreePairSpy.mockRestore();
 		});
 
+		it('should leave the last place of an odd mapping out', () => {
+			const mapping: Mapping = Array.from({ length: 15 }, (_, index) => [0, index * 2, 0] as [number, number, number]);
+			const tiles = new Tiles(15);
+
+			const stones = builder.build(mapping, tiles);
+
+			expect(stones).toHaveLength(14);
+			expect(stones.map(s => s.x)).not.toContain(mapping[14][1]);
+			for (const stone of stones) {
+				expect(stone.v).toBeGreaterThan(0);
+				expect(tiles.list[stone.v]).toBeDefined();
+			}
+		});
+
 		it('should produce different tile assignments on repeated calls', () => {
 			const mapping: Mapping = Array.from({ length: 16 }, (_, index) => [0, index * 2, 0] as [number, number, number]);
 			let differs = false;

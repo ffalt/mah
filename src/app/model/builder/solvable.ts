@@ -19,7 +19,8 @@ export abstract class SolvableBoardBuilderBase extends BuilderBase {
 		return undefined;
 	}
 
-	build(mapping: Mapping, tiles: Tiles): Array<Stone> {
+	build(places: Mapping, tiles: Tiles): Array<Stone> {
+		const mapping = BuilderBase.pairedMapping(places);
 		const breadth = this.breadthConstraint();
 
 		// Step 1: constrained attempt (skipped when no constraint)
