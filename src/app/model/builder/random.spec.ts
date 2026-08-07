@@ -1,7 +1,16 @@
 import { RandomBoardBuilder } from './random';
 import { Tiles } from '../tiles';
 import type { Mapping } from '../types';
-import { describe, beforeEach, it, expect } from 'vitest';
+import type { Stone } from '../stone';
+import { describe, beforeEach, it, expect, vi } from 'vitest';
+
+interface RerollInternals {
+	buildOnce(mapping: Mapping, tiles: Tiles): Array<Stone>;
+}
+
+interface RerollStatics {
+	hasFreePair(stones: Array<Stone>): boolean;
+}
 
 describe('RandomBoardBuilder', () => {
 	let builder: RandomBoardBuilder;
@@ -114,6 +123,31 @@ describe('RandomBoardBuilder', () => {
 			for (const count of Object.values(counts)) {
 				expect(count % 2).toBe(0);
 			}
+		});
+
+		it('should check every board it builds, including the last one it returns', () => {
+			const mapping: Mapping = [[0, 0, 0], [0, 2, 0], [0, 4, 0], [0, 6, 0]];
+			const buildOnceSpy = vi.spyOn(builder as unknown as RerollInternals, 'buildOnce');
+			// no board ever has an open pair, so every reroll attempt is used up
+			const hasFreePairSpy = vi.spyOn(RandomBoardBuilder as unknown as RerollStatics, 'hasFreePair').mockReturnValue(false);
+
+			builder.build(mapping, new Tiles(4));
+
+			expect(buildOnceSpy.mock.calls.length).toBeGreaterThan(1);
+			expect(hasFreePairSpy).toHaveBeenCalledTimes(buildOnceSpy.mock.calls.length);
+			hasFreePairSpy.mockRestore();
+		});
+
+		it('should stop rerolling as soon as a board has an open pair', () => {
+			const mapping: Mapping = [[0, 0, 0], [0, 2, 0], [0, 4, 0], [0, 6, 0]];
+			const buildOnceSpy = vi.spyOn(builder as unknown as RerollInternals, 'buildOnce');
+			const hasFreePairSpy = vi.spyOn(RandomBoardBuilder as unknown as RerollStatics, 'hasFreePair').mockReturnValue(true);
+
+			builder.build(mapping, new Tiles(4));
+
+			expect(buildOnceSpy).toHaveBeenCalledTimes(1);
+			expect(hasFreePairSpy).toHaveBeenCalledTimes(1);
+			hasFreePairSpy.mockRestore();
 		});
 
 		it('should produce different tile assignments on repeated calls', () => {

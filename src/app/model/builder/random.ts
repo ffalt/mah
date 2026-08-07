@@ -8,13 +8,14 @@ const MAX_REROLL_ATTEMPTS = 50;
 
 export class RandomBoardBuilder extends BuilderBase {
 	build(mapping: Mapping, tiles: Tiles): Array<Stone> {
-		let stones = this.buildOnce(mapping, tiles);
-		for (let attempt = 1; attempt < MAX_REROLL_ATTEMPTS; attempt++) {
+		let stones: Array<Stone> = [];
+		for (let attempt = 0; attempt < MAX_REROLL_ATTEMPTS; attempt++) {
+			stones = this.buildOnce(mapping, tiles);
 			if (RandomBoardBuilder.hasFreePair(stones)) {
 				break;
 			}
-			stones = this.buildOnce(mapping, tiles);
 		}
+		// after the last attempt there is nothing better to return, but it has been checked like all the others
 		return stones;
 	}
 
