@@ -239,7 +239,7 @@ export default class FlatScreenshotsReporter {
 			try {
 				await fsp.unlink(this.#runIdMarker);
 			} catch {
-				/* ignore */
+				// ignore
 			}
 		}
 		// Final sweep: remove empty directories created by Playwright under the run folder

@@ -1,4 +1,3 @@
-/* eslint-disable unicorn/prefer-https */
 import { hashCode } from './hash';
 
 export function isKyodaiImageSet(name: string): boolean {

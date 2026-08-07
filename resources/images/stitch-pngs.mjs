@@ -229,10 +229,10 @@ function buildGeometry(uses, imageDefs, config) {
 			const row = yToRow.get(u.y);
 			const baseCellW = config.cellWOverride ?? (u.width ?? definition?.width ?? MIN_CELL_W);
 			const baseCellH = config.cellHOverride ?? (u.height ?? definition?.height ?? MIN_CELL_H);
-			if (config.cellWOverride == null && col != null) {
+			if (col != null && config.cellWOverride == null) {
 				colWidths[col] = Math.max(colWidths[col], baseCellW, MIN_CELL_W);
 			}
-			if (config.cellHOverride == null && row != null) {
+			if (row != null && config.cellHOverride == null) {
 				rowHeights[row] = Math.max(rowHeights[row], baseCellH, MIN_CELL_H);
 			}
 		}
