@@ -7,9 +7,17 @@ import { describe, it, expect } from 'vitest';
 describe('Draw', () => {
 	const stone = new Stone(0, 0, 0, 0, 0);
 	const boundsItems: Array<Draw> = [
-		{ x: 0, y: 0, z: 0, v: 0, visible: true, pos: { x: 10, y: 20, w: 10, h: 10, sort: 0, translate: '' }, source: stone },
-		{ x: 0, y: 0, z: 0, v: 0, visible: true, pos: { x: 30, y: 40, w: 10, h: 10, sort: 0, translate: '' }, source: stone }
+		{ x: 0, y: 0, z: 0, v: 0, visible: true, pos: { x: 10, y: 20, w: 10, h: 10, translate: '' }, source: stone },
+		{ x: 0, y: 0, z: 0, v: 0, visible: true, pos: { x: 30, y: 40, w: 10, h: 10, translate: '' }, source: stone }
 	];
+
+	function drawAt(z: number, x: number, y: number): Draw {
+		return { x, y, z, v: 0, visible: true, pos: calcDrawPos(z, x, y), source: stone };
+	}
+
+	function order(items: Array<Draw>): Array<string> {
+		return sortDrawItems(items).map(item => `${item.z}/${item.x}/${item.y}`);
+	}
 
 	describe('calcDrawPos', () => {
 		it('should calculate drawing position correctly', () => {
@@ -18,41 +26,53 @@ describe('Draw', () => {
 			expect(pos).toBeDefined();
 			expect(pos.x).toBeDefined();
 			expect(pos.y).toBeDefined();
-			expect(pos.sort).toBeDefined();
 			expect(pos.w).toBeDefined();
 			expect(pos.h).toBeDefined();
 			expect(pos.translate).toBe(`translate(${pos.x},${pos.y})`);
+		});
 
-			// Check z calculation specifically
-			expect(pos.sort).toBe(3 + 2 + CONSTS.mY * (2 + CONSTS.mX));
+		it('should place a tile half a tile per grid step', () => {
+			expect(calcDrawPos(0, 0, 0).x).toBe(0);
+			expect(calcDrawPos(0, 1, 0).x).toBe((CONSTS.tileWidth + 2) / 2);
+			expect(calcDrawPos(0, 0, 1).y).toBe((CONSTS.tileHeight + 2) / 2);
 		});
 	});
 
+	// The 3D side of a tile sticks out to the right and below its face, further than the
+	// gap to the next cell. So a neighbour whose face lands on that side must be painted
+	// after it, otherwise the side is left half drawn on top of the neighbour.
 	describe('sortDrawItems', () => {
-		it('should sort draw items by z position', () => {
-			const items: Array<Draw> = [
-				{
-					x: 0, y: 0, z: 0, v: 0, visible: true,
-					pos: { x: 0, y: 0, w: 0, h: 0, sort: 3, translate: '' },
-					source: stone
-				},
-				{
-					x: 0, y: 0, z: 0, v: 0, visible: true,
-					pos: { x: 0, y: 0, w: 0, h: 0, sort: 1, translate: '' },
-					source: stone
-				},
-				{
-					x: 0, y: 0, z: 0, v: 0, visible: true,
-					pos: { x: 0, y: 0, w: 0, h: 0, sort: 2, translate: '' },
-					source: stone
-				}
-			];
+		it('should paint lower levels before higher ones', () => {
+			expect(order([drawAt(2, 0, 0), drawAt(0, 30, 14), drawAt(1, 8, 4)]))
+				.toEqual(['0/30/14', '1/8/4', '2/0/0']);
+		});
 
-			const sorted = sortDrawItems(items);
+		it('should paint the right neighbour after the tile whose side it covers', () => {
+			expect(order([drawAt(0, 2, 0), drawAt(0, 0, 0)]))
+				.toEqual(['0/0/0', '0/2/0']);
+		});
 
-			expect(sorted[0].pos.sort).toBe(1);
-			expect(sorted[1].pos.sort).toBe(2);
-			expect(sorted[2].pos.sort).toBe(3);
+		it('should paint the lower neighbour after the tile whose side it covers', () => {
+			expect(order([drawAt(0, 0, 2), drawAt(0, 0, 0)]))
+				.toEqual(['0/0/0', '0/0/2']);
+		});
+
+		// a diagonal staircase steps one tile across and half a tile down; the up-right
+		// tile covers the side of the down-left one, so it has to come second
+		it('should paint the up-right tile of a half-step diagonal last', () => {
+			expect(order([drawAt(0, 18, 0), drawAt(0, 16, 1)]))
+				.toEqual(['0/16/1', '0/18/0']);
+		});
+
+		it('should break ties on equal depth so the order never falls back to input order', () => {
+			const forwards = order([drawAt(0, 4, 0), drawAt(0, 2, 2)]);
+			const backwards = order([drawAt(0, 2, 2), drawAt(0, 4, 0)]);
+			expect(forwards).toEqual(backwards);
+		});
+
+		it('should not let a wide low level jump ahead of a narrow higher one', () => {
+			expect(order([drawAt(2, 0, 0), drawAt(1, 36, 16)]))
+				.toEqual(['1/36/16', '2/0/0']);
 		});
 	});
 
@@ -106,8 +126,8 @@ describe('Draw', () => {
 			expect(items[1].x).toBe(mapping[1][1]);
 			expect(items[1].y).toBe(mapping[1][2]);
 
-			// Items should be sorted
-			expect(items[0].pos.sort <= items[1].pos.sort).toBe(true);
+			// Items should be sorted back to front
+			expect(items[0].z).toBeLessThanOrEqual(items[1].z);
 		});
 	});
 });

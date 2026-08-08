@@ -6,6 +6,7 @@ import { describe, beforeEach, it, expect, vi } from 'vitest';
 import { AppService } from '../../service/app.service';
 import { Stone } from '../../model/stone';
 import { type Draw, calcDrawPos } from '../../model/draw';
+import { CONSTS } from '../../model/consts';
 import { BoardTileComponent } from './board-tile.component';
 
 function makeDraw(): Draw {
@@ -74,6 +75,32 @@ describe('BoardTileComponent', () => {
 		fixture.detectChanges();
 		expect(fixture.nativeElement.classList.contains('hidden')).toBe(true);
 		expect(fixture.nativeElement.getAttribute('role')).toBeNull();
+	});
+
+	// The side sticks out past the gap to the next cell, so it relies on sortDrawItems
+	// painting the neighbour that covers it afterwards - see draw.spec.ts.
+	it('should offset the 3D side down and to the right, behind the face', () => {
+		appService.settings.tile3d.set(true);
+		fixture.detectChanges();
+
+		const rects = [...fixture.nativeElement.querySelectorAll('rect')] as Array<SVGRectElement>;
+		const side = rects.find(rect => rect.classList.contains('side'));
+		const stone = rects.find(rect => rect.classList.contains('stone'));
+		expect(side).toBeTruthy();
+		expect(stone).toBeTruthy();
+
+		expect(Number(side!.getAttribute('x'))).toBeGreaterThan(0);
+		expect(Number(side!.getAttribute('y'))).toBeGreaterThan(0);
+		expect(Number(side!.getAttribute('width'))).toBe(CONSTS.tileWidth);
+		expect(Number(side!.getAttribute('height'))).toBe(CONSTS.tileHeight);
+		// drawn first so the face covers all but the protruding edge
+		expect(rects.indexOf(side!)).toBeLessThan(rects.indexOf(stone!));
+	});
+
+	it('should draw no side rect when 3D is off', () => {
+		appService.settings.tile3d.set(false);
+		fixture.detectChanges();
+		expect(fixture.nativeElement.querySelector('rect.side')).toBeNull();
 	});
 
 	it('should memoize the aria label and recompute on hinted or language change', () => {

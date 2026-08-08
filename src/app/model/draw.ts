@@ -7,7 +7,6 @@ export interface DrawPos {
 	y: number;
 	w: number;
 	h: number;
-	sort: number;
 	translate: string;
 }
 
@@ -36,7 +35,6 @@ export function calcDrawPos(z: number, x: number, y: number): DrawPos {
 		y: ((CONSTS.tileHeight + 2) * y - (z * CONSTS.levelOffset)) / 2,
 		w: (CONSTS.tileWidth + 2) + (z * CONSTS.levelOffset),
 		h: (CONSTS.tileHeight + 2) + (z * CONSTS.levelOffset),
-		sort: y + x + CONSTS.mY * (x + CONSTS.mX) * z,
 		translate: ''
 	};
 	pos.translate = `translate(${pos.x},${pos.y})`;
@@ -57,17 +55,7 @@ export function groupDrawsByLevel(items: Array<Draw>): Array<DrawLevel> {
 }
 
 export function sortDrawItems(items: Array<Draw>): Array<Draw> {
-	return items.sort((ad: Draw, bd: Draw) => {
-		const a = ad.pos.sort;
-		const b = bd.pos.sort;
-		if (a < b) {
-			return -1;
-		}
-		if (a > b) {
-			return 1;
-		}
-		return 0;
-	});
+	return items.sort((ad: Draw, bd: Draw) => (ad.z - bd.z) || ((ad.x + ad.y) - (bd.x + bd.y)) || (ad.x - bd.x));
 }
 
 export function getDrawBoundsViewportBounds(bounds: Array<number>): Array<number> {
