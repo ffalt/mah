@@ -253,6 +253,38 @@ describe('GameComponent', () => {
 		expect(startSpy).toHaveBeenCalledWith(gameData.layout, gameData.buildMode, gameData.gameMode);
 	});
 
+	describe('start screen', () => {
+		it('shows on an empty board without message and dialog and opens the board picker', () => {
+			component.game.state.set(STATES.idle);
+			component.game.message.set(undefined);
+			detectChanges();
+
+			const startScreen = fixture.debugElement.query(By.css('app-game-start'));
+			expect(startScreen).toBeTruthy();
+
+			const showNewGameSpy = vi.spyOn(component, 'showNewGame');
+			(startScreen.nativeElement.querySelector('.start-button') as HTMLElement).click();
+			expect(showNewGameSpy).toHaveBeenCalled();
+		});
+
+		it('stays hidden while a message, a dialog or a game is shown', () => {
+			component.game.state.set(STATES.idle);
+			component.game.message.set({ messageID: 'MSG_CONTINUE_SAVE' });
+			detectChanges();
+			expect(fixture.debugElement.query(By.css('app-game-start'))).toBeNull();
+
+			component.game.message.set(undefined);
+			component.newgame().open();
+			detectChanges();
+			expect(fixture.debugElement.query(By.css('app-game-start'))).toBeNull();
+
+			component.newgame().close();
+			component.game.state.set(STATES.run);
+			detectChanges();
+			expect(fixture.debugElement.query(By.css('app-game-start'))).toBeNull();
+		});
+	});
+
 	it('should toggle zen mode', () => {
 		component.toggleZenMode();
 

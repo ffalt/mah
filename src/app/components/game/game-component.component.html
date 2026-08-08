@@ -58,6 +58,10 @@
 	(clickEvent)="stoneClick($event)"
 />
 
+@if (showStartScreen()) {
+	<app-game-start class="start-screen" (startEvent)="showNewGame()"/>
+}
+
 @if (zenMode()) {
 	<app-zen-controls
 		class="zen-controls"

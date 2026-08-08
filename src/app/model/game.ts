@@ -40,7 +40,8 @@ export class Game {
 		if (this.state() === STATES.run) {
 			this.pause();
 		}
-		this.message.set({ messageID: this.isPaused() ? 'MSG_CONTINUE_SAVE' : 'MSG_START' });
+		// without a game to continue there is nothing to message about, the start screen takes over
+		this.message.set(this.isPaused() ? { messageID: 'MSG_CONTINUE_SAVE' } : undefined);
 	}
 
 	click(stone?: Stone): boolean {

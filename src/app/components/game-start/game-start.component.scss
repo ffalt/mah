@@ -1,0 +1,193 @@
+@use "../../style/mixins";
+@use "../../style/variables";
+
+:host {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	pointer-events: none;
+}
+
+.start-button {
+	pointer-events: auto;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 6px;
+	padding: 40px 60px;
+	border: 0;
+	border-radius: 40px;
+	background: transparent;
+	color: var(--main-text-color);
+	font-family: variables.$text-font;
+	font-size: variables.$base-font-size * 2;
+	font-weight: 600;
+	text-shadow: 0 2px 8px rgb(0 0 0 / 55%);
+	cursor: pointer;
+	appearance: none;
+	transition: color .18s ease, transform .18s ease;
+	animation: start-appear .35s cubic-bezier(0.34, 1.4, 0.64, 1) both;
+
+	&:hover {
+		color: var(--main-text-color-lt);
+	}
+
+	&:active {
+		transform: translateY(1px);
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--focus-ring-color);
+		outline-offset: -8px;
+	}
+}
+
+.start-art {
+	display: block;
+	width: 280px;
+	height: auto;
+
+	@include mixins.respond-to(small-down) {
+		width: 200px;
+	}
+}
+
+.art-tile {
+	transform-box: fill-box;
+	transform-origin: center;
+	transition: transform .25s cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+
+.art-stage {
+	rect.shadow {
+		fill: #05120c;
+		opacity: 0.38;
+		stroke-width: 0;
+		filter: url("#start-tile-cast");
+	}
+
+	rect.stone {
+		fill: #FFF9E5;
+		stroke-width: 1;
+		stroke: black;
+	}
+
+	&.tile3d {
+		rect.side {
+			fill: #a89488;
+			stroke-width: 0;
+		}
+
+		rect.stone {
+			stroke: #a09085;
+		}
+
+		rect.bevel {
+			fill: none;
+			stroke-width: 1.5;
+			stroke: rgb(255 255 255 / 85%);
+		}
+	}
+
+	&.contrast {
+		rect.stone {
+			stroke-width: 2;
+		}
+
+		rect.shadow {
+			opacity: 0.5;
+		}
+
+		&.tile3d rect.side {
+			fill: #7a6c63;
+		}
+	}
+
+	&.dark {
+		rect.shadow {
+			opacity: 0.6;
+			fill: #000;
+		}
+
+		rect.stone {
+			fill: #000;
+			stroke: #9d948c;
+		}
+
+		&.tile3d {
+			rect.side {
+				fill: #5a524e;
+			}
+
+			rect.stone {
+				fill: #1a1512;
+				stroke: #6a5e58;
+			}
+
+			rect.bevel {
+				stroke: rgb(255 255 255 / 12%);
+			}
+		}
+
+		&.contrast {
+			rect.shadow {
+				opacity: 0.75;
+			}
+
+			&.tile3d rect.side {
+				fill: #3e3834;
+			}
+		}
+	}
+}
+
+.start-button:hover {
+	.art-tile-left {
+		transform: translate(-7px, -3px) rotate(-3deg);
+	}
+
+	.art-tile-right {
+		transform: translate(7px, -3px) rotate(3deg);
+	}
+
+	.art-tile-center {
+		transform: translateY(-6px);
+	}
+}
+
+.label {
+	letter-spacing: 0.02em;
+	padding: 16px 22px;
+	border-radius: 999px;
+	background-color: var(--main-bg-color);
+	backdrop-filter: blur(10px);
+}
+
+@keyframes start-appear {
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 1;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.start-button {
+		animation: none;
+		transition: none;
+	}
+
+	.art-tile {
+		transition: none;
+	}
+
+	.start-button:hover {
+		transform: none;
+
+		.art-tile-left, .art-tile-right, .art-tile-center {
+			transform: none;
+		}
+	}
+}

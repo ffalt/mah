@@ -1,4 +1,4 @@
-import { Component, inject, Injector, signal, viewChild } from '@angular/core';
+import { Component, computed, inject, Injector, signal, viewChild } from '@angular/core';
 import type { Game } from '../../model/game';
 import type { Stone } from '../../model/stone';
 import type { Layout, Place } from '../../model/types';
@@ -20,6 +20,7 @@ import { ControlsTopComponent } from '../controls-top/controls-top.component';
 import { ControlsBottomComponent } from '../controls-bottom/controls-bottom.component';
 import { ZenControlsComponent } from '../zen-controls/zen-controls.component';
 import { GameMessageComponent } from '../game-message/game-message.component';
+import { GameStartComponent } from '../game-start/game-start.component';
 import { Confetti } from '../../model/confetti';
 
 interface DocumentExtended extends Document {
@@ -73,7 +74,7 @@ function callFullscreenMethod(
 		'[class.zen-mode]': 'zenMode()'
 	},
 	imports: [
-		BoardComponent, ControlsTopComponent, ControlsBottomComponent, ZenControlsComponent, GameMessageComponent, TranslatePipe,
+		BoardComponent, ControlsTopComponent, ControlsBottomComponent, ZenControlsComponent, GameMessageComponent, GameStartComponent, TranslatePipe,
 
 		HelpComponent, TilesInfoComponent, SettingsComponent, ChooseLayoutComponent, TutorialComponent, DialogComponent
 	]
@@ -90,6 +91,8 @@ export class GameComponent {
 	title: string = '';
 	readonly zenMode = signal(false);
 	readonly announceText = signal('');
+	readonly anyDialogVisible = signal(false);
+	readonly showStartScreen = computed(() => this.game.isIdle() && !this.game.message() && !this.anyDialogVisible());
 
 	private readonly injector = inject(Injector);
 	private announceTimer?: ReturnType<typeof setTimeout>;
@@ -361,11 +364,14 @@ export class GameComponent {
 
 	startGame(data: { layout: Layout; buildMode: BUILD_MODE_ID; gameMode: GAME_MODE_ID }): void {
 		this.newgame().visible.set(false);
+		this.anyDialogVisible.set(false);
 		this.game.reset();
 		this.game.start(data.layout, data.buildMode, data.gameMode);
 	}
 
 	toggleDialogState(dialogVisible: boolean): void {
+		// the dialog view children cannot be read while the template renders, so mirror their state into a signal
+		this.anyDialogVisible.set(this.isDialogVisible());
 		if (dialogVisible) {
 			if (!this.app.game.isPaused()) {
 				this.app.game.pause();

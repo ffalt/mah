@@ -102,7 +102,22 @@ describe('Game', () => {
 
 			expect(mockStorage.getState).toHaveBeenCalled();
 			expect(mockBoard.update).toHaveBeenCalled();
-			expect(game.message()).toBeDefined();
+			expect(game.message()).toBeUndefined();
+		});
+
+		it('should offer to continue a stored game', () => {
+			(mockStorage.getState as Mock).mockReturnValue({
+				elapsed: 1000,
+				state: STATES.pause,
+				layout: 'test',
+				gameMode: GAME_MODE_EASY,
+				undo: [],
+				stones: [[0, 0, 0, 1], [0, 2, 0, 1]]
+			} as GameStateStore);
+
+			game.init();
+
+			expect(game.message()?.messageID).toBe('MSG_CONTINUE_SAVE');
 		});
 	});
 
@@ -496,7 +511,7 @@ describe('Game', () => {
 
 			game.init();
 
-			expect(game.message()?.messageID).toBe('MSG_START');
+			expect(game.message()).toBeUndefined();
 			expect(game.isIdle()).toBe(true);
 		});
 
@@ -528,7 +543,7 @@ describe('Game', () => {
 
 			game.init();
 
-			expect(game.message()?.messageID).toBe('MSG_START');
+			expect(game.message()).toBeUndefined();
 		});
 
 		it('should not persist anything after a reset', () => {

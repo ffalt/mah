@@ -71,6 +71,12 @@
 		overflow: hidden;
 	}
 
+	.start-screen {
+		position: absolute;
+		inset: 0;
+		z-index: 1;
+	}
+
 	@include mixins.respond-to(tiny-down) {
 		.zen-controls {
 			gap: 4px;
