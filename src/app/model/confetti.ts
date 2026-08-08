@@ -3,7 +3,7 @@ import { randomInRange } from './random';
 
 export class Confetti {
 	private throwConfetti(options: confetti.Options): void {
-		confetti(options)!.catch(() => undefined);
+		confetti(options)?.catch(() => undefined);
 	}
 
 	private fire(particleRatio: number, options: confetti.Options): void {
