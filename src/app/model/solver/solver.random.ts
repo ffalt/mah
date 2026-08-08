@@ -1,4 +1,4 @@
-import { isPlayable, rand } from './solver.tools';
+import { isPlayable, randBelow } from './solver.tools';
 import type { Group, Tile, TileNeighboursAboveBelow, TileNeighboursLeftRight } from './solver.types';
 
 export class SolverRandomSolve {
@@ -57,7 +57,7 @@ export class SolverRandomSolve {
 			}
 
 			// Select random match
-			let remainingMatches = rand() % totalMatches;
+			let remainingMatches = randBelow(totalMatches);
 			let groupIndex = 0;
 
 			while (remainingMatches >= 0) {
@@ -74,37 +74,29 @@ export class SolverRandomSolve {
 			};
 		};
 
-		const findPlayableTiles = (group: Group, matchIndex: number): [number, number] => {
-			let firstIndex = 0;
-			let secondIndex = group.nMembers - 1;
+		const playableMembers = (group: Group): Array<number> => {
+			const indices: Array<number> = [];
+			for (let index = 0; index < group.nMembers; index++) {
+				const tile = group.member[index];
+				if (tile && !tile.isPlayed && isPlayable(tile)) {
+					indices.push(index);
+				}
+			}
+			return indices;
+		};
 
-			const findNextPlayable = (index: number, increment: number): number => {
-				let result = index;
-				while (true) {
-					const tile = group.member[result] as Tile;
-					if (!tile.isPlayed && isPlayable(tile)) {
-						break;
+		const findPlayableTiles = (group: Group, matchIndex: number): [number, number] | null => {
+			const playable = playableMembers(group);
+			let remaining = matchIndex;
+			for (let first = 0; first < playable.length; first++) {
+				for (let second = first + 1; second < playable.length; second++) {
+					if (remaining === 0) {
+						return [playable[first], playable[second]];
 					}
-					result += increment;
-				}
-				return result;
-			};
-
-			if (matchIndex <= 1) {
-				firstIndex = findNextPlayable(firstIndex, 1);
-				if (matchIndex === 0) {
-					secondIndex = findNextPlayable(firstIndex + 1, 1);
+					remaining--;
 				}
 			}
-
-			if (matchIndex >= 1) {
-				secondIndex = findNextPlayable(secondIndex, -1);
-				if (matchIndex === 2) {
-					firstIndex = findNextPlayable(secondIndex - 1, -1);
-				}
-			}
-
-			return [firstIndex, secondIndex];
+			return null;
 		};
 
 		const playMatch = (group: Group, tileIndices: [number, number], nTiles: number): number => {
@@ -165,8 +157,12 @@ export class SolverRandomSolve {
 			while (match) {
 				const group = this.tileGroups[match.groupIndex];
 				const tileIndices = findPlayableTiles(group, match.matchIndex);
-				remainingTiles = playMatch(group, tileIndices, remainingTiles);
-				match = findMatchToPlay();
+				if (tileIndices) {
+					remainingTiles = playMatch(group, tileIndices, remainingTiles);
+					match = findMatchToPlay();
+				} else {
+					match = null;
+				}
 			}
 
 			resetState();

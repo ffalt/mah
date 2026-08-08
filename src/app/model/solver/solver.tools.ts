@@ -4,6 +4,10 @@ export function rand(): number {
 	return Math.floor(Math.random() * 100);
 }
 
+export function randBelow(maxExclusive: number): number {
+	return maxExclusive > 0 ? Math.floor(Math.random() * maxExclusive) : 0;
+}
+
 // computes if the solver can play a tile
 export function isPlayable(t?: Tile): boolean {
 	if (!t) {

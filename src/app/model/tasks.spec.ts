@@ -1,7 +1,7 @@
-import { solveGame, statsSolveMapping } from './tasks';
+import { MAX_PROGRESS_REPORTS, solveGame, statsSolveMapping } from './tasks';
 import type { Solver } from './solver/solver';
 import { Builder, MODE_SOLVABLE } from './builder';
-import type { StonePosition } from './stone';
+import type { Stone, StonePosition } from './stone';
 import type { Mapping, Place } from './types';
 import { describe, it, expect, vi } from 'vitest';
 
@@ -114,6 +114,37 @@ describe('Tasks', () => {
 
 			// Verify finish callback was called with zeros
 			expect(finishCallback).toHaveBeenCalledWith([0, 0]);
+		});
+
+		// the editor asks for 1000 rounds; one postMessage per round floods the main
+		// thread with change detection for a counter the player reads as a running total
+		it('should throttle progress reports for a long run', () => {
+			const rounds = 1000;
+			const mockStones = [{ z: 0, x: 0, y: 0, v: 1, groupNr: 1 }] as unknown as Array<Stone>;
+			const builder = { build: vi.fn().mockReturnValue(mockStones) } as unknown as Builder;
+			const solver = { solveLayout: vi.fn().mockReturnValue(0) } as unknown as Solver;
+			const progressCallback = vi.fn();
+			const finishCallback = vi.fn();
+
+			statsSolveMapping([[0, 0, 0], [0, 2, 0]], rounds, progressCallback, finishCallback, solver, builder);
+
+			expect(progressCallback.mock.calls.length).toBeLessThanOrEqual(MAX_PROGRESS_REPORTS);
+			expect(progressCallback).toHaveBeenCalled();
+			// the running total still climbs and finish reports every round
+			expect(progressCallback.mock.calls.at(-1)?.[0][0]).toBeGreaterThan(progressCallback.mock.calls[0][0][0]);
+			expect(finishCallback).toHaveBeenCalledWith([rounds, 0]);
+		});
+
+		it('should report every round when there are fewer rounds than the report budget', () => {
+			const rounds = 5;
+			const mockStones = [{ z: 0, x: 0, y: 0, v: 1, groupNr: 1 }] as unknown as Array<Stone>;
+			const builder = { build: vi.fn().mockReturnValue(mockStones) } as unknown as Builder;
+			const solver = { solveLayout: vi.fn().mockReturnValue(0) } as unknown as Solver;
+			const progressCallback = vi.fn();
+
+			statsSolveMapping([[0, 0, 0], [0, 2, 0]], rounds, progressCallback, vi.fn(), solver, builder);
+
+			expect(progressCallback).toHaveBeenCalledTimes(rounds);
 		});
 	});
 });

@@ -14,11 +14,13 @@ interface SolveGameResult {
 
 interface SolveGameMessage {
 	result?: SolveGameResult;
+	error?: string;
 }
 
 interface StatsMessage {
 	progress?: Array<number>;
 	result?: Array<number>;
+	error?: string;
 }
 
 @Service()
@@ -44,9 +46,22 @@ export class WorkerService {
 					worker.terminate();
 				});
 
-				worker.addEventListener('error', () => {
+				const abort = (reason: unknown): void => {
+					log.warn('solve worker failed:', reason);
 					worker.terminate();
-					solveGame(stones, finish);
+					finish({ result: stones.length, order: [] });
+				};
+
+				messages$.pipe(
+					map(d => d.error),
+					filter((v): v is string => !!v),
+					take(1)
+				).subscribe(message => {
+					abort(message);
+				});
+
+				worker.addEventListener('error', event => {
+					abort(event);
 				});
 
 				worker.postMessage({ stones });
@@ -95,9 +110,22 @@ export class WorkerService {
 					worker.terminate();
 				});
 
-				worker.addEventListener('error', () => {
+				const abort = (reason: unknown): void => {
+					log.warn('stats solve worker failed:', reason);
 					worker.terminate();
-					statsSolveMapping(mapping, rounds, callback, finish);
+					finish([0, 0]);
+				};
+
+				messages$.pipe(
+					map(d => d.error),
+					filter((v): v is string => !!v),
+					take(1)
+				).subscribe(message => {
+					abort(message);
+				});
+
+				worker.addEventListener('error', event => {
+					abort(event);
 				});
 
 				worker.postMessage({ mapping, rounds });

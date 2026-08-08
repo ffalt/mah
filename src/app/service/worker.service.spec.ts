@@ -118,7 +118,9 @@ describe('WorkerService', () => {
 			expect(mockWorker.terminate).not.toHaveBeenCalled();
 		});
 
-		it('should call fallback and terminate on worker error', () => {
+		// re-running the solver on the main thread would just throw again, so a worker
+		// failure reports an empty solution instead of falling back
+		it('should terminate and report an empty solution on worker error', () => {
 			const stones: Array<StonePosition> = [
 				{ x: 0, y: 0, z: 0, v: 1, groupNr: 1 }
 			];
@@ -130,11 +132,34 @@ describe('WorkerService', () => {
 			mockFactories.createSolveWorker.mockReturnValue(mockWorker);
 
 			service.solveGame(stones, finish);
+			mockTasks.solveGame.mockClear();
 
 			mockWorker.dispatchEvent(new Event('error'));
 
 			expect(mockWorker.terminate).toHaveBeenCalled();
-			expect(mockTasks.solveGame).toHaveBeenCalledWith(stones, finish);
+			expect(mockTasks.solveGame).not.toHaveBeenCalled();
+			expect(finish).toHaveBeenCalledWith({ result: stones.length, order: [] });
+		});
+
+		it('should terminate and report an empty solution when the worker posts an error', () => {
+			const stones: Array<StonePosition> = [
+				{ x: 0, y: 0, z: 0, v: 1, groupNr: 1 }
+			];
+			const finish = vi.fn();
+			const mockWorker = new MockWorker();
+
+			// @ts-expect-error - Mocking Worker
+			global.Worker = FakeWorker;
+			mockFactories.createSolveWorker.mockReturnValue(mockWorker);
+
+			service.solveGame(stones, finish);
+			mockTasks.solveGame.mockClear();
+
+			mockWorker.dispatchEvent(new MessageEvent('message', { data: { error: 'boom' } }));
+
+			expect(mockWorker.terminate).toHaveBeenCalled();
+			expect(mockTasks.solveGame).not.toHaveBeenCalled();
+			expect(finish).toHaveBeenCalledWith({ result: stones.length, order: [] });
 		});
 	});
 
@@ -221,7 +246,7 @@ describe('WorkerService', () => {
 			expect(callback).not.toHaveBeenCalled();
 		});
 
-		it('should call fallback and terminate on worker error', () => {
+		it('should terminate and report no rounds on worker error', () => {
 			const mapping: Mapping = [[0, 0, 0], [2, 2, 2]];
 			const rounds = 10;
 			const callback = vi.fn();
@@ -233,11 +258,34 @@ describe('WorkerService', () => {
 			mockFactories.createStatsSolveWorker.mockReturnValue(mockWorker);
 
 			service.solve(mapping, rounds, callback, finish);
+			mockTasks.statsSolveMapping.mockClear();
 
 			mockWorker.dispatchEvent(new Event('error'));
 
 			expect(mockWorker.terminate).toHaveBeenCalled();
-			expect(mockTasks.statsSolveMapping).toHaveBeenCalledWith(mapping, rounds, callback, finish);
+			expect(mockTasks.statsSolveMapping).not.toHaveBeenCalled();
+			expect(finish).toHaveBeenCalledWith([0, 0]);
+		});
+
+		it('should terminate and report no rounds when the worker posts an error', () => {
+			const mapping: Mapping = [[0, 0, 0], [2, 2, 2]];
+			const rounds = 10;
+			const callback = vi.fn();
+			const finish = vi.fn();
+			const mockWorker = new MockWorker();
+
+			// @ts-expect-error - Mocking Worker
+			global.Worker = FakeWorker;
+			mockFactories.createStatsSolveWorker.mockReturnValue(mockWorker);
+
+			service.solve(mapping, rounds, callback, finish);
+			mockTasks.statsSolveMapping.mockClear();
+
+			mockWorker.dispatchEvent(new MessageEvent('message', { data: { error: 'boom' } }));
+
+			expect(mockWorker.terminate).toHaveBeenCalled();
+			expect(mockTasks.statsSolveMapping).not.toHaveBeenCalled();
+			expect(finish).toHaveBeenCalledWith([0, 0]);
 		});
 	});
 });

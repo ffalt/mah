@@ -1,5 +1,5 @@
 import type { Group, Tile } from './solver.types';
-import { rand } from './solver.tools';
+import { randBelow } from './solver.tools';
 
 export class SolveInit {
 	tileGroups: Array<Group> = []; // [maxGroups]
@@ -179,7 +179,7 @@ export class SolveInit {
 				this.qts[insertIndex].pairing = 0;
 
 				// Swap with a random position
-				const randomIndex = this.qtsIndex + (rand() % (insertIndex + 1 - this.qtsIndex));
+				const randomIndex = this.qtsIndex + randBelow(insertIndex + 1 - this.qtsIndex);
 				const temporary = this.qts[insertIndex];
 				this.qts[insertIndex] = this.qts[randomIndex];
 				this.qts[randomIndex] = temporary;
