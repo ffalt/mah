@@ -28,8 +28,9 @@ export class Tiles {
 		if (groupsNeeded > tilesMapping.length) {
 			const tilesExtraMapping = TILES_EXT.map(row => row.map(id => ({ id })));
 			tilesMapping = [...tilesMapping, ...tilesExtraMapping];
+			const drawableGroups = tilesMapping.length;
 			while (tilesMapping.length < groupsNeeded) {
-				tilesMapping.push([{ id: `_${tilesMapping.length}a` }, { id: `_${tilesMapping.length}b` }, { id: `_${tilesMapping.length}c` }, { id: `_${tilesMapping.length}d` }]);
+				tilesMapping.push(tilesMapping[tilesMapping.length % drawableGroups].map(tile => ({ id: tile.id })));
 			}
 		}
 		for (const [groupNr, group] of tilesMapping.entries()) {

@@ -51,10 +51,42 @@ describe('Tiles', () => {
 			// Verify the generated group has tiles with generated IDs
 			const generatedGroupTiles = tiles.groups[generatedGroupIndex].tiles;
 			expect(generatedGroupTiles).toHaveLength(4);
+		});
 
-			// The generated tile should have an ID with a specific pattern
-			const generatedTileId = generatedGroupTiles[0].img.id;
-			expect(generatedTileId).toMatch(/^_\d+[a-d]$/);
+		it('should only ever use tile ids that a tileset can draw', () => {
+			const drawableIds = new Set([...TILES.flat(), ...TILES_EXT.flat()]);
+			const drawableGroups = TILES.length + TILES_EXT.length;
+
+			const tiles = new Tiles((drawableGroups + 20) * 4);
+
+			expect(tiles.groups.length).toBeGreaterThan(drawableGroups);
+			for (const group of tiles.groups) {
+				for (const tile of group.tiles) {
+					expect(drawableIds).toContain(tile.img.id);
+				}
+			}
+		});
+
+		it('should reuse the drawable groups in order once they run out', () => {
+			const drawableGroups = TILES.length + TILES_EXT.length;
+			const tiles = new Tiles((drawableGroups + 2) * 4);
+
+			expect(tiles.groups[drawableGroups].tiles.map(tile => tile.img.id))
+				.toEqual(tiles.groups[0].tiles.map(tile => tile.img.id));
+			expect(tiles.groups[drawableGroups + 1].tiles.map(tile => tile.img.id))
+				.toEqual(tiles.groups[1].tiles.map(tile => tile.img.id));
+		});
+
+		it('should give each group its own tile objects', () => {
+			const drawableGroups = TILES.length + TILES_EXT.length;
+			const tiles = new Tiles((drawableGroups + 1) * 4);
+
+			const original = tiles.groups[0].tiles[0];
+			const reused = tiles.groups[drawableGroups].tiles[0];
+			expect(reused.img.id).toBe(original.img.id);
+			expect(reused.img).not.toBe(original.img);
+			expect(reused.groupNr).not.toBe(original.groupNr);
+			expect(reused.v).not.toBe(original.v);
 		});
 
 		it('should assign correct group numbers and values to tiles', () => {
