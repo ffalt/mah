@@ -12,6 +12,24 @@ function loadJsonIfExists(filePath) {
 	return undefined;
 }
 
+const PLACEHOLDER = /\{\{(APP_[A-Z_]+)}}/g;
+const LD_JSON_BLOCK = /<script type="application\/ld\+json">[\S\s]*?<\/script>/;
+
+export function escapeHtml(value) {
+	return String(value)
+		.replace(/&/g, "&amp;")
+		.replace(/</g, "&lt;")
+		.replace(/>/g, "&gt;")
+		.replace(/"/g, "&quot;")
+		.replace(/'/g, "&#39;");
+}
+
+// JSON string escaping, minus the surrounding quotes; `<` is escaped so a value can never
+// close the script element
+export function escapeJsonString(value) {
+	return JSON.stringify(String(value)).slice(1, -1).replace(/</g, String.raw`\u003c`);
+}
+
 export function createIndexHtmlTransformer(config = {}) {
 	const fallback = "Mah Jong";
 	const values = {
@@ -22,11 +40,16 @@ export function createIndexHtmlTransformer(config = {}) {
 		APP_URL: config.url ?? ""
 	};
 	return async function indexHtmlTransformer(indexHtml) {
-		let out = indexHtml;
-		for (const [key, value] of Object.entries(values)) {
-			out = out.replace(new RegExp(key, "g"), () => String(value));
-		}
-		return out;
+		const block = LD_JSON_BLOCK.exec(indexHtml);
+		const jsonStart = block ? block.index : -1;
+		const jsonEnd = block ? block.index + block[0].length : -1;
+		return indexHtml.replace(PLACEHOLDER, (match, key, offset) => {
+			if (!(key in values)) {
+				return match;
+			}
+			const inJson = offset >= jsonStart && offset < jsonEnd;
+			return inJson ? escapeJsonString(values[key]) : escapeHtml(values[key]);
+		});
 	};
 }
 

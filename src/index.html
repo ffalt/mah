@@ -14,15 +14,15 @@
 	<meta name="msapplication-TileColor" content="#00aba9">
 	<meta name="msapplication-config" content="assets/app/browserconfig.xml">
 	<meta name="theme-color" content="#ffffff">
-	<title>APP_NAME</title>
-	<link rel="canonical" href="APP_URL">
-	<meta name="apple-mobile-web-app-title" content="APP_NAME">
-	<meta name="application-name" content="APP_NAME">
-	<meta name="description" content="APP_DESC">
-	<meta property="og:title" content="APP_TITLE">
-	<meta property="og:description" content="APP_DESC">
-	<meta property="og:url" content="APP_URL"/>
-	<script type="application/ld+json">{"name":"APP_TITLE","@type":"Product","description":"APP_CAT","@context":"http:\/\/schema.org\/"}</script>
+	<title>{{APP_NAME}}</title>
+	<link rel="canonical" href="{{APP_URL}}">
+	<meta name="apple-mobile-web-app-title" content="{{APP_NAME}}">
+	<meta name="application-name" content="{{APP_NAME}}">
+	<meta name="description" content="{{APP_DESC}}">
+	<meta property="og:title" content="{{APP_TITLE}}">
+	<meta property="og:description" content="{{APP_DESC}}">
+	<meta property="og:url" content="{{APP_URL}}"/>
+	<script type="application/ld+json">{"name":"{{APP_TITLE}}","@type":"Product","description":"{{APP_DESC}}","category":"{{APP_CAT}}","@context":"http:\/\/schema.org\/"}</script>
 	<style>
 		html,body { background: #2b424f; width: 100svw; height: 100svh; margin: 0; padding: 0;}
 		.splash { height: 100%; display: flex; justify-content: center; align-items: center;}
@@ -94,11 +94,11 @@
 	</style>
 </head>
 <body>
-<h1 class="page-title">APP_NAME - APP_DESC</h1>
+<h1 class="page-title">{{APP_NAME}} - {{APP_DESC}}</h1>
 <app-root>
 	<div class="splash">
 		<div class="loading">
-			LOAD "APP_NAME",8,1<br/>LOADING…<br/>
+			LOAD "{{APP_NAME}}",8,1<br/>LOADING…<br/>
 			<div class="loader"></div>
 		</div>
 	</div>
