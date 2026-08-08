@@ -68,10 +68,6 @@
 			box-shadow: 0 0 0 2px var(--main-bg-color),
 			0 0 0 4px var(--focus-ring-color);
 		}
-
-		&.inactive {
-			color: var(--main-text-color-dk);
-		}
 	}
 
 	@include mixins.respond-to(tiny-down) {

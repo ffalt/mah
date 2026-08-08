@@ -59,31 +59,6 @@
 		}
 	}
 
-	.fill {
-		.fill-list {
-			padding: 0;
-			list-style: none;
-
-			li {
-				display: flex;
-				flex-direction: row;
-				align-items: baseline;
-				margin-bottom: 6px;
-			}
-
-			.fill-name {
-				min-width: 40%;
-				max-width: 40%;
-				font-weight: bold;
-			}
-
-			.fill-desc {
-				font-size: 0.9em;
-				opacity: 0.8;
-			}
-		}
-	}
-
 	.stats {
 		display: flex;
 		flex-direction: column;
@@ -161,43 +136,6 @@
 			overflow: hidden;
 			text-overflow: ellipsis;
 			max-width: 200px;
-		}
-	}
-
-	.modes {
-		.modes-list {
-			padding: 0;
-			list-style: none;
-
-			li {
-				display: flex;
-				flex-direction: row;
-				align-items: baseline;
-				margin-bottom: 6px;
-			}
-
-			.mode-name {
-				min-width: 40%;
-				max-width: 40%;
-				font-weight: bold;
-			}
-
-			.mode-features {
-				display: flex;
-				flex-wrap: wrap;
-				gap: 4px;
-			}
-
-			.feature-tag {
-				border: 1px solid var(--main-bg-color-lt);
-				padding: 1px 6px;
-				border-radius: 4px;
-				font-size: 0.85em;
-			}
-
-			.mode-none {
-				opacity: 0.5;
-			}
 		}
 	}
 

@@ -29,7 +29,6 @@
 		legend {
 			padding: 0 8px;
 			font-weight: 600;
-			color: var(--primary-text-colddor);
 			margin-left: -4px;
 			font-size: 0.95em;
 			display: none;
@@ -149,16 +148,6 @@
 			}
 		}
 
-		.button-group {
-			display: flex;
-			gap: 8px;
-			margin-top: 8px;
-
-			button {
-				flex: 1;
-			}
-		}
-
 		&.kyodai-settings {
 			background-color: var(--dialog-background-color);
 
@@ -183,7 +172,7 @@
 				&:focus-visible,
 				.example-kyodai:focus-visible,
 				.clear-kyodai:focus-visible {
-					outline: 2px solid var(--primary-text-color);
+					outline: 2px solid var(--focus-ring-color);
 					outline-offset: -2px;
 				}
 
@@ -393,12 +382,11 @@
 		border-bottom-color: var(--focus-ring-color);
 	}
 
-	#lang:checked ~ .tabs-labels label[for="tab-lang"],
+	#tab-lang:checked ~ .tabs-labels label[for="tab-lang"],
 	#tab-stones:checked ~ .tabs-labels label[for="tab-stones"],
 	#tab-theme:checked ~ .tabs-labels label[for="tab-theme"],
 	#tab-background:checked ~ .tabs-labels label[for="tab-background"],
-	#tab-ui:checked ~ .tabs-labels label[for="tab-ui"],
-	#tab-data:checked ~ .tabs-labels label[for="tab-data"] {
+	#tab-ui:checked ~ .tabs-labels label[for="tab-ui"] {
 		color: var(--dialog-headline-color);
 		border-bottom-color: var(--dialog-headline-color);
 
@@ -413,8 +401,7 @@
 		#tab-stones:checked ~ .tabs-labels label[for="tab-stones"],
 		#tab-theme:checked ~ .tabs-labels label[for="tab-theme"],
 		#tab-background:checked ~ .tabs-labels label[for="tab-background"],
-		#tab-ui:checked ~ .tabs-labels label[for="tab-ui"],
-		#tab-data:checked ~ .tabs-labels label[for="tab-data"] {
+		#tab-ui:checked ~ .tabs-labels label[for="tab-ui"] {
 			color: var(--dialog-headline-color);
 			border-bottom-color: var(--dialog-headline-color);
 
@@ -429,8 +416,7 @@
 	#tab-background:checked ~ .tabs-panels #panel-background,
 	#tab-stones:checked ~ .tabs-panels #panel-stones,
 	#tab-theme:checked ~ .tabs-panels #panel-theme,
-	#tab-ui:checked ~ .tabs-panels #panel-ui,
-	#tab-data:checked ~ .tabs-panels #panel-data {
+	#tab-ui:checked ~ .tabs-panels #panel-ui {
 		display: flex;
 	}
 

@@ -19,7 +19,7 @@
 				background-color: var(--editor-table-row-color-bg-hover);
 			}
 
-			> div {
+			> td {
 				vertical-align: middle;
 				padding: 4px 15px;
 				border-top: 1px solid var(--dialog-border-color);
@@ -79,7 +79,7 @@
 		.layout-header {
 			max-height: 30px;
 
-			> div {
+			> td {
 				border-top: none;
 			}
 
@@ -111,10 +111,6 @@
 		&:hover {
 			color: var(--main-text-color-hover);
 			border: 1px solid var(--main-bg-color-lt);
-		}
-
-		&.text-button {
-			padding: 10px 16px;
 		}
 
 		&[disabled] {

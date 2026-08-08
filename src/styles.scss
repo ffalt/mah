@@ -52,7 +52,6 @@ html {
 	--card-layout-color-border: #afafaf;
 	--card-layout-color-bg: #2b424f;
 	--card-layout-color-bg-hover: #1e2e37;
-	--card-layout-color: #fff;
 	--card-text-color-bg: #1e2e37;
 	--card-text-color-bg-hover: #1e2e37;
 	--card-text-color: #fff;
@@ -75,9 +74,6 @@ html {
 	--gesture-indicator: #42a5f5;
 	--focus-ring-color: #42a5f5;
 	--overlay-popup-shadow: 5px 5px 5px 0px rgb(0 0 0 / 75%);
-	--svg-color-1: #9c8969;
-	--svg-color-2: #fff;
-	--svg-color-3: #35a302;
 	--dialog-background-text-color: #256d02;
 
 	background-color: var(--main-bg-color);
@@ -753,11 +749,9 @@ p {
 
 	// Per-dialog variants - z-index and behavior only, no sizing
 
-	&.overlay-info {
-		z-index: 10010;
-	}
-
-	&.overlay-settings {
+	&.overlay-info,
+	&.overlay-settings,
+	&.overlay-help {
 		z-index: 10010;
 	}
 
@@ -812,9 +806,5 @@ p {
 				display: none;
 			}
 		}
-	}
-
-	&.overlay-help {
-		z-index: 10010;
 	}
 }
