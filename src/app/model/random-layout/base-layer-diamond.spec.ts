@@ -1,12 +1,13 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { diamondCells, generateBaseLayerDiamond } from './base-layer-diamond';
+import * as randomNumberGenerator from '../rng';
 
-// diamondCells dispatches on rng() < 0.5, and rng() defaults to Math.random
+// diamondCells dispatches on rng() < 0.5.
 const OUTLINE = 0.1;
 const FILLED = 0.9;
 
 function cellsWith(draw: number, w: number, h: number): Array<[number, number]> {
-	vi.spyOn(Math, 'random').mockReturnValue(draw);
+	vi.spyOn(randomNumberGenerator, 'rng').mockReturnValue(draw);
 	const cells = diamondCells(0, 0, w, h);
 	vi.restoreAllMocks();
 	return cells;
