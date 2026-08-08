@@ -160,33 +160,18 @@ describe('fillLayout', () => {
 		});
 	});
 
-	describe('maybeProposeOverhangs branches', () => {
-		// With rng=0.1: the 0.25 check fires, randChoice always picks [-1, 0] (index 0)
-		// Base layer: tile at x=0 (left edge) triggers the !inBounds path (ox = 0-1 = -1)
-		//             tiles at (8,8) and (10,8) with an existing z=1 tile at (9,8) trigger
-		//             the present.has(kh) path (overhang at (9,8) is already occupied)
-		it('covers overhang out-of-bounds and already-occupied rejection', () => {
-			vi.spyOn(rngModule, 'rng').mockReturnValue(0.1);
-			// (0,8): left-edge tile - direction [-1,0] proposes ox=-1 → out of bounds
-			// (8,8) + (10,8): small-bridge pair that supports (1,9,8)
-			// (1,9,8): pre-existing z=1 tile - blocks the overhang proposed by (10,8)→[-1,0]→(9,8)
-			const base: Mapping = [[0, 0, 8], [0, 8, 8], [0, 10, 8], [1, 9, 8]];
-			const result = fillLayout(base, false, false);
-			expect(result.length % 2).toBe(0);
-			expect(result.length).toBeGreaterThan(0);
-		});
-
-		it('covers rng >= 0.25 path (no overhangs proposed)', () => {
-			vi.spyOn(rngModule, 'rng').mockReturnValue(0.5);
-			const result = fillLayout(buildSmallBase(), false, false);
-			expect(result.length % 2).toBe(0);
-		});
-
-		it('overhang proposals do not break layout validity', () => {
+	describe('constant rng', () => {
+		it('fills with a low constant draw', () => {
 			vi.spyOn(rngModule, 'rng').mockReturnValue(0.1);
 			const result = fillLayout(buildDenseBase(), false, false);
 			expect(result.length % 2).toBe(0);
 			expect(result.length).toBeGreaterThan(0);
+		});
+
+		it('fills with a high constant draw', () => {
+			vi.spyOn(rngModule, 'rng').mockReturnValue(0.5);
+			const result = fillLayout(buildSmallBase(), false, false);
+			expect(result.length % 2).toBe(0);
 		});
 	});
 

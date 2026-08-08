@@ -1,6 +1,6 @@
 import type { Mapping } from '../types';
 import { TARGET_COUNT, X_MAX, Y_MAX, Z_MAX } from './consts';
-import { blocksOverlap, inBounds, isOdd, isSupported, key, type NonEmptyArray, randChoice, shuffleArray, tryAdd } from './utilities';
+import { blocksOverlap, inBounds, isOdd, isSupported, key, shuffleArray, tryAdd } from './utilities';
 import { rng } from '../rng';
 
 interface TilesWindow {
@@ -70,29 +70,6 @@ function bucketCandidates(present: Set<string>, z: number, win: TilesWindow): {
 	return { bridgeLarge, bridgeSmall, direct };
 }
 
-function maybeProposeOverhangs(present: Set<string>, z: number, win: TilesWindow): Array<[number, number]> {
-	if (rng() >= 0.25) {
-		return [];
-	}
-	const overhangs: Array<[number, number]> = [];
-	const zb = z - 1;
-	for (let y = win.minY; y <= win.maxY; y++) {
-		for (let x = win.minX; x <= win.maxX; x++) {
-			// eslint-disable-next-line unicorn/prefer-continue
-			if (present.has(key(zb, x, y))) {
-				const directions: NonEmptyArray<[number, number]> = [[-1, 0], [1, 0], [0, -1], [0, 1]];
-				const [dx, dy] = randChoice(directions);
-				const ox = x + dx;
-				const oy = y + dy;
-				if (inBounds(ox, oy, z) && !present.has(key(z, ox, oy))) {
-					overhangs.push([ox, oy]);
-				}
-			}
-		}
-	}
-	return overhangs;
-}
-
 function computeLevelBudget(remaining: number): number {
 	const budget = Math.trunc(rng() * remaining);
 	return Math.max(budget - (budget % 2), 2);
@@ -137,7 +114,6 @@ function growLevel(current: Mapping, z: number, mirrorX: boolean, mirrorY: boole
 	const present = new Set<string>(current.map(p => key(p[0], p[1], p[2])));
 
 	const { bridgeLarge, bridgeSmall, direct } = bucketCandidates(present, z, win);
-	const overhangs = maybeProposeOverhangs(present, z, win);
 
 	// leave some tiles for upper levels
 	const remaining = TARGET_COUNT - current.length;
@@ -162,11 +138,9 @@ function growLevel(current: Mapping, z: number, mirrorX: boolean, mirrorY: boole
 	shuffleArray(bridgeLarge);
 	shuffleArray(bridgeSmall);
 	shuffleArray(direct);
-	shuffleArray(overhangs);
 	processBucket(bridgeLarge);
 	processBucket(bridgeSmall);
 	processBucket(direct);
-	processBucket(overhangs);
 	return result;
 }
 

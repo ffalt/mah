@@ -211,10 +211,10 @@ export type CellsFunction = (x0: number, y0: number, w: number, h: number) => Ar
 export function canPlace(
 	x0: number, y0: number, w: number, h: number,
 	occupied: Set<string>, blocked: Set<string>, usedSizes: Set<string>,
-	cellsFunction: CellsFunction
+	cells: Array<[number, number]>, allowReuse = false
 ): boolean {
 	const sizeKey = `${w}x${h}`;
-	if (usedSizes.has(sizeKey)) {
+	if (!allowReuse && usedSizes.has(sizeKey)) {
 		return false;
 	}
 	const x1 = x0 + (w - 1) * 2;
@@ -222,7 +222,6 @@ export function canPlace(
 	if (!inBounds(x1, y1, 0)) {
 		return false;
 	}
-	const cells = cellsFunction(x0, y0, w, h);
 	for (const [x, y] of cells) {
 		if ((x % 2 !== 0) || (y % 2 !== 0)) {
 			return false;
@@ -258,11 +257,12 @@ export function generateBaseLayerWithShapes(
 	shuffleArray(allSizes);
 	shuffleArray(anchors);
 
+	let canReuse = false;
 	const tryPlace = (x0: number, y0: number, w: number, h: number): number => {
-		if (!canPlace(x0, y0, w, h, occupied, blocked, usedSizes, cellsFunction)) {
+		const cells = cellsFunction(x0, y0, w, h);
+		if (!canPlace(x0, y0, w, h, occupied, blocked, usedSizes, cells, canReuse)) {
 			return 0;
 		}
-		const cells = cellsFunction(x0, y0, w, h);
 		for (const [x, y] of cells) {
 			occupied.add(key(0, x, y));
 		}
@@ -285,7 +285,6 @@ export function generateBaseLayerWithShapes(
 	// Phase 3: fill to maxTarget, allowing size reuse after unique sizes are exhausted
 	if (total < maxTarget) {
 		let canProgress = true;
-		let canReuse = false;
 		while (canProgress && total < maxTarget) {
 			const sizePool = canReuse ? [...allSizes] : allSizes.filter(([w, h]) => !usedSizes.has(`${w}x${h}`));
 			if (!canReuse && sizePool.length === 0) {
@@ -301,18 +300,4 @@ export function generateBaseLayerWithShapes(
 	}
 
 	return buildMappingFromSetZ0(occupied, xMax, yMax, 2);
-}
-
-export function place(
-	x0: number, y0: number, w: number, h: number,
-	occupied: Set<string>, blocked: Set<string>, usedSizes: Set<string>,
-	cellsFunction: CellsFunction
-): number {
-	const cells = cellsFunction(x0, y0, w, h);
-	for (const [x, y] of cells) {
-		occupied.add(key(0, x, y));
-	}
-	markBufferPoints(cells, 2, blocked, 0);
-	usedSizes.add(`${w}x${h}`);
-	return cells.length;
 }

@@ -1,5 +1,6 @@
-import { blocksOverlap, inBounds, key } from './utilities';
+import { blocksOverlap, canPlace, type CellsFunction, generateBaseLayerWithShapes, inBounds, key } from './utilities';
 import { X_MAX, Y_MAX, Z_MAX } from './consts';
+import { resetRNG, seedRNG } from '../rng';
 import { describe, it, expect } from 'vitest';
 
 describe('inBounds', () => {
@@ -152,5 +153,83 @@ describe('blocksOverlap', () => {
 	it('returns true early on first matching neighbor (short-circuit on x-1, y-1)', () => {
 		const present = new Set<string>([key(0, 3, 3)]);
 		expect(blocksOverlap(present, 0, 4, 4)).toBe(true);
+	});
+});
+
+describe('canPlace', () => {
+	const rectCells: CellsFunction = (x0, y0, w, h) => {
+		const cells: Array<[number, number]> = [];
+		for (let row = 0; row < h; row++) {
+			for (let column = 0; column < w; column++) {
+				cells.push([x0 + column * 2, y0 + row * 2]);
+			}
+		}
+		return cells;
+	};
+
+	it('accepts an unused size on an empty board', () => {
+		expect(canPlace(0, 0, 3, 3, new Set(), new Set(), new Set(), rectCells(0, 0, 3, 3))).toBe(true);
+	});
+
+	it('rejects an already used size by default', () => {
+		expect(canPlace(0, 0, 3, 3, new Set(), new Set(), new Set(['3x3']), rectCells(0, 0, 3, 3))).toBe(false);
+	});
+
+	it('accepts an already used size when reuse is allowed', () => {
+		expect(canPlace(0, 0, 3, 3, new Set(), new Set(), new Set(['3x3']), rectCells(0, 0, 3, 3), true)).toBe(true);
+	});
+
+	it('rejects cells that collide with an occupied position', () => {
+		const occupied = new Set<string>([key(0, 2, 2)]);
+		expect(canPlace(0, 0, 3, 3, occupied, new Set(), new Set(), rectCells(0, 0, 3, 3))).toBe(false);
+	});
+});
+
+describe('generateBaseLayerWithShapes', () => {
+	const rectCells: CellsFunction = (x0, y0, w, h) => {
+		const cells: Array<[number, number]> = [];
+		for (let row = 0; row < h; row++) {
+			for (let column = 0; column < w; column++) {
+				cells.push([x0 + column * 2, y0 + row * 2]);
+			}
+		}
+		return cells;
+	};
+
+	// a non-deterministic CellsFunction used to be called twice per attempt, so the shape that
+	// passed validation was not the shape that got placed
+	it('keeps the buffer distance when the cells function is not deterministic', () => {
+		for (let seed = 0; seed < 20; seed++) {
+			seedRNG(`shape-mismatch-${seed}`);
+			let call = 0;
+			const alternating: CellsFunction = (x0, y0) => {
+				call++;
+				return call % 2 === 0 ? [[x0 + 2, y0]] : [[x0, y0]];
+			};
+
+			const mapping = generateBaseLayerWithShapes(
+				[[1, 1]],
+				alternating,
+				{ minTarget: 5, maxTarget: 10, xMax: X_MAX, yMax: Y_MAX }
+			);
+			resetRNG();
+
+			expect(mapping.length).toBeGreaterThan(1);
+			for (let a = 0; a < mapping.length; a++) {
+				for (let b = a + 1; b < mapping.length; b++) {
+					const distance = Math.max(Math.abs(mapping[a][1] - mapping[b][1]), Math.abs(mapping[a][2] - mapping[b][2]));
+					expect(distance).toBeGreaterThan(3);
+				}
+			}
+		}
+	});
+
+	it('reuses the only available size to reach the target', () => {
+		const mapping = generateBaseLayerWithShapes(
+			[[2, 2]],
+			rectCells,
+			{ minTarget: 40, maxTarget: 48, xMax: X_MAX, yMax: Y_MAX }
+		);
+		expect(mapping.length).toBeGreaterThan(4);
 	});
 });
