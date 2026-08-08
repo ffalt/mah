@@ -13,6 +13,7 @@ const makeLayout = (name: string, overrides: Partial<Layout> = {}): Layout => ({
 	by: 'Author',
 	category: 'Cat',
 	mapping: [[0, 1, 1]],
+	custom: true,
 	...overrides
 });
 
@@ -70,13 +71,13 @@ describe('ManagerComponent', () => {
 		});
 	});
 
-	describe('toggleBuildIn', () => {
-		it('should toggle showBuildIn flag', () => {
-			expect(component.showBuildIn()).toBe(true);
-			component.toggleBuildIn();
-			expect(component.showBuildIn()).toBe(false);
-			component.toggleBuildIn();
-			expect(component.showBuildIn()).toBe(true);
+	describe('toggleBuiltIn', () => {
+		it('should toggle showBuiltIn flag', () => {
+			expect(component.showBuiltIn()).toBe(false);
+			component.toggleBuiltIn();
+			expect(component.showBuiltIn()).toBe(true);
+			component.toggleBuiltIn();
+			expect(component.showBuiltIn()).toBe(false);
 		});
 	});
 
@@ -156,13 +157,13 @@ describe('ManagerComponent', () => {
 			expect(component.layouts()).toHaveLength(2);
 		});
 
-		it('should filter out built-in layouts when showBuildIn is false', () => {
+		it('should filter out built-in layouts when showBuiltIn is false', () => {
 			const layouts: Array<Layout> = [
 				makeLayout('Custom', { custom: true }),
 				makeLayout('BuiltIn', { custom: false })
 			];
 			fixture.componentRef.setInput('inputLayouts', layouts);
-			component.showBuildIn.set(false);
+			component.showBuiltIn.set(false);
 			component.update();
 			expect(component.layouts()).toHaveLength(1);
 			expect(component.layouts()[0].custom).toBe(true);
@@ -180,11 +181,19 @@ describe('ManagerComponent', () => {
 	});
 
 	describe('removeCustomLayouts', () => {
-		it('should call layoutService.removeAllCustomLayouts and stop propagation', () => {
+		it('should call layoutService.removeAllCustomLayouts and stop propagation when confirmed', () => {
+			vi.spyOn(window, 'confirm').mockReturnValue(true);
 			const event = { stopPropagation: vi.fn() } as unknown as MouseEvent;
 			component.removeCustomLayouts(event);
 			expect(mockLayoutService.removeAllCustomLayouts).toHaveBeenCalled();
 			expect((event.stopPropagation as Mock)).toHaveBeenCalled();
+		});
+
+		it('should not remove anything when the confirmation is declined', () => {
+			vi.spyOn(window, 'confirm').mockReturnValue(false);
+			const event = { stopPropagation: vi.fn() } as unknown as MouseEvent;
+			component.removeCustomLayouts(event);
+			expect(mockLayoutService.removeAllCustomLayouts).not.toHaveBeenCalled();
 		});
 	});
 

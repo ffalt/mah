@@ -23,6 +23,9 @@ import { IconClearComponent } from '../../../../components/icons/icon-clear.comp
 import { IconDeleteComponent } from '../../../../components/icons/icon-delete.component';
 import { IconLeftComponent } from '../../../../components/icons/icon-left.component';
 import { IconRightComponent } from '../../../../components/icons/icon-right.component';
+import { IconExecuteComponent } from '../../../../components/icons/icon-execute.component';
+import { IconMirrorHorizontalComponent } from '../../../../components/icons/icon-mirror-horizontal.component';
+import { IconMirrorVerticalComponent } from '../../../../components/icons/icon-mirror-vertical.component';
 
 interface Stats {
 	name: string;
@@ -57,7 +60,8 @@ interface EditLevel {
 	styleUrls: ['./layout.component.scss'],
 	imports: [CommonModule, BoardComponent, LayoutPreviewComponent, ExportComponent, TranslatePipe, IconCloseComponent,
 		IconListAddComponent, IconUpComponent, IconDownComponent, IconDuplicateComponent,
-		IconClearComponent, IconDeleteComponent, IconLeftComponent, IconRightComponent]
+		IconClearComponent, IconDeleteComponent, IconLeftComponent, IconRightComponent,
+		IconExecuteComponent, IconMirrorHorizontalComponent, IconMirrorVerticalComponent]
 })
 export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 	readonly layout = model.required<EditLayout>();

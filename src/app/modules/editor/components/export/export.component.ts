@@ -102,12 +102,35 @@ export class ExportComponent implements OnInit, OnChanges {
 		this.savedEvent.emit(true);
 	}
 
-	update(): void {
+	updateFileName(): void {
+		const layoutName = this.layout().name.toLocaleLowerCase().replace(/ /g, '_');
+		this.filename.set(`${layoutName}.${this.format().ext}`);
+	}
+
+	updateName(value: string): void {
+		this.layout().name = value;
+		this.updateFileName();
+		this.updatePreview();
+	}
+
+	updateCat(value: string): void {
+		this.layout().category = value;
+		this.updatePreview();
+	}
+
+	updateBy(value: string): void {
+		this.layout().by = value;
+		this.updatePreview();
+	}
+
+	updatePreview(): void {
 		const layout = this.layout();
-		const format = this.format();
-		const layoutName = layout.name.toLocaleLowerCase().replace(/ /g, '_');
-		this.result.set(format.func(layout));
-		this.filename.set(`${layoutName}.${format.ext}`);
+		this.result.set(this.format().func(layout));
 		this.exportLayout.set(generateExportLayout(layout));
+	}
+
+	update(): void {
+		this.updateFileName();
+		this.updatePreview();
 	}
 }

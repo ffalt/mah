@@ -1,87 +1,94 @@
-<table class="layout-table">
-	<thead>
-		<tr class="layout layout-header">
-		<td class="col-image">{{ 'EDITOR_COLUMN_PREVIEW' | translate }}</td>
-		<td class="col-name sortable"
-			tabindex="0"
-			role="columnheader"
-			[attr.aria-sort]="sortColumn()===1 ? (sortDesc() ? 'ascending' : 'descending') : 'none'"
-			(click)="clickSortBy($event,1)"
-			(keydown.enter)="activateSortBy(1)"
-			(keydown.space)="$event.preventDefault(); activateSortBy(1)"
-			[class.sort-up]="sortColumn()===1 && sortDesc()" [class.sort-down]="sortColumn()===1 && !sortDesc()">{{ 'EDITOR_LAYOUT_NAME' | translate }} <span class="arrow"></span></td>
-		<td class="col-cat sortable"
-			tabindex="0"
-			role="columnheader"
-			[attr.aria-sort]="sortColumn()===3 ? (sortDesc() ? 'ascending' : 'descending') : 'none'"
-			(click)="clickSortBy($event,3)"
-			(keydown.enter)="activateSortBy(3)"
-			(keydown.space)="$event.preventDefault(); activateSortBy(3)"
-			[class.sort-up]="sortColumn()===3 && sortDesc()" [class.sort-down]="sortColumn()===3 && !sortDesc()">{{ 'EDITOR_LAYOUT_CATEGORY' | translate }} <span class="arrow"></span>
-			<div>
-			<label>
-				<input type="checkbox" [checked]="showBuildIn()" (change)="toggleBuildIn()">
-				{{'EDITOR_SHOW_BUILDIN' | translate}}
-			</label>
-			</div>
-		</td>
-		<td class="col-stats sortable"
-			tabindex="0"
-			role="columnheader"
-			[attr.aria-sort]="sortColumn()===4 ? (sortDesc() ? 'ascending' : 'descending') : 'none'"
-			(click)="clickSortBy($event,4)"
-			(keydown.enter)="activateSortBy(4)"
-			(keydown.space)="$event.preventDefault(); activateSortBy(4)"
-			[class.sort-up]="sortColumn()===4 && sortDesc()" [class.sort-down]="sortColumn()===4 && !sortDesc()">{{ 'EDITOR_LAYOUT_NR_OF_STONES' | translate }} <span class="arrow"></span></td>
-		<td class="col-test">{{ 'EDITOR_COLUMN_TEST' | translate }}
-			<button type="button" (click)="testLayouts($event)" title="{{ 'EDITOR_TEST_RUN' | translate }}" [attr.aria-label]="'EDITOR_TEST_RUN' | translate">
-				<app-icon-execute />
-			</button>
-		</td>
-		<td class="col-delete">
-			<button type="button" (click)="removeCustomLayouts($event)" title="{{ 'CUSTOM_BOARD_DELETE_ALL' | translate }}" [attr.aria-label]="'CUSTOM_BOARD_DELETE_ALL' | translate">
-				<app-icon-delete />
-			</button>
-		</td>
-	</tr>
-	</thead>
-	<tbody>
-	@for (layout of layouts(); track layout) {
-		<tr class="layout"
-			tabindex="0"
-			[attr.aria-label]="layout.name"
-			(click)="editLayout(layout)"
-			(keydown.enter)="editLayout(layout)"
-			(keydown.space)="$event.preventDefault(); editLayout(layout)">
-			<td class="col-image">
-				<app-layout-preview class="svg-board" [layout]="layout"></app-layout-preview>
-			</td>
-			<td class="col-name">{{ layout.name }}</td>
-			<td class="col-cat">{{ layout.category }}</td>
-			<td class="col-stats">{{ layout.mapping.length }}</td>
-			<td class="col-test">
-				<button type="button" (click)="testLayout($event, layout)" title="{{ 'EDITOR_TEST_RUN' | translate }}" [attr.aria-label]="'EDITOR_TEST_RUN' | translate">
-					<app-icon-execute />
-				</button>
-				@if (test()[layout.id]; as result) {
-					<div>
-						@if (result.win) {
-							<div>{{ 'EDITOR_TEST_SOLVED' | translate }}: {{ result.win }}</div>
-						}
-						@if (result.fail) {
-							<div class="fail">{{ 'EDITOR_TEST_FAILED' | translate }}: {{ result.fail }}</div>
+<div class="manager-toolbar">
+	<label class="toggle">
+		<input type="checkbox" [checked]="showBuiltIn()" (change)="toggleBuiltIn()">
+		{{ 'EDITOR_SHOW_BUILT_IN' | translate }}
+	</label>
+	<div class="toolbar-actions">
+		<button type="button" class="action" (click)="testLayouts($event)" title="{{ 'EDITOR_TEST_RUN_ALL' | translate }}">
+			<app-icon-execute />
+			<span>{{ 'EDITOR_TEST_RUN_ALL' | translate }}</span>
+		</button>
+		<button type="button" class="action action-danger" (click)="removeCustomLayouts($event)" title="{{ 'CUSTOM_BOARD_DELETE_ALL' | translate }}">
+			<app-icon-delete />
+			<span>{{ 'CUSTOM_BOARD_DELETE_ALL' | translate }}</span>
+		</button>
+	</div>
+</div>
+<div class="manager-scroll">
+	<table class="layout-table">
+		<thead>
+			<tr class="layout-header">
+				<th scope="col" class="col-image">{{ 'EDITOR_COLUMN_PREVIEW' | translate }}</th>
+				<th scope="col" class="col-name"
+					[attr.aria-sort]="sortColumn()===1 ? (sortDesc() ? 'ascending' : 'descending') : 'none'">
+					<button type="button" class="sort"
+						[class.sort-up]="sortColumn()===1 && sortDesc()" [class.sort-down]="sortColumn()===1 && !sortDesc()"
+						(click)="clickSortBy($event,1)">{{ 'EDITOR_LAYOUT_NAME' | translate }} <span class="arrow"></span></button>
+				</th>
+				<th scope="col" class="col-cat"
+					[attr.aria-sort]="sortColumn()===3 ? (sortDesc() ? 'ascending' : 'descending') : 'none'">
+					<button type="button" class="sort"
+						[class.sort-up]="sortColumn()===3 && sortDesc()" [class.sort-down]="sortColumn()===3 && !sortDesc()"
+						(click)="clickSortBy($event,3)">{{ 'EDITOR_LAYOUT_CATEGORY' | translate }} <span class="arrow"></span></button>
+				</th>
+				<th scope="col" class="col-stats"
+					[attr.aria-sort]="sortColumn()===4 ? (sortDesc() ? 'ascending' : 'descending') : 'none'">
+					<button type="button" class="sort"
+						[class.sort-up]="sortColumn()===4 && sortDesc()" [class.sort-down]="sortColumn()===4 && !sortDesc()"
+						(click)="clickSortBy($event,4)">{{ 'EDITOR_LAYOUT_NR_OF_STONES' | translate }} <span class="arrow"></span></button>
+				</th>
+				<th scope="col" class="col-test">{{ 'EDITOR_COLUMN_TEST' | translate }}</th>
+				<th scope="col" class="col-delete"><span class="sr-only">{{ 'CUSTOM_BOARD_DELETE' | translate }}</span></th>
+			</tr>
+		</thead>
+		<tbody>
+		@for (layout of layouts(); track layout) {
+			<tr class="layout"
+				tabindex="0"
+				[attr.aria-label]="layout.name"
+				(click)="editLayout(layout)"
+				(keydown.enter)="editLayout(layout)"
+				(keydown.space)="$event.preventDefault(); editLayout(layout)">
+				<td class="col-image">
+					<div class="preview">
+						<app-layout-preview class="svg-board" [layout]="layout"></app-layout-preview>
+					</div>
+				</td>
+				<td class="col-name">{{ layout.name }}</td>
+				<td class="col-cat">{{ layout.category }}</td>
+				<td class="col-stats">{{ layout.mapping.length }}</td>
+				<td class="col-test">
+					<div class="test-cell">
+						<button type="button" class="icon-button" (click)="testLayout($event, layout)" title="{{ 'EDITOR_TEST_RUN' | translate }}" [attr.aria-label]="'EDITOR_TEST_RUN' | translate">
+							<app-icon-execute />
+						</button>
+						@if (test()[layout.id]; as result) {
+							<div class="test-result">
+								@if (result.win) {
+									<span class="chip chip-win">{{ 'EDITOR_TEST_SOLVED' | translate }}: {{ result.win }}</span>
+								}
+								@if (result.fail) {
+									<span class="chip chip-fail">{{ 'EDITOR_TEST_FAILED' | translate }}: {{ result.fail }}</span>
+								}
+							</div>
 						}
 					</div>
-				}
-			</td>
-			<td class="col-delete">
-				@if (layout.custom) {
-					<button type="button" (click)="removeCustomBoard($event, layout)" title="{{'CUSTOM_BOARD_DELETE' | translate}}" [attr.aria-label]="'CUSTOM_BOARD_DELETE' | translate">
-						<app-icon-delete />
-					</button>
-				}
-			</td>
-		</tr>
+				</td>
+				<td class="col-delete">
+					@if (layout.custom) {
+						<button type="button" class="icon-button icon-button-danger" (click)="removeCustomBoard($event, layout)" title="{{'CUSTOM_BOARD_DELETE' | translate}}" [attr.aria-label]="'CUSTOM_BOARD_DELETE' | translate">
+							<app-icon-delete />
+						</button>
+					}
+				</td>
+			</tr>
+		}
+		</tbody>
+	</table>
+	@if (layouts().length === 0) {
+		<div class="empty-state">
+			<p class="empty-title">{{ 'EDITOR_NO_BOARDS' | translate }}</p>
+			<p class="empty-hint">{{ 'EDITOR_NO_BOARDS_HINT' | translate }}</p>
+		</div>
 	}
-	</tbody>
-</table>
+</div>

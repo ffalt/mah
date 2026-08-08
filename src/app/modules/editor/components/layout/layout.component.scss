@@ -1,3 +1,4 @@
+@use "../../../../style/variables";
 @use "../../../../style/mixins";
 
 :host {
@@ -10,74 +11,158 @@
 	.overlay-save {
 		.overlay-popup {
 			overflow-y: auto;
+			min-height: 0;
 		}
 	}
 
-	.buttons {
-		> span {
-			padding-right: 6px;
+	.action {
+		appearance: none;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: 8px;
+		min-height: 34px;
+		padding: 6px 14px;
+		font-family: variables.$text-font;
+		font-size: 0.95em;
+		font-weight: 500;
+		line-height: 1.2;
+		color: var(--editor-button-color);
+		background-color: var(--editor-button-bg);
+		border: 1px solid var(--editor-button-border);
+		border-radius: 8px;
+		cursor: pointer;
+		transition: color 140ms ease, background-color 140ms ease, border-color 140ms ease;
+
+		&:hover {
+			color: var(--editor-button-color-hover);
+			background-color: var(--editor-button-bg-hover);
+			border-color: var(--editor-button-color);
 		}
 
-		.fail {
+		&:focus-visible {
+			outline: 2px solid var(--focus-ring-color);
+			outline-offset: 2px;
+		}
+
+		&.action-block {
+			width: 100%;
+		}
+	}
+
+	.icon-button {
+		appearance: none;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 32px;
+		height: 32px;
+		padding: 0;
+		font-size: 1.05em;
+		color: var(--editor-button-color);
+		background-color: transparent;
+		border: 1px solid transparent;
+		border-radius: 8px;
+		cursor: pointer;
+		transition: color 140ms ease, background-color 140ms ease, border-color 140ms ease;
+
+		&:hover:not([disabled]) {
+			color: var(--editor-button-color-hover);
+			background-color: var(--editor-button-bg-hover);
+			border-color: var(--editor-button-border);
+		}
+
+		&:focus-visible {
+			outline: 2px solid var(--focus-ring-color);
+			outline-offset: 2px;
+		}
+
+		&.checked {
+			color: var(--editor-button-color-hover);
+			background-color: var(--editor-button-bg-hover);
+			border-color: var(--editor-button-color);
+		}
+
+		&.icon-button-danger:hover:not([disabled]) {
 			color: var(--text-fail-color);
+			border-color: var(--text-fail-color);
 		}
 
-		button {
-			background-color: transparent;
-			background-image: none;
-			color: var(--text-highlight-color);
-			border: 1px solid var(--main-bg-color-dk);
-			cursor: pointer;
-
-			&:hover {
-				color: var(--main-text-color-hover);
-				border: 1px solid var(--main-bg-color-lt);
-			}
-
-			&.checked {
-				background-color: rgb(0 0 0 / 30%);
-				border: 1px solid var(--main-bg-color-lt);
-			}
-
-			&.text-button {
-				padding: 10px 16px;
-			}
-
-			&[disabled] {
-				color: var(--text-disabled-color);
-				cursor: default;
-			}
+		&[disabled] {
+			color: var(--text-disabled-color);
+			cursor: default;
 		}
 	}
 
-	.buttons-current-level {
+	.button-group {
 		display: flex;
+		align-items: center;
+		gap: 2px;
+		padding: 2px;
+		background-color: var(--editor-table-row-color-bg);
+		border: 1px solid var(--editor-table-border);
+		border-radius: 10px;
+	}
+
+	.chip {
+		padding: 4px 10px;
+		font-size: 0.85em;
+		white-space: nowrap;
+		color: var(--editor-button-color);
+		background-color: var(--editor-table-row-color-bg);
+		border: 1px solid var(--editor-table-border);
+		border-radius: 10px;
+		font-variant-numeric: slashed-zero tabular-nums;
+
+		&.chip-win {
+			color: var(--main-text-color-lt);
+		}
+
+		&.chip-fail, &.fail {
+			color: var(--text-fail-color);
+			border-color: var(--text-fail-color);
+		}
 	}
 
 	.buttonbar {
 		display: flex;
-		flex-direction: row;
+		flex-flow: row wrap;
+		align-items: center;
 		justify-content: space-between;
+		gap: 8px;
+		padding: 6px 8px;
+
+		.buttons {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+		}
 
 		.buttonbar-title {
-			padding-left: 12px;
-			padding-right: 12px;
+			padding: 0 4px;
+			font-size: 0.85em;
+			font-weight: 600;
+			letter-spacing: 0.04em;
+			color: var(--editor-table-header-color);
+			white-space: nowrap;
 		}
 	}
 
 	.editor-matrix-list {
+		display: flex;
+		flex-direction: column;
 		width: 220px;
 		max-height: 100%;
 		height: 100%;
-		border-right: 1px solid var(--dialog-border-color);
-		overflow-y: auto;
+		border-right: 1px solid var(--editor-table-border);
 		background-color: var(--editor-color-bg);
 
 		.matrix-list {
+			flex: 1;
 			list-style: none;
-			padding: 0;
-			margin: 4px;
-			max-height: 100%;
+			padding: 8px;
+			margin: 0;
+			overflow-y: auto;
 
 			.matrix-level {
 				display: flex;
@@ -85,21 +170,38 @@
 				margin: 0 auto;
 			}
 
+			.level-title {
+				padding: 6px 8px;
+				font-size: 0.85em;
+				font-weight: 600;
+				letter-spacing: 0.04em;
+				color: var(--editor-table-header-color);
+			}
+
 			li {
 				text-align: center;
 				cursor: pointer;
-				border: 1px solid var(--dialog-border-color);
-				margin-bottom: 4px;
+				background-color: var(--editor-table-row-color-bg);
+				border: 1px solid var(--editor-table-border);
+				border-radius: 10px;
+				margin-bottom: 8px;
+				padding-bottom: 8px;
 				display: flex;
 				flex-direction: column;
 				overflow: hidden;
+				transition: background-color 140ms ease, border-color 140ms ease;
 
 				&:hover {
-					border-color: var(--dialog-border-color-hover);
+					background-color: var(--editor-table-row-color-bg-hover);
+					border-color: var(--editor-button-border);
 				}
 
 				&.selected {
-					border-color: var(--dialog-border-color-selected);
+					border-color: var(--editor-button-color);
+
+					.level-title {
+						color: var(--editor-button-color-hover);
+					}
 				}
 
 				&:focus-visible {
@@ -112,6 +214,15 @@
 				user-select: none;
 				display: inline-block;
 				min-width: 0.8em;
+			}
+		}
+
+		.buttonbar-add {
+			padding: 8px;
+			border-top: 1px solid var(--editor-table-border);
+
+			.buttons {
+				width: 100%;
 			}
 		}
 	}
@@ -136,6 +247,10 @@
 				flex: 1;
 				overflow: hidden;
 
+				.buttonbar {
+					border-bottom: 1px solid var(--editor-table-border);
+				}
+
 				.matrix-board {
 					flex: 1;
 					display: flex;
@@ -144,7 +259,7 @@
 			}
 
 			.matrix-edit-bottom {
-				border-top: 1px solid var(--dialog-border-color);
+				border-top: 1px solid var(--editor-table-border);
 				height: 25%;
 				display: flex;
 				flex-direction: column;
@@ -170,20 +285,24 @@
 					}
 				}
 
-				.stats {
+				.solve-panel {
 					position: absolute;
-					background-color: rgb(0 0 0 / 70%);
-					bottom: 0;
-					font-size: 0.9em;
-					border-radius: 6px;
-					text-align: left;
-					padding: 10px;
-					font-variant-numeric: slashed-zero tabular-nums;
+					right: 8px;
+					bottom: 8px;
+					display: flex;
+					align-items: center;
+					gap: 8px;
+					padding: 8px;
+					background-color: rgb(0 0 0 / 60%);
+					border: 1px solid var(--editor-table-border);
+					border-radius: 10px;
 				}
 
-				.stats-bottom {
-					text-align: right;
-					right: 0;
+				.solve-result {
+					display: flex;
+					flex-direction: column;
+					gap: 4px;
+					text-align: left;
 				}
 			}
 		}
@@ -193,22 +312,36 @@
 		flex-direction: column;
 
 		.editor-matrix-list {
-			height: 80px;
+			flex-direction: row;
+			align-items: center;
+			height: 96px;
 			width: 100%;
 			overflow: auto hidden;
 			margin-bottom: 2px;
 			border-right: none;
-			border-bottom: 1px solid var(--dialog-border-color);
+			border-bottom: 1px solid var(--editor-table-border);
 
 			.matrix-list {
 				white-space: nowrap;
-				border-right: none;
-				height: 92%;
+				height: 100%;
+				padding: 6px;
 
 				li {
-					width: 100px;
+					width: 110px;
 					height: 100%;
+					margin: 0 6px 0 0;
 					display: inline-flex;
+					vertical-align: top;
+				}
+			}
+
+			.buttonbar-add {
+				padding: 6px;
+				border-top: none;
+				border-left: 1px solid var(--editor-table-border);
+
+				.action span {
+					display: none;
 				}
 			}
 		}
@@ -219,7 +352,6 @@
 			.matrix-edit {
 				flex-direction: row;
 
-
 				.matrix-edit-top {
 					max-height: 100%;
 				}
@@ -228,16 +360,8 @@
 					height: 100%;
 					width: 30%;
 					border-top: none;
-
-					.buttons {
-						span {
-							display: block;
-						}
-					}
 				}
 			}
 		}
-
 	}
-
 }

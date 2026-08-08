@@ -1,30 +1,70 @@
 @use "../../../../style/mixins";
+@use "../../../../style/variables";
 
 :host {
-	color: var(--main-text-color);
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	color: var(--main-content-text-color);
 
 	h3 {
-		margin-top: 0;
-		padding-top: 0;
+		margin: 0;
 		text-align: center;
+		color: var(--dialog-headline-color);
 	}
 
-	.preview {
-		max-height: 180px;
-		min-width: 100px;
-		padding-left: 10px;
+	.section {
+		display: flex;
+		gap: 16px;
 	}
 
 	.inputs {
 		display: flex;
 		flex-direction: column;
+		gap: 4px;
 		flex: 1;
 
-		input {
-			padding: 4px;
-			font-size: 16px;
-			margin-bottom: 8px;
+		label {
+			font-size: 0.9em;
+			font-weight: 600;
 		}
+
+		label + input {
+			margin-bottom: 10px;
+		}
+
+		input {
+			appearance: none;
+			padding: 10px 14px;
+			min-height: 44px;
+			font-family: variables.$text-font;
+			font-size: 0.95em;
+			color: var(--input-text-color);
+			background-color: var(--input-background-color);
+			border: 2px solid var(--input-border-color);
+			border-radius: 12px;
+			outline: none;
+			transition: border-color .15s ease, background-color .15s ease;
+
+			&:hover {
+				background-color: var(--input-background-color-hover);
+				border-color: var(--dialog-headline-color);
+			}
+
+			&:focus, &:focus-visible {
+				border-color: var(--gesture-indicator);
+			}
+		}
+	}
+
+	.preview {
+		flex: 0 1 200px;
+		max-height: 180px;
+		padding: 6px;
+		border: 1px solid var(--dialog-border-color);
+		border-radius: 8px;
+		background-color: var(--card-layout-color-bg);
+		overflow: hidden;
 	}
 
 	@include mixins.respond-to(tiny-down) {
@@ -33,81 +73,73 @@
 		}
 	}
 
-	.section {
-		display: flex;
-	}
-
 	.export {
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+
+		fieldset {
+			margin: 0;
+			padding: 12px;
+			border: 1px solid var(--main-bg-color-lt);
+			border-radius: 8px;
+		}
+
+		legend {
+			padding: 0 8px;
+			font-weight: 600;
+			font-size: 0.95em;
+		}
+
 		ul {
 			list-style: none;
 			padding: 0;
 			margin: 0;
 			display: flex;
-
-			label {
-				vertical-align: middle;
-				cursor: pointer;
-			}
-
-			input {
-				cursor: pointer;
-			}
-
-			li + li {
-				margin-left: 10px;
-			}
+			flex-wrap: wrap;
+			gap: 8px 20px;
 		}
 
-		.export-preview {
-			margin-top: 16px;
-
-			pre {
-				white-space: pre-line;
-				overflow-wrap: break-word;
-				font-family: monospace;
-				text-align: left;
-				overflow: auto;
-				min-height: 180px;
-				max-height: 180px;
-				font-size: 0.8em;
-				line-height: 1em;
-				background-color: black;
-			}
+		li {
+			display: flex;
+			align-items: center;
+			gap: 8px;
 		}
 
-		button {
-			padding: 8px 16px;
+		label, input {
+			cursor: pointer;
 		}
+
+		.export-preview pre {
+			margin: 0;
+			padding: 10px 12px;
+			white-space: pre-line;
+			overflow-wrap: break-word;
+			font-family: monospace;
+			text-align: left;
+			overflow: auto;
+			min-height: 180px;
+			max-height: 180px;
+			font-size: 0.8em;
+			line-height: 1.35em;
+			color: var(--input-text-color);
+			background-color: var(--input-background-color);
+			border: 1px solid var(--input-border-color);
+			border-radius: 12px;
+		}
+	}
+
+	.export-filename {
+		text-align: center;
 	}
 
 	.buttons {
-		text-align: center;
 		display: flex;
 		flex-wrap: wrap;
+		gap: 10px;
 
 		button {
 			flex: 1;
-			background-color: rgb(0 0 0 / 5%);
-			background-image: none;
-			border: 1px solid var(--dialog-border-color);
-			cursor: pointer;
-			color: var(--main-text-color);
-
-			&:hover {
-				color: var(--main-text-color-hover);
-				background-color: rgb(0 0 0 / 10%);
-				border: 1px solid var(--dialog-border-color-hover);
-			}
-
-			&.text-button {
-				padding: 10px 16px;
-			}
-
-			&[disabled] {
-				color: var(--text-disabled-color);
-				cursor: default;
-			}
 		}
 	}
-
 }

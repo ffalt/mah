@@ -3,7 +3,7 @@ import type { Layout } from '../../../../model/types';
 import { LayoutService } from '../../../../service/layout.service';
 import { WorkerService } from '../../../../service/worker.service';
 import { LayoutPreviewComponent } from '../../../../components/layout-preview/layout-preview.component';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { IconDeleteComponent } from '../../../../components/icons/icon-delete.component';
 import { IconExecuteComponent } from '../../../../components/icons/icon-execute.component';
 
@@ -20,10 +20,11 @@ export class ManagerComponent implements OnChanges, OnDestroy {
 	readonly test = signal<{ [key: string]: { win: number; fail: number; msg?: string } | undefined }>({});
 	readonly sortColumn = signal(1);
 	readonly sortDesc = signal(true);
-	readonly showBuildIn = signal(true);
+	readonly showBuiltIn = signal(false);
 	worker?: Worker;
 	readonly layoutService = inject(LayoutService);
 	readonly workerService = inject(WorkerService);
+	readonly translate = inject(TranslateService);
 
 	constructor() {
 		this.update();
@@ -48,8 +49,8 @@ export class ManagerComponent implements OnChanges, OnDestroy {
 		this.editEvent.emit(layout);
 	}
 
-	toggleBuildIn() {
-		this.showBuildIn.set(!this.showBuildIn());
+	toggleBuiltIn() {
+		this.showBuiltIn.set(!this.showBuiltIn());
 		this.update();
 	}
 
@@ -68,7 +69,7 @@ export class ManagerComponent implements OnChanges, OnDestroy {
 		const inputLayouts = this.inputLayouts();
 		if (inputLayouts) {
 			let layouts = [...inputLayouts].sort((a, b) => a.name.localeCompare(b.name));
-			if (!this.showBuildIn()) {
+			if (!this.showBuiltIn()) {
 				layouts = layouts.filter(l => l.custom);
 			}
 			this.layouts.set(layouts);
@@ -84,6 +85,9 @@ export class ManagerComponent implements OnChanges, OnDestroy {
 
 	removeCustomLayouts(event: MouseEvent): void {
 		event.stopPropagation();
+		if (!confirm(this.translate.instant('CUSTOM_BOARD_DELETE_ALL_SURE'))) {
+			return;
+		}
 		this.layoutService.removeAllCustomLayouts();
 		this.update();
 	}
