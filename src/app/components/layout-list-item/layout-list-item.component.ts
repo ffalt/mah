@@ -17,7 +17,7 @@ import type { LayoutItem, RandomLayoutItem } from '../layout-list/layout-list.co
 		'[id]': '"item-" + item().layout.id',
 		'[class.selected]': 'item().selected()',
 		'[attr.aria-pressed]': 'item().selected()',
-		'[attr.aria-label]': 'item().layout.name',
+		'[attr.aria-label]': 'name()',
 		'(click)': 'onActivate($event)',
 		'(keydown.enter)': 'onActivate($event)',
 		'(keydown.space)': 'onActivate($event)'
@@ -28,6 +28,8 @@ import type { LayoutItem, RandomLayoutItem } from '../layout-list/layout-list.co
 export class LayoutListItemComponent {
 	readonly item = input.required<LayoutItem>();
 	readonly random = input(false);
+	readonly label = input('');
+	readonly name = computed(() => this.label() || this.item().layout.name);
 	readonly startEvent = output<void>();
 	readonly clearBestTimeEvent = output<void>();
 	readonly customDeleteEvent = output<void>();

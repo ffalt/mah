@@ -1,7 +1,7 @@
 @if (groups().length > 1) {
 	<div class="headline-anchors">
 		@for (group of groups(); track group.name; let i = $index) {
-			<a [href]="'#group-' + i" (click)="scrollToGroup($event, i)">{{ group.name | translateGroup }}</a>
+			<a [href]="'#group-' + i" (click)="scrollToGroup($event, i)">{{ group.isRandom ? ('RANDOM_GROUP' | translate) : (group.name | translateGroup) }}</a>
 		}
 	</div>
 }
@@ -19,18 +19,19 @@
 					(keydown.space)="toggleGroupExpanded($event, group)"
 				>
 					<span class="group-expander" [class.expanded]="group.expanded()"></span>
-					{{ group.name | translateGroup }}
+					{{ group.isRandom ? ('RANDOM_GROUP' | translate) : (group.name | translateGroup) }}
 					<span class="group-count"></span>
 				</div>
 			}
 			@if (group.expanded()) {
 				@if (group.isRandom) {
 					<div class="previews previews-random" appDeferLoadScrollHost>
-						@for (item of group.layouts; track item.layout.id) {
+						@for (item of group.layouts; track item.layout.id; let index = $index) {
 							<div
 								app-layout-list-item
 								class="preview preview-seed-card"
 								[item]="item"
+								[label]="('RANDOM_LAYOUT' | translate) + ' ' + (index + 1)"
 								[random]="true"
 								(startEvent)="onStart(item)"
 								(seedEvent)="regenerateWithSeed($any(item), $event)"

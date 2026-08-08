@@ -1,8 +1,8 @@
 @if (item().visible()) {
 	@if (random()) {
-		<app-layout-preview class="svg-board" [svg]="previewSVG()" [alt]="item().layout.name"></app-layout-preview>
+		<app-layout-preview class="svg-board" [svg]="previewSVG()" [alt]="name()"></app-layout-preview>
 	} @else {
-		<app-layout-preview class="svg-board" [layout]="item().layout" [alt]="item().layout.name"></app-layout-preview>
+		<app-layout-preview class="svg-board" [layout]="item().layout" [alt]="name()"></app-layout-preview>
 	}
 } @else {
 	<div class="preview-placeholder" [class.selected]="item().selected()"></div>
@@ -26,7 +26,7 @@
 			</button>
 		</div>
 	}
-	<div class="preview-name">{{ item().layout.name }}</div>
+	<div class="preview-name">{{ name() }}</div>
 	@if (item().layout.custom) {
 		<button type="button"
 			class="preview-custom-delete"

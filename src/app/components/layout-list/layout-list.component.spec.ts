@@ -1,6 +1,6 @@
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideTranslateService } from '@ngx-translate/core';
+import { provideTranslateService, TranslateService } from '@ngx-translate/core';
 import { provideHttpClient } from '@angular/common/http';
 import { LayoutService } from '../../service/layout.service';
 import { LayoutListComponent } from './layout-list.component';
@@ -82,5 +82,28 @@ describe('LayoutListComponent', () => {
 
 		expect(component.randomGroup.layouts.length).toBeGreaterThan(0);
 		expect(component.randomGroup.layouts.every(item => !!item.previewSVG())).toBe(true);
+	});
+
+	it('relabels the random group and its cards when the language changes', () => {
+		const translate = TestBed.inject(TranslateService);
+		translate.setTranslation('en', { RANDOM_GROUP: 'Random', RANDOM_LAYOUT: 'Board' });
+		translate.setTranslation('de', { RANDOM_GROUP: 'Zufällig', RANDOM_LAYOUT: 'Brett' });
+		fixture.componentRef.setInput('layouts', [makeLayout('A', 'Cat1')]);
+
+		translate.use('en');
+		fixture.detectChanges();
+		const text = () => (fixture.nativeElement as HTMLElement).textContent ?? '';
+		const labels = () => [...(fixture.nativeElement as HTMLElement).querySelectorAll('.preview-seed-card')]
+			.map(element => element.getAttribute('aria-label'));
+
+		expect(text()).toContain('Random');
+		expect(labels()).toContain('Board 1');
+
+		translate.use('de');
+		fixture.detectChanges();
+
+		expect(text()).toContain('Zufällig');
+		expect(text()).not.toContain('Random');
+		expect(labels()).toContain('Brett 1');
 	});
 });

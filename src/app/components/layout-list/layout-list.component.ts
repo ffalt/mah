@@ -70,15 +70,13 @@ export class LayoutListComponent implements OnInit, OnChanges {
 	}
 
 	buildRandomGroup() {
-		this.randomGroup.name = this.translate.instant('RANDOM_GROUP');
-		const layoutName = this.translate.instant('RANDOM_LAYOUT');
 		this.randomGroup.layouts = [];
 		for (let index = 0; index < 4; index++) {
 			this.randomGroup.layouts.push(
 				{
 					layout: {
 						id: `${RANDOM_LAYOUT_ID_PREFIX}${index}`,
-						name: `${layoutName} ${index + 1}`,
+						name: '',
 						category: this.randomGroup.name,
 						mapping: []
 					},
