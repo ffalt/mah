@@ -386,6 +386,45 @@ describe('LayoutService', () => {
 			expect(service.layouts.items[1]).toBe(expandedLayout);
 			expect(service.expandLayout).toHaveBeenCalledWith(newCustomLayouts[0], true);
 		});
+
+		// "save as copy" is wired to its own button and can be pressed repeatedly; without
+		// a check the same board lands in storage and in the picker twice under one id
+		it('should skip a board whose id is already stored', () => {
+			service.layouts = { items: [] };
+			const stored: Array<LoadLayout> = [{ id: 'dup', name: 'Dup', map: [[0, [[0, 0]]]] }];
+			mockLocalstorageService.getCustomLayouts.mockReturnValue(stored);
+
+			service.storeCustomBoards([{ id: 'dup', name: 'Dup', map: [[0, [[0, 0]]]] }]);
+
+			expect(mockLocalstorageService.storeCustomLayouts).not.toHaveBeenCalled();
+			expect(service.layouts.items).toHaveLength(0);
+		});
+
+		it('should keep only the first of several incoming boards sharing an id', () => {
+			service.layouts = { items: [] };
+			mockLocalstorageService.getCustomLayouts.mockReturnValue([]);
+
+			service.storeCustomBoards([
+				{ id: 'twin', name: 'One', map: [[0, [[0, 0]]]] },
+				{ id: 'twin', name: 'Two', map: [[0, [[0, 0]]]] },
+				{ id: 'other', name: 'Other', map: [[0, [[2, 0]]]] }
+			]);
+
+			const written = mockLocalstorageService.storeCustomLayouts.mock.calls[0][0] as Array<LoadLayout>;
+			expect(written.map(layout => layout.id)).toEqual(['twin', 'other']);
+			expect(service.layouts.items).toHaveLength(2);
+		});
+
+		it('should still append boards with new ids', () => {
+			service.layouts = { items: [] };
+			mockLocalstorageService.getCustomLayouts.mockReturnValue([{ id: 'a', name: 'A', map: [[0, [[0, 0]]]] }]);
+
+			service.storeCustomBoards([{ id: 'b', name: 'B', map: [[0, [[2, 0]]]] }]);
+
+			const written = mockLocalstorageService.storeCustomLayouts.mock.calls[0][0] as Array<LoadLayout>;
+			expect(written.map(layout => layout.id)).toEqual(['a', 'b']);
+			expect(service.layouts.items).toHaveLength(1);
+		});
 	});
 
 	describe('getPreview', () => {

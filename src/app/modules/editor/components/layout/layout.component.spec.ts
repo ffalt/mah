@@ -427,6 +427,25 @@ describe('LayoutComponent', () => {
 			const layer1Tiles = layout.mapping.filter(m => m[0] === 1);
 			expect(layer1Tiles).toHaveLength(1);
 		});
+
+		// the matrix depth follows the mapping, so emptying the top layer used to drop it
+		// entirely and leave the editor pointing at a level that no longer exists
+		it('keeps the cleared top layer available to draw on', () => {
+			const layout: EditLayout = {
+				id: '',
+				name: 'Test',
+				by: '',
+				category: 'Custom',
+				mapping: [[0, 2, 2], [1, 4, 2]] as Array<[number, number, number]>
+			};
+			init(layout);
+			component.selectLevel(1);
+			component.clearLayerZ(1);
+
+			expect(component.currentZ()).toBe(1);
+			expect(component.matrix.levels).toHaveLength(2);
+			expect(component.level()?.rows).toBeDefined();
+		});
 	});
 
 	describe('deleteLayerZ()', () => {
@@ -458,6 +477,22 @@ describe('LayoutComponent', () => {
 			const before = component.totalZ;
 			component.deleteLayerZ(0);
 			expect(component.totalZ).toBe(Math.max(before - 1, 1));
+		});
+
+		it('moves the view down when the layer being viewed is deleted', () => {
+			const layout: EditLayout = {
+				id: '',
+				name: 'Test',
+				by: '',
+				category: 'Custom',
+				mapping: [[0, 2, 2], [1, 4, 2], [2, 6, 2]] as Array<[number, number, number]>
+			};
+			init(layout);
+			component.selectLevel(2);
+			component.deleteLayerZ(2);
+
+			expect(component.currentZ()).toBe(component.matrix.levels.length - 1);
+			expect(component.level()?.rows).toBeDefined();
 		});
 	});
 

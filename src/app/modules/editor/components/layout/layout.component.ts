@@ -205,7 +205,8 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 			return;
 		}
 		this.matrix.applyMapping(layout.mapping, this.totalZ, this.totalX, this.totalY);
-		const currentZ = this.currentZ();
+		const currentZ = Math.min(this.currentZ(), Math.max(0, this.matrix.levels.length - 1));
+		this.currentZ.set(currentZ);
 		this.stats.set(this.getStats(layout));
 		this.level.set({ z: currentZ, rows: this.matrix.levels[currentZ], showTiles: true });
 		const svg = this.layoutService.generatePreview(optimizeMapping(layout.mapping));
@@ -282,6 +283,7 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 
 	clearLayerZ(layer: number): void {
 		this.layout().mapping = this.layout().mapping.filter(m => m[0] !== layer);
+		this.totalZ = Math.max(this.totalZ, layer + 1);
 		this.change();
 	}
 

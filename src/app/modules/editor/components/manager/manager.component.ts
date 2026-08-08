@@ -130,20 +130,26 @@ export class ManagerComponent implements OnChanges, OnDestroy {
 			return;
 		}
 		this.test.update(test => ({ ...test, [layout.id]: undefined }));
-		this.worker = this.workerService.solve(layout.mapping, 10, progress => {
+		let finished = false;
+		const worker = this.workerService.solve(layout.mapping, 10, progress => {
 			this.test.update(test => ({ ...test, [layout.id]: { win: progress[0], fail: progress[1] } }));
 		}, finish => {
+			finished = true;
 			this.test.update(test => ({ ...test, [layout.id]: { win: finish[0], fail: finish[1] } }));
 			this.worker = undefined;
 			if (callback) {
 				callback();
 			}
 		});
+		if (!finished) {
+			this.worker = worker;
+		}
 	}
 
 	testLayouts(_event: MouseEvent): void {
 		if (this.worker) {
 			this.worker.terminate();
+			this.worker = undefined;
 			return;
 		}
 		this.testNextLayout();

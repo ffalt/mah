@@ -210,6 +210,56 @@ describe('ManagerComponent', () => {
 		});
 	});
 
+	// WorkerService.solve reports synchronously for an empty or odd-length mapping, and
+	// whenever it has to fall back to the main thread. The finish callback then chains into
+	// the next layout before solve() has returned, so assigning its return value afterwards
+	// would wipe out the handle the chained run just stored.
+	describe('batch test with a synchronous finish', () => {
+		it('should keep the worker started by the chained layout', () => {
+			const liveWorker = { terminate: vi.fn() } as unknown as Worker;
+			mockLayoutService.layouts.items = [makeLayout('a'), makeLayout('b')];
+			component.ngOnChanges({ inputLayouts: {} } as never);
+			fixture.componentRef.setInput('inputLayouts', mockLayoutService.layouts.items);
+			component.ngOnChanges({ inputLayouts: {} } as never);
+
+			let call = 0;
+			mockWorkerService.solve.mockImplementation((
+				_mapping: unknown, _rounds: number, _progress: unknown, finish: (result: Array<number>) => void
+			) => {
+				call++;
+				if (call === 1) {
+					finish([0, 10]);
+					return undefined;
+				}
+				return liveWorker;
+			});
+
+			component.testLayouts(new MouseEvent('click'));
+
+			expect(call).toBe(2);
+			expect(component.worker).toBe(liveWorker);
+		});
+
+		it('should leave no worker behind when every layout finishes synchronously', () => {
+			mockLayoutService.layouts.items = [makeLayout('a'), makeLayout('b')];
+			fixture.componentRef.setInput('inputLayouts', mockLayoutService.layouts.items);
+			component.ngOnChanges({ inputLayouts: {} } as never);
+
+			mockWorkerService.solve.mockImplementation((
+				_mapping: unknown, _rounds: number, _progress: unknown, finish: (result: Array<number>) => void
+			) => {
+				finish([0, 10]);
+				return undefined;
+			});
+
+			component.testLayouts(new MouseEvent('click'));
+
+			expect(component.worker).toBeUndefined();
+			expect(component.test().a).toEqual({ win: 0, fail: 10 });
+			expect(component.test().b).toEqual({ win: 0, fail: 10 });
+		});
+	});
+
 	describe('ngOnDestroy', () => {
 		it('should terminate and clear worker on destroy', () => {
 			const mockWorker = { terminate: vi.fn() } as unknown as Worker;

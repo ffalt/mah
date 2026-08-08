@@ -88,8 +88,22 @@ export class LayoutService {
 
 	storeCustomBoards(list: Array<LoadLayout>) {
 		const customLayouts = this.loadCustomLayouts();
-		this.storage.storeCustomLayouts([...customLayouts, ...list]);
-		this.layouts.items = [...this.layouts.items, ...list.map(layout => this.expandLayout(layout, true))];
+		const known = new Set(customLayouts.map(layout => this.expandLayout(layout, true).id));
+		const added: Array<LoadLayout> = [];
+		const expanded: Array<Layout> = [];
+		for (const layout of list) {
+			const expandedLayout = this.expandLayout(layout, true);
+			if (!known.has(expandedLayout.id)) {
+				known.add(expandedLayout.id);
+				added.push(layout);
+				expanded.push(expandedLayout);
+			}
+		}
+		if (added.length === 0) {
+			return;
+		}
+		this.storage.storeCustomLayouts([...customLayouts, ...added]);
+		this.layouts.items = [...this.layouts.items, ...expanded];
 	}
 
 	generatePreview(mapping: Mapping): SafeUrlSVG {
