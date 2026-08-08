@@ -1,4 +1,5 @@
 import { hashCode } from './hash';
+import { log } from './log';
 
 export function isKyodaiImageSet(name: string): boolean {
 	return ['kyodai', 'kyodai-black'].includes(name);
@@ -230,7 +231,7 @@ async function loadImage(tileSetUrl: string): Promise<HTMLImageElement> {
 			resolve(newImg);
 		});
 		newImg.addEventListener('error', error => {
-			console.error(error);
+			log.error(error);
 			reject(new Error(`Image ${tileSetUrl} could not be loaded.`));
 		});
 		newImg.src = tileSetUrl;

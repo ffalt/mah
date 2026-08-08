@@ -16,7 +16,13 @@ export const environment = {
 };
 
 export function openExternal(url: string): void {
-	openUrl(url).catch(error => console.error('openUrl failed', error));
+	openUrl(url)
+		.catch(error => {
+			if (environment.logging) {
+				// eslint-disable-next-line no-console
+				console.error('openUrl failed', error);
+			}
+		});
 }
 
 let _tauriUnlistenBlur: UnlistenFn | undefined;
@@ -27,5 +33,10 @@ export function onWindowBlur(callback: () => void): void {
 	}).then(un => {
 		// eslint-disable-next-line unicorn/no-top-level-assignment-in-function
 		_tauriUnlistenBlur = un;
-	}).catch(error => console.error(error));
+	}).catch(error => {
+		if (environment.logging) {
+			// eslint-disable-next-line no-console
+			console.error('onWindowBlur failed', error);
+		}
+	});
 }

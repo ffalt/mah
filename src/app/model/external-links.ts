@@ -1,4 +1,5 @@
 import { environment } from '../../environments/environment';
+import { log } from './log';
 
 type openExternal = (href: string) => void;
 
@@ -17,6 +18,6 @@ export function clickExternalHref(event: MouseEvent): void {
 			(environment.openExternal as openExternal)(href);
 		}
 	} catch (error) {
-		console.error(error);
+		log.error(error);
 	}
 }

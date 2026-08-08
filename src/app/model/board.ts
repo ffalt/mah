@@ -4,6 +4,7 @@ import { type Stone, safeGetStone } from './stone';
 import type { Mapping, Place, StoneMapping, StonePlace } from './types';
 import { StoneTiles, Tiles } from './tiles';
 import { BuilderBase } from './builder/base';
+import { log } from './log';
 
 interface StoneGroup {
 	group: number;
@@ -169,14 +170,14 @@ export class Board {
 
 	load(mapping: StoneMapping, undos: Array<Place>): boolean {
 		if (!mapping?.length) {
-			console.warn('Board.load() failed: mapping is empty, null or undefined');
+			log.warn('Board.load() failed: mapping is empty, null or undefined');
 			return false;
 		}
 		const highestValue = Math.max(0, ...mapping.map(place => place[3]));
 		const builder: Builder = new Builder(new Tiles(Math.max(mapping.length, highestValue)));
 		const stones = builder.load(mapping);
 		if (stones?.length !== mapping.length) {
-			console.warn('Board.load() failed: stored stones could not be restored', { expected: mapping.length, restored: stones?.length ?? 0 });
+			log.warn('Board.load() failed: stored stones could not be restored', { expected: mapping.length, restored: stones?.length ?? 0 });
 			return false;
 		}
 		this.undo.set(undos);

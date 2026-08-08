@@ -121,6 +121,7 @@ const commonUnicornRules = {
 	"unicorn/consistent-boolean-name": "off",
 	"unicorn/no-computed-property-existence-check": "off",
 	"unicorn/prefer-global-number-constants": "off",
+	"unicorn/no-global-object-property-assignment": "off",
 	"unicorn/name-replacements": [
 		"error",
 		{
@@ -184,7 +185,7 @@ export default ts.config(
 			...commonStylisticRules,
 			...commonTypeScriptRules,
 			...commonUnicornRules,
-			"unicorn/no-global-object-property-assignment": "off",
+			"no-console": "error",
 			"@angular-eslint/prefer-on-push-component-change-detection": "off",
 			"@angular-eslint/component-max-inline-declarations": "error",
 			"@angular-eslint/directive-selector": ["error", { type: "attribute", prefix: "app", style: "camelCase" }],
@@ -229,7 +230,6 @@ export default ts.config(
 			...commonUnicornRules,
 			...vitest.configs.recommended.rules,
 			"unicorn/max-nested-calls": "off",
-			"unicorn/no-global-object-property-assignment": "off",
 			"unicorn/no-top-level-assignment-in-function": "off",
 			"unicorn/prefer-dom-node-html-methods": "off",
 			"@angular-eslint/prefer-on-push-component-change-detection": "off",

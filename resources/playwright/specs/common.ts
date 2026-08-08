@@ -27,6 +27,7 @@ export function loadLanguagesFromI18n(): Array<string> {
 			.map(ent => path.basename(ent.name, '.json'))
 			.sort((a, b) => a.localeCompare(b));
 	} catch (error) {
+		// eslint-disable-next-line no-console
 		console.warn('Failed to read i18n languages, falling back to [en]', error);
 		return ['en'];
 	}

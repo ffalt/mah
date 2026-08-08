@@ -8,6 +8,7 @@ import type { GameStateStore, Layout, StorageProvider } from './types';
 import { type BUILD_MODE_ID, MODE_SOLVABLE } from './builder';
 import { Music } from './music';
 import { RANDOM_LAYOUT_ID_PREFIX } from './random-layout/consts';
+import { log } from './log';
 
 export class Game {
 	clock: Clock = new Clock();
@@ -195,7 +196,7 @@ export class Game {
 				return true;
 			}
 		} catch (error) {
-			console.error('load state failed', error);
+			log.error('load state failed', error);
 		}
 		return false;
 	}
@@ -207,7 +208,7 @@ export class Game {
 		try {
 			this.storage.storeState();
 		} catch (error) {
-			console.error('clearing state failed', error);
+			log.error('clearing state failed', error);
 		}
 	}
 
@@ -226,7 +227,7 @@ export class Game {
 				stones: this.board.save()
 			});
 		} catch (error) {
-			console.error('storing state failed', error);
+			log.error('storing state failed', error);
 		}
 	}
 

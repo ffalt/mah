@@ -1,6 +1,7 @@
 import { signal } from '@angular/core';
 import { ImageSetDefault, LangDefault, ThemeDefault, Themes } from './consts';
 import type { SettingsStore, StorageProvider } from './types';
+import { log } from './log';
 
 export class Settings {
 	readonly lang = signal(LangDefault);
@@ -48,7 +49,7 @@ export class Settings {
 			}
 			return true;
 		} catch (error) {
-			console.error('load settings failed', error);
+			log.error('load settings failed', error);
 		}
 		return false;
 	}
@@ -78,7 +79,7 @@ export class Settings {
 			});
 			return true;
 		} catch (error) {
-			console.error('storing settings failed', error);
+			log.error('storing settings failed', error);
 		}
 		return false;
 	}
