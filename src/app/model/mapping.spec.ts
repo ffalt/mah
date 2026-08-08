@@ -1,4 +1,4 @@
-import { expandMapping, mappingToID, mappingBounds } from './mapping';
+import { expandMapping, mappingToID, mappingBounds, mappingExtents } from './mapping';
 import type { CompactMapping, LoadLayout, Mapping } from './types';
 import { readFileSync } from 'node:fs';
 import { compactMapping } from '../modules/editor/model/import';
@@ -166,6 +166,36 @@ describe('Mapping', () => {
 				x: 2,
 				y: 3,
 				z: 1
+			});
+		});
+	});
+
+	describe('mappingExtents', () => {
+		it('should report the extents of a mapping', () => {
+			const mapping: Mapping = [[1, 4, 6], [0, 2, 8], [3, 10, 2]];
+
+			expect(mappingExtents(mapping)).toEqual({
+				minZ: 0, maxZ: 3,
+				minX: 2, maxX: 10,
+				minY: 2, maxY: 8
+			});
+		});
+
+		// a new board starts empty, and the Infinity sentinels used to be rendered
+		// straight into the editor's dimension readout as "xInfinity … x-Infinity"
+		it('should report zeroed extents for an empty mapping', () => {
+			expect(mappingExtents([])).toEqual({
+				minZ: 0, maxZ: 0,
+				minX: 0, maxX: 0,
+				minY: 0, maxY: 0
+			});
+		});
+
+		it('should report a single place as its own extents', () => {
+			expect(mappingExtents([[2, 5, 7]])).toEqual({
+				minZ: 2, maxZ: 2,
+				minX: 5, maxX: 5,
+				minY: 7, maxY: 7
 			});
 		});
 	});

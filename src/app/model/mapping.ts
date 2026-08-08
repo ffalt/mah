@@ -53,10 +53,20 @@ export interface MappingExtents {
 
 export function mappingExtents(mapping: Mapping): MappingExtents {
 	const extents: MappingExtents = {
-		minX: Infinity, maxX: -Infinity,
-		minY: Infinity, maxY: -Infinity,
-		minZ: Infinity, maxZ: -Infinity
+		minX: 0, maxX: 0,
+		minY: 0, maxY: 0,
+		minZ: 0, maxZ: 0
 	};
+	if (mapping.length === 0) {
+		return extents;
+	}
+	const [first] = mapping;
+	extents.minZ = first[0];
+	extents.maxZ = first[0];
+	extents.minX = first[1];
+	extents.maxX = first[1];
+	extents.minY = first[2];
+	extents.maxY = first[2];
 	for (const place of mapping) {
 		extents.minZ = Math.min(extents.minZ, place[0]);
 		extents.maxZ = Math.max(extents.maxZ, place[0]);
