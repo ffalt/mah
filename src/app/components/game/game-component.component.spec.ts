@@ -482,4 +482,26 @@ describe('GameComponent', () => {
 		// Verify key handler was not called
 		expect(handleKeyDownEventKeySpy).not.toHaveBeenCalled();
 	});
+
+	it('should still handle shortcuts while a button keeps the focus', () => {
+		const handleKeyDownEventKeySpy = vi.spyOn(component, 'handleKeyDownEventKey');
+		const event = new KeyboardEvent('keydown', { key: 't' });
+		Object.defineProperty(event, 'target', { value: document.createElement('button') });
+
+		component.handleKeyDownEvent(event);
+
+		expect(handleKeyDownEventKeySpy).toHaveBeenCalledWith('t');
+	});
+
+	it('should ignore keys a focused button handles natively', () => {
+		const handleKeyDownEventKeySpy = vi.spyOn(component, 'handleKeyDownEventKey');
+
+		for (const key of [' ', 'Space', 'Spacebar', 'Enter']) {
+			const event = new KeyboardEvent('keydown', { key });
+			Object.defineProperty(event, 'target', { value: document.createElement('button') });
+			component.handleKeyDownEvent(event);
+		}
+
+		expect(handleKeyDownEventKeySpy).not.toHaveBeenCalled();
+	});
 });

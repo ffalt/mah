@@ -4,7 +4,7 @@ import type { Stone } from '../../model/stone';
 import type { Layout, Place } from '../../model/types';
 import { AppService } from '../../service/app.service';
 import { log } from '../../model/log';
-import { isFormControlTarget } from '../../model/dom-utilities';
+import { isFormControlTarget, isNativeButtonKey } from '../../model/dom-utilities';
 import type { BUILD_MODE_ID } from '../../model/builder';
 import type { GAME_MODE_ID } from '../../model/consts';
 import { environment } from '../../../environments/environment';
@@ -239,7 +239,7 @@ export class GameComponent {
 		if (event.key === 'Escape' && this.handleKeyDownDialogExit()) {
 			return;
 		}
-		if (isFormControlTarget(event.target)) {
+		if (isFormControlTarget(event.target) || isNativeButtonKey(event.target, event.key)) {
 			return;
 		}
 		if (this.isDialogVisible() && !this.isDialogCloseKey(event.key)) {
