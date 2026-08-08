@@ -4,6 +4,8 @@ import { log } from '../../model/log';
 import { TILES } from '../../model/consts';
 import { svg_error_icon, svgSpinnerIcon } from './svg';
 
+const TILE_IDS: Array<string> = [...new Set(TILES.flat())];
+
 @Component({
 	selector: '[app-image-set-loader]',
 	template: '<svg:defs></svg:defs>'
@@ -39,10 +41,8 @@ export class ImageSetLoaderComponent implements OnChanges, OnDestroy {
 	private setLoading(): void {
 		const sl: Array<string> = [svgSpinnerIcon(this.dark())];
 		const translate = this.imageSet() === 'kyodai' ? 'translate(25.5,38)' : 'translate(20,36)';
-		for (const row of TILES) {
-			for (const id of row) {
-				sl.push(`<svg id="${id}" width="75" height="100"><use xlink:href="#mah-tile-spinner" transform="${translate}"></use></svg>`);
-			}
+		for (const id of TILE_IDS) {
+			sl.push(`<svg id="${id}" width="75" height="100"><use xlink:href="#mah-tile-spinner" transform="${translate}"></use></svg>`);
 		}
 		this.setImageSet(`<svg><defs>${sl.join('')}</defs></svg>`);
 	}
@@ -60,10 +60,8 @@ export class ImageSetLoaderComponent implements OnChanges, OnDestroy {
 
 	private setError(): void {
 		const sl: Array<string> = [svg_error_icon];
-		for (const row of TILES) {
-			for (const id of row) {
-				sl.push(`<svg id="${id}" width="75" height="100"><use xlink:href="#mah-error-icon" transform="translate(8,18)"></use></svg>`);
-			}
+		for (const id of TILE_IDS) {
+			sl.push(`<svg id="${id}" width="75" height="100"><use xlink:href="#mah-error-icon" transform="translate(8,18)"></use></svg>`);
 		}
 		this.setImageSet(`<svg><defs>${sl.join('')}</defs></svg>`);
 	}

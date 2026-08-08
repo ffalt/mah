@@ -4,6 +4,7 @@ import { SvgdefService } from '../../service/svgdef.service';
 import { ImageSetLoaderComponent } from './image-set-loader.component';
 import type { ElementRef } from '@angular/core';
 import { log } from '../../model/log';
+import { TILES } from '../../model/consts';
 import { Mock, describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
 
 interface HackImageSetLoaderComponent {
@@ -226,6 +227,10 @@ describe('ImageSetLoaderComponent', () => {
 		});
 	});
 
+	function placeholderIds(svg: string): Array<string> {
+		return Array.from(svg.matchAll(/<svg id="([^"]+)"/g), match => match[1]);
+	}
+
 	describe('Loading state', () => {
 		it('should set loading state with spinner icons', () => {
 			const setImageSetSpy = vi.spyOn(component as unknown as HackImageSetLoaderComponent, 'setImageSet');
@@ -235,6 +240,16 @@ describe('ImageSetLoaderComponent', () => {
 			expect(setImageSetSpy).toHaveBeenCalled();
 			const svgContent = setImageSetSpy.mock.calls[0][0];
 			expect(svgContent).toContain('mah-tile-spinner');
+		});
+
+		it('should emit one placeholder per distinct tile id', () => {
+			const setImageSetSpy = vi.spyOn(component as unknown as HackImageSetLoaderComponent, 'setImageSet');
+
+			(component as unknown as HackImageSetLoaderComponent).setLoading();
+
+			const ids = placeholderIds(setImageSetSpy.mock.calls[0][0]);
+			expect(ids.length).toBe(new Set(ids).size);
+			expect(ids.filter(id => id.startsWith('t_'))).toEqual([...new Set(TILES.flat())]);
 		});
 	});
 
@@ -247,6 +262,16 @@ describe('ImageSetLoaderComponent', () => {
 			expect(setImageSetSpy).toHaveBeenCalled();
 			const svgContent = setImageSetSpy.mock.calls[0][0];
 			expect(svgContent).toContain('mah-error-icon');
+		});
+
+		it('should emit one placeholder per distinct tile id', () => {
+			const setImageSetSpy = vi.spyOn(component as unknown as HackImageSetLoaderComponent, 'setImageSet');
+
+			(component as unknown as HackImageSetLoaderComponent).setError();
+
+			const ids = placeholderIds(setImageSetSpy.mock.calls[0][0]);
+			expect(ids.length).toBe(new Set(ids).size);
+			expect(ids.filter(id => id.startsWith('t_'))).toEqual([...new Set(TILES.flat())]);
 		});
 	});
 
