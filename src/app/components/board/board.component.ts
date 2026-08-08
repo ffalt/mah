@@ -353,7 +353,7 @@ export class BoardComponent implements OnInit, OnChanges, AfterViewInit {
 
 	private updateBackground(background: string): void {
 		const bg = Backgrounds.find(b => b.img === background);
-		if (!bg) {
+		if (!bg?.img) {
 			this.backgroundUrl.set(undefined);
 			this.backgroundRepeat.set(false);
 			return;

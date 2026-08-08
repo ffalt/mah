@@ -73,6 +73,13 @@ describe('BoardComponent', () => {
 			expect(component.backgroundUrl()).toContain(testBackground);
 		});
 
+		it('should not request an image for the empty background', () => {
+			fixture.componentRef.setInput('background', '');
+			fixture.detectChanges();
+			expect(component.backgroundUrl()).toBeUndefined();
+			expect(component.backgroundRepeat()).toBe(false);
+		});
+
 		it('should accept imageSet input', () => {
 			const testImageSet = 'classic';
 			fixture.componentRef.setInput('imageSet', testImageSet);
