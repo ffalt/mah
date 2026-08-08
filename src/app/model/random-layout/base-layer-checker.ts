@@ -3,9 +3,14 @@ import { blocksOverlap, key, randChoice, randInt, shuffleArray, buildUnitGrids, 
 import { rng } from '../rng';
 import type { BaseLayerOptions } from './consts';
 
+export function isGridCorner(x: number, y: number, xs: Array<number>, ys: Array<number>): boolean {
+	const onXEdge = x === xs[0] || x === xs.at(-1);
+	const onYEdge = y === ys[0] || y === ys.at(-1);
+	return onXEdge && onYEdge;
+}
+
 function punchHoles(base: Set<string>, baseZ: number, xs: Array<number>, ys: Array<number>, minHoles: number, maxHoles: number): void {
 	const holes = randInt(minHoles, maxHoles);
-	let attempts = holes * 4;
 	const positions: Array<[number, number]> = [];
 	for (const y of ys) {
 		for (const x of xs) {
@@ -14,18 +19,15 @@ function punchHoles(base: Set<string>, baseZ: number, xs: Array<number>, ys: Arr
 	}
 	shuffleArray(positions);
 	let made = 0;
-	while (made < holes && attempts-- > 0 && positions.length > 0) {
+	while (made < holes && positions.length > 0) {
 		const [x, y] = positions.pop()!;
-		// avoid punching at extreme corners to keep connectivity
-		// eslint-disable-next-line unicorn/prefer-at
-		if (x === xs[0] || x === xs[xs.length - 1] || y === ys[0] || y === ys[ys.length - 1]) {
+		if (isGridCorner(x, y, xs, ys)) {
 			continue;
 		}
 		const k = key(baseZ, x, y);
 		if (!base.has(k)) {
 			continue;
 		}
-		// 50% chance to also remove the neighboring cell to create bigger gaps
 		const orient = rng() < 0.5 ? 'h' : 'v';
 		const removed: Array<string> = [k];
 		if (orient === 'h') {
@@ -124,24 +126,12 @@ function addUpToTarget(present: Set<string>, candidates: Array<Place>, baseCount
 
 export function generateBaseLayerChecker({ minTarget, maxTarget, xMax, yMax }: BaseLayerOptions): Mapping {
 	const present = new Set<string>();
-
-	// Use step of 1 for both x and y for fine granularity
 	const { xs, ys } = buildUnitGrids(xMax, yMax, 1);
-
-	// start with a checkerboard-like base (no overlapping 2x2 on same z)
 	buildInitialChecker(present, xs, ys);
-
-	// carve side margins randomly to avoid full rectangle feel
 	const cuts = computeSideCuts();
 	applySideCuts(present, xs, ys, xMax, yMax, cuts);
-
-	// punch random holes inside (more holes to thin base)
 	punchHoles(present, 0, xs, ys, 6, 32);
-
-	// rebuild mapping array for base z=0
 	const mapping0: Mapping = buildMappingFromSetZ0(present, xMax, yMax, 1);
-
-	// ensure not too few or too many in base; adjust by removing/adding randomly
 	const baseCount = mapping0.length;
 	const targetBase = computeTargetBaseLength(baseCount, minTarget, maxTarget);
 	if (baseCount > targetBase) {
