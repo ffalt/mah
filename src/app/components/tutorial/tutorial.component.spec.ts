@@ -3,11 +3,26 @@ import { provideTranslateService } from '@ngx-translate/core';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { By } from '@angular/platform-browser';
-import { describe, beforeEach, it, expect, vi } from 'vitest';
+import { describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
 import { SvgdefService } from '../../service/svgdef.service';
 import { AppService } from '../../service/app.service';
-import { TUTORIAL_STEPS } from '../../model/tutorial';
+import { createTutorialBoard, TUTORIAL_STEPS } from '../../model/tutorial';
 import { TutorialComponent } from './tutorial.component';
+
+// clicks matching pairs until the board is empty, which is what triggers the auto-advance
+function clearBoard(component: TutorialComponent): void {
+	const board = component.board();
+	while (board.count() > 0) {
+		const free = board.stones().filter(stone => !stone.picked() && !stone.state().blocked);
+		const first = free.find(stone => free.some(other => other !== stone && other.groupNr === stone.groupNr));
+		const second = first && free.find(other => other !== first && other.groupNr === first.groupNr);
+		if (!first || !second) {
+			throw new Error('board cannot be cleared');
+		}
+		component.onStoneClick(first);
+		component.onStoneClick(second);
+	}
+}
 
 describe('TutorialComponent', () => {
 	let component: TutorialComponent;
@@ -74,6 +89,61 @@ describe('TutorialComponent', () => {
 			component.currentStepIndex.set(TUTORIAL_STEPS.length);
 			fixture.detectChanges();
 
+			expect(fixture.debugElement.query(By.css('.tutorial-complete'))).toBeTruthy();
+		});
+
+		// unclamped, the index ran past steps.length into the step branch and read
+		// titleKey off an undefined step
+		it('should not advance past the complete screen', () => {
+			component.currentStepIndex.set(TUTORIAL_STEPS.length);
+
+			component.next();
+			fixture.detectChanges();
+
+			expect(component.currentStepIndex()).toBe(TUTORIAL_STEPS.length);
+			expect(fixture.debugElement.query(By.css('.tutorial-complete'))).toBeTruthy();
+		});
+	});
+
+	describe('Auto-advance after clearing a board', () => {
+		beforeEach(() => {
+			vi.useFakeTimers();
+		});
+
+		afterEach(() => {
+			vi.useRealTimers();
+		});
+
+		it('should advance one step when the board is cleared', () => {
+			component.start();
+
+			clearBoard(component);
+			vi.advanceTimersByTime(50);
+
+			expect(component.currentStepIndex()).toBe(1);
+		});
+
+		// pressing Next inside the 10 ms window used to consume the step twice
+		it('should cancel the pending advance when the next button is pressed', () => {
+			component.start();
+
+			clearBoard(component);
+			component.next();
+			vi.advanceTimersByTime(50);
+
+			expect(component.currentStepIndex()).toBe(1);
+		});
+
+		it('should stay on the complete screen when the last board clears and next is pressed', () => {
+			component.currentStepIndex.set(TUTORIAL_STEPS.length - 1);
+			component.board.set(createTutorialBoard(TUTORIAL_STEPS[0].board));
+
+			clearBoard(component);
+			component.next();
+			vi.advanceTimersByTime(50);
+			fixture.detectChanges();
+
+			expect(component.currentStepIndex()).toBe(TUTORIAL_STEPS.length);
 			expect(fixture.debugElement.query(By.css('.tutorial-complete'))).toBeTruthy();
 		});
 	});

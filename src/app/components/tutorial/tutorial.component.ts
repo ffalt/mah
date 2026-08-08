@@ -25,6 +25,7 @@ export class TutorialComponent {
 	readonly app = inject(AppService);
 	private readonly sound: Sound;
 	private feedbackTimer?: ReturnType<typeof setTimeout>;
+	private advanceTimer?: ReturnType<typeof setTimeout>;
 
 	constructor() {
 		this.sound = this.app.game.sound;
@@ -69,7 +70,8 @@ export class TutorialComponent {
 	}
 
 	next(): void {
-		const nextIndex = this.currentStepIndex() + 1;
+		clearTimeout(this.advanceTimer);
+		const nextIndex = Math.min(this.currentStepIndex() + 1, this.steps.length);
 		this.currentStepIndex.set(nextIndex);
 		if (nextIndex < this.steps.length) {
 			this.board.set(createTutorialBoard(this.steps[nextIndex].board));
@@ -82,7 +84,8 @@ export class TutorialComponent {
 
 	private onStepComplete(): void {
 		this.sound.play(SOUNDS.WIN);
-		setTimeout(() => {
+		clearTimeout(this.advanceTimer);
+		this.advanceTimer = setTimeout(() => {
 			this.next();
 		}, 10);
 	}
