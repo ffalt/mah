@@ -3,8 +3,10 @@ import { generateBaseLayerWithShapes, shuffleArray } from './utilities';
 import { rng } from '../rng';
 import type { BaseLayerOptions } from './consts';
 
-// Diamond (rotated-square) outline inscribed in a bounding box of (w × h) tiles.
-// w and h must be odd so the center and vertices land on even-coordinate grid points.
+function diamondRowRadius(rx: number, ry: number, dyStep: number): number {
+	return ry === 0 ? rx : Math.round(rx * (1 - Math.abs(dyStep) / ry));
+}
+
 function diamondOutlineCells(x0: number, y0: number, w: number, h: number): Array<[number, number]> {
 	const cx = x0 + Math.floor(w / 2) * 2;
 	const cy = y0 + Math.floor(h / 2) * 2;
@@ -22,7 +24,7 @@ function diamondOutlineCells(x0: number, y0: number, w: number, h: number): Arra
 	};
 
 	for (let dyStep = -ry; dyStep <= ry; dyStep++) {
-		const dxMax = Math.round(rx * (1 - Math.abs(dyStep) / ry));
+		const dxMax = diamondRowRadius(rx, ry, dyStep);
 		const y = cy + dyStep * 2;
 		if (dxMax === 0) {
 			add(cx, y);
@@ -34,7 +36,6 @@ function diamondOutlineCells(x0: number, y0: number, w: number, h: number): Arra
 	return cells;
 }
 
-// Diamond (rotated-square) filled inscribed in a bounding box of (w × h) tiles.
 function diamondFilledCells(x0: number, y0: number, w: number, h: number): Array<[number, number]> {
 	const cx = x0 + Math.floor(w / 2) * 2;
 	const cy = y0 + Math.floor(h / 2) * 2;
@@ -43,7 +44,7 @@ function diamondFilledCells(x0: number, y0: number, w: number, h: number): Array
 	const cells: Array<[number, number]> = [];
 
 	for (let dyStep = -ry; dyStep <= ry; dyStep++) {
-		const dxMax = Math.round(rx * (1 - Math.abs(dyStep) / ry));
+		const dxMax = diamondRowRadius(rx, ry, dyStep);
 		const y = cy + dyStep * 2;
 		for (let dxStep = -dxMax; dxStep <= dxMax; dxStep++) {
 			cells.push([cx + dxStep * 2, y]);
@@ -59,11 +60,9 @@ export function diamondCells(x0: number, y0: number, w: number, h: number): Arra
 
 export function generateBaseLayerDiamond(options: BaseLayerOptions): Mapping {
 	const allSizes: Array<[number, number]> = [];
-	// Square diamonds (w === h, odd sizes 3..11)
 	for (let s = 3; s <= 11; s += 2) {
 		allSizes.push([s, s]);
 	}
-	// Asymmetric diamonds for denser packing
 	for (let w = 3; w <= 9; w += 2) {
 		for (let h = 3; h <= 9; h += 2) {
 			if (w !== h) {
