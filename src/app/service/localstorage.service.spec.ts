@@ -546,6 +546,24 @@ describe('LocalstorageService', () => {
 				);
 			});
 
+			it('should keep a newer prefixed entry and drop the old one', () => {
+				localStorageMock.getItem.mockImplementation((key: string) => {
+					if (key === 'state') {
+						return JSON.stringify({ layout: 'ancient-save' });
+					}
+					if (key === 'mah.state') {
+						return JSON.stringify({ layout: 'new-save' });
+					}
+					return null;
+				});
+
+				(service as unknown as HackLocalstorgageService)
+					.updateData();
+
+				expect(localStorageMock.setItem).not.toHaveBeenCalledWith('mah.state', expect.anything());
+				expect(localStorageMock.removeItem).toHaveBeenCalledWith('state');
+			});
+
 			it('should handle missing old data', () => {
 				localStorageMock.getItem.mockReturnValue(null);
 

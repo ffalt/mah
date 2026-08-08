@@ -179,10 +179,12 @@ export class LocalstorageService implements StorageProvider {
 		try {
 			const old = localStorage.getItem(key);
 			if (old) {
-				try {
-					this.set<unknown>(key, JSON.parse(old));
-				} catch (parseError) {
-					log.warn(`Failed to parse old ${key} data, removing corrupted entry:`, parseError);
+				if (localStorage.getItem(`${this.prefix}${key}`) === null) {
+					try {
+						this.set<unknown>(key, JSON.parse(old));
+					} catch (parseError) {
+						log.warn(`Failed to parse old ${key} data, removing corrupted entry:`, parseError);
+					}
 				}
 				localStorage.removeItem(key);
 			}
