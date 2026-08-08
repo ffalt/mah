@@ -9,7 +9,8 @@ import { IconHintComponent } from '../icons/icon-hint.component';
 import { IconCloseComponent } from '../icons/icon-close.component';
 
 type ZenDragStartEvent = Pick<PointerEvent, 'currentTarget' | 'clientX' | 'clientY' | 'pointerId' | 'preventDefault'>;
-type ZenDragMoveEvent = Pick<PointerEvent, 'clientX' | 'clientY' | 'preventDefault'>;
+type ZenDragMoveEvent = Pick<PointerEvent, 'clientX' | 'clientY' | 'pointerId' | 'preventDefault'>;
+type ZenDragEndEvent = Pick<PointerEvent, 'pointerId'>;
 type ZenDragKeyEvent = Pick<KeyboardEvent, 'key' | 'currentTarget' | 'preventDefault'>;
 
 @Component({
@@ -44,7 +45,7 @@ export class ZenControlsComponent implements OnDestroy {
 	private dragPointerId?: number;
 	private dragElement?: HTMLElement;
 	private readonly dragMoveListener = (event: PointerEvent) => this.onDrag(event);
-	private readonly dragEndListener = () => this.stopDrag();
+	private readonly dragEndListener = (event: PointerEvent) => this.onDragEnd(event);
 
 	ngOnDestroy(): void {
 		this.stopDrag();
@@ -76,7 +77,7 @@ export class ZenControlsComponent implements OnDestroy {
 	}
 
 	onDrag(event: ZenDragMoveEvent): void {
-		if (this.dragPointerId === undefined) {
+		if (event.pointerId !== this.dragPointerId) {
 			return;
 		}
 		event.preventDefault();
@@ -84,6 +85,13 @@ export class ZenControlsComponent implements OnDestroy {
 		const y = this.dragStartY + event.clientY - this.dragOriginY;
 		this.translateX.set(Math.max(this.dragMinX, Math.min(this.dragMaxX, x)));
 		this.translateY.set(Math.max(this.dragMinY, Math.min(this.dragMaxY, y)));
+	}
+
+	onDragEnd(event: ZenDragEndEvent): void {
+		if (event.pointerId !== this.dragPointerId) {
+			return;
+		}
+		this.stopDrag();
 	}
 
 	stopDrag(): void {

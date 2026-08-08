@@ -81,6 +81,7 @@ describe('ZenControlsComponent', () => {
 		component.onDrag({
 			clientX: 2000,
 			clientY: 2000,
+			pointerId: 1,
 			preventDefault: vi.fn()
 		});
 
@@ -106,6 +107,70 @@ describe('ZenControlsComponent', () => {
 		component.stopDrag();
 
 		expect(releasePointerCaptureSpy).toHaveBeenCalledWith(5);
+	});
+
+	function startDragWithPointer(pointerId: number): { releasePointerCapture: ReturnType<typeof vi.fn> } {
+		const handle = getHandle();
+		Object.defineProperty(handle, 'setPointerCapture', { value: vi.fn(), configurable: true });
+		const releasePointerCapture = vi.fn();
+		Object.defineProperty(handle, 'releasePointerCapture', { value: releasePointerCapture, configurable: true });
+		vi.spyOn(fixture.nativeElement, 'getBoundingClientRect').mockReturnValue(toolbarDefaultRect);
+
+		component.startDrag({
+			currentTarget: handle,
+			clientX: 100,
+			clientY: 100,
+			pointerId,
+			preventDefault: vi.fn()
+		});
+		return { releasePointerCapture };
+	}
+
+	it('should end the drag when the dragging pointer is released', () => {
+		const { releasePointerCapture } = startDragWithPointer(5);
+
+		component.onDragEnd({ pointerId: 5 });
+
+		expect(releasePointerCapture).toHaveBeenCalledWith(5);
+	});
+
+	it('should ignore a release from a pointer that is not dragging', () => {
+		const { releasePointerCapture } = startDragWithPointer(5);
+
+		// a second finger touches down elsewhere and lifts again mid-drag
+		component.onDragEnd({ pointerId: 9 });
+
+		expect(releasePointerCapture).not.toHaveBeenCalled();
+
+		// the drag is still live and keeps following the original pointer
+		component.onDrag({ clientX: 140, clientY: 130, pointerId: 5, preventDefault: vi.fn() });
+		expect(component.translateX()).toBe(40);
+		expect(component.translateY()).toBe(30);
+	});
+
+	it('should ignore movement from a pointer that is not dragging', () => {
+		startDragWithPointer(5);
+
+		const preventDefault = vi.fn();
+		component.onDrag({ clientX: 400, clientY: 400, pointerId: 9, preventDefault });
+
+		expect(preventDefault).not.toHaveBeenCalled();
+		expect(component.translateX()).toBe(0);
+		expect(component.translateY()).toBe(0);
+
+		// the original pointer still drives the panel
+		component.onDrag({ clientX: 140, clientY: 130, pointerId: 5, preventDefault: vi.fn() });
+		expect(component.translateX()).toBe(40);
+		expect(component.translateY()).toBe(30);
+	});
+
+	it('should ignore movement when no drag is in progress', () => {
+		const preventDefault = vi.fn();
+		component.onDrag({ clientX: 400, clientY: 400, pointerId: 1, preventDefault });
+
+		expect(preventDefault).not.toHaveBeenCalled();
+		expect(component.translateX()).toBe(0);
+		expect(component.translateY()).toBe(0);
 	});
 
 	it('should move with ArrowRight on drag handle', () => {
