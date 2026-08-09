@@ -2,6 +2,48 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [1.21.0](https://github.com/ffalt/mah/compare/v1.20.0...v1.21.0) (2026-08-09)
+
+### Features
+
+* **board:** add optional tile shadows (default: true) ([f67b31a](https://github.com/ffalt/mah/commit/f67b31a851c54d143cc22b6b86d872d299f1ef46))
+* **core:** add app initializer for language preloading ([916e568](https://github.com/ffalt/mah/commit/916e5680d573b60d1e87d2af58c992e461fcba41))
+* **editor:** better UI ([57d5bc9](https://github.com/ffalt/mah/commit/57d5bc98ffd958830650eee86ec1169f6f086b1d))
+* **game:** show a start game screen when no game or dialog is active ([b83b122](https://github.com/ffalt/mah/commit/b83b1220255df58e95abfe18083b54e133969b36))
+* **style:** cherrypick some design improvements ([ff3482c](https://github.com/ffalt/mah/commit/ff3482c44ce5fe1d2f6be3ce831ed48a68bab5fd))
+
+### Bug Fixes
+
+* **board:** do not requests a nonexistent image ([7fc54eb](https://github.com/ffalt/mah/commit/7fc54eb92f36ffcdede199b32f1b22640a6fd7be))
+* **dialogs:** make sure every dialog pauses the game ([849fc10](https://github.com/ffalt/mah/commit/849fc104afb51cdc287d8b724bc55946f2427631))
+* **drawing:** with 3D sides, some times on the same level were overlapping ([2cd7ee5](https://github.com/ffalt/mah/commit/2cd7ee56788ef85782908e82513bfc38690ae4e7))
+* **editor:** viewing a different layer marks the layout as modified ([f424c35](https://github.com/ffalt/mah/commit/f424c3506748d6797092a115842e6170b666e5ca))
+* **export:** exporting a layout leaks an object URL ([0e8db36](https://github.com/ffalt/mah/commit/0e8db360aac4ab69bd3ea398f51e60fed7e35e29))
+* **game:** add guard to pause() ([f5212b1](https://github.com/ffalt/mah/commit/f5212b1045bd332f4064d23e4654f379e364348a))
+* **game:** do not continue an empty board ([8612d3f](https://github.com/ffalt/mah/commit/8612d3fe78493a382dd25911f9163e48065ab3fe))
+* **game:** give up after 20 failed shuffle attempts and end the game ([f2031ff](https://github.com/ffalt/mah/commit/f2031ffff6065c1dde56955a9ddee22e952e7c44))
+* **gesture indicators:** look up indicator by identity ([745dff9](https://github.com/ffalt/mah/commit/745dff937daeebf9c543ad1e442c8144262cdd22))
+* **gesture:** window resize discards the player's pan and zoom ([c6f121f](https://github.com/ffalt/mah/commit/c6f121fc06b27db36dac2b070ac359b0177f04c5))
+* **I18n:** add missing group translations ([7ee599f](https://github.com/ffalt/mah/commit/7ee599f82bc265ad4bcd0a15eafd96812ea726fb))
+* **I18n:** change labels random cat on language change ([9267f96](https://github.com/ffalt/mah/commit/9267f967e3c4b461de8993ad41b93b36230a57e3))
+* **i18n:** validate spellings ([950b4d3](https://github.com/ffalt/mah/commit/950b4d3b99e4084ae35768f87679338a442e6217))
+* **image-placeholder:** ensure unique ids ([fabe2f8](https://github.com/ffalt/mah/commit/fabe2f83ac7e6af3120025acf9567de72fe78ecb))
+* **import:** file reading and decoding with UTF-8 ([472d4b3](https://github.com/ffalt/mah/commit/472d4b394f03ff0f4397a63201017b5f7ce000f4))
+* **import:** kmahjongg layout handling for version 1.1 ([ce88d09](https://github.com/ffalt/mah/commit/ce88d09eda3b06ba8faddb9bce0aee46aa88d7a1))
+* **import:** Shared-import links mangle non-ASCII board names ([220195e](https://github.com/ffalt/mah/commit/220195e6d2a91a6aa1f31ec94378f4c3f0108caf))
+* **keyboard:** focused buttons should not eat up unreleated shortcuts ([5e4ab44](https://github.com/ffalt/mah/commit/5e4ab44d5be9ee74b0fabf7a8ed935af94c642ff))
+* **keys:** disable key shortcuts if dialogs are open ([a9e9109](https://github.com/ffalt/mah/commit/a9e9109f7dacb8fc5b5c7dcb9d3a84886f4be61c))
+* **kmahjongg:** export/import the correct header ([0e41c0b](https://github.com/ffalt/mah/commit/0e41c0b8591598a6c040bb19a72b53757a172113))
+* **kyodai:** add URL escaping and parameter handling in SVG generation ([cff86a0](https://github.com/ffalt/mah/commit/cff86a0eddb896c7fcb83e9ee5107ebb34e4b943))
+* **localstorage:** ensure newer prefixed entry is retained and old one is removed ([82bc519](https://github.com/ffalt/mah/commit/82bc519b0989f7d91182207a6031d3296f1147fe))
+* **random-layout:** final fill place could not place anything ([b3f5145](https://github.com/ffalt/mah/commit/b3f5145716dd5a69024a06519a51ef4b9e8e370a))
+* **random-layout:** prevent checker removing edges ([5a72a59](https://github.com/ffalt/mah/commit/5a72a59a598fa5f373796511bbac097c237d9109))
+* **random-layout:** prevent div by zero in diamond shape ([dfc57e2](https://github.com/ffalt/mah/commit/dfc57e208787adf1f8ccdfb0719cb64e68dbfcb5))
+* **scss:** adjust broken css variable ([546548e](https://github.com/ffalt/mah/commit/546548e3410b14de46811858a7b29f9afbbe869a))
+* **style:** button padding on small screens ([cdf2b63](https://github.com/ffalt/mah/commit/cdf2b6304b62355552829839aa6eb4b0580a9c1f))
+* **tiles:** ensure tile IDs are drawable and reuse groups correctly ([45b347b](https://github.com/ffalt/mah/commit/45b347ba4777bb375c17e768bcde2ebcb168ee73))
+* **tutorial:** prevent advance past last step ([3606705](https://github.com/ffalt/mah/commit/3606705aa3930692a1d311baed2b0af8d0b049b4))
+* **zen-control:** on mobile ony one dragging must be followed ([8f7659a](https://github.com/ffalt/mah/commit/8f7659a99a828976b6bb1922747ba3543aa630bb))
 ## [1.20.0](https://github.com/ffalt/mah/compare/v1.19.3...v1.20.0) (2026-07-10)
 
 
