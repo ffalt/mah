@@ -264,7 +264,7 @@ export class GameComponent {
 			} else if (message === 'MSG_FAIL') {
 				this.announce(this.app.translate.instant('ANNOUNCE_GAME_LOST'));
 			} else {
-				this.announce(this.app.translate.instant('ANNOUNCE_MATCHED', { remaining: newCount }));
+				this.announceCount('ANNOUNCE_MATCHED', newCount, { remaining: newCount });
 			}
 		}
 	}
@@ -273,7 +273,7 @@ export class GameComponent {
 		this.game.hint();
 		const count = this.game.board.hints.groups.length;
 		if (count > 0) {
-			this.announce(this.app.translate.instant('ANNOUNCE_HINT_PAIRS', { count }));
+			this.announceCount('ANNOUNCE_HINT_PAIRS', count, { count });
 		} else {
 			this.announce(this.app.translate.instant('ANNOUNCE_HINT_NONE'));
 		}
@@ -292,6 +292,14 @@ export class GameComponent {
 	private isDialogCloseKey(key: string): boolean {
 		const dialog = { h: this.help(), i: this.info(), s: this.settings() }[key];
 		return !!dialog?.visible();
+	}
+
+	// Languages differ in how many plural forms they need, so the CLDR category picks the key suffix; missing variants fall back to the base key
+	private announceCount(key: string, count: number, parameters: Record<string, number>): void {
+		const category = new Intl.PluralRules(this.app.translate.getCurrentLang() ?? 'en').select(count);
+		const variant = `${key}_${category.toUpperCase()}`;
+		const text = this.app.translate.instant(variant, parameters);
+		this.announce(text === variant ? this.app.translate.instant(key, parameters) : text);
 	}
 
 	private announce(text: string): void {

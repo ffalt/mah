@@ -1,6 +1,6 @@
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideTranslateService } from '@ngx-translate/core';
+import { provideTranslateService, TranslateService } from '@ngx-translate/core';
 import { provideHttpClient } from '@angular/common/http';
 import { AppService } from '../../service/app.service';
 import { SvgdefService } from '../../service/svgdef.service';
@@ -535,5 +535,43 @@ describe('GameComponent', () => {
 		}
 
 		expect(handleKeyDownEventKeySpy).not.toHaveBeenCalled();
+	});
+
+	describe('plural announcements', () => {
+		function announceHint(lang: string, translations: Record<string, string>, groups: number): string {
+			const translate = TestBed.inject(TranslateService);
+			translate.setTranslation(lang, translations);
+			translate.use(lang);
+			vi.spyOn(component.game, 'hint').mockImplementation(vi.fn());
+			component.game.board.hints.groups = Array.from({ length: groups }, (_, index) => ({ group: index, stones: [] }));
+			vi.useFakeTimers();
+			try {
+				component.onHint();
+				vi.advanceTimersByTime(50);
+			} finally {
+				vi.useRealTimers();
+			}
+			return component.announceText();
+		}
+
+		it('picks the singular form for one pair', () => {
+			const text = announceHint('en', { ANNOUNCE_HINT_PAIRS: '{{count}} pairs', ANNOUNCE_HINT_PAIRS_ONE: '{{count}} pair' }, 1);
+			expect(text).toBe('1 pair');
+		});
+
+		it('picks the plural form for several pairs', () => {
+			const text = announceHint('en', { ANNOUNCE_HINT_PAIRS: '{{count}} pairs', ANNOUNCE_HINT_PAIRS_ONE: '{{count}} pair' }, 3);
+			expect(text).toBe('3 pairs');
+		});
+
+		it('picks the few form in languages that have one', () => {
+			const text = announceHint('ru', { ANNOUNCE_HINT_PAIRS: '{{count}} много', ANNOUNCE_HINT_PAIRS_ONE: '{{count}} одна', ANNOUNCE_HINT_PAIRS_FEW: '{{count}} несколько' }, 3);
+			expect(text).toBe('3 несколько');
+		});
+
+		it('falls back to the base form when a variant is missing', () => {
+			const text = announceHint('ja', { ANNOUNCE_HINT_PAIRS: '{{count}}組' }, 1);
+			expect(text).toBe('1組');
+		});
 	});
 });
