@@ -6,7 +6,7 @@ import { AppService } from '../../service/app.service';
 import { BoardComponent } from './board.component';
 import { By } from '@angular/platform-browser';
 import { Stone } from '../../model/stone';
-import { Backgrounds } from '../../model/consts';
+import { Backgrounds, STATES } from '../../model/consts';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { describe, beforeEach, it, expect, vi } from 'vitest';
@@ -125,8 +125,7 @@ describe('BoardComponent', () => {
 
 			const clickSpy = vi.spyOn(component.clickEvent, 'emit');
 
-			// Simulate a click on the stone
-			component.onClickUp(new MouseEvent('mouseup'), component.drawStones[0]);
+			fixture.nativeElement.querySelector(':scope g.draw rect.stone').dispatchEvent(new MouseEvent('mouseup', { bubbles: true }));
 
 			expect(clickSpy).toHaveBeenCalledWith(testStone);
 		});
@@ -150,6 +149,7 @@ describe('BoardComponent', () => {
 		});
 
 		it('should move focus to the next interactive tile after a keyboard match', () => {
+			appService.game.state.set(STATES.run);
 			const picked = makeTestStone();
 			const next = new Stone(0, 2, 0, 1, 1);
 			fixture.componentRef.setInput('stones', [picked, next]);
@@ -158,11 +158,43 @@ describe('BoardComponent', () => {
 			tiles[0].focus();
 			component.clickEvent.subscribe(stone => stone?.picked.set(true));
 
-			component.onKeyClick(new KeyboardEvent('keydown', { key: 'Enter' }), component.drawStones[0]);
+			tiles[0].dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
 			fixture.detectChanges();
 			flushAnimationFrames();
 
 			expect(document.activeElement).toBe(tiles[1]);
+		});
+
+		it('should not move focus behind the game-over UI', () => {
+			appService.game.state.set(STATES.run);
+			const picked = makeTestStone();
+			const remaining = new Stone(0, 2, 0, 1, 1);
+			fixture.componentRef.setInput('stones', [picked, remaining]);
+			fixture.detectChanges();
+			const tiles = fixture.nativeElement.querySelectorAll('g.draw') as NodeListOf<SVGGElement>;
+			tiles[0].focus();
+			component.clickEvent.subscribe(stone => {
+				stone?.picked.set(true);
+				appService.game.state.set(STATES.idle);
+			});
+
+			tiles[0].dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+			fixture.detectChanges();
+			flushAnimationFrames();
+
+			expect(document.activeElement).not.toBe(tiles[1]);
+		});
+
+		it('should not activate a tile when Enter or Space has a modifier', () => {
+			fixture.componentRef.setInput('stones', [makeTestStone()]);
+			fixture.detectChanges();
+			const tile = fixture.nativeElement.querySelector(':scope g.draw rect.stone');
+			const clickSpy = vi.spyOn(component.clickEvent, 'emit');
+
+			tile.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', ctrlKey: true, bubbles: true }));
+			tile.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', shiftKey: true, bubbles: true }));
+
+			expect(clickSpy).not.toHaveBeenCalled();
 		});
 	});
 
@@ -329,12 +361,41 @@ describe('BoardComponent', () => {
 		});
 
 		it('should detach the mousemove listener when a tile is tapped while zoomed', () => {
+			fixture.componentRef.setInput('stones', [makeTestStone()]);
+			fixture.detectChanges();
 			component.scale = 1.5;
 			component.panZoom.isPanning = false;
 			const removeSpy = vi.spyOn(component.element.nativeElement, 'removeEventListener');
 			component.onMouseDown(new MouseEvent('mousedown', { clientX: 100, clientY: 100 }));
-			component.onClickUp(new MouseEvent('mouseup'), component.drawStones[0]);
+			fixture.nativeElement.querySelector('g.draw').dispatchEvent(new MouseEvent('mouseup', { bubbles: true, clientX: 100, clientY: 100 }));
 			expect(removeSpy).toHaveBeenCalledWith('mousemove', expect.any(Function));
+		});
+
+		it('should activate a zoomed tile when pointer drift stays below the pan threshold', () => {
+			fixture.componentRef.setInput('stones', [makeTestStone()]);
+			fixture.detectChanges();
+			component.scale = 1.5;
+			const clickSpy = vi.spyOn(component.clickEvent, 'emit');
+			component.onMouseDown(new MouseEvent('mousedown', { clientX: 100, clientY: 100 }));
+
+			fixture.nativeElement.querySelector('g.draw').dispatchEvent(new MouseEvent('mouseup', { bubbles: true, clientX: 106, clientY: 100 }));
+
+			expect(clickSpy).toHaveBeenCalledWith(component.drawStones[0].source);
+		});
+
+		it('should delegate an unmoved touch to its tile', () => {
+			fixture.componentRef.setInput('stones', [makeTestStone()]);
+			fixture.detectChanges();
+			const tile = fixture.nativeElement.querySelector(':scope g.draw rect.stone');
+			const clickSpy = vi.spyOn(component.clickEvent, 'emit');
+			tile.dispatchEvent(new TouchEvent('touchstart', {
+				bubbles: true,
+				touches: [{ identifier: 0, clientX: 100, clientY: 100 } as Touch]
+			}));
+
+			tile.dispatchEvent(new TouchEvent('touchend', { bubbles: true, touches: [] }));
+
+			expect(clickSpy).toHaveBeenCalledWith(component.drawStones[0].source);
 		});
 
 		it('should handle resize events', () => {

@@ -47,6 +47,13 @@ describe('BoardTileComponent', () => {
 		expect(fixture.nativeElement.getAttribute('transform')).toBe(draw.pos.translate);
 	});
 
+	it('should expose the stable draw key for delegated events', () => {
+		draw.key = '0:0:0';
+		fixture.componentRef.setInput('draw', { ...draw });
+		fixture.detectChanges();
+		expect(fixture.nativeElement.dataset.drawKey).toBe('0:0:0');
+	});
+
 	it('should be interactive when the stone is neither picked nor blocked', () => {
 		expect(component.interactive()).toBe(true);
 		expect(fixture.nativeElement.getAttribute('role')).toBe('button');

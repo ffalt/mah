@@ -13,6 +13,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 		'[class.hinted]': 'draw().source.hinted()',
 		'[class.matched]': 'draw().source.matched()',
 		'[class.wiggle]': 'draw().source.wiggle()',
+		'[attr.data-draw-key]': 'draw().key',
 		'[attr.transform]': 'draw().pos.translate',
 		'[attr.role]': 'interactive() ? \'button\' : null',
 		'[attr.tabindex]': 'interactive() ? 0 : null',

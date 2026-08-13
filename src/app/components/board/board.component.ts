@@ -27,6 +27,8 @@ const defaultH = 960;
 		'(mousedown)': 'onMouseDown($event)',
 		'(mouseup)': 'onMouseUp($event)',
 		'(mouseleave)': 'onMouseUp($event)',
+		'(keydown.enter)': 'onKeyDown($event)',
+		'(keydown.space)': 'onKeyDown($event)',
 		'(touchstart)': 'onTouchStart($event)',
 		'(touchend)': 'onTouchEnd($event)',
 		'(touchcancel)': 'onTouchEnd($event)'
@@ -153,37 +155,32 @@ export class BoardComponent implements OnInit, OnChanges, AfterViewInit {
 
 	onMouseUp(event: MouseEvent): void {
 		this.detachMouseMoveListener();
+		const draw = this.eventDraw(event);
+		if (draw) {
+			if (this.panZoom.isPanning) {
+				this.panZoom.onMouseUp(event);
+			} else {
+				this.panZoom.stopPanning();
+				this.clickEvent.emit(draw.source);
+				event.stopPropagation();
+			}
+			return;
+		}
 		if (this.panZoom.onMouseUp(event)) {
 			this.clickEvent.emit(undefined);
 		}
 	}
 
-	onTouchTileEnd(_event: TouchEvent, draw?: Draw): void {
-		if (this.panZoom.hasPinchChanged || this.panZoom.hasTouchPanMoved) {
+	onKeyDown(event: Event): void {
+		const draw = this.eventDraw(event);
+		if (!draw) {
 			return;
 		}
-		this.clickEvent.emit(draw?.source);
-	}
-
-	onKeyClick(event: Event, draw: Draw): void {
 		event.preventDefault();
 		event.stopPropagation();
 		this.clickEvent.emit(draw.source);
 		if (draw.source.picked()) {
 			this.focusNextInteractive();
-		}
-	}
-
-	onClickUp(event: MouseEvent, draw?: Draw): void {
-		this.detachMouseMoveListener();
-		this.panZoom.initialMouseX = 0;
-		this.panZoom.initialMouseY = 0;
-		if (this.panZoom.isPanning) {
-			this.panZoom.updatePanning(event);
-			this.panZoom.stopPanning();
-		} else {
-			this.clickEvent.emit(draw?.source);
-			event.stopPropagation();
 		}
 	}
 
@@ -197,9 +194,13 @@ export class BoardComponent implements OnInit, OnChanges, AfterViewInit {
 	}
 
 	onTouchEnd(event: TouchEvent): void {
+		const draw = event.type === 'touchend' && !this.panZoom.hasPinchChanged && !this.panZoom.hasTouchPanMoved ? this.eventDraw(event) : undefined;
 		this.panZoom.onTouchEnd(event);
 		if (event.touches.length === 0) {
 			this.detachTouchMoveListener();
+		}
+		if (draw) {
+			this.clickEvent.emit(draw.source);
 		}
 	}
 
@@ -253,9 +254,17 @@ export class BoardComponent implements OnInit, OnChanges, AfterViewInit {
 		this.element.nativeElement.removeEventListener('touchmove', this.touchMoveListener);
 	}
 
+	private eventDraw(event: Event): Draw | undefined {
+		const target = event.target instanceof Element ? event.target.closest<SVGGElement>('g.draw') : undefined;
+		const key = target?.dataset.drawKey;
+		return key ? this.drawStones.find(draw => draw.key === key) : undefined;
+	}
+
 	private focusNextInteractive(): void {
 		window.requestAnimationFrame(() => {
-			this.stage()?.nativeElement.querySelector<SVGGElement>('g.draw[tabindex="0"]')?.focus();
+			if (this.app.game.isRunning()) {
+				this.stage()?.nativeElement.querySelector<SVGGElement>('g.draw[tabindex="0"]')?.focus();
+			}
 		});
 	}
 
