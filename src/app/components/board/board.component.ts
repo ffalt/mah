@@ -169,6 +169,9 @@ export class BoardComponent implements OnInit, OnChanges, AfterViewInit {
 		event.preventDefault();
 		event.stopPropagation();
 		this.clickEvent.emit(draw.source);
+		if (draw.source.picked()) {
+			this.focusNextInteractive();
+		}
 	}
 
 	onClickUp(event: MouseEvent, draw?: Draw): void {
@@ -248,6 +251,12 @@ export class BoardComponent implements OnInit, OnChanges, AfterViewInit {
 		}
 		this.touchMoveAttached = false;
 		this.element.nativeElement.removeEventListener('touchmove', this.touchMoveListener);
+	}
+
+	private focusNextInteractive(): void {
+		window.requestAnimationFrame(() => {
+			this.stage()?.nativeElement.querySelector<SVGGElement>('g.draw[tabindex="0"]')?.focus();
+		});
 	}
 
 	private setTransformStage(): void {

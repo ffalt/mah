@@ -148,6 +148,22 @@ describe('BoardComponent', () => {
 
 			expect(clickSpy).toHaveBeenCalledTimes(1);
 		});
+
+		it('should move focus to the next interactive tile after a keyboard match', () => {
+			const picked = makeTestStone();
+			const next = new Stone(0, 2, 0, 1, 1);
+			fixture.componentRef.setInput('stones', [picked, next]);
+			fixture.detectChanges();
+			const tiles = fixture.nativeElement.querySelectorAll('g.draw') as NodeListOf<SVGGElement>;
+			tiles[0].focus();
+			component.clickEvent.subscribe(stone => stone?.picked.set(true));
+
+			component.onKeyClick(new KeyboardEvent('keydown', { key: 'Enter' }), component.drawStones[0]);
+			fixture.detectChanges();
+			flushAnimationFrames();
+
+			expect(document.activeElement).toBe(tiles[1]);
+		});
 	});
 
 	describe('Rendering', () => {
