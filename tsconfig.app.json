@@ -1,18 +1,18 @@
 {
-	"extends": "./tsconfig.json",
-	"compilerOptions": {
-		"outDir": "./out-tsc/app",
-		"types": []
-	},
-	"files": [
-		"./src/main.ts"
-	],
-	"include": [
-		"src/**/*.ts"
-	],
-	"exclude": [
-		"./src/**/*.worker.ts",
-		"./src/**/*.spec.ts",
-		"./src/**/*.specs-helpers.ts"
-	]
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./out-tsc/app",
+    "types": []
+  },
+  "files": [
+    "./src/main.ts"
+  ],
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "./src/**/*.worker.ts",
+    "./src/**/*.spec.ts",
+    "./src/**/*.specs-helpers.ts"
+  ]
 }

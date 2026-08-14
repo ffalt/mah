@@ -2,7 +2,7 @@ import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { LayoutPreviewComponent } from './layout-preview.component';
 import { LayoutService } from '../../service/layout.service';
 import type { Layout, SafeUrlSVG } from '../../model/types';
-import { Mock, describe, beforeEach, it, expect, vi } from 'vitest';
+import { type Mock, describe, beforeEach, it, expect, vi } from 'vitest';
 
 describe('LayoutPreviewComponent', () => {
 	let component: LayoutPreviewComponent;

@@ -3,7 +3,7 @@ import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { DeferLoadDirective } from './defer-load.directive';
 import { DeferLoadService, type ScrollNotifyEvent } from './defer-load.service';
 import { Rect } from './rect';
-import { Mock, describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
+import { type Mock, describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
 
 @Component({
 	template: `

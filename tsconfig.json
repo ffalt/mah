@@ -1,41 +1,41 @@
 {
-	"compileOnSave": false,
-	"compilerOptions": {
-		"declaration": false,
-		"emitDecoratorMetadata": false,
-		"esModuleInterop": true,
-		"experimentalDecorators": true,
-		"forceConsistentCasingInFileNames": true,
-		"importHelpers": true,
-		"module": "es2020",
-		"moduleResolution": "bundler",
-		"noImplicitAny": true,
-		"noImplicitReturns": true,
-		"outDir": "./dist/out-tsc",
-		"resolveJsonModule": true,
-		"sourceMap": true,
-		"strict": true,
-		"strictBindCallApply": true,
-		"strictFunctionTypes": true,
-		"strictNullChecks": true,
-		"strictPropertyInitialization": false,
-		"target": "ES2022",
-		"useDefineForClassFields": false,
-		"typeRoots": [
-			"./node_modules/@types",
-			"./node_modules"
-		],
-		"types": [
-			"node"
-		]
-	},
-	"angularCompilerOptions": {
-		"enableIvy": true,
-		"fullTemplateTypeCheck": true,
-		"strictTemplates": true,
-		"strictInjectionParameters": true
-	},
-	"exclude": [
-		"local"
-	]
+  "compileOnSave": false,
+  "compilerOptions": {
+    "declaration": false,
+    "emitDecoratorMetadata": false,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
+    "importHelpers": true,
+    "module": "es2020",
+    "moduleResolution": "bundler",
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "outDir": "./dist/out-tsc",
+    "resolveJsonModule": true,
+    "sourceMap": true,
+    "strict": true,
+    "strictBindCallApply": true,
+    "strictFunctionTypes": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": false,
+    "target": "ES2022",
+    "useDefineForClassFields": false,
+    "typeRoots": [
+      "./node_modules/@types",
+      "./node_modules"
+    ],
+    "types": [
+      "node"
+    ]
+  },
+  "angularCompilerOptions": {
+    "enableIvy": true,
+    "fullTemplateTypeCheck": true,
+    "strictTemplates": true,
+    "strictInjectionParameters": true
+  },
+  "exclude": [
+    "local"
+  ]
 }

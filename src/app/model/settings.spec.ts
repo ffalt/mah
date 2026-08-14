@@ -1,7 +1,7 @@
 import { Settings } from './settings';
 import { ImageSetDefault, LangDefault, ThemeDefault } from './consts';
 import type { SettingsStore, StorageProvider } from './types';
-import { Mock, describe, beforeEach, it, expect, vi } from 'vitest';
+import { type Mock, describe, beforeEach, it, expect, vi } from 'vitest';
 
 describe('Settings', () => {
 	let settings: Settings;

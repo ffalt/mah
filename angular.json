@@ -1,221 +1,221 @@
 {
-	"$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-	"version": 1,
-	"newProjectRoot": "projects",
-	"projects": {
-		"mah": {
-			"root": "",
-			"sourceRoot": "src",
-			"projectType": "application",
-			"prefix": "app",
-			"schematics": {
-				"@schematics/angular:component": {
-					"style": "scss"
-				}
-			},
-			"architect": {
-				"build": {
-					"builder": "@mah/builders:application",
-					"options": {
-						"aot": true,
-						"outputPath": {
-							"base": "dist",
-							"browser": ""
-						},
-						"index": "src/index.html",
-						"browser": "src/main.ts",
-						"polyfills": [],
-						"tsConfig": "tsconfig.app.json",
-						"assets": [
-							"src/favicon.ico",
-							"src/assets"
-						],
-						"styles": [
-							"src/fonts/kulim-park/css/kulim-park.css",
-							"src/styles.scss"
-						],
-						"scripts": [],
-						"webWorkerTsConfig": "tsconfig.worker.json"
-					},
-					"configurations": {
-						"production": {
-							"fileReplacements": [
-								{
-									"replace": "src/environments/environment.ts",
-									"with": "src/environments/environment.production.ts"
-								}
-							],
-							"optimization": true,
-							"outputHashing": "all",
-							"sourceMap": false,
-							"namedChunks": false,
-							"aot": true,
-							"extractLicenses": true,
-							"budgets": [
-								{
-									"type": "initial",
-									"maximumWarning": "1mb",
-									"maximumError": "5mb"
-								},
-								{
-									"type": "anyComponentStyle",
-									"maximumWarning": "10kb",
-									"maximumError": "12kb"
-								}
-							]
-						},
-						"apps": {
-							"fileReplacements": [
-								{
-									"replace": "src/environments/environment.ts",
-									"with": "src/environments/environment.apps.ts"
-								}
-							],
-							"optimization": true,
-							"outputHashing": "all",
-							"sourceMap": false,
-							"namedChunks": false,
-							"aot": true,
-							"extractLicenses": true,
-							"budgets": [
-								{
-									"type": "initial",
-									"maximumWarning": "1mb",
-									"maximumError": "5mb"
-								},
-								{
-									"type": "anyComponentStyle",
-									"maximumWarning": "10kb",
-									"maximumError": "12kb"
-								}
-							]
-						},
-						"development": {
-							"optimization": false,
-							"extractLicenses": false,
-							"sourceMap": true,
-							"namedChunks": true
-						},
-						"development-apps": {
-							"fileReplacements": [
-								{
-									"replace": "src/environments/environment.ts",
-									"with": "src/environments/environment.apps.ts"
-								}
-							],
-							"optimization": false,
-							"extractLicenses": false,
-							"sourceMap": true,
-							"namedChunks": true
-						}
-					}
-				},
-				"serve": {
-					"builder": "@mah/builders:development-server",
-					"options": {
-						"buildTarget": "mah:build"
-					},
-					"configurations": {
-						"production": {
-							"buildTarget": "mah:build:production"
-						},
-						"development": {
-							"buildTarget": "mah:build:development"
-						},
-						"apps": {
-							"buildTarget": "mah:build:apps"
-						},
-						"development-apps": {
-							"buildTarget": "mah:build:development-apps"
-						}
-					}
-				},
-				"extract-i18n": {
-					"builder": "@angular/build:extract-i18n",
-					"options": {
-						"buildTarget": "mah:build"
-					}
-				},
-				"lint": {
-					"builder": "@angular-eslint/builder:lint",
-					"options": {
-						"lintFilePatterns": [
-							"src/**/*.ts",
-							"src/**/*.html"
-						]
-					}
-				},
-				"test-build": {
-					"builder": "@angular/build:application",
-					"options": {
-						"browser": "src/main.ts",
-						"polyfills": [],
-						"tsConfig": "tsconfig.app.json",
-						"assets": [
-							"src/favicon.ico",
-							"src/assets"
-						],
-						"styles": [
-							"src/fonts/kulim-park/css/kulim-park.css",
-							"src/styles.scss"
-						],
-						"webWorkerTsConfig": "tsconfig.worker.json"
-					}
-				},
-				"test": {
-					"builder": "@angular/build:unit-test",
-					"options": {
-						"buildTarget": "mah:test-build",
-						"tsConfig": "tsconfig.spec.json",
-						"runner": "vitest",
-						"runnerConfig": "vitest.config.mjs",
-						"coverageReporters": [
-							"text-summary",
-							"html",
-							"lcovonly"
-						],
-						"include": [
-							"src/**/*.spec.ts"
-						],
-						"exclude": [
-							"resources/**",
-							"node_modules/**"
-						]
-					}
-				}
-			}
-		}
-	},
-	"cli": {
-		"analytics": false,
-		"schematicCollections": [
-			"@angular-eslint/schematics"
-		]
-	},
-	"schematics": {
-		"@schematics/angular:component": {
-			"type": "component"
-		},
-		"@schematics/angular:directive": {
-			"type": "directive"
-		},
-		"@schematics/angular:service": {
-			"type": "service"
-		},
-		"@schematics/angular:guard": {
-			"typeSeparator": "."
-		},
-		"@schematics/angular:interceptor": {
-			"typeSeparator": "."
-		},
-		"@schematics/angular:module": {
-			"typeSeparator": "."
-		},
-		"@schematics/angular:pipe": {
-			"typeSeparator": "."
-		},
-		"@schematics/angular:resolver": {
-			"typeSeparator": "."
-		}
-	}
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "mah": {
+      "root": "",
+      "sourceRoot": "src",
+      "projectType": "application",
+      "prefix": "app",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "architect": {
+        "build": {
+          "builder": "@mah/builders:application",
+          "options": {
+            "aot": true,
+            "outputPath": {
+              "base": "dist",
+              "browser": ""
+            },
+            "index": "src/index.html",
+            "browser": "src/main.ts",
+            "polyfills": [],
+            "tsConfig": "tsconfig.app.json",
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
+            ],
+            "styles": [
+              "src/fonts/kulim-park/css/kulim-park.css",
+              "src/styles.scss"
+            ],
+            "scripts": [],
+            "webWorkerTsConfig": "tsconfig.worker.json"
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.production.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "1mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "10kb",
+                  "maximumError": "12kb"
+                }
+              ]
+            },
+            "apps": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.apps.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "1mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "10kb",
+                  "maximumError": "12kb"
+                }
+              ]
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            },
+            "development-apps": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.apps.ts"
+                }
+              ],
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          }
+        },
+        "serve": {
+          "builder": "@mah/builders:development-server",
+          "options": {
+            "buildTarget": "mah:build"
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "mah:build:production"
+            },
+            "development": {
+              "buildTarget": "mah:build:development"
+            },
+            "apps": {
+              "buildTarget": "mah:build:apps"
+            },
+            "development-apps": {
+              "buildTarget": "mah:build:development-apps"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular/build:extract-i18n",
+          "options": {
+            "buildTarget": "mah:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
+          }
+        },
+        "test-build": {
+          "builder": "@angular/build:application",
+          "options": {
+            "browser": "src/main.ts",
+            "polyfills": [],
+            "tsConfig": "tsconfig.app.json",
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
+            ],
+            "styles": [
+              "src/fonts/kulim-park/css/kulim-park.css",
+              "src/styles.scss"
+            ],
+            "webWorkerTsConfig": "tsconfig.worker.json"
+          }
+        },
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "buildTarget": "mah:test-build",
+            "tsConfig": "tsconfig.spec.json",
+            "runner": "vitest",
+            "runnerConfig": "vitest.config.mjs",
+            "coverageReporters": [
+              "text-summary",
+              "html",
+              "lcovonly"
+            ],
+            "include": [
+              "src/**/*.spec.ts"
+            ],
+            "exclude": [
+              "resources/**",
+              "node_modules/**"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "analytics": false,
+    "schematicCollections": [
+      "@angular-eslint/schematics"
+    ]
+  },
+  "schematics": {
+    "@schematics/angular:component": {
+      "type": "component"
+    },
+    "@schematics/angular:directive": {
+      "type": "directive"
+    },
+    "@schematics/angular:service": {
+      "type": "service"
+    },
+    "@schematics/angular:guard": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:interceptor": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:module": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:pipe": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:resolver": {
+      "typeSeparator": "."
+    }
+  }
 }

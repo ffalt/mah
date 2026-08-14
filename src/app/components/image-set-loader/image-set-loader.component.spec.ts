@@ -5,7 +5,7 @@ import { ImageSetLoaderComponent } from './image-set-loader.component';
 import type { ElementRef } from '@angular/core';
 import { log } from '../../model/log';
 import { TILES } from '../../model/consts';
-import { Mock, describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
+import { type Mock, describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
 
 interface HackImageSetLoaderComponent {
 	elementRef: ElementRef;

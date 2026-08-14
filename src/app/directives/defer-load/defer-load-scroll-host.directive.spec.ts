@@ -2,7 +2,7 @@ import { Component, signal } from '@angular/core';
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { DeferLoadScrollHostDirective } from './defer-load-scroll-host.directive';
 import { DeferLoadService } from './defer-load.service';
-import { Mock, describe, beforeEach, it, expect, vi } from 'vitest';
+import { type Mock, describe, beforeEach, it, expect, vi } from 'vitest';
 
 @Component({
 	template: `

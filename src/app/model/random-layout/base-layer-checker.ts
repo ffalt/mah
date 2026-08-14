@@ -34,10 +34,8 @@ function punchHoles(base: Set<string>, baseZ: number, xs: Array<number>, ys: Arr
 			if (x + 2 <= xs.at(-1)!) {
 				removed.push(key(baseZ, x + 2, y));
 			}
-		} else {
-			if (y + 2 <= ys.at(-1)!) {
-				removed.push(key(baseZ, x, y + 2));
-			}
+		} else if (y + 2 <= ys.at(-1)!) {
+			removed.push(key(baseZ, x, y + 2));
 		}
 		let any = false;
 		for (const rk of removed) {

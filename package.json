@@ -10,7 +10,7 @@
     "start": "ng serve",
     "start:development": "ng serve -c development",
     "start:development:apps": "ng serve -c development-apps --host 0.0.0.0",
-    "check": "qlty check --all",
+    "check": "qlty check --all --no-formatters",
     "build": "ng build",
     "build:prod": "npm run build:deploy-release",
     "build:stats": "ng build --named-chunks --configuration production --aot --stats-json --output-hashing=none",

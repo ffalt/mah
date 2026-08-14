@@ -7,7 +7,7 @@ import type { Music } from './music';
 import { STATES, GAME_MODE_STANDARD, GAME_MODE_EASY, GAME_MODE_EXPERT, RESCUE_SHUFFLE_ATTEMPTS } from './consts';
 import { Stone } from './stone';
 import type { GameStateStore, Layout, Place, StonePlace, StorageProvider } from './types';
-import { Mock, describe, beforeEach, it, expect, vi } from 'vitest';
+import { type Mock, describe, beforeEach, it, expect, vi } from 'vitest';
 
 describe('Game', () => {
 	let game: Game;

@@ -1,25 +1,25 @@
 {
-	"extends": "./tsconfig.json",
-	"compilerOptions": {
-		"outDir": "./out-tsc/spec",
-		"typeRoots": [
-			"./node_modules/@types",
-			"./node_modules"
-		],
-		"types": [
-			"vitest/globals",
-			"node"
-		]
-	},
-	"include": [
-		"./src/**/*.ts",
-		"./src/**/*.spec.ts",
-		"./src/**/*.d.ts",
-		"./src/**/*.specs-helpers.ts",
-		"./setup-vitest.ts",
-		"./vitest.mocks.ts"
-	],
-	"files": [
-		"./setup-vitest.ts"
-	]
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./out-tsc/spec",
+    "typeRoots": [
+      "./node_modules/@types",
+      "./node_modules"
+    ],
+    "types": [
+      "vitest/globals",
+      "node"
+    ]
+  },
+  "include": [
+    "./src/**/*.ts",
+    "./src/**/*.spec.ts",
+    "./src/**/*.d.ts",
+    "./src/**/*.specs-helpers.ts",
+    "./setup-vitest.ts",
+    "./vitest.mocks.ts"
+  ],
+  "files": [
+    "./setup-vitest.ts"
+  ]
 }

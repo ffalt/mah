@@ -7,7 +7,7 @@ import { LocalstorageService } from './localstorage.service';
 import * as mappingModule from '../model/mapping';
 import * as layoutSvgModule from '../model/layout-svg';
 import type { CompactMapping, Layout, LoadLayout, Mapping, SafeUrlSVG } from '../model/types';
-import { Mocked, describe, beforeEach, it, expect, vi } from 'vitest';
+import { type Mocked, describe, beforeEach, it, expect, vi } from 'vitest';
 
 const mockMapping = {
 	expandMapping: vi.spyOn(mappingModule, 'expandMapping'),

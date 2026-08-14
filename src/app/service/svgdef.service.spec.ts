@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { SvgdefService } from './svgdef.service';
 import * as tilesets from '../model/tilesets';
 import { of, throwError } from 'rxjs';
-import { Mocked, describe, beforeEach, it, expect, vi } from 'vitest';
+import { type Mocked, describe, beforeEach, it, expect, vi } from 'vitest';
 
 const mockKyodai = {
 	isKyodaiImageSet: vi.spyOn(tilesets, 'isKyodaiImageSet'),

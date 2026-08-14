@@ -5,7 +5,7 @@ import * as workerFactoryStats from '../worker/create-stats-solve.worker';
 import * as tasks from '../model/tasks';
 import type { StonePosition } from '../model/stone';
 import type { Mapping } from '../model/types';
-import { Mock, describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
+import { type Mock, describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
 
 const mockTasks = {
 	solveGame: vi.spyOn(tasks, 'solveGame'),

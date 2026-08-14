@@ -1,40 +1,40 @@
 {
-	"bumpFiles": [
-		{
-			"filename": "package.json",
-			"type": "json"
-		},
-		{
-			"filename": "package-lock.json",
-			"type": "json"
-		},
-		{
-			"filename": "resources/apps/package.json",
-			"type": "json"
-		},
-		{
-			"filename": "resources/apps/package-lock.json",
-			"type": "json"
-		},
-		{
-			"filename": "resources/apps/tauri/tauri.conf.json",
-			"type": "json"
-		},
-		{
-			"filename": "resources/apps/tauri/Cargo.toml",
-			"updater": "resources/apps/cargo-updater.mjs"
-		},
-		{
-			"filename": "resources/apps/tauri/Cargo.lock",
-			"updater": "resources/apps/cargo-updater.mjs"
-		},
-		{
-			"filename": "resources/docker/Dockerfile",
-			"updater": "tools/dockerfile-updater.mjs"
-		}
-	],
-	"scripts": {
-		"postbump": "cd resources/apps/tauri && cargo generate-lockfile --offline",
-		"precommit": "git add resources/apps/tauri/Cargo.lock"
-	}
+  "bumpFiles": [
+    {
+      "filename": "package.json",
+      "type": "json"
+    },
+    {
+      "filename": "package-lock.json",
+      "type": "json"
+    },
+    {
+      "filename": "resources/apps/package.json",
+      "type": "json"
+    },
+    {
+      "filename": "resources/apps/package-lock.json",
+      "type": "json"
+    },
+    {
+      "filename": "resources/apps/tauri/tauri.conf.json",
+      "type": "json"
+    },
+    {
+      "filename": "resources/apps/tauri/Cargo.toml",
+      "updater": "resources/apps/cargo-updater.mjs"
+    },
+    {
+      "filename": "resources/apps/tauri/Cargo.lock",
+      "updater": "resources/apps/cargo-updater.mjs"
+    },
+    {
+      "filename": "resources/docker/Dockerfile",
+      "updater": "tools/dockerfile-updater.mjs"
+    }
+  ],
+  "scripts": {
+    "postbump": "cd resources/apps/tauri && cargo generate-lockfile --offline",
+    "precommit": "git add resources/apps/tauri/Cargo.lock"
+  }
 }

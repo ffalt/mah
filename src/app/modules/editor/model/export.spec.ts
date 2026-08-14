@@ -7,7 +7,7 @@ import {
 	generateExportKyodai
 } from './export';
 import { convertKmahjongg } from './import';
-import { Mock, MockInstance, describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
+import { type Mock, type MockInstance, describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
 
 function makeLayout(overrides: Partial<Layout> = {}): Layout {
 	return {

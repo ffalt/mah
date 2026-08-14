@@ -156,17 +156,17 @@ describe('blocksOverlap', () => {
 	});
 });
 
-describe('canPlace', () => {
-	const rectCells: CellsFunction = (x0, y0, w, h) => {
-		const cells: Array<[number, number]> = [];
-		for (let row = 0; row < h; row++) {
-			for (let column = 0; column < w; column++) {
-				cells.push([x0 + column * 2, y0 + row * 2]);
-			}
+const rectCells: CellsFunction = (x0, y0, w, h) => {
+	const cells: Array<[number, number]> = [];
+	for (let row = 0; row < h; row++) {
+		for (let column = 0; column < w; column++) {
+			cells.push([x0 + column * 2, y0 + row * 2]);
 		}
-		return cells;
-	};
+	}
+	return cells;
+};
 
+describe('canPlace', () => {
 	it('accepts an unused size on an empty board', () => {
 		expect(canPlace(0, 0, 3, 3, new Set(), new Set(), new Set(), rectCells(0, 0, 3, 3))).toBe(true);
 	});
@@ -186,16 +186,6 @@ describe('canPlace', () => {
 });
 
 describe('generateBaseLayerWithShapes', () => {
-	const rectCells: CellsFunction = (x0, y0, w, h) => {
-		const cells: Array<[number, number]> = [];
-		for (let row = 0; row < h; row++) {
-			for (let column = 0; column < w; column++) {
-				cells.push([x0 + column * 2, y0 + row * 2]);
-			}
-		}
-		return cells;
-	};
-
 	// a non-deterministic CellsFunction used to be called twice per attempt, so the shape that
 	// passed validation was not the shape that got placed
 	it('keeps the buffer distance when the cells function is not deterministic', () => {

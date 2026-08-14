@@ -1,6 +1,6 @@
 import { Component, ElementRef, type AfterViewInit, type OnChanges, type OnInit, type SimpleChanges, inject, input, output, signal, viewChild } from '@angular/core';
 import { Backgrounds, Themes } from '../../model/consts';
-import { type Draw, calcDrawPos, getDrawBounds, sortDrawItems, getDrawBoundsViewportBounds, groupDrawsByLevel, DrawLevel } from '../../model/draw';
+import { type Draw, calcDrawPos, getDrawBounds, sortDrawItems, getDrawBoundsViewportBounds, groupDrawsByLevel, type DrawLevel } from '../../model/draw';
 import type { Stone } from '../../model/stone';
 import { AppService } from '../../service/app.service';
 import { isKyodaiImageSet } from '../../model/tilesets';

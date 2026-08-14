@@ -44,14 +44,13 @@ All notable changes to this project will be documented in this file. See [commit
 * **tiles:** ensure tile IDs are drawable and reuse groups correctly ([45b347b](https://github.com/ffalt/mah/commit/45b347ba4777bb375c17e768bcde2ebcb168ee73))
 * **tutorial:** prevent advance past last step ([3606705](https://github.com/ffalt/mah/commit/3606705aa3930692a1d311baed2b0af8d0b049b4))
 * **zen-control:** on mobile ony one dragging must be followed ([8f7659a](https://github.com/ffalt/mah/commit/8f7659a99a828976b6bb1922747ba3543aa630bb))
-## [1.20.0](https://github.com/ffalt/mah/compare/v1.19.3...v1.20.0) (2026-07-10)
 
+## [1.20.0](https://github.com/ffalt/mah/compare/v1.19.3...v1.20.0) (2026-07-10)
 
 ### Features
 
 * **performance:** enhance rendering and loading ([daf17dd](https://github.com/ffalt/mah/commit/daf17ddba1e4800685047b8165f03c9872e9960b))
 * **performance:** remove zone.js ([b5d9a6f](https://github.com/ffalt/mah/commit/b5d9a6f58d2fe45095b1ddd42e6374889a6499a7))
-
 
 ### Bug Fixes
 
@@ -75,19 +74,16 @@ All notable changes to this project will be documented in this file. See [commit
 
 ## [1.19.3](https://github.com/ffalt/mah/compare/v1.19.2...v1.19.3) (2026-06-02)
 
-
 ### Bug Fixes
 
 * **style:** overlay message element shows focus ring on tab navigation only ([45e2d2a](https://github.com/ffalt/mah/commit/45e2d2a62c9dd6263e973fb0ce48bd438c0069c8))
 
 ## [1.19.2](https://github.com/ffalt/mah/compare/v1.19.0...v1.19.2) (2026-06-02)
 
-
 ### Features
 
 * **accessibility:** add hidden page title for screen readers ([3e5f3a5](https://github.com/ffalt/mah/commit/3e5f3a558392082e613d2f5d962f4c41e7f91b1e))
 * **i18n:** add missing translations ([fcb1adb](https://github.com/ffalt/mah/commit/fcb1adbbf4212abff323f14961c199a159ffc79b))
-
 
 ### Bug Fixes
 
@@ -95,13 +91,11 @@ All notable changes to this project will be documented in this file. See [commit
 
 ## [1.19.1](https://github.com/ffalt/mah/compare/v1.19.0...v1.19.1) (2026-06-01)
 
-
 ### Features
 
 * **i18n:** add missing translations ([9912bd2](https://github.com/ffalt/mah/commit/9912bd29109e75c218d2d49f545df2a374353508))
 
 ## [1.19.0](https://github.com/ffalt/mah/compare/v1.18.3...v1.19.0) (2026-05-24)
-
 
 ### Features
 
@@ -117,7 +111,6 @@ All notable changes to this project will be documented in this file. See [commit
 * **selects:** Remove very long select items, add info overlay for better descriptions ([5215234](https://github.com/ffalt/mah/commit/52152347079ae49cae0d2c544ac8cd16c79f848a))
 * **settings:** add "show game timer" option ([c7fec8c](https://github.com/ffalt/mah/commit/c7fec8ce98b15f987a2bba59618955a3fde26d69))
 * **versioning:** use mjs custom updaters for Cargo.toml and Dockerfile ([5f37ee8](https://github.com/ffalt/mah/commit/5f37ee857046aa0e60c935fcbd709f629337392c))
-
 
 ### Bug Fixes
 

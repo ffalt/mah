@@ -6,7 +6,7 @@ import { LayoutService } from '../../../../service/layout.service';
 import * as importModule from '../../model/import';
 import { ImportComponent } from './import.component';
 import type { Layout, LoadLayout } from '../../../../model/types';
-import { Mock, describe, beforeEach, it, expect, vi } from 'vitest';
+import { type Mock, describe, beforeEach, it, expect, vi } from 'vitest';
 
 const mockImportLayouts = vi.spyOn(importModule, 'importLayouts');
 

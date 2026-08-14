@@ -1,4 +1,4 @@
-import { Mock, describe, beforeEach, it, expect, vi } from 'vitest';
+import { type Mock, describe, beforeEach, it, expect, vi } from 'vitest';
 
 // Mock zzfx before importing the module that uses it
 vi.mock('zzfx', () => ({ zzfx: vi.fn() }));

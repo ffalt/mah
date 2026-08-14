@@ -3,13 +3,13 @@ import { Subject } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
 import { AppService } from './app.service';
 import { TranslateService } from '@ngx-translate/core';
-import { Game } from '../model/game';
-import { Settings } from '../model/settings';
+import type { Game } from '../model/game';
+import type { Settings } from '../model/settings';
 import { LocalstorageService } from './localstorage.service';
 import { DEFAULT_LANGUAGE } from '../model/languages';
 import { LangAuto } from '../model/consts';
 import type { Sound } from '../model/sound';
-import { Mock, describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
+import { type Mock, describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
 
 describe('AppService', () => {
 	let service: AppService;

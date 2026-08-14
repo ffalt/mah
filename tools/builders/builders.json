@@ -1,14 +1,14 @@
 {
-	"builders": {
-		"application": {
-			"implementation": "./application.mjs",
-			"schema": "./application-schema.json",
-			"description": "Application builder wrapper that injects define values and an index.html transformer."
-		},
-		"development-server": {
-			"implementation": "./development-server.mjs",
-			"schema": "./development-server-schema.json",
-			"description": "development-server builder wrapper that forwards the same extensions (index.html transformer) to the underlying @angular/build dev server."
-		}
-	}
+  "builders": {
+    "application": {
+      "implementation": "./application.mjs",
+      "schema": "./application-schema.json",
+      "description": "Application builder wrapper that injects define values and an index.html transformer."
+    },
+    "development-server": {
+      "implementation": "./development-server.mjs",
+      "schema": "./development-server-schema.json",
+      "description": "development-server builder wrapper that forwards the same extensions (index.html transformer) to the underlying @angular/build dev server."
+    }
+  }
 }

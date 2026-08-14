@@ -1,5 +1,5 @@
 import { Clock } from './clock';
-import { Mock, MockInstance, describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
+import { type Mock, type MockInstance, describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
 
 describe('Clock', () => {
 	let clock: Clock;

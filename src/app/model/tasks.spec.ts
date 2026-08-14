@@ -1,6 +1,6 @@
 import { MAX_PROGRESS_REPORTS, solveGame, statsSolveMapping } from './tasks';
 import type { Solver } from './solver/solver';
-import { Builder, MODE_SOLVABLE } from './builder';
+import { type Builder, MODE_SOLVABLE } from './builder';
 import type { Stone, StonePosition } from './stone';
 import type { Mapping, Place } from './types';
 import { describe, it, expect, vi } from 'vitest';
