@@ -2,6 +2,7 @@ import { signal } from '@angular/core';
 
 export class Clock {
 	readonly elapsed = signal(0);
+	onStep?: () => void;
 	private lastTime = 0;
 	private timer?: ReturnType<typeof setTimeout> = undefined;
 
@@ -29,6 +30,10 @@ export class Clock {
 		this.elapsed.update(value => value + (Date.now() - this.lastTime));
 	}
 
+	current(): number {
+		return this.timer === undefined ? this.elapsed() : this.elapsed() + (Date.now() - this.lastTime);
+	}
+
 	private step(): void {
 		const newTime = Date.now();
 		this.elapsed.update(value => value + (newTime - this.lastTime));
@@ -37,6 +42,7 @@ export class Clock {
 		this.timer = setTimeout(() => {
 			this.step();
 		}, 1000);
+		this.onStep?.();
 	}
 
 	private clearTimer(): void {

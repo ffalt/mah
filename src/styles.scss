@@ -772,6 +772,42 @@ p {
 			margin-top: 20px;
 		}
 
+		.overlay-message-score {
+			display: flex;
+			flex-flow: column;
+			align-items: center;
+			gap: 8px;
+			margin-top: 8px;
+
+			.score {
+				display: flex;
+				flex-flow: row wrap;
+				align-items: baseline;
+				justify-content: center;
+				gap: 8px;
+			}
+
+			.label {
+				font-size: 0.75em;
+				letter-spacing: 0.06em;
+				text-transform: uppercase;
+				opacity: 0.7;
+			}
+
+			.value {
+				font-size: 1.3em;
+				font-variant-numeric: slashed-zero tabular-nums;
+			}
+
+			.badge {
+				padding: 1px 9px;
+				border-radius: 999px;
+				background-color: #b8860b;
+				color: #fff;
+				font-size: 0.75em;
+			}
+		}
+
 		.overlay-popup {
 			cursor: pointer;
 			font-weight: 600;

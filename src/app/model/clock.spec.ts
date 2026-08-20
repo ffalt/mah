@@ -103,6 +103,37 @@ describe('Clock', () => {
 		});
 	});
 
+	describe('current', () => {
+		it('should count the time since the last tick, which elapsed has not booked yet', () => {
+			clock.run();
+
+			dateNowSpy.mockReturnValue(1400);
+
+			expect(clock.elapsed()).toBe(0);
+			expect(clock.current()).toBe(400);
+		});
+
+		it('should not move while the clock is not running', () => {
+			clock.elapsed.set(2000);
+
+			dateNowSpy.mockReturnValue(9000);
+
+			expect(clock.current()).toBe(2000);
+		});
+
+		it('should stay on the same footing as elapsed across a tick', () => {
+			clock.run();
+			const stepCallback = mockSetTimeout.mock.calls[0][0];
+			dateNowSpy.mockReturnValue(2500);
+			stepCallback();
+
+			dateNowSpy.mockReturnValue(2900);
+
+			expect(clock.elapsed()).toBe(1500);
+			expect(clock.current()).toBe(1900);
+		});
+	});
+
 	describe('step', () => {
 		it('should update elapsed time and set a new timer', () => {
 			clock.run();

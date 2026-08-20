@@ -4,9 +4,9 @@ import type { Layout, SafeUrlSVG } from '../../model/types';
 import { LocalstorageService } from '../../service/localstorage.service';
 import { LayoutService } from '../../service/layout.service';
 import { DeferLoadScrollHostDirective } from '../../directives/defer-load/defer-load-scroll-host.directive';
-import { generateRandomMapping } from '../../model/random-layout/random-layout';
+import { generateSeededRandomMapping } from '../../model/random-layout/random-layout';
 import { RANDOM_LAYOUT_ID_PREFIX, type RandomSymmetry } from '../../model/random-layout/consts';
-import { seedRNG, resetRNG, generateLayoutSeed } from '../../model/rng';
+import { generateLayoutSeed } from '../../model/rng';
 import { TranslateGroupPipe } from '../../pipes/translate-group.pipe';
 import { LayoutListItemComponent } from '../layout-list-item/layout-list-item.component';
 import { IconMirrorVerticalComponent } from '../icons/icon-mirror-vertical.component';
@@ -104,13 +104,12 @@ export class LayoutListComponent implements OnInit, OnChanges {
 
 	generateRandomLayout(layoutItem: RandomLayoutItem, layoutSeed?: string): void {
 		layoutItem.layoutSeed.set(layoutSeed ?? generateLayoutSeed());
-		seedRNG(layoutItem.layoutSeed());
-		const mapping = generateRandomMapping(
+		const mapping = generateSeededRandomMapping(
+			layoutItem.layoutSeed(),
 			this.randomMirrorX() as RandomSymmetry,
 			this.randomMirrorY() as RandomSymmetry,
 			'random'
 		);
-		resetRNG();
 		layoutItem.previewSVG.set(this.layoutService.generatePreview(mapping));
 		layoutItem.layout.mapping = mapping;
 	}

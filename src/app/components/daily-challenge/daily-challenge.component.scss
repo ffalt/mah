@@ -1,0 +1,617 @@
+@use "../../style/mixins";
+@use "../../style/variables";
+
+:host {
+	--daily-card-bg: var(--dialog-background-color-hover);
+	--daily-card-border: color-mix(in oklab, var(--main-content-text-color) 16%, transparent);
+	--daily-inset-bg: color-mix(in oklab, var(--main-content-text-color) 8%, transparent);
+
+	display: flex;
+	flex-flow: column nowrap;
+	flex: 1;
+	min-height: 0;
+	overflow: hidden auto;
+	gap: 16px;
+	padding-right: 4px;
+	font-family: variables.$text-font;
+
+	// the panels of the body share the same card chrome
+	.daily-stats,
+	.daily-main,
+	.daily-calendar,
+	.daily-scores {
+		padding: 16px;
+		border: 1px solid var(--daily-card-border);
+		border-radius: 16px;
+		background-color: var(--daily-card-bg);
+	}
+
+	.daily-stats h3,
+	.daily-scores h3 {
+		margin: 0 0 2px;
+		font-size: 1em;
+		color: var(--dialog-headline-color);
+	}
+
+	.daily-stats small,
+	.daily-facts dt,
+	.calendar-weekday {
+		font-size: 0.7em;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		opacity: 0.7;
+	}
+
+	.daily-stats .value,
+	.daily-facts dd,
+	.score-value {
+		font-weight: 700;
+		font-variant-numeric: slashed-zero tabular-nums;
+	}
+
+	.daily-result .attempts,
+	.daily-result .time,
+	.calendar-day,
+	.scoring-rule span {
+		font-variant-numeric: slashed-zero tabular-nums;
+	}
+
+	.info-label:focus-visible,
+	.score-row:focus-visible {
+		outline: 2px solid var(--focus-ring-color);
+		outline-offset: 1px;
+	}
+
+	.daily-head {
+		display: flex;
+		flex-flow: column nowrap;
+		align-items: center;
+		gap: 10px;
+		flex: 0 0 auto;
+
+		.daily-intro {
+			margin: 0;
+			text-align: center;
+			font-size: 0.9em;
+			opacity: 0.8;
+		}
+	}
+
+	// own box beside the challenge card, so the two rows of the body each hold two panels
+	.daily-stats {
+		display: flex;
+		flex-flow: column nowrap;
+		gap: 8px;
+		flex: 0 1 240px;
+		min-width: 0;
+
+		h3 {
+			text-align: center;
+		}
+
+		.streak {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			padding: 6px 12px;
+			border-radius: 10px;
+			background-color: var(--daily-inset-bg);
+
+			.icon {
+				font-size: 1.35em;
+				color: var(--dialog-headline-color);
+			}
+		}
+
+		.streak-text {
+			display: flex;
+			flex-flow: column nowrap;
+			line-height: 1.15;
+			min-width: 0;
+		}
+
+		.value {
+			font-size: 1.1em;
+		}
+	}
+
+	// .daily-top holds the first row, so the calendar and the score board cannot wrap up into it
+	.daily-body,
+	.daily-top {
+		display: flex;
+		flex-flow: row wrap;
+		align-items: stretch;
+		justify-content: center;
+		gap: 20px;
+	}
+
+	.daily-body {
+		width: 100%;
+		max-width: 1120px;
+		margin-inline: auto;
+	}
+
+	.daily-top {
+		flex: 1 1 100%;
+	}
+
+	.daily-main {
+		display: flex;
+		flex-flow: row nowrap;
+		align-items: center;
+		gap: 22px;
+		flex: 1 1 420px;
+		min-width: 0;
+		padding: 20px;
+	}
+
+	.daily-loading {
+		padding: 24px 0;
+		opacity: 0.75;
+	}
+
+	.daily-preview {
+		position: relative;
+		flex: 0 0 200px;
+		overflow: clip;
+		border: 1px solid var(--card-layout-color-border);
+		border-radius: 12px;
+		background-color: var(--card-layout-color-bg);
+
+		img {
+			width: 100%;
+			height: auto;
+			display: block;
+			padding: 10px 10px 28px;
+		}
+
+		.preview-name {
+			position: absolute;
+			bottom: 0;
+			width: 100%;
+			padding: 2px 4px;
+			background-color: var(--card-text-color-bg);
+			color: var(--card-text-color);
+			font-size: 0.78em;
+			text-align: center;
+		}
+	}
+
+	.daily-info {
+		display: flex;
+		flex-flow: column nowrap;
+		align-items: flex-start;
+		gap: 10px;
+		flex: 1 1 auto;
+		min-width: 0;
+
+		.daily-date {
+			font-size: 0.75em;
+			letter-spacing: 0.08em;
+			text-transform: uppercase;
+			opacity: 0.65;
+		}
+
+		h2 {
+			margin: 0;
+			line-height: 1.15;
+			color: var(--dialog-headline-color);
+		}
+
+		.desc {
+			opacity: 0.85;
+		}
+	}
+
+	.daily-facts {
+		display: flex;
+		flex-flow: row wrap;
+		gap: 8px;
+		width: 100%;
+		margin: 2px 0 0;
+
+		&:empty {
+			display: none;
+		}
+
+		.fact {
+			padding: 5px 12px;
+			border-radius: 10px;
+			background-color: var(--daily-inset-bg);
+		}
+
+		dd {
+			margin: 0;
+		}
+	}
+
+	.daily-result {
+		flex: 1;
+
+		dt,
+		dd {
+			display: flex;
+			flex-flow: row nowrap;
+			justify-content: space-between;
+		}
+
+		dd div {
+			display: flex;
+			flex-flow: row nowrap;
+		}
+
+		&.won {
+			border-color: #3f9d46;
+
+			.icon {
+				color: #3f9d46;
+			}
+		}
+
+		.icon + .state {
+			margin-left: 8px;
+		}
+
+		.state {
+			font-weight: 600;
+		}
+
+		.badge {
+			padding: 1px 7px;
+			border-radius: 4px;
+			background-color: #b8860b;
+			color: #fff;
+			font-size: 0.7em;
+		}
+
+		.attempts,
+		.time {
+			opacity: 0.8;
+		}
+
+		.attempts {
+			margin-left: auto;
+		}
+	}
+
+	.daily-actions {
+		display: flex;
+		flex-flow: row wrap;
+		align-items: center;
+		gap: 8px 18px;
+		margin-top: 4px;
+	}
+
+	.daily-play {
+		padding: 0.6em 1.8em;
+		font-size: 1.05em;
+		font-weight: 700;
+		border-color: var(--dialog-headline-color);
+		background-color: color-mix(in oklab, var(--dialog-headline-color) 14%, var(--input-background-color));
+
+		&:hover {
+			background-color: color-mix(in oklab, var(--dialog-headline-color) 26%, var(--input-background-color));
+		}
+	}
+
+	// capped, or the 7 aspect-ratio cells stretch to the full width of a 1400px dialog
+	.daily-calendar {
+		flex: 0 1 360px;
+		max-width: 360px;
+		width: 100%;
+
+		.calendar-head {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 8px;
+			margin-bottom: 12px;
+
+			.calendar-title {
+				flex: 1 1 auto;
+				text-align: center;
+				font-weight: 700;
+			}
+
+			.button {
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				min-width: 32px;
+				min-height: 32px;
+				padding: 0;
+				border-radius: 50%;
+			}
+		}
+
+		.calendar-grid {
+			display: grid;
+			grid-template-columns: repeat(7, 1fr);
+			gap: 4px;
+		}
+	}
+
+	.calendar-weekday {
+		padding-bottom: 2px;
+		text-align: center;
+		letter-spacing: 0.04em;
+		opacity: 0.6;
+		text-decoration: none;
+		border: 0;
+	}
+
+	.calendar-day {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		aspect-ratio: 1;
+		border-radius: 8px;
+		font-size: 0.8em;
+		border: 2px solid transparent;
+		background-color: var(--daily-inset-bg);
+		cursor: default;
+
+		&.future,
+		&.empty:not(.today) {
+			opacity: 0.3;
+		}
+
+		&.today {
+			border-color: var(--dialog-headline-color);
+			font-weight: 700;
+		}
+
+		&.won {
+			background-color: #3f9d46;
+			font-weight: 700;
+		}
+
+		&.lost {
+			background-color: #a4514f;
+		}
+
+		&.won,
+		&.lost {
+			color: #fff;
+		}
+
+		&.today.won,
+		&.today.lost {
+			border-color: rgb(255 255 255 / 85%);
+		}
+	}
+
+	// shares the row with the calendar and takes whatever width the calendar leaves
+	.daily-scores {
+		flex: 1 1 320px;
+		min-width: 0;
+
+		h3 {
+			margin-bottom: 10px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.scores-list {
+			display: flex;
+			flex-flow: column nowrap;
+			gap: 3px;
+			margin: 0;
+			padding: 0;
+			list-style: none;
+		}
+
+		.score-label {
+			display: flex;
+			align-items: center;
+			gap: 4px;
+			min-width: 0;
+		}
+
+		.score-name {
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+
+		// only a hint that the row is clickable, the row itself carries the click
+		.score-info {
+			font-size: 0.9em;
+			opacity: 0.5;
+		}
+
+		.score-date {
+			min-width: 3.5em;
+			text-align: right;
+			font-size: 0.85em;
+			opacity: 0.7;
+			white-space: nowrap;
+		}
+
+		.scores-hint {
+			margin: 10px 0 0;
+			font-size: 0.75em;
+			opacity: 0.7;
+			text-align: center;
+		}
+	}
+
+	.info-label {
+		display: inline-flex;
+		align-items: center;
+		gap: 4px;
+		padding: 1px 5px;
+		user-select: none;
+		background: none;
+		border: none;
+		color: inherit;
+		font: inherit;
+		cursor: pointer;
+		opacity: 0.85;
+
+		&:hover {
+			color: var(--text-highlight-color);
+			opacity: 1;
+		}
+	}
+
+	// the whole row opens the explainer, so it keeps the full button height as its touch target
+	.score-row {
+		display: grid;
+		grid-template-columns: 1fr auto auto;
+		align-items: center;
+		gap: 10px;
+		width: 100%;
+		padding: 4px 10px;
+		border-radius: 8px;
+		border: 1px solid transparent;
+		background-color: var(--daily-inset-bg);
+		color: inherit;
+		font-size: 0.9em;
+		text-align: left;
+
+		&:hover {
+			background-color: color-mix(in oklab, var(--dialog-headline-color) 12%, var(--daily-inset-bg));
+
+			.score-info {
+				opacity: 1;
+			}
+		}
+
+		&.empty {
+			opacity: 0.45;
+		}
+
+		&.current {
+			border-color: var(--dialog-headline-color);
+		}
+	}
+
+	@include mixins.respond-to(medium-down) {
+		:host {
+			gap: 12px;
+		}
+
+		.daily-body {
+			gap: 12px;
+		}
+
+		.daily-main {
+			flex-flow: column nowrap;
+			align-items: center;
+			gap: 14px;
+			padding: 16px;
+		}
+
+		.daily-preview {
+			flex: 0 0 auto;
+			width: 100%;
+			max-width: 150px;
+		}
+
+		// the top row stacks here, so the stats box spans the width instead of sitting beside the card,
+		// and calendar and scores are too narrow to sit side by side
+		.daily-stats,
+		.daily-calendar,
+		.daily-scores {
+			flex: 1 1 auto;
+			max-width: 320px;
+			margin: 0 auto;
+		}
+
+		.daily-actions {
+			width: 100%;
+			flex-flow: column nowrap;
+			gap: 8px;
+		}
+
+		.daily-play {
+			width: 100%;
+		}
+
+		.daily-result .attempts {
+			margin-left: 0;
+		}
+	}
+
+	@include mixins.respond-to-height(small-down) {
+		:host {
+			gap: 10px;
+		}
+
+		.daily-main {
+			gap: 16px;
+			padding: 14px;
+		}
+
+		.daily-preview {
+			flex-basis: 130px;
+		}
+	}
+
+	@include mixins.respond-to(small-down) {
+		.daily-stats {
+			gap: 6px;
+			padding: 12px;
+
+			.streak {
+				padding: 6px 10px;
+				gap: 7px;
+			}
+
+			small {
+				font-size: 0.62em;
+				white-space: nowrap;
+			}
+		}
+
+		.daily-preview {
+			max-width: 120px;
+		}
+	}
+
+	@include mixins.info-popup;
+
+	.info-overlay .info-popup {
+		max-width: min(90%, 480px);
+	}
+
+	.info-popup {
+		.scoring-intro {
+			margin: 0 0 0.6em;
+			font-size: 0.85em;
+			color: var(--main-content-text-color-muted);
+			text-align: center;
+		}
+
+		.daily-facts {
+			justify-content: center;
+			margin: 0 0 0.6em;
+		}
+
+		.special-tile {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 12px;
+		}
+
+		.special-text {
+			display: flex;
+			flex-flow: column nowrap;
+			line-height: 1.2;
+
+			span {
+				font-size: 0.85em;
+				opacity: 0.8;
+			}
+		}
+	}
+
+	.mark-sample {
+		flex: 0 0 auto;
+		width: 96px;
+		height: 130px;
+	}
+}

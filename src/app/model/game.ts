@@ -1,14 +1,32 @@
-import { signal } from '@angular/core';
+import { computed, signal } from '@angular/core';
 import { Board } from './board';
 import { Clock } from './clock';
-import { GAME_MODE_EASY, GAME_MODE_EXPERT, type GAME_MODE_ID, GAME_MODE_ID_DEFAULT, RESCUE_SHUFFLE_ATTEMPTS, STATES } from './consts';
+import { GAME_MODE_CHALLENGE, GAME_MODE_EASY, GAME_MODE_EXPERT, type GAME_MODE_ID, GAME_MODE_ID_DEFAULT, RESCUE_SHUFFLE_ATTEMPTS, STATES } from './consts';
 import { SOUNDS, Sound } from './sound';
 import type { Stone } from './stone';
 import type { GameStateStore, Layout, StorageProvider } from './types';
 import { type BUILD_MODE_ID, MODE_SOLVABLE } from './builder';
 import { Music } from './music';
 import { RANDOM_LAYOUT_ID_PREFIX } from './random-layout/consts';
+import { Challenge, type ChallengeSetup } from './challenge/challenge';
+import { type ChallengeStateStore, challengeFromCode } from './challenge/consts';
+import { dailyKey } from './challenge/daily';
+import { resetRNG, seedRNG } from './rng';
 import { log } from './log';
+
+export interface GameMessage {
+	messageID?: string;
+	playTime?: number;
+	askShuffle?: boolean;
+	score?: number;
+	scoreBest?: boolean;
+}
+
+export interface ChallengeOutcome {
+	challenge: Challenge;
+	won: boolean;
+	playTime: number;
+}
 
 export class Game {
 	clock: Clock = new Clock();
@@ -16,14 +34,18 @@ export class Game {
 	sound: Sound = new Sound();
 	music: Music = new Music();
 	readonly state = signal<number>(STATES.idle);
-	readonly message = signal<{ messageID?: string; playTime?: number; askShuffle?: boolean } | undefined>(undefined);
+	readonly message = signal<GameMessage | undefined>(undefined);
 	onWin?: () => void;
+	onChallengeEnd?: (outcome: ChallengeOutcome) => void;
 	layoutID?: string = undefined;
 	readonly mode = signal<GAME_MODE_ID>(GAME_MODE_ID_DEFAULT);
+	readonly challenge = signal<Challenge | undefined>(undefined);
+	readonly ruleMode = computed<GAME_MODE_ID>(() => this.challenge() ? GAME_MODE_CHALLENGE : this.mode());
 	private saveTimer?: ReturnType<typeof setTimeout>;
 	private matchesTimer?: ReturnType<typeof setTimeout>;
 
 	constructor(private readonly storage: StorageProvider) {
+		this.clock.onStep = () => this.handleClockStep();
 	}
 
 	destroy(): void {
@@ -71,7 +93,7 @@ export class Game {
 		}
 		this.board.setStoneSelected(this.board.selected === stone ? undefined : stone);
 		this.sound.play(SOUNDS.SELECT);
-		if (this.board.selected && this.mode() === GAME_MODE_EASY) {
+		if (this.board.selected && this.ruleMode() === GAME_MODE_EASY) {
 			this.startMatchesHighlight(this.board.selected);
 		} else {
 			this.clearMatchesTimer();
@@ -137,54 +159,94 @@ export class Game {
 	}
 
 	reset(): void {
+		this.abandonChallenge();
 		this.clearSaveTimer();
 		this.clearMatchesTimer();
 		this.clock.reset();
 		this.setState(STATES.idle);
 		this.board.reset();
+		this.challenge.set(undefined);
 		this.layoutID = undefined;
 	}
 
-	start(layout: Layout, buildMode: BUILD_MODE_ID, gameMode: GAME_MODE_ID): void {
+	start(layout: Layout, buildMode: BUILD_MODE_ID, gameMode: GAME_MODE_ID, challengeSetup?: ChallengeSetup): void {
 		this.layoutID = layout.id;
 		this.mode.set(gameMode);
-		this.board.applyMapping(layout.mapping, buildMode);
+		this.buildBoard(layout, buildMode, challengeSetup?.seed);
 		this.board.update();
+		this.setupChallenge(challengeSetup);
 		this.run();
-	}
-
-	hint(): void {
-		if (this.mode() === GAME_MODE_EXPERT) {
-			return;
+		// a challenge is timed from the moment it starts, not from the first tile the player touches
+		if (this.challenge()) {
+			this.clock.run();
 		}
-		this.board.hint();
-		this.sound.play(SOUNDS.HINT);
 	}
 
-	shuffle(): void {
-		if (this.mode() !== GAME_MODE_EASY) {
-			return;
-		}
-		this.board.shuffle();
-		this.sound.play(SOUNDS.SHUFFLE);
-	}
-
-	back(): void {
-		if (this.mode() === GAME_MODE_EXPERT) {
-			return;
+	hint(): boolean {
+		if (!this.allowsHint()) {
+			return false;
 		}
 		if (!this.isRunning()) {
-			return;
+			return false;
+		}
+		this.board.hint();
+		this.challenge()?.hintUsed();
+		this.sound.play(SOUNDS.HINT);
+		return true;
+	}
+
+	shuffle(): boolean {
+		if (!this.isRunning()) {
+			return false;
+		}
+		return this.shuffleBoard();
+	}
+
+	back(): boolean {
+		if (!this.allowsUndo()) {
+			return false;
+		}
+		if (!this.isRunning()) {
+			return false;
 		}
 		this.clearMatchesTimer();
-		this.board.back();
+		if (!this.board.back()) {
+			return false;
+		}
+		this.challenge()?.undo();
 		this.sound.play(SOUNDS.UNDO);
+		return true;
+	}
+
+	// overridable so tests can pin the calendar day
+	now(): Date {
+		return new Date();
+	}
+
+	expireStaleDaily(): boolean {
+		const store = this.storage.getState();
+		if (!store?.challenge || !this.isStaleDaily(store.challenge)) {
+			return false;
+		}
+		this.storage.storeState(undefined);
+		const expired = store.challenge;
+		const id = challengeFromCode(expired.code);
+		if (id) {
+			const challenge = new Challenge({ id, seed: expired.seed, dayKey: expired.dayKey }, this.board, this.clock);
+			challenge.restore(expired);
+			this.finishChallenge(challenge, false, store.elapsed ?? 0);
+		}
+		this.message.set({ messageID: 'MSG_DAILY_EXPIRED' });
+		return true;
 	}
 
 	load(): boolean {
 		try {
 			const store: GameStateStore | undefined = this.storage.getState();
 			if (store?.stones?.length) {
+				if (this.isStaleDaily(store.challenge)) {
+					return false;
+				}
 				if (!this.board.load(store.stones, store.undo ?? [])) {
 					this.discardStoredState();
 					return false;
@@ -194,6 +256,7 @@ export class Game {
 				this.mode.set(store.gameMode ?? GAME_MODE_ID_DEFAULT);
 				this.board.buildMode = store.buildMode ?? MODE_SOLVABLE;
 				this.state.set(store.state ?? STATES.idle);
+				this.restoreChallenge(store.challenge);
 				return true;
 			}
 		} catch (error) {
@@ -219,13 +282,14 @@ export class Game {
 		}
 		try {
 			this.storage.storeState({
-				elapsed: this.clock.elapsed(),
+				elapsed: this.clock.current(),
 				state: this.state(),
 				layout: this.layoutID,
 				gameMode: this.mode(),
 				buildMode: this.board.buildMode,
 				undo: this.board.undo(),
-				stones: this.board.save()
+				stones: this.board.save(),
+				challenge: this.challenge()?.save()
 			});
 		} catch (error) {
 			log.error('storing state failed', error);
@@ -233,7 +297,10 @@ export class Game {
 	}
 
 	gameOverEasyModeShuffle(): void {
-		// the retries are one rescue attempt for the player, so they get one sound
+		if (!this.allowsShuffle()) {
+			this.gameOverLosing();
+			return;
+		}
 		this.sound.play(SOUNDS.SHUFFLE);
 		for (let index = 0; index < RESCUE_SHUFFLE_ATTEMPTS; index++) {
 			this.board.shuffle();
@@ -247,16 +314,37 @@ export class Game {
 	}
 
 	surrender(): void {
+		if (this.challenge()) {
+			this.gameOverLosing();
+			return;
+		}
 		this.storeLostGame();
 		this.sound.play(SOUNDS.OVER);
 		this.gameOver();
 	}
 
 	checkGameState(): boolean {
+		// a challenge verdict outranks the board rules - Match Attack can win with tiles left over
+		const verdict = this.challenge()?.evaluate() ?? 'run';
+		if (verdict === 'won') {
+			this.gameOverWinning();
+			return false;
+		}
+		if (verdict === 'lost') {
+			this.gameOverLosing();
+			return false;
+		}
 		if (this.board.count() < 2) {
+			const challenge = this.challenge();
+			// an empty board only wins a challenge that asked for one - a match or score target the player
+			// never reached cannot be met any more, so the tiles running out ends the run as a loss
+			if (challenge && challenge.info.objective !== 'clear') {
+				this.gameOverLosing();
+				return false;
+			}
 			this.gameOverWinning();
 		} else if (this.board.free().length === 0) {
-			if (this.mode() === GAME_MODE_EASY && this.board.countUnblocked() > 1) {
+			if (this.ruleMode() === GAME_MODE_EASY && this.board.countUnblocked() > 1) {
 				this.gameOverEasyMode();
 				return false;
 			}
@@ -267,6 +355,17 @@ export class Game {
 			return true;
 		}
 		return false;
+	}
+
+	private shuffleBoard(): boolean {
+		if (!this.allowsShuffle()) {
+			return false;
+		}
+		if (!this.board.shuffle()) {
+			return false;
+		}
+		this.sound.play(SOUNDS.SHUFFLE);
+		return true;
 	}
 
 	private clearSaveTimer(): void {
@@ -295,8 +394,99 @@ export class Game {
 		this.board.clearMatches();
 	}
 
+	// challenge runs are recorded per day, never against the layout's own best time - the rules differ
 	private isStorableLayoutId(): boolean {
-		return this.layoutID !== undefined && !this.layoutID.startsWith(RANDOM_LAYOUT_ID_PREFIX);
+		return this.layoutID !== undefined && !this.layoutID.startsWith(RANDOM_LAYOUT_ID_PREFIX) && !this.challenge();
+	}
+
+	private buildBoard(layout: Layout, buildMode: BUILD_MODE_ID, seed?: string): void {
+		if (!seed) {
+			this.board.applyMapping(layout.mapping, buildMode);
+			return;
+		}
+		// a challenge board has to come out identical for everyone, so tile assignment runs off the seed
+		seedRNG(seed);
+		try {
+			this.board.applyMapping(layout.mapping, buildMode);
+		} finally {
+			resetRNG();
+		}
+	}
+
+	private setupChallenge(setup?: ChallengeSetup): void {
+		if (!setup) {
+			this.challenge.set(undefined);
+			return;
+		}
+		const challenge = new Challenge(setup, this.board, this.clock);
+		challenge.start();
+		this.challenge.set(challenge);
+	}
+
+	private isStaleDaily(store?: ChallengeStateStore): boolean {
+		return !!store?.dayKey && store.dayKey !== dailyKey(this.now());
+	}
+
+	private restoreChallenge(store?: ChallengeStateStore): void {
+		if (!store) {
+			this.challenge.set(undefined);
+			return;
+		}
+		const id = challengeFromCode(store.code);
+		if (!id) {
+			this.challenge.set(undefined);
+			return;
+		}
+		const challenge = new Challenge({ id, seed: store.seed, dayKey: store.dayKey }, this.board, this.clock);
+		challenge.restore(store);
+		this.challenge.set(challenge);
+	}
+
+	allowsHint(): boolean {
+		const challenge = this.challenge();
+		return challenge ? challenge.info.allowHint : this.mode() !== GAME_MODE_EXPERT;
+	}
+
+	allowsUndo(): boolean {
+		const challenge = this.challenge();
+		return challenge ? challenge.info.allowUndo : this.mode() !== GAME_MODE_EXPERT;
+	}
+
+	allowsShuffle(): boolean {
+		return this.ruleMode() === GAME_MODE_EASY;
+	}
+
+	private handleClockStep(): void {
+		const challenge = this.challenge();
+		if (!challenge || !this.isRunning()) {
+			return;
+		}
+		const verdict = challenge.evaluate();
+		if (verdict === 'won') {
+			this.gameOverWinning();
+		} else if (verdict === 'lost') {
+			this.gameOverLosing();
+		}
+	}
+
+	// the earned score would otherwise vanish with the hud, so it rides along on the end message
+	private challengeGameOver(challenge: Challenge, messageID: string, playTime: number): void {
+		// dropped before gameOver(), whose clock reset would otherwise send the hud countdown back to the full limit
+		this.challenge.set(undefined);
+		this.gameOver(messageID, playTime);
+		this.message.update(message => (message ? { ...message, score: challenge.score.points() } : message));
+	}
+
+	private finishChallenge(challenge: Challenge, won: boolean, playTime: number): void {
+		this.onChallengeEnd?.({ challenge, won, playTime });
+	}
+
+	private abandonChallenge(): void {
+		const challenge = this.challenge();
+		if (!challenge) {
+			return;
+		}
+		this.finishChallenge(challenge, false, this.clock.elapsed());
 	}
 
 	private storeLostGame(): void {
@@ -310,13 +500,38 @@ export class Game {
 	}
 
 	private gameOverLosing(): void {
+		if (this.challenge()) {
+			this.gameOverLosingChallenge();
+			return;
+		}
 		this.storeLostGame();
 		this.sound.play(SOUNDS.OVER);
 		this.gameOver('MSG_FAIL');
 	}
 
+	private gameOverLosingChallenge(): void {
+		const challenge = this.challenge();
+		if (!challenge) {
+			return;
+		}
+		const playTime = this.clock.elapsed();
+		// read the countdown before gameOver() resets the clock
+		const timeUp = challenge.hasTimeLimit && challenge.remaining() <= 0;
+		this.sound.play(SOUNDS.OVER);
+		this.challengeGameOver(challenge, timeUp ? 'MSG_TIME_UP' : 'MSG_CHALLENGE_LOST', playTime);
+		this.finishChallenge(challenge, false, playTime);
+	}
+
 	private gameOverWinning(): void {
 		const playTime = this.clock.elapsed();
+		const challenge = this.challenge();
+		if (challenge) {
+			this.challengeGameOver(challenge, 'MSG_CHALLENGE_WON', playTime);
+			this.sound.play(SOUNDS.WIN);
+			this.finishChallenge(challenge, true, playTime);
+			this.onWin?.();
+			return;
+		}
 		if (!this.isStorableLayoutId()) {
 			this.gameOver('MSG_GOOD', playTime);
 			this.sound.play(SOUNDS.WIN);
@@ -360,6 +575,7 @@ export class Game {
 			return;
 		}
 		this.board.pick(sel, stone);
+		this.challenge()?.pick(sel, stone);
 		this.checkGameState();
 	}
 

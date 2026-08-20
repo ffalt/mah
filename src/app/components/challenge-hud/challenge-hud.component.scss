@@ -1,0 +1,134 @@
+@use "../../style/mixins";
+@use "../../style/variables";
+
+:host {
+	display: flex;
+	flex-flow: row wrap;
+	align-items: center;
+	justify-content: center;
+	gap: 4px 14px;
+	padding: 4px 12px;
+	font-family: variables.$text-font;
+	font-size: variables.$base-font-size;
+	color: var(--main-text-color);
+	border-bottom: 1px solid var(--main-bg-color-lt);
+	background-color: var(--main-bg-color-dk);
+
+	.challenge-name {
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.04em;
+		font-size: 0.85em;
+		opacity: 0.85;
+	}
+
+	.challenge-item {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+
+		small {
+			opacity: 0.75;
+		}
+
+		.value {
+			font-variant-numeric: slashed-zero tabular-nums;
+			font-weight: 600;
+		}
+	}
+
+	.challenge-time .value {
+		min-width: 4.2em;
+		display: inline-block;
+		text-align: right;
+	}
+
+	.challenge-time.low .value {
+		color: #ff6b52;
+		animation: challenge-time-pulse 1000ms ease-in-out infinite;
+	}
+
+	.challenge-combo .value {
+		color: #ffd257;
+	}
+
+	.bar {
+		width: 90px;
+		height: 6px;
+		border-radius: 999px;
+		overflow: hidden;
+		background-color: color-mix(in oklab, var(--main-bg-color-lt) 70%, transparent);
+	}
+
+	.bar-fill {
+		height: 100%;
+		border-radius: 999px;
+		background-color: #6fc3ff;
+		transition: width 200ms ease-out;
+	}
+
+	@keyframes challenge-time-pulse {
+		0% { opacity: 1; }
+		50% { opacity: 0.5; }
+		100% { opacity: 1; }
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.challenge-time.low .value {
+			animation: none;
+		}
+
+		.bar-fill {
+			transition: none;
+		}
+	}
+
+	@include mixins.respond-to(medium-down) {
+		gap: 2px 10px;
+		font-size: variables.$base-font-size * 0.85;
+
+		.challenge-name {
+			display: none;
+		}
+
+		.bar {
+			display: none;
+		}
+	}
+
+	@include mixins.respond-to(femto-down) {
+		gap: 2px 8px;
+
+		.challenge-item {
+			flex-flow: column nowrap;
+			gap: 0;
+			min-width: 0;
+
+			small {
+				max-width: 7em;
+				overflow: hidden;
+				font-size: 0.7em;
+				line-height: 1.2;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+			}
+		}
+
+		.challenge-time .value {
+			min-width: 0;
+			text-align: center;
+		}
+	}
+
+	@include mixins.respond-to-horizontal-device(pad) {
+		font-size: variables.$base-font-size * 0.8;
+
+		.challenge-name {
+			display: none;
+		}
+
+		.bar {
+			display: none;
+		}
+	}
+}

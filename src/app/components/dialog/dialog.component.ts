@@ -2,8 +2,7 @@ import { Component, ElementRef, effect, inject, input, model, output } from '@an
 import { TranslatePipe } from '@ngx-translate/core';
 import { IconCloseComponent } from '../icons/icon-close.component';
 import { IconLogoComponent } from '../icons/icon-logo.component';
-
-const FOCUSABLE = 'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+import { trapFocus } from '../../model/dom-utilities';
 
 @Component({
 	selector: 'app-dialog',
@@ -55,28 +54,8 @@ export class DialogComponent {
 	}
 
 	trapFocus(event: KeyboardEvent): void {
-		if (event.key !== 'Tab') {
-			return;
-		}
 		const host = this.elementRef.nativeElement as HTMLElement;
-		const popup = host.querySelector<HTMLElement>('.overlay-popup');
-		if (!popup) {
-			return;
-		}
-		const focusable = Array.from(popup.querySelectorAll<HTMLElement>(FOCUSABLE))
-			.filter(element => element.offsetParent !== null);
-		if (focusable.length === 0) {
-			return;
-		}
-		const first = focusable.at(0);
-		const last = focusable.at(-1);
-		if (last && event.shiftKey && document.activeElement === first) {
-			event.preventDefault();
-			last.focus();
-		} else if (first && !event.shiftKey && document.activeElement === last) {
-			event.preventDefault();
-			first.focus();
-		}
+		trapFocus(host.querySelector<HTMLElement>('.overlay-popup'), event);
 	}
 
 	private setVisible(visible: boolean): void {

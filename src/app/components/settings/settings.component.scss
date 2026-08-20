@@ -95,6 +95,10 @@
 
 			li {
 				padding-left: 0;
+
+				&.animations-setting {
+					height: auto;
+				}
 			}
 
 			label {
@@ -126,6 +130,16 @@
 
 				span {
 					font-size: 0.95em;
+				}
+
+				.setting-text {
+					display: flex;
+					flex-direction: column;
+				}
+
+				small {
+					font-size: 0.78em;
+					opacity: 0.75;
 				}
 			}
 		}

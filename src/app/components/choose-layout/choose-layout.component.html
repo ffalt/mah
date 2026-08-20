@@ -37,7 +37,7 @@
 			[attr.aria-labelledby]="'info-title-' + activeInfo()"
 			tabindex="-1"
 			(click)="$event.stopPropagation()"
-			(keydown)="$event.stopPropagation()">
+			(keydown)="onPopupKeydown($event)">
 			<button type="button" class="close" (click)="closeInfo()" [attr.aria-label]="'CLOSE' | translate"><app-icon-close /></button>
 			@if (activeInfo() === 'generator') {
 				<h2 id="info-title-generator">{{ 'BOARD_GENERATOR' | translate }}</h2>

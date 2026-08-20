@@ -16,6 +16,8 @@ export const RESCUE_SHUFFLE_ATTEMPTS = 20;
 export const GAME_MODE_EASY: GAME_MODE_ID = 'GAME_MODE_EASY';
 export const GAME_MODE_STANDARD: GAME_MODE_ID = 'GAME_MODE_STANDARD';
 export const GAME_MODE_EXPERT: GAME_MODE_ID = 'GAME_MODE_EXPERT';
+// internal: a challenge sets its own rules, so it is never offered in GameModes and never picked by hand
+export const GAME_MODE_CHALLENGE: GAME_MODE_ID = 'GAME_MODE_CHALLENGE';
 
 export interface GameModeFeature {
 	title: string;
@@ -45,7 +47,7 @@ export const GameModes: Array<{ id: GAME_MODE_ID; features: Array<GameModeFeatur
 		features: []
 	}
 ];
-export type GAME_MODE_ID = 'GAME_MODE_EASY' | 'GAME_MODE_STANDARD' | 'GAME_MODE_EXPERT';
+export type GAME_MODE_ID = 'GAME_MODE_EASY' | 'GAME_MODE_STANDARD' | 'GAME_MODE_EXPERT' | 'GAME_MODE_CHALLENGE';
 export const GAME_MODE_ID_DEFAULT: GAME_MODE_ID = 'GAME_MODE_STANDARD';
 
 export const Themes: Array<{ id: string; name: string; colors: Array<string> }> = [

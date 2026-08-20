@@ -100,6 +100,13 @@ describe('TilePreviewComponent', () => {
 		expect(stage.nativeElement.classList.contains('tile3d')).toBe(true);
 	});
 
+	it('should remove the animations class when animations are disabled', () => {
+		fixture.componentRef.setInput('animations', false);
+		fixture.detectChanges();
+		const stage = fixture.debugElement.query(By.css('g.preview-stage'));
+		expect(stage.nativeElement.classList.contains('animations')).toBe(false);
+	});
+
 	it('should render bevel rect when tile3d is true', () => {
 		fixture.componentRef.setInput('tile3d', true);
 		fixture.detectChanges();

@@ -4,6 +4,7 @@ import type { Layout } from '../../model/types';
 import { LayoutService } from '../../service/layout.service';
 import { LocalstorageService } from '../../service/localstorage.service';
 import { type GAME_MODE_ID, GameModes } from '../../model/consts';
+import { trapFocus } from '../../model/dom-utilities';
 import { TranslatePipe } from '@ngx-translate/core';
 import { LayoutListComponent } from '../layout-list/layout-list.component';
 import { IconInfoComponent } from '../icons/icon-info.component';
@@ -75,6 +76,11 @@ export class ChooseLayoutComponent {
 	openInfo(event: Event, key: 'generator' | 'mode'): void {
 		event.preventDefault();
 		this.activeInfo.set(key);
+	}
+
+	onPopupKeydown(event: KeyboardEvent): void {
+		event.stopPropagation();
+		trapFocus(event.currentTarget as HTMLElement | null, event);
 	}
 
 	closeInfo(): void {

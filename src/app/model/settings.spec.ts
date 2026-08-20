@@ -36,6 +36,7 @@ describe('Settings', () => {
 			expect(settings.dark()).toBe(false);
 			expect(settings.tile3d()).toBe(false);
 			expect(settings.shadows()).toBe(true);
+			expect(settings.animations()).toBe(true);
 			expect(settings.background()).toBe('');
 			expect(settings.theme()).toBe(ThemeDefault);
 			expect(settings.stats).toEqual({
@@ -90,6 +91,7 @@ describe('Settings', () => {
 			expect(settings.theme()).toBe(ThemeDefault);
 			expect(settings.background()).toBe('test-background');
 			expect(settings.shadows()).toBe(true);
+			expect(settings.animations()).toBe(true);
 		});
 
 		it('should fall back to default theme if saved theme does not exist', () => {
@@ -127,6 +129,7 @@ describe('Settings', () => {
 			settings.confetti.set(true);
 			settings.tile3d.set(true);
 			settings.shadows.set(false);
+			settings.animations.set(false);
 			settings.background.set('test-background');
 			settings.theme.set('test-theme');
 			settings.tileset.set('test-tileset');
@@ -145,6 +148,7 @@ describe('Settings', () => {
 				showClock: true,
 				tile3d: true,
 				shadows: false,
+				animations: false,
 				background: 'test-background',
 				pattern: undefined,
 				theme: 'test-theme',

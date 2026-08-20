@@ -1,5 +1,10 @@
+@if (markSpark()) {
+	<!-- the glow sits behind the stone, since the tile art fills the face and must not be drawn over -->
+	<svg:rect class="mark-aura" x="-8" y="-8" width="91" height="116" rx="17" ry="17"/>
+}
 <svg:g class="tile">
-	@if (draw().url) {
+	@if (draw().url && !covered()) {
+		<!-- the title is a hover tooltip, so a covered tile must not carry one -->
 		<svg:title>{{ draw().url | translate }}</svg:title>
 	}
 	@if (app.settings.tile3d()) {
@@ -9,13 +14,23 @@
 	} @else {
 		<svg:rect class="stone" x="0" y="0" width="75" height="100" rx="10" ry="10"></svg:rect>
 	}
-	<svg:use
-		[attr.xlink:href]="draw().url | prefix:urlPrefix()"
-		[attr.x]="imagePos()[0]"
-		[attr.y]="imagePos()[1]"
-		[attr.width]="imagePos()[2]"
-		[attr.height]="imagePos()[3]"
-		clip-path="url(#mah-image-clip)"
-	/>
+	@if (covered()) {
+		<svg:use class="back" [attr.xlink:href]="backUrl()" x="0" y="0" width="75" height="100"/>
+	} @else {
+		<svg:use
+			[attr.xlink:href]="draw().url | prefix:urlPrefix()"
+			[attr.x]="imagePos()[0]"
+			[attr.y]="imagePos()[1]"
+			[attr.width]="imagePos()[2]"
+			[attr.height]="imagePos()[3]"
+			clip-path="url(#mah-image-clip)"
+		/>
+	}
 	<svg:use class="front" xlink:href="#front" x="0" y="0" width="75" height="100"/>
+	@if (mark()) {
+		<!-- the face itself carries the mark, since a corner badge is lost at board scale -->
+		<svg:g class="mark-tint" clip-path="url(#mah-tile-clip)">
+			<svg:rect class="mark-tint-fill" x="0" y="0" width="75" height="100" rx="10" ry="10"/>
+		</svg:g>
+	}
 </svg:g>

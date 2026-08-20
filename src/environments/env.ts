@@ -3,6 +3,7 @@ declare const APP_NAME: string | undefined;
 declare const APP_FEATURE_EDITOR: boolean | undefined;
 declare const APP_FEATURE_MOBILE: boolean | undefined;
 declare const APP_FEATURE_KYODAI: boolean | undefined;
+declare const APP_FEATURE_DAILY: boolean | undefined;
 
 export const env: {
 	APP_VERSION: string;
@@ -10,10 +11,12 @@ export const env: {
 	APP_FEATURE_EDITOR: boolean;
 	APP_FEATURE_MOBILE: boolean;
 	APP_FEATURE_KYODAI: boolean;
+	APP_FEATURE_DAILY: boolean;
 } = {
 	APP_VERSION: APP_VERSION ?? 'DEV',
 	APP_NAME: APP_NAME ?? 'Mah Jong',
 	APP_FEATURE_EDITOR: !!APP_FEATURE_EDITOR,
 	APP_FEATURE_KYODAI: !!APP_FEATURE_KYODAI,
+	APP_FEATURE_DAILY: !!APP_FEATURE_DAILY,
 	APP_FEATURE_MOBILE: !!APP_FEATURE_MOBILE
 };

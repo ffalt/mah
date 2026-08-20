@@ -169,6 +169,37 @@ describe('GameComponent', () => {
 		expect(soundPlaySpy).toHaveBeenCalled();
 	});
 
+	// stoneClick compares the tile count around the click, so the mocked click has to move it
+	function announceOnMatch(messageID?: string): string {
+		component.game.board.count.set(10);
+		vi.spyOn(component.game, 'click').mockImplementation(() => {
+			component.game.board.count.set(9);
+			component.game.message.set(messageID ? { messageID } : undefined);
+			return true;
+		});
+		component.stoneClick(new Stone(0, 0, 0, 0, 0));
+		// the end message is announced by an effect, which needs a round of change detection
+		fixture.detectChanges();
+		vi.advanceTimersByTime(100);
+		return component.announceText();
+	}
+
+	it('should announce how a match ended the game', () => {
+		vi.useFakeTimers();
+		try {
+			expect(announceOnMatch('MSG_BEST')).toBe('ANNOUNCE_GAME_WON');
+			expect(announceOnMatch('MSG_GOOD')).toBe('ANNOUNCE_GAME_WON');
+			expect(announceOnMatch('MSG_FAIL')).toBe('ANNOUNCE_GAME_LOST');
+			expect(announceOnMatch('MSG_CHALLENGE_WON')).toBe('MSG_CHALLENGE_WON');
+			expect(announceOnMatch('MSG_CHALLENGE_LOST')).toBe('MSG_CHALLENGE_LOST');
+			expect(announceOnMatch('MSG_TIME_UP')).toBe('MSG_TIME_UP');
+			// an ordinary match reports what is left instead
+			expect(announceOnMatch(undefined)).toBe('ANNOUNCE_MATCHED');
+		} finally {
+			vi.useRealTimers();
+		}
+	});
+
 	it('should toggle game state when dialog state changes', () => {
 		const pauseSpy = vi.spyOn(component.game, 'pause');
 		const resumeSpy = vi.spyOn(component.game, 'resume');
@@ -417,6 +448,38 @@ describe('GameComponent', () => {
 		expect(component.zenMode()).toBe(false);
 	});
 
+	it('should stay silent when the game refuses an undo, hint or shuffle', () => {
+		vi.useFakeTimers();
+		try {
+			vi.spyOn(component.game, 'back').mockReturnValue(false);
+			vi.spyOn(component.game, 'hint').mockReturnValue(false);
+			vi.spyOn(component.game, 'shuffle').mockReturnValue(false);
+
+			component.onUndo();
+			component.onHint();
+			component.onShuffle();
+			vi.advanceTimersByTime(100);
+
+			expect(component.announceText()).toBe('');
+		} finally {
+			vi.useRealTimers();
+		}
+	});
+
+	it('should announce an undo that went through', () => {
+		vi.useFakeTimers();
+		try {
+			vi.spyOn(component.game, 'back').mockReturnValue(true);
+
+			component.onUndo();
+			vi.advanceTimersByTime(100);
+
+			expect(component.announceText()).toBe('ANNOUNCE_UNDO');
+		} finally {
+			vi.useRealTimers();
+		}
+	});
+
 	it('should check fullscreen capability', () => {
 		// Spy on the component's method
 		const isFullscreenEnabledSpy = vi.spyOn(component, 'isFullscreenEnabled');
@@ -542,7 +605,7 @@ describe('GameComponent', () => {
 			const translate = TestBed.inject(TranslateService);
 			translate.setTranslation(lang, translations);
 			translate.use(lang);
-			vi.spyOn(component.game, 'hint').mockImplementation(vi.fn());
+			vi.spyOn(component.game, 'hint').mockReturnValue(true);
 			component.game.board.hints.groups = Array.from({ length: groups }, (_, index) => ({ group: index, stones: [] }));
 			vi.useFakeTimers();
 			try {

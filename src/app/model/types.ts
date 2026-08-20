@@ -1,5 +1,6 @@
 import type { GAME_MODE_ID } from './consts';
 import type { BUILD_MODE_ID } from './builder';
+import type { ChallengeStateStore } from './challenge/consts';
 
 export type SafeUrlSVG = string;
 
@@ -58,6 +59,47 @@ export interface LayoutScoreStore {
 	playTime?: number;
 }
 
+export interface DailyResultStore {
+	// a CHALLENGE_ID, but kept as number - a newer build may have stored a code this one does not know
+	challenge: number;
+	won: boolean;
+	playTime?: number;
+	score?: number;
+	attempts: number;
+	firstTry: boolean;
+}
+
+export interface DailyMonthStore {
+	v: number;
+	days: Record<string, DailyResultStore>;
+}
+
+export interface DailyBestStore {
+	challenge: number;
+	score: number;
+	dayKey: string;
+	won: boolean;
+}
+
+// a month that is over can never change, so its totals are folded in here once and never read again
+export interface DailyRollupStore {
+	v: number;
+	through: string;
+	played: number;
+	won: number;
+	bests: Array<DailyBestStore>;
+}
+
+export interface DailyMetaStore {
+	v: number;
+	streak: number;
+	best: number;
+	last?: string;
+	played: number;
+	won: number;
+	rollup?: DailyRollupStore;
+}
+
 export interface StorageProvider {
 	getScore(id: string): LayoutScoreStore | undefined;
 
@@ -80,6 +122,7 @@ export class GameStateStore {
 	buildMode?: BUILD_MODE_ID;
 	undo?: Array<Place>;
 	stones?: Array<StonePlace>;
+	challenge?: ChallengeStateStore;
 }
 
 export class SettingsStore {
@@ -95,6 +138,7 @@ export class SettingsStore {
 	pattern?: string;
 	tile3d?: boolean;
 	shadows?: boolean;
+	animations?: boolean;
 	confetti?: boolean;
 	showClock?: boolean;
 	tutorialCompleted?: boolean;

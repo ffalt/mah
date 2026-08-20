@@ -14,6 +14,17 @@
 			@if (message.playTime) {
 				<div>{{ message.playTime | duration }}</div>
 			}
+			@if (message.score !== undefined) {
+				<div class="overlay-message-score">
+					<div class="score">
+						<span class="label">{{ 'CHALLENGE_SCORE' | translate }}</span>
+						<span class="value">{{ message.score }}</span>
+					</div>
+					@if (message.scoreBest) {
+						<span class="badge">{{ 'DAILY_NEW_BEST' | translate }}</span>
+					}
+				</div>
+			}
 			@if (message.askShuffle) {
 				<div class="overlay-message-actions">
 					<button

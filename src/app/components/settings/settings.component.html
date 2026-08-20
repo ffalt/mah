@@ -163,6 +163,7 @@
 						[dark]="app.settings.dark()"
 						[contrast]="app.settings.contrast()"
 						[tile3d]="app.settings.tile3d()"
+						[animations]="app.settings.animations()"
 						[shadows]="app.settings.shadows()"/>
 			</div>
 		</fieldset>
@@ -246,6 +247,20 @@
 							(change)="app.settings.confetti.set(!app.settings.confetti());app.settings.save();"
 						>
 						<span>{{ 'VICTORY_CONFETTI' | translate }}</span>
+					</label>
+				</li>
+				<li class="animations-setting">
+					<label class="check">
+						<input
+							type="checkbox"
+							[checked]="app.settings.animations() && !reducedMotion()"
+							[disabled]="reducedMotion()"
+							(change)="app.settings.animations.set(!app.settings.animations());app.settings.save();"
+						>
+						<span class="setting-text">
+							<span>{{ 'TILE_ANIMATIONS' | translate }}</span>
+							<small>{{ 'TILE_ANIMATIONS_REDUCED_MOTION' | translate }}</small>
+						</span>
 					</label>
 				</li>
 				<li>

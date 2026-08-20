@@ -27,9 +27,31 @@
 	}
 </app-dialog>
 
-<app-dialog #newgame (clickEvent)="toggleDialogState($event)" className="overlay-newgame overlay-size-large" [title]="'SELECT_BOARD' | translate">
+<app-dialog
+	#newgame
+	(clickEvent)="onNewGameDialogToggle($event)"
+	className="overlay-newgame overlay-size-large"
+	[title]="(dailyEnabled ? 'RESTART' : 'SELECT_BOARD') | translate"
+>
 	@if (newgame.visible()) {
-		<app-choose-layout class="choose" (startEvent)="startGame($event)" [gameMode]="game.mode()" [buildMode]="game.board.buildMode"/>
+		@if (dailyEnabled) {
+			<div class="newgame-tabs" role="tablist">
+				<button type="button" role="tab" class="newgame-tab" [class.active]="!dailyView()" [attr.aria-selected]="!dailyView()" (click)="showLayoutList()">
+					{{ 'SELECT_BOARD' | translate }}
+				</button>
+				<button type="button" role="tab" class="newgame-tab" [class.active]="dailyView()" [attr.aria-selected]="dailyView()" (click)="showDailyChallenge()">
+					{{ 'DAILY_CHALLENGE' | translate }}
+					@if (dailyUnplayed()) {
+						<span class="tab-dot" aria-hidden="true"></span>
+					}
+				</button>
+			</div>
+		}
+		@if (dailyView()) {
+			<app-daily-challenge (startEvent)="startDailyChallenge($event)"/>
+		} @else {
+			<app-choose-layout class="choose" (startEvent)="startGame($event)" [gameMode]="pickerGameMode()" [buildMode]="pickerBuildMode()"/>
+		}
 	}
 </app-dialog>
 
@@ -38,13 +60,16 @@
 @if (!zenMode()) {
 	<app-controls-top
 		class="controls controls-top"
-		[gameMode]="game.mode()"
 		(helpEvent)="help.toggle()"
 		(shuffleEvent)="onShuffle()"
 		(undoEvent)="onUndo()"
 		(hintEvent)="onHint()"
 		(newGameEvent)="newGame()"
 	/>
+}
+
+@if (game.challenge()) {
+	<app-challenge-hud class="challenge-hud"/>
 }
 
 <app-board
@@ -55,6 +80,8 @@
 	[kyodaiUrl]="app.settings.kyodaiUrl()"
 	[background]="app.settings.background()"
 	[pattern]="app.settings.pattern()"
+	[blackout]="blackout()"
+	[concealed]="concealed()"
 	(clickEvent)="stoneClick($event)"
 />
 
@@ -67,7 +94,6 @@
 		class="zen-controls"
 		role="toolbar"
 		[attr.aria-label]="'ZEN_MODE' | translate"
-		[gameMode]="game.mode()"
 		(undoEvent)="onUndo()"
 		(hintEvent)="onHint()"
 		(exitEvent)="exitZenMode()"

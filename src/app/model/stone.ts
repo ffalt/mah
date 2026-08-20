@@ -1,4 +1,5 @@
 import { signal } from '@angular/core';
+import type { StoneMark } from './challenge/consts';
 
 export interface StonePosition {
 	x: number;
@@ -35,6 +36,7 @@ export class Stone implements StonePosition {
 	readonly selected = signal(false);
 	readonly picked = signal(false);
 	readonly wiggle = signal(false);
+	readonly mark = signal<StoneMark | undefined>(undefined);
 	readonly state = signal<StoneState>({ blocked: false, removable: false }, { equal: (a, b) => a.blocked === b.blocked && a.removable === b.removable });
 	wiggleTimer?: ReturnType<typeof setTimeout>;
 	group: Array<Stone> = [];

@@ -9,6 +9,7 @@ export const environment = {
 	mobile: true,
 	editor: env.APP_FEATURE_EDITOR,
 	kyodai: env.APP_FEATURE_KYODAI,
+	daily: env.APP_FEATURE_DAILY,
 	modules: [],
 	logging: false,
 	openExternal: openExternal,

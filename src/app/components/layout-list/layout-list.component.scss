@@ -12,7 +12,7 @@
 		border-bottom: 1px solid var(--card-layout-color-border);
 		width: 100%;
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+		grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
 		padding-top: 2px;
 		padding-bottom: 2px;
 		color: var(--dialog-text-color);
@@ -21,7 +21,7 @@
 		a {
 			display: block;
 			flex: 1 1 140px;
-			padding: 2px 4px;
+			padding: 2px 4px 6px;
 			font-size: 0.9em;
 			cursor: pointer;
 			text-align: center;
@@ -41,7 +41,7 @@
 			display: none;
 		}
 
-		@include mixins.respond-to(tiny-down) {
+		@include mixins.respond-to(medium-down) {
 			display: none;
 		}
 	}

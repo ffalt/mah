@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="-8 -8 100 130" preserveAspectRatio="xMidYMid meet">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-20 -20 112 142" preserveAspectRatio="xMidYMid meet">
 	<defs>
 		<filter id="preview-tile-cast" x="-60%" y="-60%" width="220%" height="220%">
 			<feGaussianBlur in="SourceGraphic" stdDeviation="4"/>
@@ -16,6 +16,25 @@
 				[attr.height]="imageCut()[3]"
 				rx="10" ry="10" fill="#fff"/>
 		</clipPath>
+		<clipPath id="preview-tile-clip">
+			<rect x="0" y="0" width="75" height="100" rx="10" ry="10" fill="#fff"/>
+		</clipPath>
+		<radialGradient id="preview-target-glow" cx="50%" cy="50%" r="62%">
+			<stop offset="55%" stop-color="#2e7d32" stop-opacity="0"/>
+			<stop offset="100%" stop-color="#2e7d32" stop-opacity="0.75"/>
+		</radialGradient>
+		<radialGradient id="preview-target-glow-dark" cx="50%" cy="50%" r="62%">
+			<stop offset="55%" stop-color="#56c05e" stop-opacity="0"/>
+			<stop offset="100%" stop-color="#56c05e" stop-opacity="0.72"/>
+		</radialGradient>
+		<radialGradient id="preview-spark-aura" cx="50%" cy="50%" r="50%">
+			<stop offset="55%" stop-color="#2f9fdc" stop-opacity="0.75"/>
+			<stop offset="100%" stop-color="#2f9fdc" stop-opacity="0"/>
+		</radialGradient>
+		<radialGradient id="preview-spark-aura-dark" cx="50%" cy="50%" r="50%">
+			<stop offset="55%" stop-color="#57bcff" stop-opacity="0.8"/>
+			<stop offset="100%" stop-color="#57bcff" stop-opacity="0"/>
+		</radialGradient>
 		<defs app-image-set-loader [imageSet]="tileset()" [kyodaiUrl]="kyodaiUrl()" [dark]="dark()" prefix="preview_"></defs>
 	</defs>
 	<style>
@@ -112,8 +131,116 @@
 		g.preview-stage.dark .front {
 			display: unset;
 		}
+
+		/* mirrors the marks the board draws, so a sample matches what the player sees in play */
+		@keyframes mah-preview-breathe-edge {
+			0%, 100% { stroke: #b8860b; }
+			50% { stroke: #ffd766; }
+		}
+
+		g.draw.mark-midas rect.stone {
+			stroke: #b8860b;
+			stroke-width: 3px;
+		}
+
+		g.preview-stage.animations g.draw.mark-midas rect.stone {
+			animation: mah-preview-breathe-edge 2600ms ease-in-out infinite;
+		}
+
+		g.draw.mark-spark rect.stone {
+			stroke: #1d6fa5;
+			stroke-width: 3px;
+		}
+
+		g.draw.mark-target rect.stone {
+			stroke: #2e7d32;
+			stroke-width: 2px;
+		}
+
+		g.draw.mark-target .mark-tint-fill {
+			fill: url("#preview-target-glow");
+			opacity: 0.9;
+		}
+
+		g.draw.mark-spark .mark-tint-fill {
+			fill: #4aa8e0;
+			opacity: 0.3;
+		}
+
+		@keyframes mah-preview-breathe {
+			0%, 100% { opacity: 0.2; }
+			50% { opacity: 0.42; }
+		}
+
+		g.draw.mark-midas .mark-tint-fill {
+			fill: #e8b400;
+			opacity: 0.32;
+		}
+
+		g.preview-stage.animations g.draw.mark-midas .mark-tint-fill {
+			animation: mah-preview-breathe 2600ms ease-in-out infinite;
+		}
+
+		@keyframes mah-preview-aura {
+			0%, 100% { opacity: 0.35; }
+			50% { opacity: 0.8; }
+		}
+
+		g.draw.mark-spark .mark-aura {
+			fill: url("#preview-spark-aura");
+			opacity: 0.65;
+		}
+
+		g.preview-stage.animations g.draw.mark-spark .mark-aura {
+			animation: mah-preview-aura 3000ms ease-in-out infinite;
+		}
+
+		@keyframes mah-preview-breathe-edge-dark {
+			0%, 100% { stroke: #ffc93c; }
+			50% { stroke: #fff0b8; }
+		}
+
+		g.preview-stage.dark g.draw.mark-midas rect.stone {
+			stroke: #ffc93c;
+		}
+
+		g.preview-stage.dark.animations g.draw.mark-midas rect.stone {
+			animation-name: mah-preview-breathe-edge-dark;
+		}
+
+		g.preview-stage.dark g.draw.mark-spark rect.stone {
+			stroke: #6fc3ff;
+		}
+
+		g.preview-stage.dark g.draw.mark-target rect.stone {
+			stroke: #7cd67f;
+		}
+
+		g.preview-stage.dark g.draw.mark-target .mark-tint-fill {
+			fill: url("#preview-target-glow-dark");
+		}
+
+		g.preview-stage.dark g.draw.mark-spark .mark-tint-fill {
+			opacity: 0.38;
+		}
+
+		g.preview-stage.dark g.draw.mark-midas .mark-tint-fill {
+			fill: #f0be1e;
+		}
+
+		g.preview-stage.dark g.draw.mark-spark .mark-aura {
+			fill: url("#preview-spark-aura-dark");
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			g.draw.mark-midas rect.stone,
+			g.draw.mark-midas .mark-tint-fill,
+			g.draw.mark-spark .mark-aura {
+				animation: none !important;
+			}
+		}
 	</style>
-	<g class="preview-stage" [class.dark]="dark()" [class.contrast]="contrast()" [class.tile3d]="tile3d()">
+	<g class="preview-stage" [class.dark]="dark()" [class.contrast]="contrast()" [class.tile3d]="tile3d()" [class.animations]="animations()">
 		@if (shadows()) {
 			@if (tile3d()) {
 				<rect class="shadow" x="-3" y="-2" width="87" height="115" rx="13" ry="13"></rect>
@@ -121,7 +248,14 @@
 				<rect class="shadow" x="-1" y="1" width="80" height="104" rx="12" ry="12"></rect>
 			}
 		}
-		<g class="draw">
+		<g class="draw"
+			[class.mark-midas]="mark() === 'midas'"
+			[class.mark-spark]="mark() === 'spark'"
+			[class.mark-target]="mark() === 'target'"
+		>
+			@if (mark() === 'spark') {
+				<rect class="mark-aura" x="-8" y="-8" width="91" height="116" rx="17" ry="17"/>
+			}
 			<g class="tile">
 				@if (tile3d()) {
 					<rect class="side" x="5" y="5" width="75" height="100" rx="10" ry="10"></rect>
@@ -139,8 +273,12 @@
 					clip-path="url(#preview-image-clip)"
 				/>
 				<use class="front" xlink:href="#preview-front" x="0" y="0" width="75" height="100"/>
+				@if (mark()) {
+					<g clip-path="url(#preview-tile-clip)">
+						<rect class="mark-tint-fill" x="0" y="0" width="75" height="100" rx="10" ry="10"/>
+					</g>
+				}
 			</g>
 		</g>
 	</g>
 </svg>
-

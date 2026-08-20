@@ -1,5 +1,5 @@
 import { Service } from '@angular/core';
-import type { GameStateStore, LayoutScoreStore, LoadLayout, SettingsStore, StorageProvider } from '../model/types';
+import type { DailyMetaStore, DailyMonthStore, GameStateStore, LayoutScoreStore, LoadLayout, SettingsStore, StorageProvider } from '../model/types';
 import { log } from '../model/log';
 
 @Service()
@@ -121,6 +121,45 @@ export class LocalstorageService implements StorageProvider {
 
 	storeCustomLayouts(layouts?: Array<LoadLayout>): void {
 		this.set<Array<LoadLayout>>('boards', layouts);
+	}
+
+	getDailyMonth(monthKey: string): DailyMonthStore | undefined {
+		return this.get<DailyMonthStore>(`daily.${monthKey}`);
+	}
+
+	storeDailyMonth(monthKey: string, store?: DailyMonthStore): void {
+		this.set<DailyMonthStore>(`daily.${monthKey}`, store);
+	}
+
+	getDailyMonthKeys(): Array<string> {
+		const keys: Array<string> = [];
+		if (this.localStorageNotAvailable()) {
+			return keys;
+		}
+		const dailyPrefix = `${this.prefix}daily.`;
+		try {
+			for (let index = 0; index < localStorage.length; index++) {
+				const key = localStorage.key(index);
+				if (key?.startsWith(dailyPrefix)) {
+					const monthKey = key.slice(dailyPrefix.length);
+					// skip the aggregate, it is not a month record
+					if (monthKey !== 'meta') {
+						keys.push(monthKey);
+					}
+				}
+			}
+		} catch (error) {
+			log.warn('localStorage.key failed:', error);
+		}
+		return keys;
+	}
+
+	getDailyMeta(): DailyMetaStore | undefined {
+		return this.get<DailyMetaStore>('daily.meta');
+	}
+
+	storeDailyMeta(store?: DailyMetaStore): void {
+		this.set<DailyMetaStore>('daily.meta', store);
 	}
 
 	private get<T>(key: string): T | undefined {

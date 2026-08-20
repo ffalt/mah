@@ -206,6 +206,12 @@ describe('BoardComponent', () => {
 			expect(svgElement.attributes.viewBox).toBe(component.viewport());
 		});
 
+		// the tile back is drawn by reference, so a missing def would render nothing at all
+		it('should define one tile back for the light and one for the dark theme', () => {
+			expect(fixture.debugElement.query(By.css('#mah-tile-back'))).toBeTruthy();
+			expect(fixture.debugElement.query(By.css('#mah-tile-back-dark'))).toBeTruthy();
+		});
+
 		it('should render stones when provided', () => {
 			const testStone = makeTestStone();
 			const testStones = [testStone];
@@ -611,6 +617,12 @@ describe('BoardComponent', () => {
 	});
 
 	describe('Shadow layer', () => {
+		it('should remove the animations class when animations are disabled', () => {
+			appService.settings.animations.set(false);
+			fixture.detectChanges();
+			expect(fixture.nativeElement.querySelector('g.stage').classList.contains('animations')).toBe(false);
+		});
+
 		it('should group draw stones by level', () => {
 			fixture.componentRef.setInput('stones', [
 				new Stone(0, 0, 0, 0, 0),

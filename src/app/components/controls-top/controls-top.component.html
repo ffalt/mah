@@ -9,17 +9,19 @@
 		<app-icon-pause/>
 		<span class="label">{{ 'PAUSE' | translate }}</span>
 	</button>
-	@if (gameModeEasy()) {
+	@if (app.game.allowsShuffle()) {
 		<button type="button" class="button" (click)="shuffleEvent.emit()" title="{{'SHUFFLE_LONG' | translate}}">
 			<app-icon-shuffle/>
 			<span class="label">{{ 'SHUFFLE' | translate }}</span>
 		</button>
 	}
-	@if (gameModeStandard()) {
+	@if (app.game.allowsUndo()) {
 		<button type="button" class="button" (click)="undoEvent.emit()" title="{{'UNDO_LONG' | translate}}" [attr.disabled]="app.game.board.undo().length===0 ? true : null">
 			<app-icon-undo/>
 			<span class="label">{{ 'UNDO' | translate }}</span>
 		</button>
+	}
+	@if (app.game.allowsHint()) {
 		<button type="button" class="button" (click)="hintEvent.emit()" title="{{'HINT_LONG' | translate}}">
 			<app-icon-hint/>
 			<span class="label">{{ 'HINT' | translate }}</span>

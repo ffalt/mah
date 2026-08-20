@@ -6,6 +6,7 @@ import { By } from '@angular/platform-browser';
 import { LayoutService } from '../../service/layout.service';
 import { LocalstorageService } from '../../service/localstorage.service';
 import type { LayoutScoreStore } from '../../model/types';
+import { environment } from '../../../environments/environment';
 import { describe, beforeEach, it, expect, vi } from 'vitest';
 
 describe('HelpComponent', () => {
@@ -33,9 +34,15 @@ describe('HelpComponent', () => {
 
 	it('should initialize with shortcuts array', () => {
 		expect(component.shortcuts).toBeDefined();
-		expect(component.shortcuts).toHaveLength(8);
+		// the daily challenge shortcut only exists when the feature is enabled
+		expect(component.shortcuts).toHaveLength(environment.daily ? 9 : 8);
 		expect(component.shortcuts[0].key).toBe('T');
 		expect(component.shortcuts[0].name).toBe('HINT');
+	});
+
+	it('should list the daily challenge shortcut only when enabled', () => {
+		const daily = component.shortcuts.find(shortcut => shortcut.name === 'DAILY_CHALLENGE');
+		expect(daily?.key).toBe(environment.daily ? 'D' : undefined);
 	});
 
 	it('should render the how to play section', () => {

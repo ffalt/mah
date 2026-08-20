@@ -1,0 +1,270 @@
+<div class="daily-head">
+	<p class="daily-intro">{{ 'DAILY_CHALLENGE_LONG' | translate }}</p>
+</div>
+
+<div class="daily-body">
+	<div class="daily-top">
+		<div class="daily-main">
+			@if (loading()) {
+				<div class="daily-loading">{{ 'LOADING' | translate }}</div>
+			} @else if (entry(); as today) {
+				<div class="daily-preview">
+					@if (preview(); as previewSVG) {
+						<img [src]="previewSVG" alt="" aria-hidden="true"/>
+					}
+					<span class="preview-name" [attr.title]="'DAILY_BOARD' | translate">{{ today.layout.name }}</span>
+				</div>
+				<div class="daily-info">
+					<p class="daily-date">{{ dateLabel() }}</p>
+					<h2>{{ challengeName(today.challenge) | translate }}</h2>
+					<p class="desc">{{ challengeName(today.challenge) + '_DESC' | translate }}</p>
+
+					<dl class="daily-facts">
+						@if (timeLimitRange(); as time) {
+							<div class="fact">
+								<dt>{{ 'CHALLENGE_TIME_LEFT' | translate }}</dt>
+								<dd>
+									{{ time.min | duration }}
+									@if (time.max !== time.min) {
+										<span>- {{ time.max | duration }}</span>
+									}
+								</dd>
+							</div>
+						}
+						@if (info()?.matchTarget; as matchTarget) {
+							<div class="fact">
+								<dt>{{ 'CHALLENGE_MATCHES' | translate }}</dt>
+								<dd>{{ matchTarget }}</dd>
+							</div>
+						}
+						@if (info()?.scoreTarget; as scoreTarget) {
+							<div class="fact">
+								<dt>{{ 'CHALLENGE_TARGET' | translate }}</dt>
+								<dd>{{ scoreTarget }}</dd>
+							</div>
+						}
+
+						@if (today.result; as result) {
+							<div class="fact daily-result" [class.won]="result.won">
+								<dt>{{ 'DAILY_ATTEMPTS' | translate:{ count: result.attempts } }}
+									@if (result.won && result.firstTry) {
+										<span class="badge">{{ 'DAILY_FIRST_TRY' | translate }}</span>
+									}
+								</dt>
+								<dd>
+									@if (result.won) {
+										<div>
+											<app-icon-ok/>
+											<span class="state">{{ 'DAILY_COMPLETED' | translate }}</span>
+										</div>
+										@if (result.playTime) {
+											<span class="time">{{ result.playTime | duration }}</span>
+										}
+									} @else {
+										<span class="state">{{ 'DAILY_NOT_COMPLETED' | translate }}</span>
+									}
+								</dd>
+							</div>
+						}
+					</dl>
+
+					<div class="daily-actions">
+						<button type="button" class="button daily-play" (click)="onStart()">
+							@if (today.result) {
+								{{ 'DAILY_REPLAY' | translate }}
+							} @else {
+								{{ 'DAILY_PLAY' | translate }}
+							}
+						</button>
+					</div>
+				</div>
+			}
+		</div>
+
+		<div class="daily-stats">
+			<h3>{{ 'STATS' | translate }}</h3>
+			<div class="streak">
+				<app-icon-flame/>
+				<span class="streak-text">
+					<span class="value">{{ daily.streak() }}</span>
+					<small>{{ 'DAILY_STREAK' | translate }}</small>
+				</span>
+			</div>
+			<div class="streak">
+				<app-icon-trophy/>
+				<span class="streak-text">
+					<span class="value">{{ daily.bestStreak() }}</span>
+					<small>{{ 'DAILY_STREAK_BEST' | translate }}</small>
+				</span>
+			</div>
+			<div class="streak">
+				<app-icon-ok/>
+				<span class="streak-text">
+					<span class="value">{{ daily.won() }} / {{ daily.played() }}</span>
+					<small>{{ 'DAILY_WON_PLAYED' | translate }}</small>
+				</span>
+			</div>
+		</div>
+	</div>
+
+	@if (daily.calendar(); as calendar) {
+		<div class="daily-calendar">
+			<div class="calendar-head">
+				<button type="button" class="button" (click)="shiftMonth(-1)" [attr.aria-label]="'DAILY_PREVIOUS_MONTH' | translate">
+					<app-icon-left/>
+				</button>
+				<span class="calendar-title">{{ monthLabel() }}</span>
+				<button type="button" class="button" (click)="shiftMonth(1)" [attr.aria-label]="'DAILY_NEXT_MONTH' | translate">
+					<app-icon-right/>
+				</button>
+			</div>
+			<div class="calendar-grid" role="list" [attr.aria-label]="'DAILY_CALENDAR' | translate">
+				@for (weekday of weekdays(); track weekday.long) {
+					<abbr class="calendar-weekday" [title]="weekday.long" aria-hidden="true">{{ weekday.short }}</abbr>
+				}
+				@for (blank of blanks(); track blank) {
+					<span class="calendar-blank" aria-hidden="true"></span>
+				}
+				@for (day of calendar.days; track day.dayKey) {
+					<span
+						class="calendar-day"
+						role="listitem"
+						[class.today]="day.today"
+						[class.future]="day.future"
+						[class.empty]="!day.result"
+						[class.won]="day.result?.won"
+						[class.lost]="day.result && !day.result.won"
+						[title]="dayTitle(day)"
+						[attr.aria-label]="dayTitle(day)"
+					>{{ day.day }}</span>
+				}
+			</div>
+		</div>
+	}
+
+	<div class="daily-scores">
+		<h3>{{ 'DAILY_BEST_SCORES' | translate }}
+			<button
+				type="button" class="info-label"
+				(click)="openScoringInfo($event)"
+				(keydown.enter)="openScoringInfo($event)"
+				(keydown.space)="openScoringInfo($event)"
+			>
+				<app-icon-info/>
+			</button>
+		</h3>
+		<ul class="scores-list">
+			@for (best of daily.bestScores(); track best.challenge) {
+				<li>
+					<button
+						type="button" class="score-row"
+						[class.empty]="best.score === undefined"
+						[class.current]="best.challenge === entry()?.challenge"
+						[title]="'CHALLENGE_INFO' | translate:{ name: (challengeName(best.challenge) | translate) }"
+						(click)="openChallengeInfo(best.challenge, $event)"
+					>
+						<span class="score-label">
+							<span class="score-name">{{ challengeName(best.challenge) | translate }}</span>
+							<app-icon-info class="score-info"/>
+						</span>
+						@if (best.score !== undefined) {
+							<span class="score-value">{{ best.score }}</span>
+							<span class="score-date" [title]="bestDateLong(best)">{{ bestDate(best) }}</span>
+						} @else {
+							<span class="score-value">&ndash;</span>
+							<span class="score-date"></span>
+						}
+					</button>
+				</li>
+			}
+		</ul>
+		@if (!hasScores()) {
+			<p class="scores-hint">{{ 'DAILY_BEST_SCORES_EMPTY' | translate }}</p>
+		}
+	</div>
+</div>
+
+@if (scoringInfo()) {
+	<div class="info-overlay" tabindex="0" (click)="closeScoringInfo()" (keydown.escape)="closeScoringInfo()">
+		<div
+			class="info-popup" role="dialog" aria-modal="true" aria-labelledby="info-title-scoring" tabindex="-1"
+			(click)="$event.stopPropagation()"
+			(keydown)="onPopupKeydown($event)"
+			(keydown.escape)="closeScoringInfo()"
+		>
+			<button type="button" class="close" (click)="closeScoringInfo()" [attr.aria-label]="'CLOSE' | translate">
+				<app-icon-close/>
+			</button>
+			<h2 id="info-title-scoring">{{ 'DAILY_SCORING_TITLE' | translate }}</h2>
+			<p class="scoring-intro">{{ 'DAILY_SCORING_INTRO' | translate }}</p>
+			@for (rule of scoringRules; track rule.name) {
+				<div class="info-item scoring-rule">
+					<strong>{{ rule.name | translate:rule.parameters }}</strong>
+					<span>{{ rule.value | translate:rule.parameters }}</span>
+				</div>
+			}
+		</div>
+	</div>
+}
+
+@if (challengeDetails(); as details) {
+	<div class="info-overlay" tabindex="0" (click)="closeChallengeInfo()" (keydown.escape)="closeChallengeInfo()">
+		<div
+			class="info-popup" role="dialog" aria-modal="true" aria-labelledby="info-title-challenge" tabindex="-1"
+			(click)="$event.stopPropagation()"
+			(keydown)="onPopupKeydown($event)"
+			(keydown.escape)="closeChallengeInfo()"
+		>
+			<button type="button" class="close" (click)="closeChallengeInfo()" [attr.aria-label]="'CLOSE' | translate">
+				<app-icon-close/>
+			</button>
+			<h2 id="info-title-challenge">{{ details.name | translate }}</h2>
+			<p class="scoring-intro">{{ details.name + '_DESC' | translate }}</p>
+
+			<dl class="daily-facts">
+				@if (details.timeLimit; as time) {
+					<div class="fact">
+						<dt>{{ 'CHALLENGE_TIME_LEFT' | translate }}</dt>
+						<dd>
+							{{ time.min | duration }}
+							@if (time.max !== time.min) {
+								<span>- {{ time.max | duration }}</span>
+							}
+						</dd>
+					</div>
+				}
+				@if (details.info.matchTarget; as matchTarget) {
+					<div class="fact">
+						<dt>{{ 'CHALLENGE_MATCHES' | translate }}</dt>
+						<dd>{{ matchTarget }}</dd>
+					</div>
+				}
+				@if (details.info.scoreTarget; as scoreTarget) {
+					<div class="fact">
+						<dt>{{ 'CHALLENGE_TARGET' | translate }}</dt>
+						<dd>{{ scoreTarget }}</dd>
+					</div>
+				}
+			</dl>
+
+			@if (details.mark; as mark) {
+				<div class="info-item special-tile">
+					<app-tile-preview
+						class="mark-sample"
+						[mark]="mark"
+						[tileset]="app.settings.tileset()"
+						[kyodaiUrl]="app.settings.kyodaiUrl()"
+						[dark]="app.settings.dark()"
+						[contrast]="app.settings.contrast()"
+						[tile3d]="app.settings.tile3d()"
+						[animations]="app.settings.animations()"
+					/>
+					<span class="special-text">
+						<strong>{{ 'CHALLENGE_SPECIAL_TILE' | translate }}</strong>
+						<span>{{ details.markLabel | translate }}</span>
+					</span>
+				</div>
+			}
+		</div>
+	</div>
+}

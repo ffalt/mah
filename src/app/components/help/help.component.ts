@@ -14,6 +14,8 @@ import { IconRestartComponent } from '../icons/icon-restart.component';
 import { IconPauseComponent } from '../icons/icon-pause.component';
 import { IconShuffleComponent } from '../icons/icon-shuffle.component';
 import { IconUndoComponent } from '../icons/icon-undo.component';
+import { IconCalendarComponent } from '../icons/icon-calendar.component';
+import { environment } from '../../../environments/environment';
 
 interface StatEntry {
 	name: string;
@@ -55,7 +57,8 @@ export class HelpComponent implements OnInit {
 		{ icon: IconPauseComponent, key: 'P', altKey: 'Space', name: 'PAUSE' },
 		{ icon: IconTilesinfoComponent, key: 'I', name: 'TILES_INFO' },
 		{ icon: IconSettingsComponent, key: 'S', name: 'SETTINGS' },
-		{ icon: IconLogoComponent, key: 'H', name: 'HELP' }
+		{ icon: IconLogoComponent, key: 'H', name: 'HELP' },
+		...(environment.daily ? [{ icon: IconCalendarComponent, key: 'D', name: 'DAILY_CHALLENGE' }] : [])
 	];
 
 	ngOnInit(): void {

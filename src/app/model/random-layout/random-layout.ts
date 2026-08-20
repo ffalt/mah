@@ -1,7 +1,7 @@
 import type { Mapping } from '../types';
 import { type RandomBaseLayerMode, type RandomSymmetry, TARGET_COUNT } from './consts';
 import { getRandomMode, hasMultipleLevels } from './utilities';
-import { rng } from '../rng';
+import { resetRNG, rng, seedRNG } from '../rng';
 import { generateBaseLayer } from './base-layer';
 import { fillLayout } from './upper-layers';
 import { optimizeMapping } from '../../modules/editor/model/optimize';
@@ -42,4 +42,31 @@ export function generateRandomMapping(
 		}
 	}
 	return optimizeMapping(mapping);
+}
+
+export const maxSeedAttempts = 100;
+
+export function retrySeeded(seed: string, generate: () => Mapping): Mapping {
+	for (let attempt = 0; attempt < maxSeedAttempts; attempt++) {
+		seedRNG(attempt === 0 ? seed : `${seed}-${attempt}`);
+		try {
+			const mapping = generate();
+			if (mapping.length > 0) {
+				return mapping;
+			}
+		} finally {
+			resetRNG();
+		}
+	}
+	return [];
+}
+
+export function generateSeededRandomMapping(
+	seed: string, mirrorX: RandomSymmetry, mirrorY: RandomSymmetry, mode: RandomBaseLayerMode
+): Mapping {
+	const mapping = retrySeeded(seed, () => generateRandomMapping(mirrorX, mirrorY, mode));
+	if (mapping.length > 0 || (mirrorX === 'false' && mirrorY === 'false')) {
+		return mapping;
+	}
+	return retrySeeded(`${seed}-unmirrored`, () => generateRandomMapping('false', 'false', mode));
 }

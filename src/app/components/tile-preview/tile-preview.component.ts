@@ -1,6 +1,7 @@
 import { Component, computed, input } from '@angular/core';
 import { ImageSetLoaderComponent } from '../image-set-loader/image-set-loader.component';
 import { ImageSetDefault } from '../../model/consts';
+import type { StoneMark } from '../../model/challenge/consts';
 import { isKyodaiImageSet } from '../../model/tilesets';
 
 @Component({
@@ -17,6 +18,8 @@ export class TilePreviewComponent {
 	readonly contrast = input<boolean>(false);
 	readonly tile3d = input<boolean>(false);
 	readonly shadows = input<boolean>(true);
+	readonly animations = input<boolean>(true);
+	readonly mark = input<StoneMark>();
 
 	readonly isKyodai = computed(() => isKyodaiImageSet(this.tileset()));
 	readonly imagePos = computed(() => this.isKyodai() ? [0, 0, 75, 100] : [6, 6, 63, 88]);

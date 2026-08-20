@@ -1,4 +1,5 @@
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { provideTranslateService } from '@ngx-translate/core';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
@@ -84,8 +85,105 @@ describe('BoardTileComponent', () => {
 		expect(fixture.nativeElement.getAttribute('role')).toBeNull();
 	});
 
-	// The side sticks out past the gap to the next cell, so it relies on sortDrawItems
-	// painting the neighbour that covers it afterwards - see draw.spec.ts.
+	describe('Blackout', () => {
+		function startBlackout(): void {
+			fixture.componentRef.setInput('blackout', true);
+		}
+
+		it('should draw a back instead of the face while the tile is covered', () => {
+			startBlackout();
+			draw.source.state.set({ blocked: true, removable: false });
+			fixture.detectChanges();
+
+			expect(component.covered()).toBe(true);
+			const back = fixture.debugElement.query(By.css('use.back'));
+			expect(back.attributes['xlink:href']).toBe('#mah-tile-back');
+			// the title renders as a hover tooltip, which would give the covered face away
+			expect(fixture.debugElement.query(By.css('title'))).toBeNull();
+		});
+
+		it('should show the face again once the tile is free', () => {
+			startBlackout();
+			draw.source.state.set({ blocked: true, removable: false });
+			fixture.detectChanges();
+			draw.source.state.set({ blocked: false, removable: true });
+			fixture.detectChanges();
+
+			expect(component.covered()).toBe(false);
+			expect(fixture.debugElement.query(By.css('use.back'))).toBeNull();
+			expect(fixture.debugElement.query(By.css('title'))).toBeTruthy();
+		});
+
+		it('should keep every face visible in a challenge that is not Blackout', () => {
+			draw.source.state.set({ blocked: true, removable: false });
+			fixture.detectChanges();
+
+			expect(component.covered()).toBe(false);
+		});
+
+		it('should pick the dark back in the dark theme', () => {
+			expect(component.backUrl()).toBe('#mah-tile-back');
+			appService.settings.dark.set(true);
+			expect(component.backUrl()).toBe('#mah-tile-back-dark');
+		});
+	});
+
+	describe('Concealed', () => {
+		function conceal(): void {
+			fixture.componentRef.setInput('concealed', true);
+			fixture.detectChanges();
+		}
+
+		it('should draw a back for a free tile, so a paused countdown reveals nothing', () => {
+			draw.source.state.set({ blocked: false, removable: true });
+			fixture.detectChanges();
+			expect(component.covered()).toBe(false);
+
+			conceal();
+
+			expect(component.covered()).toBe(true);
+			expect(fixture.debugElement.query(By.css('use.back'))).toBeTruthy();
+			expect(fixture.debugElement.query(By.css('title'))).toBeNull();
+		});
+
+		it('should drop the mark, since the objective tile would give itself away', () => {
+			draw.source.mark.set('spark');
+			fixture.detectChanges();
+			expect(fixture.nativeElement.dataset.mark).toBe('spark');
+
+			conceal();
+
+			expect(component.mark()).toBeUndefined();
+			expect(fixture.nativeElement.dataset.mark).toBeUndefined();
+			expect(fixture.debugElement.query(By.css('rect.mark-aura'))).toBeNull();
+		});
+
+		it('should name and reach nothing, so the label cannot be read out either', () => {
+			draw.source.state.set({ blocked: false, removable: true });
+			fixture.detectChanges();
+			expect(fixture.nativeElement.getAttribute('aria-label')).toBeTruthy();
+
+			conceal();
+
+			expect(component.interactive()).toBe(false);
+			expect(component.announced()).toBe(false);
+			expect(fixture.nativeElement.getAttribute('aria-label')).toBeNull();
+			expect(fixture.nativeElement.getAttribute('tabindex')).toBeNull();
+			expect(fixture.nativeElement.getAttribute('role')).toBeNull();
+		});
+
+		it('should show the face again once the game resumes', () => {
+			draw.source.state.set({ blocked: false, removable: true });
+			conceal();
+			fixture.componentRef.setInput('concealed', false);
+			fixture.detectChanges();
+
+			expect(component.covered()).toBe(false);
+			expect(fixture.debugElement.query(By.css('use.back'))).toBeNull();
+			expect(fixture.debugElement.query(By.css('title'))).toBeTruthy();
+		});
+	});
+
 	it('should offset the 3D side down and to the right, behind the face', () => {
 		appService.settings.tile3d.set(true);
 		fixture.detectChanges();

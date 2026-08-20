@@ -1,6 +1,8 @@
+import { rng } from './rng';
+
 export function shuffleArray<T>(array: Array<T>): Array<T> {
 	for (let index = array.length - 1; index > 0; index--) {
-		const swapIndex = Math.floor(Math.random() * (index + 1));
+		const swapIndex = Math.floor(rng() * (index + 1));
 		const temporary = array[index];
 		array[index] = array[swapIndex];
 		array[swapIndex] = temporary;
@@ -13,7 +15,7 @@ export function shuffledCopy<T>(array: Array<T>): Array<T> {
 }
 
 export function randomIndex<T>(array: Array<T>): number {
-	return Math.floor(Math.random() * array.length);
+	return Math.floor(rng() * array.length);
 }
 
 export function randomExtract<T>(array: Array<T>): T {

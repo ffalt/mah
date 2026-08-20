@@ -12,6 +12,7 @@ export class Settings {
 	readonly dark = signal(false);
 	readonly tile3d = signal(false);
 	readonly shadows = signal(true);
+	readonly animations = signal(true);
 	readonly confetti = signal(true);
 	readonly showClock = signal(true);
 	readonly background = signal('');
@@ -40,6 +41,7 @@ export class Settings {
 				this.dark.set(store.dark ?? false);
 				this.tile3d.set(store.tile3d ?? false);
 				this.shadows.set(store.shadows ?? true);
+				this.animations.set(store.animations ?? true);
 				this.confetti.set(store.confetti ?? true);
 				this.showClock.set(store.showClock ?? true);
 				this.sounds.set(store.sounds ?? this.sounds());
@@ -68,6 +70,7 @@ export class Settings {
 				dark: this.dark(),
 				tile3d: this.tile3d(),
 				shadows: this.shadows(),
+				animations: this.animations(),
 				confetti: this.confetti(),
 				showClock: this.showClock(),
 				background: this.background(),

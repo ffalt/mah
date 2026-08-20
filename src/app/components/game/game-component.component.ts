@@ -1,11 +1,11 @@
-import { Component, computed, inject, Injector, signal, viewChild } from '@angular/core';
+import { Component, computed, effect, inject, Injector, signal, viewChild } from '@angular/core';
 import type { Game } from '../../model/game';
 import type { Stone } from '../../model/stone';
 import type { Layout, Place } from '../../model/types';
 import { AppService } from '../../service/app.service';
 import { log } from '../../model/log';
 import { isFormControlTarget, isNativeButtonKey } from '../../model/dom-utilities';
-import type { BUILD_MODE_ID } from '../../model/builder';
+import { type BUILD_MODE_ID, MODE_SOLVABLE } from '../../model/builder';
 import type { GAME_MODE_ID } from '../../model/consts';
 import { environment } from '../../../environments/environment';
 import { DialogComponent } from '../dialog/dialog.component';
@@ -22,6 +22,19 @@ import { ZenControlsComponent } from '../zen-controls/zen-controls.component';
 import { GameMessageComponent } from '../game-message/game-message.component';
 import { GameStartComponent } from '../game-start/game-start.component';
 import { Confetti } from '../../model/confetti';
+import { ChallengeHudComponent } from '../challenge-hud/challenge-hud.component';
+import { DailyChallengeComponent } from '../daily-challenge/daily-challenge.component';
+import { DailyService, type DailyEntry } from '../../service/daily.service';
+import { CHALLENGE_CODES, challengeName } from '../../model/challenge/consts';
+
+const END_ANNOUNCEMENTS: Record<string, string> = {
+	MSG_BEST: 'ANNOUNCE_GAME_WON',
+	MSG_GOOD: 'ANNOUNCE_GAME_WON',
+	MSG_FAIL: 'ANNOUNCE_GAME_LOST',
+	MSG_CHALLENGE_WON: 'MSG_CHALLENGE_WON',
+	MSG_CHALLENGE_LOST: 'MSG_CHALLENGE_LOST',
+	MSG_TIME_UP: 'MSG_TIME_UP'
+};
 
 interface DocumentExtended extends Document {
 	fullScreen: boolean;
@@ -76,7 +89,8 @@ function callFullscreenMethod(
 	imports: [
 		BoardComponent, ControlsTopComponent, ControlsBottomComponent, ZenControlsComponent, GameMessageComponent, GameStartComponent, TranslatePipe,
 
-		HelpComponent, TilesInfoComponent, SettingsComponent, ChooseLayoutComponent, TutorialComponent, DialogComponent
+		HelpComponent, TilesInfoComponent, SettingsComponent, ChooseLayoutComponent, TutorialComponent, DialogComponent,
+		ChallengeHudComponent, DailyChallengeComponent
 	]
 })
 export class GameComponent {
@@ -86,6 +100,8 @@ export class GameComponent {
 	readonly newgame = viewChild.required<DialogComponent>('newgame');
 	readonly tutorial = viewChild.required<DialogComponent>('tutorial');
 	readonly app = inject(AppService);
+	readonly dailyService = inject(DailyService);
+	readonly dailyEnabled = environment.daily;
 	game: Game;
 	fullScreenEnabled: boolean = true;
 	title: string = '';
@@ -93,15 +109,38 @@ export class GameComponent {
 	readonly announceText = signal('');
 	readonly anyDialogVisible = signal(false);
 	readonly showStartScreen = computed(() => this.game.isIdle() && !this.game.message() && !this.anyDialogVisible());
-
+	readonly dailyView = signal(false);
+	readonly dailyUnplayed = computed(() => this.dailyEnabled && !this.dailyService.todayResult());
+	readonly blackout = computed(() => this.game.challenge()?.id === CHALLENGE_CODES.CHALLENGE_BLACKOUT);
+	readonly concealed = computed(() => this.game.isPaused() && (this.game.challenge()?.hasTimeLimit ?? false));
+	readonly pickerGameMode = signal<GAME_MODE_ID>(this.app.game.mode());
+	readonly pickerBuildMode = signal<BUILD_MODE_ID>(this.app.game.board.buildMode);
 	private readonly injector = inject(Injector);
 	private announceTimer?: ReturnType<typeof setTimeout>;
 
 	constructor() {
 		this.game = this.app.game;
 		this.game.onWin = () => this.triggerConfetti();
+		this.game.onChallengeEnd = outcome => {
+			const challenge = outcome.challenge;
+			if (!challenge.dayKey) {
+				return;
+			}
+			const best = this.dailyService.record(challenge.dayKey, challenge.id, outcome.won, outcome.playTime, challenge.score.points());
+			if (best) {
+				this.game.message.update(message => (message ? { ...message, scoreBest: true } : message));
+			}
+		};
+		this.game.expireStaleDaily();
 		this.fullScreenEnabled = this.canFullscreen();
 		this.title = `${this.app.name} v${environment.version}`;
+		effect(() => {
+			const messageID = this.game.message()?.messageID;
+			const announcement = messageID ? END_ANNOUNCEMENTS[messageID] : undefined;
+			if (announcement) {
+				this.announce(this.app.translate.instant(announcement));
+			}
+		});
 	}
 
 	triggerConfetti(): void {
@@ -142,7 +181,48 @@ export class GameComponent {
 	}
 
 	showNewGame(): void {
+		this.dailyView.set(false);
+		this.syncDailyState();
 		this.newgame().open();
+	}
+
+	showDailyChallenge(): void {
+		if (!this.dailyEnabled) {
+			return;
+		}
+		this.dailyView.set(true);
+		this.syncDailyState();
+		this.newgame().open();
+	}
+
+	showLayoutList(): void {
+		this.dailyView.set(false);
+	}
+
+	onNewGameDialogToggle(dialogVisible: boolean): void {
+		if (!dialogVisible) {
+			this.dailyView.set(false);
+		}
+		this.toggleDialogState(dialogVisible);
+	}
+
+	startDailyChallenge(entry: DailyEntry): void {
+		this.closeNewGameDialog();
+		this.dailyView.set(false);
+		this.game.reset();
+		this.game.start(entry.layout, MODE_SOLVABLE, this.pickerGameMode(), {
+			id: entry.challenge,
+			seed: entry.seed,
+			dayKey: entry.dayKey
+		});
+		const name = this.app.translate.instant(challengeName(entry.challenge));
+		this.announce(this.app.translate.instant('ANNOUNCE_CHALLENGE_STARTED', { name }));
+	}
+
+	private syncDailyState(): void {
+		if (this.dailyEnabled) {
+			this.dailyService.loadTodayResult();
+		}
 	}
 
 	handleKeyDownEventKey(key: string): boolean {
@@ -180,17 +260,21 @@ export class GameComponent {
 				this.newgame().toggle();
 				break;
 			}
+			case 'd': {
+				if (!this.dailyEnabled) {
+					return false;
+				}
+				this.game.pause();
+				this.showDailyChallenge();
+				break;
+			}
 			case ' ': // space
 			case 'space': // space
 			case 'Space': // space
 			case 'spacebar': // space
 			case 'Spacebar': // space
 			case 'p': {
-				if (this.game.isRunning()) {
-					this.game.pause();
-				} else if (this.game.isPaused()) {
-					this.game.resume();
-				}
+				this.game.toggle();
 				break;
 			}
 			default: {
@@ -213,7 +297,12 @@ export class GameComponent {
 		}
 		const newgame = this.newgame();
 		if (newgame.visible()) {
-			newgame.toggle();
+			// escape steps back to the layout list first, and only then closes the dialog
+			if (this.dailyView()) {
+				this.showLayoutList();
+			} else {
+				newgame.toggle();
+			}
 			return true;
 		}
 		const info = this.info();
@@ -257,20 +346,15 @@ export class GameComponent {
 		const previousCount = this.game.board.count();
 		this.game.click(stone);
 		const newCount = this.game.board.count();
-		if (newCount < previousCount) {
-			const message = this.game.message()?.messageID;
-			if (message === 'MSG_BEST' || message === 'MSG_GOOD') {
-				this.announce(this.app.translate.instant('ANNOUNCE_GAME_WON'));
-			} else if (message === 'MSG_FAIL') {
-				this.announce(this.app.translate.instant('ANNOUNCE_GAME_LOST'));
-			} else {
-				this.announceCount('ANNOUNCE_MATCHED', newCount, { remaining: newCount });
-			}
+		if (newCount < previousCount && !this.game.message()) {
+			this.announceCount('ANNOUNCE_MATCHED', newCount, { remaining: newCount });
 		}
 	}
 
 	onHint(): void {
-		this.game.hint();
+		if (!this.game.hint()) {
+			return;
+		}
 		const count = this.game.board.hints.groups.length;
 		if (count > 0) {
 			this.announceCount('ANNOUNCE_HINT_PAIRS', count, { count });
@@ -280,13 +364,15 @@ export class GameComponent {
 	}
 
 	onShuffle(): void {
-		this.game.shuffle();
-		this.announce(this.app.translate.instant('ANNOUNCE_SHUFFLE'));
+		if (this.game.shuffle()) {
+			this.announce(this.app.translate.instant('ANNOUNCE_SHUFFLE'));
+		}
 	}
 
 	onUndo(): void {
-		this.game.back();
-		this.announce(this.app.translate.instant('ANNOUNCE_UNDO'));
+		if (this.game.back()) {
+			this.announce(this.app.translate.instant('ANNOUNCE_UNDO'));
+		}
 	}
 
 	private isDialogCloseKey(key: string): boolean {
@@ -371,19 +457,22 @@ export class GameComponent {
 	}
 
 	startGame(data: { layout: Layout; buildMode: BUILD_MODE_ID; gameMode: GAME_MODE_ID }): void {
-		this.newgame().visible.set(false);
-		this.anyDialogVisible.set(false);
+		this.closeNewGameDialog();
+		this.pickerGameMode.set(data.gameMode);
+		this.pickerBuildMode.set(data.buildMode);
 		this.game.reset();
 		this.game.start(data.layout, data.buildMode, data.gameMode);
 	}
 
+	private closeNewGameDialog(): void {
+		this.newgame().visible.set(false);
+		this.anyDialogVisible.set(false);
+	}
+
 	toggleDialogState(dialogVisible: boolean): void {
-		// the dialog view children cannot be read while the template renders, so mirror their state into a signal
 		this.anyDialogVisible.set(this.isDialogVisible());
 		if (dialogVisible) {
-			if (!this.app.game.isPaused()) {
-				this.app.game.pause();
-			}
+			this.game.pause();
 		} else {
 			this.app.settings.save();
 			if (this.app.game.isPaused()) {

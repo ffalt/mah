@@ -5,6 +5,8 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { describe, beforeEach, it, expect, vi } from 'vitest';
 import { AppService } from '../../service/app.service';
 import { GAME_MODE_EASY, GAME_MODE_EXPERT } from '../../model/consts';
+import { Challenge } from '../../model/challenge/challenge';
+import { CHALLENGE_CODES, type CHALLENGE_ID } from '../../model/challenge/consts';
 import { ZenControlsComponent } from './zen-controls.component';
 
 const toolbarDefaultRect: DOMRect = {
@@ -15,6 +17,7 @@ const toolbarDefaultRect: DOMRect = {
 describe('ZenControlsComponent', () => {
 	let component: ZenControlsComponent;
 	let fixture: ComponentFixture<ZenControlsComponent>;
+	let appService: AppService;
 
 	beforeEach(async () =>
 		TestBed.configureTestingModule({
@@ -26,9 +29,15 @@ describe('ZenControlsComponent', () => {
 	beforeEach(() => {
 		fixture = TestBed.createComponent(ZenControlsComponent);
 		component = fixture.componentInstance;
-		fixture.componentRef.setInput('gameMode', GAME_MODE_EASY);
+		appService = TestBed.inject(AppService);
+		appService.game.mode.set(GAME_MODE_EASY);
 		fixture.detectChanges();
 	});
+
+	function startChallenge(id: CHALLENGE_ID): void {
+		const game = appService.game;
+		game.challenge.set(new Challenge({ id, seed: 'seed' }, game.board, game.clock));
+	}
 
 	function getHandle(): HTMLElement {
 		return fixture.nativeElement.querySelector('.drag-handle') as HTMLElement;
@@ -41,9 +50,23 @@ describe('ZenControlsComponent', () => {
 	it('should show undo and hint buttons only in standard modes', () => {
 		expect(fixture.nativeElement.querySelectorAll('.button')).toHaveLength(4); // pause, undo, hint, exit
 
-		fixture.componentRef.setInput('gameMode', GAME_MODE_EXPERT);
+		appService.game.mode.set(GAME_MODE_EXPERT);
 		fixture.detectChanges();
 		expect(fixture.nativeElement.querySelectorAll('.button')).toHaveLength(2); // pause, exit
+	});
+
+	it('should hide the undo button for a challenge that forbids undo', () => {
+		// Blackout forbids undo and has no countdown, so only the undo button goes
+		startChallenge(CHALLENGE_CODES.CHALLENGE_BLACKOUT);
+		fixture.detectChanges();
+		expect(fixture.nativeElement.querySelectorAll('.button')).toHaveLength(3); // pause, hint, exit
+	});
+
+	it('should keep the pause button for a timed challenge, which pausing conceals the board for', () => {
+		startChallenge(CHALLENGE_CODES.CHALLENGE_THIRTY_IN_THREE);
+		fixture.detectChanges();
+		expect(fixture.nativeElement.querySelectorAll('.button')).toHaveLength(3); // pause, hint, exit
+		expect(fixture.nativeElement.querySelector('app-icon-pause')).toBeTruthy();
 	});
 
 	it('should start dragging when pointer down on drag handle', () => {

@@ -79,6 +79,13 @@ export async function openSettingsDialog(page: Page) {
 	return openDialog(page, 'button:has(app-icon-settings)', 'overlay-settings');
 }
 
+// the menu button only exists on very narrow viewports; openMenuIfClosed covers both layouts
+export async function enterZenMode(page: Page) {
+	await openMenuIfClosed(page);
+	await page.locator('button:has(app-icon-zen)').click();
+	await expect(page.locator('app-zen-controls')).toBeVisible({ timeout: 2000 });
+}
+
 export async function openHelpDialog(page: Page) {
 	return openDialog(page, 'button:has(app-icon-logo)', 'overlay-help');
 }
@@ -90,6 +97,54 @@ export async function openInfoDialog(page: Page) {
 
 export async function openGameDialog(page: Page) {
 	return openDialog(page, '.ctrl-game button:has(app-icon-restart)', 'overlay-newgame');
+}
+
+// the daily challenge is a view inside the board picker, not a dialog of its own
+export async function openDailyChallenge(page: Page) {
+	const overlay = page.locator('.overlay.overlay-newgame');
+	// the picker is already open on the start screen; wait for it before deciding to open it,
+	// otherwise a slow first render looks like a closed dialog
+	const alreadyOpen = await overlay.waitFor({ state: 'visible', timeout: 2000 }).then(() => true).catch(() => false);
+	if (!alreadyOpen) {
+		await openGameDialog(page);
+	}
+	const tab = overlay.locator('.newgame-tab').nth(1);
+	await tab.waitFor({ state: 'visible', timeout: 2000 });
+	await tab.click();
+	await expect(overlay.locator('app-daily-challenge')).toBeVisible({ timeout: 2000 });
+	return overlay;
+}
+
+export async function backToLayoutList(page: Page) {
+	const overlay = page.locator('.overlay.overlay-newgame');
+	await overlay.locator('.newgame-tab').first().click();
+	await expect(overlay.locator('app-choose-layout')).toBeVisible({ timeout: 2000 });
+	return overlay;
+}
+
+export async function startDailyChallenge(page: Page) {
+	const overlay = page.locator('.overlay.overlay-newgame');
+	const play = overlay.locator('button.daily-play');
+	await play.waitFor({ state: 'visible', timeout: 5000 });
+	await play.click();
+	await expect(overlay).toBeHidden({ timeout: 2000 });
+	await expect(page.locator('app-challenge-hud')).toBeVisible({ timeout: 2000 });
+}
+
+export interface ScrollMetrics {
+	scrollTop: number;
+	clientHeight: number;
+	scrollHeight: number;
+	overflows: boolean;
+}
+
+export async function scrollMetrics(locator: Locator): Promise<ScrollMetrics> {
+	return locator.evaluate(element => ({
+		scrollTop: element.scrollTop,
+		clientHeight: element.clientHeight,
+		scrollHeight: element.scrollHeight,
+		overflows: element.scrollHeight > element.clientHeight + 2
+	}));
 }
 
 export async function openDialog(page: Page, buttonSelect: string, overlayClass: string) {

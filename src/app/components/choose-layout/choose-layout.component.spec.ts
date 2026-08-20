@@ -123,6 +123,22 @@ describe('ChooseLayoutComponent', () => {
 		expect(gameModeSpy).toHaveBeenCalledWith(GAME_MODE_STANDARD);
 	});
 
+	it('keeps tab inside the info popup and still swallows keys from the board behind it', () => {
+		component.openGeneratorInfo(new Event('click'));
+		fixture.detectChanges();
+
+		const popup = fixture.nativeElement.querySelector(':scope .info-overlay .info-popup') as HTMLElement;
+		expect(popup).toBeTruthy();
+		const outer = vi.fn();
+		fixture.nativeElement.addEventListener('keydown', outer);
+		popup.dispatchEvent(new KeyboardEvent('keydown', { key: 'Tab', bubbles: true, cancelable: true }));
+
+		// the popup is a modal, so neither tab nor a game shortcut may reach past it
+		expect(outer).not.toHaveBeenCalled();
+		// jsdom reports every element as hidden, so the wrap itself is covered in dom-utilities.spec.ts
+		expect(popup.querySelectorAll('button').length).toBeGreaterThan(0);
+	});
+
 	it('should render the random game button', () => {
 		// Arrange
 		const button = fixture.debugElement.query(By.css('.start-links button'));

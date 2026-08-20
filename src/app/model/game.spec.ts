@@ -33,7 +33,7 @@ describe('Game', () => {
 			setStoneSelected: vi.fn(),
 			clearHints: vi.fn(),
 			hint: vi.fn(),
-			shuffle: vi.fn(),
+			shuffle: vi.fn().mockReturnValue(true),
 			back: vi.fn(),
 			load: vi.fn().mockReturnValue(true),
 			save: vi.fn().mockReturnValue([]),
@@ -51,6 +51,7 @@ describe('Game', () => {
 		// Create mock clock
 		mockClock = {
 			elapsed: signal(0),
+			current: () => mockClock.elapsed!(),
 			run: vi.fn(),
 			pause: vi.fn(),
 			reset: vi.fn()
@@ -241,6 +242,7 @@ describe('Game', () => {
 	describe('game features', () => {
 		it('should provide hint in standard mode', () => {
 			game.mode.set(GAME_MODE_STANDARD);
+			game.state.set(STATES.run);
 			game.hint();
 
 			expect(mockBoard.hint).toHaveBeenCalled();
@@ -248,23 +250,79 @@ describe('Game', () => {
 
 		it('should not provide hint in expert mode', () => {
 			game.mode.set(GAME_MODE_EXPERT);
+			game.state.set(STATES.run);
 			game.hint();
 
 			expect(mockBoard.hint).not.toHaveBeenCalled();
 		});
 
+		it('should not provide hint when the game is not running', () => {
+			game.mode.set(GAME_MODE_STANDARD);
+			for (const state of [STATES.idle, STATES.pause]) {
+				game.state.set(state);
+
+				expect(game.hint()).toBe(false);
+			}
+			expect(mockBoard.hint).not.toHaveBeenCalled();
+		});
+
 		it('should shuffle in easy mode', () => {
 			game.mode.set(GAME_MODE_EASY);
-			game.shuffle();
+			game.state.set(STATES.run);
 
+			expect(game.shuffle()).toBe(true);
 			expect(mockBoard.shuffle).toHaveBeenCalled();
+			expect(mockSound.play).toHaveBeenCalledWith(SOUNDS.SHUFFLE);
+		});
+
+		// the caller announces a shuffle to screen readers, so a board that did not move must not report one
+		it('should report a shuffle the board could not carry out', () => {
+			game.mode.set(GAME_MODE_EASY);
+			game.state.set(STATES.run);
+			(mockBoard.shuffle as Mock).mockReturnValue(false);
+
+			expect(game.shuffle()).toBe(false);
+			expect(mockSound.play).not.toHaveBeenCalledWith(SOUNDS.SHUFFLE);
 		});
 
 		it('should not shuffle in standard mode', () => {
 			game.mode.set(GAME_MODE_STANDARD);
+			game.state.set(STATES.run);
 			game.shuffle();
 
 			expect(mockBoard.shuffle).not.toHaveBeenCalled();
+		});
+
+		it('should not shuffle when the game is not running', () => {
+			game.mode.set(GAME_MODE_EASY);
+			for (const state of [STATES.idle, STATES.pause]) {
+				game.state.set(state);
+
+				expect(game.shuffle()).toBe(false);
+			}
+			expect(mockBoard.shuffle).not.toHaveBeenCalled();
+		});
+
+		// the rescue shuffle is offered on a board the game itself paused, so it must not be refused
+		it('still shuffles for the easy mode rescue while the game is paused', () => {
+			game.mode.set(GAME_MODE_EASY);
+			game.state.set(STATES.pause);
+
+			game.gameOverEasyModeShuffle();
+
+			expect(mockBoard.shuffle).toHaveBeenCalled();
+		});
+
+		it('resumes once the rescue shuffle opens up a move', () => {
+			game.mode.set(GAME_MODE_EASY);
+			game.state.set(STATES.pause);
+			(mockBoard.shuffle as Mock).mockImplementation(() => {
+				mockBoard.free!.set([makeRemovableStone()]);
+			});
+
+			game.gameOverEasyModeShuffle();
+
+			expect(game.state()).toBe(STATES.run);
 		});
 
 		it('should resume the game when the rescue shuffle frees a stone', () => {

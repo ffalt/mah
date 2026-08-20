@@ -4,6 +4,7 @@ import {
 	GAME_MODE_EASY,
 	GAME_MODE_STANDARD,
 	GAME_MODE_EXPERT,
+	GAME_MODE_CHALLENGE,
 	GameModes,
 	Themes,
 	Backgrounds,
@@ -64,6 +65,12 @@ describe('Constants', () => {
 			const expertMode = GameModes.find(mode => mode.id === GAME_MODE_EXPERT);
 			expect(expertMode).toBeDefined();
 			expect(expertMode?.features.length).toBe(0);
+		});
+
+		it('should keep the challenge mode out of the picker', () => {
+			// GameModes drives the mode picker, so listing it there would offer a mode with no rules of its own
+			expect(GAME_MODE_CHALLENGE).toBe('GAME_MODE_CHALLENGE');
+			expect(GameModes.some(mode => mode.id === GAME_MODE_CHALLENGE)).toBe(false);
 		});
 	});
 

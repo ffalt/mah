@@ -12,6 +12,19 @@
 				d="M -4.7687833,775.07096 C -9.6501835,741.99485 -16.84552,674.23676 -1.2788716,652.0641 18.998297,625.94378 233.50094,631.63117 263.31435,653.90999 276.21398,662.64856 70.349579,663.12124 47.099353,691.74479 24.390958,719.11242 0.65060847,818.18718 -4.7687833,775.07096 Z"
 			/>
 		</svg>
+		<!-- one back for light and one for dark, never one per tile set: a set-specific back would leak which set is in play -->
+		<svg id="mah-tile-back" width="75" height="100" viewBox="0 0 75 100">
+			<rect x="4" y="4" width="67" height="92" rx="8" ry="8" fill="#2f7d5f"/>
+			<rect x="9.5" y="9.5" width="56" height="81" rx="5" ry="5" fill="none" stroke="#bfe8d5" stroke-width="1.6" stroke-opacity="0.7"/>
+			<path d="M 37.5,29 55,50 37.5,71 20,50 Z" fill="none" stroke="#d8f2e5" stroke-width="2" stroke-opacity="0.75"/>
+			<circle cx="37.5" cy="50" r="6" fill="#d8f2e5" fill-opacity="0.55"/>
+		</svg>
+		<svg id="mah-tile-back-dark" width="75" height="100" viewBox="0 0 75 100">
+			<rect x="4" y="4" width="67" height="92" rx="8" ry="8" fill="#16362c"/>
+			<rect x="9.5" y="9.5" width="56" height="81" rx="5" ry="5" fill="none" stroke="#4f8f76" stroke-width="1.6" stroke-opacity="0.8"/>
+			<path d="M 37.5,29 55,50 37.5,71 20,50 Z" fill="none" stroke="#74b394" stroke-width="2" stroke-opacity="0.85"/>
+			<circle cx="37.5" cy="50" r="6" fill="#74b394" fill-opacity="0.5"/>
+		</svg>
 		<clipPath id="mah-image-clip">
 			<rect
 				[attr.x]="imageCut[0]"
@@ -21,6 +34,26 @@
 				rx="10" ry="10" fill="#fff"
 			/>
 		</clipPath>
+		<clipPath id="mah-tile-clip">
+			<rect x="0" y="0" width="75" height="100" rx="10" ry="10" fill="#fff"/>
+		</clipPath>
+		<!-- the colour sits at the edges, so a target still reads where a neighbouring tile covers its corner -->
+		<radialGradient id="mah-target-glow" cx="50%" cy="50%" r="62%">
+			<stop offset="55%" stop-color="#2e7d32" stop-opacity="0"/>
+			<stop offset="100%" stop-color="#2e7d32" stop-opacity="0.75"/>
+		</radialGradient>
+		<radialGradient id="mah-target-glow-dark" cx="50%" cy="50%" r="62%">
+			<stop offset="55%" stop-color="#56c05e" stop-opacity="0"/>
+			<stop offset="100%" stop-color="#56c05e" stop-opacity="0.72"/>
+		</radialGradient>
+		<radialGradient id="mah-spark-aura" cx="50%" cy="50%" r="50%">
+			<stop offset="55%" stop-color="#2f9fdc" stop-opacity="0.75"/>
+			<stop offset="100%" stop-color="#2f9fdc" stop-opacity="0"/>
+		</radialGradient>
+		<radialGradient id="mah-spark-aura-dark" cx="50%" cy="50%" r="50%">
+			<stop offset="55%" stop-color="#57bcff" stop-opacity="0.8"/>
+			<stop offset="100%" stop-color="#57bcff" stop-opacity="0"/>
+		</radialGradient>
 	</defs>
 	<style>
 		g.tile {
@@ -163,6 +196,132 @@
 			opacity: 0;
 		}
 
+		/* the Midas tile always starts buried, so the border is the only part of the mark on show */
+		@keyframes mah-mark-breathe-edge {
+			0%, 100% { stroke: #b8860b; }
+			50% { stroke: #ffd766; }
+		}
+
+		g[data-mark="midas"] g.tile rect.stone {
+			stroke: #b8860b;
+			stroke-width: 3px;
+		}
+
+		g.stage.animations g[data-mark="midas"] g.tile rect.stone {
+			animation: mah-mark-breathe-edge 2600ms ease-in-out infinite;
+		}
+
+		g[data-mark="spark"] g.tile rect.stone {
+			stroke: #1d6fa5;
+			stroke-width: 3px;
+		}
+
+		g[data-mark="target"] g.tile rect.stone {
+			stroke: #2e7d32;
+			stroke-width: 2px;
+		}
+
+		g[data-mark="target"] .mark-tint-fill {
+			fill: url("#mah-target-glow");
+			opacity: 0.9;
+		}
+
+		g[data-mark="spark"] .mark-tint-fill {
+			fill: #4aa8e0;
+			opacity: 0.3;
+		}
+
+		/* the tint alone breathes - the Midas tile is the goal, so nothing should slide across its face */
+		@keyframes mah-mark-breathe {
+			0%, 100% { opacity: 0.2; }
+			50% { opacity: 0.42; }
+		}
+
+		g[data-mark="midas"] .mark-tint-fill {
+			fill: #e8b400;
+			opacity: 0.32;
+		}
+
+		g.stage.animations g[data-mark="midas"] .mark-tint-fill {
+			animation: mah-mark-breathe 2600ms ease-in-out infinite;
+		}
+
+		@keyframes mah-mark-aura {
+			0%, 100% { opacity: 0.35; }
+			50% { opacity: 0.8; }
+		}
+
+		g[data-mark="spark"] .mark-aura {
+			fill: url("#mah-spark-aura");
+			opacity: 0.65;
+		}
+
+		g.stage.animations g[data-mark="spark"] .mark-aura {
+			animation: mah-mark-aura 3000ms ease-in-out infinite;
+		}
+
+		g.stage.contrast g[data-mark="midas"] g.tile rect.stone,
+		g.stage.contrast g[data-mark="spark"] g.tile rect.stone,
+		g.stage.contrast g[data-mark="target"] g.tile rect.stone {
+			stroke-width: 4px;
+		}
+
+		g.stage.contrast g[data-mark="spark"] .mark-tint-fill {
+			opacity: 0.42;
+		}
+
+		/* an animated opacity cannot be raised by a plain override, so contrast mode needs its own curve */
+		@keyframes mah-mark-breathe-strong {
+			0%, 100% { opacity: 0.3; }
+			50% { opacity: 0.55; }
+		}
+
+		g.stage.animations.contrast g[data-mark="midas"] .mark-tint-fill {
+			animation-name: mah-mark-breathe-strong;
+		}
+
+		g.stage.contrast g[data-mark="target"] .mark-tint-fill {
+			opacity: 1;
+		}
+
+		@keyframes mah-mark-breathe-edge-dark {
+			0%, 100% { stroke: #ffc93c; }
+			50% { stroke: #fff0b8; }
+		}
+
+		g.stage.dark g[data-mark="midas"] g.tile rect.stone {
+			stroke: #ffc93c;
+		}
+
+		g.stage.dark.animations g[data-mark="midas"] g.tile rect.stone {
+			animation-name: mah-mark-breathe-edge-dark;
+		}
+
+		g.stage.dark g[data-mark="spark"] g.tile rect.stone {
+			stroke: #6fc3ff;
+		}
+
+		/* the near-black face swallows the tint, so it needs more of it than a light tile */
+		g.stage.dark g[data-mark="spark"] .mark-tint-fill {
+			opacity: 0.38;
+		}
+
+		g.stage.dark g[data-mark="midas"] .mark-tint-fill {
+			fill: #f0be1e;
+		}
+
+		g.stage.dark g[data-mark="spark"] .mark-aura {
+			fill: url("#mah-spark-aura-dark");
+		}
+
+		g.stage.dark g[data-mark="target"] g.tile rect.stone {
+			stroke: #7cd67f;
+		}
+
+		g.stage.dark g[data-mark="target"] .mark-tint-fill {
+			fill: url("#mah-target-glow-dark");
+		}
+
 		g.stage.contrast g.draw rect.stone {
 			stroke-width: 2;
 		}
@@ -275,10 +434,16 @@
 				animation: none;
 				transform: scale(1.12);
 			}
+
+			g[data-mark="midas"] g.tile rect.stone,
+			g[data-mark="midas"] .mark-tint-fill,
+			g[data-mark="spark"] .mark-aura {
+				animation: none !important;
+			}
 		}
 	</style>
 	<defs app-image-set-loader [imageSet]="imageSet()" [kyodaiUrl]="kyodaiUrl()" [dark]="app.settings.dark()" [prefix]="prefix"></defs>
-	<g #stage class="stage" [class.dark]="app.settings.dark()" [class.contrast]="app.settings.contrast()" [class.tile3d]="app.settings.tile3d()">
+	<g #stage class="stage" [class.dark]="app.settings.dark()" [class.contrast]="app.settings.contrast()" [class.tile3d]="app.settings.tile3d()" [class.animations]="app.settings.animations()">
 		@for (level of drawLevels; track level.z) {
 			@if (app.settings.shadows()) {
 				<g class="shadow-layer">
@@ -299,6 +464,8 @@
 						[draw]="draw"
 						[imagePos]="imagePos"
 						[urlPrefix]="urlPrefix"
+						[blackout]="blackout()"
+						[concealed]="concealed()"
 					></g>
 				}
 			</g>

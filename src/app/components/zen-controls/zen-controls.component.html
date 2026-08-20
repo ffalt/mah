@@ -4,10 +4,12 @@
 <button type="button" class="button" (click)="app.game.toggle()" title="{{'PAUSE_LONG' | translate}}" [attr.aria-label]="'PAUSE' | translate" [attr.aria-pressed]="app.game.isPaused()">
 	<app-icon-pause/>
 </button>
-@if (gameModeStandard()) {
+@if (app.game.allowsUndo()) {
 	<button type="button" class="button" (click)="undoEvent.emit()" title="{{'UNDO_LONG' | translate}}" [attr.aria-label]="'UNDO' | translate" [attr.disabled]="app.game.board.undo().length===0 ? true : null">
 		<app-icon-undo/>
 	</button>
+}
+@if (app.game.allowsHint()) {
 	<button type="button" class="button" (click)="hintEvent.emit()" title="{{'HINT_LONG' | translate}}" [attr.aria-label]="'HINT' | translate">
 		<app-icon-hint/>
 	</button>

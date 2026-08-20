@@ -1,6 +1,7 @@
 import { Board } from './board';
 import { Stone } from './stone';
 import { describe, beforeEach, it, expect, vi } from 'vitest';
+import { type BUILD_MODE_ID, MODE_SOLVABLE } from './builder';
 
 describe('Board', () => {
 	let board: Board;
@@ -123,6 +124,24 @@ describe('Board', () => {
 			expect(stone2.picked()).toBe(true);
 			expect(board.undo()).toEqual([[0, 0, 0], [0, 1, 0]]);
 			expect(board.update).toHaveBeenCalled();
+		});
+	});
+
+	describe('shuffle', () => {
+		it('should report a rebuilt board', () => {
+			board.applyMapping(Array.from({ length: 8 }, (_, index) => [0, index * 4, 0] as [number, number, number]), MODE_SOLVABLE);
+
+			expect(board.shuffle()).toBe(true);
+		});
+
+		// a stored buildMode is whatever the save file says, so an unknown one has to be reported, not swallowed
+		it('should report a build the builder could not deliver', () => {
+			board.applyMapping(Array.from({ length: 8 }, (_, index) => [0, index * 4, 0] as [number, number, number]), MODE_SOLVABLE);
+			const before = board.stones();
+			board.buildMode = 'MODE_UNKNOWN' as BUILD_MODE_ID;
+
+			expect(board.shuffle()).toBe(false);
+			expect(board.stones()).toBe(before);
 		});
 	});
 

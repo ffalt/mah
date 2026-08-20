@@ -125,10 +125,10 @@ export class Board {
 		this.count.set(count);
 	}
 
-	back(): void {
+	back(): boolean {
 		const undo = this.undo();
 		if (undo.length < 2) {
-			return;
+			return false;
 		}
 		this.clearSelection();
 		this.clearHints();
@@ -136,7 +136,7 @@ export class Board {
 		const n2 = undo.at(-2);
 		this.undo.set(undo.slice(0, -2));
 		if (!n1 || !n2) {
-			return;
+			return false;
 		}
 		for (const stone of this.stones()) {
 			if (
@@ -147,9 +147,10 @@ export class Board {
 			}
 		}
 		this.update();
+		return true;
 	}
 
-	shuffle() {
+	shuffle(): boolean {
 		this.clearSelection();
 		this.clearHints();
 		const currentStones = this.stones();
@@ -160,12 +161,13 @@ export class Board {
 		const builder: Builder = new Builder(tiles);
 		const stones = builder.build(this.buildMode, mapping);
 		if (!stones) {
-			return;
+			return false;
 		}
 		const newStones = [...stones, ...usedStones];
 		BuilderBase.fillStones(newStones, new Tiles(currentStones.length));
 		this.stones.set(newStones);
 		this.update();
+		return true;
 	}
 
 	load(mapping: StoneMapping, undos: Array<Place>): boolean {

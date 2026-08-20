@@ -6,7 +6,14 @@ import { describe, beforeEach, it, expect, vi } from 'vitest';
 import { AppService } from '../../service/app.service';
 import { GAME_MODE_EASY, GAME_MODE_EXPERT, GAME_MODE_STANDARD } from '../../model/consts';
 import type { Place } from '../../model/types';
+import { Challenge } from '../../model/challenge/challenge';
+import { CHALLENGE_CODES, type CHALLENGE_ID } from '../../model/challenge/consts';
 import { ControlsTopComponent } from './controls-top.component';
+
+function startChallenge(appService: AppService, id: CHALLENGE_ID): void {
+	const game = appService.game;
+	game.challenge.set(new Challenge({ id, seed: 'seed' }, game.board, game.clock));
+}
 
 describe('ControlsTopComponent', () => {
 	let component: ControlsTopComponent;
@@ -24,7 +31,7 @@ describe('ControlsTopComponent', () => {
 		fixture = TestBed.createComponent(ControlsTopComponent);
 		component = fixture.componentInstance;
 		appService = TestBed.inject(AppService);
-		fixture.componentRef.setInput('gameMode', GAME_MODE_EASY);
+		appService.game.mode.set(GAME_MODE_EASY);
 		fixture.detectChanges();
 	});
 
@@ -39,11 +46,11 @@ describe('ControlsTopComponent', () => {
 	it('should render the buttons matching the game mode', () => {
 		expect(fixture.nativeElement.querySelectorAll(':scope .ctrl-game .button')).toHaveLength(5); // pause, shuffle, undo, hint, restart
 
-		fixture.componentRef.setInput('gameMode', GAME_MODE_STANDARD);
+		appService.game.mode.set(GAME_MODE_STANDARD);
 		fixture.detectChanges();
 		expect(fixture.nativeElement.querySelectorAll(':scope .ctrl-game .button')).toHaveLength(4); // pause, undo, hint, restart
 
-		fixture.componentRef.setInput('gameMode', GAME_MODE_EXPERT);
+		appService.game.mode.set(GAME_MODE_EXPERT);
 		fixture.detectChanges();
 		expect(fixture.nativeElement.querySelectorAll(':scope .ctrl-game .button')).toHaveLength(2); // pause, restart
 	});
@@ -86,6 +93,39 @@ describe('ControlsTopComponent', () => {
 		gameButtons()[0].click();
 
 		expect(toggleSpy).toHaveBeenCalled();
+	});
+
+	it('should hide the undo button for a challenge that forbids undo', () => {
+		appService.game.mode.set(GAME_MODE_STANDARD);
+		fixture.detectChanges();
+		expect(gameButtons()).toHaveLength(4); // pause, undo, hint, restart
+
+		// Blackout forbids undo and has no countdown, so only the undo button goes
+		startChallenge(appService, CHALLENGE_CODES.CHALLENGE_BLACKOUT);
+		fixture.detectChanges();
+		expect(gameButtons()).toHaveLength(3); // pause, hint, restart
+	});
+
+	it('should keep the pause button for a timed challenge, which pausing conceals the board for', () => {
+		appService.game.mode.set(GAME_MODE_STANDARD);
+		fixture.detectChanges();
+
+		// Match Attack has a countdown and forbids undo
+		startChallenge(appService, CHALLENGE_CODES.CHALLENGE_THIRTY_IN_THREE);
+		fixture.detectChanges();
+
+		expect(gameButtons()).toHaveLength(3); // pause, hint, restart
+		expect(fixture.nativeElement.querySelector('app-icon-pause')).toBeTruthy();
+	});
+
+	it('should hide shuffle for a challenge, even one that allows everything else', () => {
+		// the picker was left on easy mode, which is the only mode that offers shuffle
+		expect(gameButtons()).toHaveLength(5); // pause, shuffle, undo, hint, restart
+
+		startChallenge(appService, CHALLENGE_CODES.CHALLENGE_MIDAS_MATCH);
+		fixture.detectChanges();
+
+		expect(gameButtons()).toHaveLength(4); // pause, undo, hint, restart
 	});
 
 	it('should disable the undo button when there is nothing to undo', () => {

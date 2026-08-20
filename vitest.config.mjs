@@ -8,7 +8,8 @@ export default defineConfig({
 		APP_NAME: JSON.stringify("TEST MAHJONG"),
 		APP_FEATURE_EDITOR: JSON.stringify("true"),
 		APP_FEATURE_KYODAI: JSON.stringify("false"),
-		APP_FEATURE_MOBILE: JSON.stringify("false")
+		APP_FEATURE_MOBILE: JSON.stringify("false"),
+		APP_FEATURE_DAILY: JSON.stringify("true")
 	},
 	test: {
 		globals: true,

@@ -1,0 +1,64 @@
+@if (challenge(); as active) {
+	<div class="sr-only" aria-live="polite" aria-atomic="true">
+		@if (timeWarning(); as warning) {
+			{{ 'CHALLENGE_TIME_LEFT' | translate }}: {{ warning }}
+		}
+	</div>
+
+	<div class="challenge-name">{{ name() | translate }}</div>
+
+	@if (hasTimeLimit()) {
+		<div class="challenge-item challenge-time" [class.low]="lowTime()">
+			<small>{{ 'CHALLENGE_TIME_LEFT' | translate }}</small>
+			<span class="value">{{ remainingLabel() }}</span>
+		</div>
+	}
+
+	@if (objective() === 'matches' || objective() === 'suit') {
+		@if (progress(); as bar) {
+			<div class="challenge-item challenge-progress">
+				<small>
+					@if (subject(); as name) {
+						{{ name | translate }}
+					} @else {
+						{{ 'CHALLENGE_MATCHES' | translate }}
+					}
+				</small>
+				<span class="value">{{ bar.current }} / {{ bar.total }}</span>
+				<div
+					class="bar" role="progressbar"
+					[attr.aria-valuenow]="bar.current" aria-valuemin="0" [attr.aria-valuemax]="bar.total"
+					[attr.aria-label]="'CHALLENGE_OBJECTIVE' | translate"
+				>
+					<div class="bar-fill" [style.width.%]="percent()"></div>
+				</div>
+			</div>
+		}
+	}
+
+	@if (objective() === 'score') {
+		<div class="challenge-item challenge-target">
+			<small>{{ 'CHALLENGE_TARGET' | translate }}</small>
+			<span class="value">{{ active.info.scoreTarget }}</span>
+		</div>
+	}
+
+	@if (objective() === 'midas') {
+		<div class="challenge-item challenge-objective">
+			<small>{{ 'CHALLENGE_OBJECTIVE' | translate }}</small>
+			<span class="value">{{ 'CHALLENGE_FIND_MIDAS' | translate }}</span>
+		</div>
+	}
+
+	<div class="challenge-item challenge-score">
+		<small>{{ 'CHALLENGE_SCORE' | translate }}</small>
+		<span class="value">{{ score() }}</span>
+	</div>
+
+	@if (comboActive()) {
+		<div class="challenge-item challenge-combo">
+			<small>{{ 'CHALLENGE_COMBO' | translate }}</small>
+			<span class="value">x{{ multiplier() }}</span>
+		</div>
+	}
+}

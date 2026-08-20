@@ -10,6 +10,83 @@
 	border-radius: 0;
 }
 
+// the small modal used for on-demand explanations inside a dialog, shared by every component
+// that offers an info button
+@mixin info-popup {
+	.info-overlay {
+		position: fixed;
+		inset: 0;
+		background: rgb(0 0 0 / 40%);
+		z-index: 100;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		.info-popup {
+			position: relative;
+			background: var(--dialog-background-color);
+			border: 1px solid var(--dialog-border-color);
+			border-radius: 12px;
+			padding: 1.2em 1.5em 1em;
+			max-width: 90%;
+			max-height: 90%;
+			overflow-y: auto;
+			box-shadow: var(--overlay-popup-shadow);
+			color: var(--main-content-text-color);
+
+			h2 {
+				margin: 0 0 0.8em;
+				font-size: 1em;
+				color: var(--dialog-headline-color);
+				text-align: center;
+			}
+
+			.close {
+				position: absolute;
+				top: 0.5em;
+				right: 0.6em;
+				cursor: pointer;
+				color: var(--close-color);
+				padding: 3px;
+				background: none;
+				border: none;
+				min-height: unset;
+				font: inherit;
+				line-height: 1;
+
+				&:hover {
+					color: var(--close-color-hover);
+				}
+			}
+
+			.info-item {
+				padding: 0.5em 0;
+				border-bottom: 1px solid var(--dialog-border-color);
+
+				&:last-child {
+					border-bottom: none;
+					padding-bottom: 0;
+				}
+
+				strong {
+					display: block;
+					margin-bottom: 0.2em;
+				}
+
+				span, ul {
+					color: var(--main-content-text-color-muted);
+					font-size: 0.85em;
+				}
+
+				ul {
+					margin: 0;
+					padding-left: 1.2em;
+				}
+			}
+		}
+	}
+}
+
 @mixin respond-to-horizontal-device($device) {
 	@if $device == pad {
 		@media only screen and (width >= 400px) and (height <= 600px) {

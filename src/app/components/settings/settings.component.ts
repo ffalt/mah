@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, signal, viewChild, type AfterViewInit } from '@angular/core';
+import { Component, DestroyRef, ElementRef, inject, signal, viewChild, type AfterViewInit } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Backgrounds, ImageSetDefault, ImageSets, PATTERN_BACKGROUND, Themes } from '../../model/consts';
 import { AppService } from '../../service/app.service';
@@ -39,8 +39,22 @@ export class SettingsComponent implements AfterViewInit {
 	readonly tabs = SETTINGS_TABS;
 	readonly patterns = generatePatternList();
 	readonly selectedTab = signal<string>(this.app.getCachedValue('settings.selectedTab') as string | undefined ?? SETTINGS_TABS[0].id);
+	readonly reducedMotion = signal(false);
 
 	private readonly element = inject(ElementRef);
+	private readonly lifecycle = inject(DestroyRef);
+	private readonly reducedMotionQuery = window.matchMedia?.('(prefers-reduced-motion: reduce)');
+
+	constructor() {
+		const query = this.reducedMotionQuery;
+		if (!query) {
+			return;
+		}
+		this.reducedMotion.set(query.matches);
+		const update = (event: MediaQueryListEvent): void => this.reducedMotion.set(event.matches);
+		query.addEventListener('change', update);
+		this.lifecycle.onDestroy(() => query.removeEventListener('change', update));
+	}
 
 	ngAfterViewInit(): void {
 		if (this.element?.nativeElement) {

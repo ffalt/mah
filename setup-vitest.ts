@@ -7,7 +7,8 @@ Object.assign(globalThis as Record<string, unknown>, {
 	APP_NAME: 'TEST MAHJONG',
 	APP_FEATURE_EDITOR: 'true',
 	APP_FEATURE_KYODAI: 'true',
-	APP_FEATURE_MOBILE: 'false'
+	APP_FEATURE_MOBILE: 'false',
+	APP_FEATURE_DAILY: 'true'
 });
 
 beforeEach(() => {

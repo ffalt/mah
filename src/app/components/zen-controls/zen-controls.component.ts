@@ -1,7 +1,6 @@
-import { Component, ElementRef, type OnDestroy, computed, inject, input, output, signal } from '@angular/core';
+import { Component, ElementRef, type OnDestroy, computed, inject, output, signal } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import { AppService } from '../../service/app.service';
-import { GAME_MODE_EASY, type GAME_MODE_ID, GAME_MODE_STANDARD } from '../../model/consts';
 import { IconDragHandleComponent } from '../icons/icon-drag-handle.component';
 import { IconPauseComponent } from '../icons/icon-pause.component';
 import { IconUndoComponent } from '../icons/icon-undo.component';
@@ -23,7 +22,6 @@ type ZenDragKeyEvent = Pick<KeyboardEvent, 'key' | 'currentTarget' | 'preventDef
 	imports: [TranslatePipe, IconDragHandleComponent, IconPauseComponent, IconUndoComponent, IconHintComponent, IconCloseComponent]
 })
 export class ZenControlsComponent implements OnDestroy {
-	readonly gameMode = input.required<GAME_MODE_ID>();
 	readonly undoEvent = output<void>();
 	readonly hintEvent = output<void>();
 	readonly exitEvent = output<void>();
@@ -31,7 +29,6 @@ export class ZenControlsComponent implements OnDestroy {
 	readonly translateX = signal(0);
 	readonly translateY = signal(0);
 	readonly transform = computed(() => `translate(${this.translateX()}px, ${this.translateY()}px)`);
-	readonly gameModeStandard = computed(() => [GAME_MODE_EASY, GAME_MODE_STANDARD].includes(this.gameMode()));
 
 	private readonly element = inject(ElementRef);
 	private dragOriginX: number = 0;

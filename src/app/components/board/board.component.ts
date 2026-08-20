@@ -43,6 +43,8 @@ export class BoardComponent implements OnInit, OnChanges, AfterViewInit {
 	readonly pattern = input<string>();
 	readonly stones = input<Array<Stone>>();
 	readonly noRotate = input(false);
+	readonly blackout = input(false);
+	readonly concealed = input(false);
 	readonly clickEvent = output<Stone | undefined>();
 	readonly backgroundUrl = signal<string | undefined>(undefined);
 	readonly backgroundRepeat = signal<boolean | undefined>(undefined);

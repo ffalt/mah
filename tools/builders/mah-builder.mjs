@@ -60,7 +60,8 @@ export function buildDefine(config = {}, packageJson = {}) {
 		APP_NAME: JSON.stringify(config.name ?? name),
 		APP_FEATURE_EDITOR: JSON.stringify(!!config.editor),
 		APP_FEATURE_KYODAI: JSON.stringify(!!config.kyodai),
-		APP_FEATURE_MOBILE: JSON.stringify(!!config.mobile)
+		APP_FEATURE_MOBILE: JSON.stringify(!!config.mobile),
+		APP_FEATURE_DAILY: JSON.stringify(!!config.daily)
 	};
 }
 
