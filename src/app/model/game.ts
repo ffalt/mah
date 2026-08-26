@@ -62,8 +62,11 @@ export class Game {
 		if (this.state() === STATES.run) {
 			this.pause();
 		}
-		// without a game to continue there is nothing to message about, the start screen takes over
-		this.message.set(this.isPaused() ? { messageID: 'MSG_CONTINUE_SAVE' } : undefined);
+		if (!this.isPaused()) {
+			this.message.set(undefined);
+			return;
+		}
+		this.message.set(this.isStuckEasyBoard() ? { messageID: 'MSG_FAIL', askShuffle: true } : { messageID: 'MSG_CONTINUE_SAVE' });
 	}
 
 	click(stone?: Stone): boolean {
@@ -344,7 +347,7 @@ export class Game {
 			}
 			this.gameOverWinning();
 		} else if (this.board.free().length === 0) {
-			if (this.ruleMode() === GAME_MODE_EASY && this.board.countUnblocked() > 1) {
+			if (this.isStuckEasyBoard()) {
 				this.gameOverEasyMode();
 				return false;
 			}
@@ -397,6 +400,10 @@ export class Game {
 	// challenge runs are recorded per day, never against the layout's own best time - the rules differ
 	private isStorableLayoutId(): boolean {
 		return this.layoutID !== undefined && !this.layoutID.startsWith(RANDOM_LAYOUT_ID_PREFIX) && !this.challenge();
+	}
+
+	private isStuckEasyBoard(): boolean {
+		return this.ruleMode() === GAME_MODE_EASY && this.board.count() >= 2 && this.board.free().length === 0 && this.board.countUnblocked() > 1;
 	}
 
 	private buildBoard(layout: Layout, buildMode: BUILD_MODE_ID, seed?: string): void {

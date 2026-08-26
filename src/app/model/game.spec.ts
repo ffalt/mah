@@ -45,6 +45,7 @@ describe('Game', () => {
 			selected: undefined,
 			count: signal(10),
 			free: signal<Array<Stone>>([]),
+			countUnblocked: vi.fn().mockReturnValue(0),
 			undo: signal<Array<Place>>([])
 		};
 
@@ -119,6 +120,22 @@ describe('Game', () => {
 			game.init();
 
 			expect(game.message()?.messageID).toBe('MSG_CONTINUE_SAVE');
+		});
+
+		it('should re-offer the shuffle prompt when reloading a deadlocked Easy-mode board', () => {
+			(mockStorage.getState as Mock).mockReturnValue({
+				elapsed: 1000,
+				state: STATES.pause,
+				layout: 'test',
+				gameMode: GAME_MODE_EASY,
+				undo: [],
+				stones: [[0, 0, 0, 1], [0, 2, 0, 1]]
+			} as GameStateStore);
+			(mockBoard.countUnblocked as Mock).mockReturnValue(2);
+
+			game.init();
+
+			expect(game.message()).toEqual({ messageID: 'MSG_FAIL', askShuffle: true });
 		});
 	});
 
