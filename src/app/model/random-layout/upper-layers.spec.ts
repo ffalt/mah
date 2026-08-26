@@ -248,6 +248,15 @@ describe('fillLayout', () => {
 			expect(result.length % 2).toBe(0);
 			expect(result.length).toBeGreaterThan(0);
 		});
+
+		it('never places a tile and its own mirror within overlap distance of each other', () => {
+			const oddWidthBase: Mapping = [[0, 8, 8], [0, 19, 8]];
+			for (const seed of ['orbit-overlap-1', 'orbit-overlap-2', 'orbit-overlap-3', 'orbit-overlap-4']) {
+				seedRNG(seed);
+				const result = fillLayout(oddWidthBase, true, false);
+				assertValidLayout(result);
+			}
+		});
 	});
 
 	describe('ensureEven paths', () => {

@@ -190,28 +190,21 @@ function tryPlaceOrbit(
 	if (mirrorX && mirrorY && mx !== x && my !== y) {
 		orbit.push([mx, my]);
 	}
-	for (const [ox, oy] of orbit) {
-		if (!inBounds(ox, oy, z)) {
-			return false;
-		}
-		const kk = key(z, ox, oy);
-		if (present.has(kk)) {
-			return false;
-		}
-		if (!isSupported(present, z, ox, oy)) {
-			return false;
-		}
-		if (blocksOverlap(present, z, ox, oy)) {
-			return false;
-		}
-	}
 	if (mapping.length + orbit.length > TARGET_COUNT) {
 		return false;
 	}
+	let placedCount = 0;
 	for (const [ox, oy] of orbit) {
-		const kk = key(z, ox, oy);
-		present.add(kk);
-		mapping.push([z, ox, oy]);
+		if (!tryAdd(present, mapping, z, ox, oy)) {
+			for (let index = 0; index < placedCount; index++) {
+				const placed = mapping.pop();
+				if (placed) {
+					present.delete(key(placed[0], placed[1], placed[2]));
+				}
+			}
+			return false;
+		}
+		placedCount++;
 	}
 	return true;
 }
