@@ -62,6 +62,20 @@
 			transition: transform 120ms ease-in-out;
 		}
 
+		g.draw:focus {
+			outline: none;
+		}
+
+		g.draw:focus-visible rect.stone {
+			stroke: #04c;
+			stroke-width: 5px;
+		}
+
+		g.stage.dark g.draw:focus-visible rect.stone {
+			stroke: #42a5f5;
+			stroke-width: 5px;
+		}
+
 		@keyframes mah-wiggle {
 			0% {
 				transform: rotate(0deg);
