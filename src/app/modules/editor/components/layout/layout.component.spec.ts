@@ -339,6 +339,20 @@ describe('LayoutComponent', () => {
 			expect(layout.mapping[0][2]).toBe(7);
 			expect(layout.mapping[1][2]).toBe(5);
 		});
+
+		it('does not move a tile past the last valid cell of its 2-cell footprint', () => {
+			const layout: EditLayout = {
+				id: '',
+				name: 'Test',
+				by: '',
+				category: 'Custom',
+				mapping: [[0, 35, 5]] as Array<[number, number, number]>
+			};
+			init(layout);
+			component.currentZ.set(0);
+			component.moveLayer(true, 2);
+			expect(layout.mapping[0][1]).toBe(35);
+		});
 	});
 
 	describe('moveLayerX()', () => {

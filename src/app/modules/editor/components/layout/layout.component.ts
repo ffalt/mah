@@ -244,7 +244,7 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 			min = Math.min(m[index], min);
 			max = Math.max(m[index], max);
 		}
-		if (min + delta < 0 || max + delta >= maxBound) {
+		if (min + delta < 0 || max + delta >= maxBound - 1) {
 			return;
 		}
 		for (const m of list) {
