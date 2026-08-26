@@ -370,7 +370,11 @@ export class BoardComponent implements OnInit, OnChanges, AfterViewInit {
 		}
 		this.patternService
 			.svgDataUrl(pattern, this.cssBarColors())
-			.then(dataUrl => this.backgroundUrl.set(dataUrl))
+			.then(dataUrl => {
+				if (pattern === this.pattern()) {
+					this.backgroundUrl.set(dataUrl);
+				}
+			})
 			.catch(error => log.error(error));
 	}
 

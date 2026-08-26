@@ -6,7 +6,7 @@ import { AppService } from '../../service/app.service';
 import { BoardComponent } from './board.component';
 import { By } from '@angular/platform-browser';
 import { Stone } from '../../model/stone';
-import { Backgrounds, STATES } from '../../model/consts';
+import { Backgrounds, PATTERN_BACKGROUND, STATES } from '../../model/consts';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { describe, beforeEach, it, expect, vi } from 'vitest';
@@ -112,6 +112,24 @@ describe('BoardComponent', () => {
 			fixture.componentRef.setInput('stones', [makeTestStone()]);
 			fixture.detectChanges();
 			expect(fixture.nativeElement.querySelector(':scope g.draw')).toBe(element);
+		});
+
+		it('does not apply a stale MAH pattern when an older request resolves after a newer one', async () => {
+			fixture.componentRef.setInput('background', PATTERN_BACKGROUND);
+			fixture.detectChanges();
+
+			// pattern-a is the stale request: made first but made to resolve last
+			vi.spyOn(component.patternService, 'svgDataUrl').mockImplementation(async pattern =>
+				new Promise(resolve => setTimeout(() => resolve(`url(${pattern})`), pattern === 'pattern-a' ? 10 : 0)));
+
+			fixture.componentRef.setInput('pattern', 'pattern-a');
+			fixture.detectChanges();
+			fixture.componentRef.setInput('pattern', 'pattern-b');
+			fixture.detectChanges();
+
+			await new Promise(resolve => setTimeout(resolve, 20));
+
+			expect(component.backgroundUrl()).toBe('url(pattern-b)');
 		});
 	});
 
