@@ -130,14 +130,14 @@ export class Board {
 		if (undo.length < 2) {
 			return false;
 		}
-		this.clearSelection();
-		this.clearHints();
 		const n1 = undo.at(-1);
 		const n2 = undo.at(-2);
-		this.undo.set(undo.slice(0, -2));
 		if (!n1 || !n2) {
 			return false;
 		}
+		this.clearSelection();
+		this.clearHints();
+		this.undo.set(undo.slice(0, -2));
 		for (const stone of this.stones()) {
 			if (
 				((stone.z === n1[0]) && (stone.x === n1[1]) && (stone.y === n1[2])) ||
