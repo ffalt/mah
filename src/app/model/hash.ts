@@ -2,7 +2,8 @@ export function hashString(s: string): number {
 	if (s.length === 0) {
 		return 0;
 	}
-	return hashCode(s) + 2_147_483_647;
+	const hash = hashCode(s);
+	return hash === -2_147_483_648 ? 4_294_967_295 : hash + 2_147_483_647;
 }
 
 export function hashCode(s: string) {
