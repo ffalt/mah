@@ -42,7 +42,6 @@ The original open-source Mahjong Solitaire game powering many Mahjong experience
 📱 **Cross-platform** - runs in the browser, on desktop (macOS, Windows, Linux), and on Android
 
 🌍 **37 languages** - English, العربية, বাংলা, Català, Čeština, Dansk, Deutsch, Ελληνικά, Español, Euskara, فارسی, Suomi, Filipino, Français, हिन्दी, Magyar, Bahasa Indonesia, Italiano, 日本語, 한국어, Bahasa Melayu, Nederlands, Norsk, Polski, Português, Română, Русский, Svenska, Kiswahili, தமிழ், తెలుగు, ไทย, Türkçe, Українська, اردو, Tiếng Việt, 中文
-> Want to help translate? Contribute on [Crowdin](https://crowdin.com/project/mahjong)
 
 ---
 
