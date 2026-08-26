@@ -180,6 +180,9 @@ export class BoardComponent implements OnInit, OnChanges, AfterViewInit {
 		}
 		event.preventDefault();
 		event.stopPropagation();
+		if ((event as KeyboardEvent).repeat) {
+			return;
+		}
 		this.clickEvent.emit(draw.source);
 		if (draw.source.picked()) {
 			this.focusNextInteractive();
