@@ -110,6 +110,22 @@ describe('Board', () => {
 			expect(board.undo()).toEqual([]);
 		});
 
+		it('should cancel a pending wiggle timer on a discarded stone', () => {
+			vi.useFakeTimers();
+			const stone = new Stone(0, 0, 0, 1, 1);
+			const onWiggleEnd = vi.fn(() => stone.wiggle.set(false));
+			stone.wiggle.set(true);
+			stone.wiggleTimer = setTimeout(onWiggleEnd, 300);
+			board.stones.set([stone]);
+
+			board.reset();
+			vi.advanceTimersByTime(300);
+
+			expect(onWiggleEnd).not.toHaveBeenCalled();
+			expect(stone.wiggleTimer).toBeUndefined();
+			vi.useRealTimers();
+		});
+
 		it('should pick stones', () => {
 			const stone1 = new Stone(0, 0, 0, 1, 1);
 			const stone2 = new Stone(0, 1, 0, 1, 1);
@@ -124,6 +140,45 @@ describe('Board', () => {
 			expect(stone2.picked()).toBe(true);
 			expect(board.undo()).toEqual([[0, 0, 0], [0, 1, 0]]);
 			expect(board.update).toHaveBeenCalled();
+		});
+	});
+
+	describe('back (undo)', () => {
+		it('should restore the picked state of the last match', () => {
+			const stone1 = new Stone(0, 0, 0, 1, 1);
+			const stone2 = new Stone(0, 1, 0, 1, 1);
+			board.stones.set([stone1, stone2]);
+			board.update = vi.fn();
+			board.pick(stone1, stone2);
+
+			const result = board.back();
+
+			expect(result).toBe(true);
+			expect(stone1.picked()).toBe(false);
+			expect(stone2.picked()).toBe(false);
+			expect(board.undo()).toEqual([]);
+		});
+
+		it('should refuse an undo stack shorter than a full pair', () => {
+			board.undo.set([[0, 0, 0]]);
+
+			expect(board.back()).toBe(false);
+			expect(board.undo()).toEqual([[0, 0, 0]]);
+		});
+
+		// a failed undo must be a true no-op, even against corrupted save data
+		it('should leave the undo stack and stones untouched when a stored entry is malformed', () => {
+			const stone1 = new Stone(0, 0, 0, 1, 1);
+			stone1.picked.set(true);
+			board.stones.set([stone1]);
+			const corrupted = [null as unknown as [number, number, number], [0, 0, 0]] as Array<[number, number, number]>;
+			board.undo.set(corrupted);
+
+			const result = board.back();
+
+			expect(result).toBe(false);
+			expect(board.undo()).toEqual(corrupted);
+			expect(stone1.picked()).toBe(true);
 		});
 	});
 

@@ -99,10 +99,21 @@ export class Board {
 	reset(): void {
 		this.clearSelection();
 		this.clearHints();
+		this.clearWiggles();
 		this.free.set([]);
 		this.count.set(0);
 		this.stones.set([]);
 		this.undo.set([]);
+	}
+
+	clearWiggles(): void {
+		for (const stone of this.stones()) {
+			if (stone.wiggleTimer === undefined) {
+				continue;
+			}
+			clearTimeout(stone.wiggleTimer);
+			stone.wiggleTimer = undefined;
+		}
 	}
 
 	canRemove(stone: Stone): boolean {
