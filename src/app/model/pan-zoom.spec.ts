@@ -586,6 +586,26 @@ describe('PanZoom', () => {
 			expect(panZoom.scale).toBe(2);
 		});
 
+		it('hands off to panning for the finger still down instead of leaving it stuck', () => {
+			panZoom.onTouchEnd(touchEvent([touch(50, 100, 0)], [touch(250, 100, 1)]));
+
+			expect(panZoom.isPanning).toBe(true);
+			// the pan is gated for a moment right after a pinch, so put the last one well in the past
+			panZoom.lastPinch = Date.now() - 1000;
+			const panXBeforeMove = panZoom.panX;
+
+			panZoom.onTouchMove(touchEvent([touch(80, 100, 0)]));
+
+			// the finger moved 30px right from where the pinch left off (50,100) without a new touchstart
+			expect(panZoom.panX).toBe(panXBeforeMove + 30);
+		});
+
+		it('does not enter panning when more than one finger remains down', () => {
+			panZoom.onTouchEnd(touchEvent([touch(50, 100, 0), touch(150, 100, 2)], [touch(250, 100, 1)]));
+
+			expect(panZoom.isPanning).toBe(false);
+		});
+
 		it('leaves the scale alone when only one point can be resolved', () => {
 			panZoom.onTouchEnd(touchEvent([], [touch(50, 100, 0)]));
 

@@ -52,7 +52,6 @@ export class PanZoom {
 		this.updateTransform();
 	}
 
-	// keeps the current zoom but pulls the pan back into the bounds of a changed container size
 	clampPan(): void {
 		this.setPanValue(this.panX, this.panY);
 		this.updateTransform();
@@ -118,7 +117,6 @@ export class PanZoom {
 		}
 	}
 
-	// Returns true if the event should be treated as a board click
 	onMouseUp(event: MouseEvent): boolean {
 		const isMouseLeave = event.type === 'mouseleave';
 		let clicked = false;
@@ -237,6 +235,14 @@ export class PanZoom {
 
 			this.isPinching = false;
 			this.lastPinch = Date.now();
+
+			if (remaining.length === 1) {
+				this.isPanning = true;
+				this.lastTouchX = remaining[0].x;
+				this.lastTouchY = remaining[0].y;
+				this.initialTouchX = remaining[0].x;
+				this.initialTouchY = remaining[0].y;
+			}
 		} else if (this.isPanning) {
 			this.updateTransform();
 			this.isPanning = false;
@@ -270,13 +276,9 @@ export class PanZoom {
 	}
 
 	setPanValue(x: number, y: number): void {
-		// Compute pan bounds relative to the scaled content size within the container.
 		const { width: containerWidth, height: containerHeight } = this.getContainerSize();
 
-		// Handle edge case: container not properly sized
 		if (containerWidth <= 0 || containerHeight <= 0) {
-			// Still update pan values to prevent inconsistent state but reset to origin
-			// since we can't calculate proper bounds without container dimensions
 			if (this.panX !== 0 || this.panY !== 0) {
 				this.panX = 0;
 				this.panY = 0;
@@ -284,13 +286,10 @@ export class PanZoom {
 			return;
 		}
 
-		// Allow a small visual margin to avoid hard edges during interactions.
 		const margin = 50;
-		// Extra size introduced by scaling (when scale <= 1, extra is 0 and panning is effectively disabled elsewhere)
 		const extraWidth = Math.max(0, (this.scale - 1) * containerWidth);
 		const extraHeight = Math.max(0, (this.scale - 1) * containerHeight);
 
-		// Clamp so that content cannot be panned beyond its scaled bounds (with a small margin)
 		const minX = -extraWidth - margin;
 		const maxX = margin;
 		const minY = -extraHeight - margin;
@@ -331,7 +330,6 @@ export class PanZoom {
 		this.transformSVG = `translate(${this.panX}px, ${this.panY}px)${scaling}`;
 	}
 
-	// initialDistance is 0 when both fingers land on the same pixel - both pinch handlers need to survive that
 	private pinchRatio(currentDistance: number): number {
 		return this.initialDistance > 0 ? currentDistance / this.initialDistance : 1;
 	}
