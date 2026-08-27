@@ -106,4 +106,22 @@ describe('LayoutListComponent', () => {
 		expect(text()).not.toContain('Random');
 		expect(labels()).toContain('Brett 1');
 	});
+
+	it('relabels a board category when the language changes without recreating the component', () => {
+		const translate = TestBed.inject(TranslateService);
+		translate.setTranslation('en', { CAT_CAT1: 'Animals' });
+		translate.setTranslation('de', { CAT_CAT1: 'Tiere' });
+		fixture.componentRef.setInput('layouts', [makeLayout('A', 'Cat1')]);
+		const text = () => (fixture.nativeElement as HTMLElement).textContent ?? '';
+
+		translate.use('en');
+		fixture.detectChanges();
+		expect(text()).toContain('Animals');
+
+		translate.use('de');
+		fixture.detectChanges();
+
+		expect(text()).toContain('Tiere');
+		expect(text()).not.toContain('Animals');
+	});
 });

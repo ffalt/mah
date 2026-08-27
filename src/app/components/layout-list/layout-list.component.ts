@@ -60,7 +60,7 @@ export class LayoutListComponent implements OnInit, OnChanges {
 	};
 
 	private readonly storage = inject(LocalstorageService);
-	private readonly translate = inject(TranslateService);
+	protected readonly translate = inject(TranslateService);
 	private readonly layoutService = inject(LayoutService);
 
 	ngOnInit(): void {

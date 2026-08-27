@@ -7,7 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class TranslateGroupPipe implements PipeTransform {
 	readonly translate = inject(TranslateService);
 
-	transform(value: string): string {
+	transform(value: string, _lang: string | null): string {
 		const key = `CAT_${value.toUpperCase()}`;
 		const translation = this.translate.instant(key);
 		return translation === key ? value : translation;

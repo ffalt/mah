@@ -1,7 +1,7 @@
 @if (groups().length > 1) {
 	<div class="headline-anchors">
 		@for (group of groups(); track group.name; let i = $index) {
-			<a [href]="'#group-' + i" (click)="scrollToGroup($event, i)">{{ group.isRandom ? ('RANDOM_GROUP' | translate) : (group.name | translateGroup) }}</a>
+			<a [href]="'#group-' + i" (click)="scrollToGroup($event, i)">{{ group.isRandom ? ('RANDOM_GROUP' | translate) : (group.name | translateGroup:translate.currentLang()) }}</a>
 		}
 	</div>
 }
@@ -19,7 +19,7 @@
 					(keydown.space)="toggleGroupExpanded($event, group)"
 				>
 					<span class="group-expander" [class.expanded]="group.expanded()"></span>
-					{{ group.isRandom ? ('RANDOM_GROUP' | translate) : (group.name | translateGroup) }}
+					{{ group.isRandom ? ('RANDOM_GROUP' | translate) : (group.name | translateGroup:translate.currentLang()) }}
 					<span class="group-count"></span>
 				</div>
 			}
