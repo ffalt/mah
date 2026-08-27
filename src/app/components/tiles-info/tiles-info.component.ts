@@ -24,6 +24,17 @@ export class TilesInfoComponent {
 	readonly app = inject(AppService);
 
 	readonly selectedSet = computed(() => this.sets.find(s => s.id === this.tileset()));
+	readonly applyDisabled = computed(() => {
+		const isValidSelection = this.tileset() === 'kyodai' ? this.hasKyodaiImage() : !!this.selectedSet();
+		if (!isValidSelection) {
+			return true;
+		}
+		return this.tileset() === this.app.settings.tileset() && this.isDark() === this.app.settings.dark();
+	});
+
+	hasKyodaiImage(): boolean {
+		return this.canKyodai && !!this.kyodaiUrl;
+	}
 
 	applyTileset(): void {
 		this.app.settings.tileset.set(this.tileset());

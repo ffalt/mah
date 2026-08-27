@@ -132,4 +132,41 @@ describe('TilesInfoComponent', () => {
 			expect(component.isDark()).toBe(!initialValue);
 		});
 	});
+
+	describe('Kyodai tileset', () => {
+		function createWithKyodaiUrl(url: string | undefined): void {
+			appService.settings.kyodaiUrl.set(url);
+			fixture = TestBed.createComponent(TilesInfoComponent);
+			component = fixture.componentInstance;
+			fixture.detectChanges();
+		}
+
+		it('does not offer the kyodai option when no kyodai image is configured', () => {
+			createWithKyodaiUrl(undefined);
+
+			const options = fixture.debugElement.queryAll(By.css('select option'));
+			expect(options.map(option => option.nativeElement.value)).not.toContain('kyodai');
+		});
+
+		it('offers the kyodai option once a kyodai image is configured', () => {
+			createWithKyodaiUrl('https://example.com/kyodai.png');
+
+			const options = fixture.debugElement.queryAll(By.css('select option'));
+			expect(options.map(option => option.nativeElement.value)).toContain('kyodai');
+		});
+
+		it('disables USE_NOW while kyodai is selected but no image is configured', () => {
+			createWithKyodaiUrl(undefined);
+			component.tileset.set('kyodai');
+
+			expect(component.applyDisabled()).toBe(true);
+		});
+
+		it('enables USE_NOW once a kyodai image is configured and selected', () => {
+			createWithKyodaiUrl('https://example.com/kyodai.png');
+			component.tileset.set('kyodai');
+
+			expect(component.applyDisabled()).toBe(false);
+		});
+	});
 });
