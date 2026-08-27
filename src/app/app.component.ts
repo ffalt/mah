@@ -68,7 +68,7 @@ export class AppComponent implements OnInit {
 
 	loadEditor(): void {
 		if (environment.editor) {
-			import('./modules/editor/components/editor/editor.component')
+			this.importEditorModule()
 				.then(({ EditorComponent }) => {
 					const component = this.editorPlaceholder().createComponent(EditorComponent);
 					this.editorSubscription = component.instance.closeEvent.subscribe(() => {
@@ -79,8 +79,13 @@ export class AppComponent implements OnInit {
 				.catch(error => {
 					log.error(error);
 					this.editorLoading = false;
+					this.editorVisible.set(false);
 				});
 		}
+	}
+
+	private async importEditorModule(): Promise<typeof import('./modules/editor/components/editor/editor.component')> {
+		return import('./modules/editor/components/editor/editor.component');
 	}
 
 	toggleEditor(): void {

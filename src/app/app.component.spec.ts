@@ -66,6 +66,30 @@ describe('AppComponent', () => {
 		});
 	});
 
+	describe('loadEditor', () => {
+		let app: AppComponent;
+
+		beforeEach(() => {
+			const fixture = TestBed.createComponent(AppComponent);
+			app = fixture.componentInstance;
+			vi.spyOn(log, 'error').mockImplementation(() => undefined);
+		});
+
+		it('reverts editorVisible and editorLoading when the editor chunk fails to load', async () => {
+			vi.spyOn(app as unknown as { importEditorModule(): Promise<unknown> }, 'importEditorModule')
+				.mockRejectedValue(new Error('mock editor chunk load failure'));
+
+			app.toggleEditor();
+			expect(app.editorVisible()).toBe(true);
+
+			await new Promise(resolve => setTimeout(resolve, 0));
+
+			expect(app.editorVisible()).toBe(false);
+			expect(app.editorLoading).toBe(false);
+			expect(log.error).toHaveBeenCalled();
+		});
+	});
+
 	describe('checkImport', () => {
 		let app: AppComponent;
 		let layoutService: LayoutService;
