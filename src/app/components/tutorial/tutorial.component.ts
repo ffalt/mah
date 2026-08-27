@@ -91,9 +91,13 @@ export class TutorialComponent {
 	}
 
 	private wiggleStone(stone: Stone): void {
+		if (stone.wiggleTimer !== undefined) {
+			clearTimeout(stone.wiggleTimer);
+		}
 		stone.wiggle.set(true);
-		setTimeout(() => {
+		stone.wiggleTimer = setTimeout(() => {
 			stone.wiggle.set(false);
+			stone.wiggleTimer = undefined;
 		}, 300);
 	}
 

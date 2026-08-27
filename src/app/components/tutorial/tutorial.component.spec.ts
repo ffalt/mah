@@ -148,6 +148,43 @@ describe('TutorialComponent', () => {
 		});
 	});
 
+	describe('Wiggling a blocked tile', () => {
+		beforeEach(() => {
+			vi.useFakeTimers();
+		});
+
+		afterEach(() => {
+			vi.useRealTimers();
+		});
+
+		function selectBlockedStep(): void {
+			const stepIndex = TUTORIAL_STEPS.findIndex(step => step.id === 'blocked-tiles');
+			component.currentStepIndex.set(stepIndex);
+			component.board.set(createTutorialBoard(TUTORIAL_STEPS[stepIndex].board));
+		}
+
+		// clicking a blocked tile a second time inside the wiggle window used to end the
+		// animation early, since the first timer wasn't cancelled before the second one started
+		it('should keep wiggling through a second click before the first timer would have ended it', () => {
+			selectBlockedStep();
+			const blocked = component.board().stones().find(stone => stone.state().blocked);
+			if (!blocked) {
+				throw new Error('expected a blocked stone in this step');
+			}
+
+			component.onStoneClick(blocked);
+			vi.advanceTimersByTime(200);
+			component.onStoneClick(blocked);
+			vi.advanceTimersByTime(200); // 400ms since the 1st click, but only 200ms since the 2nd
+
+			expect(blocked.wiggle()).toBe(true);
+
+			vi.advanceTimersByTime(100); // 300ms since the 2nd click
+
+			expect(blocked.wiggle()).toBe(false);
+		});
+	});
+
 	describe('Completion', () => {
 		it('should emit completed on skip()', () => {
 			const spy = vi.fn();
