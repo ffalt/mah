@@ -1,6 +1,6 @@
 @if (visible()) {
 	<div class="overlay {{className()}}" tabindex="0" (click)="toggleOverlay();" (keydown)="trapFocus($event)">
-		<div class="overlay-popup" role="dialog" aria-modal="true" [attr.aria-labelledby]="title() ? dialogId + '-title' : null" tabindex="-1" (click)="$event.stopPropagation();" (keydown)="trapFocus($event); $event.stopPropagation();">
+		<div class="overlay-popup" role="dialog" aria-modal="true" [attr.aria-labelledby]="title() ? dialogId + '-title' : null" tabindex="-1" (click)="$event.stopPropagation();" (keydown)="trapFocus($event)">
 			<div class="dialog-header">
 				@if (title()) {
 					<h2 [id]="dialogId + '-title'"><app-icon-logo />{{ title() }}</h2>

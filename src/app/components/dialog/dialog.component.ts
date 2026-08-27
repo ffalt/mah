@@ -54,6 +54,9 @@ export class DialogComponent {
 	}
 
 	trapFocus(event: KeyboardEvent): void {
+		if (event.key === 'Tab') {
+			event.stopPropagation();
+		}
 		const host = this.elementRef.nativeElement as HTMLElement;
 		trapFocus(host.querySelector<HTMLElement>('.overlay-popup'), event);
 	}
