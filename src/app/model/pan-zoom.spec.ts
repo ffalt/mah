@@ -641,4 +641,32 @@ describe('PanZoom', () => {
 			expect(panZoom.hasPinchChanged).toBe(true);
 		});
 	});
+
+	describe('hasMultiTouch', () => {
+		it('is set as soon as a second finger touches down', () => {
+			panZoom.onTouchStart(touchEvent([touch(100, 100, 0), touch(200, 100, 1)]));
+
+			expect(panZoom.hasMultiTouch).toBe(true);
+		});
+
+		it('stays false for a single-finger touch', () => {
+			panZoom.onTouchStart(touchEvent([touch(100, 100, 0)]));
+
+			panZoom.onTouchEnd(touchEvent([]));
+
+			expect(panZoom.hasMultiTouch).toBe(false);
+		});
+
+		it('stays true across each finger lifting separately, even without a pinch', () => {
+			panZoom.onTouchStart(touchEvent([touch(100, 100, 0), touch(200, 100, 1)]));
+
+			// first finger lifts, one still down - not yet the end of the gesture
+			panZoom.onTouchEnd(touchEvent([touch(200, 100, 1)], [touch(100, 100, 0)]));
+			expect(panZoom.hasMultiTouch).toBe(true);
+
+			// second (last) finger lifts - only now does the gesture fully end
+			panZoom.onTouchEnd(touchEvent([], [touch(200, 100, 1)]));
+			expect(panZoom.hasMultiTouch).toBe(false);
+		});
+	});
 });

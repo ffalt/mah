@@ -22,6 +22,7 @@ export class PanZoom {
 	transformSVG: string = '';
 	hasTouchPanMoved: boolean = false;
 	hasPinchChanged: boolean = false;
+	hasMultiTouch: boolean = false;
 	isPanning: boolean = false;
 	isPinching: boolean = false;
 	touchPoints: Array<TouchPoint> = [];
@@ -62,6 +63,7 @@ export class PanZoom {
 		this.isPinching = false;
 		this.hasTouchPanMoved = false;
 		this.hasPinchChanged = false;
+		this.hasMultiTouch = false;
 		this.touchPoints = [];
 		this.lastMouseX = 0;
 		this.lastMouseY = 0;
@@ -151,6 +153,7 @@ export class PanZoom {
 		} else if (this.touchPoints.length === 2) {
 			this.isPanning = false;
 			this.isPinching = true;
+			this.hasMultiTouch = true;
 			this.initialDistance = this.distance(this.touchPoints[0], this.touchPoints[1]);
 			this.initialScale = this.scale;
 			this.indicators.gestureIndicators.set([]);
@@ -243,6 +246,7 @@ export class PanZoom {
 		if (this.touchPoints.length === 0) {
 			this.hasTouchPanMoved = false;
 			this.hasPinchChanged = false;
+			this.hasMultiTouch = false;
 			this.initialTouchX = 0;
 			this.initialTouchY = 0;
 		}

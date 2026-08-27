@@ -199,7 +199,7 @@ export class BoardComponent implements OnInit, OnChanges, AfterViewInit {
 	}
 
 	onTouchEnd(event: TouchEvent): void {
-		const draw = event.type === 'touchend' && !this.panZoom.hasPinchChanged && !this.panZoom.hasTouchPanMoved ? this.eventDraw(event) : undefined;
+		const draw = event.type === 'touchend' && !this.panZoom.hasPinchChanged && !this.panZoom.hasTouchPanMoved && !this.panZoom.hasMultiTouch ? this.eventDraw(event) : undefined;
 		this.panZoom.onTouchEnd(event);
 		if (event.touches.length === 0) {
 			this.detachTouchMoveListener();

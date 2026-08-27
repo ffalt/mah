@@ -422,6 +422,36 @@ describe('BoardComponent', () => {
 			expect(clickSpy).toHaveBeenCalledWith(component.drawStones[0].source);
 		});
 
+		it('should not emit a click for either tile from a static two-finger tap', () => {
+			const stoneA = makeTestStone();
+			const stoneB = new Stone(0, 2, 0, 1, 1);
+			stoneB.img = { id: 'c1' };
+			fixture.componentRef.setInput('stones', [stoneA, stoneB]);
+			fixture.detectChanges();
+			const tiles = fixture.nativeElement.querySelectorAll('g.draw');
+			const clickSpy = vi.spyOn(component.clickEvent, 'emit');
+
+			component.onTouchStart(new TouchEvent('touchstart', {
+				touches: [
+					{ identifier: 0, clientX: 100, clientY: 100 } as Touch,
+					{ identifier: 1, clientX: 200, clientY: 100 } as Touch
+				]
+			}));
+			// each finger's own lift is a separate touchend event, targeted at whatever tile that finger started on
+			tiles[0].dispatchEvent(new TouchEvent('touchend', {
+				bubbles: true,
+				touches: [{ identifier: 1, clientX: 200, clientY: 100 } as Touch],
+				changedTouches: [{ identifier: 0, clientX: 100, clientY: 100 } as Touch]
+			}));
+			tiles[1].dispatchEvent(new TouchEvent('touchend', {
+				bubbles: true,
+				touches: [],
+				changedTouches: [{ identifier: 1, clientX: 200, clientY: 100 } as Touch]
+			}));
+
+			expect(clickSpy).not.toHaveBeenCalled();
+		});
+
 		it('should handle resize events', () => {
 			const resizeSpy = vi.spyOn(component as unknown as HackBoardComponent, 'resize');
 			const resizeEvent = new Event('resize');
