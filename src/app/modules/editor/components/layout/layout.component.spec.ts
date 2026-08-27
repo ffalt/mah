@@ -518,7 +518,7 @@ describe('LayoutComponent', () => {
 			expect(component.totalZ).toBe(before + 1);
 		});
 
-		it('shifts tiles above the layer up by 1', () => {
+		it('shifts the layer and everything above it up by 1, opening an empty layer below', () => {
 			const layout: EditLayout = {
 				id: '',
 				name: 'Test',
@@ -528,7 +528,9 @@ describe('LayoutComponent', () => {
 			};
 			init(layout);
 			component.newLayerBelow(0);
+			const tile0 = layout.mapping.find(m => m[1] === 2 && m[2] === 2);
 			const tile1 = layout.mapping.find(m => m[1] === 4 && m[2] === 2);
+			expect(tile0?.[0]).toBe(1);
 			expect(tile1?.[0]).toBe(2);
 		});
 	});

@@ -306,7 +306,7 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 		this.totalZ += 1;
 		const mapping = this.layout().mapping;
 		for (const m of mapping) {
-			if (m[0] > layer) {
+			if (m[0] >= layer) {
 				m[0] += 1;
 			}
 		}
