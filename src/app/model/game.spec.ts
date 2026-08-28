@@ -230,6 +230,29 @@ describe('Game', () => {
 			expect(game.state()).toBe(STATES.run);
 		});
 
+		it('refuses to resume out of the stuck-board prompt', () => {
+			game.mode.set(GAME_MODE_EASY);
+			game.state.set(STATES.pause);
+			game.message.set({ messageID: 'MSG_FAIL', askShuffle: true });
+
+			game.resume();
+
+			expect(game.state()).toBe(STATES.pause);
+			expect(game.message()).toEqual({ messageID: 'MSG_FAIL', askShuffle: true });
+			expect(mockClock.run).not.toHaveBeenCalled();
+		});
+
+		it('ignores the pause toggle while the stuck-board prompt is up', () => {
+			game.mode.set(GAME_MODE_EASY);
+			game.state.set(STATES.pause);
+			game.message.set({ messageID: 'MSG_FAIL', askShuffle: true });
+
+			game.toggle();
+
+			expect(game.state()).toBe(STATES.pause);
+			expect(game.message()?.askShuffle).toBe(true);
+		});
+
 		it('should reset the game', () => {
 			game.reset();
 
@@ -338,6 +361,20 @@ describe('Game', () => {
 			game.gameOverEasyModeShuffle();
 
 			expect(game.state()).toBe(STATES.run);
+		});
+
+		it('resumes from the prompt itself, which is what the shuffle button clicks', () => {
+			game.mode.set(GAME_MODE_EASY);
+			game.state.set(STATES.pause);
+			game.message.set({ messageID: 'MSG_FAIL', askShuffle: true });
+			(mockBoard.shuffle as Mock).mockImplementation(() => {
+				mockBoard.free!.set([makeRemovableStone()]);
+			});
+
+			game.gameOverEasyModeShuffle();
+
+			expect(game.state()).toBe(STATES.run);
+			expect(game.message()).toBeUndefined();
 		});
 
 		it('should resume the game when the rescue shuffle frees a stone', () => {

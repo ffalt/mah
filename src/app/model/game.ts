@@ -131,6 +131,9 @@ export class Game {
 	}
 
 	resume(): void {
+		if (this.message()?.askShuffle) {
+			return;
+		}
 		this.run();
 		this.clock.run();
 		this.music.play();
@@ -303,6 +306,7 @@ export class Game {
 		for (let index = 0; index < RESCUE_SHUFFLE_ATTEMPTS; index++) {
 			this.board.shuffle();
 			if (this.board.free().length > 0) {
+				this.message.set(undefined);
 				this.resume();
 				return;
 			}
