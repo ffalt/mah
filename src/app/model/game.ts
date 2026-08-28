@@ -179,7 +179,6 @@ export class Game {
 		this.board.update();
 		this.setupChallenge(challengeSetup);
 		this.run();
-		// a challenge is timed from the moment it starts, not from the first tile the player touches
 		if (this.challenge()) {
 			this.clock.run();
 		}
@@ -206,10 +205,7 @@ export class Game {
 	}
 
 	back(): boolean {
-		if (!this.allowsUndo()) {
-			return false;
-		}
-		if (!this.isRunning()) {
+		if (!this.allowsUndo() || !this.isRunning()) {
 			return false;
 		}
 		this.clearMatchesTimer();
@@ -218,10 +214,10 @@ export class Game {
 		}
 		this.challenge()?.undo();
 		this.sound.play(SOUNDS.UNDO);
+		this.delayedSave();
 		return true;
 	}
 
-	// overridable so tests can pin the calendar day
 	now(): Date {
 		return new Date();
 	}
@@ -268,7 +264,6 @@ export class Game {
 		return false;
 	}
 
-	// a save that cannot be restored
 	private discardStoredState(): void {
 		this.layoutID = undefined;
 		this.state.set(STATES.idle);
@@ -312,7 +307,6 @@ export class Game {
 				return;
 			}
 		}
-		// no rescue possible after all attempts, do not re-offer the shuffle prompt
 		this.gameOverLosing();
 	}
 
@@ -327,7 +321,6 @@ export class Game {
 	}
 
 	checkGameState(): boolean {
-		// a challenge verdict outranks the board rules - Match Attack can win with tiles left over
 		const verdict = this.challenge()?.evaluate() ?? 'run';
 		if (verdict === 'won') {
 			this.gameOverWinning();
@@ -339,8 +332,6 @@ export class Game {
 		}
 		if (this.board.count() < 2) {
 			const challenge = this.challenge();
-			// an empty board only wins a challenge that asked for one - a match or score target the player
-			// never reached cannot be met any more, so the tiles running out ends the run as a loss
 			if (challenge && challenge.info.objective !== 'clear') {
 				this.gameOverLosing();
 				return false;
@@ -368,6 +359,7 @@ export class Game {
 			return false;
 		}
 		this.sound.play(SOUNDS.SHUFFLE);
+		this.delayedSave();
 		return true;
 	}
 
@@ -397,7 +389,6 @@ export class Game {
 		this.board.clearMatches();
 	}
 
-	// challenge runs are recorded per day, never against the layout's own best time - the rules differ
 	private isStorableLayoutId(): boolean {
 		return this.layoutID !== undefined && !this.layoutID.startsWith(RANDOM_LAYOUT_ID_PREFIX) && !this.challenge();
 	}
@@ -411,7 +402,6 @@ export class Game {
 			this.board.applyMapping(layout.mapping, buildMode);
 			return;
 		}
-		// a challenge board has to come out identical for everyone, so tile assignment runs off the seed
 		seedRNG(seed);
 		try {
 			this.board.applyMapping(layout.mapping, buildMode);
@@ -476,9 +466,7 @@ export class Game {
 		}
 	}
 
-	// the earned score would otherwise vanish with the hud, so it rides along on the end message
 	private challengeGameOver(challenge: Challenge, messageID: string, playTime: number): void {
-		// dropped before gameOver(), whose clock reset would otherwise send the hud countdown back to the full limit
 		this.challenge.set(undefined);
 		this.gameOver(messageID, playTime);
 		this.message.update(message => (message ? { ...message, score: challenge.score.points() } : message));
@@ -522,7 +510,6 @@ export class Game {
 			return;
 		}
 		const playTime = this.clock.elapsed();
-		// read the countdown before gameOver() resets the clock
 		const timeUp = challenge.hasTimeLimit && challenge.remaining() <= 0;
 		this.sound.play(SOUNDS.OVER);
 		this.challengeGameOver(challenge, timeUp ? 'MSG_TIME_UP' : 'MSG_CHALLENGE_LOST', playTime);

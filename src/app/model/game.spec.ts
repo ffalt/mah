@@ -292,7 +292,6 @@ describe('Game', () => {
 			expect(mockSound.play).toHaveBeenCalledWith(SOUNDS.SHUFFLE);
 		});
 
-		// the caller announces a shuffle to screen readers, so a board that did not move must not report one
 		it('should report a shuffle the board could not carry out', () => {
 			game.mode.set(GAME_MODE_EASY);
 			game.state.set(STATES.run);
@@ -320,7 +319,6 @@ describe('Game', () => {
 			expect(mockBoard.shuffle).not.toHaveBeenCalled();
 		});
 
-		// the rescue shuffle is offered on a board the game itself paused, so it must not be refused
 		it('still shuffles for the easy mode rescue while the game is paused', () => {
 			game.mode.set(GAME_MODE_EASY);
 			game.state.set(STATES.pause);
@@ -384,6 +382,20 @@ describe('Game', () => {
 			game.back();
 
 			expect(mockBoard.back).toHaveBeenCalled();
+		});
+
+		it('should persist an undo', () => {
+			vi.useFakeTimers();
+			(mockBoard.back as Mock).mockReturnValue(true);
+			game.layoutID = 'test';
+			game.mode.set(GAME_MODE_STANDARD);
+			game.state.set(STATES.run);
+
+			game.back();
+			vi.runAllTimers();
+
+			expect(mockStorage.storeState).toHaveBeenCalled();
+			vi.useRealTimers();
 		});
 
 		it('should not undo in expert mode', () => {
