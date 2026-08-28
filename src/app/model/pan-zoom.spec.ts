@@ -507,6 +507,13 @@ describe('PanZoom', () => {
 			expect(panZoom.panY).toBe(-20);
 		});
 
+		it('repaints while the finger is still down instead of only on lift', () => {
+			panZoom.onTouchMove(touchEvent([touch(130, 80)]));
+
+			expect(onTransformChange).toHaveBeenCalled();
+			expect(panZoom.transformSVG).toBe('translate(30px, -20px) scale(2)');
+		});
+
 		it('flags the pan once it passes the threshold', () => {
 			panZoom.onTouchMove(touchEvent([touch(130, 100)]));
 

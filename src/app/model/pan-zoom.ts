@@ -202,6 +202,7 @@ export class PanZoom {
 			this.setPanValue(this.panX + deltaX, this.panY + deltaY);
 			this.lastTouchX = currentX;
 			this.lastTouchY = currentY;
+			this.updateTransform();
 		}
 	}
 
