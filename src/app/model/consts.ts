@@ -160,6 +160,8 @@ for (let index = 1; index < 19; index++) {
 for (let index = 1; index < 10; index++) {
 	TILES_EXT.push([`t_e${index}`, `t_e${index}`, `t_e${index}`, `t_e${index}`]);
 }
+
+export const MAX_BOARD_TILES = (TILES.length + TILES_EXT.length) * 4;
 export const TILES_INFOS = [
 	{
 		name: 'TILES_SUITS',

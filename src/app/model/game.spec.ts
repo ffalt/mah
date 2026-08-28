@@ -4,7 +4,7 @@ import type { Board } from './board';
 import type { Clock } from './clock';
 import { type Sound, SOUNDS } from './sound';
 import type { Music } from './music';
-import { STATES, GAME_MODE_STANDARD, GAME_MODE_EASY, GAME_MODE_EXPERT, RESCUE_SHUFFLE_ATTEMPTS } from './consts';
+import { STATES, GAME_MODE_STANDARD, GAME_MODE_EASY, GAME_MODE_EXPERT, MAX_BOARD_TILES, RESCUE_SHUFFLE_ATTEMPTS } from './consts';
 import { Stone } from './stone';
 import type { GameStateStore, Layout, Place, StonePlace, StorageProvider } from './types';
 import { type Mock, describe, beforeEach, it, expect, vi } from 'vitest';
@@ -266,7 +266,7 @@ describe('Game', () => {
 				id: 'test',
 				name: 'Test Layout',
 				category: 'Test',
-				mapping: [[0, 0, 0]]
+				mapping: [[0, 0, 0], [0, 2, 0]]
 			};
 
 			game.start(layout, 'MODE_SOLVABLE', GAME_MODE_STANDARD);
@@ -276,6 +276,24 @@ describe('Game', () => {
 			expect(mockBoard.applyMapping).toHaveBeenCalledWith(layout.mapping, 'MODE_SOLVABLE');
 			expect(mockBoard.update).toHaveBeenCalled();
 			expect(game.state()).toBe(STATES.run);
+		});
+
+		it.each([
+			['more tiles than there is artwork for', MAX_BOARD_TILES + 2],
+			['an odd tile count, which would lose a tile to pairedMapping()', 11]
+		])('refuses a board with %s', (_reason, count) => {
+			const layout: Layout = {
+				id: 'unplayable',
+				name: 'Unplayable Layout',
+				category: 'Test',
+				mapping: Array.from({ length: count }, (_value, index): Place => [0, index * 2, 0])
+			};
+
+			game.start(layout, 'MODE_SOLVABLE', GAME_MODE_STANDARD);
+
+			expect(mockBoard.applyMapping).not.toHaveBeenCalled();
+			expect(game.state()).toBe(STATES.idle);
+			expect(game.layoutID).toBeUndefined();
 		});
 	});
 
@@ -746,7 +764,7 @@ describe('Game', () => {
 
 		it('keeps saving normally once a new game has started', () => {
 			game.reset();
-			game.start({ id: 'next', name: 'Next', category: 'Test', mapping: [[0, 0, 0]] }, 'MODE_SOLVABLE', GAME_MODE_STANDARD);
+			game.start({ id: 'next', name: 'Next', category: 'Test', mapping: [[0, 0, 0], [0, 2, 0]] }, 'MODE_SOLVABLE', GAME_MODE_STANDARD);
 
 			game.save();
 

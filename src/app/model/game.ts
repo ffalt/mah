@@ -1,7 +1,7 @@
 import { computed, signal } from '@angular/core';
 import { Board } from './board';
 import { Clock } from './clock';
-import { GAME_MODE_CHALLENGE, GAME_MODE_EASY, GAME_MODE_EXPERT, type GAME_MODE_ID, GAME_MODE_ID_DEFAULT, RESCUE_SHUFFLE_ATTEMPTS, STATES } from './consts';
+import { GAME_MODE_CHALLENGE, GAME_MODE_EASY, GAME_MODE_EXPERT, type GAME_MODE_ID, GAME_MODE_ID_DEFAULT, MAX_BOARD_TILES, RESCUE_SHUFFLE_ATTEMPTS, STATES } from './consts';
 import { SOUNDS, Sound } from './sound';
 import type { Stone } from './stone';
 import type { GameStateStore, Layout, StorageProvider } from './types';
@@ -176,6 +176,9 @@ export class Game {
 	}
 
 	start(layout: Layout, buildMode: BUILD_MODE_ID, gameMode: GAME_MODE_ID, challengeSetup?: ChallengeSetup): void {
+		if (layout.mapping.length > MAX_BOARD_TILES || layout.mapping.length % 2 !== 0) {
+			return;
+		}
 		this.layoutID = layout.id;
 		this.mode.set(gameMode);
 		this.buildBoard(layout, buildMode, challengeSetup?.seed);

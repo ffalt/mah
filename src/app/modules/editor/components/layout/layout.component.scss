@@ -145,6 +145,10 @@
 			letter-spacing: 0.04em;
 			color: var(--editor-table-header-color);
 			white-space: nowrap;
+
+			&.count-invalid {
+				color: var(--text-fail-color);
+			}
 		}
 	}
 

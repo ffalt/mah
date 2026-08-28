@@ -77,6 +77,16 @@ describe('LayoutComponent', () => {
 			component.refresh();
 			expect(component.hasChanged).toBe(false);
 		});
+
+		it('marks an unusable tile count in the tile counter', () => {
+			init();
+			expect(fixture.nativeElement.querySelector('.buttonbar-title.count-invalid')).toBeNull();
+
+			init({ ...makeEditLayout(), mapping: [[0, 0, 0], [0, 2, 0], [0, 4, 0]] });
+
+			expect(component.stats()?.countInvalid).toBe(true);
+			expect(fixture.nativeElement.querySelector('.buttonbar-title.count-invalid')).toBeTruthy();
+		});
 	});
 
 	describe('change()', () => {
