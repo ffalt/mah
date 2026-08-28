@@ -530,6 +530,7 @@ export class GameComponent {
 				}
 				setTimeout(() => {
 					this.game.board.pick(stones[0], stones[1]);
+					this.game.challenge()?.pick(stones[0], stones[1]);
 					for (const stone of stones) {
 						stone.selected.set(false);
 					}
