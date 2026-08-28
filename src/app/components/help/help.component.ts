@@ -5,7 +5,6 @@ import { clickExternalHref } from '../../model/external-links';
 import { DurationPipe } from '../../pipes/duration.pipe';
 import { LayoutService } from '../../service/layout.service';
 import { LocalstorageService } from '../../service/localstorage.service';
-import { log } from '../../model/log';
 import { IconTilesinfoComponent } from '../icons/icon-tilesinfo.component';
 import { IconSettingsComponent } from '../icons/icon-settings.component';
 import { IconHintComponent } from '../icons/icon-hint.component';
@@ -90,25 +89,23 @@ export class HelpComponent implements OnInit {
 		return { winCount, loseCount, items };
 	}
 
-	async clearTimes(): Promise<void> {
-		const layouts = await this.layoutService.get();
-		for (const layout of layouts.items) {
-			this.storage.clearScore(layout.id);
+	clearTimes(): void {
+		// every stored record, not just the ones a layout still exists for - deleted boards leave theirs behind
+		for (const id of this.storage.getScores().keys()) {
+			this.storage.clearScore(id);
 		}
 	}
 
 	clearTimesClick(): void {
-		if (confirm(this.translate.instant('BEST_TIMES_CLEAR_SURE'))) {
-			this.clearTimes()
-				.then(() => {
-					this.stats.set({
-						items: [],
-						winCount: 0,
-						loseCount: 0
-					});
-				})
-				.catch(error => log.error(error));
+		if (!confirm(this.translate.instant('BEST_TIMES_CLEAR_SURE'))) {
+			return;
 		}
+		this.clearTimes();
+		this.stats.set({
+			items: [],
+			winCount: 0,
+			loseCount: 0
+		});
 	}
 
 	protected readonly clickExternalHref = clickExternalHref;

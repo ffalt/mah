@@ -210,12 +210,26 @@ describe('HelpComponent', () => {
 
 		it('should call clearTimes when confirmed', () => {
 			vi.spyOn(window, 'confirm').mockReturnValue(true);
-			const clearTimesSpy = vi.spyOn(component, 'clearTimes')
-				.mockImplementation(async () => Promise.resolve());
+			const clearTimesSpy = vi.spyOn(component, 'clearTimes').mockImplementation(() => undefined);
 
 			component.clearTimesClick();
 
 			expect(clearTimesSpy).toHaveBeenCalled();
+		});
+
+		it('clears every stored record, not just the boards still in the list', () => {
+			const localstorageService = TestBed.inject(LocalstorageService);
+			const orphan: LayoutScoreStore = { winCount: 3, bestTime: 50 };
+			vi.spyOn(localstorageService, 'getScores').mockReturnValue(new Map([
+				['test-layout', { winCount: 1 } as LayoutScoreStore],
+				['deleted-custom-board', orphan]
+			]));
+			const clearScoreSpy = vi.spyOn(localstorageService, 'clearScore');
+
+			component.clearTimes();
+
+			expect(clearScoreSpy).toHaveBeenCalledWith('test-layout');
+			expect(clearScoreSpy).toHaveBeenCalledWith('deleted-custom-board');
 		});
 
 		it('should not call clearTimes when not confirmed', () => {
@@ -227,13 +241,13 @@ describe('HelpComponent', () => {
 			expect(clearTimesSpy).not.toHaveBeenCalled();
 		});
 
-		// OnPush: the async stats reset must still re-render the view
+		// OnPush: the stats reset must still re-render the view
 		it('should reset the stats view after clearing times', async () => {
 			expect(component.stats().items.length).toBeGreaterThan(0);
 			expect(fixture.debugElement.query(By.css('.stats-list table'))).toBeTruthy();
 
 			vi.spyOn(window, 'confirm').mockReturnValue(true);
-			vi.spyOn(component, 'clearTimes').mockResolvedValue();
+			vi.spyOn(component, 'clearTimes').mockImplementation(() => undefined);
 
 			component.clearTimesClick();
 			await fixture.whenStable();
