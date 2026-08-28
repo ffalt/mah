@@ -1,4 +1,10 @@
-<app-dialog (clickEvent)="messageEvent.emit(undefined)" [visible]="!!app.game.message()" className="overlay-message overlay-size-auto" [noCloseButton]="true">
+<app-dialog
+	(clickEvent)="messageEvent.emit(undefined)"
+	[visible]="!!app.game.message()"
+	className="overlay-message overlay-size-auto"
+	[noCloseButton]="true"
+	[allowCloseOverlay]="!app.game.message()?.askShuffle"
+>
 	@if (app.game.message(); as message) {
 		<div
 			class="overlay-message-message"

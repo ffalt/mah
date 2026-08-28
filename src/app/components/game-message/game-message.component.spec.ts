@@ -80,6 +80,29 @@ describe('GameMessageComponent', () => {
 		expect(messageSpy).toHaveBeenCalled();
 	});
 
+	it('closes on an overlay click for a message the player can just dismiss', () => {
+		appService.game.message.set({ messageID: 'MSG_BEST', playTime: 1000 });
+		fixture.detectChanges();
+
+		component.messageEvent.subscribe(() => appService.game.message.set(undefined));
+		(fixture.nativeElement.querySelector(':scope .overlay') as HTMLElement).click();
+		fixture.detectChanges();
+
+		expect(fixture.nativeElement.querySelector(':scope .overlay')).toBeNull();
+	});
+
+	it('keeps the ask-shuffle prompt on screen when the overlay is clicked', () => {
+		appService.game.message.set({ messageID: 'MSG_FAIL', askShuffle: true });
+		fixture.detectChanges();
+
+		// clickMessage() deliberately does nothing here, so the dialog must not close itself either
+		(fixture.nativeElement.querySelector(':scope .overlay') as HTMLElement).click();
+		fixture.detectChanges();
+
+		expect(appService.game.message()?.askShuffle).toBe(true);
+		expect(fixture.nativeElement.querySelector(':scope .overlay-message-actions')).toBeTruthy();
+	});
+
 	it('should emit shuffle and surrender events from the ask-shuffle actions', () => {
 		appService.game.message.set({ messageID: 'MSG_FAIL', askShuffle: true });
 		fixture.detectChanges();
