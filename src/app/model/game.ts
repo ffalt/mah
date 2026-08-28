@@ -366,6 +366,10 @@ export class Game {
 			return false;
 		}
 		this.sound.play(SOUNDS.SHUFFLE);
+		if (this.board.free().length === 0) {
+			this.gameOverEasyMode();
+			return true;
+		}
 		this.delayedSave();
 		return true;
 	}

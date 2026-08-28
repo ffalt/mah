@@ -309,10 +309,41 @@ describe('Game', () => {
 		it('should shuffle in easy mode', () => {
 			game.mode.set(GAME_MODE_EASY);
 			game.state.set(STATES.run);
+			mockBoard.free!.set([makeRemovableStone()]);
 
 			expect(game.shuffle()).toBe(true);
 			expect(mockBoard.shuffle).toHaveBeenCalled();
 			expect(mockSound.play).toHaveBeenCalledWith(SOUNDS.SHUFFLE);
+			expect(game.state()).toBe(STATES.run);
+			expect(game.message()).toBeUndefined();
+		});
+
+		it('offers the rescue prompt when a shuffle leaves no move behind', () => {
+			game.mode.set(GAME_MODE_EASY);
+			game.state.set(STATES.run);
+			mockBoard.free!.set([]);
+			(mockBoard.countUnblocked as Mock).mockReturnValue(2);
+
+			expect(game.shuffle()).toBe(true);
+			expect(game.state()).toBe(STATES.pause);
+			expect(game.message()).toEqual({ messageID: 'MSG_FAIL', askShuffle: true });
+		});
+
+		it('never wins or loses a board by shuffling it', () => {
+			game.mode.set(GAME_MODE_EASY);
+			game.layoutID = 'test';
+			game.state.set(STATES.run);
+			// a board that would read as hopeless to checkGameState: no move, nothing unblocked
+			mockBoard.free!.set([]);
+			(mockBoard.countUnblocked as Mock).mockReturnValue(0);
+
+			expect(game.shuffle()).toBe(true);
+
+			// still the rescue prompt, never a game over - the rescue shuffle itself gives up if it has to
+			expect(game.state()).toBe(STATES.pause);
+			expect(game.message()?.askShuffle).toBe(true);
+			expect(mockStorage.storeScore).not.toHaveBeenCalled();
+			expect(mockSound.play).not.toHaveBeenCalledWith(SOUNDS.OVER);
 		});
 
 		it('should report a shuffle the board could not carry out', () => {
