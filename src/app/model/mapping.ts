@@ -1,5 +1,8 @@
 import type { CompactMapping, CompactMappingX, Mapping, Place } from './types';
 import { hashString } from './hash';
+import { CONSTS } from './consts';
+
+const MAX_REPEATED_CELLS = CONSTS.mX * 2;
 
 export function expandMapping(map: CompactMapping): Mapping {
 	return map.flatMap(([z, rows]) =>
@@ -22,8 +25,9 @@ function expandCells(z: number, y: number, cells: CompactMappingX): Array<Place>
 }
 
 function expandRepeatedCells(z: number, y: number, startX: number, count: number): Array<Place> {
+	const length = Math.max(0, Math.min(count, MAX_REPEATED_CELLS));
 	return Array.from(
-		{ length: count },
+		{ length },
 		(_, index) => [z, startX + (index * 2), y] as Place
 	);
 }

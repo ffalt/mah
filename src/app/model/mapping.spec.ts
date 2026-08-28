@@ -88,6 +88,18 @@ describe('Mapping', () => {
 				[1, 1, 0]
 			]);
 		});
+
+		it('should clamp an out-of-range repeated-cell count instead of allocating it verbatim', () => {
+			const compactMapping: CompactMapping = [
+				[0, [
+					[0, [[0, 500_000_000]]]
+				]]
+			];
+
+			const expanded = expandMapping(compactMapping);
+
+			expect(expanded.length).toBeLessThan(100);
+		});
 	});
 
 	describe('expandMapping-compactMapping', () => {
