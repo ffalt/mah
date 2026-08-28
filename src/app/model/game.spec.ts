@@ -356,11 +356,42 @@ describe('Game', () => {
 			game.state.set(STATES.pause);
 			(mockBoard.shuffle as Mock).mockImplementation(() => {
 				mockBoard.free!.set([makeRemovableStone()]);
+				return true;
 			});
 
 			game.gameOverEasyModeShuffle();
 
 			expect(game.state()).toBe(STATES.run);
+		});
+
+		it('persists the board the rescue shuffle produced', () => {
+			vi.useFakeTimers();
+			game.mode.set(GAME_MODE_EASY);
+			game.layoutID = 'test';
+			game.state.set(STATES.pause);
+			game.message.set({ messageID: 'MSG_FAIL', askShuffle: true });
+			(mockBoard.shuffle as Mock).mockImplementation(() => {
+				mockBoard.free!.set([makeRemovableStone()]);
+				return true;
+			});
+
+			game.gameOverEasyModeShuffle();
+			vi.runAllTimers();
+
+			expect(mockStorage.storeState).toHaveBeenCalledWith(expect.objectContaining({ state: STATES.run }));
+			vi.useRealTimers();
+		});
+
+		it('gives up instead of retrying when the board refuses to shuffle', () => {
+			game.mode.set(GAME_MODE_EASY);
+			game.layoutID = 'test';
+			(mockBoard.shuffle as Mock).mockReturnValue(false);
+
+			game.gameOverEasyModeShuffle();
+
+			expect(mockBoard.shuffle).toHaveBeenCalledTimes(1);
+			expect(game.state()).toBe(STATES.idle);
+			expect(game.message()).toEqual({ messageID: 'MSG_FAIL', playTime: undefined });
 		});
 
 		it('resumes from the prompt itself, which is what the shuffle button clicks', () => {
@@ -369,6 +400,7 @@ describe('Game', () => {
 			game.message.set({ messageID: 'MSG_FAIL', askShuffle: true });
 			(mockBoard.shuffle as Mock).mockImplementation(() => {
 				mockBoard.free!.set([makeRemovableStone()]);
+				return true;
 			});
 
 			game.gameOverEasyModeShuffle();
@@ -382,6 +414,7 @@ describe('Game', () => {
 			game.layoutID = 'test';
 			(mockBoard.shuffle as Mock).mockImplementation(() => {
 				mockBoard.free!.set([makeRemovableStone()]);
+				return true;
 			});
 
 			game.gameOverEasyModeShuffle();

@@ -304,10 +304,13 @@ export class Game {
 		}
 		this.sound.play(SOUNDS.SHUFFLE);
 		for (let index = 0; index < RESCUE_SHUFFLE_ATTEMPTS; index++) {
-			this.board.shuffle();
+			if (!this.board.shuffle()) {
+				break;
+			}
 			if (this.board.free().length > 0) {
 				this.message.set(undefined);
 				this.resume();
+				this.delayedSave();
 				return;
 			}
 		}
