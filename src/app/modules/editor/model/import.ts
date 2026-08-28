@@ -72,10 +72,6 @@ export async function convert3400Matrix(name: string, board: string): Promise<Im
 	return convertMatrix(5, 20, 34, name, board);
 }
 
-export async function convert2805Matrix(name: string, board: string): Promise<ImportLayout> {
-	return convertMatrix(5, 17, 33, name, board);
-}
-
 export async function convertKmahjonggLines(lines: Array<string>, height: number): Promise<Mapping> {
 	const result: Mapping = [];
 	for (const [index, line] of lines.entries()) {

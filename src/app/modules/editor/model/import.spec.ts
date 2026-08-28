@@ -4,7 +4,6 @@ import {
 	cleanNameCapitalized,
 	compactMapping,
 	compactY,
-	convert2805Matrix,
 	convert3400Matrix,
 	convertKmahjongg,
 	convertKmahjonggLines,
@@ -94,18 +93,6 @@ describe('convert3400Matrix', () => {
 	it('should parse a 3400-char board', async () => {
 		const board = '0'.repeat(3400);
 		const result = await convert3400Matrix('Test', board);
-		expect(result.mapping).toHaveLength(0);
-	});
-});
-
-describe('convert2805Matrix', () => {
-	it('should reject when board length is not 2805', async () => {
-		await expect(convert2805Matrix('Test', '0'.repeat(100))).rejects.toThrow();
-	});
-
-	it('should parse a 2805-char board', async () => {
-		const board = '0'.repeat(5 * 17 * 33);
-		const result = await convert2805Matrix('Test', board);
 		expect(result.mapping).toHaveLength(0);
 	});
 });
