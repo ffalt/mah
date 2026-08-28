@@ -19,6 +19,7 @@ updates:
         patterns:
           - "vitest*"
           - "@vitest*"
+          - "@analogjs/vite*"
       eslint:
         patterns:
           - "eslint*"
