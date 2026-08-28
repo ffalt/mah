@@ -37,12 +37,7 @@ export class ManagerComponent implements OnChanges, OnDestroy {
 	}
 
 	ngOnDestroy(): void {
-		if (!this.worker) {
-			return;
-		}
-
-		this.worker.terminate();
-		this.worker = undefined;
+		this.stopWorker();
 	}
 
 	editLayout(layout: Layout): void {
@@ -122,17 +117,18 @@ export class ManagerComponent implements OnChanges, OnDestroy {
 		}));
 	}
 
+	stopWorker(): void {
+		this.worker?.terminate();
+		this.worker = undefined;
+	}
+
 	testLayout(event: MouseEvent, layout: Layout): void {
 		event.stopPropagation();
+		this.stopWorker();
 		this.startTestLayout(layout);
 	}
 
 	startTestLayout(layout: Layout, callback?: () => void): void {
-		if (this.worker) {
-			this.worker.terminate();
-			this.worker = undefined;
-			return;
-		}
 		this.test.update(test => ({ ...test, [layout.id]: undefined }));
 		let finished = false;
 		const worker = this.workerService.solve(layout.mapping, 10, progress => {
@@ -151,11 +147,7 @@ export class ManagerComponent implements OnChanges, OnDestroy {
 	}
 
 	testLayouts(_event: MouseEvent): void {
-		if (this.worker) {
-			this.worker.terminate();
-			this.worker = undefined;
-			return;
-		}
+		this.stopWorker();
 		this.testNextLayout();
 	}
 

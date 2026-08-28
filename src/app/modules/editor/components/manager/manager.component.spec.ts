@@ -219,10 +219,48 @@ describe('ManagerComponent', () => {
 		});
 	});
 
-	// WorkerService.solve reports synchronously for an empty or odd-length mapping, and
-	// whenever it has to fall back to the main thread. The finish callback then chains into
-	// the next layout before solve() has returned, so assigning its return value afterwards
-	// would wipe out the handle the chained run just stored.
+	describe('testLayout() / testLayouts() switching targets', () => {
+		const workersById = new Map<string, { terminate: Mock }>();
+
+		beforeEach(() => {
+			workersById.clear();
+			mockWorkerService.solve.mockImplementation((mapping: Array<[number, number, number]>) => {
+				const id = String(mapping[0]?.[2] ?? 'unknown');
+				const worker = { terminate: vi.fn() };
+				workersById.set(id, worker);
+				return worker as unknown as Worker;
+			});
+		});
+
+		it('switches to a different layout instead of just cancelling the running one', () => {
+			const layoutA = makeLayout('a', { mapping: [[0, 0, 1]] });
+			const layoutB = makeLayout('b', { mapping: [[0, 0, 2]] });
+
+			component.testLayout(new MouseEvent('click'), layoutA);
+			expect(component.worker).toBe(workersById.get('1'));
+
+			component.testLayout(new MouseEvent('click'), layoutB);
+
+			expect(workersById.get('1')?.terminate).toHaveBeenCalled();
+			expect(component.worker).toBe(workersById.get('2'));
+		});
+
+		it('cancels a running single test and starts the batch when Test All is clicked', () => {
+			const layoutA = makeLayout('a', { mapping: [[0, 0, 1]] });
+			mockLayoutService.layouts.items = [layoutA];
+			fixture.componentRef.setInput('inputLayouts', [layoutA]);
+			component.ngOnChanges({ inputLayouts: {} } as never);
+
+			component.testLayout(new MouseEvent('click'), layoutA);
+			const singleWorker = workersById.get('1');
+
+			component.testLayouts(new MouseEvent('click'));
+
+			expect(singleWorker?.terminate).toHaveBeenCalled();
+			expect(component.worker).toBe(workersById.get('1'));
+		});
+	});
+
 	describe('batch test with a synchronous finish', () => {
 		it('should keep the worker started by the chained layout', () => {
 			const liveWorker = { terminate: vi.fn() } as unknown as Worker;
