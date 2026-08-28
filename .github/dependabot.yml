@@ -15,6 +15,14 @@ updates:
       angular:
         patterns:
           - "@angular*"
+      vitest:
+        patterns:
+          - "vitest*"
+          - "@vitest*"
+      eslint:
+        patterns:
+          - "eslint*"
+          - "@eslint*"
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
