@@ -270,18 +270,17 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 	}
 
 	duplicateLayerZ(layer: number): void {
-		const dups: Array<Place> = [];
 		const mapping = this.layout().mapping;
+		const dups: Array<Place> = mapping.filter(m => m[0] === layer);
 		for (const m of mapping) {
 			if (m[0] > layer) {
 				m[0] += 1;
-			} else if (m[0] === layer) {
-				dups.push(m);
 			}
 		}
 		for (const m of dups) {
 			mapping.push([layer + 1, m[1], m[2]]);
 		}
+		this.totalZ += 1;
 		this.change();
 	}
 

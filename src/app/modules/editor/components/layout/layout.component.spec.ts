@@ -411,6 +411,21 @@ describe('LayoutComponent', () => {
 			const layer1Tiles = layout.mapping.filter(m => m[0] === 1);
 			expect(layer1Tiles.length).toBeGreaterThan(0);
 		});
+
+		it('inserts a new empty layer when duplicating a layer with no tiles', () => {
+			const layout: EditLayout = {
+				id: '',
+				name: 'Test',
+				by: '',
+				category: 'Custom',
+				mapping: [[1, 2, 4]] as Array<[number, number, number]>
+			};
+			init(layout);
+			component.duplicateLayerZ(0);
+			expect(layout.mapping).toEqual([[2, 2, 4]]);
+			expect(component.totalZ).toBe(2);
+			expect(component.matrix.levels).toHaveLength(3);
+		});
 	});
 
 	describe('clearLayerZ()', () => {
