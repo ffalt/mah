@@ -71,7 +71,7 @@
     "angular-eslint": "22.1.0",
     "baseline-browser-mapping": "2.11.14",
     "eslint": "10.8.1",
-    "eslint-plugin-rxjs-x": "1.0.4",
+    "eslint-plugin-rxjs-x": "1.0.5",
     "eslint-plugin-unicorn": "73.0.0",
     "eslint-plugin-vitest-globals": "1.6.1",
     "globals": "17.11.0",
