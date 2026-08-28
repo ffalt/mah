@@ -530,6 +530,10 @@ export class GameComponent {
 				}
 				setTimeout(() => {
 					this.game.board.pick(stones[0], stones[1]);
+					for (const stone of stones) {
+						stone.selected.set(false);
+					}
+					this.game.checkGameState();
 					play(index + 2, list);
 				}, 300);
 			}
