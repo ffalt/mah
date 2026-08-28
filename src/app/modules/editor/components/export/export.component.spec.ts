@@ -123,6 +123,27 @@ describe('ExportComponent', () => {
 			expect(savedEvents).toHaveLength(1);
 			expect(savedEvents[0]).toBe(true);
 		});
+
+		it('shows alert and stores nothing when layout id matches a built-in item', () => {
+			const layout = { ...editLayout };
+			init(layout);
+			const alertSpy = vi.spyOn(window, 'alert').mockImplementation(() => undefined);
+			vi.spyOn(translateService, 'instant').mockReturnValue('built-in exists');
+			mockLayoutService.layouts = {
+				items: [{ id: component.exportLayout()!.id, custom: false } as unknown as never]
+			};
+			const savedEvents: Array<boolean> = [];
+			component.savedEvent.subscribe((isCalled: boolean) => {
+				savedEvents.push(isCalled);
+			});
+
+			component.saveAsCopy();
+
+			expect(alertSpy).toHaveBeenCalledWith('built-in exists');
+			expect(layoutService.storeCustomBoards).not.toHaveBeenCalled();
+			expect(layout.originalId).toBeUndefined();
+			expect(savedEvents).toHaveLength(0);
+		});
 	});
 
 	describe('save()', () => {

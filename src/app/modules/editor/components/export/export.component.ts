@@ -65,7 +65,7 @@ export class ExportComponent implements OnInit, OnChanges {
 
 	saveAsCopy(): void {
 		const exportLayout = this.exportLayout();
-		if (!exportLayout) {
+		if (!exportLayout || this.blockedByBuiltIn(exportLayout.id)) {
 			return;
 		}
 		this.layoutService.storeCustomBoards([exportLayout]);
@@ -76,11 +76,7 @@ export class ExportComponent implements OnInit, OnChanges {
 
 	save(): void {
 		const exportLayout = this.exportLayout();
-		if (!exportLayout) {
-			return;
-		}
-		if (this.layoutService.layouts.items.some(l => !l.custom && l.id === exportLayout.id)) {
-			alert(this.translate.instant('EDITOR_BUILD_IN_EXISTS'));
+		if (!exportLayout || this.blockedByBuiltIn(exportLayout.id)) {
 			return;
 		}
 		const idsToRemove = [exportLayout.id];
@@ -132,5 +128,13 @@ export class ExportComponent implements OnInit, OnChanges {
 	update(): void {
 		this.updateFileName();
 		this.updatePreview();
+	}
+
+	private blockedByBuiltIn(id: string): boolean {
+		if (this.layoutService.layouts.items.some(l => !l.custom && l.id === id)) {
+			alert(this.translate.instant('EDITOR_BUILD_IN_EXISTS'));
+			return true;
+		}
+		return false;
 	}
 }
