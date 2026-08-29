@@ -1,5 +1,4 @@
 import { Component, EnvironmentInjector, type OnInit, type OutputRefSubscription, ViewContainerRef, createEnvironmentInjector, inject, signal, viewChild } from '@angular/core';
-import { Meta } from '@angular/platform-browser';
 import { TranslateService, provideChildTranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { firstValueFrom } from 'rxjs';
@@ -26,7 +25,6 @@ export class AppComponent implements OnInit {
 	readonly editorPlaceholder = viewChild.required('editorPlaceholder', { read: ViewContainerRef });
 	readonly app = inject(AppService);
 	readonly layoutService = inject(LayoutService);
-	readonly meta = inject(Meta);
 	readonly loading = signal(true);
 	editorSubscription?: OutputRefSubscription;
 	readonly editorVisible = signal(false);
