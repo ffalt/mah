@@ -162,6 +162,7 @@ for (let index = 1; index < 10; index++) {
 }
 
 export const MAX_BOARD_TILES = (TILES.length + TILES_EXT.length) * 4;
+export const MIN_BOARD_TILES = 2;
 export const TILES_INFOS = [
 	{
 		name: 'TILES_SUITS',

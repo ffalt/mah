@@ -280,7 +280,8 @@ describe('Game', () => {
 
 		it.each([
 			['more tiles than there is artwork for', MAX_BOARD_TILES + 2],
-			['an odd tile count, which would lose a tile to pairedMapping()', 11]
+			['an odd tile count, which would lose a tile to pairedMapping()', 11],
+			['no tiles at all, which could never be played to an end', 0]
 		])('refuses a board with %s', (_reason, count) => {
 			const layout: Layout = {
 				id: 'unplayable',
