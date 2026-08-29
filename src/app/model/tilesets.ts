@@ -261,7 +261,7 @@ function escapeAttributeValue(value: string): string {
 
 export async function buildKyodaiSVG(tileSetUrl?: string): Promise<string> {
 	if (!tileSetUrl) {
-		return '<svg><defs></defs></svg>';
+		throw new Error('Kyodai tileset has no image url.');
 	}
 
 	const range = (start: number, end: number) => Array.from({ length: end }, (_, index) => index + start);

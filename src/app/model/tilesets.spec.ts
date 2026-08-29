@@ -95,14 +95,12 @@ describe('buildTiles', () => {
 });
 
 describe('buildKyodaiSVG', () => {
-	it('returns empty svg when no url provided', async () => {
-		const result = await buildKyodaiSVG();
-		expect(result).toBe('<svg><defs></defs></svg>');
+	it('rejects when no url provided', async () => {
+		await expect(buildKyodaiSVG()).rejects.toThrow('Kyodai tileset has no image url.');
 	});
 
-	it('returns empty svg for empty string url', async () => {
-		const result = await buildKyodaiSVG('');
-		expect(result).toBe('<svg><defs></defs></svg>');
+	it('rejects for empty string url', async () => {
+		await expect(buildKyodaiSVG('')).rejects.toThrow('Kyodai tileset has no image url.');
 	});
 
 	it('resolves with svg markup when image loads', async () => {
