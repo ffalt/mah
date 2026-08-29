@@ -80,7 +80,7 @@ export class ManagerComponent implements OnChanges, OnDestroy {
 
 	removeCustomLayouts(event: MouseEvent): void {
 		event.stopPropagation();
-		if (!confirm(this.translate.instant('CUSTOM_BOARD_DELETE_ALL_SURE'))) {
+		if (!confirm(this.translate.instant('EDITOR_CUSTOM_BOARD_DELETE_ALL_SURE'))) {
 			return;
 		}
 		this.layoutService.removeAllCustomLayouts();
