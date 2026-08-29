@@ -74,6 +74,9 @@ export class ManagerComponent implements OnChanges, OnDestroy {
 
 	removeCustomBoard(event: MouseEvent, layout: Layout): void {
 		event.stopPropagation();
+		if (!confirm(this.translate.instant('CUSTOM_BOARD_DELETE_SURE'))) {
+			return;
+		}
 		this.layoutService.removeCustomLayout([layout.id]);
 		this.update();
 	}
