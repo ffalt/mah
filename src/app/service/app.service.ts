@@ -2,7 +2,7 @@ import { type OnDestroy, inject, signal, Service } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { firstValueFrom, type Subscription } from 'rxjs';
 import { Game } from '../model/game';
-import { DEFAULT_LANGUAGE, LANGUAGES } from '../model/languages';
+import { DEFAULT_LANGUAGE, LANGUAGE_ALIASES, LANGUAGES } from '../model/languages';
 import { Settings } from '../model/settings';
 import { LangAuto } from '../model/consts';
 import { LocalstorageService } from './localstorage.service';
@@ -73,6 +73,7 @@ export class AppService implements OnDestroy {
 			(!lang || lang === LangAuto) ?
 				(navigator.language.split('-', 1)[0] || DEFAULT_LANGUAGE).toLowerCase() : // use navigator lang if available
 				lang;
-		return Object.keys(LANGUAGES).includes(userLang) ? userLang : DEFAULT_LANGUAGE;
+		const resolved = LANGUAGE_ALIASES[userLang] ?? userLang;
+		return Object.keys(LANGUAGES).includes(resolved) ? resolved : DEFAULT_LANGUAGE;
 	}
 }

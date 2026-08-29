@@ -6,7 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import type { Game } from '../model/game';
 import type { Settings } from '../model/settings';
 import { LocalstorageService } from './localstorage.service';
-import { DEFAULT_LANGUAGE } from '../model/languages';
+import { DEFAULT_LANGUAGE, LANGUAGE_ALIASES, LANGUAGES } from '../model/languages';
 import { LangAuto } from '../model/consts';
 import type { Sound } from '../model/sound';
 import { type Mock, describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
@@ -119,6 +119,32 @@ describe('AppService', () => {
 			Object.defineProperty(window.navigator, 'language', { value: 'xx-XX' });
 			service.setLang();
 			expect(translateService.use).toHaveBeenCalledWith(DEFAULT_LANGUAGE);
+		});
+
+		it.each([
+			['nb-NO', 'no'],
+			['nn-NO', 'no'],
+			['tl-PH', 'fil'],
+			['nb', 'no'],
+			['tl', 'fil'],
+			['de-DE', 'de'],
+			['pt-BR', 'pt'],
+			['fil-PH', 'fil'],
+			['zh-Hans-CN', 'zh']
+		])('resolves the navigator language %s to the shipped file %s', (navigatorLang, expected) => {
+			mockSettings.lang.set(LangAuto);
+			Object.defineProperty(window.navigator, 'language', { value: navigatorLang });
+			service.setLang();
+			expect(translateService.use).toHaveBeenCalledWith(expected);
+		});
+
+		it('maps every alias onto a language that is actually shipped', () => {
+			for (const target of Object.values(LANGUAGE_ALIASES)) {
+				expect(Object.keys(LANGUAGES)).toContain(target);
+			}
+			for (const alias of Object.keys(LANGUAGE_ALIASES)) {
+				expect(Object.keys(LANGUAGES)).not.toContain(alias);
+			}
 		});
 	});
 

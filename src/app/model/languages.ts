@@ -1,4 +1,10 @@
 export const DEFAULT_LANGUAGE = 'en';
+
+export const LANGUAGE_ALIASES: Record<string, string> = {
+	nb: 'no',
+	nn: 'no',
+	tl: 'fil'
+};
 export const LANGUAGES: { [name: string]: string } = {
 	en: 'English',
 	ar: 'العربية',
