@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { DeferLoadScrollHostDirective } from './defer-load-scroll-host.directive';
 import { DeferLoadService } from './defer-load.service';
@@ -6,11 +6,10 @@ import { type Mock, describe, beforeEach, it, expect, vi } from 'vitest';
 
 @Component({
 	template: `
-		<div appDeferLoadScrollHost [scrollTo]="scrollTarget()" style="overflow:auto;height:200px"></div>`,
+		<div appDeferLoadScrollHost style="overflow:auto;height:200px"></div>`,
 	imports: [DeferLoadScrollHostDirective]
 })
 class TestHostComponent {
-	readonly scrollTarget = signal<HTMLElement | undefined>(undefined);
 }
 
 describe('DeferLoadScrollHostDirective', () => {
@@ -57,51 +56,6 @@ describe('DeferLoadScrollHostDirective', () => {
 			const hostElement = observerFixture.nativeElement.querySelector('div');
 			hostElement.dispatchEvent(new Event('scroll'));
 			expect(mockService.notifyScroll).not.toHaveBeenCalled();
-		});
-	});
-
-	describe('ngOnChanges', () => {
-		it('should scroll to target element when scrollTo input changes', () => {
-			const target = document.createElement('div');
-			target.id = 'target-element';
-			Object.defineProperties(target, {
-				offsetTop: { value: 300, configurable: true },
-				offsetHeight: { value: 50, configurable: true }
-			});
-			document.body.append(target);
-
-			const hostElement = fixture.nativeElement.querySelector('div');
-			let capturedScrollTop = 0;
-			Object.defineProperty(hostElement, 'scrollTop', {
-				set: (value: number) => {
-					capturedScrollTop = value;
-				},
-				get: () => capturedScrollTop,
-				configurable: true
-			});
-
-			component.scrollTarget.set(target);
-			fixture.detectChanges();
-
-			expect(capturedScrollTop).toBe(300 - 50); // offsetTop - offsetHeight
-
-			target.remove();
-		});
-
-		it('should not scroll when scrollTo input is undefined', () => {
-			const hostElement = fixture.nativeElement.querySelector('div');
-			component.scrollTarget.set(undefined);
-			fixture.detectChanges();
-			expect(hostElement.scrollTop).toBe(0);
-		});
-
-		it('should not scroll when scrollTo element has no id', () => {
-			const target = document.createElement('div');
-			// no id set
-			const hostElement = fixture.nativeElement.querySelector('div');
-			component.scrollTarget.set(target);
-			fixture.detectChanges();
-			expect(hostElement.scrollTop).toBe(0);
 		});
 	});
 });
