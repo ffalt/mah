@@ -1,10 +1,10 @@
 import { Component, ElementRef, type OnChanges, type OnDestroy, type SimpleChanges, inject, input } from '@angular/core';
 import { SvgdefService } from '../../service/svgdef.service';
 import { log } from '../../model/log';
-import { TILES } from '../../model/consts';
+import { TILES, TILES_EXT } from '../../model/consts';
 import { svg_error_icon, svgSpinnerIcon } from './svg';
 
-const TILE_IDS: Array<string> = [...new Set(TILES.flat())];
+const TILE_IDS: Array<string> = [...new Set([...TILES, ...TILES_EXT].flat())];
 
 @Component({
 	selector: '[app-image-set-loader]',

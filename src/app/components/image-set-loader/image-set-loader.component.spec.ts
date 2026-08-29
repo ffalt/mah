@@ -4,7 +4,7 @@ import { SvgdefService } from '../../service/svgdef.service';
 import { ImageSetLoaderComponent } from './image-set-loader.component';
 import type { ElementRef } from '@angular/core';
 import { log } from '../../model/log';
-import { TILES } from '../../model/consts';
+import { TILES, TILES_EXT } from '../../model/consts';
 import { type Mock, describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
 
 interface HackImageSetLoaderComponent {
@@ -249,7 +249,18 @@ describe('ImageSetLoaderComponent', () => {
 
 			const ids = placeholderIds(setImageSetSpy.mock.calls[0][0]);
 			expect(ids.length).toBe(new Set(ids).size);
-			expect(ids.filter(id => id.startsWith('t_'))).toEqual([...new Set(TILES.flat())]);
+			expect(ids.filter(id => id.startsWith('t_'))).toEqual([...new Set([...TILES, ...TILES_EXT].flat())]);
+		});
+
+		it('should cover the extended tile ids', () => {
+			const setImageSetSpy = vi.spyOn(component as unknown as HackImageSetLoaderComponent, 'setImageSet');
+
+			(component as unknown as HackImageSetLoaderComponent).setLoading();
+
+			const ids = placeholderIds(setImageSetSpy.mock.calls[0][0]);
+			expect(ids).toContain('t_g1');
+			expect(ids).toContain('t_e9');
+			expect(ids.filter(id => id.startsWith('t_'))).toHaveLength(69);
 		});
 	});
 
@@ -271,7 +282,7 @@ describe('ImageSetLoaderComponent', () => {
 
 			const ids = placeholderIds(setImageSetSpy.mock.calls[0][0]);
 			expect(ids.length).toBe(new Set(ids).size);
-			expect(ids.filter(id => id.startsWith('t_'))).toEqual([...new Set(TILES.flat())]);
+			expect(ids.filter(id => id.startsWith('t_'))).toEqual([...new Set([...TILES, ...TILES_EXT].flat())]);
 		});
 	});
 
