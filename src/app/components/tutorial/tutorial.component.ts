@@ -1,4 +1,4 @@
-import { Component, computed, inject, output, signal } from '@angular/core';
+import { Component, computed, inject, type OnDestroy, output, signal } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import type { Board } from '../../model/board';
 import { SOUNDS, type Sound } from '../../model/sound';
@@ -13,7 +13,7 @@ import { BoardComponent } from '../board/board.component';
 	styleUrls: ['./tutorial.component.scss'],
 	imports: [BoardComponent, TranslatePipe]
 })
-export class TutorialComponent {
+export class TutorialComponent implements OnDestroy {
 	readonly completed = output();
 	readonly currentStepIndex = signal(-1);
 	readonly feedbackKey = signal<string | undefined>(undefined);
@@ -29,6 +29,12 @@ export class TutorialComponent {
 
 	constructor() {
 		this.sound = this.app.game.sound;
+	}
+
+	ngOnDestroy(): void {
+		clearTimeout(this.feedbackTimer);
+		clearTimeout(this.advanceTimer);
+		this.board().clearWiggles();
 	}
 
 	onStoneClick(stone?: Stone): void {
