@@ -48,7 +48,7 @@ export class Confetti {
 		this.throwConfetti({
 			angle: randomInRange(55, 125),
 			spread: randomInRange(50, 70),
-			particleCount: randomInRange(50, 100),
+			particleCount: randomInRange(50, 200),
 			origin: { y: 0.6 }
 		});
 	}
@@ -66,14 +66,14 @@ export class Confetti {
 		const shoot = () => {
 			this.throwConfetti({
 				...defaults,
-				particleCount: 40,
+				particleCount: randomInRange(40, 60),
 				scalar: 1.2,
 				shapes: ['star']
 			});
 
 			this.throwConfetti({
 				...defaults,
-				particleCount: 10,
+				particleCount: randomInRange(10, 20),
 				scalar: 0.75,
 				shapes: ['circle']
 			});
