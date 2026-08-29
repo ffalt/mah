@@ -7,6 +7,13 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { DropZoneDirective } from '../../directives/drop-zone.directive';
 import { IconOkComponent } from '../../../../components/icons/icon-ok.component';
 
+export interface ImportLog {
+	key: string;
+	params?: Record<string, string>;
+	isError?: boolean;
+	id?: string;
+}
+
 @Component({
 	selector: 'app-import-component',
 	templateUrl: './import.component.html',
@@ -15,7 +22,7 @@ import { IconOkComponent } from '../../../../components/icons/icon-ok.component'
 })
 export class ImportComponent {
 	readonly editEvent = output<Layout>();
-	readonly logs = signal<Array<{ msg: string; isError?: boolean; id?: string }>>([]);
+	readonly logs = signal<Array<ImportLog>>([]);
 	readonly layoutService = inject(LayoutService);
 
 	selectFiles(event: Event): void {
@@ -40,15 +47,15 @@ export class ImportComponent {
 						imported.every(l => l.id !== layout.id)
 					) {
 						imported.push(LayoutService.layout2loadLayout(layout, loadLayout.map));
-						this.logs.update(logs => [...logs, { msg: `Imported: "${file.name}"`, id: layout.id }]);
+						this.logs.update(logs => [...logs, { key: 'EDITOR_IMPORT_DONE', params: { file: file.name }, id: layout.id }]);
 					} else {
 						log.error(`Similar layout to "${layout.name}" already available. Import rejected`);
-						this.logs.update(logs => [...logs, { msg: `Similar layout to "${layout.name}" already available. Import rejected.`, isError: true }]);
+						this.logs.update(logs => [...logs, { key: 'EDITOR_IMPORT_DUPLICATE', params: { name: layout.name }, isError: true }]);
 					}
 				}
 			} catch (error) {
 				log.error('Error importing', file, error);
-				this.logs.update(logs => [...logs, { msg: `ERROR importing "${file.name}". Invalid file.`, isError: true }]);
+				this.logs.update(logs => [...logs, { key: 'EDITOR_IMPORT_INVALID', params: { file: file.name }, isError: true }]);
 			}
 		}
 		if (imported.length > 0) {

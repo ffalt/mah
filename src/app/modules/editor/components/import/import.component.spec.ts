@@ -145,7 +145,7 @@ describe('ImportComponent', () => {
 		});
 
 		it('should clear logs at the start of each import', async () => {
-			component.logs.set([{ msg: 'old', isError: true }]);
+			component.logs.set([{ key: 'old', isError: true }]);
 			mockImportLayouts.mockResolvedValue([]);
 
 			await component.importLayouts([]);
