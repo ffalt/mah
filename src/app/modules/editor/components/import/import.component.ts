@@ -24,6 +24,7 @@ export class ImportComponent {
 		if (fileList) {
 			this.importFiles(Array.from(fileList));
 		}
+		element.value = '';
 	}
 
 	async importLayouts(files: Array<File>): Promise<void> {
