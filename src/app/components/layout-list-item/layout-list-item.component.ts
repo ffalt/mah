@@ -49,6 +49,14 @@ export class LayoutListItemComponent {
 		this.startEvent.emit();
 	}
 
+	onSeedKeyUp(event: KeyboardEvent): void {
+		event.stopPropagation();
+		const seed = (event.target as HTMLInputElement).value.trim();
+		if (seed && seed !== this.seed()) {
+			this.seedEvent.emit(seed);
+		}
+	}
+
 	onClearBestTime(event: Event): void {
 		event.stopPropagation();
 		this.clearBestTimeEvent.emit();

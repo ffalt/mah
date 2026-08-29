@@ -12,7 +12,7 @@
 		<input
 			type="text" class="seed-input"
 			[value]="seed()"
-			(keyup)="$event.stopPropagation(); seedEvent.emit($any($event.target).value)"
+			(keyup)="onSeedKeyUp($event)"
 			[attr.aria-label]="'LAYOUT_SEED_LABEL' | translate"
 			[attr.title]="'LAYOUT_SEED_LABEL' | translate"
 		/>
