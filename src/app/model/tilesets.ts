@@ -287,7 +287,7 @@ export async function buildKyodaiSVG(tileSetUrl?: string): Promise<string> {
 	const extraID = hashCode('kyodai-extra');
 	return `<svg><defs>
 <image id="${imageID}" xlink:href="${escapeAttributeValue(tileSetUrl)}" x="0" y="0" height="${image.height}" width="${image.width}"/>
-<image id="${extraID}" xlink:href="/assets/svg/kyodai-extra.png" x="0" y="0" height="300" width="675"/>
+<image id="${extraID}" xlink:href="assets/svg/kyodai-extra.png" x="0" y="0" height="300" width="675"/>
 ${buildTiles(kyodai, imageID, rowHeight, colWidth)}
 ${buildTiles(kyodaiExtra, extraID, 100, 75)}
 </defs></svg>
