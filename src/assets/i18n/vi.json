@@ -22,6 +22,7 @@
 	"MSG_BEST": "Chúc mừng, kỷ lục cá nhân mới!",
 	"MSG_GOOD": "Tốt lắm!",
 	"MSG_FAIL": "Không còn đá ghép nữa.",
+	"MSG_LAYOUT_UNPLAYABLE": "Không thể chơi bảng này (đá: {{count}}).",
 	"STATS_GAMES": "Số Trò Chơi",
 	"STATS_NAME": "Tên",
 	"STATS_WIN_GAMES": "Thắng",

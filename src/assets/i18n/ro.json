@@ -22,6 +22,7 @@
 	"MSG_BEST": "Felicitări, nou record personal!",
 	"MSG_GOOD": "Bravo!",
 	"MSG_FAIL": "Nu mai sunt pietre potrivite.",
+	"MSG_LAYOUT_UNPLAYABLE": "Această tablă nu poate fi jucată (pietre: {{count}}).",
 	"STATS_GAMES": "Nr. de Jocuri",
 	"STATS_NAME": "Nume",
 	"STATS_WIN_GAMES": "Câștigate",

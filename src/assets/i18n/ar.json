@@ -22,6 +22,7 @@
 	"MSG_BEST": "تهانينا، أفضل وقت جديد!",
 	"MSG_GOOD": "عمل جيد!",
 	"MSG_FAIL": "لا توجد بلاطات متطابقة أخرى.",
+	"MSG_LAYOUT_UNPLAYABLE": "لا يمكن لعب هذا اللوح (البلاطات: {{count}}).",
 	"STATS_GAMES": "عدد الألعاب",
 	"STATS_NAME": "الاسم",
 	"STATS_WIN_GAMES": "فوز",

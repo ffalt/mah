@@ -22,6 +22,7 @@
 	"MSG_BEST": "Congratulations, new best time!",
 	"MSG_GOOD": "Well done!",
 	"MSG_FAIL": "No more matching tiles.",
+	"MSG_LAYOUT_UNPLAYABLE": "This board cannot be played (tiles: {{count}}).",
 	"STATS_GAMES": "No. of Games",
 	"STATS_NAME": "Name",
 	"STATS_WIN_GAMES": "Won",

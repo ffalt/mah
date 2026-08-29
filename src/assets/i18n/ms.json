@@ -22,6 +22,7 @@
 	"MSG_BEST": "Tahniah, masa terbaik baharu!",
 	"MSG_GOOD": "Syabas!",
 	"MSG_FAIL": "Tiada lagi jubin yang sepadan.",
+	"MSG_LAYOUT_UNPLAYABLE": "Papan ini tidak boleh dimainkan (jubin: {{count}}).",
 	"STATS_GAMES": "Bil. Permainan",
 	"STATS_NAME": "Nama",
 	"STATS_WIN_GAMES": "Menang",

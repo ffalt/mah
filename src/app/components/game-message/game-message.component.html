@@ -15,7 +15,7 @@
 			(keydown.space)="messageEvent.emit($event)"
 		>
 			@if (message.messageID) {
-				<div>{{ message.messageID | translate }}</div>
+				<div>{{ message.messageID | translate:message.messageParams }}</div>
 			}
 			@if (message.playTime) {
 				<div>{{ message.playTime | duration }}</div>

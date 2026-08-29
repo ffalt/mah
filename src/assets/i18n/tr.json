@@ -22,6 +22,7 @@
 	"MSG_BEST": "Tebrikler, yeni kişisel rekor!",
 	"MSG_GOOD": "Aferin!",
 	"MSG_FAIL": "Eşleşen taş kalmadı.",
+	"MSG_LAYOUT_UNPLAYABLE": "Bu tablo oynanamaz (taş: {{count}}).",
 	"STATS_GAMES": "Oyun Sayısı",
 	"STATS_NAME": "Ad",
 	"STATS_WIN_GAMES": "Kazanılan",

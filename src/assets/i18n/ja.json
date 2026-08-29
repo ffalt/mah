@@ -22,6 +22,7 @@
 	"MSG_BEST": "おめでとうございます！新記録です！",
 	"MSG_GOOD": "よくできました！",
 	"MSG_FAIL": "これ以上一致する牌がありません。",
+	"MSG_LAYOUT_UNPLAYABLE": "このボードはプレイできません（牌: {{count}}）。",
 	"STATS_GAMES": "ゲーム数",
 	"STATS_NAME": "名前",
 	"STATS_WIN_GAMES": "勝利",

@@ -22,6 +22,7 @@
 	"MSG_BEST": "Gratulálunk, új legjobb idő!",
 	"MSG_GOOD": "Szép munka!",
 	"MSG_FAIL": "Nincs több párosítható kő.",
+	"MSG_LAYOUT_UNPLAYABLE": "Ez a tábla nem játszható (kövek: {{count}}).",
 	"STATS_GAMES": "Játékok száma",
 	"STATS_NAME": "Név",
 	"STATS_WIN_GAMES": "Nyert",

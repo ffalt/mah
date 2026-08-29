@@ -22,6 +22,7 @@
 	"MSG_BEST": "Tillykke, ny bedste tid!",
 	"MSG_GOOD": "Godt gørende!",
 	"MSG_FAIL": "Ingen flere matchende brikker.",
+	"MSG_LAYOUT_UNPLAYABLE": "Dette bræt kan ikke spilles (brikker: {{count}}).",
 	"STATS_GAMES": "Antal spil",
 	"STATS_NAME": "Navn",
 	"STATS_WIN_GAMES": "Vundne",

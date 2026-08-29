@@ -22,6 +22,7 @@
 	"MSG_BEST": "Onnittelut, uusi ennätysaika!",
 	"MSG_GOOD": "Hyvää työtä!",
 	"MSG_FAIL": "Ei enää yhteensopivia kiviä.",
+	"MSG_LAYOUT_UNPLAYABLE": "Tätä lautaa ei voi pelata (kivet: {{count}}).",
 	"STATS_GAMES": "Pelien määrä",
 	"STATS_NAME": "Nimi",
 	"STATS_WIN_GAMES": "Voitot",

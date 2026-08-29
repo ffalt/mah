@@ -16,6 +16,7 @@ import { log } from './log';
 
 export interface GameMessage {
 	messageID?: string;
+	messageParams?: Record<string, string | number>;
 	playTime?: number;
 	askShuffle?: boolean;
 	score?: number;
@@ -26,6 +27,10 @@ export interface ChallengeOutcome {
 	challenge: Challenge;
 	won: boolean;
 	playTime: number;
+}
+
+function isPlayableTileCount(count: number): boolean {
+	return count >= MIN_BOARD_TILES && count <= MAX_BOARD_TILES && count % 2 === 0;
 }
 
 export class Game {
@@ -176,7 +181,9 @@ export class Game {
 	}
 
 	start(layout: Layout, buildMode: BUILD_MODE_ID, gameMode: GAME_MODE_ID, challengeSetup?: ChallengeSetup): void {
-		if (layout.mapping.length < MIN_BOARD_TILES || layout.mapping.length > MAX_BOARD_TILES || layout.mapping.length % 2 !== 0) {
+		if (!isPlayableTileCount(layout.mapping.length)) {
+			this.state.set(STATES.idle);
+			this.message.set({ messageID: 'MSG_LAYOUT_UNPLAYABLE', messageParams: { count: layout.mapping.length } });
 			return;
 		}
 		this.layoutID = layout.id;

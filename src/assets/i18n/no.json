@@ -22,6 +22,7 @@
 	"MSG_BEST": "Gratulerer, ny best tid!",
 	"MSG_GOOD": "Bra gjort!",
 	"MSG_FAIL": "Ingen flere matchende steiner.",
+	"MSG_LAYOUT_UNPLAYABLE": "Dette brettet kan ikke spilles (steiner: {{count}}).",
 	"STATS_GAMES": "Antall spill",
 	"STATS_NAME": "Navn",
 	"STATS_WIN_GAMES": "Vunnet",

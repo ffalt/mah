@@ -22,6 +22,7 @@
 	"MSG_BEST": "Gratulujeme, nový nejlepší čas!",
 	"MSG_GOOD": "Dobře odvedeno!",
 	"MSG_FAIL": "Žádné další odpovídající dlaždice.",
+	"MSG_LAYOUT_UNPLAYABLE": "Tuto desku nelze hrát (dlaždice: {{count}}).",
 	"STATS_GAMES": "Počet her",
 	"STATS_NAME": "Název",
 	"STATS_WIN_GAMES": "Výhry",

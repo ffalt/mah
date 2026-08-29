@@ -284,6 +284,46 @@ describe('GameComponent', () => {
 		expect(startSpy).toHaveBeenCalledWith(gameData.layout, gameData.buildMode, gameData.gameMode);
 	});
 
+	describe('unplayable board', () => {
+		const unplayable = { layout: { id: 'bad', name: 'Bad', category: 'Test', mapping: [] }, buildMode: MODE_SOLVABLE as BUILD_MODE_ID, gameMode: GAME_MODE_STANDARD };
+
+		it('tells the player instead of silently doing nothing', () => {
+			component.startGame(unplayable);
+			detectChanges();
+
+			expect(component.game.state()).toBe(STATES.idle);
+			expect(component.game.message()?.messageID).toBe('MSG_LAYOUT_UNPLAYABLE');
+			const message = fixture.debugElement.query(By.css('app-game-message .overlay-message-message'));
+			expect(message).toBeTruthy();
+			expect(message.nativeElement.textContent).toContain('MSG_LAYOUT_UNPLAYABLE');
+			expect(fixture.debugElement.query(By.css('app-game-start'))).toBeNull();
+		});
+
+		it('names the tile count that made the board unplayable', () => {
+			const translate = TestBed.inject(TranslateService);
+			translate.setTranslation('en', { MSG_LAYOUT_UNPLAYABLE: 'not playable (tiles: {{count}})' });
+			translate.use('en');
+
+			component.startGame({ ...unplayable, layout: { ...unplayable.layout, mapping: [[0, 0, 0], [0, 2, 0], [0, 4, 0]] } });
+			detectChanges();
+
+			expect(component.game.message()?.messageParams).toEqual({ count: 3 });
+			const message = fixture.debugElement.query(By.css('app-game-message .overlay-message-message'));
+			expect(message.nativeElement.textContent).toContain('not playable (tiles: 3)');
+		});
+
+		it('returns to the board picker when the message is dismissed', () => {
+			component.startGame(unplayable);
+			detectChanges();
+
+			const showNewGameSpy = vi.spyOn(component, 'showNewGame');
+			component.clickMessage();
+
+			expect(showNewGameSpy).toHaveBeenCalled();
+			expect(component.game.message()).toBeUndefined();
+		});
+	});
+
 	describe('start screen', () => {
 		it('shows on an empty board without message and dialog and opens the board picker', () => {
 			component.game.state.set(STATES.idle);

@@ -22,6 +22,7 @@
 	"MSG_BEST": "అభినందనలు, కొత్త అత్యుత్తమ సమయం!",
 	"MSG_GOOD": "బాగా చేశారు!",
 	"MSG_FAIL": "సరిపోలే టైల్స్ ఇక లేవు.",
+	"MSG_LAYOUT_UNPLAYABLE": "ఈ బోర్డును ఆడలేరు (టైల్స్: {{count}}).",
 	"STATS_GAMES": "ఆటల సంఖ్య",
 	"STATS_NAME": "పేరు",
 	"STATS_WIN_GAMES": "గెలిచినవి",

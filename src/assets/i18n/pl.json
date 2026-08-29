@@ -22,6 +22,7 @@
 	"MSG_BEST": "Gratulacje, nowy najlepszy czas!",
 	"MSG_GOOD": "Dobra robota!",
 	"MSG_FAIL": "Brak pasujących kamieni.",
+	"MSG_LAYOUT_UNPLAYABLE": "Tej planszy nie można zagrać (kamienie: {{count}}).",
 	"STATS_GAMES": "Liczba gier",
 	"STATS_NAME": "Nazwa",
 	"STATS_WIN_GAMES": "Wygrane",

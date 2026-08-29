@@ -295,6 +295,20 @@ describe('Game', () => {
 			expect(mockBoard.applyMapping).not.toHaveBeenCalled();
 			expect(game.state()).toBe(STATES.idle);
 			expect(game.layoutID).toBeUndefined();
+			expect(game.message()?.messageID).toBe('MSG_LAYOUT_UNPLAYABLE');
+			expect(game.message()?.messageParams).toEqual({ count });
+		});
+
+		it('clears the unplayable message once a playable board starts', () => {
+			const unplayable: Layout = { id: 'bad', name: 'Bad', category: 'Test', mapping: [[0, 0, 0]] };
+			const playable: Layout = { id: 'good', name: 'Good', category: 'Test', mapping: [[0, 0, 0], [0, 2, 0]] };
+
+			game.start(unplayable, 'MODE_SOLVABLE', GAME_MODE_STANDARD);
+			expect(game.message()?.messageID).toBe('MSG_LAYOUT_UNPLAYABLE');
+
+			game.start(playable, 'MODE_SOLVABLE', GAME_MODE_STANDARD);
+			expect(game.message()).toBeUndefined();
+			expect(game.state()).toBe(STATES.run);
 		});
 	});
 

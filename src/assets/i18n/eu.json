@@ -22,6 +22,7 @@
 	"MSG_BEST": "Zorionak, denbora onena lortu duzu!",
 	"MSG_GOOD": "Ona!",
 	"MSG_FAIL": "Ez dago berdinak diren fitxa gehiago.",
+	"MSG_LAYOUT_UNPLAYABLE": "Taula hau ezin da jokatu (fitxak: {{count}}).",
 	"STATS_GAMES": "Joko kopurua",
 	"STATS_NAME": "Izena",
 	"STATS_WIN_GAMES": "Irabaziak",

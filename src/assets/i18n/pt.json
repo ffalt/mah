@@ -22,6 +22,7 @@
 	"MSG_BEST": "Parabéns, novo tempo recorde!",
 	"MSG_GOOD": "Parabéns!",
 	"MSG_FAIL": "Não há mais peças livres.",
+	"MSG_LAYOUT_UNPLAYABLE": "Este tabuleiro não pode ser jogado (peças: {{count}}).",
 	"STATS_GAMES": "Número de Jogos",
 	"STATS_NAME": "Nome",
 	"STATS_WIN_GAMES": "Vitórias",

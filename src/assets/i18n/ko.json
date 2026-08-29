@@ -22,6 +22,7 @@
 	"MSG_BEST": "축하합니다, 최고 기록!",
 	"MSG_GOOD": "잘하셨습니다!",
 	"MSG_FAIL": "더 이상 일치하는 타일이 없습니다.",
+	"MSG_LAYOUT_UNPLAYABLE": "이 보드는 플레이할 수 없습니다 (타일: {{count}}).",
 	"STATS_GAMES": "게임 수",
 	"STATS_NAME": "이름",
 	"STATS_WIN_GAMES": "승리",

@@ -22,6 +22,7 @@
 	"MSG_BEST": "Je hebt een nieuw record neergezet!",
 	"MSG_GOOD": "Goed gedaan!",
 	"MSG_FAIL": "Er zijn geen zetten meer mogelijk.",
+	"MSG_LAYOUT_UNPLAYABLE": "Dit spelbord kan niet gespeeld worden (stenen: {{count}}).",
 	"STATS_GAMES": "Aantal keer gespeeld",
 	"STATS_NAME": "Naam",
 	"STATS_WIN_GAMES": "Gewonnen",

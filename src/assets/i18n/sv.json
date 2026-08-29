@@ -22,6 +22,7 @@
 	"MSG_BEST": "Grattis, ny personlig rekord!",
 	"MSG_GOOD": "Bra gjort!",
 	"MSG_FAIL": "Inga fler matchande stenar.",
+	"MSG_LAYOUT_UNPLAYABLE": "Detta spelbräde kan inte spelas (stenar: {{count}}).",
 	"STATS_GAMES": "Antal spel",
 	"STATS_NAME": "Namn",
 	"STATS_WIN_GAMES": "Vunna",

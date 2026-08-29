@@ -22,6 +22,7 @@
 	"MSG_BEST": "Binabati kita, bagong pinakamabilis na oras!",
 	"MSG_GOOD": "Magaling!",
 	"MSG_FAIL": "Wala nang magkatugmang tile.",
+	"MSG_LAYOUT_UNPLAYABLE": "Hindi maaaring laruin ang board na ito (mga tile: {{count}}).",
 	"STATS_GAMES": "Bilang ng Laro",
 	"STATS_NAME": "Pangalan",
 	"STATS_WIN_GAMES": "Panalo",

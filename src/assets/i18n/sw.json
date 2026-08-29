@@ -22,6 +22,7 @@
 	"MSG_BEST": "Hongera, muda bora mpya!",
 	"MSG_GOOD": "Umefanya vizuri!",
 	"MSG_FAIL": "Hakuna vigae vinavyolingana tena.",
+	"MSG_LAYOUT_UNPLAYABLE": "Ubao huu hauwezi kuchezwa (vigae: {{count}}).",
 	"STATS_GAMES": "Idadi ya Michezo",
 	"STATS_NAME": "Jina",
 	"STATS_WIN_GAMES": "Ushindi",

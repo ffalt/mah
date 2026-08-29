@@ -22,6 +22,7 @@
 	"MSG_BEST": "¡Has logrado un nuevo record!",
 	"MSG_GOOD": "¡Bien hecho!",
 	"MSG_FAIL": "No se pueden hacer movimientos.",
+	"MSG_LAYOUT_UNPLAYABLE": "Este tablero no se puede jugar (fichas: {{count}}).",
 	"STATS_GAMES": "Nº de partidas",
 	"STATS_NAME": "Nombre",
 	"STATS_WIN_GAMES": "Ganadas",

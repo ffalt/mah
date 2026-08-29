@@ -22,6 +22,7 @@
 	"MSG_BEST": "Selamat, waktu terbaik baru!",
 	"MSG_GOOD": "Bagus sekali!",
 	"MSG_FAIL": "Tidak ada lagi ubin yang cocok.",
+	"MSG_LAYOUT_UNPLAYABLE": "Papan ini tidak dapat dimainkan (ubin: {{count}}).",
 	"STATS_GAMES": "Jumlah Permainan",
 	"STATS_NAME": "Nama",
 	"STATS_WIN_GAMES": "Menang",

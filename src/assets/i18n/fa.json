@@ -22,6 +22,7 @@
 	"MSG_BEST": "تبریک، رکورد زمانی جدید!",
 	"MSG_GOOD": "آفرین!",
 	"MSG_FAIL": "کاشی منطبق دیگری نیست.",
+	"MSG_LAYOUT_UNPLAYABLE": "این صفحه قابل بازی نیست (کاشی‌ها: {{count}}).",
 	"STATS_GAMES": "تعداد بازی‌ها",
 	"STATS_NAME": "نام",
 	"STATS_WIN_GAMES": "برد",

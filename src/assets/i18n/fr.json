@@ -22,6 +22,7 @@
 	"MSG_BEST": "Félicitations, nouveau meilleur temps !",
 	"MSG_GOOD": "Bien joué !",
 	"MSG_FAIL": "Plus de tuiles correspondantes.",
+	"MSG_LAYOUT_UNPLAYABLE": "Ce plateau ne peut pas être joué (tuiles : {{count}}).",
 	"STATS_GAMES": "Nombre de parties",
 	"STATS_NAME": "Nom",
 	"STATS_WIN_GAMES": "Gagnées",

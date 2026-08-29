@@ -22,6 +22,7 @@
 	"MSG_BEST": "Felicitats, nou millor temps!",
 	"MSG_GOOD": "Bé fet!",
 	"MSG_FAIL": "No hi ha més fitxes que coincideixin.",
+	"MSG_LAYOUT_UNPLAYABLE": "Aquest tauler no es pot jugar (fitxes: {{count}}).",
 	"STATS_GAMES": "Nombre de jocs",
 	"STATS_NAME": "Nom",
 	"STATS_WIN_GAMES": "Guanyades",

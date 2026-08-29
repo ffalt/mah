@@ -22,6 +22,7 @@
 	"MSG_BEST": "Congratulazioni, nuovo record!",
 	"MSG_GOOD": "Bene fatto!",
 	"MSG_FAIL": "Nessun'altra tessera corrispondente.",
+	"MSG_LAYOUT_UNPLAYABLE": "Questa tavola non può essere giocata (tessere: {{count}}).",
 	"STATS_GAMES": "Nr. di partite",
 	"STATS_NAME": "Nome",
 	"STATS_WIN_GAMES": "Vinte",

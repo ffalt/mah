@@ -22,6 +22,7 @@
 	"MSG_BEST": "অভিনন্দন, নতুন সেরা সময়!",
 	"MSG_GOOD": "চমৎকার!",
 	"MSG_FAIL": "আর কোনো মিলবার টাইল নেই।",
+	"MSG_LAYOUT_UNPLAYABLE": "এই বোর্ডটি খেলা যাবে না (টাইল: {{count}})।",
 	"STATS_GAMES": "গেমের সংখ্যা",
 	"STATS_NAME": "নাম",
 	"STATS_WIN_GAMES": "জয়",
