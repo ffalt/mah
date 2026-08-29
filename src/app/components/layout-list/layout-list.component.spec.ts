@@ -44,6 +44,38 @@ describe('LayoutListComponent', () => {
 		expect(component.groups().at(-1)?.isRandom).toBe(true);
 	});
 
+	it('removes a custom board through the service and rebuilds from the input binding', () => {
+		const layoutService = TestBed.inject(LayoutService);
+		const removeSpy = vi.spyOn(layoutService, 'removeCustomLayout').mockImplementation(() => undefined);
+		vi.spyOn(window, 'confirm').mockReturnValue(true);
+		fixture.componentRef.setInput('layouts', [makeLayout('A', 'Cat1'), makeLayout('B', 'Cat1')]);
+		fixture.detectChanges();
+
+		const buildSpy = vi.spyOn(component, 'buildGroups');
+		component.removeCustom(component.groups()[0].layouts[0]);
+
+		expect(removeSpy).toHaveBeenCalledWith(['A']);
+		// rebuilding here would run against the stale input, so it must wait for the new array
+		expect(buildSpy).not.toHaveBeenCalled();
+
+		fixture.componentRef.setInput('layouts', [makeLayout('B', 'Cat1')]);
+		fixture.detectChanges();
+
+		expect(component.groups()[0].layouts.map(item => item.layout.id)).toEqual(['B']);
+	});
+
+	it('keeps the board when the delete confirmation is declined', () => {
+		const layoutService = TestBed.inject(LayoutService);
+		const removeSpy = vi.spyOn(layoutService, 'removeCustomLayout').mockImplementation(() => undefined);
+		vi.spyOn(window, 'confirm').mockReturnValue(false);
+		fixture.componentRef.setInput('layouts', [makeLayout('A', 'Cat1')]);
+		fixture.detectChanges();
+
+		component.removeCustom(component.groups()[0].layouts[0]);
+
+		expect(removeSpy).not.toHaveBeenCalled();
+	});
+
 	it('keeps card reveal, selection and group collapse state across rebuilds', () => {
 		fixture.componentRef.setInput('layouts', [makeLayout('A', 'Cat1'), makeLayout('B', 'Cat1')]);
 		fixture.detectChanges();

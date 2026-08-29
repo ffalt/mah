@@ -16,7 +16,7 @@
 		text-shadow: 1px 1px var(--preview-overlay-text-shadow);
 		background-color: var(--preview-overlay-background);
 		border-bottom-left-radius: 3px;
-		padding: 3px 3px 3px 6px;
+		padding: 3px 3px 3px 12px;
 		align-items: center;
 		top: 0;
 		display: flex;
@@ -30,6 +30,7 @@
 			transition: all 100ms;
 			font-size: 0.7em;
 			padding-left: 6px;
+			padding-right: 6px;
 			background: none;
 			border: none;
 			min-height: unset;

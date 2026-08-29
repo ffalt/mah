@@ -256,6 +256,5 @@ export class LayoutListComponent implements OnInit, OnChanges {
 			return;
 		}
 		this.layoutService.removeCustomLayout([layout.layout.id]);
-		this.refresh();
 	}
 }
