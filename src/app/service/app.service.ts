@@ -48,6 +48,7 @@ export class AppService implements OnDestroy {
 
 	setLang(): void {
 		this.translate.use(this.resolveLang());
+		this.settings.save();
 	}
 
 	async preloadLang(): Promise<void> {
