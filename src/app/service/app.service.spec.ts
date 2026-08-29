@@ -6,7 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import type { Game } from '../model/game';
 import type { Settings } from '../model/settings';
 import { LocalstorageService } from './localstorage.service';
-import { DEFAULT_LANGUAGE, LANGUAGE_ALIASES, LANGUAGES } from '../model/languages';
+import { DEFAULT_LANGUAGE, LANGUAGE_ALIASES, LANGUAGES, RTL_LANGUAGES } from '../model/languages';
 import { LangAuto } from '../model/consts';
 import type { Sound } from '../model/sound';
 import { type Mock, describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
@@ -144,6 +144,35 @@ describe('AppService', () => {
 			}
 			for (const alias of Object.keys(LANGUAGE_ALIASES)) {
 				expect(Object.keys(LANGUAGES)).not.toContain(alias);
+			}
+		});
+	});
+
+	describe('document language', () => {
+		it('exposes the active language as a signal', () => {
+			translateService.onLangChange.next({ lang: 'de' });
+			expect(service.lang()).toBe('de');
+		});
+
+		it.each(['de', 'ja', 'ar'])('stamps %s on the document element', lang => {
+			translateService.onLangChange.next({ lang });
+			expect(document.documentElement.lang).toBe(lang);
+		});
+
+		it.each([...RTL_LANGUAGES])('switches the document to rtl for %s', lang => {
+			translateService.onLangChange.next({ lang });
+			expect(document.documentElement.dir).toBe('rtl');
+		});
+
+		it.each(['en', 'de', 'ja', 'he'])('keeps the document ltr for %s', lang => {
+			translateService.onLangChange.next({ lang: 'ar' });
+			translateService.onLangChange.next({ lang });
+			expect(document.documentElement.dir).toBe('ltr');
+		});
+
+		it('marks every rtl language as shipped', () => {
+			for (const lang of RTL_LANGUAGES) {
+				expect(Object.keys(LANGUAGES)).toContain(lang);
 			}
 		});
 	});

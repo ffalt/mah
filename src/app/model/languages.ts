@@ -5,6 +5,12 @@ export const LANGUAGE_ALIASES: Record<string, string> = {
 	nn: 'no',
 	tl: 'fil'
 };
+
+export const RTL_LANGUAGES: ReadonlySet<string> = new Set(['ar', 'fa', 'ur']);
+
+export function isRTLLanguage(lang: string): boolean {
+	return RTL_LANGUAGES.has(lang);
+}
 export const LANGUAGES: { [name: string]: string } = {
 	en: 'English',
 	ar: 'العربية',

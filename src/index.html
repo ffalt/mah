@@ -24,7 +24,7 @@
 	<meta property="og:url" content="{{APP_URL}}"/>
 	<script type="application/ld+json">{"name":"{{APP_TITLE}}","@type":"Product","description":"{{APP_DESC}}","category":"{{APP_CAT}}","@context":"http:\/\/schema.org\/"}</script>
 	<style>
-		html,body { background: #2b424f; width: 100svw; height: 100svh; margin: 0; padding: 0;}
+		html,body { background: #2b424f; width: 100svw; height: 100svh; margin: 0; padding: 0; overflow: hidden;}
 		.splash { height: 100%; display: flex; justify-content: center; align-items: center;}
 		.loading {
 			text-align: center; color: white; padding-top: 20px; text-transform: uppercase;
@@ -89,7 +89,7 @@
 			}
 		}
 		.page-title {
-			position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;
+			position:absolute;width:1px;height:1px;padding:0;margin:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;
 		}
 	</style>
 </head>

@@ -2,7 +2,7 @@ import { type OnDestroy, inject, signal, Service } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { firstValueFrom, type Subscription } from 'rxjs';
 import { Game } from '../model/game';
-import { DEFAULT_LANGUAGE, LANGUAGE_ALIASES, LANGUAGES } from '../model/languages';
+import { DEFAULT_LANGUAGE, LANGUAGE_ALIASES, LANGUAGES, isRTLLanguage } from '../model/languages';
 import { Settings } from '../model/settings';
 import { LangAuto } from '../model/consts';
 import { LocalstorageService } from './localstorage.service';
@@ -23,7 +23,7 @@ export class AppService implements OnDestroy {
 		this.game = new Game(this.storage);
 		this.settings = new Settings(this.storage);
 		this.settings.load();
-		this.langSubscription = this.translate.onLangChange.subscribe(event => this.lang.set(event.lang));
+		this.langSubscription = this.translate.onLangChange.subscribe(event => this.applyLang(event.lang));
 		this.game.init();
 		this.game.sound.enabled = this.settings.sounds();
 		this.game.music.enabled = this.settings.music();
@@ -65,6 +65,13 @@ export class AppService implements OnDestroy {
 		this.game.music.enabled = this.settings.music();
 		this.game.music.toggle();
 		this.settings.save();
+	}
+
+	private applyLang(lang: string): void {
+		this.lang.set(lang);
+		const element = document.documentElement;
+		element.lang = lang;
+		element.dir = isRTLLanguage(lang) ? 'rtl' : 'ltr';
 	}
 
 	private resolveLang(): string {
