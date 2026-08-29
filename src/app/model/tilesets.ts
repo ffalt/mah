@@ -1,8 +1,17 @@
 import { hashCode } from './hash';
 import { log } from './log';
 
-export function isKyodaiImageSet(name: string): boolean {
-	return ['kyodai', 'kyodai-black'].includes(name);
+export function isKyodaiImageSet(name?: string): boolean {
+	return ['kyodai', 'kyodai-black'].includes(name ?? '');
+}
+
+// a kyodai tile is a photo slice that fills the whole face, the svg sets are drawn inset
+export function tileImagePos(imageSet?: string): Array<number> {
+	return isKyodaiImageSet(imageSet) ? [0, 0, 75, 100] : [6, 6, 63, 88];
+}
+
+export function tileImageCut(imageSet?: string): Array<number> {
+	return isKyodaiImageSet(imageSet) ? [1, 1, 73, 98] : [0, 0, 65, 90];
 }
 
 export interface Tileset {

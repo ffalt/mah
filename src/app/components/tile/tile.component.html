@@ -3,5 +3,11 @@
 		<defs app-image-set-loader [imageSet]="imageSet()" [kyodaiUrl]="kyodaiUrl()" [dark]="isDark()" [prefix]="'t_'+imageSet()+'_'+index()+'_'"></defs>
 	}
 	<title>{{tile() | translate}}</title>
-	<use [attr.xlink:href]="sharedPrefix() ? '#'+sharedPrefix()+tile() : '#t_'+imageSet()+'_'+index()+'_'+tile()" x="6" y="6" width="63" height="88"/>
+	<use
+		[attr.xlink:href]="sharedPrefix() ? '#'+sharedPrefix()+tile() : '#t_'+imageSet()+'_'+index()+'_'+tile()"
+		[attr.x]="imagePos()[0]"
+		[attr.y]="imagePos()[1]"
+		[attr.width]="imagePos()[2]"
+		[attr.height]="imagePos()[3]"
+	/>
 </svg>

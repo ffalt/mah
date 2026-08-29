@@ -2,7 +2,7 @@ import { Component, computed, input } from '@angular/core';
 import { ImageSetLoaderComponent } from '../image-set-loader/image-set-loader.component';
 import { ImageSetDefault } from '../../model/consts';
 import type { StoneMark } from '../../model/challenge/consts';
-import { isKyodaiImageSet } from '../../model/tilesets';
+import { tileImageCut, tileImagePos } from '../../model/tilesets';
 
 @Component({
 	selector: 'app-tile-preview',
@@ -21,7 +21,6 @@ export class TilePreviewComponent {
 	readonly animations = input<boolean>(true);
 	readonly mark = input<StoneMark>();
 
-	readonly isKyodai = computed(() => isKyodaiImageSet(this.tileset()));
-	readonly imagePos = computed(() => this.isKyodai() ? [0, 0, 75, 100] : [6, 6, 63, 88]);
-	readonly imageCut = computed(() => this.isKyodai() ? [1, 1, 73, 98] : [0, 0, 65, 90]);
+	readonly imagePos = computed(() => tileImagePos(this.tileset()));
+	readonly imageCut = computed(() => tileImageCut(this.tileset()));
 }

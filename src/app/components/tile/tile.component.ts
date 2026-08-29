@@ -1,6 +1,7 @@
-import { Component, input } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import { ImageSetLoaderComponent } from '../image-set-loader/image-set-loader.component';
+import { tileImagePos } from '../../model/tilesets';
 
 @Component({
 	selector: 'app-tile',
@@ -15,4 +16,5 @@ export class TileComponent {
 	readonly index = input<number>();
 	readonly isDark = input<boolean>(false);
 	readonly sharedPrefix = input<string>();
+	readonly imagePos = computed(() => tileImagePos(this.imageSet()));
 }

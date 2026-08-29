@@ -1,4 +1,4 @@
-import { isKyodaiImageSet, buildTiles, buildKyodaiSVG, KyodaiTileSets } from './tilesets';
+import { isKyodaiImageSet, buildTiles, buildKyodaiSVG, KyodaiTileSets, tileImageCut, tileImagePos } from './tilesets';
 import { describe, beforeEach, it, expect, vi } from 'vitest';
 
 type EventHandler = (event?: Event) => void;
@@ -52,6 +52,23 @@ describe('isKyodaiImageSet', () => {
 		expect(isKyodaiImageSet('default')).toBe(false);
 		expect(isKyodaiImageSet('')).toBe(false);
 		expect(isKyodaiImageSet('kyodai-other')).toBe(false);
+	});
+
+	it('returns false when no name is given', () => {
+		expect(isKyodaiImageSet()).toBe(false);
+		expect(isKyodaiImageSet(undefined)).toBe(false);
+	});
+});
+
+describe('tile geometry', () => {
+	it.each([undefined, '', 'classic', 'riichi', 'uni'])('insets the art for the svg tileset %s', imageSet => {
+		expect(tileImagePos(imageSet)).toEqual([6, 6, 63, 88]);
+		expect(tileImageCut(imageSet)).toEqual([0, 0, 65, 90]);
+	});
+
+	it.each(['kyodai', 'kyodai-black'])('fills the whole face for %s', imageSet => {
+		expect(tileImagePos(imageSet)).toEqual([0, 0, 75, 100]);
+		expect(tileImageCut(imageSet)).toEqual([1, 1, 73, 98]);
 	});
 });
 

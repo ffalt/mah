@@ -2,7 +2,7 @@ import { Component, computed, inject, output } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import { AppService } from '../../service/app.service';
 import { ImageSetLoaderComponent } from '../image-set-loader/image-set-loader.component';
-import { isKyodaiImageSet } from '../../model/tilesets';
+import { tileImageCut, tileImagePos } from '../../model/tilesets';
 
 interface StartTile {
 	id: string;
@@ -26,7 +26,6 @@ export class GameStartComponent {
 		{ id: 't_dr_red', name: 'center', transform: 'translate(140 94) translate(-37.5 -50)' }
 	];
 
-	readonly isKyodai = computed(() => isKyodaiImageSet(this.app.settings.tileset()));
-	readonly imagePos = computed(() => this.isKyodai() ? [0, 0, 75, 100] : [6, 6, 63, 88]);
-	readonly imageCut = computed(() => this.isKyodai() ? [1, 1, 73, 98] : [0, 0, 65, 90]);
+	readonly imagePos = computed(() => tileImagePos(this.app.settings.tileset()));
+	readonly imageCut = computed(() => tileImageCut(this.app.settings.tileset()));
 }

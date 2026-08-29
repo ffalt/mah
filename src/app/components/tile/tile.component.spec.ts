@@ -151,6 +151,22 @@ describe('TileComponent', () => {
 			expect(defsElement).toBeFalsy();
 		});
 
+		it.each([undefined, 'classic', 'riichi'])('should inset the art for the svg tileset %s', imageSet => {
+			fixture.componentRef.setInput('imageSet', imageSet);
+			fixture.detectChanges();
+
+			const a = fixture.debugElement.query(By.css('svg use')).attributes;
+			expect(`${a.x},${a.y},${a.width},${a.height}`).toBe('6,6,63,88');
+		});
+
+		it.each(['kyodai', 'kyodai-black'])('should fill the whole face for %s', imageSet => {
+			fixture.componentRef.setInput('imageSet', imageSet);
+			fixture.detectChanges();
+
+			const a = fixture.debugElement.query(By.css('svg use')).attributes;
+			expect(`${a.x},${a.y},${a.width},${a.height}`).toBe('0,0,75,100');
+		});
+
 		it('should use sharedPrefix in use element href when sharedPrefix is set', () => {
 			fixture.componentRef.setInput('tile', 't_do1');
 			fixture.componentRef.setInput('sharedPrefix', 'shared_');

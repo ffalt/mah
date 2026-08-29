@@ -3,7 +3,7 @@ import { Backgrounds, Themes } from '../../model/consts';
 import { type Draw, calcDrawPos, getDrawBounds, sortDrawItems, getDrawBoundsViewportBounds, groupDrawsByLevel, type DrawLevel } from '../../model/draw';
 import type { Stone } from '../../model/stone';
 import { AppService } from '../../service/app.service';
-import { isKyodaiImageSet } from '../../model/tilesets';
+import { tileImageCut, tileImagePos } from '../../model/tilesets';
 import { ImageSetLoaderComponent } from '../image-set-loader/image-set-loader.component';
 import { BoardTileComponent } from '../board-tile/board-tile.component';
 import { GestureIndicatorsComponent } from '../gesture-indicators/gesture-indicators.component';
@@ -127,9 +127,8 @@ export class BoardComponent implements OnInit, OnChanges, AfterViewInit {
 		if (changes.imageSet) {
 			this.prefix = `b_${changes.imageSet.currentValue}_`;
 			this.urlPrefix = `#b_${changes.imageSet.currentValue}_`;
-			const isKyodai = isKyodaiImageSet(changes.imageSet.currentValue);
-			this.imagePos = isKyodai ? [0, 0, 75, 100] : [6, 6, 63, 88];
-			this.imageCut = isKyodai ? [1, 1, 73, 98] : [0, 0, 65, 90];
+			this.imagePos = tileImagePos(changes.imageSet.currentValue);
+			this.imageCut = tileImageCut(changes.imageSet.currentValue);
 		}
 	}
 

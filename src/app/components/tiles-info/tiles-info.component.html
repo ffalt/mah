@@ -8,7 +8,7 @@
 					@for (tile of group.tiles; track tile; let i = $index) {
 						<div class="tile">
 							<div>
-								<app-tile [tile]="tile" [sharedPrefix]="'shared_'" [isDark]="isDark()"></app-tile>
+								<app-tile [tile]="tile" [imageSet]="tileset()" [sharedPrefix]="'shared_'" [isDark]="isDark()"></app-tile>
 							</div>
 							<div>{{ tile | translate }}</div>
 						</div>
