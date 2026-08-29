@@ -144,7 +144,7 @@ export class GameComponent {
 	}
 
 	triggerConfetti(): void {
-		if (!this.app.settings.confetti()) {
+		if (!this.app.settings.confetti() || window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
 			return;
 		}
 		const confetti = new Confetti();

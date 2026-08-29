@@ -239,14 +239,18 @@
 		<fieldset>
 			<legend id="ui-legend">{{ 'UI' | translate }}</legend>
 			<ul class="checks" role="group" aria-labelledby="ui-legend">
-				<li>
+				<li class="animations-setting">
 					<label class="check">
 						<input
 							type="checkbox"
-							[checked]="app.settings.confetti()"
+							[checked]="app.settings.confetti() && !reducedMotion()"
+							[disabled]="reducedMotion()"
 							(change)="app.settings.confetti.set(!app.settings.confetti());app.settings.save();"
 						>
-						<span>{{ 'VICTORY_CONFETTI' | translate }}</span>
+						<span class="setting-text">
+							<span>{{ 'VICTORY_CONFETTI' | translate }}</span>
+							<small>{{ 'TILE_ANIMATIONS_REDUCED_MOTION' | translate }}</small>
+						</span>
 					</label>
 				</li>
 				<li class="animations-setting">
