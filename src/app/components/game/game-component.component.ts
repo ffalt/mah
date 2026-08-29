@@ -364,7 +364,7 @@ export class GameComponent {
 	}
 
 	onShuffle(): void {
-		if (this.game.shuffle()) {
+		if (this.game.shuffle() && !this.game.message()) {
 			this.announce(this.app.translate.instant('ANNOUNCE_SHUFFLE'));
 		}
 	}
