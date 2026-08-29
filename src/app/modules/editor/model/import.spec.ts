@@ -171,6 +171,18 @@ describe('convertKmahjongg', () => {
 		expect(result.name).toBe('fallback');
 	});
 
+	it('should keep the cleaned up filename when the v1.1 header carries no name', async () => {
+		const data = [
+			'kmahjongg-layout-v1.1',
+			'w5',
+			'h4',
+			'd1',
+			'1000'
+		].join('\n');
+		const result = await convertKmahjongg(data, 'my_cool_board.layout');
+		expect(result.name).toBe('my cool board');
+	});
+
 	// a v1.1 file is a stack of levels, each one h rows tall
 	function kmahjonggV11(header: Array<string>, rows: Array<string>): string {
 		return ['kmahjongg-layout-v1.1', '# name: Probe', ...header, ...rows].join('\n');

@@ -106,7 +106,7 @@ export async function convertKmahjongg(data: string, filename: string): Promise<
 		const headerHeight = Number(lines.find(line => line.startsWith('h'))?.slice(1) ?? '');
 		const height = headerHeight > 0 ? headerHeight : 16;
 		const name = (lines.find(line => line.startsWith('# name:')) ?? '').slice(7).trim();
-		layout.name = name ?? layout.name;
+		layout.name = name || layout.name;
 		layout.name = layout.name.length === 0 ? filename.split('.', 1)[0] : layout.name;
 		const by = (lines.find(line => line.startsWith('# by:')) ?? '').slice(5).trim();
 		layout.by = by || layout.by;
