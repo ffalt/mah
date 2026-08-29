@@ -264,6 +264,7 @@
 	"EDITOR_LAYOUT_SAVE_AS_COPY": "사본으로 저장",
 	"EDITOR_LAYOUT_NR_OF_STONES": "타일 수",
 	"EDITOR_BUILD_IN_EXISTS": "이 보드는 게임에 내장되어 있습니다!",
+	"EDITOR_CUSTOM_EXISTS": "이 보드는 이미 저장되어 있습니다!",
 	"EDITOR_IMPORT_DROP": "파일을 여기로 드래그하세요",
 	"EDITOR_FORMAT_MAH": "*.mah (Mah json 형식)",
 	"EDITOR_FORMAT_KMAHJONGG": "*.layout (kmahjongg 텍스트 형식)",

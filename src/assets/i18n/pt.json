@@ -266,6 +266,7 @@
 	"EDITOR_LAYOUT_SAVE_AS_COPY": "Salvar como cópia",
 	"EDITOR_LAYOUT_NR_OF_STONES": "# de Pedras",
 	"EDITOR_BUILD_IN_EXISTS": "Este board está embutido no jogo!",
+	"EDITOR_CUSTOM_EXISTS": "Este tabuleiro já está guardado!",
 	"EDITOR_IMPORT_DROP": "Arraste seus arquivos aqui",
 	"EDITOR_FORMAT_MAH": "*.mah (Mah json format)",
 	"EDITOR_FORMAT_KMAHJONGG": "*.layout (formato de texto kmahjongg)",

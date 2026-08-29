@@ -266,6 +266,7 @@
 	"EDITOR_LAYOUT_SAVE_AS_COPY": "Spara som kopia",
 	"EDITOR_LAYOUT_NR_OF_STONES": "# Stenar",
 	"EDITOR_BUILD_IN_EXISTS": "Detta spelbräde är inbyggt i spelet!",
+	"EDITOR_CUSTOM_EXISTS": "Detta spelbräde är redan sparat!",
 	"EDITOR_IMPORT_DROP": "Dra dina filer här",
 	"EDITOR_FORMAT_MAH": "*.mah (Mah json-format)",
 	"EDITOR_FORMAT_KMAHJONGG": "*.layout (kmahjongg textformat)",

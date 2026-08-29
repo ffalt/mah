@@ -264,6 +264,7 @@
 	"EDITOR_LAYOUT_SAVE_AS_COPY": "I-save bilang kopya",
 	"EDITOR_LAYOUT_NR_OF_STONES": "Bilang ng Bato",
 	"EDITOR_BUILD_IN_EXISTS": "Ang board na ito ay kasama na sa laro!",
+	"EDITOR_CUSTOM_EXISTS": "Naka-save na ang board na ito!",
 	"EDITOR_IMPORT_DROP": "I-drag ang iyong mga file dito",
 	"EDITOR_FORMAT_MAH": "*.mah (Mah json format)",
 	"EDITOR_FORMAT_KMAHJONGG": "*.layout (kmahjongg text format)",

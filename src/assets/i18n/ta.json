@@ -266,6 +266,7 @@
 	"EDITOR_LAYOUT_SAVE_AS_COPY": "நகலாகச் சேமி",
 	"EDITOR_LAYOUT_NR_OF_STONES": "கற்களின் எண்ணிக்கை",
 	"EDITOR_BUILD_IN_EXISTS": "இந்த பலகை விளையாட்டில் உள்ளமைக்கப்பட்டுள்ளது!",
+	"EDITOR_CUSTOM_EXISTS": "இந்தப் பலகை ஏற்கனவே சேமிக்கப்பட்டுள்ளது!",
 	"EDITOR_IMPORT_DROP": "உங்கள் கோப்புகளை இங்கே இழுக்கவும்",
 	"EDITOR_FORMAT_MAH": "*.mah (Mah json வடிவம்)",
 	"EDITOR_FORMAT_KMAHJONGG": "*.layout (kmahjongg உரை வடிவம்)",

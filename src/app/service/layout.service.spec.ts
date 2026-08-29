@@ -378,9 +378,10 @@ describe('LayoutService', () => {
 			vi.spyOn(service, 'expandLayout').mockReturnValue(expandedLayout);
 
 			// Act
-			service.storeCustomBoards(newCustomLayouts);
+			const count = service.storeCustomBoards(newCustomLayouts);
 
 			// Assert
+			expect(count).toBe(1);
 			expect(mockLocalstorageService.storeCustomLayouts).toHaveBeenCalledWith(newCustomLayouts);
 			expect(service.layouts.items).toHaveLength(2);
 			expect(service.layouts.items[1]).toBe(expandedLayout);
@@ -394,8 +395,9 @@ describe('LayoutService', () => {
 			const stored: Array<LoadLayout> = [{ id: 'dup', name: 'Dup', map: [[0, [[0, 0]]]] }];
 			mockLocalstorageService.getCustomLayouts.mockReturnValue(stored);
 
-			service.storeCustomBoards([{ id: 'dup', name: 'Dup', map: [[0, [[0, 0]]]] }]);
+			const count = service.storeCustomBoards([{ id: 'dup', name: 'Dup', map: [[0, [[0, 0]]]] }]);
 
+			expect(count).toBe(0);
 			expect(mockLocalstorageService.storeCustomLayouts).not.toHaveBeenCalled();
 			expect(service.layouts.items).toHaveLength(0);
 		});
@@ -404,12 +406,13 @@ describe('LayoutService', () => {
 			service.layouts = { items: [] };
 			mockLocalstorageService.getCustomLayouts.mockReturnValue([]);
 
-			service.storeCustomBoards([
+			const count = service.storeCustomBoards([
 				{ id: 'twin', name: 'One', map: [[0, [[0, 0]]]] },
 				{ id: 'twin', name: 'Two', map: [[0, [[0, 0]]]] },
 				{ id: 'other', name: 'Other', map: [[0, [[2, 0]]]] }
 			]);
 
+			expect(count).toBe(2);
 			const written = mockLocalstorageService.storeCustomLayouts.mock.calls[0][0] as Array<LoadLayout>;
 			expect(written.map(layout => layout.id)).toEqual(['twin', 'other']);
 			expect(service.layouts.items).toHaveLength(2);

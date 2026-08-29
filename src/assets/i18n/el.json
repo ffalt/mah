@@ -266,6 +266,7 @@
 	"EDITOR_LAYOUT_SAVE_AS_COPY": "Αποθήκευση ως αντίγραφο",
 	"EDITOR_LAYOUT_NR_OF_STONES": "# πετρών",
 	"EDITOR_BUILD_IN_EXISTS": "Αυτή η σανίδα είναι ενσωματωμένη στο παιχνίδι!",
+	"EDITOR_CUSTOM_EXISTS": "Αυτή η σανίδα έχει ήδη αποθηκευτεί!",
 	"EDITOR_IMPORT_DROP": "Σύρετε τα αρχεία σας εδώ",
 	"EDITOR_FORMAT_MAH": "*.mah (μορφή Mah json)",
 	"EDITOR_FORMAT_KMAHJONGG": "*.layout (μορφη κειμένου kmahjongg)",

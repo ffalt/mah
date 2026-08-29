@@ -264,6 +264,7 @@
 	"EDITOR_LAYOUT_SAVE_AS_COPY": "কপি হিসেবে সংরক্ষণ",
 	"EDITOR_LAYOUT_NR_OF_STONES": "# পাথর",
 	"EDITOR_BUILD_IN_EXISTS": "এই বোর্ডটি গেমে অন্তর্নির্মিত!",
+	"EDITOR_CUSTOM_EXISTS": "এই বোর্ডটি ইতিমধ্যে সংরক্ষিত আছে!",
 	"EDITOR_IMPORT_DROP": "আপনার ফাইলগুলো এখানে টেনে আনুন",
 	"EDITOR_FORMAT_MAH": "*.mah (Mah json ফরম্যাট)",
 	"EDITOR_FORMAT_KMAHJONGG": "*.layout (kmahjongg টেক্সট ফরম্যাট)",

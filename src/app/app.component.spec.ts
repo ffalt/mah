@@ -109,7 +109,7 @@ describe('AppComponent', () => {
 			layoutService = app.layoutService;
 			layoutService.layouts.items = [];
 			vi.spyOn(layoutService, 'expandLayout').mockReturnValue(MOCK_LAYOUT);
-			vi.spyOn(layoutService, 'storeCustomBoards').mockImplementation(() => undefined);
+			vi.spyOn(layoutService, 'storeCustomBoards').mockImplementation(() => 1);
 		});
 
 		const checkImport = async (app: AppComponent, input: string | null): Promise<Array<string>> =>

@@ -266,6 +266,7 @@
 	"EDITOR_LAYOUT_SAVE_AS_COPY": "Save as copy",
 	"EDITOR_LAYOUT_NR_OF_STONES": "No. of Stones",
 	"EDITOR_BUILD_IN_EXISTS": "This board is built into the game!",
+	"EDITOR_CUSTOM_EXISTS": "This board is already saved!",
 	"EDITOR_IMPORT_DROP": "Drag your files here",
 	"EDITOR_FORMAT_MAH": "*.mah (Mah json format)",
 	"EDITOR_FORMAT_KMAHJONGG": "*.layout (kmahjongg text format)",

@@ -264,6 +264,7 @@
 	"EDITOR_LAYOUT_SAVE_AS_COPY": "Simpan Sebagai Salinan",
 	"EDITOR_LAYOUT_NR_OF_STONES": "# Batu",
 	"EDITOR_BUILD_IN_EXISTS": "Papan ini sudah terbina dalam permainan!",
+	"EDITOR_CUSTOM_EXISTS": "Papan ini sudah disimpan!",
 	"EDITOR_IMPORT_DROP": "Seret fail anda ke sini",
 	"EDITOR_FORMAT_MAH": "*.mah (format json Mah)",
 	"EDITOR_FORMAT_KMAHJONGG": "*.layout (format teks kmahjongg)",

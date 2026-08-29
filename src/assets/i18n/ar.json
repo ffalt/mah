@@ -270,6 +270,7 @@
 	"EDITOR_LAYOUT_SAVE_AS_COPY": "حفظ باسم نسخة",
 	"EDITOR_LAYOUT_NR_OF_STONES": "# من الحجارة",
 	"EDITOR_BUILD_IN_EXISTS": "هذا اللوح مدمج في اللعبة!",
+	"EDITOR_CUSTOM_EXISTS": "هذا اللوح محفوظ بالفعل!",
 	"EDITOR_IMPORT_DROP": "اسحب ملفاتك هنا",
 	"EDITOR_FORMAT_MAH": "*.mah (تنسيق Mah json)",
 	"EDITOR_FORMAT_KMAHJONGG": "*.layout (تنسيق نص kmahjongg)",

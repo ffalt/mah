@@ -264,6 +264,7 @@
 	"EDITOR_LAYOUT_SAVE_AS_COPY": "另存为副本",
 	"EDITOR_LAYOUT_NR_OF_STONES": "牌数",
 	"EDITOR_BUILD_IN_EXISTS": "此牌局是游戏内置的！",
+	"EDITOR_CUSTOM_EXISTS": "此牌局已保存！",
 	"EDITOR_IMPORT_DROP": "将文件拖放到这里",
 	"EDITOR_FORMAT_MAH": "*.mah (Mah json格式)",
 	"EDITOR_FORMAT_KMAHJONGG": "*.layout (kmahjongg文本格式)",

@@ -268,6 +268,7 @@
 	"EDITOR_LAYOUT_SAVE_AS_COPY": "Zapisz jako kopię",
 	"EDITOR_LAYOUT_NR_OF_STONES": "Liczba kamieni",
 	"EDITOR_BUILD_IN_EXISTS": "Ta plansza jest wbudowana w grze!",
+	"EDITOR_CUSTOM_EXISTS": "Ta plansza jest już zapisana!",
 	"EDITOR_IMPORT_DROP": "Przeciągnij tutaj swoje pliki",
 	"EDITOR_FORMAT_MAH": "*.mah (format json Mah)",
 	"EDITOR_FORMAT_KMAHJONGG": "*.layout (format tekstowy kmahjongg)",

@@ -266,6 +266,7 @@
 	"EDITOR_LAYOUT_SAVE_AS_COPY": "Hifadhi kama nakala",
 	"EDITOR_LAYOUT_NR_OF_STONES": "Idadi ya Mawe",
 	"EDITOR_BUILD_IN_EXISTS": "Ubao huu umejengwa ndani ya mchezo!",
+	"EDITOR_CUSTOM_EXISTS": "Ubao huu tayari umehifadhiwa!",
 	"EDITOR_IMPORT_DROP": "Buruta faili zako hapa",
 	"EDITOR_FORMAT_MAH": "*.mah (muundo wa Mah json)",
 	"EDITOR_FORMAT_KMAHJONGG": "*.layout (muundo wa maandishi ya kmahjongg)",

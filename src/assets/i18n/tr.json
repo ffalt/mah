@@ -264,6 +264,7 @@
 	"EDITOR_LAYOUT_SAVE_AS_COPY": "Kopya Olarak Kaydet",
 	"EDITOR_LAYOUT_NR_OF_STONES": "# Taş",
 	"EDITOR_BUILD_IN_EXISTS": "Bu tablo oyunda yerleşiktir!",
+	"EDITOR_CUSTOM_EXISTS": "Bu tablo zaten kaydedilmiş!",
 	"EDITOR_IMPORT_DROP": "Dosyalarınızı buraya sürükleyin",
 	"EDITOR_FORMAT_MAH": "*.mah (Mah json biçimi)",
 	"EDITOR_FORMAT_KMAHJONGG": "*.layout (kmahjongg metin biçimi)",

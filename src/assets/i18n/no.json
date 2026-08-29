@@ -265,6 +265,7 @@
 	"EDITOR_LAYOUT_SAVE_AS_COPY": "Lagre som kopi",
 	"EDITOR_LAYOUT_NR_OF_STONES": "# av steiner",
 	"EDITOR_BUILD_IN_EXISTS": "Dette brettet er bygget inn i spillet!",
+	"EDITOR_CUSTOM_EXISTS": "Dette brettet er allerede lagret!",
 	"EDITOR_IMPORT_DROP": "Dra filene dine hit",
 	"EDITOR_FORMAT_MAH": "*.mah (Mah json format)",
 	"EDITOR_FORMAT_KMAHJONGG": "*.layout (kmahjongg tekstformat)",

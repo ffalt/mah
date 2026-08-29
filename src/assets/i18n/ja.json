@@ -264,6 +264,7 @@
 	"EDITOR_LAYOUT_SAVE_AS_COPY": "コピーとして保存",
 	"EDITOR_LAYOUT_NR_OF_STONES": "石の数",
 	"EDITOR_BUILD_IN_EXISTS": "このボードはゲームに組み込まれています！",
+	"EDITOR_CUSTOM_EXISTS": "このボードはすでに保存されています。",
 	"EDITOR_IMPORT_DROP": "ファイルをここにドラッグ",
 	"EDITOR_FORMAT_MAH": "*.mah (Mah JSON形式)",
 	"EDITOR_FORMAT_KMAHJONGG": "*.layout (kmahjongg テキスト形式)",

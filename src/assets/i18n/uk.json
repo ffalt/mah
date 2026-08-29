@@ -268,6 +268,7 @@
 	"EDITOR_LAYOUT_SAVE_AS_COPY": "Зберегти як копію",
 	"EDITOR_LAYOUT_NR_OF_STONES": "# Каменів",
 	"EDITOR_BUILD_IN_EXISTS": "Ця дошка вбудована в гру!",
+	"EDITOR_CUSTOM_EXISTS": "Ця дошка вже збережена!",
 	"EDITOR_IMPORT_DROP": "Перетягніть файли сюди",
 	"EDITOR_FORMAT_MAH": "*.mah (Формат Mah json)",
 	"EDITOR_FORMAT_KMAHJONGG": "*.layout (Текстовий формат kmahjongg)",

@@ -266,6 +266,7 @@
 	"EDITOR_LAYOUT_SAVE_AS_COPY": "نقل کے طور پر محفوظ کریں",
 	"EDITOR_LAYOUT_NR_OF_STONES": "# پتھر",
 	"EDITOR_BUILD_IN_EXISTS": "یہ بورڈ گیم میں موجود ہے!",
+	"EDITOR_CUSTOM_EXISTS": "یہ بورڈ پہلے ہی محفوظ ہے!",
 	"EDITOR_IMPORT_DROP": "اپنی فائلیں یہاں گھسیٹیں",
 	"EDITOR_FORMAT_MAH": "*.mah (Mah json فارمیٹ)",
 	"EDITOR_FORMAT_KMAHJONGG": "*.layout (kmahjongg ٹیکسٹ فارمیٹ)",

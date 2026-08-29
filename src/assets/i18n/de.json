@@ -266,6 +266,7 @@
 	"EDITOR_LAYOUT_SAVE_AS_COPY": "Als Kopie speichern",
 	"EDITOR_LAYOUT_NR_OF_STONES": "# der Steine",
 	"EDITOR_BUILD_IN_EXISTS": "Dieses Board ist im Spiel eingebaut!",
+	"EDITOR_CUSTOM_EXISTS": "Dieses Spielbrett ist bereits gespeichert!",
 	"EDITOR_IMPORT_DROP": "Ziehen Sie Ihre Dateien hierhin",
 	"EDITOR_FORMAT_MAH": "*.mah (Mah json format)",
 	"EDITOR_FORMAT_KMAHJONGG": "*.layout (kmahjongg Textformat)",

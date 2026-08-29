@@ -268,6 +268,7 @@
 	"EDITOR_LAYOUT_SAVE_AS_COPY": "Сохранить копию",
 	"EDITOR_LAYOUT_NR_OF_STONES": "# камней",
 	"EDITOR_BUILD_IN_EXISTS": "Эта доска встроена в игру!",
+	"EDITOR_CUSTOM_EXISTS": "Эта карта уже сохранена!",
 	"EDITOR_IMPORT_DROP": "Перетащите свои файлы сюда",
 	"EDITOR_FORMAT_MAH": "*.mah (формат Mah json)",
 	"EDITOR_FORMAT_KMAHJONGG": "*.layout (текстовый формат kmahjongg)",

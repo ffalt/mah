@@ -264,6 +264,7 @@
 	"EDITOR_LAYOUT_SAVE_AS_COPY": "Lưu Dưới Dạng Bản Sao",
 	"EDITOR_LAYOUT_NR_OF_STONES": "# Đá",
 	"EDITOR_BUILD_IN_EXISTS": "Bảng này được xây dựng trong trò chơi!",
+	"EDITOR_CUSTOM_EXISTS": "Bảng này đã được lưu!",
 	"EDITOR_IMPORT_DROP": "Kéo các tệp của bạn vào đây",
 	"EDITOR_FORMAT_MAH": "*.mah (Định dạng Mah json)",
 	"EDITOR_FORMAT_KMAHJONGG": "*.layout (Định dạng văn bản kmahjongg)",

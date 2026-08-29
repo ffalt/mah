@@ -18,7 +18,7 @@ const editLayout: EditLayout = {
 const mockLayoutService = {
 	layouts: { items: [] },
 	getPreview: vi.fn(),
-	storeCustomBoards: vi.fn(),
+	storeCustomBoards: vi.fn(() => 1),
 	removeCustomLayout: vi.fn()
 };
 
@@ -143,6 +143,28 @@ describe('ExportComponent', () => {
 			expect(layoutService.storeCustomBoards).not.toHaveBeenCalled();
 			expect(layout.originalId).toBeUndefined();
 			expect(savedEvents).toHaveLength(0);
+		});
+
+		it('shows alert and reports no success when the board was rejected as a duplicate', () => {
+			const layout = { ...editLayout };
+			mockLayoutService.layouts = { items: [] };
+			init(layout);
+			const alertSpy = vi.spyOn(window, 'alert').mockImplementation(() => undefined);
+			alertSpy.mockClear();
+			layoutService.storeCustomBoards.mockClear();
+			vi.spyOn(translateService, 'instant').mockReturnValue('already saved');
+			layoutService.storeCustomBoards.mockReturnValueOnce(0);
+			const savedEvents: Array<boolean> = [];
+			component.savedEvent.subscribe((isCalled: boolean) => {
+				savedEvents.push(isCalled);
+			});
+
+			component.saveAsCopy();
+
+			expect(layoutService.storeCustomBoards).toHaveBeenCalledWith([component.exportLayout()]);
+			expect(alertSpy).toHaveBeenCalledWith('already saved');
+			expect(savedEvents).toHaveLength(0);
+			expect(layout.originalId).toBeUndefined();
 		});
 	});
 

@@ -86,7 +86,7 @@ export class LayoutService {
 		return this.storage.getCustomLayouts() || [];
 	}
 
-	storeCustomBoards(list: Array<LoadLayout>) {
+	storeCustomBoards(list: Array<LoadLayout>): number {
 		const customLayouts = this.loadCustomLayouts();
 		const known = new Set(customLayouts.map(layout => this.expandLayout(layout, true).id));
 		const added: Array<LoadLayout> = [];
@@ -100,10 +100,11 @@ export class LayoutService {
 			}
 		}
 		if (added.length === 0) {
-			return;
+			return 0;
 		}
 		this.storage.storeCustomLayouts([...customLayouts, ...added]);
 		this.layouts.items = [...this.layouts.items, ...expanded];
+		return added.length;
 	}
 
 	generatePreview(mapping: Mapping): SafeUrlSVG {

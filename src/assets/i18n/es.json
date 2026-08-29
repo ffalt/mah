@@ -266,6 +266,7 @@
 	"EDITOR_LAYOUT_SAVE_AS_COPY": "Guardar como una copia",
 	"EDITOR_LAYOUT_NR_OF_STONES": "# de Fichas",
 	"EDITOR_BUILD_IN_EXISTS": "¡Este tablero está integrado en el juego!",
+	"EDITOR_CUSTOM_EXISTS": "¡Este tablero ya está guardado!",
 	"EDITOR_IMPORT_DROP": "Arrastra tus archivos aquí",
 	"EDITOR_FORMAT_MAH": "*.mah (Mah json format)",
 	"EDITOR_FORMAT_KMAHJONGG": "*.layout (kmahjongg text format)",
