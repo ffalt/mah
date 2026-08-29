@@ -58,11 +58,20 @@ describe('AppComponent', () => {
 			expect(app.toggleEditor).not.toHaveBeenCalled();
 		});
 
-		it('still closes an open editor while a game dialog is up', () => {
-			dialogVisible = true;
+		it('leaves the key to the editor once it is open', () => {
 			app.editorVisible.set(true);
-			expect(pressE()).toBe(true);
-			expect(app.toggleEditor).toHaveBeenCalled();
+			expect(pressE()).toBe(false);
+			expect(app.toggleEditor).not.toHaveBeenCalled();
+		});
+
+		it('forwards no game shortcut while the editor is open', () => {
+			const gameHandler = vi.fn();
+			Object.defineProperty(app, 'gameComponent', { value: () => ({ isDialogVisible: () => false, handleKeyDownEvent: gameHandler }) });
+			app.editorVisible.set(true);
+			for (const key of ['t', 'm', 'u', 'n', 'p', ' ', 'h', 'i', 's', 'd']) {
+				app.handleKeyDownEvent(new KeyboardEvent('keydown', { key }));
+			}
+			expect(gameHandler).not.toHaveBeenCalled();
 		});
 	});
 

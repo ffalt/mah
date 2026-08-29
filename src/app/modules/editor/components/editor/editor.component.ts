@@ -5,6 +5,7 @@ import { LayoutComponent } from '../layout/layout.component';
 import { downloadMahLayouts } from '../../model/export';
 import type { EditLayout } from '../../model/edit-layout';
 import type { Layout } from '../../../../model/types';
+import { isFormControlTarget } from '../../../../model/dom-utilities';
 import { ImportComponent } from '../import/import.component';
 import { ManagerComponent } from '../manager/manager.component';
 import { IconCloseComponent } from '../../../../components/icons/icon-close.component';
@@ -15,6 +16,7 @@ import { DropZoneDirective } from '../../directives/drop-zone.directive';
 	selector: 'app-editor-component',
 	templateUrl: './editor.component.html',
 	styleUrls: ['./editor.component.scss'],
+	host: { '(document:keydown)': 'handleKeyDownEvent($event)' },
 	imports: [DropZoneDirective, LayoutComponent, IconLogoComponent, ImportComponent, ManagerComponent, TranslatePipe, IconCloseComponent]
 })
 export class EditorComponent {
@@ -30,6 +32,14 @@ export class EditorComponent {
 		if (layoutComponent) {
 			layoutComponent.toggleSave();
 		}
+	}
+
+	handleKeyDownEvent(event: KeyboardEvent): void {
+		if (event.key !== 'e' || this.mode() === 'edit' || isFormControlTarget(event.target)) {
+			return;
+		}
+		event.preventDefault();
+		this.closeEvent.emit();
 	}
 
 	close() {

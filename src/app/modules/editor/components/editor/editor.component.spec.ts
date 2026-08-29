@@ -39,6 +39,56 @@ describe('EditorComponent', () => {
 		expect(component.mode()).toBe('manager');
 	});
 
+	describe('handleKeyDownEvent', () => {
+		const pressE = (target?: EventTarget): KeyboardEvent => {
+			const event = new KeyboardEvent('keydown', { key: 'e', cancelable: true });
+			if (target) {
+				Object.defineProperty(event, 'target', { value: target });
+			}
+			component.handleKeyDownEvent(event);
+			return event;
+		};
+
+		it('closes the editor from the manager', () => {
+			const listener = vi.fn();
+			component.closeEvent.subscribe(listener);
+			expect(pressE().defaultPrevented).toBe(true);
+			expect(listener).toHaveBeenCalledTimes(1);
+		});
+
+		it('closes the editor from the import screen', () => {
+			const listener = vi.fn();
+			component.closeEvent.subscribe(listener);
+			component.mode.set('import');
+			pressE();
+			expect(listener).toHaveBeenCalledTimes(1);
+		});
+
+		it('does nothing while a layout is being edited, so unsaved work is never discarded silently', () => {
+			const listener = vi.fn();
+			component.closeEvent.subscribe(listener);
+			component.mode.set('edit');
+			expect(pressE().defaultPrevented).toBe(false);
+			expect(listener).not.toHaveBeenCalled();
+		});
+
+		it('does not react while typing into a form control', () => {
+			const listener = vi.fn();
+			component.closeEvent.subscribe(listener);
+			pressE(document.createElement('input'));
+			expect(listener).not.toHaveBeenCalled();
+		});
+
+		it('ignores every other key', () => {
+			const listener = vi.fn();
+			component.closeEvent.subscribe(listener);
+			for (const key of ['t', 'm', 'u', 'n', 'p', ' ', 'Escape', 'E']) {
+				component.handleKeyDownEvent(new KeyboardEvent('keydown', { key, cancelable: true }));
+			}
+			expect(listener).not.toHaveBeenCalled();
+		});
+	});
+
 	describe('close', () => {
 		it('should emit closeEvent when in manager mode', () => {
 			const listener = vi.fn();

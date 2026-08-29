@@ -41,7 +41,6 @@ export class AppComponent implements OnInit {
 			});
 	}
 
-	// the single document keydown listener, delegating to the game component (an own listener there would run every handler twice)
 	handleKeyDownEvent(event: KeyboardEvent): void {
 		if (this.handleEditorKeyDown(event)) {
 			return;
@@ -55,10 +54,13 @@ export class AppComponent implements OnInit {
 		if (!environment.editor || event.key !== 'e') {
 			return false;
 		}
+		if (this.editorVisible()) {
+			return false;
+		}
 		if (isFormControlTarget(event.target)) {
 			return false;
 		}
-		if (!this.editorVisible() && this.gameComponent().isDialogVisible()) {
+		if (this.gameComponent().isDialogVisible()) {
 			return false;
 		}
 		this.toggleEditor();
