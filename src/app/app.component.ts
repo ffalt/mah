@@ -1,5 +1,8 @@
-import { Component, type OnInit, type OutputRefSubscription, ViewContainerRef, inject, signal, viewChild } from '@angular/core';
+import { Component, EnvironmentInjector, type OnInit, type OutputRefSubscription, ViewContainerRef, createEnvironmentInjector, inject, signal, viewChild } from '@angular/core';
 import { Meta } from '@angular/platform-browser';
+import { TranslateService, provideChildTranslateService } from '@ngx-translate/core';
+import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
+import { firstValueFrom } from 'rxjs';
 import { environment } from '../environments/environment';
 import { AppService } from './service/app.service';
 import { LayoutService } from './service/layout.service';
@@ -28,6 +31,8 @@ export class AppComponent implements OnInit {
 	editorSubscription?: OutputRefSubscription;
 	readonly editorVisible = signal(false);
 	editorLoading: boolean = false;
+	private readonly environmentInjector = inject(EnvironmentInjector);
+	private editorInjector?: EnvironmentInjector;
 
 	constructor() {
 		this.updateName();
@@ -70,20 +75,36 @@ export class AppComponent implements OnInit {
 
 	loadEditor(): void {
 		if (environment.editor) {
-			this.importEditorModule()
-				.then(({ EditorComponent }) => {
-					const component = this.editorPlaceholder().createComponent(EditorComponent);
-					this.editorSubscription = component.instance.closeEvent.subscribe(() => {
-						this.toggleEditor();
-					});
-					this.editorLoading = false;
-				})
+			this.createEditor()
 				.catch(error => {
 					log.error(error);
 					this.editorLoading = false;
 					this.editorVisible.set(false);
 				});
 		}
+	}
+
+	private async createEditor(): Promise<void> {
+		// kept across open/close so the editor translations are fetched only once per session
+		this.editorInjector ??= createEnvironmentInjector([
+			provideChildTranslateService({
+				loader: provideTranslateHttpLoader({ prefix: './assets/i18n/editor/', suffix: '.json' })
+			})
+		], this.environmentInjector, 'EditorTranslations');
+		const [{ EditorComponent }] = await Promise.all([
+			this.importEditorModule(),
+			this.awaitEditorTranslations(this.editorInjector)
+		]);
+		const component = this.editorPlaceholder()
+			.createComponent(EditorComponent, { environmentInjector: this.editorInjector });
+		this.editorSubscription = component.instance.closeEvent.subscribe(() => {
+			this.toggleEditor();
+		});
+		this.editorLoading = false;
+	}
+
+	private async awaitEditorTranslations(injector: EnvironmentInjector): Promise<unknown> {
+		return firstValueFrom(injector.get(TranslateService).get('EDITOR_TITLE'));
 	}
 
 	private async importEditorModule(): Promise<typeof import('./modules/editor/components/editor/editor.component')> {
