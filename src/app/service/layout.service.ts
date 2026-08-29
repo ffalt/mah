@@ -71,7 +71,7 @@ export class LayoutService {
 			id: o.id && o.id !== '' ? o.id : mappingToID(mapping),
 			name: o.name,
 			by: o.by,
-			category: o.cat ?? 'Classic',
+			category: o.cat?.trim() || 'Classic',
 			mapping,
 			custom: isCustom
 		};

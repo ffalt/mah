@@ -325,6 +325,18 @@ describe('LayoutService', () => {
 			// Assert
 			expect(result.custom).toBe(true);
 		});
+
+		it.each([
+			['missing', undefined, 'Classic'],
+			['empty', '', 'Classic'],
+			['only whitespace', ' '.repeat(3), 'Classic'],
+			['padded', '  Shapes  ', 'Shapes'],
+			['a real name', 'Animals', 'Animals']
+		])('falls back to Classic for a %s category', (_reason, cat, expected) => {
+			const result = service.expandLayout({ id: 'x', name: 'X', cat, map: [] } as LoadLayout, true);
+
+			expect(result.category).toBe(expected);
+		});
 	});
 
 	describe('loadCustomLayouts', () => {
