@@ -27,6 +27,7 @@ export class DeferLoadDirective implements AfterViewInit, OnDestroy {
 	}
 
 	ngOnDestroy(): void {
+		this.cancelDelayLoad();
 		this.removeListeners();
 	}
 
@@ -42,7 +43,7 @@ export class DeferLoadDirective implements AfterViewInit, OnDestroy {
 
 	private cancelDelayLoad(): void {
 		if (!this.timeoutId) {
-			return; // do nothing if timeout doesn't exist
+			return;
 		}
 		clearTimeout(this.timeoutId);
 		this.timeoutId = undefined;
@@ -50,7 +51,7 @@ export class DeferLoadDirective implements AfterViewInit, OnDestroy {
 
 	private delayLoad(): void {
 		if (this.timeoutId) {
-			return; // timeout was already set, do nothing
+			return;
 		}
 		this.timeoutId = setTimeout(() => {
 			this.loadAndUnobserve();
@@ -88,24 +89,16 @@ export class DeferLoadDirective implements AfterViewInit, OnDestroy {
 		this.appDeferLoad.emit();
 	}
 
-	private loadFromScroll(): void {
-		setTimeout(() => {
-			this.load();
-		}, 0);
-	}
-
 	private addScrollListeners(): void {
 		this.scrollSubscription = this.deferLoadService.scrollNotify
 			.subscribe((event: ScrollNotifyEvent) => {
 				if (this.checkInView(event.rect)) {
-					this.loadFromScroll();
+					this.delayLoad();
 				}
 			});
-		setTimeout(() => {
-			if (this.checkInView(this.deferLoadService.currentViewport)) {
-				this.loadFromScroll();
-			}
-		}, 0);
+		if (this.checkInView(this.deferLoadService.currentViewport)) {
+			this.delayLoad();
+		}
 	}
 
 	private unobserve(): void {

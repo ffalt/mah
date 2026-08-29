@@ -152,5 +152,61 @@ describe('DeferLoadDirective', () => {
 			fixture.destroy();
 			expect(mockService.unobserve).toHaveBeenCalled();
 		});
+
+		it('should leave no pending intersection load timer behind', () => {
+			const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+			configure({ isBrowser: true, hasIntersectionObserver: true });
+			fixture.detectChanges();
+			const [element, callback] = (mockService.observe as Mock).mock.calls[0] as [Element, (entry: IntersectionObserverEntry) => void];
+			callback({ time: 1, isIntersecting: true, target: element } as unknown as IntersectionObserverEntry);
+			expect(vi.getTimerCount()).toBe(1);
+
+			fixture.destroy();
+
+			expect(vi.getTimerCount()).toBe(0);
+			vi.runAllTimers();
+			expect(component.loadCount).toBe(0);
+			expect(warn).not.toHaveBeenCalled();
+			warn.mockRestore();
+		});
+
+		it('should leave no pending scroll load timer behind', () => {
+			const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+			configure({ isBrowser: true, hasIntersectionObserver: false, currentViewport: new Rect(0, -500, 1024, -1) });
+			vi.spyOn(Rect, 'fromElement').mockReturnValue(new Rect(0, 100, 100, 200));
+			fixture.detectChanges();
+			(mockService.scrollNotify as EventEmitter<ScrollNotifyEvent>).emit({ rect: new Rect(0, 50, 1024, 300) });
+			expect(vi.getTimerCount()).toBe(1);
+
+			fixture.destroy();
+
+			expect(vi.getTimerCount()).toBe(0);
+			vi.runAllTimers();
+			expect(component.loadCount).toBe(0);
+			expect(warn).not.toHaveBeenCalled();
+			warn.mockRestore();
+		});
+
+		it('should leave no pending timer behind when the element starts in view', () => {
+			configure({ isBrowser: true, hasIntersectionObserver: false, currentViewport: new Rect(0, 50, 1024, 300) });
+			vi.spyOn(Rect, 'fromElement').mockReturnValue(new Rect(0, 100, 100, 200));
+			fixture.detectChanges();
+			expect(vi.getTimerCount()).toBe(1);
+
+			fixture.destroy();
+
+			expect(vi.getTimerCount()).toBe(0);
+			vi.runAllTimers();
+			expect(component.loadCount).toBe(0);
+		});
+
+		it('still loads an element that is already in view when listening starts', () => {
+			configure({ isBrowser: true, hasIntersectionObserver: false, currentViewport: new Rect(0, 50, 1024, 300) });
+			vi.spyOn(Rect, 'fromElement').mockReturnValue(new Rect(0, 100, 100, 200));
+			fixture.detectChanges();
+			vi.runAllTimers();
+
+			expect(component.loadCount).toBe(1);
+		});
 	});
 });
