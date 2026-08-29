@@ -267,6 +267,7 @@
 	"EDITOR_LAYOUT_NR_OF_STONES": "# पत्थरों के",
 	"EDITOR_BUILD_IN_EXISTS": "यह बोर्ड खेल में बनाया गया है!",
 	"EDITOR_CUSTOM_EXISTS": "यह बोर्ड पहले से सहेजा गया है!",
+	"EDITOR_TILE_COUNT_INVALID": "एक बोर्ड में {{min}} और {{max}} के बीच सम संख्या में पत्थर होने चाहिए।",
 	"EDITOR_IMPORT_DROP": "अपनी फाइलें यहाँ खींचें",
 	"EDITOR_FORMAT_MAH": "*.mah (माह जेसन प्रारूप)",
 	"EDITOR_FORMAT_KMAHJONGG": "*.layout (kmahjongg पाठ प्रारूप)",

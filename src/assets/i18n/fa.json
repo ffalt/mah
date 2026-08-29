@@ -265,6 +265,7 @@
 	"EDITOR_LAYOUT_NR_OF_STONES": "# سنگ‌ها",
 	"EDITOR_BUILD_IN_EXISTS": "این صفحه در بازی داخلی است!",
 	"EDITOR_CUSTOM_EXISTS": "این صفحه از قبل ذخیره شده است!",
+	"EDITOR_TILE_COUNT_INVALID": "یک صفحه به تعداد زوج کاشی نیاز دارد، بین {{min}} و {{max}}.",
 	"EDITOR_IMPORT_DROP": "فایل‌های خود را اینجا بکشید",
 	"EDITOR_FORMAT_MAH": "*.mah (فرمت json ماه)",
 	"EDITOR_FORMAT_KMAHJONGG": "*.layout (فرمت متنی kmahjongg)",

@@ -267,6 +267,7 @@
 	"EDITOR_LAYOUT_NR_OF_STONES": "రాళ్ళ సంఖ్య",
 	"EDITOR_BUILD_IN_EXISTS": "ఈ బోర్డ్ ఆటలో అంతర్నిర్మితం!",
 	"EDITOR_CUSTOM_EXISTS": "ఈ బోర్డు ఇప్పటికే సేవ్ చేయబడింది!",
+	"EDITOR_TILE_COUNT_INVALID": "బోర్డుకు {{min}} నుండి {{max}} మధ్య సరి సంఖ్యలో టైల్స్ అవసరం.",
 	"EDITOR_IMPORT_DROP": "మీ ఫైళ్ళను ఇక్కడ లాగండి",
 	"EDITOR_FORMAT_MAH": "*.mah (Mah json ఫార్మాట్)",
 	"EDITOR_FORMAT_KMAHJONGG": "*.layout (kmahjongg టెక్స్ట్ ఫార్మాట్)",

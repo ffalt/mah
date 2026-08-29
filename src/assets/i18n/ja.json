@@ -265,6 +265,7 @@
 	"EDITOR_LAYOUT_NR_OF_STONES": "石の数",
 	"EDITOR_BUILD_IN_EXISTS": "このボードはゲームに組み込まれています！",
 	"EDITOR_CUSTOM_EXISTS": "このボードはすでに保存されています。",
+	"EDITOR_TILE_COUNT_INVALID": "ボードには偶数枚の牌が必要です（{{min}}〜{{max}}）。",
 	"EDITOR_IMPORT_DROP": "ファイルをここにドラッグ",
 	"EDITOR_FORMAT_MAH": "*.mah (Mah JSON形式)",
 	"EDITOR_FORMAT_KMAHJONGG": "*.layout (kmahjongg テキスト形式)",

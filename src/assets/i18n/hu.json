@@ -265,6 +265,7 @@
 	"EDITOR_LAYOUT_NR_OF_STONES": "Kövek száma",
 	"EDITOR_BUILD_IN_EXISTS": "Ez a tábla beépített a játékban!",
 	"EDITOR_CUSTOM_EXISTS": "Ez a tábla már mentve van!",
+	"EDITOR_TILE_COUNT_INVALID": "Egy táblához páros számú kő kell, {{min}} és {{max}} között.",
 	"EDITOR_IMPORT_DROP": "Húzza ide a fájljait",
 	"EDITOR_FORMAT_MAH": "*.mah (Mah json formátum)",
 	"EDITOR_FORMAT_KMAHJONGG": "*.layout (kmahjongg szöveges formátum)",

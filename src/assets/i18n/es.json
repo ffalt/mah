@@ -267,6 +267,7 @@
 	"EDITOR_LAYOUT_NR_OF_STONES": "# de Fichas",
 	"EDITOR_BUILD_IN_EXISTS": "¡Este tablero está integrado en el juego!",
 	"EDITOR_CUSTOM_EXISTS": "¡Este tablero ya está guardado!",
+	"EDITOR_TILE_COUNT_INVALID": "Un tablero necesita un número par de fichas, entre {{min}} y {{max}}.",
 	"EDITOR_IMPORT_DROP": "Arrastra tus archivos aquí",
 	"EDITOR_FORMAT_MAH": "*.mah (Mah json format)",
 	"EDITOR_FORMAT_KMAHJONGG": "*.layout (kmahjongg text format)",

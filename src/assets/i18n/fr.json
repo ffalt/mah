@@ -267,6 +267,7 @@
 	"EDITOR_LAYOUT_NR_OF_STONES": "Nombre de tuiles",
 	"EDITOR_BUILD_IN_EXISTS": "Ce plateau est intégré au jeu !",
 	"EDITOR_CUSTOM_EXISTS": "Ce plateau est déjà enregistré !",
+	"EDITOR_TILE_COUNT_INVALID": "Un plateau doit avoir un nombre pair de tuiles, entre {{min}} et {{max}}.",
 	"EDITOR_IMPORT_DROP": "Déposez vos fichiers ici",
 	"EDITOR_FORMAT_MAH": "*.mah (format json Mah)",
 	"EDITOR_FORMAT_KMAHJONGG": "*.layout (format texte kmahjongg)",

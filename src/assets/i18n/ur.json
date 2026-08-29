@@ -267,6 +267,7 @@
 	"EDITOR_LAYOUT_NR_OF_STONES": "# پتھر",
 	"EDITOR_BUILD_IN_EXISTS": "یہ بورڈ گیم میں موجود ہے!",
 	"EDITOR_CUSTOM_EXISTS": "یہ بورڈ پہلے ہی محفوظ ہے!",
+	"EDITOR_TILE_COUNT_INVALID": "بورڈ کے لیے {{min}} سے {{max}} کے درمیان جفت تعداد میں ٹائلیں درکار ہیں۔",
 	"EDITOR_IMPORT_DROP": "اپنی فائلیں یہاں گھسیٹیں",
 	"EDITOR_FORMAT_MAH": "*.mah (Mah json فارمیٹ)",
 	"EDITOR_FORMAT_KMAHJONGG": "*.layout (kmahjongg ٹیکسٹ فارمیٹ)",

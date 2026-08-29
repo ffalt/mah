@@ -267,6 +267,7 @@
 	"EDITOR_LAYOUT_NR_OF_STONES": "Harri kopurua",
 	"EDITOR_BUILD_IN_EXISTS": "Taula hau jokoaren parte da!",
 	"EDITOR_CUSTOM_EXISTS": "Taula hau jada gordeta dago!",
+	"EDITOR_TILE_COUNT_INVALID": "Taula batek fitxa kopuru bikoitia behar du, {{min}} eta {{max}} artean.",
 	"EDITOR_IMPORT_DROP": "Arrastatu zure fitxategiak hona",
 	"EDITOR_FORMAT_MAH": "*.mah (Mah JSON formatua)",
 	"EDITOR_FORMAT_KMAHJONGG": "*.layout (kmahjongg testu formatua)",

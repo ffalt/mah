@@ -267,6 +267,7 @@
 	"EDITOR_LAYOUT_NR_OF_STONES": "No. of Stones",
 	"EDITOR_BUILD_IN_EXISTS": "This board is built into the game!",
 	"EDITOR_CUSTOM_EXISTS": "This board is already saved!",
+	"EDITOR_TILE_COUNT_INVALID": "A board needs an even number of tiles, between {{min}} and {{max}}.",
 	"EDITOR_IMPORT_DROP": "Drag your files here",
 	"EDITOR_FORMAT_MAH": "*.mah (Mah json format)",
 	"EDITOR_FORMAT_KMAHJONGG": "*.layout (kmahjongg text format)",

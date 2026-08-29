@@ -265,6 +265,7 @@
 	"EDITOR_LAYOUT_NR_OF_STONES": "จำนวนหิน",
 	"EDITOR_BUILD_IN_EXISTS": "กระดานนี้เป็นกระดานในตัวของเกม!",
 	"EDITOR_CUSTOM_EXISTS": "กระดานนี้ถูกบันทึกไว้แล้ว!",
+	"EDITOR_TILE_COUNT_INVALID": "กระดานต้องมีจำนวนไพ่เป็นเลขคู่ ระหว่าง {{min}} ถึง {{max}}",
 	"EDITOR_IMPORT_DROP": "ลากไฟล์ของคุณมาที่นี่",
 	"EDITOR_FORMAT_MAH": "*.mah (รูปแบบ Mah json)",
 	"EDITOR_FORMAT_KMAHJONGG": "*.layout (รูปแบบข้อความ kmahjongg)",

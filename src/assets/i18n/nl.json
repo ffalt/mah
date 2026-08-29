@@ -267,6 +267,7 @@
 	"EDITOR_LAYOUT_NR_OF_STONES": "# Stenen",
 	"EDITOR_BUILD_IN_EXISTS": "Dit bord is ingebouwd in het spel!",
 	"EDITOR_CUSTOM_EXISTS": "Dit spelbord is al opgeslagen!",
+	"EDITOR_TILE_COUNT_INVALID": "Een spelbord heeft een even aantal stenen nodig, tussen {{min}} en {{max}}.",
 	"EDITOR_IMPORT_DROP": "Sleep uw bestanden hierheen",
 	"EDITOR_FORMAT_MAH": "*.mah (Mah json format)",
 	"EDITOR_FORMAT_KMAHJONGG": "*.layout (kmahjongg tekstformaat)",

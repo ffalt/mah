@@ -1,6 +1,6 @@
 import { Component, type OnChanges, type OnDestroy, type OnInit, type SimpleChanges, inject, model, signal } from '@angular/core';
 import { Matrix } from '../../model/matrix';
-import { CONSTS } from '../../../../model/consts';
+import { CONSTS, MAX_BOARD_TILES, MIN_BOARD_TILES, isPlayableTileCount } from '../../../../model/consts';
 import { WorkerService } from '../../../../service/worker.service';
 import { LayoutService } from '../../../../service/layout.service';
 import type { Place, SafeUrlSVG } from '../../../../model/types';
@@ -74,6 +74,7 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 	readonly mirrorX = signal(false);
 	readonly mirrorY = signal(false);
 	readonly svg = signal<SafeUrlSVG | undefined>(undefined);
+	readonly tileCountLimits = { min: MIN_BOARD_TILES, max: MAX_BOARD_TILES };
 	totalZ = 1;
 	totalY = CONSTS.mY;
 	totalX = CONSTS.mX;
@@ -92,7 +93,7 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 			name: layout.name,
 			totalCount: layout.mapping.length,
 			layerCount: layout.mapping.filter(m => m[0] === this.currentZ()).length,
-			countInvalid: (layout.mapping.length > 144) || !!(layout.mapping.length % 2),
+			countInvalid: !isPlayableTileCount(layout.mapping.length),
 			...extents,
 			width: extents.maxX - extents.minX,
 			height: extents.maxY - extents.minY,

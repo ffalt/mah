@@ -265,6 +265,7 @@
 	"EDITOR_LAYOUT_NR_OF_STONES": "# Đá",
 	"EDITOR_BUILD_IN_EXISTS": "Bảng này được xây dựng trong trò chơi!",
 	"EDITOR_CUSTOM_EXISTS": "Bảng này đã được lưu!",
+	"EDITOR_TILE_COUNT_INVALID": "Một bảng cần số đá chẵn, từ {{min}} đến {{max}}.",
 	"EDITOR_IMPORT_DROP": "Kéo các tệp của bạn vào đây",
 	"EDITOR_FORMAT_MAH": "*.mah (Định dạng Mah json)",
 	"EDITOR_FORMAT_KMAHJONGG": "*.layout (Định dạng văn bản kmahjongg)",

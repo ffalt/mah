@@ -1,7 +1,7 @@
 import { computed, signal } from '@angular/core';
 import { Board } from './board';
 import { Clock } from './clock';
-import { GAME_MODE_CHALLENGE, GAME_MODE_EASY, GAME_MODE_EXPERT, type GAME_MODE_ID, GAME_MODE_ID_DEFAULT, MAX_BOARD_TILES, MIN_BOARD_TILES, RESCUE_SHUFFLE_ATTEMPTS, STATES } from './consts';
+import { GAME_MODE_CHALLENGE, GAME_MODE_EASY, GAME_MODE_EXPERT, type GAME_MODE_ID, GAME_MODE_ID_DEFAULT, RESCUE_SHUFFLE_ATTEMPTS, STATES, isPlayableTileCount } from './consts';
 import { SOUNDS, Sound } from './sound';
 import type { Stone } from './stone';
 import type { GameStateStore, Layout, StorageProvider } from './types';
@@ -27,10 +27,6 @@ export interface ChallengeOutcome {
 	challenge: Challenge;
 	won: boolean;
 	playTime: number;
-}
-
-function isPlayableTileCount(count: number): boolean {
-	return count >= MIN_BOARD_TILES && count <= MAX_BOARD_TILES && count % 2 === 0;
 }
 
 export class Game {

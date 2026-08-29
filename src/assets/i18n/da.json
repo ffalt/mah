@@ -266,6 +266,7 @@
 	"EDITOR_LAYOUT_NR_OF_STONES": "# af sten",
 	"EDITOR_BUILD_IN_EXISTS": "Dette bræt er indbygget i spillet!",
 	"EDITOR_CUSTOM_EXISTS": "Dette bræt er allerede gemt!",
+	"EDITOR_TILE_COUNT_INVALID": "Et bræt skal have et lige antal brikker, mellem {{min}} og {{max}}.",
 	"EDITOR_IMPORT_DROP": "Træk dine filer her",
 	"EDITOR_FORMAT_MAH": "*.mah (Mah json format)",
 	"EDITOR_FORMAT_KMAHJONGG": "*.layout (kmahjongg tekstformat)",

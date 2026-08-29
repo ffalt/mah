@@ -269,6 +269,7 @@
 	"EDITOR_LAYOUT_NR_OF_STONES": "# de Pietre",
 	"EDITOR_BUILD_IN_EXISTS": "Această tablă este încorporată în joc!",
 	"EDITOR_CUSTOM_EXISTS": "Această tablă este deja salvată!",
+	"EDITOR_TILE_COUNT_INVALID": "O tablă are nevoie de un număr par de pietre, între {{min}} și {{max}}.",
 	"EDITOR_IMPORT_DROP": "Trageți fișierele aici",
 	"EDITOR_FORMAT_MAH": "*.mah (Format Mah json)",
 	"EDITOR_FORMAT_KMAHJONGG": "*.layout (Format text kmahjongg)",

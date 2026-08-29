@@ -267,6 +267,7 @@
 	"EDITOR_LAYOUT_NR_OF_STONES": "# de pedres",
 	"EDITOR_BUILD_IN_EXISTS": "Aquest tauler està integrat al joc!",
 	"EDITOR_CUSTOM_EXISTS": "Aquest tauler ja està desat!",
+	"EDITOR_TILE_COUNT_INVALID": "Un tauler necessita un nombre parell de fitxes, entre {{min}} i {{max}}.",
 	"EDITOR_IMPORT_DROP": "Arrossega els teus fitxers aquí",
 	"EDITOR_FORMAT_MAH": "*.mah (format Mah json)",
 	"EDITOR_FORMAT_KMAHJONGG": "*.layout (format de text kmahjongg)",

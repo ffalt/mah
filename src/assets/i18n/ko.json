@@ -265,6 +265,7 @@
 	"EDITOR_LAYOUT_NR_OF_STONES": "타일 수",
 	"EDITOR_BUILD_IN_EXISTS": "이 보드는 게임에 내장되어 있습니다!",
 	"EDITOR_CUSTOM_EXISTS": "이 보드는 이미 저장되어 있습니다!",
+	"EDITOR_TILE_COUNT_INVALID": "보드에는 {{min}}개에서 {{max}}개 사이의 짝수 개 타일이 필요합니다.",
 	"EDITOR_IMPORT_DROP": "파일을 여기로 드래그하세요",
 	"EDITOR_FORMAT_MAH": "*.mah (Mah json 형식)",
 	"EDITOR_FORMAT_KMAHJONGG": "*.layout (kmahjongg 텍스트 형식)",

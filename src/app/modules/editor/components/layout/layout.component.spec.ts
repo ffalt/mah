@@ -7,6 +7,8 @@ import { LayoutService } from '../../../../service/layout.service';
 import type { EditLayout } from '../../model/edit-layout';
 import type { Cell } from '../../model/cell';
 import type { Stone } from '../../../../model/stone';
+import type { Mapping, Place } from '../../../../model/types';
+import { MAX_BOARD_TILES, MIN_BOARD_TILES } from '../../../../model/consts';
 import { describe, it, beforeEach, expect, vi } from 'vitest';
 
 const mockWorkerService = {
@@ -85,7 +87,23 @@ describe('LayoutComponent', () => {
 			init({ ...makeEditLayout(), mapping: [[0, 0, 0], [0, 2, 0], [0, 4, 0]] });
 
 			expect(component.stats()?.countInvalid).toBe(true);
-			expect(fixture.nativeElement.querySelector('.buttonbar-title.count-invalid')).toBeTruthy();
+			const marked = fixture.nativeElement.querySelector('.buttonbar-title.count-invalid');
+			expect(marked).toBeTruthy();
+			expect(marked.getAttribute('title')).toBe('EDITOR_TILE_COUNT_INVALID');
+		});
+
+		const mappingOf = (count: number): Mapping => Array.from({ length: count }, (_value, index): Place => [0, index * 2, 0]);
+
+		it.each([
+			['the smallest playable board', MIN_BOARD_TILES, false],
+			['a board the game still has artwork for', MAX_BOARD_TILES, false],
+			['a board between the old 144 limit and the real one', 200, false],
+			['one tile more than the game can build', MAX_BOARD_TILES + 2, true],
+			['an empty board', 0, true]
+		])('uses the same tile count rule as the game for %s', (_reason, count, invalid) => {
+			init();
+
+			expect(component.getStats({ ...makeEditLayout(), mapping: mappingOf(count) }).countInvalid).toBe(invalid);
 		});
 	});
 

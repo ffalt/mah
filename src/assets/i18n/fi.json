@@ -267,6 +267,7 @@
 	"EDITOR_LAYOUT_NR_OF_STONES": "# kivistä",
 	"EDITOR_BUILD_IN_EXISTS": "Tämä lauta on valmiiksi pelin sisällä!",
 	"EDITOR_CUSTOM_EXISTS": "Tämä lauta on jo tallennettu!",
+	"EDITOR_TILE_COUNT_INVALID": "Laudalla pitää olla parillinen määrä kiviä, {{min}} ja {{max}} välillä.",
 	"EDITOR_IMPORT_DROP": "Vedä tiedostot tähän",
 	"EDITOR_FORMAT_MAH": "*.mah (Mah json-muoto)",
 	"EDITOR_FORMAT_KMAHJONGG": "*.layout (kmahjongg tekstimuoto)",

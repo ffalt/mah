@@ -269,6 +269,7 @@
 	"EDITOR_LAYOUT_NR_OF_STONES": "# kamenů",
 	"EDITOR_BUILD_IN_EXISTS": "Tato deska je vestavěná ve hře!",
 	"EDITOR_CUSTOM_EXISTS": "Tato deska je již uložena!",
+	"EDITOR_TILE_COUNT_INVALID": "Deska potřebuje sudý počet dlaždic, mezi {{min}} a {{max}}.",
 	"EDITOR_IMPORT_DROP": "Přetáhněte sem své soubory",
 	"EDITOR_FORMAT_MAH": "*.mah (formát Mah json)",
 	"EDITOR_FORMAT_KMAHJONGG": "*.layout (formát textu kmahjongg)",
