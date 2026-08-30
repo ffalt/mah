@@ -10,7 +10,7 @@ export class Settings {
 	readonly music = signal(false);
 	readonly contrast = signal(false);
 	readonly dark = signal(false);
-	readonly tile3d = signal(false);
+	readonly tile3d = signal(true);
 	readonly shadows = signal(true);
 	readonly animations = signal(true);
 	readonly confetti = signal(true);
@@ -39,7 +39,7 @@ export class Settings {
 				this.theme.set(this.validTheme(store.theme) ? store.theme : ThemeDefault);
 				this.contrast.set(store.contrast ?? false);
 				this.dark.set(store.dark ?? false);
-				this.tile3d.set(store.tile3d ?? false);
+				this.tile3d.set(store.tile3d ?? true);
 				this.shadows.set(store.shadows ?? true);
 				this.animations.set(store.animations ?? true);
 				this.confetti.set(store.confetti ?? true);

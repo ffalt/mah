@@ -34,7 +34,7 @@ describe('Settings', () => {
 			expect(settings.music()).toBe(false);
 			expect(settings.contrast()).toBe(false);
 			expect(settings.dark()).toBe(false);
-			expect(settings.tile3d()).toBe(false);
+			expect(settings.tile3d()).toBe(true);
 			expect(settings.shadows()).toBe(true);
 			expect(settings.animations()).toBe(true);
 			expect(settings.background()).toBe('');
