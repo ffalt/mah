@@ -297,7 +297,6 @@
 	// capped, or the 7 aspect-ratio cells stretch to the full width of a 1400px dialog
 	.daily-calendar {
 		flex: 0 1 360px;
-		max-width: 360px;
 		width: 100%;
 
 		.calendar-head {
@@ -381,7 +380,6 @@
 		}
 	}
 
-	// shares the row with the calendar and takes whatever width the calendar leaves
 	.daily-scores {
 		flex: 1 1 320px;
 		min-width: 0;
@@ -456,7 +454,6 @@
 		}
 	}
 
-	// the whole row opens the explainer, so it keeps the full button height as its touch target
 	.score-row {
 		display: grid;
 		grid-template-columns: 1fr auto auto;
@@ -488,15 +485,16 @@
 		}
 	}
 
+	@include mixins.respond-to(large-down) {
+		.daily-stats,
+		.daily-calendar,
+		.daily-scores {
+			flex: 1 1 auto;
+			margin: 0 auto;
+		}
+	}
+
 	@include mixins.respond-to(medium-down) {
-		:host {
-			gap: 12px;
-		}
-
-		.daily-body {
-			gap: 12px;
-		}
-
 		.daily-main {
 			flex-flow: column nowrap;
 			align-items: center;
@@ -508,16 +506,6 @@
 			flex: 0 0 auto;
 			width: 100%;
 			max-width: 150px;
-		}
-
-		// the top row stacks here, so the stats box spans the width instead of sitting beside the card,
-		// and calendar and scores are too narrow to sit side by side
-		.daily-stats,
-		.daily-calendar,
-		.daily-scores {
-			flex: 1 1 auto;
-			max-width: 320px;
-			margin: 0 auto;
 		}
 
 		.daily-actions {
