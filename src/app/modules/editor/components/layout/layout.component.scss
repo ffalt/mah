@@ -220,15 +220,6 @@
 				min-width: 0.8em;
 			}
 		}
-
-		.buttonbar-add {
-			padding: 8px;
-			border-top: 1px solid var(--editor-table-border);
-
-			.buttons {
-				width: 100%;
-			}
-		}
 	}
 
 	.editor-selected {
@@ -336,16 +327,6 @@
 					margin: 0 6px 0 0;
 					display: inline-flex;
 					vertical-align: top;
-				}
-			}
-
-			.buttonbar-add {
-				padding: 6px;
-				border-top: none;
-				border-left: 1px solid var(--editor-table-border);
-
-				.action span {
-					display: none;
 				}
 			}
 		}

@@ -179,7 +179,8 @@ describe('LayoutComponent', () => {
 			['duplicateLayerZ', (c: LayoutComponent) => c.duplicateLayerZ(0)],
 			['clearLayerZ', (c: LayoutComponent) => c.clearLayerZ(0)],
 			['deleteLayerZ', (c: LayoutComponent) => c.deleteLayerZ(0)],
-			['newLayerBelow', (c: LayoutComponent) => c.newLayerBelow(0)]
+			['newLayerBelow', (c: LayoutComponent) => c.newLayerBelow(0)],
+			['newLayerAbove', (c: LayoutComponent) => c.newLayerAbove(0)]
 		])('is set by %s', (_name, mutate) => {
 			init();
 			expect(component.hasChanged).toBe(false);
@@ -196,6 +197,30 @@ describe('LayoutComponent', () => {
 			component.moveLayerZ(1, 0);
 
 			expect(component.hasChanged).toBe(true);
+		});
+	});
+
+	describe('newLayerAbove()', () => {
+		it('inserts an empty layer on top of the given layer and selects it', () => {
+			const layout = makeEditLayout();
+			init(layout);
+
+			component.newLayerAbove(0);
+
+			expect(layout.mapping.every(m => m[0] === 0)).toBe(true);
+			expect(component.currentZ()).toBe(1);
+			expect(component.matrix.levels.length).toBe(2);
+			expect(component.stats()?.layerCount).toBe(0);
+		});
+
+		it('moves the layers above the given layer up', () => {
+			const layout = makeEditLayout();
+			init(layout);
+			component.newLayerBelow(0);
+
+			component.newLayerAbove(0);
+
+			expect(layout.mapping.every(m => m[0] === 2)).toBe(true);
 		});
 	});
 

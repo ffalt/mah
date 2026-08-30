@@ -15,7 +15,8 @@ import { CommonModule } from '@angular/common';
 import { optimizeMapping } from '../../model/optimize';
 import { mappingExtents } from '../../../../model/mapping';
 import { IconCloseComponent } from '../../../../components/icons/icon-close.component';
-import { IconListAddComponent } from '../../../../components/icons/icon-list-add.component';
+import { IconLayerAddAboveComponent } from '../../../../components/icons/icon-layer-add-above.component';
+import { IconLayerAddBelowComponent } from '../../../../components/icons/icon-layer-add-below.component';
 import { IconUpComponent } from '../../../../components/icons/icon-up.component';
 import { IconDownComponent } from '../../../../components/icons/icon-down.component';
 import { IconDuplicateComponent } from '../../../../components/icons/icon-duplicate.component';
@@ -59,7 +60,7 @@ interface EditLevel {
 	templateUrl: './layout.component.html',
 	styleUrls: ['./layout.component.scss'],
 	imports: [CommonModule, BoardComponent, LayoutPreviewComponent, ExportComponent, TranslatePipe, IconCloseComponent,
-		IconListAddComponent, IconUpComponent, IconDownComponent, IconDuplicateComponent,
+		IconLayerAddAboveComponent, IconLayerAddBelowComponent, IconUpComponent, IconDownComponent, IconDuplicateComponent,
 		IconClearComponent, IconDeleteComponent, IconLeftComponent, IconRightComponent,
 		IconExecuteComponent, IconMirrorHorizontalComponent, IconMirrorVerticalComponent]
 })
@@ -310,6 +311,18 @@ export class LayoutComponent implements OnInit, OnChanges, OnDestroy {
 				m[0] += 1;
 			}
 		}
+		this.change();
+	}
+
+	newLayerAbove(layer: number): void {
+		this.totalZ += 1;
+		const mapping = this.layout().mapping;
+		for (const m of mapping) {
+			if (m[0] > layer) {
+				m[0] += 1;
+			}
+		}
+		this.currentZ.set(layer + 1);
 		this.change();
 	}
 
