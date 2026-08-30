@@ -1,6 +1,31 @@
 @use "../../../../style/variables";
 @use "../../../../style/mixins";
 
+@mixin solve-panel-in-flow {
+	min-height: 180px;
+
+	.matrix-preview {
+		flex: 1;
+		min-height: 0;
+	}
+
+	.solve-panel {
+		position: static;
+		width: 100%;
+		max-width: none;
+		justify-content: center;
+		background-color: transparent;
+		border: none;
+		border-top: 1px solid var(--editor-table-border);
+		border-radius: 0;
+	}
+
+	.solve-result {
+		flex-flow: row wrap;
+		justify-content: center;
+	}
+}
+
 :host {
 	display: flex;
 	flex: 1;
@@ -134,7 +159,9 @@
 
 		.buttons {
 			display: flex;
+			flex-wrap: wrap;
 			align-items: center;
+			justify-content: center;
 			gap: 8px;
 		}
 
@@ -284,8 +311,11 @@
 					position: absolute;
 					right: 8px;
 					bottom: 8px;
+					max-width: calc(100% - 16px);
 					display: flex;
+					flex-wrap: wrap;
 					align-items: center;
+					justify-content: flex-end;
 					gap: 8px;
 					padding: 8px;
 					background-color: rgb(0 0 0 / 60%);
@@ -330,6 +360,14 @@
 				}
 			}
 		}
+
+		.editor-selected {
+			.matrix-edit {
+				.matrix-edit-bottom {
+					@include solve-panel-in-flow;
+				}
+			}
+		}
 	}
 
 	@include mixins.respond-to-horizontal-device(pad) {
@@ -345,6 +383,12 @@
 					height: 100%;
 					width: 30%;
 					border-top: none;
+
+					@include solve-panel-in-flow;
+
+					.buttonbar {
+						justify-content: center;
+					}
 				}
 			}
 		}
