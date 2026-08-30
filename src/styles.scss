@@ -30,6 +30,10 @@
 }
 
 html {
+	--safe-area-top: 0px;
+	--safe-area-right: 0px;
+	--safe-area-bottom: 0px;
+	--safe-area-left: 0px;
 	--main-bg-color: #2b424f;
 	--main-bg-color-lt: #2e4856;
 	--main-bg-color-dk: #253c46;
@@ -77,6 +81,23 @@ html {
 	--dialog-background-text-color: #256d02;
 
 	background-color: var(--main-bg-color);
+}
+
+// android browsers keep their viewport clear of the system bars but report those bars as safe area
+html.native {
+	@include mixins.real-safe-area;
+}
+
+@media (display-mode: standalone), (display-mode: fullscreen) {
+	html {
+		@include mixins.real-safe-area;
+	}
+}
+
+@supports (-webkit-touch-callout: none) {
+	html {
+		@include mixins.real-safe-area;
+	}
 }
 
 @media (prefers-color-scheme: dark) {
@@ -615,8 +636,8 @@ p {
 		top: 50%;
 		left: 50%;
 		transform: translate(-50%, -50%);
-		max-height: calc(98% - env(safe-area-inset-top) - env(safe-area-inset-bottom));
-		max-width: calc(98% - env(safe-area-inset-left) - env(safe-area-inset-right));
+		max-height: calc(98% - var(--safe-area-top) - var(--safe-area-bottom));
+		max-width: calc(98% - var(--safe-area-left) - var(--safe-area-right));
 		margin-left: auto;
 		margin-right: auto;
 		border: 1px solid var(--dialog-border-color);
@@ -674,13 +695,11 @@ p {
 		}
 	}
 
-	// Size classes - applied to the outer .overlay div, target .overlay-popup inside
-
 	&.overlay-size-large {
 		.overlay-popup {
-			width: calc(95svw - env(safe-area-inset-left) - env(safe-area-inset-right));
-			height: calc(90svh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
-			max-width: min(1400px, calc(100% - env(safe-area-inset-left) - env(safe-area-inset-right)));
+			width: calc(95svw - var(--safe-area-left) - var(--safe-area-right));
+			height: calc(90svh - var(--safe-area-top) - var(--safe-area-bottom));
+			max-width: min(1400px, calc(100% - var(--safe-area-left) - var(--safe-area-right)));
 
 			@include mixins.respond-to-horizontal-device(pad) {
 				@include mixins.fill-screen-safe-area;
@@ -694,18 +713,18 @@ p {
 
 	&.overlay-size-medium {
 		.overlay-popup {
-			width: calc(90% - env(safe-area-inset-left) - env(safe-area-inset-right));
+			width: calc(90% - var(--safe-area-left) - var(--safe-area-right));
 			max-width: 860px;
 			min-height: 740px;
-			max-height: calc(80svh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+			max-height: calc(80svh - var(--safe-area-top) - var(--safe-area-bottom));
 
 			@include mixins.respond-to-height(medium-down) {
-				min-height: calc(100svh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
-				max-height: calc(100svh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+				min-height: calc(100svh - var(--safe-area-top) - var(--safe-area-bottom));
+				max-height: calc(100svh - var(--safe-area-top) - var(--safe-area-bottom));
 			}
 
 			@include mixins.respond-to(medium-down) {
-				width: calc(100% - env(safe-area-inset-left) - env(safe-area-inset-right));
+				width: calc(100% - var(--safe-area-left) - var(--safe-area-right));
 				max-width: none;
 			}
 
@@ -725,9 +744,9 @@ p {
 
 	&.overlay-size-small {
 		.overlay-popup {
-			width: calc(90% - env(safe-area-inset-left) - env(safe-area-inset-right));
+			width: calc(90% - var(--safe-area-left) - var(--safe-area-right));
 			max-width: 800px;
-			height: calc(80svh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+			height: calc(80svh - var(--safe-area-top) - var(--safe-area-bottom));
 			max-height: 600px;
 
 			@include mixins.respond-to-horizontal-device(pad) {
@@ -742,12 +761,10 @@ p {
 
 	&.overlay-size-auto {
 		.overlay-popup {
-			max-width: calc(100% - env(safe-area-inset-left) - env(safe-area-inset-right));
-			max-height: calc(100svh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+			max-width: calc(100% - var(--safe-area-left) - var(--safe-area-right));
+			max-height: calc(100svh - var(--safe-area-top) - var(--safe-area-bottom));
 		}
 	}
-
-	// Per-dialog variants - z-index and behavior only, no sizing
 
 	&.overlay-info,
 	&.overlay-settings,

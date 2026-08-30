@@ -34,6 +34,7 @@ export class AppComponent implements OnInit {
 
 	constructor() {
 		this.updateName();
+		this.markNativeShell();
 		this.registerWindowListeners();
 	}
 
@@ -199,5 +200,11 @@ export class AppComponent implements OnInit {
 
 	private updateName(): void {
 		this.app.name = environment?.name ?? this.app.name;
+	}
+
+	private markNativeShell(): void {
+		if (environment.mobile) {
+			document.documentElement.classList.add('native');
+		}
 	}
 }

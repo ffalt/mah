@@ -7,6 +7,7 @@
 	position: relative;
 	width: 100%;
 	height: 100%;
+	padding: var(--safe-area-top) var(--safe-area-right) var(--safe-area-bottom) var(--safe-area-left);
 	background-color: var(--main-bg-color);
 
 	.controls {
@@ -47,8 +48,8 @@
 
 	.zen-controls {
 		position: absolute;
-		left: 10px;
-		bottom: calc(env(safe-area-inset-bottom) + 14px);
+		left: calc(var(--safe-area-left) + 10px);
+		bottom: calc(var(--safe-area-bottom) + 14px);
 		touch-action: none;
 		user-select: none;
 		display: inline-flex;
@@ -64,10 +65,9 @@
 		z-index: 2;
 	}
 
-	// a timed challenge still needs its countdown here, so the bar floats like the zen controls do
 	&.zen-mode .challenge-hud {
 		position: absolute;
-		top: calc(env(safe-area-inset-top) + 14px);
+		top: calc(var(--safe-area-top) + 14px);
 		left: 50%;
 		transform: translateX(-50%);
 		max-width: calc(100% - 24px);
@@ -164,10 +164,6 @@
 	}
 
 	@include mixins.respond-to-horizontal-device(pad) {
-		position: relative;
-		padding-left: 0;
-		padding-right: 0;
-
 		.board {
 			margin-left: 52px;
 			margin-right: 52px;
@@ -176,7 +172,7 @@
 
 		&.zen-mode {
 			.zen-controls {
-				bottom: calc(env(safe-area-inset-bottom) + 12px);
+				bottom: calc(var(--safe-area-bottom) + 12px);
 			}
 
 			.board {
@@ -194,9 +190,9 @@
 			flex-direction: column;
 			min-width: unset;
 			max-width: 52px;
-			height: calc(100svh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+			height: calc(100svh - var(--safe-area-top) - var(--safe-area-bottom));
 			position: absolute;
-			left: 0;
+			left: var(--safe-area-left);
 			border-bottom: unset;
 			z-index: 1;
 		}
@@ -205,9 +201,9 @@
 			flex-direction: column;
 			min-width: 56px;
 			max-width: 56px;
-			height: calc(100svh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+			height: calc(100svh - var(--safe-area-top) - var(--safe-area-bottom));
 			position: absolute;
-			right: 0;
+			right: var(--safe-area-right);
 			align-items: flex-end;
 			border-top: unset;
 			overflow: hidden;
