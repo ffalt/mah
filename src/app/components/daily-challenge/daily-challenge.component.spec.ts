@@ -115,6 +115,32 @@ describe('DailyChallengeComponent', () => {
 		expect(emitted?.dayKey).toBe('2026-07-30');
 	});
 
+	it('refreshes instead of starting yesterday when the day turned', async () => {
+		fixture.detectChanges();
+		await fixture.whenStable();
+		const today: DailyEntry = {
+			dayKey: '2026-07-31',
+			seed: 'daily-2026-07-31',
+			challenge: CHALLENGE_CODES.CHALLENGE_BLACKOUT,
+			layout: layout(),
+			generated: false
+		};
+		vi.spyOn(daily, 'now').mockReturnValue(new Date(2026, 6, 31));
+		vi.spyOn(daily, 'resolve').mockResolvedValue(today);
+		let emitted = false;
+		component.startEvent.subscribe(() => {
+			emitted = true;
+		});
+
+		component.onStart();
+		await fixture.whenStable();
+
+		expect(emitted).toBe(false);
+		expect(component.entry()?.dayKey).toBe('2026-07-31');
+		expect(component.entry()?.challenge).toBe(CHALLENGE_CODES.CHALLENGE_BLACKOUT);
+		expect(daily.calendar()?.monthKey).toBe('2026-07');
+	});
+
 	it('does not emit before the entry resolved', () => {
 		let emitted = false;
 		component.startEvent.subscribe(() => {

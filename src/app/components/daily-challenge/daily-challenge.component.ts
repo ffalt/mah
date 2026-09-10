@@ -1,4 +1,4 @@
-import { Component, ElementRef, type OnInit, computed, effect, inject, output, signal } from '@angular/core';
+import { Component, DestroyRef, ElementRef, type OnInit, computed, effect, inject, output, signal } from '@angular/core';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { DailyService, type DailyBestScore, type DailyCalendarDay, type DailyEntry } from '../../service/daily.service';
 import { LayoutService } from '../../service/layout.service';
@@ -17,7 +17,7 @@ import {
 	challengeName
 } from '../../model/challenge/consts';
 import { SCORE_BASE_POINTS, SCORE_COMBO_STEPS, SCORE_COMBO_WINDOW, SCORE_LAYER_BONUS } from '../../model/challenge/score';
-import { parseDailyKey } from '../../model/challenge/daily';
+import { dailyKey, parseDailyKey } from '../../model/challenge/daily';
 import { trapFocus } from '../../model/dom-utilities';
 import { log } from '../../model/log';
 import { environment } from '../../../environments/environment';
@@ -175,6 +175,7 @@ export class DailyChallengeComponent implements OnInit {
 	private readonly layoutService = inject(LayoutService);
 	private readonly translate = inject(TranslateService);
 	private readonly elementRef = inject(ElementRef);
+	private readonly lifecycle = inject(DestroyRef);
 	private previousFocus: Element | null = null;
 
 	constructor() {
@@ -192,6 +193,13 @@ export class DailyChallengeComponent implements OnInit {
 				this.previousFocus = null;
 			}
 		});
+		const onVisible = (): void => {
+			if (document.visibilityState === 'visible') {
+				this.refreshStaleEntry();
+			}
+		};
+		document.addEventListener('visibilitychange', onVisible);
+		this.lifecycle.onDestroy(() => document.removeEventListener('visibilitychange', onVisible));
 	}
 
 	dayLabel(day: DailyCalendarDay): string {
@@ -226,23 +234,11 @@ export class DailyChallengeComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
-		this.daily.refresh();
-		this.daily.resolve()
-			.then(entry => {
-				this.entry.set(entry);
-				this.loading.set(false);
-			})
-			.catch(error => {
-				log.error(error);
-				this.loading.set(false);
-			});
+		this.load();
 	}
 
 	onStart(): void {
-		const entry = this.entry();
-		if (entry) {
-			this.startEvent.emit(entry);
-		}
+		this.start();
 	}
 
 	shiftMonth(offset: number): void {
@@ -262,7 +258,7 @@ export class DailyChallengeComponent implements OnInit {
 	openChallengeInfo(id: CHALLENGE_ID, event: Event): void {
 		event.preventDefault();
 		if (this.devChallengeStart && event instanceof MouseEvent && event.shiftKey) {
-			this.startPickedChallenge(id);
+			this.start(id);
 			return;
 		}
 		this.scoringInfo.set(false);
@@ -278,10 +274,36 @@ export class DailyChallengeComponent implements OnInit {
 		this.challengeInfoId.set(undefined);
 	}
 
-	private startPickedChallenge(id: CHALLENGE_ID): void {
+	private start(challenge?: CHALLENGE_ID): void {
 		const entry = this.entry();
-		if (entry) {
-			this.startEvent.emit({ ...entry, challenge: id });
+		if (!entry) {
+			return;
 		}
+		if (entry.dayKey !== dailyKey(this.daily.now())) {
+			this.load();
+			return;
+		}
+		this.startEvent.emit(challenge === undefined ? entry : { ...entry, challenge });
+	}
+
+	private refreshStaleEntry(): void {
+		const entry = this.entry();
+		if (entry && entry.dayKey !== dailyKey(this.daily.now())) {
+			this.load();
+		}
+	}
+
+	private load(): void {
+		this.loading.set(true);
+		this.daily.refresh();
+		this.daily.resolve()
+			.then(entry => {
+				this.entry.set(entry);
+				this.loading.set(false);
+			})
+			.catch(error => {
+				log.error(error);
+				this.loading.set(false);
+			});
 	}
 }
