@@ -1,7 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { LocalstorageService } from './localstorage.service';
 import { log } from '../model/log';
-import type { GameStateStore, LayoutScoreStore, LoadLayout, SettingsStore } from '../model/types';
+import { Game } from '../model/game';
+import { Settings } from '../model/settings';
+import { GAME_MODE_STANDARD, ImageSetDefault, LangDefault, STATES } from '../model/consts';
+import type { GameStateStore, Layout, LayoutScoreStore, LoadLayout, SettingsStore } from '../model/types';
 import { type Mock, type MockInstance, describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
 
 describe('LocalstorageService', () => {
@@ -647,5 +650,95 @@ describe('LocalstorageService', () => {
 				});
 			});
 		});
+	});
+});
+
+describe('LocalstorageService with denied storage access', () => {
+	let originalLocalStorage: Storage;
+	let service: LocalstorageService;
+
+	beforeEach(() => {
+		originalLocalStorage = global.localStorage;
+		Object.defineProperty(window, 'localStorage', {
+			get(): Storage {
+				throw new DOMException('The operation is insecure.', 'SecurityError');
+			},
+			configurable: true
+		});
+		vi.spyOn(log, 'warn').mockReturnValue(undefined);
+		TestBed.configureTestingModule({
+			providers: [LocalstorageService]
+		});
+		service = TestBed.inject(LocalstorageService);
+	});
+
+	afterEach(() => {
+		Object.defineProperty(window, 'localStorage', {
+			value: originalLocalStorage,
+			writable: true,
+			configurable: true
+		});
+	});
+
+	it('should be created and report missing persistence', () => {
+		expect(service).toBeTruthy();
+		expect(service.persistent()).toBe(false);
+	});
+
+	it('should report the denied access only once', () => {
+		service.getSettings();
+		service.getState();
+
+		expect(log.warn).toHaveBeenCalledTimes(1);
+	});
+
+	it('should read nothing and never throw', () => {
+		expect(service.getSettings()).toBeUndefined();
+		expect(service.getState()).toBeUndefined();
+		expect(service.getCustomLayouts()).toBeUndefined();
+		expect(service.getLastPlayed()).toBeUndefined();
+		expect(service.getScores().size).toBe(0);
+		expect(service.getDailyMonthKeys()).toEqual([]);
+		expect(service.getDailyMeta()).toBeUndefined();
+	});
+
+	it('should ignore writes without throwing', () => {
+		service.storeState({ layout: 'test', gameMode: GAME_MODE_STANDARD, elapsed: 42 });
+		service.storeLastPlayed('test');
+		service.storeScore('test', { winCount: 1, loseCount: 0, playTime: 10, bestTime: 10 });
+		service.storeDailyMonth('2026-09', { v: 1, days: {} });
+		service.storeCustomLayouts([]);
+
+		expect(service.getState()).toBeUndefined();
+		expect(service.getLastPlayed()).toBeUndefined();
+		expect(service.getScores().size).toBe(0);
+	});
+
+	it('should load default settings and survive saving them', () => {
+		const settings = new Settings(service);
+
+		expect(settings.load()).toBe(true);
+		expect(settings.tileset()).toBe(ImageSetDefault);
+		expect(settings.lang()).toBe(LangDefault);
+
+		settings.dark.set(true);
+
+		expect(settings.save()).toBe(true);
+	});
+
+	it('should allow a playable game session', () => {
+		const game = new Game(service);
+		const layout: Layout = { id: 'test', name: 'Test', category: 'Test', mapping: [[0, 0, 0], [0, 2, 0]] };
+
+		game.start(layout, 'MODE_SOLVABLE', GAME_MODE_STANDARD);
+
+		expect(game.state()).toBe(STATES.run);
+		expect(game.board.count()).toBe(2);
+
+		game.save();
+
+		expect(game.load()).toBe(false);
+
+		game.destroy();
 	});
 });

@@ -1,9 +1,10 @@
-import { Service } from '@angular/core';
+import { Service, signal } from '@angular/core';
 import type { DailyMetaStore, DailyMonthStore, GameStateStore, LayoutScoreStore, LoadLayout, SettingsStore, StorageProvider } from '../model/types';
 import { log } from '../model/log';
 
 @Service()
 export class LocalstorageService implements StorageProvider {
+	readonly persistent = signal(true);
 	private readonly prefix = 'mah.';
 
 	constructor() {
@@ -16,15 +17,16 @@ export class LocalstorageService implements StorageProvider {
 
 	getScores(): Map<string, LayoutScoreStore> {
 		const scores = new Map<string, LayoutScoreStore>();
-		if (this.localStorageNotAvailable()) {
+		const storage = this.storage();
+		if (!storage) {
 			return scores;
 		}
 		// collect the ids first: reading via get() can remove corrupted entries, which would shift the key indices
 		const scorePrefix = `${this.prefix}score.`;
 		const ids: Array<string> = [];
 		try {
-			for (let index = 0; index < localStorage.length; index++) {
-				const key = localStorage.key(index);
+			for (let index = 0; index < storage.length; index++) {
+				const key = storage.key(index);
 				if (key?.startsWith(scorePrefix)) {
 					ids.push(key.slice(scorePrefix.length));
 				}
@@ -69,18 +71,13 @@ export class LocalstorageService implements StorageProvider {
 		return this.get<string | undefined>('mirrory');
 	}
 
-	localStorageNotAvailable(): boolean {
-		return (typeof localStorage === 'undefined' || !localStorage);
-	}
-
 	getLastPlayed(): string | undefined {
+		const storage = this.storage();
+		if (!storage) {
+			return undefined;
+		}
 		try {
-			if (this.localStorageNotAvailable()) {
-				return undefined;
-			}
-			const key = `${this.prefix}last`;
-			const result = localStorage.getItem(key);
-			return result ?? undefined;
+			return storage.getItem(`${this.prefix}last`) ?? undefined;
 		} catch (error) {
 			log.warn('localStorage.getItem failed:', error);
 			return undefined;
@@ -88,15 +85,16 @@ export class LocalstorageService implements StorageProvider {
 	}
 
 	storeLastPlayed(id: string): void {
-		if (this.localStorageNotAvailable()) {
+		const storage = this.storage();
+		if (!storage) {
 			return;
 		}
 		const key = `${this.prefix}last`;
 		try {
 			if (id) {
-				localStorage.setItem(key, id);
+				storage.setItem(key, id);
 			} else {
-				localStorage.removeItem(key);
+				storage.removeItem(key);
 			}
 		} catch (error) {
 			log.warn('localStorage.setItem/removeItem failed:', error);
@@ -133,13 +131,14 @@ export class LocalstorageService implements StorageProvider {
 
 	getDailyMonthKeys(): Array<string> {
 		const keys: Array<string> = [];
-		if (this.localStorageNotAvailable()) {
+		const storage = this.storage();
+		if (!storage) {
 			return keys;
 		}
 		const dailyPrefix = `${this.prefix}daily.`;
 		try {
-			for (let index = 0; index < localStorage.length; index++) {
-				const key = localStorage.key(index);
+			for (let index = 0; index < storage.length; index++) {
+				const key = storage.key(index);
 				if (key?.startsWith(dailyPrefix)) {
 					const monthKey = key.slice(dailyPrefix.length);
 					// skip the aggregate, it is not a month record
@@ -162,13 +161,35 @@ export class LocalstorageService implements StorageProvider {
 		this.set<DailyMetaStore>('daily.meta', store);
 	}
 
+	// reading the global can throw when storage access is denied, so it is never touched outside this guard
+	private storage(): Storage | undefined {
+		try {
+			if (typeof localStorage === 'undefined' || !localStorage) {
+				return this.reportUnavailable();
+			}
+			this.persistent.set(true);
+			return localStorage;
+		} catch (error) {
+			return this.reportUnavailable(error);
+		}
+	}
+
+	private reportUnavailable(...details: Array<unknown>): undefined {
+		if (this.persistent()) {
+			this.persistent.set(false);
+			log.warn('localStorage is not available, saving and loading is disabled', ...details);
+		}
+		return undefined;
+	}
+
 	private get<T>(key: string): T | undefined {
-		if (this.localStorageNotAvailable()) {
+		const storage = this.storage();
+		if (!storage) {
 			return undefined;
 		}
 		const fullKey = `${this.prefix}${key}`;
 		try {
-			const s = localStorage.getItem(fullKey);
+			const s = storage.getItem(fullKey);
 			if (!s) {
 				return undefined;
 			}
@@ -176,7 +197,7 @@ export class LocalstorageService implements StorageProvider {
 		} catch (error) {
 			// Remove corrupted entry to prevent repeated parse errors
 			try {
-				localStorage.removeItem(fullKey);
+				storage.removeItem(fullKey);
 			} catch (removalError) {
 				log.warn('Failed to remove corrupted localStorage item:', fullKey, removalError);
 			}
@@ -186,15 +207,16 @@ export class LocalstorageService implements StorageProvider {
 	}
 
 	private set<T>(key: string, data?: T): void {
-		if (this.localStorageNotAvailable()) {
+		const storage = this.storage();
+		if (!storage) {
 			return;
 		}
 		const fullKey = `${this.prefix}${key}`;
 		try {
 			if (data === undefined) {
-				localStorage.removeItem(fullKey);
+				storage.removeItem(fullKey);
 			} else {
-				localStorage.setItem(fullKey, JSON.stringify(data));
+				storage.setItem(fullKey, JSON.stringify(data));
 			}
 		} catch (error) {
 			// Distinguish between quota errors and other errors
@@ -207,25 +229,26 @@ export class LocalstorageService implements StorageProvider {
 	}
 
 	private updateData(): void {
-		if (this.localStorageNotAvailable()) {
-			return;
-		}
 		this.migrateOldEntry('state');
 		this.migrateOldEntry('settings');
 	}
 
 	private migrateOldEntry(key: string): void {
+		const storage = this.storage();
+		if (!storage) {
+			return;
+		}
 		try {
-			const old = localStorage.getItem(key);
+			const old = storage.getItem(key);
 			if (old) {
-				if (localStorage.getItem(`${this.prefix}${key}`) === null) {
+				if (storage.getItem(`${this.prefix}${key}`) === null) {
 					try {
 						this.set<unknown>(key, JSON.parse(old));
 					} catch (parseError) {
 						log.warn(`Failed to parse old ${key} data, removing corrupted entry:`, parseError);
 					}
 				}
-				localStorage.removeItem(key);
+				storage.removeItem(key);
 			}
 		} catch (error) {
 			log.warn(`Failed to migrate old ${key} data:`, error);
