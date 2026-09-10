@@ -1,4 +1,4 @@
-import { Component, EnvironmentInjector, type OnInit, type OutputRefSubscription, ViewContainerRef, createEnvironmentInjector, inject, signal, viewChild } from '@angular/core';
+import { Component, DestroyRef, EnvironmentInjector, type OnInit, type OutputRefSubscription, ViewContainerRef, createEnvironmentInjector, inject, signal, viewChild } from '@angular/core';
 import { TranslateService, provideChildTranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { firstValueFrom } from 'rxjs';
@@ -30,6 +30,7 @@ export class AppComponent implements OnInit {
 	readonly editorVisible = signal(false);
 	editorLoading: boolean = false;
 	private readonly environmentInjector = inject(EnvironmentInjector);
+	private readonly lifecycle = inject(DestroyRef);
 	private editorInjector?: EnvironmentInjector;
 
 	constructor() {
@@ -84,7 +85,6 @@ export class AppComponent implements OnInit {
 	}
 
 	private async createEditor(): Promise<void> {
-		// kept across open/close so the editor translations are fetched only once per session
 		this.editorInjector ??= createEnvironmentInjector([
 			provideChildTranslateService({
 				loader: provideTranslateHttpLoader({ prefix: './assets/i18n/editor/', suffix: '.json' })
@@ -178,23 +178,28 @@ export class AppComponent implements OnInit {
 	}
 
 	private registerWindowListeners(): void {
-		window.addEventListener('beforeunload', () => {
+		const pause = (): void => {
 			if (this.app.game.isRunning()) {
 				this.app.game.pause();
 			}
-		}, { capture: false });
-		window.addEventListener('blur', () => {
-			if (this.app.game.isRunning()) {
-				this.app.game.pause();
+		};
+		const onVisibilityChange = (): void => {
+			if (document.visibilityState === 'hidden') {
+				pause();
 			}
-		}, { capture: false });
+		};
+		window.addEventListener('beforeunload', pause);
+		window.addEventListener('blur', pause);
+		window.addEventListener('pagehide', pause);
+		document.addEventListener('visibilitychange', onVisibilityChange);
+		this.lifecycle.onDestroy(() => {
+			window.removeEventListener('beforeunload', pause);
+			window.removeEventListener('blur', pause);
+			window.removeEventListener('pagehide', pause);
+			document.removeEventListener('visibilitychange', onVisibilityChange);
+		});
 		if (environment.onWindowBlur) {
-			(environment.onWindowBlur as onWindowBlur)(() => {
-				if (this.app.game.isRunning()) {
-					this.app.game.pause();
-				}
-			});
-			return;
+			(environment.onWindowBlur as onWindowBlur)(pause);
 		}
 	}
 

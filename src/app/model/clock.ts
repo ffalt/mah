@@ -1,10 +1,17 @@
 import { signal } from '@angular/core';
 
+export type TimeSource = () => number;
+
+const monotonicTime: TimeSource = () => (typeof performance === 'undefined' ? Date.now() : performance.now());
+
 export class Clock {
 	readonly elapsed = signal(0);
 	onStep?: () => void;
 	private lastTime = 0;
 	private timer?: ReturnType<typeof setTimeout> = undefined;
+
+	constructor(private readonly now: TimeSource = monotonicTime) {
+	}
 
 	reset(): void {
 		this.clearTimer();
@@ -16,7 +23,7 @@ export class Clock {
 		if (this.timer !== undefined) {
 			return;
 		}
-		this.lastTime = Date.now();
+		this.lastTime = this.now();
 		this.timer = setTimeout(() => {
 			this.step();
 		}, 1000);
@@ -27,22 +34,26 @@ export class Clock {
 			return;
 		}
 		this.clearTimer();
-		this.elapsed.update(value => value + (Date.now() - this.lastTime));
+		this.elapsed.update(value => value + this.since(this.now()));
 	}
 
 	current(): number {
-		return this.timer === undefined ? this.elapsed() : this.elapsed() + (Date.now() - this.lastTime);
+		return Math.round(this.timer === undefined ? this.elapsed() : this.elapsed() + this.since(this.now()));
 	}
 
 	private step(): void {
-		const newTime = Date.now();
-		this.elapsed.update(value => value + (newTime - this.lastTime));
-		this.lastTime = newTime;
+		const now = this.now();
+		this.elapsed.update(value => value + this.since(now));
+		this.lastTime = now;
 		this.clearTimer();
 		this.timer = setTimeout(() => {
 			this.step();
 		}, 1000);
 		this.onStep?.();
+	}
+
+	private since(now: number): number {
+		return Math.max(0, now - this.lastTime);
 	}
 
 	private clearTimer(): void {

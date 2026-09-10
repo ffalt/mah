@@ -1,5 +1,5 @@
 import { Clock } from './clock';
-import { type Mock, type MockInstance, describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
+import { type Mock, describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
 
 describe('Clock', () => {
 	let clock: Clock;
@@ -7,22 +7,18 @@ describe('Clock', () => {
 	let originalClearTimeout: typeof window.clearTimeout;
 	let mockSetTimeout: Mock;
 	let mockClearTimeout: Mock;
-	let dateNowSpy: MockInstance;
+	let now: number;
 
 	beforeEach(() => {
-		clock = new Clock();
+		now = 1000;
+		clock = new Clock(() => now);
 
-		// Mock setTimeout and clearTimeout
 		originalSetTimeout = window.setTimeout;
 		originalClearTimeout = window.clearTimeout;
 		mockSetTimeout = vi.fn().mockReturnValue(123); // Return a fake timer ID
 		mockClearTimeout = vi.fn();
 		window.setTimeout = mockSetTimeout as unknown as typeof window.setTimeout;
 		window.clearTimeout = mockClearTimeout;
-
-		// Mock Date.now
-		dateNowSpy = vi.spyOn(Date, 'now');
-		dateNowSpy.mockReturnValue(1000); // Initial time
 	});
 
 	afterEach(() => {
@@ -88,7 +84,7 @@ describe('Clock', () => {
 			clock.run();
 
 			// Simulate time passing
-			dateNowSpy.mockReturnValue(3000);
+			now = 3000;
 
 			clock.pause();
 
@@ -101,13 +97,35 @@ describe('Clock', () => {
 			expect(mockClearTimeout).not.toHaveBeenCalled();
 			expect(clock.elapsed()).toBe(0);
 		});
+
+		it('should not count anything twice when paused repeatedly', () => {
+			clock.run();
+			now = 3000;
+			clock.pause();
+			now = 9000;
+			clock.pause();
+
+			expect(clock.elapsed()).toBe(2000);
+			expect(clock.current()).toBe(2000);
+		});
+
+		it('should not shrink when the time source jumps backwards', () => {
+			clock.run();
+			now = 200;
+
+			expect(clock.current()).toBe(0);
+
+			clock.pause();
+
+			expect(clock.elapsed()).toBe(0);
+		});
 	});
 
 	describe('current', () => {
 		it('should count the time since the last tick, which elapsed has not booked yet', () => {
 			clock.run();
 
-			dateNowSpy.mockReturnValue(1400);
+			now = 1400;
 
 			expect(clock.elapsed()).toBe(0);
 			expect(clock.current()).toBe(400);
@@ -116,7 +134,7 @@ describe('Clock', () => {
 		it('should not move while the clock is not running', () => {
 			clock.elapsed.set(2000);
 
-			dateNowSpy.mockReturnValue(9000);
+			now = 9000;
 
 			expect(clock.current()).toBe(2000);
 		});
@@ -124,10 +142,10 @@ describe('Clock', () => {
 		it('should stay on the same footing as elapsed across a tick', () => {
 			clock.run();
 			const stepCallback = mockSetTimeout.mock.calls[0][0];
-			dateNowSpy.mockReturnValue(2500);
+			now = 2500;
 			stepCallback();
 
-			dateNowSpy.mockReturnValue(2900);
+			now = 2900;
 
 			expect(clock.elapsed()).toBe(1500);
 			expect(clock.current()).toBe(1900);
@@ -145,7 +163,7 @@ describe('Clock', () => {
 			mockSetTimeout.mockClear();
 
 			// Simulate time passing
-			dateNowSpy.mockReturnValue(2500);
+			now = 2500;
 
 			// Call the step method directly through the timer callback
 			stepCallback();
