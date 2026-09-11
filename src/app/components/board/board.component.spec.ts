@@ -216,6 +216,26 @@ describe('BoardComponent', () => {
 		});
 	});
 
+	describe('Animation settings', () => {
+		it('marks the stage with the animation kinds that are switched on', () => {
+			fixture.componentRef.setInput('stones', [makeTestStone()]);
+			appService.settings.animations.set(true);
+			appService.settings.tileAnimations.set(true);
+			appService.settings.hintAnimations.set(false);
+			fixture.detectChanges();
+			const stage = fixture.nativeElement.querySelector('g.stage') as SVGGElement;
+
+			expect(stage.classList.contains('animations')).toBe(true);
+			expect(stage.classList.contains('tile-animations')).toBe(true);
+			expect(stage.classList.contains('hint-animations')).toBe(false);
+
+			appService.settings.tileAnimations.set(false);
+			fixture.detectChanges();
+
+			expect(stage.classList.contains('tile-animations')).toBe(false);
+		});
+	});
+
 	describe('Keyboard navigation', () => {
 		function board(): NodeListOf<SVGGElement> {
 			// a row of three plus one below the middle tile

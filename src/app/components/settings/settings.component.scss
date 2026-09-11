@@ -96,10 +96,10 @@
 			li {
 				padding-left: 0;
 				margin-bottom: 16px;
+			}
 
-				&.animations-setting {
-					height: auto;
-				}
+			li:last-of-type {
+				margin-bottom: 0;
 			}
 
 			label {
@@ -133,16 +133,18 @@
 					font-size: 0.95em;
 				}
 
-				.setting-text {
-					display: flex;
-					flex-direction: column;
-				}
-
-				small {
-					font-size: 0.78em;
-					opacity: 0.75;
-				}
 			}
+		}
+
+		fieldset.animations legend {
+			display: block;
+		}
+
+		.animations-note {
+			display: block;
+			margin-bottom: 8px;
+			font-size: 0.78em;
+			opacity: 0.75;
 		}
 
 		.tile-preview-row {

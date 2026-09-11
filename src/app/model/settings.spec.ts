@@ -130,6 +130,8 @@ describe('Settings', () => {
 			settings.tile3d.set(true);
 			settings.shadows.set(false);
 			settings.animations.set(false);
+			settings.tileAnimations.set(false);
+			settings.hintAnimations.set(false);
 			settings.background.set('test-background');
 			settings.theme.set('test-theme');
 			settings.tileset.set('test-tileset');
@@ -149,6 +151,8 @@ describe('Settings', () => {
 				tile3d: true,
 				shadows: false,
 				animations: false,
+				tileAnimations: false,
+				hintAnimations: false,
 				background: 'test-background',
 				pattern: undefined,
 				theme: 'test-theme',

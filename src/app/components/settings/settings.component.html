@@ -251,10 +251,11 @@
 		}
 	</section>
 	<section id="panel-ui" class="panel" role="tabpanel" aria-labelledby="tab-ui-label">
-		<fieldset>
-			<legend id="ui-legend">{{ 'UI' | translate }}</legend>
-			<ul class="checks" role="group" aria-labelledby="ui-legend">
-				<li class="animations-setting">
+		<fieldset class="animations">
+			<legend id="animations-legend">{{ 'ANIMATIONS' | translate }}</legend>
+			<small class="animations-note">{{ 'TILE_ANIMATIONS_REDUCED_MOTION' | translate }}</small>
+			<ul class="checks" role="group" aria-labelledby="animations-legend">
+				<li>
 					<label class="check">
 						<input
 							type="checkbox"
@@ -262,13 +263,32 @@
 							[disabled]="reducedMotion()"
 							(change)="app.settings.confetti.set(!app.settings.confetti());app.settings.save();"
 						>
-						<span class="setting-text">
-							<span>{{ 'VICTORY_CONFETTI' | translate }}</span>
-							<small>{{ 'TILE_ANIMATIONS_REDUCED_MOTION' | translate }}</small>
-						</span>
+						<span>{{ 'VICTORY_CONFETTI' | translate }}</span>
 					</label>
 				</li>
-				<li class="animations-setting">
+				<li>
+					<label class="check">
+						<input
+							type="checkbox"
+							[checked]="app.settings.tileAnimations() && !reducedMotion()"
+							[disabled]="reducedMotion()"
+							(change)="app.settings.tileAnimations.set(!app.settings.tileAnimations());app.settings.save();"
+						>
+						<span>{{ 'BOARD_ANIMATIONS' | translate }}</span>
+					</label>
+				</li>
+				<li>
+					<label class="check">
+						<input
+							type="checkbox"
+							[checked]="app.settings.hintAnimations() && !reducedMotion()"
+							[disabled]="reducedMotion()"
+							(change)="app.settings.hintAnimations.set(!app.settings.hintAnimations());app.settings.save();"
+						>
+						<span>{{ 'HINT_ANIMATIONS' | translate }}</span>
+					</label>
+				</li>
+				<li>
 					<label class="check">
 						<input
 							type="checkbox"
@@ -276,12 +296,14 @@
 							[disabled]="reducedMotion()"
 							(change)="app.settings.animations.set(!app.settings.animations());app.settings.save();"
 						>
-						<span class="setting-text">
-							<span>{{ 'TILE_ANIMATIONS' | translate }}</span>
-							<small>{{ 'TILE_ANIMATIONS_REDUCED_MOTION' | translate }}</small>
-						</span>
+						<span>{{ 'TILE_ANIMATIONS' | translate }}</span>
 					</label>
 				</li>
+			</ul>
+		</fieldset>
+		<fieldset>
+			<legend id="ui-legend">{{ 'UI' | translate }}</legend>
+			<ul class="checks" role="group" aria-labelledby="ui-legend">
 				<li>
 					<label class="check">
 						<input

@@ -139,6 +139,8 @@ export class SettingsStore {
 	tile3d?: boolean;
 	shadows?: boolean;
 	animations?: boolean;
+	tileAnimations?: boolean;
+	hintAnimations?: boolean;
 	confetti?: boolean;
 	showClock?: boolean;
 	tutorialCompleted?: boolean;

@@ -128,8 +128,8 @@ describe('SettingsComponent', () => {
 
 		it('should render shadows, contrast, dark mode, 3D, animations, confetti and show clock checkboxes', () => {
 			const checkboxes = fixture.debugElement.queryAll(By.css('input[type="checkbox"]'));
-			expect(checkboxes).toHaveLength(7);
-			expect(fixture.debugElement.query(By.css('.animations-setting small'))).toBeTruthy();
+			expect(checkboxes).toHaveLength(9);
+			expect(fixture.debugElement.query(By.css('fieldset.animations .animations-note'))).toBeTruthy();
 		});
 	});
 
@@ -252,7 +252,7 @@ describe('SettingsComponent', () => {
 		it('should update app settings when tile animations are toggled', () => {
 			const saveSpy = vi.spyOn(appService.settings, 'save');
 			const initialValue = appService.settings.animations();
-			const animationsCheckbox = fixture.debugElement.queryAll(By.css('input[type="checkbox"]'))[5].nativeElement;
+			const animationsCheckbox = fixture.debugElement.queryAll(By.css('input[type="checkbox"]'))[7].nativeElement;
 
 			animationsCheckbox.click();
 			fixture.detectChanges();
@@ -265,7 +265,7 @@ describe('SettingsComponent', () => {
 			appService.settings.animations.set(true);
 			component.reducedMotion.set(true);
 			fixture.detectChanges();
-			const animationsCheckbox = fixture.debugElement.queryAll(By.css('input[type="checkbox"]'))[5].nativeElement as HTMLInputElement;
+			const animationsCheckbox = fixture.debugElement.queryAll(By.css('input[type="checkbox"]'))[7].nativeElement as HTMLInputElement;
 
 			expect(animationsCheckbox.checked).toBe(false);
 			expect(animationsCheckbox.disabled).toBe(true);
