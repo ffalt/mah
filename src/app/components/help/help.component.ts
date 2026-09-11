@@ -65,7 +65,7 @@ export class HelpComponent implements OnInit {
 	}
 
 	private buildStats(): Stat {
-		const items = new Array<StatEntry>();
+		const items: Array<StatEntry> = [];
 		let winCount = 0;
 		let loseCount = 0;
 		const scores = this.storage.getScores();

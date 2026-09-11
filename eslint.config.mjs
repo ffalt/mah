@@ -88,6 +88,11 @@ const commonTypeScriptRules = {
 	"@typescript-eslint/prefer-readonly": "error",
 	"@typescript-eslint/promise-function-async": "error",
 	"@typescript-eslint/restrict-plus-operands": "error",
+	"@typescript-eslint/consistent-type-imports": ["error", {
+		"prefer": "type-imports",
+		"fixStyle": "inline-type-imports",
+		"disallowTypeAnnotations": false
+	}],
 	"@typescript-eslint/no-unused-vars": [
 		"error",
 		{
@@ -152,7 +157,7 @@ export default ts.config(
 			"**/local/**/*",
 			"**/coverage/**/*",
 			"**/node_modules/**/*",
-			"resources/apps/*"
+			"resources/apps/tauri/*"
 		]
 	},
 	{

@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { TranslateService } from '@ngx-translate/core';
-import { Mocked, describe, beforeEach, it, expect, vi } from 'vitest';
+import { type Mocked, describe, beforeEach, it, expect, vi } from 'vitest';
 import { DailyService } from './daily.service';
 import { LayoutService } from './layout.service';
 import { LocalstorageService } from './localstorage.service';
