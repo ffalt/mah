@@ -11,7 +11,9 @@
 		border: 1px solid var(--main-bg-color-lt);
 		border-radius: 8px;
 		padding: 8px 12px 12px;
+		margin: 0;
 		flex: 1;
+		min-width: 0;
 
 		legend {
 			padding: 0 6px;
@@ -68,8 +70,26 @@
 	.stats {
 		display: flex;
 		flex-direction: column;
+		flex: 1 0 auto;
+
+		.stats-header {
+			display: flex;
+			flex-flow: row wrap;
+			align-items: flex-start;
+			justify-content: flex-end;
+			gap: 8px 12px;
+			margin-bottom: 8px;
+		}
+
+		.clear-times {
+			flex: 0 1 auto;
+			max-width: 100%;
+			white-space: normal;
+		}
 
 		.stats-total-list {
+			flex: 1 1 40%;
+			margin: 0;
 			padding: 0;
 			list-style: none;
 
@@ -77,7 +97,10 @@
 				display: flex;
 				flex-direction: row;
 				align-items: baseline;
-				margin-bottom: 6px;
+
+				&:not(:last-child) {
+					margin-bottom: 6px;
+				}
 			}
 
 			.stats-name {
@@ -100,10 +123,8 @@
 		.stats-list {
 			display: block;
 			overflow: auto;
-			flex: 1;
 			border-collapse: collapse;
 			font-size: 0.9em;
-			max-height: 380px;
 			margin-bottom: 8px;
 
 			table {
@@ -148,6 +169,7 @@
 	.license {
 		display: flex;
 		flex-direction: column;
+		flex: 0 0 auto;
 
 		.license-list {
 			> div {
@@ -248,15 +270,15 @@
 				flex: 1;
 			}
 		}
-
-		.stats .stats-list {
-			max-height: 300px;
-		}
 	}
 
 	@include mixins.respond-to(medium-down) {
 		.top {
 			flex-flow: column nowrap;
+		}
+
+		.stats .stats-list table thead th {
+			white-space: normal;
 		}
 
 		.help, .license {
@@ -274,9 +296,22 @@
 				max-width: 100%;
 			}
 		}
+	}
 
-		.stats .stats-list {
-			max-height: unset;
+	@include mixins.respond-to(small-down) {
+		.stats {
+			.stats-header {
+				flex-direction: column;
+				align-items: center;
+			}
+
+			.stats-total-list {
+				width: 100%;
+
+				li {
+					justify-content: center;
+				}
+			}
 		}
 	}
 }

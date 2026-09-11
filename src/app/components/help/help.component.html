@@ -65,16 +65,21 @@
 		@if (stats().items.length === 0) {
 			<p class="stats-empty">{{ 'STATS_EMPTY' | translate }}</p>
 		} @else {
-			<ul class="stats-total-list">
-				<li>
-					<span class="stats-name">{{ 'STATS_WIN_GAMES' | translate }}</span>
-					<span class="stats-desc">{{ stats().winCount }}</span>
-				</li>
-				<li>
-					<span class="stats-name">{{ 'STATS_LOSE_GAMES' | translate }}</span>
-					<span class="stats-desc">{{ stats().loseCount }}</span>
-				</li>
-			</ul>
+			<div class="stats-header">
+				<ul class="stats-total-list">
+					<li>
+						<span class="stats-name">{{ 'STATS_WIN_GAMES' | translate }}</span>
+						<span class="stats-desc">{{ stats().winCount }}</span>
+					</li>
+					<li>
+						<span class="stats-name">{{ 'STATS_LOSE_GAMES' | translate }}</span>
+						<span class="stats-desc">{{ stats().loseCount }}</span>
+					</li>
+				</ul>
+				<button type="button" class="clear-times" (click)="clearTimesClick()" [attr.aria-label]="'BEST_TIMES_CLEAR' | translate">
+					{{ 'BEST_TIMES_CLEAR' | translate }}
+				</button>
+			</div>
 			<div class="stats-list">
 			<table>
 				<thead>
@@ -98,11 +103,6 @@
 					}
 				</tbody>
 			</table>
-			</div>
-			<div class="button-group">
-				<button type="button" class="clear-times" (click)="clearTimesClick()" [attr.aria-label]="'BEST_TIMES_CLEAR' | translate">
-					{{ 'BEST_TIMES_CLEAR' | translate }}
-				</button>
 			</div>
 		}
 	</fieldset>
