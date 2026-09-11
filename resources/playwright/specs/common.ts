@@ -252,9 +252,9 @@ export async function captureDialogScreenshots(page: Page, overlay: Locator, nam
 
 	async function getMetrics() {
 		return page.evaluate(element => ({
-			scrollTop: element!.scrollTop,
-			clientHeight: element!.clientHeight,
-			scrollHeight: element!.scrollHeight
+			scrollTop: element.scrollTop,
+			clientHeight: element.clientHeight,
+			scrollHeight: element.scrollHeight
 		}), scrollElement);
 	}
 
@@ -275,7 +275,7 @@ export async function captureDialogScreenshots(page: Page, overlay: Locator, nam
 			break;
 		}
 		await page.evaluate(arguments_ => {
-			arguments_.el!.scrollTo({ top: arguments_.top, behavior: 'auto' });
+			arguments_.el.scrollTo({ top: arguments_.top, behavior: 'auto' });
 		}, { el: scrollElement, top: nextTop });
 		await sleep(20);
 		({ scrollTop, clientHeight, scrollHeight } = await getMetrics());

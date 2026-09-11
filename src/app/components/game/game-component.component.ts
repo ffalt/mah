@@ -324,7 +324,7 @@ export class GameComponent {
 	}
 
 	isDialogVisible(): boolean {
-		return this.tutorial().visible() || this.help().visible() || this.newgame().visible() || this.info().visible() || this.settings().visible();
+		return [this.tutorial(), this.help(), this.newgame(), this.info(), this.settings()].some(dialog => dialog.visible());
 	}
 
 	handleKeyDownEvent(event: KeyboardEvent): void {
