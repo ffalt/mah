@@ -463,13 +463,20 @@ describe('importLayouts', () => {
 	it('should reject invalid JSON for .mah file', async () => {
 		const content = 'not json{{';
 		const file = makeFile(content, 'boards.mah');
-		await expect(importLayouts(file)).rejects.toThrow('Invalid JSON file');
+		await expect(importLayouts(file)).rejects.toThrow('Import failed: Invalid JSON format');
 	});
 
 	it('should reject valid JSON that is not a mah format', async () => {
 		const content = JSON.stringify({ not: 'mah' });
 		const file = makeFile(content, 'boards.mah');
-		await expect(importLayouts(file)).rejects.toThrow('Invalid .mah file format');
+		await expect(importLayouts(file)).rejects.toThrow('Import failed: Invalid or unsupported MAH format version');
+	});
+
+	it('should accept a .mah board without an id', async () => {
+		const payload = JSON.stringify({ mah: '1.0', boards: [{ name: 'Test', map: [] }] });
+		const result = await importLayouts(makeFile(payload, 'boards.mah'));
+		expect(result).toHaveLength(1);
+		expect(result[0].name).toBe('Test');
 	});
 
 	it('should parse a .layout (kmahjongg v1.1) file', async () => {

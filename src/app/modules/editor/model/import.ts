@@ -1,24 +1,9 @@
-import type { CompactMapping, CompactMappingX, CompactMappingY, ImportLayout, LoadLayout, MahFormat, Mapping, Place } from '../../../model/types';
+import type { CompactMapping, CompactMappingX, CompactMappingY, ImportLayout, LoadLayout, Mapping, Place } from '../../../model/types';
 import { mappingToID } from '../../../model/mapping';
+import { parseMahFormat } from '../../../model/mah-reader';
 import { optimizeMapping } from './optimize';
 
 const MAX_IMPORT_FILE_SIZE = 10 * 1024 * 1024; // 10 MB
-
-export function isValidLoadLayout(board: unknown): board is LoadLayout {
-	if (!board || typeof board !== 'object' || Array.isArray(board)) {
-		return false;
-	}
-	const b = board as Record<string, unknown>;
-	return typeof b.id === 'string' && typeof b.name === 'string' && Array.isArray(b.map);
-}
-
-export function isValidMahFormat(data: unknown): data is MahFormat {
-	if (!data || typeof data !== 'object' || Array.isArray(data)) {
-		return false;
-	}
-	const d = data as Record<string, unknown>;
-	return d.mah === '1.0' && Array.isArray(d.boards) && d.boards.every(isValidLoadLayout);
-}
 
 export function sortMapping(mapping: Mapping): Mapping {
 	return mapping.sort((a: Place, b: Place): number => {
@@ -237,16 +222,7 @@ export async function importLayouts(file: File): Promise<Array<LoadLayout>> {
 	} else if (extension === 'layout') {
 		layout = cleanImportLayout(await convertKmahjongg(data, file.name));
 	} else {
-		let parsed: unknown;
-		try {
-			parsed = JSON.parse(data);
-		} catch {
-			return Promise.reject(new Error('Invalid JSON file'));
-		}
-		if (!isValidMahFormat(parsed)) {
-			return Promise.reject(new Error('Invalid .mah file format'));
-		}
-		return parsed.boards;
+		return parseMahFormat(data).boards;
 	}
 	return [layout];
 }

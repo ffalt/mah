@@ -1,101 +1,8 @@
-import { isValidLoadLayout, MAX_IMPORT_BOARDS, parseImportString } from './import';
-import { b64, makeBoard, makeMah, VALID_MAP } from './import.spec-helpers';
+import { parseImportString } from './import';
+import { MAX_IMPORT_BOARDS } from './mah-reader';
+import { b64, makeBoard, makeMah } from './import.spec-helpers';
 import { toBase64 } from './base64';
 import { describe, it, expect } from 'vitest';
-
-describe('isValidLoadLayout', () => {
-	it('returns false for null', () => {
-		expect(isValidLoadLayout(null)).toBe(false);
-	});
-
-	it('returns false for undefined', () => {
-		expect(isValidLoadLayout(undefined)).toBe(false);
-	});
-
-	it('returns false for a string', () => {
-		expect(isValidLoadLayout('hello')).toBe(false);
-	});
-
-	it('returns false for a number', () => {
-		expect(isValidLoadLayout(42)).toBe(false);
-	});
-
-	it('returns false for an array', () => {
-		expect(isValidLoadLayout([])).toBe(false);
-	});
-
-	it('returns false when name is missing', () => {
-		expect(isValidLoadLayout({ map: VALID_MAP })).toBe(false);
-	});
-
-	it('returns false when name is not a string', () => {
-		expect(isValidLoadLayout({ name: 123, map: VALID_MAP })).toBe(false);
-	});
-
-	it('returns false when name is empty string', () => {
-		expect(isValidLoadLayout({ name: '', map: VALID_MAP })).toBe(false);
-	});
-
-	it('returns false when name is whitespace only', () => {
-		expect(isValidLoadLayout({ name: ' '.repeat(3), map: VALID_MAP })).toBe(false);
-	});
-
-	it('returns false when name exceeds 200 characters', () => {
-		expect(isValidLoadLayout({ name: 'a'.repeat(201), map: VALID_MAP })).toBe(false);
-	});
-
-	it('returns false when map is missing', () => {
-		expect(isValidLoadLayout({ name: 'Test' })).toBe(false);
-	});
-
-	it('returns false when map is not an array', () => {
-		expect(isValidLoadLayout({ name: 'Test', map: 'invalid' })).toBe(false);
-	});
-
-	it('returns false when map is an object', () => {
-		expect(isValidLoadLayout({ name: 'Test', map: {} })).toBe(false);
-	});
-
-	it('returns false when id is not a string', () => {
-		expect(isValidLoadLayout({ name: 'Test', map: VALID_MAP, id: 123 })).toBe(false);
-	});
-
-	it('returns false when id exceeds 200 characters', () => {
-		expect(isValidLoadLayout({ name: 'Test', map: VALID_MAP, id: 'a'.repeat(201) })).toBe(false);
-	});
-
-	it('returns false when by is not a string', () => {
-		expect(isValidLoadLayout({ name: 'Test', map: VALID_MAP, by: 99 })).toBe(false);
-	});
-
-	it('returns false when by exceeds 200 characters', () => {
-		expect(isValidLoadLayout({ name: 'Test', map: VALID_MAP, by: 'a'.repeat(201) })).toBe(false);
-	});
-
-	it('returns false when cat is not a string', () => {
-		expect(isValidLoadLayout({ name: 'Test', map: VALID_MAP, cat: true })).toBe(false);
-	});
-
-	it('returns false when cat exceeds 200 characters', () => {
-		expect(isValidLoadLayout({ name: 'Test', map: VALID_MAP, cat: 'a'.repeat(201) })).toBe(false);
-	});
-
-	it('returns true for a valid minimal board (name + map)', () => {
-		expect(isValidLoadLayout({ name: 'Test', map: VALID_MAP })).toBe(true);
-	});
-
-	it('returns true when id is exactly 200 characters', () => {
-		expect(isValidLoadLayout({ name: 'Test', map: VALID_MAP, id: 'a'.repeat(200) })).toBe(true);
-	});
-
-	it('returns true for a fully specified valid board', () => {
-		expect(isValidLoadLayout({ id: 'my-id', name: 'Test Board', map: VALID_MAP, by: 'Author', cat: 'Classic' })).toBe(true);
-	});
-
-	it('returns true when optional fields are undefined', () => {
-		expect(isValidLoadLayout({ name: 'Test', map: VALID_MAP, id: undefined, by: undefined, cat: undefined })).toBe(true);
-	});
-});
 
 describe('parseImportString', () => {
 	it('returns [] for null input', () => {
@@ -115,7 +22,7 @@ describe('parseImportString', () => {
 		expect(parseImportString(notJson)).toEqual([]);
 	});
 
-	it('returns [] when parsed JSON is null (triggers outer catch)', () => {
+	it('returns [] when the decoded JSON is null', () => {
 		expect(parseImportString(b64(null))).toEqual([]);
 	});
 
@@ -140,7 +47,7 @@ describe('parseImportString', () => {
 		expect(parseImportString(b64({ mah: '1.0', boards }))).toEqual([]);
 	});
 
-	it('skips boards with invalid structure', () => {
+	it('returns [] when every board has an invalid structure', () => {
 		const data = b64(makeMah([{ name: 123 }, null, 'string']));
 		expect(parseImportString(data)).toEqual([]);
 	});
