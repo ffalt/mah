@@ -145,11 +145,10 @@ describe('parseImportString', () => {
 		expect(parseImportString(data)).toEqual([]);
 	});
 
-	it('returns only valid boards from a mixed list', () => {
+	it('returns [] when a boards contains an invalid board', () => {
 		const data = b64(makeMah([{ name: 123 }, makeBoard()]));
 		const result = parseImportString(data);
-		expect(result).toHaveLength(1);
-		expect(result[0].name).toBe('Test Board');
+		expect(result).toEqual([]);
 	});
 
 	it('keeps non-ascii board names intact', () => {

@@ -1,21 +1,19 @@
-import { calcDrawPos, sortDrawItems, getDrawBoundsViewport, getDrawViewport, getDrawBounds, mappingToDrawItems, type Draw } from './draw';
-import { Stone } from './stone';
+import { calcDrawPos, sortDrawItems, getDrawBoundsViewport, getDrawViewport, getDrawBounds, mappingToDrawPlacements, type DrawPlacement } from './draw-geometry';
 import { CONSTS } from './consts';
 import type { Mapping } from './types';
 import { describe, it, expect } from 'vitest';
 
-describe('Draw', () => {
-	const stone = new Stone(0, 0, 0, 0, 0);
-	const boundsItems: Array<Draw> = [
-		{ x: 0, y: 0, z: 0, v: 0, visible: true, pos: { x: 10, y: 20, w: 10, h: 10, translate: '' }, source: stone },
-		{ x: 0, y: 0, z: 0, v: 0, visible: true, pos: { x: 30, y: 40, w: 10, h: 10, translate: '' }, source: stone }
+describe('Draw geometry', () => {
+	const boundsItems: Array<DrawPlacement> = [
+		{ x: 0, y: 0, z: 0, pos: { x: 10, y: 20, w: 10, h: 10, translate: '' } },
+		{ x: 0, y: 0, z: 0, pos: { x: 30, y: 40, w: 10, h: 10, translate: '' } }
 	];
 
-	function drawAt(z: number, x: number, y: number): Draw {
-		return { x, y, z, v: 0, visible: true, pos: calcDrawPos(z, x, y), source: stone };
+	function drawAt(z: number, x: number, y: number): DrawPlacement {
+		return { x, y, z, pos: calcDrawPos(z, x, y) };
 	}
 
-	function order(items: Array<Draw>): Array<string> {
+	function order(items: Array<DrawPlacement>): Array<string> {
 		return sortDrawItems(items).map(item => `${item.z}/${item.x}/${item.y}`);
 	}
 
@@ -109,14 +107,14 @@ describe('Draw', () => {
 		});
 	});
 
-	describe('mappingToDrawItems', () => {
-		it('should convert mapping to draw items', () => {
+	describe('mappingToDrawPlacements', () => {
+		it('should convert mapping to draw placements', () => {
 			const mapping: Mapping = [
 				[0, 1, 2],
 				[1, 2, 3]
 			];
 
-			const items = mappingToDrawItems(mapping);
+			const items = mappingToDrawPlacements(mapping);
 
 			expect(items).toHaveLength(2);
 			expect(items[0].z).toBe(mapping[0][0]);

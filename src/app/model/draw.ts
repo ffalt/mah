@@ -1,23 +1,20 @@
-import { CONSTS } from './consts';
-import { Stone } from './stone';
-import type { Mapping } from './types';
+import type { Stone } from './stone';
+import type { DrawPlacement } from './draw-geometry';
 
-export interface DrawPos {
-	x: number;
-	y: number;
-	w: number;
-	h: number;
-	translate: string;
-}
+export type { DrawPos, DrawPlacement } from './draw-geometry';
+export {
+	calcDrawPos,
+	getDrawBounds,
+	getDrawBoundsViewport,
+	getDrawBoundsViewportBounds,
+	getDrawViewport,
+	mappingToDrawPlacements,
+	sortDrawItems
+} from './draw-geometry';
 
-export interface Draw {
-	x: number;
-	y: number;
-	z: number;
+export interface Draw extends DrawPlacement {
 	v: number;
-	pos: DrawPos;
 	visible: boolean;
-	// stable position key, precomputed so @for tracking allocates no strings per diff
 	key?: string;
 	url?: string;
 	className?: string;
@@ -27,18 +24,6 @@ export interface Draw {
 export interface DrawLevel {
 	z: number;
 	items: Array<Draw>;
-}
-
-export function calcDrawPos(z: number, x: number, y: number): DrawPos {
-	const pos = {
-		x: ((CONSTS.tileWidth + 2) * x - (z * CONSTS.levelOffset)) / 2,
-		y: ((CONSTS.tileHeight + 2) * y - (z * CONSTS.levelOffset)) / 2,
-		w: (CONSTS.tileWidth + 2) + (z * CONSTS.levelOffset),
-		h: (CONSTS.tileHeight + 2) + (z * CONSTS.levelOffset),
-		translate: ''
-	};
-	pos.translate = `translate(${pos.x},${pos.y})`;
-	return pos;
 }
 
 export function groupDrawsByLevel(items: Array<Draw>): Array<DrawLevel> {
@@ -52,56 +37,4 @@ export function groupDrawsByLevel(items: Array<Draw>): Array<DrawLevel> {
 		current.items.push(draw);
 	}
 	return levels;
-}
-
-export function sortDrawItems(items: Array<Draw>): Array<Draw> {
-	return items.sort((ad: Draw, bd: Draw) => (ad.z - bd.z) || ((ad.x + ad.y) - (bd.x + bd.y)) || (ad.x - bd.x));
-}
-
-export function getDrawBoundsViewportBounds(bounds: Array<number>): Array<number> {
-	const border = 20;
-	return [
-		bounds[0] - border,
-		bounds[1] - border,
-		bounds[2] - bounds[0] + (border * 2),
-		bounds[3] - bounds[1] + (border * 2)
-	];
-}
-
-export function getDrawBoundsViewport(bounds: Array<number>): string {
-	return getDrawBoundsViewportBounds(bounds).join(' ');
-}
-
-export function getDrawViewport(items: Array<Draw>): string {
-	const bounds = getDrawBounds(items);
-	return getDrawBoundsViewport(bounds);
-}
-
-export function getDrawBounds(items: Array<Draw>): Array<number> {
-	if (items.length === 0) {
-		return [0, 0, 0, 0];
-	}
-	const bounds = [Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY, Number.NEGATIVE_INFINITY];
-	for (const draw of items) {
-		bounds[0] = Math.min(bounds[0], draw.pos.x);
-		bounds[1] = Math.min(bounds[1], draw.pos.y);
-		bounds[2] = Math.max(bounds[2], draw.pos.x + draw.pos.w);
-		bounds[3] = Math.max(bounds[3], draw.pos.y + draw.pos.h);
-	}
-	return bounds;
-}
-
-export function mappingToDrawItems(mapping: Mapping): Array<Draw> {
-	const emptySource: Stone = new Stone(0, 0, 0, 0, 0);
-	const result = mapping.map((row: Array<number>): Draw =>
-		({
-			z: row[0],
-			x: row[1],
-			y: row[2],
-			v: 0,
-			visible: true,
-			pos: calcDrawPos(row[0], row[1], row[2]),
-			source: emptySource
-		}));
-	return sortDrawItems(result);
 }

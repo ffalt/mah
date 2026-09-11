@@ -27,59 +27,53 @@ export function isValidLoadLayout(board: unknown): board is LoadLayout {
 	return true;
 }
 
+export function parseMahFormat(jsonString: string): MahFormat {
+	let parsed: unknown;
+	try {
+		parsed = JSON.parse(jsonString);
+	} catch (error) {
+		throw new Error('Import failed: Invalid JSON format', { cause: error });
+	}
+	const mah = parsed as MahFormat;
+	if (!mah.mah || mah.mah !== '1.0') {
+		throw new Error('Import failed: Invalid or unsupported MAH format version');
+	}
+	if (!Array.isArray(mah.boards)) {
+		throw new TypeError('Import failed: Missing or invalid boards array');
+	}
+	if (mah.boards.length === 0) {
+		throw new Error('Import failed: No boards found in import data');
+	}
+	if (mah.boards.length > MAX_IMPORT_BOARDS) {
+		throw new Error(`Import failed: Too many boards (${mah.boards.length}), maximum is ${MAX_IMPORT_BOARDS}`);
+	}
+	for (const board of mah.boards) {
+		if (!isValidLoadLayout(board)) {
+			throw new Error('Import failed: Board entry has invalid structure');
+		}
+	}
+	return mah;
+}
+
 export function parseImportString(base64jsonString: string | null): Array<LoadLayout> {
 	if (!base64jsonString) {
 		return [];
 	}
+	let decoded: string;
 	try {
-		let decoded: string;
-		try {
-			decoded = fromBase64(base64jsonString);
-		} catch (error) {
-			log.warn('Import failed: Invalid base64 encoding', error);
-			return [];
-		}
-
-		let parsed: unknown;
-		try {
-			parsed = JSON.parse(decoded);
-		} catch (error) {
-			log.warn('Import failed: Invalid JSON format', error);
-			return [];
-		}
-
-		const mah = parsed as MahFormat;
-		if (!mah.mah || mah.mah !== '1.0') {
-			log.warn('Import failed: Invalid or unsupported MAH format version');
-			return [];
-		}
-
-		if (!Array.isArray(mah.boards)) {
-			log.warn('Import failed: Missing or invalid boards array');
-			return [];
-		}
-
-		if (mah.boards.length === 0) {
-			log.warn('Import failed: No boards found in import data');
-			return [];
-		}
-
-		if (mah.boards.length > MAX_IMPORT_BOARDS) {
-			log.warn(`Import failed: Too many boards (${mah.boards.length}), maximum is ${MAX_IMPORT_BOARDS}`);
-			return [];
-		}
-
-		const result: Array<LoadLayout> = [];
-		for (const board of mah.boards) {
-			if (!isValidLoadLayout(board)) {
-				log.warn('Import failed: Board entry has invalid structure, skipping');
-				continue;
-			}
-			result.push(board);
-		}
-		return result;
+		decoded = fromBase64(base64jsonString);
 	} catch (error) {
-		log.error('Unexpected error during import:', error);
+		log.error('Import failed: Invalid base64 encoding', 'Cause:', error);
 		return [];
 	}
+	let mah: MahFormat;
+	try {
+		mah = parseMahFormat(decoded);
+	} catch (error) {
+		const message = (error as Error).message || 'Unknown error';
+		const cause = (error as Error).cause;
+		log.error('Import failed:', message, 'Cause:', cause);
+		return [];
+	}
+	return mah.boards;
 }

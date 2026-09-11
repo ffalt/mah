@@ -1,9 +1,9 @@
-import { getDrawViewport, mappingToDrawItems } from './draw';
+import { getDrawViewport, mappingToDrawPlacements } from './draw-geometry';
 import type { Mapping } from './types';
 import { toBase64 } from './base64';
 
 export function generateSVG(mapping: Mapping): string {
-	const items = mappingToDrawItems(mapping);
+	const items = mappingToDrawPlacements(mapping);
 	const viewport = getDrawViewport(items);
 	const sl: Array<string> = [
 		`<svg xmlns="http://www.w3.org/2000/svg" viewBox="${viewport}" preserveAspectRatio="xMidYMid meet" height="100%" width="100%">`
