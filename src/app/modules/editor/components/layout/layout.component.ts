@@ -11,10 +11,10 @@ import { ExportComponent } from '../export/export.component';
 import { TranslatePipe } from '@ngx-translate/core';
 import { LayoutPreviewComponent } from '../../../../components/layout-preview/layout-preview.component';
 import { BoardComponent } from '../board/board.component';
+import { DialogComponent } from '../../../../components/dialog/dialog.component';
 import { CommonModule } from '@angular/common';
 import { optimizeMapping } from '../../model/optimize';
 import { mappingExtents } from '../../../../model/mapping';
-import { IconCloseComponent } from '../../../../components/icons/icon-close.component';
 import { IconLayerAddAboveComponent } from '../../../../components/icons/icon-layer-add-above.component';
 import { IconLayerAddBelowComponent } from '../../../../components/icons/icon-layer-add-below.component';
 import { IconUpComponent } from '../../../../components/icons/icon-up.component';
@@ -59,7 +59,7 @@ interface EditLevel {
 	selector: 'app-editor-layout-component',
 	templateUrl: './layout.component.html',
 	styleUrls: ['./layout.component.scss'],
-	imports: [CommonModule, BoardComponent, LayoutPreviewComponent, ExportComponent, TranslatePipe, IconCloseComponent,
+	imports: [CommonModule, BoardComponent, LayoutPreviewComponent, ExportComponent, TranslatePipe, DialogComponent,
 		IconLayerAddAboveComponent, IconLayerAddBelowComponent, IconUpComponent, IconDownComponent, IconDuplicateComponent,
 		IconClearComponent, IconDeleteComponent, IconLeftComponent, IconRightComponent,
 		IconExecuteComponent, IconMirrorHorizontalComponent, IconMirrorVerticalComponent]

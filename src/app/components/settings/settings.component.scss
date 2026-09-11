@@ -359,6 +359,7 @@
 			text-align: center;
 			position: relative;
 			user-select: none;
+			margin-top: 1px;
 
 			&:disabled {
 				cursor: not-allowed;
@@ -388,15 +389,6 @@
 		gap: 8px;
 	}
 
-	#tab-lang:focus-visible ~ .tabs-labels label[for="tab-lang"],
-	#tab-stones:focus-visible ~ .tabs-labels label[for="tab-stones"],
-	#tab-theme:focus-visible ~ .tabs-labels label[for="tab-theme"],
-	#tab-background:focus-visible ~ .tabs-labels label[for="tab-background"],
-	#tab-ui:focus-visible ~ .tabs-labels label[for="tab-ui"] {
-		color: var(--dialog-headline-color);
-		border-bottom-color: var(--focus-ring-color);
-	}
-
 	#tab-lang:checked ~ .tabs-labels label[for="tab-lang"],
 	#tab-stones:checked ~ .tabs-labels label[for="tab-stones"],
 	#tab-theme:checked ~ .tabs-labels label[for="tab-theme"],
@@ -409,6 +401,17 @@
 			color: var(--text-highlight-color);
 			border-bottom-color: var(--text-highlight-color);
 		}
+	}
+
+	// the label carries the ring, the radio driving the tab is visually hidden
+	#tab-lang:focus-visible ~ .tabs-labels label[for="tab-lang"],
+	#tab-stones:focus-visible ~ .tabs-labels label[for="tab-stones"],
+	#tab-theme:focus-visible ~ .tabs-labels label[for="tab-theme"],
+	#tab-background:focus-visible ~ .tabs-labels label[for="tab-background"],
+	#tab-ui:focus-visible ~ .tabs-labels label[for="tab-ui"] {
+		color: var(--dialog-headline-color);
+		outline: 2px solid var(--focus-ring-color);
+		outline-offset: 2px;
 	}
 
 	@media (prefers-color-scheme: dark) {

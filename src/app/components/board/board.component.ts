@@ -15,6 +15,18 @@ import { log } from '../../model/log';
 const defaultW = 1470;
 const defaultH = 960;
 
+const ARROWS: Record<string, [number, number]> = {
+	ArrowRight: [1, 0],
+	ArrowLeft: [-1, 0],
+	ArrowDown: [0, 1],
+	ArrowUp: [0, -1]
+};
+const ACROSS_WEIGHT = 3;
+
+function drawCenter(draw: Draw): { x: number; y: number } {
+	return { x: draw.pos.x + (draw.pos.w / 2), y: draw.pos.y + (draw.pos.h / 2) };
+}
+
 @Component({
 	selector: 'app-board',
 	templateUrl: './board.component.html',
@@ -29,6 +41,8 @@ const defaultH = 960;
 		'(mouseleave)': 'onMouseUp($event)',
 		'(keydown.enter)': 'onKeyDown($event)',
 		'(keydown.space)': 'onKeyDown($event)',
+		'(keydown)': 'onBoardKeyDown($event)',
+		'(focusin)': 'onBoardFocusIn($event)',
 		'(touchstart)': 'onTouchStart($event)',
 		'(touchend)': 'onTouchEnd($event)',
 		'(touchcancel)': 'onTouchEnd($event)'
@@ -54,6 +68,7 @@ export class BoardComponent implements OnInit, OnChanges, AfterViewInit {
 	readonly viewport = signal(`0 0 ${defaultW} ${defaultH}`);
 	indicators = new Indicator();
 	drawStones: Array<Draw> = [];
+	activeKey?: string;
 	drawLevels: Array<DrawLevel> = [];
 	prefix: string = '';
 	urlPrefix: string = '';
@@ -172,6 +187,31 @@ export class BoardComponent implements OnInit, OnChanges, AfterViewInit {
 		}
 	}
 
+	isTabStop(draw: Draw): boolean {
+		return draw.key === this.tabStopKey();
+	}
+
+	onBoardKeyDown(event: KeyboardEvent): void {
+		const direction = this.arrowDirection(event.key);
+		const from = this.drawOf(event.target);
+		if (!direction || !from) {
+			return;
+		}
+		event.preventDefault();
+		event.stopPropagation();
+		const target = this.neighbour(from, direction);
+		if (target) {
+			this.focusDraw(target);
+		}
+	}
+
+	onBoardFocusIn(event: FocusEvent): void {
+		const draw = this.drawOf(event.target);
+		if (draw) {
+			this.activeKey = draw.key;
+		}
+	}
+
 	onKeyDown(event: Event): void {
 		const draw = this.eventDraw(event);
 		if (!draw) {
@@ -184,7 +224,7 @@ export class BoardComponent implements OnInit, OnChanges, AfterViewInit {
 		}
 		this.clickEvent.emit(draw.source);
 		if (draw.source.picked()) {
-			this.focusNextInteractive();
+			this.focusNextInteractive(draw);
 		}
 	}
 
@@ -264,12 +304,95 @@ export class BoardComponent implements OnInit, OnChanges, AfterViewInit {
 		return key ? this.drawStones.find(draw => draw.key === key) : undefined;
 	}
 
-	private focusNextInteractive(): void {
+	private focusNextInteractive(from?: Draw): void {
 		window.requestAnimationFrame(() => {
-			if (this.app.game.isRunning()) {
-				this.stage()?.nativeElement.querySelector<SVGGElement>('g.draw[tabindex="0"]')?.focus();
+			if (!this.app.game.isRunning()) {
+				return;
+			}
+			const target = from ? this.nearestFocusable(from) : this.drawStones.find(draw => this.isFocusable(draw));
+			if (target) {
+				this.focusDraw(target);
 			}
 		});
+	}
+
+	private focusDraw(draw: Draw): void {
+		this.activeKey = draw.key;
+		const tiles = this.stage()?.nativeElement.querySelectorAll<SVGGElement>('g.draw') ?? [];
+		for (const tile of tiles) {
+			if (tile.dataset.drawKey === draw.key) {
+				tile.focus();
+				return;
+			}
+		}
+	}
+
+	private tabStopKey(): string | undefined {
+		const active = this.drawStones.find(draw => draw.key === this.activeKey);
+		if (active && this.isFocusable(active)) {
+			return this.activeKey;
+		}
+		this.activeKey = this.drawStones.find(draw => this.isFocusable(draw))?.key;
+		return this.activeKey;
+	}
+
+	private isFocusable(draw: Draw): boolean {
+		if (this.concealed() || draw.source.picked()) {
+			return false;
+		}
+		return !draw.source.state().blocked || !!draw.source.mark();
+	}
+
+	private drawOf(target: EventTarget | null): Draw | undefined {
+		const key = target instanceof Element ? target.closest<SVGGElement>('g.draw')?.dataset.drawKey : undefined;
+		return key ? this.drawStones.find(draw => draw.key === key) : undefined;
+	}
+
+	private arrowDirection(key: string): [number, number] | undefined {
+		const arrow = ARROWS[key];
+		if (!arrow) {
+			return undefined;
+		}
+		const [dx, dy] = arrow;
+		return this.rotate() ? [dy, -dx] : [dx, dy];
+	}
+
+	private neighbour(from: Draw, [dx, dy]: [number, number]): Draw | undefined {
+		const origin = drawCenter(from);
+		let best: Draw | undefined;
+		let bestCost = Number.POSITIVE_INFINITY;
+		for (const draw of this.drawStones) {
+			if (draw === from || !this.isFocusable(draw)) {
+				continue;
+			}
+			const center = drawCenter(draw);
+			const along = ((center.x - origin.x) * dx) + ((center.y - origin.y) * dy);
+			if (along <= 0) {
+				continue;
+			}
+			const across = Math.abs(((center.x - origin.x) * dy) - ((center.y - origin.y) * dx));
+			const cost = along + (across * ACROSS_WEIGHT);
+			if (cost < bestCost) {
+				bestCost = cost;
+				best = draw;
+			}
+		}
+		return best;
+	}
+
+	private nearestFocusable(from: Draw): Draw | undefined {
+		const origin = drawCenter(from);
+		const distance = (draw: Draw): number => {
+			const center = drawCenter(draw);
+			return Math.hypot(center.x - origin.x, center.y - origin.y);
+		};
+		let best: Draw | undefined;
+		for (const draw of this.drawStones) {
+			if (this.isFocusable(draw) && (!best || distance(draw) < distance(best))) {
+				best = draw;
+			}
+		}
+		return best;
 	}
 
 	private setTransformStage(): void {
@@ -302,7 +425,6 @@ export class BoardComponent implements OnInit, OnChanges, AfterViewInit {
 
 	private resize(element: { innerHeight: number; innerWidth: number }): void {
 		const r = this.noRotate() ? false : element.innerHeight > element.innerWidth;
-		// only a rotation invalidates the pan/zoom frame - plain resizes (mobile url bar, window drag) must keep the player's view
 		if (r === this.rotate()) {
 			this.panZoom.clampPan();
 		} else {

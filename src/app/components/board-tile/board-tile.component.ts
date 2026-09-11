@@ -18,7 +18,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 		'[attr.data-draw-key]': 'draw().key',
 		'[attr.transform]': 'draw().pos.translate',
 		'[attr.role]': 'interactive() ? \'button\' : (announced() ? \'img\' : null)',
-		'[attr.tabindex]': 'announced() ? 0 : null',
+		'[attr.tabindex]': 'announced() ? (tabbable() ? 0 : -1) : null',
 		'[attr.aria-label]': 'announced() ? tileLabel() : null',
 		'[attr.aria-pressed]': 'interactive() ? draw().source.selected() : null'
 	},
@@ -29,6 +29,7 @@ export class BoardTileComponent {
 	readonly imagePos = input.required<Array<number>>();
 	readonly urlPrefix = input.required<string>();
 	readonly blackout = input(false);
+	readonly tabbable = input(true);
 	readonly concealed = input(false);
 	readonly interactive = computed(() => !this.concealed() && !this.draw().source.picked() && !this.draw().source.state().blocked);
 	readonly app = inject(AppService);

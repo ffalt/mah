@@ -259,4 +259,28 @@ describe('DialogComponent', () => {
 			expect(stopPropagationSpy).toHaveBeenCalled();
 		});
 	});
+
+	describe('Focus guards', () => {
+		it('should send focus from a guard to the first control in the dialog', () => {
+			component.visible.set(true);
+			fixture.detectChanges();
+			const closeButton = fixture.debugElement.query(By.css('.close')).nativeElement as HTMLElement;
+			// jsdom does no layout, so offsetParent is always null and every control would look hidden
+			Object.defineProperty(closeButton, 'offsetParent', { value: document.body, configurable: true });
+
+			fixture.debugElement.queryAll(By.css('.focus-guard')).at(-1)?.triggerEventHandler('focus', {});
+
+			expect(document.activeElement).toBe(closeButton);
+		});
+
+		it('should keep focus on a dialog without any control', () => {
+			fixture.componentRef.setInput('noCloseButton', true);
+			component.visible.set(true);
+			fixture.detectChanges();
+
+			fixture.debugElement.query(By.css('.focus-guard')).triggerEventHandler('focus', {});
+
+			expect(document.activeElement).toBe(fixture.debugElement.query(By.css('.overlay-popup')).nativeElement);
+		});
+	});
 });

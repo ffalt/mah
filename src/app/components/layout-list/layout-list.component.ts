@@ -1,4 +1,4 @@
-import { Component, type OnChanges, type SimpleChanges, type WritableSignal, inject, input, output, signal, viewChild, type ElementRef, type OnInit } from '@angular/core';
+import { Component, type OnChanges, type SimpleChanges, type WritableSignal, computed, inject, input, output, signal, viewChild, type ElementRef, type OnInit } from '@angular/core';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import type { Layout, SafeUrlSVG } from '../../model/types';
 import { LocalstorageService } from '../../service/localstorage.service';
@@ -11,6 +11,18 @@ import { TranslateGroupPipe } from '../../pipes/translate-group.pipe';
 import { LayoutListItemComponent } from '../layout-list-item/layout-list-item.component';
 import { IconMirrorVerticalComponent } from '../icons/icon-mirror-vertical.component';
 import { IconMirrorHorizontalComponent } from '../icons/icon-mirror-horizontal.component';
+
+const CARD = '[app-layout-list-item]';
+const GROUP_NAME = '.group-name';
+const ROW_STOPS = `${GROUP_NAME}, ${CARD}`;
+const CARD_ID_PREFIX = 'item-';
+const GROUP_ID_PREFIX = 'group-name-';
+const ROW_TOLERANCE = 4;
+
+function stopCenter(stop: HTMLElement): number {
+	const rect = stop.getBoundingClientRect();
+	return rect.left + (rect.width / 2);
+}
 
 export interface LayoutItem {
 	layout: Layout;
@@ -58,6 +70,25 @@ export class LayoutListComponent implements OnInit, OnChanges {
 		name: '',
 		layouts: [], expanded: signal(true), isRandom: true
 	};
+
+	readonly activeStopId = signal<string | undefined>(undefined);
+	readonly stopId = computed<string | undefined>(() => {
+		const stops = this.stopIds();
+		const active = this.activeStopId();
+		if (active && stops.includes(active)) {
+			return active;
+		}
+		const selected = this.groups()
+			.filter(group => group.expanded())
+			.flatMap(group => group.layouts)
+			.find(item => item.selected());
+		return selected ? `${CARD_ID_PREFIX}${selected.layout.id}` : stops.at(0);
+	});
+
+	readonly tabbableId = computed<string | undefined>(() => {
+		const stop = this.stopId();
+		return stop?.startsWith(CARD_ID_PREFIX) ? stop.slice(CARD_ID_PREFIX.length) : undefined;
+	});
 
 	private readonly storage = inject(LocalstorageService);
 	protected readonly translate = inject(TranslateService);
@@ -153,6 +184,25 @@ export class LayoutListComponent implements OnInit, OnChanges {
 		}
 	}
 
+	groupTabIndex(index: number): number {
+		return this.stopId() === `${GROUP_ID_PREFIX}${index}` ? 0 : -1;
+	}
+
+	onGalleryKeydown(event: KeyboardEvent): void {
+		const current = event.target as HTMLElement | null;
+		const stop = current?.closest<HTMLElement>(ROW_STOPS);
+		if (!stop) {
+			return;
+		}
+		const target = this.galleryTarget(event, current as HTMLElement, stop);
+		if (!target) {
+			return;
+		}
+		event.preventDefault();
+		this.activeStopId.set(target.closest<HTMLElement>(ROW_STOPS)?.id);
+		target.focus();
+	}
+
 	onStart(layoutItem: LayoutItem): void {
 		if (layoutItem?.layout) {
 			this.startEvent.emit(layoutItem.layout);
@@ -212,16 +262,104 @@ export class LayoutListComponent implements OnInit, OnChanges {
 		const element = document.getElementById(`group-${index}`);
 		if (element) {
 			this.scrollToElement(element, this.scrollHost().nativeElement);
-			element.querySelector<HTMLElement>('[tabindex="0"]')?.focus();
+			const stop = element.querySelector<HTMLElement>(ROW_STOPS);
+			this.activeStopId.set(stop?.id);
+			stop?.focus();
 		}
 	}
 
 	scrollToItem(id: string): void {
-		const element = document.getElementById(`item-${id}`);
+		const element = document.getElementById(`${CARD_ID_PREFIX}${id}`);
 		if (element) {
 			this.scrollToElement(element, this.scrollHost().nativeElement);
+			this.activeStopId.set(`${CARD_ID_PREFIX}${id}`);
 			element.focus();
 		}
+	}
+
+	private galleryTarget(event: KeyboardEvent, current: HTMLElement, stop: HTMLElement): HTMLElement | undefined {
+		switch (event.key) {
+			case 'ArrowRight':
+			case 'ArrowLeft': {
+				const stops = this.galleryElements(`${ROW_STOPS}, ${CARD} button, ${CARD} input`);
+				return stops[stops.indexOf(current) + (event.key === 'ArrowRight' ? 1 : -1)];
+			}
+			case 'ArrowDown': {
+				return this.stopInRow(stop, 1);
+			}
+			case 'ArrowUp': {
+				return this.stopInRow(stop, -1);
+			}
+			case 'Home': {
+				return this.galleryElements(ROW_STOPS).at(0);
+			}
+			case 'End': {
+				return this.galleryElements(ROW_STOPS).at(-1);
+			}
+			case 'PageDown': {
+				return this.groupHeader(stop, 1);
+			}
+			case 'PageUp': {
+				return this.groupHeader(stop, -1);
+			}
+			default: {
+				return undefined;
+			}
+		}
+	}
+
+	private galleryElements(selector: string): Array<HTMLElement> {
+		return Array.from(this.scrollHost().nativeElement.querySelectorAll<HTMLElement>(selector));
+	}
+
+	// the cards wrap, so the row a stop sits in is only known from its position
+	private stopInRow(stop: HTMLElement, direction: number): HTMLElement | undefined {
+		const rows: Array<Array<HTMLElement>> = [];
+		let rowTop: number | undefined;
+		for (const entry of this.galleryElements(ROW_STOPS)) {
+			const top = entry.getBoundingClientRect().top;
+			if (rowTop === undefined || Math.abs(top - rowTop) > ROW_TOLERANCE) {
+				rows.push([]);
+				rowTop = top;
+			}
+			rows.at(-1)?.push(entry);
+		}
+		const row = rows[rows.findIndex(entry => entry.includes(stop)) + direction];
+		if (!row) {
+			return undefined;
+		}
+		// a header spans the whole row, so its centre says nothing about where to land
+		if (stop.matches(GROUP_NAME)) {
+			return row.at(direction > 0 ? 0 : -1);
+		}
+		const center = stopCenter(stop);
+		let closest = row[0];
+		for (const entry of row) {
+			if (Math.abs(stopCenter(entry) - center) < Math.abs(stopCenter(closest) - center)) {
+				closest = entry;
+			}
+		}
+		return closest;
+	}
+
+	private groupHeader(stop: HTMLElement, direction: number): HTMLElement | undefined {
+		const headers = this.galleryElements(GROUP_NAME);
+		const own = stop.closest('.group')?.querySelector<HTMLElement>(GROUP_NAME);
+		return own ? headers[headers.indexOf(own) + direction] : undefined;
+	}
+
+	private stopIds(): Array<string> {
+		const groups = this.groups();
+		const ids: Array<string> = [];
+		for (const [index, group] of groups.entries()) {
+			if (groups.length > 1) {
+				ids.push(`${GROUP_ID_PREFIX}${index}`);
+			}
+			if (group.expanded()) {
+				ids.push(...group.layouts.map(item => `${CARD_ID_PREFIX}${item.layout.id}`));
+			}
+		}
+		return ids;
 	}
 
 	select(id?: string): void {

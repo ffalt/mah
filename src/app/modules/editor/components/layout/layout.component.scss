@@ -33,13 +33,6 @@
 	color: var(--main-text-color);
 	overflow: hidden;
 
-	.overlay-save {
-		.overlay-popup {
-			overflow-y: auto;
-			min-height: 0;
-		}
-	}
-
 	.action {
 		appearance: none;
 		display: inline-flex;

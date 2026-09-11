@@ -1,27 +1,27 @@
 @if (groups().length > 1) {
-	<div class="headline-anchors">
+	<nav class="headline-anchors" [attr.aria-label]="'CATEGORIES' | translate">
 		@for (group of groups(); track group.name; let i = $index) {
 			<a [href]="'#group-' + i" (click)="scrollToGroup($event, i)">{{ group.isRandom ? ('RANDOM_GROUP' | translate) : (group.name | translateGroup:translate.currentLang()) }}</a>
 		}
-	</div>
+	</nav>
 }
 <div #scrollHost class="groups">
 	@for (group of groups(); track group.name; let i = $index) {
 		<div class="group" id="group-{{i}}">
 			@if (groups().length > 1) {
-				<div
+				<button
+					type="button"
 					class="group-name"
-					tabindex="0"
-					role="button"
+					id="group-name-{{i}}"
+					[attr.tabindex]="groupTabIndex(i)"
 					[attr.aria-expanded]="group.expanded()"
+					(keydown)="onGalleryKeydown($event)"
 					(click)="toggleGroupExpanded($event, group)"
-					(keydown.enter)="toggleGroupExpanded($event, group)"
-					(keydown.space)="toggleGroupExpanded($event, group)"
 				>
 					<span class="group-expander" [class.expanded]="group.expanded()"></span>
 					{{ group.isRandom ? ('RANDOM_GROUP' | translate) : (group.name | translateGroup:translate.currentLang()) }}
 					<span class="group-count"></span>
-				</div>
+				</button>
 			}
 			@if (group.expanded()) {
 				@if (group.isRandom) {
@@ -33,6 +33,8 @@
 								[item]="item"
 								[label]="('RANDOM_LAYOUT' | translate) + ' ' + (index + 1)"
 								[random]="true"
+								[tabbable]="item.layout.id === tabbableId()"
+								(keyEvent)="onGalleryKeydown($event)"
 								(startEvent)="onStart(item)"
 								(seedEvent)="regenerateWithSeed($any(item), $event)"
 							></div>
@@ -74,6 +76,8 @@
 								app-layout-list-item
 								class="preview"
 								[item]="item"
+								[tabbable]="item.layout.id === tabbableId()"
+								(keyEvent)="onGalleryKeydown($event)"
 								(startEvent)="onStart(item)"
 								(clearBestTimeEvent)="clearBestTime(item)"
 								(customDeleteEvent)="removeCustom(item)"

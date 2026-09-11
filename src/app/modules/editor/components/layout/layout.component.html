@@ -144,11 +144,13 @@
 		</div>
 	</div>
 }
-@if (saveDialog()) {
-	<div tabindex="0" (click)="toggleSave();" (keydown.escape)="toggleSave()" class="overlay overlay-save overlay-size-medium">
-		<div class="overlay-popup" role="dialog" aria-modal="true" [attr.aria-label]="'EDITOR_SAVE' | translate" tabindex="-1" (click)="$event.stopPropagation();" (keydown)="$event.stopPropagation();">
-			<button type="button" class="close" (click)="toggleSave();" [attr.aria-label]="'CLOSE' | translate"><app-icon-close /></button>
-			<app-editor-export-component [layout]="layout()" (savedEvent)="toggleAfterSave()"></app-editor-export-component>
-		</div>
-	</div>
-}
+<app-dialog
+	[(visible)]="saveDialog"
+	(keydown.escape)="toggleSave()"
+	className="overlay-save overlay-size-medium"
+	[title]="('EDITOR_SAVE' | translate) + ' / ' + ('EDITOR_EXPORT' | translate)"
+>
+	@if (saveDialog()) {
+		<app-editor-export-component [layout]="layout()" (savedEvent)="toggleAfterSave()"></app-editor-export-component>
+	}
+</app-dialog>

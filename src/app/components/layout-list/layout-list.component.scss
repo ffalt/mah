@@ -55,10 +55,16 @@
 			width: 100%;
 
 			.group-name {
+				appearance: none;
+				width: 100%;
+				background: none;
+				border: none;
 				border-top: 1px solid var(--card-layout-color-border);
+				border-radius: 0;
+				font: inherit;
+				min-height: unset;
 				color: var(--main-content-text-color);
-				padding-top: 12px;
-				padding-bottom: 12px;
+				padding: 12px 0;
 				height: 48px;
 				display: flex;
 				justify-content: space-between;

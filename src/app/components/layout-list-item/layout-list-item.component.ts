@@ -12,12 +12,13 @@ import type { LayoutItem, RandomLayoutItem } from '../layout-list/layout-list.co
 	templateUrl: './layout-list-item.component.html',
 	styleUrls: ['./layout-list-item.component.scss'],
 	host: {
-		'tabindex': '0',
+		'[attr.tabindex]': 'tabbable() ? 0 : -1',
 		'role': 'button',
 		'[id]': '"item-" + item().layout.id',
 		'[class.selected]': 'item().selected()',
 		'[attr.aria-pressed]': 'item().selected()',
 		'[attr.aria-label]': 'name()',
+		'(keydown)': 'keyEvent.emit($event)',
 		'(click)': 'onActivate($event)',
 		'(keydown.enter)': 'onActivate($event)',
 		'(keydown.space)': 'onActivate($event)'
@@ -28,9 +29,11 @@ import type { LayoutItem, RandomLayoutItem } from '../layout-list/layout-list.co
 export class LayoutListItemComponent {
 	readonly item = input.required<LayoutItem>();
 	readonly random = input(false);
+	readonly tabbable = input(true);
 	readonly label = input('');
 	readonly name = computed(() => this.label() || this.item().layout.name);
 	readonly startEvent = output<void>();
+	readonly keyEvent = output<KeyboardEvent>();
 	readonly clearBestTimeEvent = output<void>();
 	readonly customDeleteEvent = output<void>();
 	readonly seedEvent = output<string>();

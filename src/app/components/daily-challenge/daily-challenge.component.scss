@@ -292,6 +292,11 @@
 		&:hover {
 			background-color: color-mix(in oklab, var(--dialog-headline-color) 26%, var(--input-background-color));
 		}
+
+		&:focus-visible {
+			outline: 2px solid var(--focus-ring-color);
+			outline-offset: 2px;
+		}
 	}
 
 	// capped, or the 7 aspect-ratio cells stretch to the full width of a 1400px dialog

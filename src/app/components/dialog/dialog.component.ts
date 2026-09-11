@@ -2,7 +2,7 @@ import { Component, ElementRef, effect, inject, input, model, output } from '@an
 import { TranslatePipe } from '@ngx-translate/core';
 import { IconCloseComponent } from '../icons/icon-close.component';
 import { IconLogoComponent } from '../icons/icon-logo.component';
-import { trapFocus } from '../../model/dom-utilities';
+import { focusableElements, trapFocus } from '../../model/dom-utilities';
 
 @Component({
 	selector: 'app-dialog',
@@ -53,12 +53,22 @@ export class DialogComponent {
 		this.setVisible(false);
 	}
 
+	// tabbing out of the popup lands on a guard, from there focus goes back to the other end of the dialog
+	focusEdge(leading: boolean): void {
+		const popup = this.popup();
+		if (!popup) {
+			return;
+		}
+		const focusable = focusableElements(popup);
+		const target = leading ? focusable.at(-1) : focusable.at(0);
+		(target ?? popup).focus();
+	}
+
 	trapFocus(event: KeyboardEvent): void {
 		if (event.key === 'Tab') {
 			event.stopPropagation();
 		}
-		const host = this.elementRef.nativeElement as HTMLElement;
-		trapFocus(host.querySelector<HTMLElement>('.overlay-popup'), event);
+		trapFocus(this.popup(), event);
 	}
 
 	private setVisible(visible: boolean): void {
@@ -69,13 +79,27 @@ export class DialogComponent {
 		this.clickEvent.emit(visible);
 	}
 
+	private popup(): HTMLElement | null {
+		return (this.elementRef.nativeElement as HTMLElement).querySelector<HTMLElement>('.overlay-popup');
+	}
+
 	private focusDialog(): void {
-		const host = this.elementRef.nativeElement as HTMLElement;
-		const popup = host.querySelector<HTMLElement>('.overlay-popup');
-		if (!popup) {
-			return;
+		const popup = this.popup();
+		if (popup && this.isTopmost(popup)) {
+			popup.focus();
 		}
-		popup.focus();
+	}
+
+	// a dialog opening as a side effect of another one, like the pause message, must not pull focus off the visible one
+	private isTopmost(popup: HTMLElement): boolean {
+		const overlay = popup.parentElement;
+		if (!overlay) {
+			return false;
+		}
+		const level = (element: HTMLElement): number => Number(getComputedStyle(element).zIndex) || 0;
+		const own = level(overlay);
+		return Array.from(document.querySelectorAll<HTMLElement>('.overlay'))
+			.every(other => other === overlay || level(other) <= own);
 	}
 
 	private restoreFocus(): void {

@@ -216,6 +216,41 @@ describe('BoardComponent', () => {
 		});
 	});
 
+	describe('Keyboard navigation', () => {
+		function board(): NodeListOf<SVGGElement> {
+			// a row of three plus one below the middle tile
+			fixture.componentRef.setInput('stones', [
+				new Stone(0, 0, 0, 1, 1), new Stone(0, 2, 0, 2, 2), new Stone(0, 4, 0, 3, 3), new Stone(0, 2, 2, 4, 4)
+			]);
+			fixture.detectChanges();
+			return fixture.nativeElement.querySelectorAll('g.draw');
+		}
+
+		it('keeps a single tab stop for the whole board', () => {
+			const tiles = board();
+
+			expect([...tiles].filter(tile => tile.getAttribute('tabindex') === '0').length).toBe(1);
+			expect([...tiles].filter(tile => tile.getAttribute('tabindex') === '-1').length).toBe(tiles.length - 1);
+		});
+
+		it('moves focus to the tile next to the focused one', () => {
+			const tiles = board();
+			const byKey = (key: string): SVGGElement => [...tiles].find(tile => tile.dataset.drawKey === key) as SVGGElement;
+			byKey('0:0:0').focus();
+
+			byKey('0:0:0').dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true, cancelable: true }));
+			fixture.detectChanges();
+
+			expect(document.activeElement).toBe(byKey('0:2:0'));
+			expect(component.activeKey).toBe('0:2:0');
+
+			byKey('0:2:0').dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true, cancelable: true }));
+			fixture.detectChanges();
+
+			expect(document.activeElement).toBe(byKey('0:2:2'));
+		});
+	});
+
 	describe('Rendering', () => {
 		it('should render SVG element with correct attributes', () => {
 			const svgElement = fixture.debugElement.query(By.css('svg.board-svg'));

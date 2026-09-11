@@ -156,4 +156,32 @@ describe('LayoutListComponent', () => {
 		expect(text()).toContain('Tiere');
 		expect(text()).not.toContain('Animals');
 	});
+	describe('keyboard navigation', () => {
+		beforeEach(() => {
+			fixture.componentRef.setInput('layouts', [makeLayout('A', 'Cat1'), makeLayout('B', 'Cat1'), makeLayout('C', 'Cat2')]);
+			fixture.detectChanges();
+		});
+
+		it('keeps a single tab stop for the whole gallery and prefers the selected board', () => {
+			expect(fixture.nativeElement.querySelectorAll('[tabindex="0"]').length).toBe(1);
+			expect(component.stopId()).toBe('group-name-0');
+
+			component.groups()[0].layouts[1].selected.set(true);
+			fixture.detectChanges();
+
+			expect(component.tabbableId()).toBe('B');
+			expect(fixture.nativeElement.querySelectorAll('[tabindex="0"]').length).toBe(1);
+		});
+
+		it('moves focus to the next card on arrow right', () => {
+			const cards = fixture.nativeElement.querySelectorAll('[app-layout-list-item]');
+			cards[0].focus();
+
+			cards[0].dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true, cancelable: true }));
+			fixture.detectChanges();
+
+			expect(document.activeElement).toBe(cards[1]);
+			expect(component.tabbableId()).toBe('B');
+		});
+	});
 });

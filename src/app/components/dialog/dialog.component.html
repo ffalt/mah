@@ -1,5 +1,6 @@
 @if (visible()) {
 	<div class="overlay {{className()}}" tabindex="0" (click)="toggleOverlay();" (keydown)="trapFocus($event)">
+		<span class="focus-guard" tabindex="0" (focus)="focusEdge(true)"></span>
 		<div class="overlay-popup" role="dialog" aria-modal="true" [attr.aria-labelledby]="title() ? dialogId + '-title' : null" tabindex="-1" (click)="$event.stopPropagation();" (keydown)="trapFocus($event)">
 			<div class="dialog-header">
 				@if (title()) {
@@ -11,5 +12,6 @@
 			</div>
 			<ng-content></ng-content>
 		</div>
+		<span class="focus-guard" tabindex="0" (focus)="focusEdge(false)"></span>
 	</div>
 }

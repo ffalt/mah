@@ -10,7 +10,7 @@
 @if (random()) {
 	<div class="preview-seed" tabindex="-1" (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
 		<input
-			type="text" class="seed-input"
+			type="text" class="seed-input" tabindex="-1"
 			[value]="seed()"
 			(keyup)="onSeedKeyUp($event)"
 			[attr.aria-label]="'LAYOUT_SEED_LABEL' | translate"
@@ -21,7 +21,7 @@
 	@if (item().bestTime; as bestTime) {
 		<div class="preview-best-time">
 			<span title="{{ 'STATS_BEST' | translate }}">{{ bestTime | duration }}</span>
-			<button type="button" (click)="onClearBestTime($event)" [attr.aria-label]="'BEST_TIME_CLEAR' | translate">
+			<button type="button" tabindex="-1" (click)="onClearBestTime($event)" [attr.aria-label]="'BEST_TIME_CLEAR' | translate">
 				<app-icon-delete/>
 			</button>
 		</div>
@@ -29,6 +29,7 @@
 	<div class="preview-name">{{ name() }}</div>
 	@if (item().layout.custom) {
 		<button type="button"
+			tabindex="-1"
 			class="preview-custom-delete"
 			(click)="onRemoveCustom($event)"
 			title="{{ 'CUSTOM_BOARD_DELETE' | translate }}"

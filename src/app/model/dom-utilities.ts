@@ -2,13 +2,17 @@ const NATIVE_BUTTON_KEYS = new Set([' ', 'space', 'Space', 'spacebar', 'Spacebar
 
 const FOCUSABLE = 'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
+export function focusableElements(container: HTMLElement): Array<HTMLElement> {
+	return Array.from(container.querySelectorAll<HTMLElement>(FOCUSABLE))
+		.filter(element => element.offsetParent !== null);
+}
+
 // keeps Tab inside a modal, which aria-modal alone only promises
 export function trapFocus(container: HTMLElement | null | undefined, event: KeyboardEvent): void {
 	if (!container || event.key !== 'Tab') {
 		return;
 	}
-	const focusable = Array.from(container.querySelectorAll<HTMLElement>(FOCUSABLE))
-		.filter(element => element.offsetParent !== null);
+	const focusable = focusableElements(container);
 	const first = focusable.at(0);
 	const last = focusable.at(-1);
 	if (!first || !last) {
