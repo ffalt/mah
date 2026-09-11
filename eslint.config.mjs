@@ -167,6 +167,7 @@ export default ts.config(
 			globals: globals.browser,
 			parserOptions: {
 				project: ["tsconfig.lint.json"],
+				tsconfigRootDir: process.cwd(),
 				createDefaultProgram: true
 			}
 		},
@@ -208,6 +209,7 @@ export default ts.config(
 			},
 			parserOptions: {
 				project: ["tsconfig.lint.json"],
+				tsconfigRootDir: process.cwd(),
 				createDefaultProgram: true
 			}
 		},

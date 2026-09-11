@@ -68,17 +68,10 @@ name = "checkov"
 
 [[plugin]]
 name = "eslint"
-version = "10.3.0"
+version = "10.10.0"
 package_file = "package.json"
-package_filters = ["eslint", "vitest", "typescript"]
-config_files = [
-  "eslint.config.js",
-  "tsconfig.json",
-  "tsconfig.lint.json",
-  "tsconfig.spec.json",
-  "tsconfig.worker.json",
-  "tsconfig.app.json",
-]
+package_filters = ["eslint", "typescript", "globals"]
+config_files = ["eslint.config.mjs"]
 
 [[plugin]]
 name = "hadolint"
