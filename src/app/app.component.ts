@@ -129,16 +129,19 @@ export class AppComponent implements OnInit {
 	}
 
 	private async init(): Promise<void> {
-		await this.layoutService.get();
-		this.loading.set(false);
-		const parameters = new URLSearchParams(window.location.search);
-		const layoutIDs = await this.checkImport(parameters.get('mah'));
-		this.layoutService.selectBoardID = parameters.get('board') ?? layoutIDs[0];
-		if (window.location.search) {
-			this.clearSearchParameters();
-		}
-		if (this.app.game.isIdle() || this.layoutService.selectBoardID) {
-			this.gameComponent().start();
+		try {
+			await this.layoutService.get();
+			const parameters = new URLSearchParams(window.location.search);
+			const layoutIDs = await this.checkImport(parameters.get('mah'));
+			this.layoutService.selectBoardID = parameters.get('board') ?? layoutIDs[0];
+			if (window.location.search) {
+				this.clearSearchParameters();
+			}
+			if (this.app.game.isIdle() || this.layoutService.selectBoardID) {
+				this.gameComponent().start();
+			}
+		} finally {
+			this.loading.set(false);
 		}
 	}
 

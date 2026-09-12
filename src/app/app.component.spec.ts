@@ -99,6 +99,22 @@ describe('AppComponent', () => {
 		});
 	});
 
+	describe('init', () => {
+		// the splash screen hides the whole app, a startup that throws must not leave it up with no way out
+		it('takes the splash screen down when the boards cannot be loaded', async () => {
+			const fixture = TestBed.createComponent(AppComponent);
+			const app = fixture.componentInstance;
+			vi.spyOn(log, 'error').mockImplementation(() => undefined);
+			vi.spyOn(TestBed.inject(LayoutService), 'get').mockRejectedValue(new Error('mock boards failure'));
+
+			app.ngOnInit();
+			await new Promise(resolve => setTimeout(resolve, 0));
+
+			expect(app.loading()).toBe(false);
+			expect(log.error).toHaveBeenCalled();
+		});
+	});
+
 	describe('checkImport', () => {
 		let app: AppComponent;
 		let layoutService: LayoutService;
