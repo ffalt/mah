@@ -128,7 +128,7 @@ describe('SettingsComponent', () => {
 
 		it('should render shadows, contrast, dark mode, 3D, animations, confetti and show clock checkboxes', () => {
 			const checkboxes = fixture.debugElement.queryAll(By.css('input[type="checkbox"]'));
-			expect(checkboxes).toHaveLength(11 + (component.canDaily ? 1 : 0));
+			expect(checkboxes).toHaveLength(10 + (component.canDaily ? 2 : 0));
 			expect(fixture.debugElement.query(By.css('fieldset.animations .animations-note'))).toBeTruthy();
 		});
 	});
@@ -259,25 +259,25 @@ describe('SettingsComponent', () => {
 
 		it('should update app settings when tile animations are toggled', () => {
 			const saveSpy = vi.spyOn(appService.settings, 'save');
-			const initialValue = appService.settings.animations();
+			const initialValue = appService.settings.dailyAnimations();
 			const animationsCheckbox = checkboxByLabel('TILE_ANIMATIONS');
 
 			animationsCheckbox.click();
 			fixture.detectChanges();
 
-			expect(appService.settings.animations()).toBe(!initialValue);
+			expect(appService.settings.dailyAnimations()).toBe(!initialValue);
 			expect(saveSpy).toHaveBeenCalled();
 		});
 
 		it('should uncheck and disable tile animations when reduced motion is active', () => {
-			appService.settings.animations.set(true);
+			appService.settings.dailyAnimations.set(true);
 			component.reducedMotion.set(true);
 			fixture.detectChanges();
 			const animationsCheckbox = checkboxByLabel('TILE_ANIMATIONS');
 
 			expect(animationsCheckbox.checked).toBe(false);
 			expect(animationsCheckbox.disabled).toBe(true);
-			expect(appService.settings.animations()).toBe(true);
+			expect(appService.settings.dailyAnimations()).toBe(true);
 		});
 	});
 });

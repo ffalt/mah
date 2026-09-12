@@ -219,7 +219,7 @@ describe('BoardComponent', () => {
 	describe('Animation settings', () => {
 		it('marks the stage with the animation kinds that are switched on', () => {
 			fixture.componentRef.setInput('stones', [makeTestStone()]);
-			appService.settings.animations.set(true);
+			appService.settings.dailyAnimations.set(true);
 			appService.settings.tileAnimations.set(true);
 			appService.settings.hintAnimations.set(false);
 			fixture.detectChanges();
@@ -793,7 +793,7 @@ describe('BoardComponent', () => {
 
 	describe('Shadow layer', () => {
 		it('should remove the animations class when animations are disabled', () => {
-			appService.settings.animations.set(false);
+			appService.settings.dailyAnimations.set(false);
 			fixture.detectChanges();
 			expect(fixture.nativeElement.querySelector('g.stage').classList.contains('animations')).toBe(false);
 		});

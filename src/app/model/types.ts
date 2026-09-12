@@ -140,7 +140,7 @@ export class SettingsStore {
 	pattern?: string;
 	tile3d?: boolean;
 	shadows?: boolean;
-	animations?: boolean;
+	dailyAnimations?: boolean;
 	tileAnimations?: boolean;
 	hintAnimations?: boolean;
 	confetti?: boolean;

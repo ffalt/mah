@@ -39,7 +39,7 @@ describe('Settings', () => {
 			expect(settings.dark()).toBe(false);
 			expect(settings.tile3d()).toBe(true);
 			expect(settings.shadows()).toBe(true);
-			expect(settings.animations()).toBe(true);
+			expect(settings.dailyAnimations()).toBe(true);
 			expect(settings.rotateBoard()).toBe(true);
 			expect(settings.zoomBoard()).toBe(true);
 			expect(settings.background()).toBe('');
@@ -100,7 +100,7 @@ describe('Settings', () => {
 			expect(settings.theme()).toBe(ThemeDefault);
 			expect(settings.background()).toBe('test-background');
 			expect(settings.shadows()).toBe(true);
-			expect(settings.animations()).toBe(true);
+			expect(settings.dailyAnimations()).toBe(true);
 		});
 
 		it('should fall back to the default game mode if the saved one cannot be picked', () => {
@@ -153,7 +153,7 @@ describe('Settings', () => {
 			settings.confetti.set(true);
 			settings.tile3d.set(true);
 			settings.shadows.set(false);
-			settings.animations.set(false);
+			settings.dailyAnimations.set(false);
 			settings.tileAnimations.set(false);
 			settings.hintAnimations.set(false);
 			settings.rotateBoard.set(false);
@@ -181,7 +181,7 @@ describe('Settings', () => {
 				zoomBoard: false,
 				tile3d: true,
 				shadows: false,
-				animations: false,
+				dailyAnimations: false,
 				tileAnimations: false,
 				hintAnimations: false,
 				background: 'test-background',
