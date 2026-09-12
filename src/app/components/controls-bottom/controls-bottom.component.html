@@ -20,7 +20,7 @@
 		<button type="button" class="button" (click)="settingsEvent.emit()" title="{{'OPEN_SETTINGS' | translate}}" [attr.aria-label]="'SETTINGS' | translate" role="menuitem">
 			<app-icon-settings/>
 		</button>
-		<button type="button" class="button" [class.inactive]="!app.settings.sounds()" (click)="app.toggleSound()" title="{{'AUDIO_SOUNDS' | translate}}" [attr.aria-label]="'AUDIO_SOUNDS' | translate" [attr.aria-pressed]="!app.settings.sounds()" role="menuitem">
+		<button type="button" class="button" [class.inactive]="!app.settings.sounds()" (click)="app.toggleSound()" title="{{'AUDIO_SOUNDS' | translate}}" [attr.aria-label]="'AUDIO_SOUNDS' | translate" [attr.aria-checked]="app.settings.sounds()" role="menuitemcheckbox">
 			<app-icon-mute/>
 		</button>
 		<button type="button" class="button" (click)="infoEvent.emit()" title="{{'TILES_INFO' | translate}}" [attr.aria-label]="'TILES_INFO' | translate" role="menuitem">
