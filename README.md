@@ -29,9 +29,17 @@ The original open-source Mahjong Solitaire game powering many Mahjong experience
 
 🏆 **3 difficulty levels for features and boards generation** - from relaxed casual play to expert-level challenge
 
-🖼️ **Massive visual customization** - 8 image backgrounds, 375 pattern backgrounds, light/dark mode, 14 color themes
+📅 **Daily challenge** - one board and one rule set per day, the same for everyone, with streaks, a result calendar and a best score per challenge type
+
+🎯 **7 challenge types** - timed runs, score hunts and special tiles change how a board has to be cleared
+
+🖼️ **Massive visual customization** - 8 image backgrounds, 375 pattern backgrounds, light/dark mode, 14 color themes, 3D tiles and shadows
 
 🧘 **Zen mode** - hide the UI chrome for a clean, distraction-free playing experience
+
+🔍 **Pan, zoom and rotate** - move and pinch-zoom the board, and optionally rotate it in portrait to fit wide layouts on a phone
+
+⌨️ **Playable by keyboard** - tab and arrow key navigation everywhere, shortcuts for every game action, visible focus and screen reader announcements
 
 ⏱️ **Optional game timer** - show or hide the game clock to suit your play style
 
@@ -41,7 +49,24 @@ The original open-source Mahjong Solitaire game powering many Mahjong experience
 
 📱 **Cross-platform** - runs in the browser, on desktop (macOS, Windows, Linux), and on Android
 
-🌍 **37 languages** - English, العربية, বাংলা, Català, Čeština, Dansk, Deutsch, Ελληνικά, Español, Euskara, فارسی, Suomi, Filipino, Français, हिन्दी, Magyar, Bahasa Indonesia, Italiano, 日本語, 한국어, Bahasa Melayu, Nederlands, Norsk, Polski, Português, Română, Русский, Svenska, Kiswahili, தமிழ், తెలుగు, ไทย, Türkçe, Українська, اردو, Tiếng Việt, 中文
+🌍 **37 languages, including right-to-left** - English, العربية, বাংলা, Català, Čeština, Dansk, Deutsch, Ελληνικά, Español, Euskara, فارسی, Suomi, Filipino, Français, हिन्दी, Magyar, Bahasa Indonesia, Italiano, 日本語, 한국어, Bahasa Melayu, Nederlands, Norsk, Polski, Português, Română, Русский, Svenska, Kiswahili, தமிழ், తెలుగు, ไทย, Türkçe, Українська, اردو, Tiếng Việt, 中文
+
+---
+
+## 📅 Daily Challenge
+
+One board and one rule set per day, the same for everyone. A new challenge unlocks at midnight, your local time.
+Your streak, your best streak, a won/played count and a calendar of past results are kept locally, and each challenge type keeps its own best score.
+
+| Challenge    | Objective                                                                                           |
+|--------------|-----------------------------------------------------------------------------------------------------|
+| Midas Match  | Find and match the gold-marked tile. Hints and undo are allowed.                                    |
+| Sparkstone   | Clear the board before time runs out. Matching the sparkstone adds time and marks a new one.        |
+| Match Rush   | Make the target number of matches before time runs out. The board does not have to be cleared.      |
+| Fortune Hunt | Reach the target score before time runs out. Fast matches in a row build a multiplier.              |
+| Running Sand | You start with little time. Every match adds time, but only up to a limit. Clear the board in time. |
+| The Purge    | Remove every tile of the marked suit before time runs out.                                          |
+| Blackout     | Only free tiles show their face, covered tiles stay blank. Hints are allowed, undo is not.          |
 
 ---
 
