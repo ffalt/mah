@@ -174,10 +174,10 @@ export class PanZoom {
 	}
 
 	onTouchMove(event: TouchEvent): void {
-		event.preventDefault();
 		if (this.locked) {
 			return;
 		}
+		event.preventDefault();
 		this.touchPoints = this.extractTouchPoints(event.touches);
 
 		if (this.isPinching && this.touchPoints.length === 2) {

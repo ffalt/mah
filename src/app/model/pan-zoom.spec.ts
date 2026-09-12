@@ -735,6 +735,15 @@ describe('PanZoom', () => {
 			expect(panZoom.hasTouchPanMoved).toBe(false);
 		});
 
+		it('leaves a drag to the page, the same way the wheel is left to it', () => {
+			panZoom.onTouchStart(touchEvent([touch(100, 100)]));
+			const move = touchEvent([touch(300, 250)]);
+
+			panZoom.onTouchMove(move);
+
+			expect(move.preventDefault).not.toHaveBeenCalled();
+		});
+
 		it('still reports a tap as a click', () => {
 			panZoom.onMouseDown(mouseEvent(100, 100, 'mousedown'));
 
