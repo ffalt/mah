@@ -161,6 +161,47 @@ describe('WorkerService', () => {
 			expect(mockTasks.solveGame).not.toHaveBeenCalled();
 			expect(finish).toHaveBeenCalledWith({ result: stones.length, order: [] });
 		});
+
+		it('should report only the first outcome when an error follows the result', () => {
+			const stones: Array<StonePosition> = [
+				{ x: 0, y: 0, z: 0, v: 1, groupNr: 1 }
+			];
+			const finish = vi.fn();
+			const mockWorker = new MockWorker();
+
+			// @ts-expect-error - Mocking Worker
+			global.Worker = FakeWorker;
+			mockFactories.createSolveWorker.mockReturnValue(mockWorker);
+
+			service.solveGame(stones, finish);
+
+			const solveResult = { result: 1, order: [] };
+			mockWorker.dispatchEvent(new MessageEvent('message', { data: { result: solveResult } }));
+			mockWorker.dispatchEvent(new MessageEvent('message', { data: { error: 'boom' } }));
+			mockWorker.dispatchEvent(new Event('error'));
+
+			expect(finish).toHaveBeenCalledTimes(1);
+			expect(finish).toHaveBeenCalledWith(solveResult);
+		});
+
+		it('should report only the first outcome when an error event follows an error message', () => {
+			const stones: Array<StonePosition> = [
+				{ x: 0, y: 0, z: 0, v: 1, groupNr: 1 }
+			];
+			const finish = vi.fn();
+			const mockWorker = new MockWorker();
+
+			// @ts-expect-error - Mocking Worker
+			global.Worker = FakeWorker;
+			mockFactories.createSolveWorker.mockReturnValue(mockWorker);
+
+			service.solveGame(stones, finish);
+
+			mockWorker.dispatchEvent(new MessageEvent('message', { data: { error: 'boom' } }));
+			mockWorker.dispatchEvent(new Event('error'));
+
+			expect(finish).toHaveBeenCalledTimes(1);
+		});
 	});
 
 	describe('solve', () => {
@@ -285,6 +326,48 @@ describe('WorkerService', () => {
 
 			expect(mockWorker.terminate).toHaveBeenCalled();
 			expect(mockTasks.statsSolveMapping).not.toHaveBeenCalled();
+			expect(finish).toHaveBeenCalledWith([0, 0]);
+		});
+
+		// the board tester chains the next run off finish, so a second call used to start a
+		// parallel chain and overwrite the numbers it had just reported with [0, 0]
+		it('should report only the first outcome when an error follows the result', () => {
+			const mapping: Mapping = [[0, 0, 0], [2, 2, 2]];
+			const callback = vi.fn();
+			const finish = vi.fn();
+			const mockWorker = new MockWorker();
+
+			// @ts-expect-error - Mocking Worker
+			global.Worker = FakeWorker;
+			mockFactories.createStatsSolveWorker.mockReturnValue(mockWorker);
+
+			service.solve(mapping, 10, callback, finish);
+
+			const solveResult = [7, 3];
+			mockWorker.dispatchEvent(new MessageEvent('message', { data: { result: solveResult } }));
+			mockWorker.dispatchEvent(new MessageEvent('message', { data: { error: 'boom' } }));
+			mockWorker.dispatchEvent(new Event('error'));
+
+			expect(finish).toHaveBeenCalledTimes(1);
+			expect(finish).toHaveBeenCalledWith(solveResult);
+		});
+
+		it('should report only the first outcome when an error event follows an error message', () => {
+			const mapping: Mapping = [[0, 0, 0], [2, 2, 2]];
+			const callback = vi.fn();
+			const finish = vi.fn();
+			const mockWorker = new MockWorker();
+
+			// @ts-expect-error - Mocking Worker
+			global.Worker = FakeWorker;
+			mockFactories.createStatsSolveWorker.mockReturnValue(mockWorker);
+
+			service.solve(mapping, 10, callback, finish);
+
+			mockWorker.dispatchEvent(new MessageEvent('message', { data: { error: 'boom' } }));
+			mockWorker.dispatchEvent(new Event('error'));
+
+			expect(finish).toHaveBeenCalledTimes(1);
 			expect(finish).toHaveBeenCalledWith([0, 0]);
 		});
 	});

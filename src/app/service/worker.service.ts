@@ -40,16 +40,26 @@ export class WorkerService {
 					take(1)
 				);
 
-				// Final result handler auto-unsubscribes after first result and terminates the worker
-				result$.subscribe(data => {
-					finish(data);
+				let settled = false;
+				const settle = (data: SolveGameResult): void => {
+					if (settled) {
+						return;
+					}
+					settled = true;
 					worker.terminate();
+					finish(data);
+				};
+
+				result$.subscribe(data => {
+					settle(data);
 				});
 
 				const abort = (reason: unknown): void => {
+					if (settled) {
+						return;
+					}
 					log.warn('solve worker failed:', reason);
-					worker.terminate();
-					finish({ result: stones.length, order: [] });
+					settle({ result: stones.length, order: [] });
 				};
 
 				messages$.pipe(
@@ -104,16 +114,26 @@ export class WorkerService {
 					callback(progress);
 				});
 
-				// Final result handler auto-unsubscribes and terminates the worker
-				result$.subscribe(result => {
-					finish(result);
+				let settled = false;
+				const settle = (result: Array<number>): void => {
+					if (settled) {
+						return;
+					}
+					settled = true;
 					worker.terminate();
+					finish(result);
+				};
+
+				result$.subscribe(result => {
+					settle(result);
 				});
 
 				const abort = (reason: unknown): void => {
+					if (settled) {
+						return;
+					}
 					log.warn('stats solve worker failed:', reason);
-					worker.terminate();
-					finish([0, 0]);
+					settle([0, 0]);
 				};
 
 				messages$.pipe(
