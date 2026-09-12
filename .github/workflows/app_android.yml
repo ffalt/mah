@@ -53,7 +53,7 @@ jobs:
 
       - name: Write mah build config
         run: |
-          echo "{\"name\": \"Mah\", \"mobile\":true}" > custom-build-config.json
+          echo "{\"name\": \"Mah\", \"mobile\":true, \"daily\": true}" > custom-build-config.json
 
 
       - name: Install mah dependencies
