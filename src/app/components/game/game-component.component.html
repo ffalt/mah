@@ -82,6 +82,7 @@
 	[pattern]="app.settings.pattern()"
 	[blackout]="blackout()"
 	[concealed]="concealed()"
+	[noRotate]="!app.settings.rotateBoard()"
 	(clickEvent)="stoneClick($event)"
 />
 

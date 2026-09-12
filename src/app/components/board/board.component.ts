@@ -127,6 +127,9 @@ export class BoardComponent implements OnInit, OnChanges, AfterViewInit {
 	}
 
 	ngOnChanges(changes: SimpleChanges): void {
+		if (changes.noRotate && !changes.noRotate.firstChange) {
+			this.resize(window);
+		}
 		if (changes.stones) {
 			this.updateStones(changes.stones.currentValue);
 		}

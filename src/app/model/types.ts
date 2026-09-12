@@ -146,5 +146,6 @@ export class SettingsStore {
 	confetti?: boolean;
 	showClock?: boolean;
 	showDailyChallenge?: boolean;
+	rotateBoard?: boolean;
 	tutorialCompleted?: boolean;
 }

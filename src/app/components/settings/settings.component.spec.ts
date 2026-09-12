@@ -128,7 +128,7 @@ describe('SettingsComponent', () => {
 
 		it('should render shadows, contrast, dark mode, 3D, animations, confetti and show clock checkboxes', () => {
 			const checkboxes = fixture.debugElement.queryAll(By.css('input[type="checkbox"]'));
-			expect(checkboxes).toHaveLength(9 + (component.canDaily ? 1 : 0));
+			expect(checkboxes).toHaveLength(10 + (component.canDaily ? 1 : 0));
 			expect(fixture.debugElement.query(By.css('fieldset.animations .animations-note'))).toBeTruthy();
 		});
 	});

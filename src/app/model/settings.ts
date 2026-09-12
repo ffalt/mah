@@ -21,6 +21,7 @@ export class Settings {
 	readonly confetti = signal(true);
 	readonly showClock = signal(true);
 	readonly showDailyChallenge = signal(true);
+	readonly rotateBoard = signal(true);
 	readonly background = signal('');
 	readonly pattern = signal<string | undefined>(undefined);
 	readonly kyodaiUrl = signal<string | undefined>(undefined);
@@ -53,6 +54,7 @@ export class Settings {
 				this.confetti.set(store.confetti ?? true);
 				this.showClock.set(store.showClock ?? true);
 				this.showDailyChallenge.set(store.showDailyChallenge ?? true);
+				this.rotateBoard.set(store.rotateBoard ?? true);
 				this.sounds.set(store.sounds ?? this.sounds());
 				this.music.set(store.music ?? this.music());
 				this.kyodaiUrl.set(store.kyodaiUrl);
@@ -101,6 +103,7 @@ export class Settings {
 				confetti: this.confetti(),
 				showClock: this.showClock(),
 				showDailyChallenge: this.showDailyChallenge(),
+				rotateBoard: this.rotateBoard(),
 				background: this.background(),
 				pattern: this.pattern(),
 				theme: this.theme(),

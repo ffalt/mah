@@ -326,6 +326,16 @@
 						</label>
 					</li>
 				}
+				<li>
+					<label class="check">
+						<input
+							type="checkbox"
+							[checked]="app.settings.rotateBoard()"
+							(change)="app.settings.rotateBoard.set(!app.settings.rotateBoard());app.settings.save();"
+						>
+						<span>{{ 'ROTATE_BOARD' | translate }}</span>
+					</label>
+				</li>
 			</ul>
 		</fieldset>
 	</section>

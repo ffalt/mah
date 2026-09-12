@@ -563,6 +563,36 @@ describe('BoardComponent', () => {
 			expect(component.panY).toBe(0);
 		});
 
+		it('should re-evaluate the rotation when the rotation lock is toggled', () => {
+			const width = window.innerWidth;
+			const height = window.innerHeight;
+			Object.defineProperties(window, {
+				innerWidth: { value: 400, configurable: true },
+				innerHeight: { value: 800, configurable: true }
+			});
+			try {
+				// the template always binds noRotate, so the first change lands before ngOnInit does its own resize
+				fixture.componentRef.setInput('noRotate', false);
+				fixture.detectChanges();
+				setContainerSize(400, 800);
+				(component as unknown as HackBoardComponent).resize(window);
+				expect(component.rotate()).toBe(true);
+
+				fixture.componentRef.setInput('noRotate', true);
+				fixture.detectChanges();
+				expect(component.rotate()).toBe(false);
+
+				fixture.componentRef.setInput('noRotate', false);
+				fixture.detectChanges();
+				expect(component.rotate()).toBe(true);
+			} finally {
+				Object.defineProperties(window, {
+					innerWidth: { value: width, configurable: true },
+					innerHeight: { value: height, configurable: true }
+				});
+			}
+		});
+
 		it('should handle touch start events for panning', () => {
 			// Create a touch event with one touchpoint
 			const touchEvent = new TouchEvent('touchstart', {
