@@ -176,6 +176,22 @@ describe('LayoutService', () => {
 			expect(retry.items.some(l => l.id === 'server1')).toBe(true);
 			expect(service.loaded).toBe(true);
 		});
+
+		// a stored board whose mapping cannot be expanded used to reject get(), which left the app on its splash screen
+		it('should skip a board that cannot be expanded and keep the rest of the list', async () => {
+			mockHttpClient.get.mockReturnValue(of([
+				{ id: 'server1', name: 'Server 1', cat: 'Category 1', map: [[0, [[0, 0]]]] }
+			]));
+			mockLocalstorageService.getCustomLayouts.mockReturnValue([
+				{ id: 'broken', name: 'Broken', cat: 'Category 2', map: ['junk'] as unknown as CompactMapping },
+				{ id: 'custom1', name: 'Custom 1', cat: 'Category 2', map: [[0, [[0, 0]]]] }
+			]);
+
+			const result = await service.get();
+
+			expect(result.items.map(item => item.id)).toEqual(['server1', 'custom1']);
+			expect(service.loaded).toBe(true);
+		});
 	});
 
 	describe('removeAllCustomLayouts', () => {
@@ -412,6 +428,18 @@ describe('LayoutService', () => {
 			expect(count).toBe(0);
 			expect(mockLocalstorageService.storeCustomLayouts).not.toHaveBeenCalled();
 			expect(service.layouts.items).toHaveLength(0);
+		});
+
+		it('should still import when a board already in storage cannot be expanded', () => {
+			service.layouts = { items: [] };
+			mockLocalstorageService.getCustomLayouts.mockReturnValue([
+				{ id: 'broken', name: 'Broken', map: ['junk'] as unknown as CompactMapping }
+			]);
+
+			const count = service.storeCustomBoards([{ id: 'fresh', name: 'Fresh', map: [[0, [[0, 0]]]] }]);
+
+			expect(count).toBe(1);
+			expect(service.layouts.items.map(layout => layout.id)).toEqual(['fresh']);
 		});
 
 		it('should keep only the first of several incoming boards sharing an id', () => {

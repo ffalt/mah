@@ -32,24 +32,13 @@ export class LayoutService {
 		if (this.loaded) {
 			return this.layouts;
 		}
-		const items: Array<Layout> = [];
 		const loadLayouts: Array<LoadLayout> | undefined = await this.requestBoards();
-		const builtInLayouts: Array<LoadLayout> = loadLayouts ?? [];
-		for (const o of builtInLayouts) {
-			const layout = this.expandLayout(o);
-			if (layout) {
-				items.push(layout);
-			}
-		}
-		const customLayouts: Array<LoadLayout> = this.loadCustomLayouts();
-		for (const o of customLayouts) {
-			const layout = this.expandLayout(o, true);
-			if (layout) {
-				items.push(layout);
-			}
-		}
-		this.layouts = { items };
-		// only cache as loaded when the built-in boards were actually fetched; a failed request must be retried on the next get()
+		this.layouts = {
+			items: [
+				...this.expandLayouts(loadLayouts ?? []),
+				...this.expandLayouts(this.loadCustomLayouts(), true)
+			]
+		};
 		this.loaded = loadLayouts !== undefined;
 		return this.layouts;
 	}
@@ -63,6 +52,18 @@ export class LayoutService {
 		this.layouts.items = this.layouts.items.filter(l => !l.custom || !ids.includes(l.id));
 		const customLayouts = (this.storage.getCustomLayouts() || []).filter(l => !ids.includes(l.id));
 		this.storage.storeCustomLayouts(customLayouts.length === 0 ? undefined : customLayouts);
+	}
+
+	expandLayouts(list: Array<LoadLayout>, isCustom?: boolean): Array<Layout> {
+		const items: Array<Layout> = [];
+		for (const o of list) {
+			try {
+				items.push(this.expandLayout(o, isCustom));
+			} catch (error) {
+				log.warn('Failed to expand layout, skipping:', o?.id ?? o?.name, error);
+			}
+		}
+		return items;
 	}
 
 	expandLayout(o: LoadLayout, isCustom?: boolean): Layout {
@@ -88,7 +89,7 @@ export class LayoutService {
 
 	storeCustomBoards(list: Array<LoadLayout>): number {
 		const customLayouts = this.loadCustomLayouts();
-		const known = new Set(customLayouts.map(layout => this.expandLayout(layout, true).id));
+		const known = new Set(this.expandLayouts(customLayouts, true).map(layout => layout.id));
 		const added: Array<LoadLayout> = [];
 		const expanded: Array<Layout> = [];
 		for (const layout of list) {
