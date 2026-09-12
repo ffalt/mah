@@ -386,6 +386,14 @@ describe('GameComponent', () => {
 		expect(component.zenMode()).toBe(false);
 	});
 
+	it('should toggle zen mode with the z shortcut', () => {
+		expect(component.handleKeyDownEventKey('z')).toBe(true);
+		expect(component.zenMode()).toBe(true);
+
+		expect(component.handleKeyDownEventKey('z')).toBe(true);
+		expect(component.zenMode()).toBe(false);
+	});
+
 	it('should render the zen mode toggle in the bottom controls', () => {
 		const zenToggleButton = fixture.debugElement.query(By.css('.ctrl-stats .menu button[title="ZEN_MODE"]'));
 

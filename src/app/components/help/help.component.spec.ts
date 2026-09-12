@@ -8,6 +8,7 @@ import { LocalstorageService } from '../../service/localstorage.service';
 import type { LayoutScoreStore } from '../../model/types';
 import { environment } from '../../../environments/environment';
 import { describe, beforeEach, it, expect, vi } from 'vitest';
+import { readFileSync } from 'node:fs';
 
 describe('HelpComponent', () => {
 	let component: HelpComponent;
@@ -32,10 +33,19 @@ describe('HelpComponent', () => {
 		expect(component).toBeTruthy();
 	});
 
+	it('should have a description in en.json for every shortcut it lists', () => {
+		const en = JSON.parse(readFileSync('./src/assets/i18n/en.json', 'utf8')) as Record<string, string>;
+		const missing = component.shortcuts()
+			.flatMap(shortcut => [shortcut.name, `${shortcut.name}_LONG`])
+			.filter(key => !(key in en));
+
+		expect(missing).toEqual([]);
+	});
+
 	it('should initialize with shortcuts array', () => {
 		expect(component.shortcuts()).toBeDefined();
 		// the daily challenge shortcut only exists when the feature is enabled
-		expect(component.shortcuts()).toHaveLength(environment.daily ? 9 : 8);
+		expect(component.shortcuts()).toHaveLength(environment.daily ? 10 : 9);
 		expect(component.shortcuts()[0].key).toBe('T');
 		expect(component.shortcuts()[0].name).toBe('HINT');
 	});

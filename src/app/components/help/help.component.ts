@@ -8,6 +8,7 @@ import { LayoutService } from '../../service/layout.service';
 import { LocalstorageService } from '../../service/localstorage.service';
 import { IconTilesinfoComponent } from '../icons/icon-tilesinfo.component';
 import { IconSettingsComponent } from '../icons/icon-settings.component';
+import { IconZenComponent } from '../icons/icon-zen.component';
 import { IconHintComponent } from '../icons/icon-hint.component';
 import { IconLogoComponent } from '../icons/icon-logo.component';
 import { IconRestartComponent } from '../icons/icon-restart.component';
@@ -58,6 +59,7 @@ export class HelpComponent implements OnInit {
 		{ icon: IconPauseComponent, key: 'P', altKey: 'Space', name: 'PAUSE' },
 		{ icon: IconTilesinfoComponent, key: 'I', name: 'TILES_INFO' },
 		{ icon: IconSettingsComponent, key: 'S', name: 'SETTINGS' },
+		{ icon: IconZenComponent, key: 'Z', name: 'ZEN_MODE' },
 		{ icon: IconLogoComponent, key: 'H', name: 'HELP' },
 		...(environment.daily && this.app.settings.showDailyChallenge() ? [{ icon: IconCalendarComponent, key: 'D', name: 'DAILY_CHALLENGE' }] : [])
 	]);

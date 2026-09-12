@@ -68,7 +68,7 @@ describe('AppComponent', () => {
 			const gameHandler = vi.fn();
 			Object.defineProperty(app, 'gameComponent', { value: () => ({ isDialogVisible: () => false, handleKeyDownEvent: gameHandler }) });
 			app.editorVisible.set(true);
-			for (const key of ['t', 'm', 'u', 'n', 'p', ' ', 'h', 'i', 's', 'd']) {
+			for (const key of ['t', 'm', 'u', 'n', 'p', ' ', 'h', 'i', 's', 'd', 'z']) {
 				app.handleKeyDownEvent(new KeyboardEvent('keydown', { key }));
 			}
 			expect(gameHandler).not.toHaveBeenCalled();

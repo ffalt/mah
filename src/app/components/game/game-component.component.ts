@@ -260,6 +260,10 @@ export class GameComponent {
 				this.newgame().toggle();
 				break;
 			}
+			case 'z': {
+				this.toggleZenMode();
+				break;
+			}
 			case 'd': {
 				if (!this.dailyEnabled()) {
 					return false;
