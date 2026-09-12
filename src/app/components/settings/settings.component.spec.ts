@@ -149,6 +149,14 @@ describe('SettingsComponent', () => {
 	});
 
 	describe('Settings interactions', () => {
+		const checkboxByLabel = (labelKey: string): HTMLInputElement => {
+			const label = fixture.debugElement
+				.queryAll(By.css('label.check'))
+				.find(l => (l.nativeElement.textContent as string).includes(labelKey));
+			expect(label, `checkbox with label "${labelKey}"`).toBeTruthy();
+			return label?.query(By.css('input[type="checkbox"]')).nativeElement as HTMLInputElement;
+		};
+
 		it('should have a method to set language', () => {
 			// Instead of testing the click event, test the change handler directly
 			appService.settings.lang.set('en');
@@ -204,7 +212,7 @@ describe('SettingsComponent', () => {
 		it('should update app settings when 3D is toggled', () => {
 			const saveSpy = vi.spyOn(appService.settings, 'save');
 			const initialValue = appService.settings.tile3d();
-			const threeDCheckbox = fixture.debugElement.queryAll(By.css('input[type="checkbox"]'))[0].nativeElement;
+			const threeDCheckbox = checkboxByLabel('TILES_3D');
 
 			threeDCheckbox.click();
 			fixture.detectChanges();
@@ -216,7 +224,7 @@ describe('SettingsComponent', () => {
 		it('should update app settings when shadows are toggled', () => {
 			const saveSpy = vi.spyOn(appService.settings, 'save');
 			const initialValue = appService.settings.shadows();
-			const shadowsCheckbox = fixture.debugElement.queryAll(By.css('input[type="checkbox"]'))[1].nativeElement;
+			const shadowsCheckbox = checkboxByLabel('TILES_SHADOWS');
 
 			shadowsCheckbox.click();
 			fixture.detectChanges();
@@ -228,7 +236,7 @@ describe('SettingsComponent', () => {
 		it('should update app settings when contrast is toggled', () => {
 			const saveSpy = vi.spyOn(appService.settings, 'save');
 			const initialValue = appService.settings.contrast();
-			const contrastCheckbox = fixture.debugElement.queryAll(By.css('input[type="checkbox"]'))[2].nativeElement;
+			const contrastCheckbox = checkboxByLabel('HIGHER_CONTRAST');
 
 			contrastCheckbox.click();
 			fixture.detectChanges();
@@ -240,7 +248,7 @@ describe('SettingsComponent', () => {
 		it('should update app settings when dark mode is toggled', () => {
 			const saveSpy = vi.spyOn(appService.settings, 'save');
 			const initialValue = appService.settings.dark();
-			const darkCheckbox = fixture.debugElement.queryAll(By.css('input[type="checkbox"]'))[3].nativeElement;
+			const darkCheckbox = checkboxByLabel('TILES_DARK');
 
 			darkCheckbox.click();
 			fixture.detectChanges();
@@ -252,7 +260,7 @@ describe('SettingsComponent', () => {
 		it('should update app settings when tile animations are toggled', () => {
 			const saveSpy = vi.spyOn(appService.settings, 'save');
 			const initialValue = appService.settings.animations();
-			const animationsCheckbox = fixture.debugElement.queryAll(By.css('input[type="checkbox"]'))[7].nativeElement;
+			const animationsCheckbox = checkboxByLabel('TILE_ANIMATIONS');
 
 			animationsCheckbox.click();
 			fixture.detectChanges();
@@ -265,7 +273,7 @@ describe('SettingsComponent', () => {
 			appService.settings.animations.set(true);
 			component.reducedMotion.set(true);
 			fixture.detectChanges();
-			const animationsCheckbox = fixture.debugElement.queryAll(By.css('input[type="checkbox"]'))[7].nativeElement as HTMLInputElement;
+			const animationsCheckbox = checkboxByLabel('TILE_ANIMATIONS');
 
 			expect(animationsCheckbox.checked).toBe(false);
 			expect(animationsCheckbox.disabled).toBe(true);
