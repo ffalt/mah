@@ -29,6 +29,7 @@ exclude_patterns = [
   "**/vendor/**",
 
   ".qlty/configs/**",
+  "resources/playwright/**",
   "resources/images/**",
   "resources/apps/tauri/Cargo.lock",
   "resources/apps/tauri/gen/android/**"
