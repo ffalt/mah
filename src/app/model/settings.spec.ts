@@ -148,6 +148,7 @@ describe('Settings', () => {
 				dark: true,
 				confetti: true,
 				showClock: true,
+				showDailyChallenge: true,
 				tile3d: true,
 				shadows: false,
 				animations: false,

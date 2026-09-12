@@ -101,7 +101,7 @@ export class GameComponent {
 	readonly tutorial = viewChild.required<DialogComponent>('tutorial');
 	readonly app = inject(AppService);
 	readonly dailyService = inject(DailyService);
-	readonly dailyEnabled = environment.daily;
+	readonly dailyEnabled = computed(() => environment.daily && this.app.settings.showDailyChallenge());
 	game: Game;
 	fullScreenEnabled: boolean = true;
 	title: string = '';
@@ -110,7 +110,7 @@ export class GameComponent {
 	readonly anyDialogVisible = signal(false);
 	readonly showStartScreen = computed(() => this.game.isIdle() && !this.game.message() && !this.anyDialogVisible());
 	readonly dailyView = signal(false);
-	readonly dailyUnplayed = computed(() => this.dailyEnabled && !this.dailyService.todayResult());
+	readonly dailyUnplayed = computed(() => this.dailyEnabled() && !this.dailyService.todayResult());
 	readonly blackout = computed(() => this.game.challenge()?.id === CHALLENGE_CODES.CHALLENGE_BLACKOUT);
 	readonly concealed = computed(() => this.game.isPaused() && (this.game.challenge()?.hasTimeLimit ?? false));
 	readonly pickerGameMode = signal<GAME_MODE_ID>(this.app.game.mode());
@@ -131,7 +131,9 @@ export class GameComponent {
 				this.game.message.update(message => (message ? { ...message, scoreBest: true } : message));
 			}
 		};
-		this.game.expireStaleDaily();
+		if (this.dailyEnabled()) {
+			this.game.expireStaleDaily();
+		}
 		this.fullScreenEnabled = this.canFullscreen();
 		this.title = `${this.app.name} v${environment.version}`;
 		effect(() => {
@@ -187,7 +189,7 @@ export class GameComponent {
 	}
 
 	showDailyChallenge(): void {
-		if (!this.dailyEnabled) {
+		if (!this.dailyEnabled()) {
 			return;
 		}
 		this.dailyView.set(true);
@@ -220,7 +222,7 @@ export class GameComponent {
 	}
 
 	private syncDailyState(): void {
-		if (this.dailyEnabled) {
+		if (this.dailyEnabled()) {
 			this.dailyService.loadTodayResult();
 		}
 	}
@@ -261,7 +263,7 @@ export class GameComponent {
 				break;
 			}
 			case 'd': {
-				if (!this.dailyEnabled) {
+				if (!this.dailyEnabled()) {
 					return false;
 				}
 				this.game.pause();

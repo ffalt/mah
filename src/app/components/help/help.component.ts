@@ -1,8 +1,9 @@
-import { Component, inject, output, signal, type OnInit, type Type } from '@angular/core';
+import { Component, computed, inject, output, signal, type OnInit, type Type } from '@angular/core';
 import { NgComponentOutlet } from '@angular/common';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { clickExternalHref } from '../../model/external-links';
 import { DurationPipe } from '../../pipes/duration.pipe';
+import { AppService } from '../../service/app.service';
 import { LayoutService } from '../../service/layout.service';
 import { LocalstorageService } from '../../service/localstorage.service';
 import { IconTilesinfoComponent } from '../icons/icon-tilesinfo.component';
@@ -44,11 +45,12 @@ export class HelpComponent implements OnInit {
 		loseCount: 0
 	});
 
+	private readonly app = inject(AppService);
 	private readonly layoutService = inject(LayoutService);
 	private readonly storage = inject(LocalstorageService);
 	private readonly translate = inject(TranslateService);
 
-	shortcuts: Array<{ icon: Type<unknown>; key: string; altKey?: string; name: string }> = [
+	readonly shortcuts = computed<Array<{ icon: Type<unknown>; key: string; altKey?: string; name: string }>>(() => [
 		{ icon: IconHintComponent, key: 'T', name: 'HINT' },
 		{ icon: IconShuffleComponent, key: 'M', name: 'SHUFFLE' },
 		{ icon: IconUndoComponent, key: 'U', name: 'UNDO' },
@@ -57,8 +59,8 @@ export class HelpComponent implements OnInit {
 		{ icon: IconTilesinfoComponent, key: 'I', name: 'TILES_INFO' },
 		{ icon: IconSettingsComponent, key: 'S', name: 'SETTINGS' },
 		{ icon: IconLogoComponent, key: 'H', name: 'HELP' },
-		...(environment.daily ? [{ icon: IconCalendarComponent, key: 'D', name: 'DAILY_CHALLENGE' }] : [])
-	];
+		...(environment.daily && this.app.settings.showDailyChallenge() ? [{ icon: IconCalendarComponent, key: 'D', name: 'DAILY_CHALLENGE' }] : [])
+	]);
 
 	ngOnInit(): void {
 		this.stats.set(this.buildStats());

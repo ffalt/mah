@@ -29,6 +29,7 @@ const SETTINGS_TABS = [
 export class SettingsComponent implements AfterViewInit {
 	readonly kyodaiInput = viewChild<ElementRef<HTMLInputElement | HTMLTextAreaElement>>('kyodaiInput');
 	readonly canKyodai = environment.kyodai;
+	readonly canDaily = environment.daily;
 	readonly kyodaiTileSets = KyodaiTileSets;
 	readonly sets = ImageSets;
 	readonly backs = Backgrounds;

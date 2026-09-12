@@ -11,7 +11,7 @@
 	<fieldset class="keyboard">
 		<legend>{{ 'SHORTCUTS' | translate }}</legend>
 		<ul class="keyboard-list">
-			@for (shortcut of shortcuts; track shortcut) {
+			@for (shortcut of shortcuts(); track shortcut) {
 				<li>
 					<div class="key-group">
 						<span class="key">{{ shortcut.key }}</span>

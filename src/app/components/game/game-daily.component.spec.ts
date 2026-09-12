@@ -126,6 +126,46 @@ describe('GameComponent daily challenge flow', () => {
 		expect(component.dailyView()).toBe(true);
 	});
 
+	it('hides the tabs when the player turned the daily challenge off', () => {
+		app.settings.showDailyChallenge.set(false);
+		component.showNewGame();
+		detectChanges();
+		expect(fixture.debugElement.queryAll(By.css('.newgame-tab'))).toHaveLength(0);
+		expect(fixture.debugElement.query(By.css('app-choose-layout'))).toBeTruthy();
+		expect(fixture.debugElement.query(By.css('app-daily-challenge'))).toBeFalsy();
+	});
+
+	it('reaches no daily view at all when the player turned the daily challenge off', () => {
+		app.settings.showDailyChallenge.set(false);
+		component.showDailyChallenge();
+		detectChanges();
+		expect(component.dailyView()).toBe(false);
+		expect(component.handleKeyDownEventKey('d')).toBe(false);
+		expect(component.newgame().visible()).toBe(false);
+	});
+
+	it('reads nothing of the daily store when the player turned the daily challenge off', () => {
+		const storage = TestBed.inject(LocalstorageService);
+		app.settings.showDailyChallenge.set(false);
+		const expire = vi.spyOn(app.game, 'expireStaleDaily');
+		const today = vi.spyOn(daily, 'loadTodayResult');
+		const month = vi.spyOn(storage, 'getDailyMonth');
+		const monthKeys = vi.spyOn(storage, 'getDailyMonthKeys');
+		const meta = vi.spyOn(storage, 'getDailyMeta');
+
+		const off = TestBed.createComponent(GameComponent);
+		off.detectChanges();
+		off.componentInstance.showNewGame();
+		off.detectChanges();
+		off.destroy();
+
+		expect(expire).not.toHaveBeenCalled();
+		expect(today).not.toHaveBeenCalled();
+		expect(month).not.toHaveBeenCalled();
+		expect(monthKeys).not.toHaveBeenCalled();
+		expect(meta).not.toHaveBeenCalled();
+	});
+
 	it('opens the picker on the daily view from the keyboard shortcut', () => {
 		expect(component.newgame().visible()).toBe(false);
 		expect(component.handleKeyDownEventKey('d')).toBe(true);

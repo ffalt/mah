@@ -33,15 +33,15 @@ describe('HelpComponent', () => {
 	});
 
 	it('should initialize with shortcuts array', () => {
-		expect(component.shortcuts).toBeDefined();
+		expect(component.shortcuts()).toBeDefined();
 		// the daily challenge shortcut only exists when the feature is enabled
-		expect(component.shortcuts).toHaveLength(environment.daily ? 9 : 8);
-		expect(component.shortcuts[0].key).toBe('T');
-		expect(component.shortcuts[0].name).toBe('HINT');
+		expect(component.shortcuts()).toHaveLength(environment.daily ? 9 : 8);
+		expect(component.shortcuts()[0].key).toBe('T');
+		expect(component.shortcuts()[0].name).toBe('HINT');
 	});
 
 	it('should list the daily challenge shortcut only when enabled', () => {
-		const daily = component.shortcuts.find(shortcut => shortcut.name === 'DAILY_CHALLENGE');
+		const daily = component.shortcuts().find(shortcut => shortcut.name === 'DAILY_CHALLENGE');
 		expect(daily?.key).toBe(environment.daily ? 'D' : undefined);
 	});
 
@@ -80,7 +80,7 @@ describe('HelpComponent', () => {
 
 	it('should render all shortcuts from the shortcuts array', () => {
 		const shortcutItems = fixture.debugElement.queryAll(By.css('.keyboard-list li'));
-		expect(shortcutItems).toHaveLength(component.shortcuts.length);
+		expect(shortcutItems).toHaveLength(component.shortcuts().length);
 
 		// Check the first shortcut
 		const firstShortcut = shortcutItems[0];
@@ -99,7 +99,7 @@ describe('HelpComponent', () => {
 		const shortcutItems = fixture.debugElement.queryAll(By.css('.keyboard-list li'));
 
 		// Filter shortcuts that have icons
-		const shortcutsWithIcons = component.shortcuts
+		const shortcutsWithIcons = component.shortcuts()
 			.map((shortcut, index) => ({ shortcut, index }))
 			.filter(item => item.shortcut.icon);
 
@@ -124,7 +124,7 @@ describe('HelpComponent', () => {
 		const shortcutItems = fixture.debugElement.queryAll(By.css('.keyboard-list li'));
 
 		// Filter shortcuts that don't have icons (use emoji instead)
-		const shortcutsWithEmoji = component.shortcuts
+		const shortcutsWithEmoji = component.shortcuts()
 			.map((shortcut, index) => ({ shortcut, index }))
 			.filter(item => !item.shortcut.icon);
 

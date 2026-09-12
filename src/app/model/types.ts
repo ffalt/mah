@@ -143,5 +143,6 @@ export class SettingsStore {
 	hintAnimations?: boolean;
 	confetti?: boolean;
 	showClock?: boolean;
+	showDailyChallenge?: boolean;
 	tutorialCompleted?: boolean;
 }

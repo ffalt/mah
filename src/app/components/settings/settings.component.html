@@ -314,6 +314,18 @@
 						<span>{{ 'SHOW_CLOCK' | translate }}</span>
 					</label>
 				</li>
+				@if (canDaily) {
+					<li>
+						<label class="check">
+							<input
+								type="checkbox"
+								[checked]="app.settings.showDailyChallenge()"
+								(change)="app.settings.showDailyChallenge.set(!app.settings.showDailyChallenge());app.settings.save();"
+							>
+							<span>{{ 'SHOW_DAILY_CHALLENGE' | translate }}</span>
+						</label>
+					</li>
+				}
 			</ul>
 		</fieldset>
 	</section>

@@ -17,6 +17,7 @@ export class Settings {
 	readonly hintAnimations = signal(true);
 	readonly confetti = signal(true);
 	readonly showClock = signal(true);
+	readonly showDailyChallenge = signal(true);
 	readonly background = signal('');
 	readonly pattern = signal<string | undefined>(undefined);
 	readonly kyodaiUrl = signal<string | undefined>(undefined);
@@ -48,6 +49,7 @@ export class Settings {
 				this.hintAnimations.set(store.hintAnimations ?? true);
 				this.confetti.set(store.confetti ?? true);
 				this.showClock.set(store.showClock ?? true);
+				this.showDailyChallenge.set(store.showDailyChallenge ?? true);
 				this.sounds.set(store.sounds ?? this.sounds());
 				this.music.set(store.music ?? this.music());
 				this.kyodaiUrl.set(store.kyodaiUrl);
@@ -79,6 +81,7 @@ export class Settings {
 				hintAnimations: this.hintAnimations(),
 				confetti: this.confetti(),
 				showClock: this.showClock(),
+				showDailyChallenge: this.showDailyChallenge(),
 				background: this.background(),
 				pattern: this.pattern(),
 				theme: this.theme(),
