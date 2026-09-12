@@ -1,4 +1,4 @@
-import { expandMapping, mappingToID, mappingBounds, mappingExtents } from './mapping';
+import { expandMapping, isValidCompactMapping, mappingToID, mappingBounds, mappingExtents } from './mapping';
 import type { CompactMapping, LoadLayout, Mapping } from './types';
 import { readFileSync } from 'node:fs';
 import { compactMapping } from '../modules/editor/model/import';
@@ -107,6 +107,34 @@ describe('Mapping', () => {
 			const expanded = expandMapping(map);
 			const testMap = compactMapping(expanded);
 			expect(testMap).toEqual(map);
+		});
+	});
+
+	describe('isValidCompactMapping', () => {
+		// the validator guards imports, so it must not be stricter than the format the app itself ships and exports
+		test.each(loadLayouts)('accepts built-in board $name', ({ map }) => {
+			expect(isValidCompactMapping(map)).toBe(true);
+		});
+
+		it('accepts an empty mapping', () => {
+			expect(isValidCompactMapping([])).toBe(true);
+		});
+
+		it('rejects anything that is not an array', () => {
+			expect(isValidCompactMapping({})).toBe(false);
+			expect(isValidCompactMapping('invalid')).toBe(false);
+			expect(isValidCompactMapping(undefined)).toBe(false);
+		});
+
+		it('rejects a mapping expandMapping would throw on', () => {
+			expect(isValidCompactMapping(['junk'])).toBe(false);
+			expect(() => expandMapping(['junk'] as unknown as CompactMapping)).toThrow();
+		});
+
+		it('rejects a mapping expandMapping would silently turn into NaN places', () => {
+			const map = [[0, [[0, 'oops']]]] as unknown as CompactMapping;
+			expect(isValidCompactMapping(map)).toBe(false);
+			expect(expandMapping(map)).toEqual([[0, 'oops', 0]]);
 		});
 	});
 

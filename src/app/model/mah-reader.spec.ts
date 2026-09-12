@@ -55,6 +55,32 @@ describe('isValidLoadLayout', () => {
 		expect(isValidLoadLayout({ name: 'Test', map: {} })).toBe(false);
 	});
 
+	describe('map contents', () => {
+		const rejected: Array<[string, unknown]> = [
+			['a level that is not an array', ['junk']],
+			['rows that are not an array', [[0, 'not-rows']]],
+			['cells that are not a number', [[0, [[0, 'oops']]]]],
+			['a level index that is not a number', [['a', [[0, 0]]]]],
+			['a row index that is null', [[0, [[null, 0]]]]],
+			['a negative coordinate', [[-1, [[0, 0]]]]],
+			['a fractional coordinate', [[0.5, [[0, 0]]]]],
+			['a NaN coordinate', [[0, [[0, Number.NaN]]]]],
+			['a run that is not a [start, count] pair', [[0, [[0, [[1, 2, 3]]]]]]],
+			['a row that is not a [y, cells] pair', [[0, [[0, 0, 9]]]]],
+			['a level that is not a [z, rows] pair', [[0, [[0, 0]], 'extra']]]
+		];
+
+		for (const [what, map] of rejected) {
+			it(`returns false for ${what}`, () => {
+				expect(isValidLoadLayout({ name: 'Test', map })).toBe(false);
+			});
+		}
+
+		it('returns true for cells mixing single tiles and runs, as the exporter writes them', () => {
+			expect(isValidLoadLayout({ name: 'Test', map: [[0, [[0, [0, [8, 6], 26]]]]] })).toBe(true);
+		});
+	});
+
 	it('returns false when id is not a string', () => {
 		expect(isValidLoadLayout({ name: 'Test', map: VALID_MAP, id: 123 })).toBe(false);
 	});

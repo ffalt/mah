@@ -1,4 +1,5 @@
 import type { LoadLayout, MahFormat } from './types';
+import { isValidCompactMapping } from './mapping';
 
 export const MAX_IMPORT_BOARDS = 2000;
 
@@ -10,7 +11,7 @@ export function isValidLoadLayout(board: unknown): board is LoadLayout {
 	if (typeof b.name !== 'string' || b.name.trim() === '' || b.name.length > 200) {
 		return false;
 	}
-	if (!Array.isArray(b.map)) {
+	if (!isValidCompactMapping(b.map)) {
 		return false;
 	}
 	if (b.id !== undefined && (typeof b.id !== 'string' || b.id.length > 200)) {

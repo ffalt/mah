@@ -4,6 +4,33 @@ import { CONSTS } from './consts';
 
 const MAX_REPEATED_CELLS = CONSTS.mX * 2;
 
+function isPlaceValue(value: unknown): boolean {
+	return Number.isSafeInteger(value) && (value as number) >= 0;
+}
+
+function isValidCompactCells(cells: unknown): boolean {
+	if (!Array.isArray(cells)) {
+		return isPlaceValue(cells);
+	}
+	return (cells as Array<unknown>).every(cell =>
+		(Array.isArray(cell) ? (cell.length === 2 && isPlaceValue(cell[0]) && isPlaceValue(cell[1])) : isPlaceValue(cell)));
+}
+
+function isValidCompactRow(row: unknown): boolean {
+	return Array.isArray(row) && row.length === 2 && isPlaceValue(row[0]) && isValidCompactCells(row[1]);
+}
+
+function isValidCompactLevel(level: unknown): boolean {
+	if (!Array.isArray(level) || level.length !== 2 || !isPlaceValue(level[0]) || !Array.isArray(level[1])) {
+		return false;
+	}
+	return (level[1] as Array<unknown>).every(row => isValidCompactRow(row));
+}
+
+export function isValidCompactMapping(map: unknown): map is CompactMapping {
+	return Array.isArray(map) && (map as Array<unknown>).every(level => isValidCompactLevel(level));
+}
+
 export function expandMapping(map: CompactMapping): Mapping {
 	return map.flatMap(([z, rows]) =>
 		rows.flatMap(([y, cells]) =>
