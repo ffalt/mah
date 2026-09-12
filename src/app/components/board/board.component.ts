@@ -463,9 +463,7 @@ export class BoardComponent implements OnInit, OnChanges, AfterViewInit {
 		if (!stones) {
 			return;
 		}
-		this.panZoom.scale = 1;
-		this.panZoom.panX = 0;
-		this.panZoom.panY = 0;
+		this.panZoom.reset();
 		const items = stones
 			.filter((stone: Stone) => (stone !== undefined))
 			.map((stone: Stone): Draw =>

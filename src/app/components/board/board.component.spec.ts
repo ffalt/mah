@@ -376,6 +376,28 @@ describe('BoardComponent', () => {
 			expect(component.panX).not.toBe(initialPanX);
 			expect(component.panY).not.toBe(initialPanY);
 		});
+
+		it('should drop a gesture still in progress when a new board is dealt', () => {
+			component.zoomSVGValue(2, 100, 100);
+			component.onTouchStart(new TouchEvent('touchstart', {
+				touches: [
+					{ identifier: 0, clientX: 100, clientY: 100 } as Touch,
+					{ identifier: 1, clientX: 300, clientY: 100 } as Touch
+				]
+			}));
+
+			expect(component.panZoom.isPinching).toBe(true);
+			expect(component.indicators.gestureIndicators()).not.toHaveLength(0);
+
+			fixture.componentRef.setInput('stones', [makeTestStone()]);
+			fixture.detectChanges();
+
+			expect(component.scale).toBe(1);
+			expect(component.panZoom.isPinching).toBe(false);
+			expect(component.panZoom.isPanning).toBe(false);
+			expect(component.panZoom.hasMultiTouch).toBe(false);
+			expect(component.indicators.gestureIndicators()).toHaveLength(0);
+		});
 	});
 
 	describe('Event handling', () => {
