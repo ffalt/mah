@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { describe, it, expect } from 'vitest';
+import { GameModes } from './model/consts';
 
 const i18nDirectory = path.join(__dirname, '..', 'assets', 'i18n');
 const editorDirectory = path.join(i18nDirectory, 'editor');
@@ -59,6 +60,20 @@ describe('i18n translations', () => {
 
 describe('i18n editor translations', () => {
 	expectCompleteBundle(editorDirectory);
+});
+
+describe('i18n derived keys', () => {
+	const en = readBundle(i18nDirectory, 'en.json');
+
+	for (const mode of GameModes) {
+		for (const feature of mode.features) {
+			const key = feature.desc ?? `${feature.title}_LONG`;
+			it(`${mode.id} explains ${feature.title} with ${key}`, () => {
+				expect(Object.keys(en)).toContain(feature.title);
+				expect(Object.keys(en)).toContain(key);
+			});
+		}
+	}
 });
 
 describe('i18n bundle split', () => {
