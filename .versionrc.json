@@ -26,7 +26,7 @@
     },
     {
       "filename": "resources/apps/tauri/Cargo.lock",
-      "updater": "resources/apps/cargo-updater.mjs"
+      "updater": "resources/apps/cargo-lock-updater.mjs"
     },
     {
       "filename": "resources/docker/Dockerfile",
