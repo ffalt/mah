@@ -696,4 +696,49 @@ describe('PanZoom', () => {
 			expect(panZoom.hasMultiTouch).toBe(false);
 		});
 	});
+	describe('locked', () => {
+		beforeEach(() => {
+			panZoom.locked = true;
+		});
+
+		it('does not zoom on the wheel and leaves the event to the page', () => {
+			const event = wheelEvent(-1);
+
+			panZoom.onWheel(event);
+
+			expect(panZoom.scale).toBe(1);
+			expect(event.preventDefault).not.toHaveBeenCalled();
+		});
+
+		it('does not zoom on a pinch and shows no indicator', () => {
+			panZoom.onTouchStart(touchEvent([touch(100, 100, 0), touch(200, 100, 1)]));
+			panZoom.onTouchMove(touchEvent([touch(50, 100, 0), touch(250, 100, 1)]));
+			panZoom.onTouchEnd(touchEvent([], [touch(50, 100, 0), touch(250, 100, 1)]));
+
+			expect(panZoom.scale).toBe(1);
+			expect(panZoom.hasPinchChanged).toBe(false);
+			expect(indicators.gestureIndicators()).toHaveLength(0);
+		});
+
+		it('still swallows the tap of a two finger gesture', () => {
+			panZoom.onTouchStart(touchEvent([touch(100, 100, 0), touch(200, 100, 1)]));
+
+			expect(panZoom.hasMultiTouch).toBe(true);
+		});
+
+		it('does not pan on a drag', () => {
+			panZoom.onTouchStart(touchEvent([touch(100, 100)]));
+			panZoom.onTouchMove(touchEvent([touch(300, 250)]));
+
+			expect(panZoom.panX).toBe(0);
+			expect(panZoom.panY).toBe(0);
+			expect(panZoom.hasTouchPanMoved).toBe(false);
+		});
+
+		it('still reports a tap as a click', () => {
+			panZoom.onMouseDown(mouseEvent(100, 100, 'mousedown'));
+
+			expect(panZoom.onMouseUp(mouseEvent(100, 100, 'mouseup'))).toBe(true);
+		});
+	});
 });

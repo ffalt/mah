@@ -336,6 +336,16 @@
 						<span>{{ 'ROTATE_BOARD' | translate }}</span>
 					</label>
 				</li>
+				<li>
+					<label class="check">
+						<input
+							type="checkbox"
+							[checked]="app.settings.zoomBoard()"
+							(change)="app.settings.zoomBoard.set(!app.settings.zoomBoard());app.settings.save();"
+						>
+						<span>{{ 'ZOOM_BOARD' | translate }}</span>
+					</label>
+				</li>
 			</ul>
 		</fieldset>
 	</section>

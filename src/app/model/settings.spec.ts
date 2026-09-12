@@ -41,6 +41,7 @@ describe('Settings', () => {
 			expect(settings.shadows()).toBe(true);
 			expect(settings.animations()).toBe(true);
 			expect(settings.rotateBoard()).toBe(true);
+			expect(settings.zoomBoard()).toBe(true);
 			expect(settings.background()).toBe('');
 			expect(settings.theme()).toBe(ThemeDefault);
 			expect(settings.stats).toEqual({
@@ -156,6 +157,7 @@ describe('Settings', () => {
 			settings.tileAnimations.set(false);
 			settings.hintAnimations.set(false);
 			settings.rotateBoard.set(false);
+			settings.zoomBoard.set(false);
 			settings.background.set('test-background');
 			settings.theme.set('test-theme');
 			settings.tileset.set('test-tileset');
@@ -176,6 +178,7 @@ describe('Settings', () => {
 				showClock: true,
 				showDailyChallenge: true,
 				rotateBoard: false,
+				zoomBoard: false,
 				tile3d: true,
 				shadows: false,
 				animations: false,

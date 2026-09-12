@@ -593,6 +593,26 @@ describe('BoardComponent', () => {
 			}
 		});
 
+		it('should lock the view and drop an existing zoom when zooming is switched off', () => {
+			setContainerSize(800, 600);
+			fixture.componentRef.setInput('noZoom', false);
+			fixture.detectChanges();
+			component.scale = 2;
+			component.panZoom.setPanValue(-100, -80);
+
+			fixture.componentRef.setInput('noZoom', true);
+			fixture.detectChanges();
+
+			expect(component.panZoom.locked).toBe(true);
+			expect(component.scale).toBe(1);
+			expect(component.panX).toBe(0);
+			expect(component.panY).toBe(0);
+
+			component.onWheel({ deltaY: -1, clientX: 400, clientY: 300, preventDefault: vi.fn() } as unknown as WheelEvent);
+
+			expect(component.scale).toBe(1);
+		});
+
 		it('should handle touch start events for panning', () => {
 			// Create a touch event with one touchpoint
 			const touchEvent = new TouchEvent('touchstart', {

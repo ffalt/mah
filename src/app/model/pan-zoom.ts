@@ -16,6 +16,8 @@ function clamp(value: number, min: number, max: number): number {
 export { ZOOM_STEP };
 
 export class PanZoom {
+	// with zoom suppressed the scale stays at 1, which is what every pan and click path already treats as "not zoomed"
+	locked: boolean = false;
 	scale: number = 1;
 	panX: number = 0;
 	panY: number = 0;
@@ -79,6 +81,9 @@ export class PanZoom {
 	}
 
 	onWheel(event: WheelEvent): void {
+		if (this.locked) {
+			return;
+		}
 		event.preventDefault();
 		const wheel = event.deltaY < 0 ? 1 : -1;
 		const scale = wheel === 1 ? this.scale + ZOOM_STEP : this.scale - ZOOM_STEP;
@@ -142,6 +147,12 @@ export class PanZoom {
 		this.hasTouchPanMoved = false;
 		this.hasPinchChanged = false;
 
+		if (this.locked) {
+			// a two finger tap still must not count as picking a tile
+			this.hasMultiTouch ||= this.touchPoints.length === 2;
+			return;
+		}
+
 		if (this.touchPoints.length === 1) {
 			this.lastTouchX = this.touchPoints[0].x;
 			this.lastTouchY = this.touchPoints[0].y;
@@ -164,6 +175,9 @@ export class PanZoom {
 
 	onTouchMove(event: TouchEvent): void {
 		event.preventDefault();
+		if (this.locked) {
+			return;
+		}
 		this.touchPoints = this.extractTouchPoints(event.touches);
 
 		if (this.isPinching && this.touchPoints.length === 2) {

@@ -57,6 +57,7 @@ export class BoardComponent implements OnInit, OnChanges, AfterViewInit {
 	readonly pattern = input<string>();
 	readonly stones = input<Array<Stone>>();
 	readonly noRotate = input(false);
+	readonly noZoom = input(false);
 	readonly blackout = input(false);
 	readonly concealed = input(false);
 	readonly clickEvent = output<Stone | undefined>();
@@ -129,6 +130,12 @@ export class BoardComponent implements OnInit, OnChanges, AfterViewInit {
 	ngOnChanges(changes: SimpleChanges): void {
 		if (changes.noRotate && !changes.noRotate.firstChange) {
 			this.resize(window);
+		}
+		if (changes.noZoom) {
+			this.panZoom.locked = this.noZoom();
+			if (this.panZoom.locked) {
+				this.panZoom.reset();
+			}
 		}
 		if (changes.stones) {
 			this.updateStones(changes.stones.currentValue);

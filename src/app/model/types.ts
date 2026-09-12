@@ -147,5 +147,6 @@ export class SettingsStore {
 	showClock?: boolean;
 	showDailyChallenge?: boolean;
 	rotateBoard?: boolean;
+	zoomBoard?: boolean;
 	tutorialCompleted?: boolean;
 }
