@@ -52,7 +52,7 @@ jobs:
 
       - name: Write release app config
         run: |
-          echo "{\"name\": \"Mah\"}" > custom-build-config.json
+          echo "{\"name\": \"Mah\", \"daily\": true}" > custom-build-config.json
 
       - name: Build
         run: npm run build:deploy-release
