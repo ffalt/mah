@@ -28,7 +28,7 @@ jobs:
 
       - name: Write docker app config
         run: |
-          echo "{\"name\": \"Mah\", \"title\": \"Mah - Mahjong\", \"category\": \"A Mahjong Solitaire Board Game\", \"description\": \"The original open source version of many Mahjong games out there. Completely free, no ads, no tracking.\", \"kyodai\":true, \"editor\":true}" > custom-build-config.json
+          echo "{\"name\": \"Mah\", \"title\": \"Mah - Mahjong\", \"category\": \"A Mahjong Solitaire Board Game\", \"description\": \"The original open source version of many Mahjong games out there. Completely free, no ads, no tracking.\", \"kyodai\":true, \"editor\":true, \"daily\": true}" > custom-build-config.json
 
       - name: Install dependencies
         run: npm ci
