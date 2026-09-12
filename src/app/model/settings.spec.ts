@@ -1,5 +1,6 @@
 import { Settings } from './settings';
-import { ImageSetDefault, LangDefault, ThemeDefault } from './consts';
+import { GAME_MODE_ID_DEFAULT, ImageSetDefault, LangDefault, ThemeDefault } from './consts';
+import { MODE_SOLVABLE } from './builder';
 import type { SettingsStore, StorageProvider } from './types';
 import { type Mock, describe, beforeEach, it, expect, vi } from 'vitest';
 
@@ -29,6 +30,8 @@ describe('Settings', () => {
 
 		it('should initialize with default values', () => {
 			expect(settings.lang()).toBe(LangDefault);
+			expect(settings.gameMode()).toBe(GAME_MODE_ID_DEFAULT);
+			expect(settings.buildMode()).toBe(MODE_SOLVABLE);
 			expect(settings.sounds()).toBe(true);
 			expect(settings.tileset()).toBe(ImageSetDefault);
 			expect(settings.music()).toBe(false);
@@ -50,6 +53,8 @@ describe('Settings', () => {
 		it('should load settings from storage', () => {
 			const storedSettings: SettingsStore = {
 				lang: 'de',
+				gameMode: 'GAME_MODE_EXPERT',
+				buildMode: 'MODE_RANDOM',
 				sounds: false,
 				music: true,
 				contrast: true,
@@ -67,6 +72,8 @@ describe('Settings', () => {
 
 			expect(result).toBe(true);
 			expect(settings.lang()).toBe('de');
+			expect(settings.gameMode()).toBe('GAME_MODE_EXPERT');
+			expect(settings.buildMode()).toBe('MODE_RANDOM');
 			expect(settings.sounds()).toBe(false);
 			expect(settings.music()).toBe(true);
 			expect(settings.contrast()).toBe(true);
@@ -92,6 +99,19 @@ describe('Settings', () => {
 			expect(settings.background()).toBe('test-background');
 			expect(settings.shadows()).toBe(true);
 			expect(settings.animations()).toBe(true);
+		});
+
+		it('should fall back to the default game mode if the saved one cannot be picked', () => {
+			(mockStorageProvider.getSettings as Mock).mockReturnValue({
+				gameMode: 'GAME_MODE_CHALLENGE',
+				buildMode: 'MODE_NONSENSE'
+			});
+
+			const result = settings.load();
+
+			expect(result).toBe(true);
+			expect(settings.gameMode()).toBe(GAME_MODE_ID_DEFAULT);
+			expect(settings.buildMode()).toBe(MODE_SOLVABLE);
 		});
 
 		it('should fall back to default theme if saved theme does not exist', () => {
@@ -122,6 +142,8 @@ describe('Settings', () => {
 	describe('save', () => {
 		it('should save settings to storage', () => {
 			settings.lang.set('de');
+			settings.gameMode.set('GAME_MODE_EXPERT');
+			settings.buildMode.set('MODE_RANDOM');
 			settings.sounds.set(false);
 			settings.music.set(true);
 			settings.contrast.set(true);
@@ -142,6 +164,8 @@ describe('Settings', () => {
 			expect(result).toBe(true);
 			expect(mockStorageProvider.storeSettings).toHaveBeenCalledWith({
 				lang: 'de',
+				gameMode: 'GAME_MODE_EXPERT',
+				buildMode: 'MODE_RANDOM',
 				sounds: false,
 				music: true,
 				contrast: true,

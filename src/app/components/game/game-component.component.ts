@@ -113,8 +113,6 @@ export class GameComponent {
 	readonly dailyUnplayed = computed(() => this.dailyEnabled() && !this.dailyService.todayResult());
 	readonly blackout = computed(() => this.game.challenge()?.id === CHALLENGE_CODES.CHALLENGE_BLACKOUT);
 	readonly concealed = computed(() => this.game.isPaused() && (this.game.challenge()?.hasTimeLimit ?? false));
-	readonly pickerGameMode = signal<GAME_MODE_ID>(this.app.game.mode());
-	readonly pickerBuildMode = signal<BUILD_MODE_ID>(this.app.game.board.buildMode);
 	private readonly injector = inject(Injector);
 	private announceTimer?: ReturnType<typeof setTimeout>;
 
@@ -212,7 +210,7 @@ export class GameComponent {
 		this.closeNewGameDialog();
 		this.dailyView.set(false);
 		this.game.reset();
-		this.game.start(entry.layout, MODE_SOLVABLE, this.pickerGameMode(), {
+		this.game.start(entry.layout, MODE_SOLVABLE, this.app.settings.gameMode(), {
 			id: entry.challenge,
 			seed: entry.seed,
 			dayKey: entry.dayKey
@@ -460,8 +458,9 @@ export class GameComponent {
 
 	startGame(data: { layout: Layout; buildMode: BUILD_MODE_ID; gameMode: GAME_MODE_ID }): void {
 		this.closeNewGameDialog();
-		this.pickerGameMode.set(data.gameMode);
-		this.pickerBuildMode.set(data.buildMode);
+		this.app.settings.gameMode.set(data.gameMode);
+		this.app.settings.buildMode.set(data.buildMode);
+		this.app.settings.save();
 		this.game.reset();
 		this.game.start(data.layout, data.buildMode, data.gameMode);
 	}

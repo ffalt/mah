@@ -50,7 +50,7 @@
 		@if (dailyView()) {
 			<app-daily-challenge (startEvent)="startDailyChallenge($event)"/>
 		} @else {
-			<app-choose-layout class="choose" (startEvent)="startGame($event)" [gameMode]="pickerGameMode()" [buildMode]="pickerBuildMode()"/>
+			<app-choose-layout class="choose" (startEvent)="startGame($event)" [gameMode]="app.settings.gameMode()" [buildMode]="app.settings.buildMode()"/>
 		}
 	}
 </app-dialog>

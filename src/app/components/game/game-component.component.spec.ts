@@ -7,7 +7,8 @@ import { SvgdefService } from '../../service/svgdef.service';
 import { GameComponent } from './game-component.component';
 import { By } from '@angular/platform-browser';
 import { GAME_MODE_EASY, GAME_MODE_EXPERT, GAME_MODE_STANDARD, STATES } from '../../model/consts';
-import { type BUILD_MODE_ID, MODE_SOLVABLE } from '../../model/builder';
+import { type BUILD_MODE_ID, MODE_RANDOM, MODE_SOLVABLE } from '../../model/builder';
+import { Settings } from '../../model/settings';
 import { environment } from '../../../environments/environment';
 import { Stone } from '../../model/stone';
 import type { Place } from '../../model/types';
@@ -282,6 +283,25 @@ describe('GameComponent', () => {
 		expect(visibleSetSpy).toHaveBeenCalledWith(false);
 		expect(resetSpy).toHaveBeenCalled();
 		expect(startSpy).toHaveBeenCalledWith(gameData.layout, gameData.buildMode, gameData.gameMode);
+	});
+
+	it('keeps the chosen modes as a preference of its own', () => {
+		component.startGame({
+			layout: { id: 'test', name: 'Test Layout', category: 'Test', mapping: [[0, 0, 0], [0, 2, 0]] },
+			buildMode: MODE_RANDOM as BUILD_MODE_ID,
+			gameMode: GAME_MODE_EXPERT
+		});
+
+		expect(appService.settings.gameMode()).toBe(GAME_MODE_EXPERT);
+		expect(appService.settings.buildMode()).toBe(MODE_RANDOM);
+
+		// the modes used to be read back out of the saved game state, so dropping it reset the picker
+		appService.storage.storeState(undefined);
+		const restored = new Settings(appService.storage);
+		restored.load();
+
+		expect(restored.gameMode()).toBe(GAME_MODE_EXPERT);
+		expect(restored.buildMode()).toBe(MODE_RANDOM);
 	});
 
 	describe('unplayable board', () => {

@@ -1,10 +1,13 @@
 import { signal } from '@angular/core';
-import { ImageSetDefault, LangDefault, ThemeDefault, Themes } from './consts';
+import { type GAME_MODE_ID, GAME_MODE_ID_DEFAULT, GameModes, ImageSetDefault, LangDefault, ThemeDefault, Themes } from './consts';
+import { type BUILD_MODE_ID, BuilderModes, MODE_SOLVABLE } from './builder';
 import type { SettingsStore, StorageProvider } from './types';
 import { log } from './log';
 
 export class Settings {
 	readonly lang = signal(LangDefault);
+	readonly gameMode = signal<GAME_MODE_ID>(GAME_MODE_ID_DEFAULT);
+	readonly buildMode = signal<BUILD_MODE_ID>(MODE_SOLVABLE);
 	readonly sounds = signal(true);
 	readonly tileset = signal(ImageSetDefault);
 	readonly music = signal(false);
@@ -35,11 +38,11 @@ export class Settings {
 		try {
 			const store: SettingsStore | undefined = this.storageProvider.getSettings();
 			if (store) {
+				this.loadValidated(store);
 				this.lang.set(store.lang ?? LangDefault);
 				this.tileset.set(store.tileset ?? ImageSetDefault);
 				this.background.set(store.background ?? this.background());
 				this.pattern.set(store.pattern);
-				this.theme.set(this.validTheme(store.theme) ? store.theme : ThemeDefault);
 				this.contrast.set(store.contrast ?? false);
 				this.dark.set(store.dark ?? false);
 				this.tile3d.set(store.tile3d ?? true);
@@ -62,14 +65,30 @@ export class Settings {
 		return false;
 	}
 
+	private loadValidated(store: SettingsStore): void {
+		this.theme.set(this.validTheme(store.theme) ? store.theme : ThemeDefault);
+		this.gameMode.set(this.validGameMode(store.gameMode) ? store.gameMode : GAME_MODE_ID_DEFAULT);
+		this.buildMode.set(this.validBuildMode(store.buildMode) ? store.buildMode : MODE_SOLVABLE);
+	}
+
 	validTheme(theme?: string): boolean {
 		return !!(theme && Themes.some(t => t.id === theme));
+	}
+
+	validGameMode(mode?: string): mode is GAME_MODE_ID {
+		return GameModes.some(entry => entry.id === mode);
+	}
+
+	validBuildMode(mode?: string): mode is BUILD_MODE_ID {
+		return BuilderModes.some(entry => entry.id === mode);
 	}
 
 	save(): boolean {
 		try {
 			this.storageProvider.storeSettings({
 				lang: this.lang(),
+				gameMode: this.gameMode(),
+				buildMode: this.buildMode(),
 				sounds: this.sounds(),
 				music: this.music(),
 				contrast: this.contrast(),

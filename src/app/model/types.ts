@@ -127,6 +127,8 @@ export class GameStateStore {
 
 export class SettingsStore {
 	lang: string;
+	gameMode?: GAME_MODE_ID;
+	buildMode?: BUILD_MODE_ID;
 	sounds: boolean;
 	music: boolean;
 	contrast: boolean;

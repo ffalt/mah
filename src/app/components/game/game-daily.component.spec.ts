@@ -486,8 +486,8 @@ describe('GameComponent daily challenge flow', () => {
 		component.startDailyChallenge(entryFor(CHALLENGE_CODES.CHALLENGE_MIDAS_MATCH));
 		expect(app.game.ruleMode()).toBe('GAME_MODE_CHALLENGE');
 		expect(app.game.mode()).toBe('GAME_MODE_EXPERT');
-		expect(component.pickerGameMode()).toBe('GAME_MODE_EXPERT');
-		expect(component.pickerBuildMode()).toBe('MODE_RANDOM');
+		expect(app.settings.gameMode()).toBe('GAME_MODE_EXPERT');
+		expect(app.settings.buildMode()).toBe('MODE_RANDOM');
 
 		component.showNewGame();
 		detectChanges();
