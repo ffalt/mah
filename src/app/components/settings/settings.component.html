@@ -250,7 +250,55 @@
 			</fieldset>
 		}
 	</section>
+
 	<section id="panel-ui" class="panel" role="tabpanel" aria-labelledby="tab-ui-label">
+		<fieldset>
+			<legend id="ui-legend">{{ 'UI' | translate }}</legend>
+			<ul class="checks" role="group" aria-labelledby="ui-legend">
+				<li>
+					<label class="check">
+						<input
+							type="checkbox"
+							[checked]="app.settings.showClock()"
+							(change)="app.settings.showClock.set(!app.settings.showClock());app.settings.save();"
+						>
+						<span>{{ 'SHOW_CLOCK' | translate }}</span>
+					</label>
+				</li>
+				@if (canDaily) {
+					<li>
+						<label class="check">
+							<input
+								type="checkbox"
+								[checked]="app.settings.showDailyChallenge()"
+								(change)="app.settings.showDailyChallenge.set(!app.settings.showDailyChallenge());app.settings.save();"
+							>
+							<span>{{ 'SHOW_DAILY_CHALLENGE' | translate }}</span>
+						</label>
+					</li>
+				}
+				<li>
+					<label class="check">
+						<input
+							type="checkbox"
+							[checked]="app.settings.rotateBoard()"
+							(change)="app.settings.rotateBoard.set(!app.settings.rotateBoard());app.settings.save();"
+						>
+						<span>{{ 'ROTATE_BOARD' | translate }}</span>
+					</label>
+				</li>
+				<li>
+					<label class="check">
+						<input
+							type="checkbox"
+							[checked]="app.settings.zoomBoard()"
+							(change)="app.settings.zoomBoard.set(!app.settings.zoomBoard());app.settings.save();"
+						>
+						<span>{{ 'ZOOM_BOARD' | translate }}</span>
+					</label>
+				</li>
+			</ul>
+		</fieldset>
 		<fieldset class="animations">
 			<legend id="animations-legend">{{ 'ANIMATIONS' | translate }}</legend>
 			<small class="animations-note">{{ 'TILE_ANIMATIONS_REDUCED_MOTION' | translate }}</small>
@@ -297,53 +345,6 @@
 							(change)="app.settings.animations.set(!app.settings.animations());app.settings.save();"
 						>
 						<span>{{ 'TILE_ANIMATIONS' | translate }}</span>
-					</label>
-				</li>
-			</ul>
-		</fieldset>
-		<fieldset>
-			<legend id="ui-legend">{{ 'UI' | translate }}</legend>
-			<ul class="checks" role="group" aria-labelledby="ui-legend">
-				<li>
-					<label class="check">
-						<input
-							type="checkbox"
-							[checked]="app.settings.showClock()"
-							(change)="app.settings.showClock.set(!app.settings.showClock());app.settings.save();"
-						>
-						<span>{{ 'SHOW_CLOCK' | translate }}</span>
-					</label>
-				</li>
-				@if (canDaily) {
-					<li>
-						<label class="check">
-							<input
-								type="checkbox"
-								[checked]="app.settings.showDailyChallenge()"
-								(change)="app.settings.showDailyChallenge.set(!app.settings.showDailyChallenge());app.settings.save();"
-							>
-							<span>{{ 'SHOW_DAILY_CHALLENGE' | translate }}</span>
-						</label>
-					</li>
-				}
-				<li>
-					<label class="check">
-						<input
-							type="checkbox"
-							[checked]="app.settings.rotateBoard()"
-							(change)="app.settings.rotateBoard.set(!app.settings.rotateBoard());app.settings.save();"
-						>
-						<span>{{ 'ROTATE_BOARD' | translate }}</span>
-					</label>
-				</li>
-				<li>
-					<label class="check">
-						<input
-							type="checkbox"
-							[checked]="app.settings.zoomBoard()"
-							(change)="app.settings.zoomBoard.set(!app.settings.zoomBoard());app.settings.save();"
-						>
-						<span>{{ 'ZOOM_BOARD' | translate }}</span>
 					</label>
 				</li>
 			</ul>
