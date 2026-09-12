@@ -34,6 +34,7 @@
 				[kyodaiUrl]="app.settings.kyodaiUrl()"
 				[background]="''"
 				[noRotate]="true"
+				[noZoom]="true"
 				(clickEvent)="onStoneClick($event)"
 			/>
 			<div class="sr-only" aria-live="assertive" aria-atomic="true">{{ feedbackKey() ? (feedbackKey()! | translate) : '' }}</div>
