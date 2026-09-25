@@ -30,7 +30,7 @@ jobs:
           cache-disabled: true
 
       - name: Setup Android SDK
-        uses: android-actions/setup-android@40fd30fb8d7440372e1316f5d1809ec01dcd3699 # v4.0.1
+        uses: android-actions/setup-android@be39fa834029ff78f1a44aa3bb0819b8fc2bd8fd # v4.0.4
         with:
           packages: ndk;26.1.10909125
 
@@ -41,7 +41,7 @@ jobs:
           echo "NDK_HOME=$ANDROID_HOME/ndk/26.1.10909125/" > $GITHUB_ENV
 
       - name: Install Rust stable
-        uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772 # v 1.94.1
+        uses: dtolnay/rust-toolchain@02cb101ec7c40f2c49e1d9714d64511d8e1b74de # v 1.94.1
         with:
           toolchain: stable
 
