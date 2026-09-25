@@ -529,7 +529,7 @@ export class GameComponent {
 				((s.z === t1[0]) && (s.x === t1[1]) && (s.y === t1[2])) ||
 				((s.z === t2[0]) && (s.x === t2[1]) && (s.y === t2[2])))
 			);
-			if (!(stones.length > 1)) {
+			if (stones.length <= 1) {
 				return;
 			}
 			for (const stone of stones) {

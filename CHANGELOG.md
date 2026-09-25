@@ -83,6 +83,7 @@ All notable changes to this project will be documented in this file. See [commit
 * **translations:** remove &shy; ([91c758a](https://github.com/ffalt/mah/commit/91c758ab085a8a1eb516f90669a29826ee572fed))
 * **tutorial:** cleanup on close ([c8118f7](https://github.com/ffalt/mah/commit/c8118f799db73a019c5c7f4bd8bfa4b03f888165))
 * **tutorial:** cleanup wiggle timers ([6b9c04c](https://github.com/ffalt/mah/commit/6b9c04cbfd58f75f0e10047fdafa17cadc62f697))
+
 ## [1.21.0](https://github.com/ffalt/mah/compare/v1.20.0...v1.21.0) (2026-08-09)
 
 ### Features
