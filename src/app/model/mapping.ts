@@ -3,6 +3,16 @@ import { hashString } from './hash';
 import { CONSTS } from './consts';
 
 const MAX_REPEATED_CELLS = CONSTS.mX * 2;
+const TILE_SPAN = 2;
+const NEIGHBOUR_RANGE = TILE_SPAN - 1;
+
+export type PlaceCollisionKind = 'duplicate' | 'overlap';
+
+export interface PlaceCollision {
+	kind: PlaceCollisionKind;
+	place: Place;
+	other: Place;
+}
 
 function isPlaceValue(value: unknown): boolean {
 	return Number.isSafeInteger(value) && (value as number) >= 0;
@@ -57,6 +67,44 @@ function expandRepeatedCells(z: number, y: number, startX: number, count: number
 		{ length },
 		(_, index) => [z, startX + (index * 2), y] as Place
 	);
+}
+
+function placeKey(z: number, x: number, y: number): string {
+	return `${z}/${x}/${y}`;
+}
+
+function walkPlaceCollisions(mapping: Mapping, onCollision: (collision: PlaceCollision) => boolean): void {
+	const occupied = new Map<string, Place>();
+	for (const place of mapping) {
+		const [z, x, y] = place;
+		for (let dx = -NEIGHBOUR_RANGE; dx <= NEIGHBOUR_RANGE; dx++) {
+			for (let dy = -NEIGHBOUR_RANGE; dy <= NEIGHBOUR_RANGE; dy++) {
+				const other = occupied.get(placeKey(z, x + dx, y + dy));
+				if (other && onCollision({ kind: dx === 0 && dy === 0 ? 'duplicate' : 'overlap', place, other })) {
+					return;
+				}
+			}
+		}
+		occupied.set(placeKey(z, x, y), place);
+	}
+}
+
+export function findPlaceCollisions(mapping: Mapping): Array<PlaceCollision> {
+	const collisions: Array<PlaceCollision> = [];
+	walkPlaceCollisions(mapping, collision => {
+		collisions.push(collision);
+		return false;
+	});
+	return collisions;
+}
+
+export function hasPlaceCollisions(mapping: Mapping): boolean {
+	let collides = false;
+	walkPlaceCollisions(mapping, () => {
+		collides = true;
+		return true;
+	});
+	return collides;
 }
 
 export function mappingToID(mapping: Mapping): string {

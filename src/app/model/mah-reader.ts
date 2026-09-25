@@ -1,5 +1,5 @@
 import type { LoadLayout, MahFormat } from './types';
-import { isValidCompactMapping } from './mapping';
+import { expandMapping, hasPlaceCollisions, isValidCompactMapping } from './mapping';
 
 export const MAX_IMPORT_BOARDS = 2000;
 
@@ -12,6 +12,9 @@ export function isValidLoadLayout(board: unknown): board is LoadLayout {
 		return false;
 	}
 	if (!isValidCompactMapping(b.map)) {
+		return false;
+	}
+	if (hasPlaceCollisions(expandMapping(b.map))) {
 		return false;
 	}
 	if (b.id !== undefined && (typeof b.id !== 'string' || b.id.length > 200)) {

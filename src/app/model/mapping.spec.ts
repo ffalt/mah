@@ -1,5 +1,5 @@
-import { expandMapping, isValidCompactMapping, mappingToID, mappingBounds, mappingExtents } from './mapping';
-import type { CompactMapping, LoadLayout, Mapping } from './types';
+import { expandMapping, findPlaceCollisions, hasPlaceCollisions, isValidCompactMapping, mappingToID, mappingBounds, mappingExtents } from './mapping';
+import type { CompactMapping, LoadLayout, Mapping, Place } from './types';
 import { readFileSync } from 'node:fs';
 import { compactMapping } from '../modules/editor/model/import';
 import { describe, it, expect, test } from 'vitest';
@@ -135,6 +135,61 @@ describe('Mapping', () => {
 			const map = [[0, [[0, 'oops']]]] as unknown as CompactMapping;
 			expect(isValidCompactMapping(map)).toBe(false);
 			expect(expandMapping(map)).toEqual([[0, 'oops', 0]]);
+		});
+	});
+
+	describe('findPlaceCollisions', () => {
+		test.each(loadLayouts)('built-in board $name places no two tiles on top of each other', ({ map }) => {
+			expect(findPlaceCollisions(expandMapping(map))).toEqual([]);
+		});
+
+		it('reports nothing for an empty mapping', () => {
+			expect(findPlaceCollisions([])).toEqual([]);
+		});
+
+		it('reports nothing for tiles a full tile apart', () => {
+			expect(findPlaceCollisions([[0, 0, 0], [0, 2, 0], [0, 0, 2]])).toEqual([]);
+		});
+
+		it('reports nothing for the same spot on another level', () => {
+			expect(findPlaceCollisions([[0, 4, 4], [1, 4, 4]])).toEqual([]);
+		});
+
+		it('reports a duplicate place', () => {
+			expect(findPlaceCollisions([[0, 4, 4], [0, 4, 4]]))
+				.toEqual([{ kind: 'duplicate', place: [0, 4, 4], other: [0, 4, 4] }]);
+		});
+
+		it.each([
+			['half a tile to the right', [0, 5, 4]],
+			['half a tile down', [0, 4, 5]],
+			['half a tile diagonally', [0, 5, 5]],
+			['half a tile to the left', [0, 3, 4]],
+			['half a tile up', [0, 4, 3]]
+		] as Array<[string, Place]>)('reports an overlap %s', (_label, place) => {
+			expect(findPlaceCollisions([[0, 4, 4], place]))
+				.toEqual([{ kind: 'overlap', place, other: [0, 4, 4] }]);
+		});
+
+		it('reports every partner a tile collides with', () => {
+			expect(findPlaceCollisions([[0, 4, 4], [0, 6, 4], [0, 5, 4]])).toEqual([
+				{ kind: 'overlap', place: [0, 5, 4], other: [0, 4, 4] },
+				{ kind: 'overlap', place: [0, 5, 4], other: [0, 6, 4] }
+			]);
+		});
+	});
+
+	describe('hasPlaceCollisions', () => {
+		it('is false for a mapping without collisions', () => {
+			expect(hasPlaceCollisions([[0, 0, 0], [0, 2, 0], [1, 0, 0]])).toBe(false);
+		});
+
+		it('is true for a duplicate place', () => {
+			expect(hasPlaceCollisions([[0, 0, 0], [0, 0, 0]])).toBe(true);
+		});
+
+		it('is true for an overlapping place', () => {
+			expect(hasPlaceCollisions([[0, 0, 0], [0, 1, 1]])).toBe(true);
 		});
 	});
 

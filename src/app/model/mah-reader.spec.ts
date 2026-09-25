@@ -105,6 +105,32 @@ describe('isValidLoadLayout', () => {
 		expect(isValidLoadLayout({ name: 'Test', map: VALID_MAP, cat: 'a'.repeat(201) })).toBe(false);
 	});
 
+	describe('colliding tiles', () => {
+		it('returns false when two tiles share a place', () => {
+			expect(isValidLoadLayout({ name: 'Test', map: [[0, [[0, [4, 4]]]]] })).toBe(false);
+		});
+
+		it('returns false when a repeated cell run lands on a literal already in the row', () => {
+			expect(isValidLoadLayout({ name: 'Test', map: [[0, [[0, [[0, 6], 10]]]]] })).toBe(false);
+		});
+
+		it('returns false when two tiles overlap by half a tile in a row', () => {
+			expect(isValidLoadLayout({ name: 'Test', map: [[0, [[0, [4, 5]]]]] })).toBe(false);
+		});
+
+		it('returns false when two tiles overlap by half a tile across rows', () => {
+			expect(isValidLoadLayout({ name: 'Test', map: [[0, [[0, 4], [1, 5]]]] })).toBe(false);
+		});
+
+		it('returns true when tiles sit a full tile apart', () => {
+			expect(isValidLoadLayout({ name: 'Test', map: [[0, [[0, [4, 6]], [2, 4]]]] })).toBe(true);
+		});
+
+		it('returns true when tiles share a place on different levels', () => {
+			expect(isValidLoadLayout({ name: 'Test', map: [[0, [[0, 4]]], [1, [[0, 4]]]] })).toBe(true);
+		});
+	});
+
 	it('returns true for a valid minimal board (name + map)', () => {
 		expect(isValidLoadLayout({ name: 'Test', map: VALID_MAP })).toBe(true);
 	});
@@ -199,6 +225,11 @@ describe('parseMahFormat', () => {
 		const boards = Array.from({ length: MAX_IMPORT_BOARDS + 1 }, (_, index) => makeBoard({ id: `id-${index}` }));
 		expect(() => parseMahFormat(JSON.stringify(makeMah(boards))))
 			.toThrow(`Import failed: Too many boards (${MAX_IMPORT_BOARDS + 1}), maximum is ${MAX_IMPORT_BOARDS}`);
+	});
+
+	it('throws on a board whose tiles collide', () => {
+		expect(() => parseMahFormat(JSON.stringify(makeMah([makeBoard({ map: [[0, [[0, [4, 5]]]]] })]))))
+			.toThrow('Import failed: Board entry has invalid structure');
 	});
 
 	it('throws on an invalid board instead of skipping it', () => {
