@@ -156,6 +156,53 @@ describe('LayoutListComponent', () => {
 		expect(text()).toContain('Tiere');
 		expect(text()).not.toContain('Animals');
 	});
+	describe('category chip bar', () => {
+		beforeEach(() => {
+			fixture.componentRef.setInput('layouts', [makeLayout('A', 'Cat1'), makeLayout('B', 'Cat2'), makeLayout('C', 'Cat3')]);
+			fixture.detectChanges();
+		});
+
+		it('focuses the group header when a chip is selected', () => {
+			vi.spyOn(component, 'scrollToElement').mockImplementation(() => undefined);
+
+			component.onChipSelected(1);
+
+			expect(document.activeElement).toBe((fixture.nativeElement as HTMLElement).querySelector('#group-name-1'));
+		});
+
+		it('tracks the group scrolled to the top for the chip bar reveal', () => {
+			vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => {
+				callback(0);
+				return 0;
+			});
+			const host = component.scrollHost().nativeElement;
+			const tops = [-200, -100, 50, 400];
+			host.querySelectorAll(':scope .group').forEach((element, index) => {
+				vi.spyOn(element, 'getBoundingClientRect').mockReturnValue({ top: tops[index] } as DOMRect);
+			});
+			vi.spyOn(host, 'getBoundingClientRect').mockReturnValue({ top: 0 } as DOMRect);
+
+			host.dispatchEvent(new Event('scroll'));
+
+			expect(component.topGroupIndex()).toBe(1);
+			vi.unstubAllGlobals();
+		});
+
+		it('applies wheel deltas that ran past the chip bar ends to the board list', () => {
+			let boardTop = 100;
+			Object.defineProperty(component.scrollHost().nativeElement, 'scrollTop', {
+				get: () => boardTop,
+				set: value => {
+					boardTop = value;
+				}
+			});
+
+			component.onChipWheelPastEnd(-60);
+
+			expect(boardTop).toBe(40);
+		});
+	});
+
 	describe('keyboard navigation', () => {
 		beforeEach(() => {
 			fixture.componentRef.setInput('layouts', [makeLayout('A', 'Cat1'), makeLayout('B', 'Cat1'), makeLayout('C', 'Cat2')]);

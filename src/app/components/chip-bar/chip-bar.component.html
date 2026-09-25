@@ -1,0 +1,44 @@
+<div class="chipbar-wrap" [class.expanded]="expanded()">
+	@if (chipsOverflow()) {
+		<button
+			type="button"
+			class="chip-arrow"
+			[disabled]="!canScrollLeft()"
+			[attr.aria-label]="'SCROLL_CATEGORIES_LEFT' | translate"
+			(click)="scrollChips(-1)"
+		>‹</button>
+	}
+	<nav
+		#navBar
+		class="headline-anchors"
+		[class.dragging]="dragActive()"
+		[class.fits]="!chipsOverflow() || expanded()"
+		(scroll)="onNavScroll()"
+		(wheel)="onNavWheel($event)"
+		(window:resize)="updateArrows()"
+		(pointerdown)="onNavPointerDown($event)"
+		(pointermove)="onNavPointerMove($event)"
+		(pointerup)="onNavPointerUp($event)"
+		(pointercancel)="onNavPointerUp($event)"
+		[attr.aria-label]="navLabel()"
+	>
+		@for (item of items(); track item.name; let i = $index) {
+			<a [href]="'#' + anchorPrefix() + i" draggable="false" (click)="selectItem($event, i)">{{ item.isRandom ? ('RANDOM_GROUP' | translate) : (item.name | translateGroup:translate.currentLang()) }}</a>
+		}
+	</nav>
+	@if (chipsOverflow()) {
+		<button
+			type="button"
+			class="chip-arrow"
+			[disabled]="!canScrollRight()"
+			[attr.aria-label]="'SCROLL_CATEGORIES_RIGHT' | translate"
+			(click)="scrollChips(1)"
+		>›</button>
+		<button
+			type="button"
+			class="show-all-toggle"
+			[attr.aria-expanded]="expanded()"
+			(click)="toggleShowAll()"
+		>{{ (expanded() ? 'SHOW_LESS' : 'SHOW_ALL') | translate }}</button>
+	}
+</div>

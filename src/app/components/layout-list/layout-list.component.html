@@ -1,11 +1,14 @@
 @if (groups().length > 1) {
-	<nav class="headline-anchors" [attr.aria-label]="'CATEGORIES' | translate">
-		@for (group of groups(); track group.name; let i = $index) {
-			<a [href]="'#group-' + i" (click)="scrollToGroup($event, i)">{{ group.isRandom ? ('RANDOM_GROUP' | translate) : (group.name | translateGroup:translate.currentLang()) }}</a>
-		}
-	</nav>
+	<app-chip-bar
+		[items]="chipItems()"
+		anchorPrefix="group-"
+		[navLabel]="'CATEGORIES' | translate"
+		[revealIndex]="topGroupIndex()"
+		(itemSelected)="onChipSelected($event)"
+		(wheelPastEnd)="onChipWheelPastEnd($event)"
+	/>
 }
-<div #scrollHost class="groups">
+<div #scrollHost class="groups" (scroll)="onGroupsScroll()">
 	@for (group of groups(); track group.name; let i = $index) {
 		<div class="group" id="group-{{i}}">
 			@if (groups().length > 1) {

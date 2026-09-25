@@ -1,0 +1,118 @@
+:host {
+	display: block;
+	width: 100%;
+
+	.chipbar-wrap {
+		display: flex;
+		align-items: stretch;
+		width: 100%;
+		border-bottom: 1px solid var(--card-layout-color-border);
+
+		&.expanded {
+			.headline-anchors {
+				flex-wrap: wrap;
+				overflow-x: visible;
+			}
+
+			.chip-arrow {
+				visibility: hidden;
+			}
+		}
+	}
+
+	.headline-anchors {
+		display: flex;
+		flex: 1;
+		min-width: 0;
+		align-items: center;
+		gap: 4px;
+		padding: 4px;
+		overflow-x: auto;
+		scrollbar-width: none;
+		color: var(--main-content-text-color);
+		white-space: nowrap;
+		user-select: none;
+		cursor: grab;
+
+		// only when nothing overflows, otherwise centering would clip the first chips
+		&.fits {
+			justify-content: center;
+		}
+
+		&.dragging, &.dragging a {
+			cursor: grabbing;
+		}
+
+		a {
+			flex: 0 0 auto;
+			padding: 3px 10px;
+			font-size: 0.85em;
+			cursor: pointer;
+			text-align: center;
+			text-decoration: none;
+			color: var(--main-content-text-color);
+			background-color: var(--dialog-background-color-hover);
+			border: 1px solid transparent;
+			border-radius: 6px;
+			user-select: none;
+
+			&:hover {
+				border-color: var(--dialog-headline-color);
+				color: var(--dialog-headline-color);
+			}
+
+			&:focus-visible {
+				outline: 2px solid var(--focus-ring-color);
+				outline-offset: -2px;
+			}
+		}
+	}
+
+	.chip-arrow {
+		appearance: none;
+		flex: 0 0 auto;
+		border: none;
+		background: none;
+		color: var(--main-content-text-color-muted);
+		font: inherit;
+		font-size: 1em;
+		padding: 0 8px;
+		min-height: unset;
+		cursor: pointer;
+
+		&:hover:not(:disabled), &:focus-visible:not(:disabled) {
+			color: var(--dialog-headline-color);
+			background-color: var(--dialog-background-color-hover);
+		}
+
+		&:disabled {
+			opacity: 0.25;
+			cursor: default;
+		}
+	}
+
+	.show-all-toggle {
+		appearance: none;
+		flex: 0 0 auto;
+		border: none;
+		border-left: 1px solid var(--card-layout-color-border);
+		background: none;
+		color: var(--dialog-headline-color);
+		font: inherit;
+		font-size: 0.85em;
+		font-weight: 600;
+		padding: 0 12px;
+		min-height: unset;
+		white-space: nowrap;
+		cursor: pointer;
+
+		&:hover, &:focus-visible {
+			background-color: var(--dialog-background-color-hover);
+		}
+
+		&:focus-visible {
+			outline: 2px solid var(--focus-ring-color);
+			outline-offset: -2px;
+		}
+	}
+}

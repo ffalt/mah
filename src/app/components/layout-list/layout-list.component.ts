@@ -11,6 +11,7 @@ import { TranslateGroupPipe } from '../../pipes/translate-group.pipe';
 import { LayoutListItemComponent } from '../layout-list-item/layout-list-item.component';
 import { IconMirrorVerticalComponent } from '../icons/icon-mirror-vertical.component';
 import { IconMirrorHorizontalComponent } from '../icons/icon-mirror-horizontal.component';
+import { ChipBarComponent, type ChipItem } from '../chip-bar/chip-bar.component';
 
 const CARD = '[app-layout-list-item]';
 const GROUP_NAME = '.group-name';
@@ -56,7 +57,8 @@ export interface RandomLayoutGroup extends LayoutGroup {
 	imports: [
 		TranslatePipe, TranslateGroupPipe,
 		DeferLoadScrollHostDirective, LayoutListItemComponent,
-		IconMirrorVerticalComponent, IconMirrorHorizontalComponent
+		IconMirrorVerticalComponent, IconMirrorHorizontalComponent,
+		ChipBarComponent
 	]
 })
 export class LayoutListComponent implements OnInit, OnChanges {
@@ -64,6 +66,9 @@ export class LayoutListComponent implements OnInit, OnChanges {
 	readonly startEvent = output<Layout>();
 	readonly scrollHost = viewChild.required<ElementRef<HTMLElement>>('scrollHost');
 	readonly groups = signal<Array<LayoutGroup>>([]);
+	readonly chipItems = computed<Array<ChipItem>>(() => this.groups().map(group => ({ name: group.name, isRandom: group.isRandom })));
+	// the group currently scrolled to the top, followed by the chip bar
+	readonly topGroupIndex = signal(-1);
 	readonly randomMirrorX = signal('random');
 	readonly randomMirrorY = signal('random');
 	readonly randomGroup: RandomLayoutGroup = {
@@ -90,6 +95,7 @@ export class LayoutListComponent implements OnInit, OnChanges {
 		return stop?.startsWith(CARD_ID_PREFIX) ? stop.slice(CARD_ID_PREFIX.length) : undefined;
 	});
 
+	private scrollSpyScheduled = false;
 	private readonly storage = inject(LocalstorageService);
 	protected readonly translate = inject(TranslateService);
 	private readonly layoutService = inject(LayoutService);
@@ -258,8 +264,7 @@ export class LayoutListComponent implements OnInit, OnChanges {
 		});
 	}
 
-	scrollToGroup(event: Event, index: number): void {
-		event.preventDefault();
+	onChipSelected(index: number): void {
 		const element = document.getElementById(`group-${index}`);
 		if (!element) {
 			return;
@@ -268,6 +273,35 @@ export class LayoutListComponent implements OnInit, OnChanges {
 		const stop = element.querySelector<HTMLElement>(ROW_STOPS);
 		this.activeStopId.set(stop?.id);
 		stop?.focus();
+	}
+
+	onChipWheelPastEnd(deltaY: number): void {
+		this.scrollHost().nativeElement.scrollTop += deltaY;
+	}
+
+	onGroupsScroll(): void {
+		if (this.scrollSpyScheduled) {
+			return;
+		}
+		this.scrollSpyScheduled = true;
+		requestAnimationFrame(() => {
+			this.scrollSpyScheduled = false;
+			this.syncTopGroup();
+		});
+	}
+
+	private syncTopGroup(): void {
+		const host = this.scrollHost().nativeElement;
+		const hostTop = host.getBoundingClientRect().top;
+		const headers = host.querySelectorAll(':scope .group');
+		let index = 0;
+		for (const [groupIndex, element] of headers.entries()) {
+			if (element.getBoundingClientRect().top - hostTop > 8) {
+				break;
+			}
+			index = groupIndex;
+		}
+		this.topGroupIndex.set(index);
 	}
 
 	scrollToItem(id: string): void {

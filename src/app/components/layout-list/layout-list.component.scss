@@ -8,42 +8,8 @@
 	border: 1px solid var(--card-layout-color-border);
 	border-radius: 4px;
 
-	.headline-anchors {
-		border-bottom: 1px solid var(--card-layout-color-border);
-		width: 100%;
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-		padding-top: 2px;
-		padding-bottom: 2px;
-		color: var(--dialog-text-color);
-		white-space: nowrap;
-
-		a {
-			display: block;
-			flex: 1 1 140px;
-			padding: 2px 4px 6px;
-			font-size: 0.9em;
-			cursor: pointer;
-			text-align: center;
-			text-decoration: none;
-
-			&:hover {
-				color: var(--dialog-headline-color);
-				background-color: var(--dialog-background-color-hover);
-			}
-		}
-
-		@include mixins.respond-to(large-down) {
-			justify-content: center;
-		}
-
-		@include mixins.respond-to-horizontal-device(pad) {
-			display: none;
-		}
-
-		@include mixins.respond-to(medium-down) {
-			display: none;
-		}
+	app-chip-bar {
+		margin-bottom: 6px;
 	}
 
 	.groups {
