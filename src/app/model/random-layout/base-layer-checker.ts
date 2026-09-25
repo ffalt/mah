@@ -114,10 +114,11 @@ function addUpToTarget(present: Set<string>, candidates: Array<Place>, baseCount
 	let count = baseCount;
 	while (count < targetBase && candidates.length > 0) {
 		const [, x, y] = candidates.pop()!;
-		if (!blocksOverlap(present, 0, x, y)) {
-			present.add(key(0, x, y));
-			count++;
+		if (blocksOverlap(present, 0, x, y)) {
+			continue;
 		}
+		present.add(key(0, x, y));
+		count++;
 	}
 	return count;
 }

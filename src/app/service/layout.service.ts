@@ -26,13 +26,13 @@ export class LayoutService {
 
 	layouts: Layouts = { items: [] };
 	loaded = false;
-	selectBoardID?: string | null;
+	selectLayoutID?: string | null;
 
 	async get(): Promise<Layouts> {
 		if (this.loaded) {
 			return this.layouts;
 		}
-		const loadLayouts: Array<LoadLayout> | undefined = await this.requestBoards();
+		const loadLayouts: Array<LoadLayout> | undefined = await this.requestLayouts();
 		this.layouts = {
 			items: [
 				...this.expandLayouts(loadLayouts ?? []),
@@ -87,18 +87,19 @@ export class LayoutService {
 		return this.storage.getCustomLayouts() || [];
 	}
 
-	storeCustomBoards(list: Array<LoadLayout>): number {
+	storeCustomLayouts(list: Array<LoadLayout>): number {
 		const customLayouts = this.loadCustomLayouts();
 		const known = new Set(this.expandLayouts(customLayouts, true).map(layout => layout.id));
 		const added: Array<LoadLayout> = [];
 		const expanded: Array<Layout> = [];
 		for (const layout of list) {
 			const expandedLayout = this.expandLayout(layout, true);
-			if (!known.has(expandedLayout.id)) {
-				known.add(expandedLayout.id);
-				added.push(layout);
-				expanded.push(expandedLayout);
+			if (known.has(expandedLayout.id)) {
+				continue;
 			}
+			known.add(expandedLayout.id);
+			added.push(layout);
+			expanded.push(expandedLayout);
 		}
 		if (added.length === 0) {
 			return 0;
@@ -112,7 +113,7 @@ export class LayoutService {
 		return this.sanitizer.bypassSecurityTrustUrl(generateBase64SVG(mapping)) as SafeUrlSVG;
 	}
 
-	private async requestBoards(): Promise<Array<LoadLayout> | undefined> {
+	private async requestLayouts(): Promise<Array<LoadLayout> | undefined> {
 		try {
 			return await firstValueFrom(this.http.get<Array<LoadLayout>>('assets/data/boards.json'));
 		} catch (error) {

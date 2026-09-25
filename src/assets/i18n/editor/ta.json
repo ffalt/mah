@@ -1,6 +1,6 @@
 {
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL": "அனைத்து தனிப்பயன் பலகைகளையும் நீக்கு",
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL_SURE": "அனைத்து தனிப்பயன் பலகைகளையும் நீக்கு?\nஇதை மீட்க இயலாது.",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL": "அனைத்து தனிப்பயன் பலகைகளையும் நீக்கு",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL_SURE": "அனைத்து தனிப்பயன் பலகைகளையும் நீக்கு?\nஇதை மீட்க இயலாது.",
 	"EDITOR_TITLE": "Mah எடிட்டர்",
 	"EDITOR_NEW": "புதியது",
 	"EDITOR_NEW_LONG": "புதிய பலகை",
@@ -53,6 +53,6 @@
 	"EDITOR_TEST_CANCEL": "ரத்துசெய்",
 	"EDITOR_TEST_SOLVED": "தீர்க்கப்பட்டது",
 	"EDITOR_TEST_FAILED": "தோல்வி",
-	"EDITOR_NO_BOARDS": "காட்ட பலகைகள் இல்லை",
-	"EDITOR_NO_BOARDS_HINT": "தொடங்க புதிய பலகையை உருவாக்கவும் அல்லது கோப்பிலிருந்து இறக்குமதி செய்யவும்."
+	"EDITOR_NO_LAYOUTS": "காட்ட பலகைகள் இல்லை",
+	"EDITOR_NO_LAYOUTS_HINT": "தொடங்க புதிய பலகையை உருவாக்கவும் அல்லது கோப்பிலிருந்து இறக்குமதி செய்யவும்."
 }

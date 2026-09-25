@@ -1,6 +1,6 @@
 {
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL": "Minden egyéni tábla törlése",
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL_SURE": "Minden egyéni tábla törlése?\nEzt nem lehet visszavonni.",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL": "Minden egyéni tábla törlése",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL_SURE": "Minden egyéni tábla törlése?\nEzt nem lehet visszavonni.",
 	"EDITOR_TITLE": "Mah szerkesztő",
 	"EDITOR_NEW": "Új",
 	"EDITOR_NEW_LONG": "Új tábla",
@@ -53,6 +53,6 @@
 	"EDITOR_TEST_CANCEL": "Mégse",
 	"EDITOR_TEST_SOLVED": "Megoldva",
 	"EDITOR_TEST_FAILED": "Sikertelen",
-	"EDITOR_NO_BOARDS": "Nincs megjeleníthető tábla",
-	"EDITOR_NO_BOARDS_HINT": "Hozzon létre új táblát, vagy importáljon egyet fájlból a kezdéshez."
+	"EDITOR_NO_LAYOUTS": "Nincs megjeleníthető tábla",
+	"EDITOR_NO_LAYOUTS_HINT": "Hozzon létre új táblát, vagy importáljon egyet fájlból a kezdéshez."
 }

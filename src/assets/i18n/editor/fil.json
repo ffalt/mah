@@ -1,6 +1,6 @@
 {
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL": "Burahin lahat ng custom board",
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL_SURE": "Burahin lahat ng custom board?\nHindi na ito maibabalik.",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL": "Burahin lahat ng custom board",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL_SURE": "Burahin lahat ng custom board?\nHindi na ito maibabalik.",
 	"EDITOR_TITLE": "Mah Editor",
 	"EDITOR_NEW": "Bago",
 	"EDITOR_NEW_LONG": "Bagong board",
@@ -53,6 +53,6 @@
 	"EDITOR_TEST_CANCEL": "Kanselahin",
 	"EDITOR_TEST_SOLVED": "Nalutas",
 	"EDITOR_TEST_FAILED": "Nabigo",
-	"EDITOR_NO_BOARDS": "Walang board na maipapakita",
-	"EDITOR_NO_BOARDS_HINT": "Gumawa ng bagong board o mag-import ng isa mula sa file para magsimula."
+	"EDITOR_NO_LAYOUTS": "Walang board na maipapakita",
+	"EDITOR_NO_LAYOUTS_HINT": "Gumawa ng bagong board o mag-import ng isa mula sa file para magsimula."
 }

@@ -1,6 +1,6 @@
 {
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL": "تمام حسب ضرورت بورڈ حذف کریں",
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL_SURE": "تمام حسب ضرورت بورڈ حذف کریں?\nیہ واپس نہیں ہو سکتا۔",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL": "تمام حسب ضرورت بورڈ حذف کریں",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL_SURE": "تمام حسب ضرورت بورڈ حذف کریں?\nیہ واپس نہیں ہو سکتا۔",
 	"EDITOR_TITLE": "ماہ ایڈیٹر",
 	"EDITOR_NEW": "نیا",
 	"EDITOR_NEW_LONG": "نیا بورڈ",
@@ -53,6 +53,6 @@
 	"EDITOR_TEST_CANCEL": "منسوخ",
 	"EDITOR_TEST_SOLVED": "حل ہو گیا",
 	"EDITOR_TEST_FAILED": "ناکام",
-	"EDITOR_NO_BOARDS": "دکھانے کے لیے کوئی بورڈ نہیں",
-	"EDITOR_NO_BOARDS_HINT": "شروع کرنے کے لیے نیا بورڈ بنائیں یا فائل سے درآمد کریں۔"
+	"EDITOR_NO_LAYOUTS": "دکھانے کے لیے کوئی بورڈ نہیں",
+	"EDITOR_NO_LAYOUTS_HINT": "شروع کرنے کے لیے نیا بورڈ بنائیں یا فائل سے درآمد کریں۔"
 }

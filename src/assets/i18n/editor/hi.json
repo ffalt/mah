@@ -1,6 +1,6 @@
 {
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL": "सभी कस्टम बोर्ड हटाएँ",
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL_SURE": "सभी कस्टम बोर्ड हटाएँ?\nयह पूर्ववत नहीं किया जा सकता।",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL": "सभी कस्टम बोर्ड हटाएँ",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL_SURE": "सभी कस्टम बोर्ड हटाएँ?\nयह पूर्ववत नहीं किया जा सकता।",
 	"EDITOR_TITLE": "माह संपादक",
 	"EDITOR_NEW": "नया",
 	"EDITOR_NEW_LONG": "नया बोर्ड",
@@ -53,6 +53,6 @@
 	"EDITOR_TEST_CANCEL": "रद्द करें",
 	"EDITOR_TEST_SOLVED": "हल किया गया",
 	"EDITOR_TEST_FAILED": "विफल",
-	"EDITOR_NO_BOARDS": "दिखाने के लिए कोई बोर्ड नहीं",
-	"EDITOR_NO_BOARDS_HINT": "शुरू करने के लिए नया बोर्ड बनाएँ या फ़ाइल से आयात करें।"
+	"EDITOR_NO_LAYOUTS": "दिखाने के लिए कोई बोर्ड नहीं",
+	"EDITOR_NO_LAYOUTS_HINT": "शुरू करने के लिए नया बोर्ड बनाएँ या फ़ाइल से आयात करें।"
 }

@@ -1,6 +1,6 @@
 {
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL": "删除所有自定义牌局",
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL_SURE": "删除所有自定义牌局？\n此操作无法撤销。",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL": "删除所有自定义牌局",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL_SURE": "删除所有自定义牌局？\n此操作无法撤销。",
 	"EDITOR_TITLE": "麻将编辑器",
 	"EDITOR_NEW": "新建",
 	"EDITOR_NEW_LONG": "新建牌局",
@@ -53,6 +53,6 @@
 	"EDITOR_TEST_CANCEL": "取消",
 	"EDITOR_TEST_SOLVED": "已解决",
 	"EDITOR_TEST_FAILED": "失败",
-	"EDITOR_NO_BOARDS": "没有可显示的牌局",
-	"EDITOR_NO_BOARDS_HINT": "创建新牌局或从文件导入以开始。"
+	"EDITOR_NO_LAYOUTS": "没有可显示的牌局",
+	"EDITOR_NO_LAYOUTS_HINT": "创建新牌局或从文件导入以开始。"
 }

@@ -49,10 +49,11 @@ export class EditorComponent {
 		}
 		const layoutComponent = this.layoutComponent();
 		const hasChanged = this.layout() && layoutComponent?.hasChanged;
-		if (!hasChanged || confirm(this.translate.instant('EDITOR_DISCARD_CHANGES_SURE'))) {
-			this.layout.set(undefined);
-			this.mode.set('manager');
+		if (hasChanged && !confirm(this.translate.instant('EDITOR_DISCARD_CHANGES_SURE'))) {
+			return;
 		}
+		this.layout.set(undefined);
+		this.mode.set('manager');
 	}
 
 	editLayout(layout: Layout) {

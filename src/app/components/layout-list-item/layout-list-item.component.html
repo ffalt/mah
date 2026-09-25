@@ -1,8 +1,8 @@
 @if (item().visible()) {
 	@if (random()) {
-		<app-layout-preview class="svg-board" [svg]="previewSVG()" [alt]="name()"></app-layout-preview>
+		<app-layout-preview [svg]="previewSVG()" [alt]="name()"></app-layout-preview>
 	} @else {
-		<app-layout-preview class="svg-board" [layout]="item().layout" [alt]="name()"></app-layout-preview>
+		<app-layout-preview [layout]="item().layout" [alt]="name()"></app-layout-preview>
 	}
 } @else {
 	<div class="preview-placeholder" [class.selected]="item().selected()"></div>
@@ -32,8 +32,8 @@
 			tabindex="-1"
 			class="preview-custom-delete"
 			(click)="onRemoveCustom($event)"
-			title="{{ 'CUSTOM_BOARD_DELETE' | translate }}"
-			[attr.aria-label]="'CUSTOM_BOARD_DELETE' | translate"
+			title="{{ 'CUSTOM_LAYOUT_DELETE' | translate }}"
+			[attr.aria-label]="'CUSTOM_LAYOUT_DELETE' | translate"
 		>
 			<app-icon-delete/>
 		</button>

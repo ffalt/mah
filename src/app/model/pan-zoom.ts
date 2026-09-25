@@ -116,10 +116,11 @@ export class PanZoom {
 				this.isPanning = true;
 			}
 		}
-		if (this.isPanning) {
-			event.preventDefault();
-			this.updatePanning(event);
+		if (!this.isPanning) {
+			return;
 		}
+		event.preventDefault();
+		this.updatePanning(event);
 	}
 
 	onMouseUp(event: MouseEvent): boolean {
@@ -264,13 +265,14 @@ export class PanZoom {
 		}
 
 		this.touchPoints = this.extractTouchPoints(event.touches);
-		if (this.touchPoints.length === 0) {
-			this.hasTouchPanMoved = false;
-			this.hasPinchChanged = false;
-			this.hasMultiTouch = false;
-			this.initialTouchX = 0;
-			this.initialTouchY = 0;
+		if (this.touchPoints.length > 0) {
+			return;
 		}
+		this.hasTouchPanMoved = false;
+		this.hasPinchChanged = false;
+		this.hasMultiTouch = false;
+		this.initialTouchX = 0;
+		this.initialTouchY = 0;
 	}
 
 	updatePanning(event: MouseEvent): void {

@@ -53,10 +53,7 @@ function mirrorBaseLayer(mirrorX: boolean, mirrorY: boolean, baseLayer: Mapping)
 			return;
 		}
 		const k0 = key(z, x, y);
-		if (present.has(k0)) {
-			return;
-		}
-		if (blocksOverlap(present, z, x, y)) {
+		if (present.has(k0) || blocksOverlap(present, z, x, y)) {
 			return;
 		}
 		present.add(k0);

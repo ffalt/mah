@@ -1,32 +1,23 @@
 import type { LoadLayout, MahFormat } from './types';
 import { expandMapping, hasPlaceCollisions, isValidCompactMapping } from './mapping';
 
-export const MAX_IMPORT_BOARDS = 2000;
+export const MAX_IMPORT_LAYOUTS = 2000;
 
-export function isValidLoadLayout(board: unknown): board is LoadLayout {
-	if (!board || typeof board !== 'object' || Array.isArray(board)) {
+export function isValidLoadLayout(o: unknown): o is LoadLayout {
+	if (!o || typeof o !== 'object' || Array.isArray(o)) {
 		return false;
 	}
-	const b = board as Record<string, unknown>;
-	if (typeof b.name !== 'string' || b.name.trim() === '' || b.name.length > 200) {
-		return false;
-	}
-	if (!isValidCompactMapping(b.map)) {
-		return false;
-	}
-	if (hasPlaceCollisions(expandMapping(b.map))) {
-		return false;
-	}
-	if (b.id !== undefined && (typeof b.id !== 'string' || b.id.length > 200)) {
-		return false;
-	}
-	if (b.by !== undefined && (typeof b.by !== 'string' || b.by.length > 200)) {
-		return false;
-	}
-	if (b.cat !== undefined && (typeof b.cat !== 'string' || b.cat.length > 200)) {
-		return false;
-	}
-	return true;
+	const layout = o as Record<string, unknown>;
+	return !(
+		typeof layout.name !== 'string' ||
+		layout.name.trim() === '' ||
+		layout.name.length > 200 ||
+		!isValidCompactMapping(layout.map) ||
+		hasPlaceCollisions(expandMapping(layout.map)) ||
+		(layout.id !== undefined && (typeof layout.id !== 'string' || layout.id.length > 200)) ||
+		(layout.by !== undefined && (typeof layout.by !== 'string' || layout.by.length > 200)) ||
+		(layout.cat !== undefined && (typeof layout.cat !== 'string' || layout.cat.length > 200))
+	);
 }
 
 export function parseMahFormat(jsonString: string): MahFormat {
@@ -47,14 +38,14 @@ export function parseMahFormat(jsonString: string): MahFormat {
 		throw new TypeError('Import failed: Missing or invalid boards array');
 	}
 	if (mah.boards.length === 0) {
-		throw new Error('Import failed: No boards found in import data');
+		throw new Error('Import failed: No layouts found in import data');
 	}
-	if (mah.boards.length > MAX_IMPORT_BOARDS) {
-		throw new Error(`Import failed: Too many boards (${mah.boards.length}), maximum is ${MAX_IMPORT_BOARDS}`);
+	if (mah.boards.length > MAX_IMPORT_LAYOUTS) {
+		throw new Error(`Import failed: Too many layouts (${mah.boards.length}), maximum is ${MAX_IMPORT_LAYOUTS}`);
 	}
 	for (const board of mah.boards) {
 		if (!isValidLoadLayout(board)) {
-			throw new Error('Import failed: Board entry has invalid structure');
+			throw new Error('Import failed: Layout entry has invalid structure');
 		}
 	}
 	return mah;

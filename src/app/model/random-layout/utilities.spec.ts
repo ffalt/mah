@@ -194,7 +194,7 @@ describe('generateBaseLayerWithShapes', () => {
 			let call = 0;
 			const alternating: CellsFunction = (x0, y0) => {
 				call++;
-				return call % 2 === 0 ? [[x0 + 2, y0]] : [[x0, y0]];
+				return [[call % 2 === 0 ? x0 + 2 : x0, y0]];
 			};
 
 			const mapping = generateBaseLayerWithShapes(

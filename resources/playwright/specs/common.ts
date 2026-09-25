@@ -2,7 +2,7 @@ import { expect, type Locator, type Page, test } from '@playwright/test';
 import path from 'node:path';
 import fs from 'node:fs';
 
-interface BoardDefinition {
+interface LayoutDefinition {
 	id: string;
 	name: string;
 	cat: string;
@@ -163,10 +163,10 @@ export async function closeOverlay(overlay: Locator) {
 	await expect(overlay).toBeHidden({ timeout: 1000 });
 }
 
-export function loadBoards(): Array<BoardDefinition> {
+export function loadLayouts(): Array<LayoutDefinition> {
 	const file = path.resolve(__dirname, '../../../src/assets/data/boards.json');
 	const raw = fs.readFileSync(file, 'utf8');
-	return JSON.parse(raw) as Array<BoardDefinition>;
+	return JSON.parse(raw) as Array<LayoutDefinition>;
 }
 
 export async function sleep(ms: number): Promise<void> {

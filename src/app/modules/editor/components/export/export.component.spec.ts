@@ -18,7 +18,7 @@ const editLayout: EditLayout = {
 const mockLayoutService = {
 	layouts: { items: [] },
 	getPreview: vi.fn(),
-	storeCustomBoards: vi.fn(() => 1),
+	storeCustomLayouts: vi.fn(() => 1),
 	removeCustomLayout: vi.fn()
 };
 
@@ -108,7 +108,7 @@ describe('ExportComponent', () => {
 	});
 
 	describe('saveAsCopy()', () => {
-		it('calls storeCustomBoards, sets originalId, and emits savedEvent', () => {
+		it('calls storeCustomLayouts, sets originalId, and emits savedEvent', () => {
 			const layout = { ...editLayout };
 			init(layout);
 			const savedEvents: Array<boolean> = [];
@@ -118,7 +118,7 @@ describe('ExportComponent', () => {
 
 			component.saveAsCopy();
 
-			expect(layoutService.storeCustomBoards).toHaveBeenCalledWith([component.exportLayout()]);
+			expect(layoutService.storeCustomLayouts).toHaveBeenCalledWith([component.exportLayout()]);
 			expect(layout.originalId).toBe(component.exportLayout()?.id);
 			expect(savedEvents).toHaveLength(1);
 			expect(savedEvents[0]).toBe(true);
@@ -140,7 +140,7 @@ describe('ExportComponent', () => {
 			component.saveAsCopy();
 
 			expect(alertSpy).toHaveBeenCalledWith('built-in exists');
-			expect(layoutService.storeCustomBoards).not.toHaveBeenCalled();
+			expect(layoutService.storeCustomLayouts).not.toHaveBeenCalled();
 			expect(layout.originalId).toBeUndefined();
 			expect(savedEvents).toHaveLength(0);
 		});
@@ -151,9 +151,9 @@ describe('ExportComponent', () => {
 			init(layout);
 			const alertSpy = vi.spyOn(window, 'alert').mockImplementation(() => undefined);
 			alertSpy.mockClear();
-			layoutService.storeCustomBoards.mockClear();
+			layoutService.storeCustomLayouts.mockClear();
 			vi.spyOn(translateService, 'instant').mockReturnValue('already saved');
-			layoutService.storeCustomBoards.mockReturnValueOnce(0);
+			layoutService.storeCustomLayouts.mockReturnValueOnce(0);
 			const savedEvents: Array<boolean> = [];
 			component.savedEvent.subscribe((isCalled: boolean) => {
 				savedEvents.push(isCalled);
@@ -161,7 +161,7 @@ describe('ExportComponent', () => {
 
 			component.saveAsCopy();
 
-			expect(layoutService.storeCustomBoards).toHaveBeenCalledWith([component.exportLayout()]);
+			expect(layoutService.storeCustomLayouts).toHaveBeenCalledWith([component.exportLayout()]);
 			expect(alertSpy).toHaveBeenCalledWith('already saved');
 			expect(savedEvents).toHaveLength(0);
 			expect(layout.originalId).toBeUndefined();

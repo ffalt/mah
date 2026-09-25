@@ -194,10 +194,7 @@ export class Game {
 	}
 
 	hint(): boolean {
-		if (!this.allowsHint()) {
-			return false;
-		}
-		if (!this.isRunning()) {
+		if (!this.allowsHint() || !this.isRunning()) {
 			return false;
 		}
 		this.board.hint();
@@ -365,10 +362,7 @@ export class Game {
 	}
 
 	private shuffleBoard(): boolean {
-		if (!this.allowsShuffle()) {
-			return false;
-		}
-		if (!this.board.shuffle()) {
+		if (!this.allowsShuffle() || !this.board.shuffle()) {
 			return false;
 		}
 		this.sound.play(SOUNDS.SHUFFLE);

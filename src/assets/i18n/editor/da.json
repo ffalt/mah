@@ -1,6 +1,6 @@
 {
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL": "Slet alle brugerdefinerede brætter",
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL_SURE": "Slet alle brugerdefinerede brætter?\nDette kan ikke fortrydes.",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL": "Slet alle brugerdefinerede brætter",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL_SURE": "Slet alle brugerdefinerede brætter?\nDette kan ikke fortrydes.",
 	"EDITOR_TITLE": "Mah editor",
 	"EDITOR_NEW": "Ny",
 	"EDITOR_NEW_LONG": "Nyt bræt",
@@ -53,6 +53,6 @@
 	"EDITOR_TEST_CANCEL": "Annuller",
 	"EDITOR_TEST_SOLVED": "Løst",
 	"EDITOR_TEST_FAILED": "Mislykkedes",
-	"EDITOR_NO_BOARDS": "Ingen brætter at vise",
-	"EDITOR_NO_BOARDS_HINT": "Opret et nyt bræt eller importer et fra en fil for at komme i gang."
+	"EDITOR_NO_LAYOUTS": "Ingen brætter at vise",
+	"EDITOR_NO_LAYOUTS_HINT": "Opret et nyt bræt eller importer et fra en fil for at komme i gang."
 }

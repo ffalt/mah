@@ -1,6 +1,6 @@
 {
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL": "Alle eigenen Boards löschen",
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL_SURE": "Alle eigenen Boards löschen?\nDies kann nicht rückgängig gemacht werden.",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL": "Alle eigenen Boards löschen",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL_SURE": "Alle eigenen Boards löschen?\nDies kann nicht rückgängig gemacht werden.",
 	"EDITOR_TITLE": "Mah Editor",
 	"EDITOR_NEW": "Neu",
 	"EDITOR_NEW_LONG": "Neues Board",
@@ -53,6 +53,6 @@
 	"EDITOR_TEST_CANCEL": "Abbrechen",
 	"EDITOR_TEST_SOLVED": "Gelöst",
 	"EDITOR_TEST_FAILED": "Gescheitert",
-	"EDITOR_NO_BOARDS": "Keine Boards vorhanden",
-	"EDITOR_NO_BOARDS_HINT": "Erstelle ein neues Board oder importiere eines aus einer Datei."
+	"EDITOR_NO_LAYOUTS": "Keine Boards vorhanden",
+	"EDITOR_NO_LAYOUTS_HINT": "Erstelle ein neues Board oder importiere eines aus einer Datei."
 }

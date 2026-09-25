@@ -59,7 +59,7 @@ export class ImportComponent {
 			}
 		}
 		if (imported.length > 0) {
-			this.layoutService.storeCustomBoards(imported);
+			this.layoutService.storeCustomLayouts(imported);
 		}
 	}
 

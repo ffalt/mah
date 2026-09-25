@@ -139,7 +139,7 @@ describe('Mapping', () => {
 	});
 
 	describe('findPlaceCollisions', () => {
-		test.each(loadLayouts)('built-in board $name places no two tiles on top of each other', ({ map }) => {
+		test.each(loadLayouts)('built-in layout $name places no two tiles on top of each other', ({ map }) => {
 			expect(findPlaceCollisions(expandMapping(map))).toEqual([]);
 		});
 

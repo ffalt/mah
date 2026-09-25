@@ -1,6 +1,6 @@
 {
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL": "Hapus semua papan kustom",
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL_SURE": "Hapus semua papan kustom?\nIni tidak dapat dibatalkan.",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL": "Hapus semua papan kustom",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL_SURE": "Hapus semua papan kustom?\nIni tidak dapat dibatalkan.",
 	"EDITOR_TITLE": "Mah Editor",
 	"EDITOR_NEW": "Baru",
 	"EDITOR_NEW_LONG": "Papan baru",
@@ -53,6 +53,6 @@
 	"EDITOR_TEST_CANCEL": "Batal",
 	"EDITOR_TEST_SOLVED": "Terpecahkan",
 	"EDITOR_TEST_FAILED": "Gagal",
-	"EDITOR_NO_BOARDS": "Tidak ada papan untuk ditampilkan",
-	"EDITOR_NO_BOARDS_HINT": "Buat papan baru atau impor satu dari file untuk memulai."
+	"EDITOR_NO_LAYOUTS": "Tidak ada papan untuk ditampilkan",
+	"EDITOR_NO_LAYOUTS_HINT": "Buat papan baru atau impor satu dari file untuk memulai."
 }

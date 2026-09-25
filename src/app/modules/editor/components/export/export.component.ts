@@ -68,7 +68,7 @@ export class ExportComponent implements OnInit, OnChanges {
 		if (!exportLayout || this.blockedByBuiltIn(exportLayout.id)) {
 			return;
 		}
-		if (this.layoutService.storeCustomBoards([exportLayout]) === 0) {
+		if (this.layoutService.storeCustomLayouts([exportLayout]) === 0) {
 			alert(this.translate.instant('EDITOR_CUSTOM_EXISTS'));
 			return;
 		}

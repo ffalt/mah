@@ -1,6 +1,6 @@
 {
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL": "Elimina tots els taulers personalitzats",
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL_SURE": "Elimina tots els taulers personalitzats?\nAixò no es pot desfer.",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL": "Elimina tots els taulers personalitzats",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL_SURE": "Elimina tots els taulers personalitzats?\nAixò no es pot desfer.",
 	"EDITOR_TITLE": "Editor de Mah",
 	"EDITOR_NEW": "Nou",
 	"EDITOR_NEW_LONG": "Tauler nou",
@@ -53,6 +53,6 @@
 	"EDITOR_TEST_CANCEL": "Cancel·lar",
 	"EDITOR_TEST_SOLVED": "Resolt",
 	"EDITOR_TEST_FAILED": "Va fallar",
-	"EDITOR_NO_BOARDS": "No hi ha taulers per mostrar",
-	"EDITOR_NO_BOARDS_HINT": "Crea un tauler nou o importa'n un d'un fitxer per començar."
+	"EDITOR_NO_LAYOUTS": "No hi ha taulers per mostrar",
+	"EDITOR_NO_LAYOUTS_HINT": "Crea un tauler nou o importa'n un d'un fitxer per començar."
 }

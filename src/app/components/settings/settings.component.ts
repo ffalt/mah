@@ -81,19 +81,21 @@ export class SettingsComponent implements AfterViewInit {
 
 	setKyodaiUrl(event: Event): void {
 		const kyodaiInput = this.kyodaiInput();
-		if (kyodaiInput?.nativeElement) {
-			event.preventDefault();
-			event.stopPropagation();
-			kyodaiInput.nativeElement.value = (event.target as HTMLSelectElement).value;
+		if (!kyodaiInput?.nativeElement) {
+			return;
 		}
+		event.preventDefault();
+		event.stopPropagation();
+		kyodaiInput.nativeElement.value = (event.target as HTMLSelectElement).value;
 	}
 
 	applyKyodaiUrl(): void {
 		const kyodaiInput = this.kyodaiInput();
-		if (kyodaiInput?.nativeElement) {
-			this.app.settings.kyodaiUrl.set(kyodaiInput.nativeElement.value);
-			this.app.settings.save();
+		if (!kyodaiInput?.nativeElement) {
+			return;
 		}
+		this.app.settings.kyodaiUrl.set(kyodaiInput.nativeElement.value);
+		this.app.settings.save();
 	}
 
 	setSelectedTab(tab: string): void {

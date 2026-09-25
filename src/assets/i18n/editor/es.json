@@ -1,6 +1,6 @@
 {
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL": "Eliminar todos los tableros personalizados",
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL_SURE": "Eliminar todos los tableros personalizados?\nEsto no se puede deshacer.",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL": "Eliminar todos los tableros personalizados",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL_SURE": "Eliminar todos los tableros personalizados?\nEsto no se puede deshacer.",
 	"EDITOR_TITLE": "Editor de Mah",
 	"EDITOR_NEW": "Nuevo",
 	"EDITOR_NEW_LONG": "Nuevo tablero",
@@ -53,6 +53,6 @@
 	"EDITOR_TEST_CANCEL": "Cancelar",
 	"EDITOR_TEST_SOLVED": "Hecho",
 	"EDITOR_TEST_FAILED": "Fallido",
-	"EDITOR_NO_BOARDS": "No hay tableros para mostrar",
-	"EDITOR_NO_BOARDS_HINT": "Crea un tablero nuevo o importa uno desde un archivo para empezar."
+	"EDITOR_NO_LAYOUTS": "No hay tableros para mostrar",
+	"EDITOR_NO_LAYOUTS_HINT": "Crea un tablero nuevo o importa uno desde un archivo para empezar."
 }

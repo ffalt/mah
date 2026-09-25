@@ -1,6 +1,6 @@
 {
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL": "Delete all custom boards",
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL_SURE": "Delete all custom boards?\nThis cannot be undone.",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL": "Delete all custom boards",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL_SURE": "Delete all custom boards?\nThis cannot be undone.",
 	"EDITOR_TITLE": "Mah Editor",
 	"EDITOR_NEW": "New",
 	"EDITOR_NEW_LONG": "New board",
@@ -53,6 +53,6 @@
 	"EDITOR_TEST_CANCEL": "Cancel",
 	"EDITOR_TEST_SOLVED": "Solved",
 	"EDITOR_TEST_FAILED": "Failed",
-	"EDITOR_NO_BOARDS": "No boards to show",
-	"EDITOR_NO_BOARDS_HINT": "Create a new board or import one from a file to get started."
+	"EDITOR_NO_LAYOUTS": "No boards to show",
+	"EDITOR_NO_LAYOUTS_HINT": "Create a new board or import one from a file to get started."
 }

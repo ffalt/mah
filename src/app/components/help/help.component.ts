@@ -94,7 +94,7 @@ export class HelpComponent implements OnInit {
 	}
 
 	clearTimes(): void {
-		// every stored record, not just the ones a layout still exists for - deleted boards leave theirs behind
+		// every stored record, not just the ones a layout still exists for - deleted layouts leave theirs behind
 		for (const id of this.storage.getScores().keys()) {
 			this.storage.clearScore(id);
 		}

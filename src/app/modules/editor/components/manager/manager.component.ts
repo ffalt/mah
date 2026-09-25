@@ -62,19 +62,20 @@ export class ManagerComponent implements OnChanges, OnDestroy {
 
 	update() {
 		const inputLayouts = this.inputLayouts();
-		if (inputLayouts) {
-			let layouts = [...inputLayouts].sort((a, b) => a.name.localeCompare(b.name));
-			if (!this.showBuiltIn()) {
-				layouts = layouts.filter(l => l.custom);
-			}
-			this.layouts.set(layouts);
-			this.sortBy(this.sortColumn());
+		if (!inputLayouts) {
+			return;
 		}
+		let layouts = [...inputLayouts].sort((a, b) => a.name.localeCompare(b.name));
+		if (!this.showBuiltIn()) {
+			layouts = layouts.filter(l => l.custom);
+		}
+		this.layouts.set(layouts);
+		this.sortBy(this.sortColumn());
 	}
 
-	removeCustomBoard(event: MouseEvent, layout: Layout): void {
+	removeCustomLayout(event: MouseEvent, layout: Layout): void {
 		event.stopPropagation();
-		if (!confirm(this.translate.instant('CUSTOM_BOARD_DELETE_SURE'))) {
+		if (!confirm(this.translate.instant('CUSTOM_LAYOUT_DELETE_SURE'))) {
 			return;
 		}
 		this.layoutService.removeCustomLayout([layout.id]);
@@ -83,7 +84,7 @@ export class ManagerComponent implements OnChanges, OnDestroy {
 
 	removeCustomLayouts(event: MouseEvent): void {
 		event.stopPropagation();
-		if (!confirm(this.translate.instant('EDITOR_CUSTOM_BOARD_DELETE_ALL_SURE'))) {
+		if (!confirm(this.translate.instant('EDITOR_CUSTOM_LAYOUT_DELETE_ALL_SURE'))) {
 			return;
 		}
 		this.layoutService.removeAllCustomLayouts();

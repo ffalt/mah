@@ -76,13 +76,7 @@ export function tryAdd(present: Set<string>, mapping: Mapping, z: number, x: num
 		return false;
 	}
 	const k = key(z, x, y);
-	if (present.has(k)) {
-		return false;
-	}
-	if (!isSupported(present, z, x, y)) {
-		return false;
-	}
-	if (blocksOverlap(present, z, x, y)) {
+	if (present.has(k) || !isSupported(present, z, x, y) || blocksOverlap(present, z, x, y)) {
 		return false;
 	}
 	present.add(k);
@@ -171,11 +165,12 @@ function fillAnchors(
 			break;
 		}
 		const added = tryPlace(x0, y0, w, h);
-		if (added > 0) {
-			result += added;
-			if (result >= minTarget && result <= maxTarget) {
-				break;
-			}
+		if (added === 0) {
+			continue;
+		}
+		result += added;
+		if (result >= minTarget && result <= maxTarget) {
+			break;
 		}
 	}
 	return result;
@@ -223,20 +218,11 @@ export function canPlace(
 		return false;
 	}
 	for (const [x, y] of cells) {
-		if ((x % 2 !== 0) || (y % 2 !== 0)) {
-			return false;
-		}
-		if (!inBounds(x, y, 0)) {
+		if ((x % 2 !== 0) || (y % 2 !== 0) || !inBounds(x, y, 0)) {
 			return false;
 		}
 		const k = key(0, x, y);
-		if (occupied.has(k)) {
-			return false;
-		}
-		if (blocked.has(k)) {
-			return false;
-		}
-		if (blocksOverlap(occupied, 0, x, y)) {
+		if (occupied.has(k) || blocked.has(k) || blocksOverlap(occupied, 0, x, y)) {
 			return false;
 		}
 	}

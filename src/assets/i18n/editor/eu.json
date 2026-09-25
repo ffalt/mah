@@ -1,6 +1,6 @@
 {
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL": "Ezabatu neurrira egindako taula guztiak",
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL_SURE": "Ezabatu neurrira egindako taula guztiak?\nHau ezin da desegin.",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL": "Ezabatu neurrira egindako taula guztiak",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL_SURE": "Ezabatu neurrira egindako taula guztiak?\nHau ezin da desegin.",
 	"EDITOR_TITLE": "Mah editorea",
 	"EDITOR_NEW": "Berria",
 	"EDITOR_NEW_LONG": "Taula berria",
@@ -53,6 +53,6 @@
 	"EDITOR_TEST_CANCEL": "Ezeztatu",
 	"EDITOR_TEST_SOLVED": "Ebatzita",
 	"EDITOR_TEST_FAILED": "Huts egin du",
-	"EDITOR_NO_BOARDS": "Ez dago taularik erakusteko",
-	"EDITOR_NO_BOARDS_HINT": "Sortu taula berri bat edo inportatu bat fitxategi batetik hasteko."
+	"EDITOR_NO_LAYOUTS": "Ez dago taularik erakusteko",
+	"EDITOR_NO_LAYOUTS_HINT": "Sortu taula berri bat edo inportatu bat fitxategi batetik hasteko."
 }

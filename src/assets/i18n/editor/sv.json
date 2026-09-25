@@ -1,6 +1,6 @@
 {
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL": "Ta bort alla anpassade spelbräden",
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL_SURE": "Ta bort alla anpassade spelbräden?\nDetta kan inte ångras.",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL": "Ta bort alla anpassade spelbräden",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL_SURE": "Ta bort alla anpassade spelbräden?\nDetta kan inte ångras.",
 	"EDITOR_TITLE": "Mah Editor",
 	"EDITOR_NEW": "Ny",
 	"EDITOR_NEW_LONG": "Nytt spelbräde",
@@ -53,6 +53,6 @@
 	"EDITOR_TEST_CANCEL": "Avbryt",
 	"EDITOR_TEST_SOLVED": "Löst",
 	"EDITOR_TEST_FAILED": "Misslyckad",
-	"EDITOR_NO_BOARDS": "Inga spelbräden att visa",
-	"EDITOR_NO_BOARDS_HINT": "Skapa ett nytt spelbräde eller importera ett från en fil för att komma igång."
+	"EDITOR_NO_LAYOUTS": "Inga spelbräden att visa",
+	"EDITOR_NO_LAYOUTS_HINT": "Skapa ett nytt spelbräde eller importera ett från en fil för att komma igång."
 }

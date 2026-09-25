@@ -1,6 +1,6 @@
 {
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL": "Slett alle egendefinerte brett",
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL_SURE": "Slett alle egendefinerte brett?\nDette kan ikke angres.",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL": "Slett alle egendefinerte brett",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL_SURE": "Slett alle egendefinerte brett?\nDette kan ikke angres.",
 	"EDITOR_TITLE": "Mah redigering",
 	"EDITOR_NEW": "Ny",
 	"EDITOR_NEW_LONG": "Nytt brett",
@@ -53,6 +53,6 @@
 	"EDITOR_TEST_CANCEL": "Avbryt",
 	"EDITOR_TEST_SOLVED": "Løst",
 	"EDITOR_TEST_FAILED": "Mislyktes",
-	"EDITOR_NO_BOARDS": "Ingen brett å vise",
-	"EDITOR_NO_BOARDS_HINT": "Opprett et nytt brett eller importer et fra en fil for å komme i gang."
+	"EDITOR_NO_LAYOUTS": "Ingen brett å vise",
+	"EDITOR_NO_LAYOUTS_HINT": "Opprett et nytt brett eller importer et fra en fil for å komme i gang."
 }

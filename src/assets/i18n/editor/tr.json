@@ -1,6 +1,6 @@
 {
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL": "Tüm özel tabloları sil",
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL_SURE": "Tüm özel tabloları sil?\nBu geri alınamaz.",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL": "Tüm özel tabloları sil",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL_SURE": "Tüm özel tabloları sil?\nBu geri alınamaz.",
 	"EDITOR_TITLE": "Mah Editörü",
 	"EDITOR_NEW": "Yeni",
 	"EDITOR_NEW_LONG": "Yeni tablo",
@@ -53,6 +53,6 @@
 	"EDITOR_TEST_CANCEL": "İptal",
 	"EDITOR_TEST_SOLVED": "Çözüldü",
 	"EDITOR_TEST_FAILED": "Başarısız",
-	"EDITOR_NO_BOARDS": "Gösterilecek tablo yok",
-	"EDITOR_NO_BOARDS_HINT": "Başlamak için yeni bir tablo oluşturun veya bir dosyadan içe aktarın."
+	"EDITOR_NO_LAYOUTS": "Gösterilecek tablo yok",
+	"EDITOR_NO_LAYOUTS_HINT": "Başlamak için yeni bir tablo oluşturun veya bir dosyadan içe aktarın."
 }

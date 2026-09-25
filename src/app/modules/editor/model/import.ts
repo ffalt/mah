@@ -31,15 +31,15 @@ export function sortMapping(mapping: Mapping): Mapping {
 
 export async function convertMatrix(
 	matrixCount: number, rowCount: number, cellCount: number,
-	name: string, board: string): Promise<ImportLayout> {
+	name: string, kyodai: string): Promise<ImportLayout> {
 	const matrixLength: number = rowCount * cellCount;
 	const totalLength: number = matrixLength * matrixCount;
-	if (board.length !== totalLength) {
+	if (kyodai.length !== totalLength) {
 		return Promise.reject(new Error('Invalid Matrix Pattern length'));
 	}
 	const layout: ImportLayout = { name, cat: 'Kyodai', mapping: [] };
 	for (let z = 0; z < matrixCount; z++) {
-		const matrix = board.slice(z * matrixLength, (z + 1) * matrixLength);
+		const matrix = kyodai.slice(z * matrixLength, (z + 1) * matrixLength);
 		for (let y = 0; y < rowCount; y++) {
 			const row = matrix.slice(y * cellCount, (y + 1) * cellCount);
 			const cells = [...row];
@@ -53,8 +53,8 @@ export async function convertMatrix(
 	return layout;
 }
 
-export async function convert3400Matrix(name: string, board: string): Promise<ImportLayout> {
-	return convertMatrix(5, 20, 34, name, board);
+export async function convert3400Matrix(name: string, kyodai: string): Promise<ImportLayout> {
+	return convertMatrix(5, 20, 34, name, kyodai);
 }
 
 export async function convertKmahjonggLines(lines: Array<string>, height: number): Promise<Mapping> {
@@ -86,7 +86,6 @@ export async function convertKmahjongg(data: string, filename: string): Promise<
 		layout.mapping = await convertKmahjonggLines(lines.filter(line => !line.startsWith('#')), 16);
 		return layout;
 	}
-	// KDE writes the leading k, the boards in the wild and this app's own exporter do not
 	if (['kmahjongg-layout-v1.1', 'mahjongg-layout-v1.1'].includes(version)) {
 		const headerHeight = Number(lines.find(line => line.startsWith('h'))?.slice(1) ?? '');
 		const height = headerHeight > 0 ? headerHeight : 16;
@@ -111,8 +110,7 @@ export async function convertKyodai(data: string, filename: string): Promise<Imp
 		const nameCat = (lines[1] || '').split('::');
 		const name = nameCat[0] || filename.split('.', 1)[0];
 		const cat = nameCat[1] || 'uncategorized';
-		const board = lines[2] || '';
-		const layout = await convert3400Matrix(name, board);
+		const layout = await convert3400Matrix(name, lines[2] || '');
 		layout.cat = cat || layout.cat;
 		return layout;
 	}
@@ -120,23 +118,23 @@ export async function convertKyodai(data: string, filename: string): Promise<Imp
 	return Promise.reject(new Error(`Unknown .lay format ${versionPreview}`));
 }
 
-interface MappingBoard {
+interface MappingLayout {
 	[key: number]: { [key: number]: Array<number> };
 }
 
-function createCompactMappingBoard(mapping: Mapping): MappingBoard {
-	const board: MappingBoard = {};
+function createCompactMappingLayout(mapping: Mapping): MappingLayout {
+	const layout: MappingLayout = {};
 	const list = sortMapping(mapping);
 	for (const m of list) {
-		board[m[0]] ||= {};
-		board[m[0]][m[2]] ||= [];
-		board[m[0]][m[2]].push(m[1]);
+		layout[m[0]] ||= {};
+		layout[m[0]][m[2]] ||= [];
+		layout[m[0]][m[2]].push(m[1]);
 	}
-	return board;
+	return layout;
 }
 
-export function compactY(z: number, y: number, board: MappingBoard): CompactMappingY {
-	const a: Array<number> = board[z][y];
+export function compactY(z: number, y: number, layout: MappingLayout): CompactMappingY {
+	const a: Array<number> = layout[z][y];
 	const entries: Array<{ start: number; current: number; count: number }> = [];
 	let entry = { start: -1, current: -1, count: 0 };
 	for (const x of a) {
@@ -158,11 +156,11 @@ export function compactY(z: number, y: number, board: MappingBoard): CompactMapp
 }
 
 export function compactMapping(mapping: Mapping): CompactMapping {
-	const board = createCompactMappingBoard(mapping);
+	const layout = createCompactMappingLayout(mapping);
 	const result: CompactMapping = [];
-	for (const z of Object.keys(board)) {
+	for (const z of Object.keys(layout)) {
 		const rows: Array<CompactMappingY> =
-			Array.from(Object.keys(board[Number(z)]), y => compactY(Number(z), Number(y), board));
+			Array.from(Object.keys(layout[Number(z)]), y => compactY(Number(z), Number(y), layout));
 		result.push([Number(z), rows]);
 	}
 	return result;

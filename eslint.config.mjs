@@ -127,6 +127,7 @@ const commonUnicornRules = {
 	"unicorn/no-computed-property-existence-check": "off",
 	"unicorn/prefer-global-number-constants": "off",
 	"unicorn/no-global-object-property-assignment": "off",
+	"unicorn/prefer-ternary": "off",
 	"unicorn/name-replacements": [
 		"error",
 		{

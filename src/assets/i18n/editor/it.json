@@ -1,6 +1,6 @@
 {
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL": "Elimina tutte le tavole personalizzate",
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL_SURE": "Elimina tutte le tavole personalizzate?\nQuesto non può essere annullato.",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL": "Elimina tutte le tavole personalizzate",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL_SURE": "Elimina tutte le tavole personalizzate?\nQuesto non può essere annullato.",
 	"EDITOR_TITLE": "Editor Mah",
 	"EDITOR_NEW": "Nuovo",
 	"EDITOR_NEW_LONG": "Nuova tavola",
@@ -53,6 +53,6 @@
 	"EDITOR_TEST_CANCEL": "Annulla",
 	"EDITOR_TEST_SOLVED": "Risolto",
 	"EDITOR_TEST_FAILED": "Fallito",
-	"EDITOR_NO_BOARDS": "Nessuna tavola da mostrare",
-	"EDITOR_NO_BOARDS_HINT": "Crea una nuova tavola o importane una da un file per iniziare."
+	"EDITOR_NO_LAYOUTS": "Nessuna tavola da mostrare",
+	"EDITOR_NO_LAYOUTS_HINT": "Crea una nuova tavola o importane una da un file per iniziare."
 }

@@ -170,12 +170,12 @@ describe('ManagerComponent', () => {
 		});
 	});
 
-	describe('removeCustomBoard', () => {
+	describe('removeCustomLayout', () => {
 		it('should call layoutService.removeCustomLayout and stop propagation when confirmed', () => {
 			vi.spyOn(window, 'confirm').mockReturnValue(true);
 			const layout = makeLayout('Custom', { custom: true });
 			const event = { stopPropagation: vi.fn() } as unknown as MouseEvent;
-			component.removeCustomBoard(event, layout);
+			component.removeCustomLayout(event, layout);
 			expect(mockLayoutService.removeCustomLayout).toHaveBeenCalledWith([layout.id]);
 			expect((event.stopPropagation as Mock)).toHaveBeenCalled();
 		});
@@ -184,7 +184,7 @@ describe('ManagerComponent', () => {
 			vi.spyOn(window, 'confirm').mockReturnValue(false);
 			const layout = makeLayout('Custom', { custom: true });
 			const event = { stopPropagation: vi.fn() } as unknown as MouseEvent;
-			component.removeCustomBoard(event, layout);
+			component.removeCustomLayout(event, layout);
 			expect(mockLayoutService.removeCustomLayout).not.toHaveBeenCalled();
 		});
 	});

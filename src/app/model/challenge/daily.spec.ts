@@ -76,31 +76,31 @@ describe('daily', () => {
 	});
 
 	it('picks the same item for the same day, and varies across days', () => {
-		const boards = ['turtle', 'dragon', 'cactus', 'arena'];
-		expect(pickDailyItem('2026-07-30', 'layout', boards, id => id))
-			.toBe(pickDailyItem('2026-07-30', 'layout', boards, id => id));
+		const layouts = ['turtle', 'dragon', 'cactus', 'arena'];
+		expect(pickDailyItem('2026-07-30', 'layout', layouts, id => id))
+			.toBe(pickDailyItem('2026-07-30', 'layout', layouts, id => id));
 		const picked = new Set<string | undefined>();
 		for (let day = 1; day <= 28; day++) {
-			picked.add(pickDailyItem(dailyKey(new Date(2026, 6, day)), 'layout', boards, id => id));
+			picked.add(pickDailyItem(dailyKey(new Date(2026, 6, day)), 'layout', layouts, id => id));
 		}
 		expect(picked.size).toBeGreaterThan(1);
 	});
 
 	it('ignores the order the candidates arrive in', () => {
-		const boards = ['turtle', 'dragon', 'cactus', 'arena'];
+		const layouts = ['turtle', 'dragon', 'cactus', 'arena'];
 		for (let day = 1; day <= 14; day++) {
 			const key = dailyKey(new Date(2026, 6, day));
-			expect(pickDailyItem(key, 'layout', [...boards].reverse(), id => id))
-				.toBe(pickDailyItem(key, 'layout', boards, id => id));
+			expect(pickDailyItem(key, 'layout', [...layouts].reverse(), id => id))
+				.toBe(pickDailyItem(key, 'layout', layouts, id => id));
 		}
 	});
 
 	it('keeps every day that a removed candidate did not own', () => {
-		const boards = ['turtle', 'dragon', 'cactus', 'arena'];
+		const layouts = ['turtle', 'dragon', 'cactus', 'arena'];
 		const days = Array.from({ length: 60 }, (_value, index) => dailyKey(new Date(2026, 6, index + 1)));
-		const before = days.map(key => pickDailyItem(key, 'layout', boards, id => id));
-		// the whole point: dropping one board must not reshuffle the days the others already held
-		const fewer = boards.filter(id => id !== 'dragon');
+		const before = days.map(key => pickDailyItem(key, 'layout', layouts, id => id));
+		// the whole point: dropping one layout must not reshuffle the days the others already held
+		const fewer = layouts.filter(id => id !== 'dragon');
 		const after = days.map(key => pickDailyItem(key, 'layout', fewer, id => id));
 
 		// without days of its own the test would pass vacuously

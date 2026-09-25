@@ -34,10 +34,11 @@ export class Board {
 
 	setStoneSelected(stone?: Stone): void {
 		this.clearSelection();
-		if (stone) {
-			stone.selected.set(true);
-			this.selected = stone;
+		if (!stone) {
+			return;
 		}
+		stone.selected.set(true);
+		this.selected = stone;
 	}
 
 	clearHints(): void {

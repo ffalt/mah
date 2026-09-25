@@ -4,17 +4,11 @@ import { rng } from '../rng';
 import type { BaseLayerOptions } from './consts';
 
 function addBaseLine(present: Set<string>, mapping: Mapping, snakeKeys: Set<string>, x: number, y: number, markSnake = false): boolean {
-	if ((x % 2 !== 0) || (y % 2 !== 0)) {
-		return false;
-	}
-	if (!inBounds(x, y, 0)) {
+	if ((x % 2 !== 0) || (y % 2 !== 0) || !inBounds(x, y, 0)) {
 		return false;
 	}
 	const k0 = key(0, x, y);
-	if (present.has(k0)) {
-		return false;
-	}
-	if (blocksOverlap(present, 0, x, y)) {
+	if (present.has(k0) || blocksOverlap(present, 0, x, y)) {
 		return false;
 	}
 	present.add(k0);
@@ -136,10 +130,11 @@ function addNearSnake(present: Set<string>, snakeKeys: Set<string>, xs: Array<nu
 	for (const q of queues) {
 		while (count < targetBase && q.length > 0) {
 			const [z, xx, yy] = q.pop()!;
-			if ((xx % 2 === 0) && (yy % 2 === 0) && !blocksOverlap(present, 0, xx, yy)) {
-				present.add(key(z, xx, yy));
-				count++;
+			if (!((xx % 2 === 0) && (yy % 2 === 0)) || blocksOverlap(present, 0, xx, yy)) {
+				continue;
 			}
+			present.add(key(z, xx, yy));
+			count++;
 		}
 	}
 	return count;
@@ -210,12 +205,13 @@ export function generateBaseLayerLines({ minTarget, maxTarget, xMax, yMax }: Bas
 		const randomDirection = directionsAll[randInt(0, 3)];
 		const randomX = x + randomDirection[0] * 2;
 		const randomY = y + randomDirection[1] * 2;
-		if (inBounds(randomX, randomY, 0) && addBaseLine(present, mapping, snakeKeys, randomX, randomY, true)) {
-			x = randomX;
-			y = randomY;
-			direction = randomDirection;
-			stuckCount = 0;
+		if (!(inBounds(randomX, randomY, 0) && addBaseLine(present, mapping, snakeKeys, randomX, randomY, true))) {
+			continue;
 		}
+		x = randomX;
+		y = randomY;
+		direction = randomDirection;
+		stuckCount = 0;
 	}
 
 	trimEdges(present, snakeKeys, xs, ys, xMax, yMax);

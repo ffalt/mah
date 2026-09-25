@@ -1,6 +1,6 @@
 {
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL": "Xóa tất cả bảng tùy chỉnh",
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL_SURE": "Xóa tất cả bảng tùy chỉnh?\nHành động này không thể hoàn tác.",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL": "Xóa tất cả bảng tùy chỉnh",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL_SURE": "Xóa tất cả bảng tùy chỉnh?\nHành động này không thể hoàn tác.",
 	"EDITOR_TITLE": "Trình Chỉnh Sửa Mah",
 	"EDITOR_NEW": "Mới",
 	"EDITOR_NEW_LONG": "Bảng mới",
@@ -53,6 +53,6 @@
 	"EDITOR_TEST_CANCEL": "Hủy",
 	"EDITOR_TEST_SOLVED": "Đã Giải",
 	"EDITOR_TEST_FAILED": "Không Thành Công",
-	"EDITOR_NO_BOARDS": "Không có bảng nào để hiển thị",
-	"EDITOR_NO_BOARDS_HINT": "Tạo bảng mới hoặc nhập từ tệp để bắt đầu."
+	"EDITOR_NO_LAYOUTS": "Không có bảng nào để hiển thị",
+	"EDITOR_NO_LAYOUTS_HINT": "Tạo bảng mới hoặc nhập từ tệp để bắt đầu."
 }

@@ -1,6 +1,6 @@
 {
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL": "Futa bodi zote maalum",
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL_SURE": "Futa bodi zote maalum?\nKitendo hiki hakiwezi kutenduka.",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL": "Futa bodi zote maalum",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL_SURE": "Futa bodi zote maalum?\nKitendo hiki hakiwezi kutenduka.",
 	"EDITOR_TITLE": "Kihariri cha Mah",
 	"EDITOR_NEW": "Mpya",
 	"EDITOR_NEW_LONG": "Ubao mpya",
@@ -53,6 +53,6 @@
 	"EDITOR_TEST_CANCEL": "Ghairi",
 	"EDITOR_TEST_SOLVED": "Imetatuliwa",
 	"EDITOR_TEST_FAILED": "Imeshindikana",
-	"EDITOR_NO_BOARDS": "Hakuna bodi za kuonyesha",
-	"EDITOR_NO_BOARDS_HINT": "Unda ubao mpya au ingiza mmoja kutoka faili ili kuanza."
+	"EDITOR_NO_LAYOUTS": "Hakuna bodi za kuonyesha",
+	"EDITOR_NO_LAYOUTS_HINT": "Unda ubao mpya au ingiza mmoja kutoka faili ili kuanza."
 }

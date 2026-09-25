@@ -149,12 +149,13 @@ export class BoardComponent implements OnInit, OnChanges, AfterViewInit {
 				this.updateBackground(current);
 			}
 		}
-		if (changes.imageSet) {
-			this.prefix = `b_${changes.imageSet.currentValue}_`;
-			this.urlPrefix = `#b_${changes.imageSet.currentValue}_`;
-			this.imagePos = tileImagePos(changes.imageSet.currentValue);
-			this.imageCut = tileImageCut(changes.imageSet.currentValue);
+		if (!changes.imageSet) {
+			return;
 		}
+		this.prefix = `b_${changes.imageSet.currentValue}_`;
+		this.urlPrefix = `#b_${changes.imageSet.currentValue}_`;
+		this.imagePos = tileImagePos(changes.imageSet.currentValue);
+		this.imageCut = tileImageCut(changes.imageSet.currentValue);
 	}
 
 	onResize(event: UIEvent): void {
@@ -382,10 +383,11 @@ export class BoardComponent implements OnInit, OnChanges, AfterViewInit {
 			}
 			const across = Math.abs(((center.x - origin.x) * dy) - ((center.y - origin.y) * dx));
 			const cost = along + (across * ACROSS_WEIGHT);
-			if (cost < bestCost) {
-				bestCost = cost;
-				best = draw;
+			if (cost >= bestCost) {
+				continue;
 			}
+			bestCost = cost;
+			best = draw;
 		}
 		return best;
 	}
@@ -434,6 +436,7 @@ export class BoardComponent implements OnInit, OnChanges, AfterViewInit {
 	}
 
 	private resize(element: { innerHeight: number; innerWidth: number }): void {
+		// eslint-disable-next-line unicorn/prefer-logical-operator-over-ternary
 		const r = this.noRotate() ? false : element.innerHeight > element.innerWidth;
 		if (r === this.rotate()) {
 			this.panZoom.clampPan();

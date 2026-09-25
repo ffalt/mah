@@ -1,6 +1,6 @@
 {
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL": "Padam Semua Papan Tersuai",
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL_SURE": "Padam Semua Papan Tersuai?\nIni tidak boleh dibuat asal.",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL": "Padam Semua Papan Tersuai",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL_SURE": "Padam Semua Papan Tersuai?\nIni tidak boleh dibuat asal.",
 	"EDITOR_TITLE": "Editor Mah",
 	"EDITOR_NEW": "Baharu",
 	"EDITOR_NEW_LONG": "Papan baharu",
@@ -53,6 +53,6 @@
 	"EDITOR_TEST_CANCEL": "Batal",
 	"EDITOR_TEST_SOLVED": "Diselesaikan",
 	"EDITOR_TEST_FAILED": "Gagal",
-	"EDITOR_NO_BOARDS": "Tiada papan untuk dipaparkan",
-	"EDITOR_NO_BOARDS_HINT": "Cipta papan baharu atau import satu daripada fail untuk bermula."
+	"EDITOR_NO_LAYOUTS": "Tiada papan untuk dipaparkan",
+	"EDITOR_NO_LAYOUTS_HINT": "Cipta papan baharu atau import satu daripada fail untuk bermula."
 }

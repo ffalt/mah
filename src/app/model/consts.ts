@@ -161,11 +161,11 @@ for (let index = 1; index < 10; index++) {
 	TILES_EXT.push([`t_e${index}`, `t_e${index}`, `t_e${index}`, `t_e${index}`]);
 }
 
-export const MAX_BOARD_TILES = (TILES.length + TILES_EXT.length) * 4;
-export const MIN_BOARD_TILES = 2;
+export const MAX_LAYOUT_TILES = (TILES.length + TILES_EXT.length) * 4;
+export const MIN_LAYOUT_TILES = 2;
 
 export function isPlayableTileCount(count: number): boolean {
-	return count >= MIN_BOARD_TILES && count <= MAX_BOARD_TILES && count % 2 === 0;
+	return count >= MIN_LAYOUT_TILES && count <= MAX_LAYOUT_TILES && count % 2 === 0;
 }
 
 export const TILES_INFOS = [

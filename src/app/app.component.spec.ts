@@ -9,7 +9,7 @@ import { SvgdefService } from './service/svgdef.service';
 import type { Layout, LoadLayout } from './model/types';
 import { log } from './model/log';
 
-import { b64, makeBoard, makeMah } from './model/import.spec-helpers';
+import { b64, makeLayout, makeMah } from './model/import.spec-helpers';
 import { type Mock, describe, beforeEach, it, expect, vi } from 'vitest';
 
 const MOCK_LAYOUT: Layout = {
@@ -101,11 +101,11 @@ describe('AppComponent', () => {
 
 	describe('init', () => {
 		// the splash screen hides the whole app, a startup that throws must not leave it up with no way out
-		it('takes the splash screen down when the boards cannot be loaded', async () => {
+		it('takes the splash screen down when the layouts cannot be loaded', async () => {
 			const fixture = TestBed.createComponent(AppComponent);
 			const app = fixture.componentInstance;
 			vi.spyOn(log, 'error').mockImplementation(() => undefined);
-			vi.spyOn(TestBed.inject(LayoutService), 'get').mockRejectedValue(new Error('mock boards failure'));
+			vi.spyOn(TestBed.inject(LayoutService), 'get').mockRejectedValue(new Error('mock layout failure'));
 
 			app.ngOnInit();
 			await new Promise(resolve => setTimeout(resolve, 0));
@@ -125,7 +125,7 @@ describe('AppComponent', () => {
 			layoutService = app.layoutService;
 			layoutService.layouts.items = [];
 			vi.spyOn(layoutService, 'expandLayout').mockReturnValue(MOCK_LAYOUT);
-			vi.spyOn(layoutService, 'storeCustomBoards').mockImplementation(() => 1);
+			vi.spyOn(layoutService, 'storeCustomLayouts').mockImplementation(() => 1);
 		});
 
 		const checkImport = async (app: AppComponent, input: string | null): Promise<Array<string>> =>
@@ -133,56 +133,56 @@ describe('AppComponent', () => {
 
 		it('returns [] for null input', async () => {
 			expect(await checkImport(app, null)).toEqual([]);
-			expect(layoutService.storeCustomBoards).not.toHaveBeenCalled();
+			expect(layoutService.storeCustomLayouts).not.toHaveBeenCalled();
 		});
 
 		it('imports a valid board and returns its id', async () => {
 			const result = await checkImport(app, b64(makeMah()));
 			expect(result).toEqual(['test-id']);
-			expect(layoutService.storeCustomBoards).toHaveBeenCalledTimes(1);
+			expect(layoutService.storeCustomLayouts).toHaveBeenCalledTimes(1);
 		});
 
 		it('does not re-import a board already in layouts', async () => {
 			layoutService.layouts.items = [MOCK_LAYOUT];
 			const result = await checkImport(app, b64(makeMah()));
 			expect(result).toEqual(['test-id']);
-			expect(layoutService.storeCustomBoards).not.toHaveBeenCalled();
+			expect(layoutService.storeCustomLayouts).not.toHaveBeenCalled();
 		});
 
-		it('imports multiple valid boards', async () => {
-			const board2 = makeBoard({ id: 'id-2', name: 'Board 2' });
+		it('imports multiple valid layouts', async () => {
+			const board2 = makeLayout({ id: 'id-2', name: 'Board 2' });
 			const layout2: Layout = { ...MOCK_LAYOUT, id: 'id-2', name: 'Board 2' };
 			(layoutService.expandLayout as Mock)
 				.mockReturnValueOnce(MOCK_LAYOUT)
 				.mockReturnValueOnce(layout2);
-			const result = await checkImport(app, b64(makeMah([makeBoard(), board2])));
+			const result = await checkImport(app, b64(makeMah([makeLayout(), board2])));
 			expect(result).toEqual(['test-id', 'id-2']);
-			expect(layoutService.storeCustomBoards).toHaveBeenCalledTimes(1);
+			expect(layoutService.storeCustomLayouts).toHaveBeenCalledTimes(1);
 		});
 
-		it('does not store duplicate board ids within the same import', async () => {
-			const result = await checkImport(app, b64(makeMah([makeBoard(), makeBoard()])));
+		it('does not store duplicate layout ids within the same import', async () => {
+			const result = await checkImport(app, b64(makeMah([makeLayout(), makeLayout()])));
 			expect(result).toEqual(['test-id', 'test-id']);
-			const storedBoards: Array<LoadLayout> = (layoutService.storeCustomBoards as Mock).mock.calls[0][0];
-			expect(storedBoards).toHaveLength(1);
+			const storedLayouts: Array<LoadLayout> = (layoutService.storeCustomLayouts as Mock).mock.calls[0][0];
+			expect(storedLayouts).toHaveLength(1);
 		});
 
-		it('skips a board when expandLayout throws', async () => {
+		it('skips a layout when expandLayout throws', async () => {
 			vi.spyOn(log, 'warn').mockImplementation(() => undefined);
 			(layoutService.expandLayout as Mock).mockImplementationOnce(() => {
 				throw new Error('expand error');
 			});
 			expect(await checkImport(app, b64(makeMah()))).toEqual([]);
-			expect(layoutService.storeCustomBoards).not.toHaveBeenCalled();
+			expect(layoutService.storeCustomLayouts).not.toHaveBeenCalled();
 		});
 
-		it('logs a warning when boards were parsed but none could be expanded', async () => {
+		it('logs a warning when layouts were parsed but none could be expanded', async () => {
 			(layoutService.expandLayout as Mock).mockImplementation(() => {
 				throw new Error('expand error');
 			});
 			const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
 			await checkImport(app, b64(makeMah()));
-			expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('no valid boards'));
+			expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('no valid layouts'));
 		});
 	});
 });

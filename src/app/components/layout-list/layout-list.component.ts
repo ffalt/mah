@@ -167,20 +167,21 @@ export class LayoutListComponent implements OnInit, OnChanges {
 
 	refresh(): void {
 		const layouts = this.layouts();
-		if (layouts) {
-			this.buildGroups();
-			let id = this.storage.getLastPlayed();
-			const boardID = this.layoutService.selectBoardID;
-			this.layoutService.selectBoardID = undefined;
-			if (boardID && layouts.some(l => l.id === boardID)) {
-				id = boardID;
-			}
-			if (id) {
-				// deferred so the list DOM exists when scrolling to the selection
-				setTimeout(() => {
-					this.select(id);
-				}, 0);
-			}
+		if (!layouts) {
+			return;
+		}
+		this.buildGroups();
+		let id = this.storage.getLastPlayed();
+		const layoutID = this.layoutService.selectLayoutID;
+		this.layoutService.selectLayoutID = undefined;
+		if (layoutID && layouts.some(l => l.id === layoutID)) {
+			id = layoutID;
+		}
+		if (id) {
+			// deferred so the list DOM exists when scrolling to the selection
+			setTimeout(() => {
+				this.select(id);
+			}, 0);
 		}
 	}
 
@@ -260,21 +261,23 @@ export class LayoutListComponent implements OnInit, OnChanges {
 	scrollToGroup(event: Event, index: number): void {
 		event.preventDefault();
 		const element = document.getElementById(`group-${index}`);
-		if (element) {
-			this.scrollToElement(element, this.scrollHost().nativeElement);
-			const stop = element.querySelector<HTMLElement>(ROW_STOPS);
-			this.activeStopId.set(stop?.id);
-			stop?.focus();
+		if (!element) {
+			return;
 		}
+		this.scrollToElement(element, this.scrollHost().nativeElement);
+		const stop = element.querySelector<HTMLElement>(ROW_STOPS);
+		this.activeStopId.set(stop?.id);
+		stop?.focus();
 	}
 
 	scrollToItem(id: string): void {
 		const element = document.getElementById(`${CARD_ID_PREFIX}${id}`);
-		if (element) {
-			this.scrollToElement(element, this.scrollHost().nativeElement);
-			this.activeStopId.set(`${CARD_ID_PREFIX}${id}`);
-			element.focus();
+		if (!element) {
+			return;
 		}
+		this.scrollToElement(element, this.scrollHost().nativeElement);
+		this.activeStopId.set(`${CARD_ID_PREFIX}${id}`);
+		element.focus();
 	}
 
 	private galleryTarget(event: KeyboardEvent, current: HTMLElement, stop: HTMLElement): HTMLElement | undefined {
@@ -390,7 +393,7 @@ export class LayoutListComponent implements OnInit, OnChanges {
 	}
 
 	removeCustom(layout: LayoutItem): void {
-		if (!confirm(this.translate.instant('CUSTOM_BOARD_DELETE_SURE'))) {
+		if (!confirm(this.translate.instant('CUSTOM_LAYOUT_DELETE_SURE'))) {
 			return;
 		}
 		this.layoutService.removeCustomLayout([layout.layout.id]);

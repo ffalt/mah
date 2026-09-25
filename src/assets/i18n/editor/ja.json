@@ -1,6 +1,6 @@
 {
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL": "カスタムボードをすべて削除",
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL_SURE": "カスタムボードをすべて削除？\nこの操作は元に戻せません。",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL": "カスタムボードをすべて削除",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL_SURE": "カスタムボードをすべて削除？\nこの操作は元に戻せません。",
 	"EDITOR_TITLE": "麻雀エディター",
 	"EDITOR_NEW": "新規",
 	"EDITOR_NEW_LONG": "新しいボード",
@@ -53,6 +53,6 @@
 	"EDITOR_TEST_CANCEL": "キャンセル",
 	"EDITOR_TEST_SOLVED": "解決済み",
 	"EDITOR_TEST_FAILED": "失敗",
-	"EDITOR_NO_BOARDS": "表示できるボードがありません",
-	"EDITOR_NO_BOARDS_HINT": "新しいボードを作成するか、ファイルからインポートしてください。"
+	"EDITOR_NO_LAYOUTS": "表示できるボードがありません",
+	"EDITOR_NO_LAYOUTS_HINT": "新しいボードを作成するか、ファイルからインポートしてください。"
 }

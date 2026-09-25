@@ -54,19 +54,20 @@ export class Indicator {
 			clearTimeout(indicator.hideTimerId);
 			indicator.hideTimerId = undefined;
 		}
-		if (indicator.removeTimerId !== undefined) {
-			clearTimeout(indicator.removeTimerId);
-			indicator.removeTimerId = undefined;
+		if (indicator.removeTimerId === undefined) {
+			return;
 		}
+		clearTimeout(indicator.removeTimerId);
+		indicator.removeTimerId = undefined;
 	}
 
 	removeIndicator(gestureIndicator: { x: number; y: number }) {
 		const target = this.findIndicator(gestureIndicator);
-		if (target) {
-			// Cancel any pending timers before removing
-			this.cancelHideTimer(target);
-			this.gestureIndicators.update(list => list.filter(indicator => indicator !== target));
+		if (!target) {
+			return;
 		}
+		this.cancelHideTimer(target);
+		this.gestureIndicators.update(list => list.filter(indicator => indicator !== target));
 	}
 
 	setSize(nr: number, size: number): void {

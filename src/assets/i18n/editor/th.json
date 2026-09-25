@@ -1,6 +1,6 @@
 {
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL": "ลบกระดานที่กำหนดเองทั้งหมด",
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL_SURE": "ลบกระดานที่กำหนดเองทั้งหมด?\nการกระทำนี้ไม่สามารถเลิกทำได้",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL": "ลบกระดานที่กำหนดเองทั้งหมด",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL_SURE": "ลบกระดานที่กำหนดเองทั้งหมด?\nการกระทำนี้ไม่สามารถเลิกทำได้",
 	"EDITOR_TITLE": "ตัวแก้ไข Mah",
 	"EDITOR_NEW": "ใหม่",
 	"EDITOR_NEW_LONG": "กระดานใหม่",
@@ -53,6 +53,6 @@
 	"EDITOR_TEST_CANCEL": "ยกเลิก",
 	"EDITOR_TEST_SOLVED": "แก้ได้",
 	"EDITOR_TEST_FAILED": "ล้มเหลว",
-	"EDITOR_NO_BOARDS": "ไม่มีกระดานให้แสดง",
-	"EDITOR_NO_BOARDS_HINT": "สร้างกระดานใหม่หรือนำเข้าจากไฟล์เพื่อเริ่มต้น"
+	"EDITOR_NO_LAYOUTS": "ไม่มีกระดานให้แสดง",
+	"EDITOR_NO_LAYOUTS_HINT": "สร้างกระดานใหม่หรือนำเข้าจากไฟล์เพื่อเริ่มต้น"
 }

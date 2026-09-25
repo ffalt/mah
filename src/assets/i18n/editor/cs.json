@@ -1,6 +1,6 @@
 {
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL": "Smazat všechny vlastní desky",
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL_SURE": "Smazat všechny vlastní desky?\nToto nelze vrátit zpět.",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL": "Smazat všechny vlastní desky",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL_SURE": "Smazat všechny vlastní desky?\nToto nelze vrátit zpět.",
 	"EDITOR_TITLE": "Editor Mah",
 	"EDITOR_NEW": "Nový",
 	"EDITOR_NEW_LONG": "Nová deska",
@@ -53,6 +53,6 @@
 	"EDITOR_TEST_CANCEL": "Zrušit",
 	"EDITOR_TEST_SOLVED": "Vyřešeno",
 	"EDITOR_TEST_FAILED": "Selhalo",
-	"EDITOR_NO_BOARDS": "Žádné desky k zobrazení",
-	"EDITOR_NO_BOARDS_HINT": "Vytvořte novou desku nebo některou importujte ze souboru."
+	"EDITOR_NO_LAYOUTS": "Žádné desky k zobrazení",
+	"EDITOR_NO_LAYOUTS_HINT": "Vytvořte novou desku nebo některou importujte ze souboru."
 }

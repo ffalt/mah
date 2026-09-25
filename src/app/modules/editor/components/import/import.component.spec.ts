@@ -34,14 +34,14 @@ describe('ImportComponent', () => {
 	let mockLayoutService: {
 		layouts: { items: Array<Layout> };
 		expandLayout: Mock;
-		storeCustomBoards: Mock;
+		storeCustomLayouts: Mock;
 	};
 
 	beforeEach(async () => {
 		mockLayoutService = {
 			layouts: { items: [] },
 			expandLayout: vi.fn(),
-			storeCustomBoards: vi.fn()
+			storeCustomLayouts: vi.fn()
 		};
 
 		await TestBed.configureTestingModule({
@@ -85,7 +85,7 @@ describe('ImportComponent', () => {
 	});
 
 	describe('importLayouts', () => {
-		it('should add to logs and call storeCustomBoards on successful import', async () => {
+		it('should add to logs and call storeCustomLayouts on successful import', async () => {
 			const loadLayout = makeLoadLayout('new-id');
 			const layout = makeLayout('new-id');
 			mockImportLayouts.mockResolvedValue([loadLayout]);
@@ -98,7 +98,7 @@ describe('ImportComponent', () => {
 
 			expect(component.logs()).toHaveLength(1);
 			expect(component.logs()[0].isError).toBeFalsy();
-			expect(mockLayoutService.storeCustomBoards).toHaveBeenCalled();
+			expect(mockLayoutService.storeCustomLayouts).toHaveBeenCalled();
 		});
 
 		// OnPush: the view must re-render once the async import populates the logs signal
@@ -130,7 +130,7 @@ describe('ImportComponent', () => {
 
 			expect(component.logs()).toHaveLength(1);
 			expect(component.logs()[0].isError).toBe(true);
-			expect(mockLayoutService.storeCustomBoards).not.toHaveBeenCalled();
+			expect(mockLayoutService.storeCustomLayouts).not.toHaveBeenCalled();
 		});
 
 		it('should add error log when import throws', async () => {
@@ -141,7 +141,7 @@ describe('ImportComponent', () => {
 
 			expect(component.logs()).toHaveLength(1);
 			expect(component.logs()[0].isError).toBe(true);
-			expect(mockLayoutService.storeCustomBoards).not.toHaveBeenCalled();
+			expect(mockLayoutService.storeCustomLayouts).not.toHaveBeenCalled();
 		});
 
 		it('should clear logs at the start of each import', async () => {

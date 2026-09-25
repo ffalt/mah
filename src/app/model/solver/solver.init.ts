@@ -67,12 +67,13 @@ export class SolveInit {
 			}
 		}
 
-		if (leftTile) {
-			let k = 0;
-			for (let r = Math.max(row - 1, 0); r < Math.min(row + 2, this.maxHeight); r++) {
-				if (this.lo[r][col][lev]) {
-					leftTile.right[k++] = this.lo[r][col][lev];
-				}
+		if (!leftTile) {
+			return;
+		}
+		let k = 0;
+		for (let r = Math.max(row - 1, 0); r < Math.min(row + 2, this.maxHeight); r++) {
+			if (this.lo[r][col][lev]) {
+				leftTile.right[k++] = this.lo[r][col][lev];
 			}
 		}
 	};
@@ -100,14 +101,15 @@ export class SolveInit {
 			});
 		}
 
-		if (upperTile) {
-			let k = 0;
-			this.initSolve_forEachAdjacentPosition(row, col, (r, c) => {
-				if (this.lo[r][c][lev - 1]) {
-					upperTile.below[k++] = this.lo[r][c][lev - 1];
-				}
-			});
+		if (!upperTile) {
+			return;
 		}
+		let k = 0;
+		this.initSolve_forEachAdjacentPosition(row, col, (r, c) => {
+			if (this.lo[r][c][lev - 1]) {
+				upperTile.below[k++] = this.lo[r][c][lev - 1];
+			}
+		});
 	}
 
 	private initSolve_computeVerticalNeighbors() {
@@ -162,11 +164,13 @@ export class SolveInit {
 		// Add empty groups
 		for (let k = 0; k <= maxGroupIndex; k++) {
 			const group = this.tileGroups[k];
-			if (group.nMembers === 0) {
-				this.qts[insertIndex] = group;
-				this.qts[insertIndex].pairing = -1;
-				insertIndex++;
+			if (group.nMembers !== 0) {
+				continue;
 			}
+
+			this.qts[insertIndex] = group;
+			this.qts[insertIndex].pairing = -1;
+			insertIndex++;
 		}
 
 		this.qtsIndex = insertIndex;
@@ -174,18 +178,19 @@ export class SolveInit {
 		// Add groups with 4 members and randomize their positions
 		for (let k = 0; k <= maxGroupIndex; k++) {
 			const group = this.tileGroups[k];
-			if (group.nMembers === 4) {
-				this.qts[insertIndex] = group;
-				this.qts[insertIndex].pairing = 0;
-
-				// Swap with a random position
-				const randomIndex = this.qtsIndex + randBelow(insertIndex + 1 - this.qtsIndex);
-				const temporary = this.qts[insertIndex];
-				this.qts[insertIndex] = this.qts[randomIndex];
-				this.qts[randomIndex] = temporary;
-
-				insertIndex++;
+			if (group.nMembers !== 4) {
+				continue;
 			}
+			this.qts[insertIndex] = group;
+			this.qts[insertIndex].pairing = 0;
+
+			// Swap with a random position
+			const randomIndex = this.qtsIndex + randBelow(insertIndex + 1 - this.qtsIndex);
+			const temporary = this.qts[insertIndex];
+			this.qts[insertIndex] = this.qts[randomIndex];
+			this.qts[randomIndex] = temporary;
+
+			insertIndex++;
 		}
 
 		this.nGroups = insertIndex;

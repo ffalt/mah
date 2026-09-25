@@ -24,15 +24,16 @@ export function statsSolveMapping(
 	const step = Math.max(1, Math.ceil(rounds / MAX_PROGRESS_REPORTS));
 	for (let index = 0; index < rounds; index++) {
 		const stones = builder.build(MODE_SOLVABLE, mapping);
-		if (stones) {
-			if (solver.solveLayout(stones) > 0) {
-				fail++;
-			} else {
-				won++;
-			}
-			if ((index + 1) % step === 0) {
-				progress([won, fail]);
-			}
+		if (!stones) {
+			continue;
+		}
+		if (solver.solveLayout(stones) > 0) {
+			fail++;
+		} else {
+			won++;
+		}
+		if ((index + 1) % step === 0) {
+			progress([won, fail]);
 		}
 	}
 	finish([won, fail]);

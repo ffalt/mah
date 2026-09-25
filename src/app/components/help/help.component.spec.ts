@@ -227,19 +227,19 @@ describe('HelpComponent', () => {
 			expect(clearTimesSpy).toHaveBeenCalled();
 		});
 
-		it('clears every stored record, not just the boards still in the list', () => {
+		it('clears every stored record, not just the layouts still in the list', () => {
 			const localstorageService = TestBed.inject(LocalstorageService);
 			const orphan: LayoutScoreStore = { winCount: 3, bestTime: 50 };
 			vi.spyOn(localstorageService, 'getScores').mockReturnValue(new Map([
 				['test-layout', { winCount: 1 } as LayoutScoreStore],
-				['deleted-custom-board', orphan]
+				['deleted-custom-layout', orphan]
 			]));
 			const clearScoreSpy = vi.spyOn(localstorageService, 'clearScore');
 
 			component.clearTimes();
 
 			expect(clearScoreSpy).toHaveBeenCalledWith('test-layout');
-			expect(clearScoreSpy).toHaveBeenCalledWith('deleted-custom-board');
+			expect(clearScoreSpy).toHaveBeenCalledWith('deleted-custom-layout');
 		});
 
 		it('should not call clearTimes when not confirmed', () => {

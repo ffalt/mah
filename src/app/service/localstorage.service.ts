@@ -139,12 +139,13 @@ export class LocalstorageService implements StorageProvider {
 		try {
 			for (let index = 0; index < storage.length; index++) {
 				const key = storage.key(index);
-				if (key?.startsWith(dailyPrefix)) {
-					const monthKey = key.slice(dailyPrefix.length);
-					// skip the aggregate, it is not a month record
-					if (monthKey !== 'meta') {
-						keys.push(monthKey);
-					}
+				if (!(key?.startsWith(dailyPrefix))) {
+					continue;
+				}
+				const monthKey = key.slice(dailyPrefix.length);
+				// skip the aggregate, it is not a month record
+				if (monthKey !== 'meta') {
+					keys.push(monthKey);
 				}
 			}
 		} catch (error) {

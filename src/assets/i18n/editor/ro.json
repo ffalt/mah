@@ -1,6 +1,6 @@
 {
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL": "Șterge toate tablele personalizate",
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL_SURE": "Șterge toate tablele personalizate?\nAceastă acțiune nu poate fi anulată.",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL": "Șterge toate tablele personalizate",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL_SURE": "Șterge toate tablele personalizate?\nAceastă acțiune nu poate fi anulată.",
 	"EDITOR_TITLE": "Editor Mah",
 	"EDITOR_NEW": "Nou",
 	"EDITOR_NEW_LONG": "Tablă nouă",
@@ -53,6 +53,6 @@
 	"EDITOR_TEST_CANCEL": "Anulează",
 	"EDITOR_TEST_SOLVED": "Rezolvat",
 	"EDITOR_TEST_FAILED": "Eșuat",
-	"EDITOR_NO_BOARDS": "Nicio tablă de afișat",
-	"EDITOR_NO_BOARDS_HINT": "Creează o tablă nouă sau importă una dintr-un fișier pentru a începe."
+	"EDITOR_NO_LAYOUTS": "Nicio tablă de afișat",
+	"EDITOR_NO_LAYOUTS_HINT": "Creează o tablă nouă sau importă una dintr-un fișier pentru a începe."
 }

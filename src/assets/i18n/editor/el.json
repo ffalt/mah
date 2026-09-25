@@ -1,6 +1,6 @@
 {
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL": "Διαγραφή όλων των προσαρμοσμένων σανίδων",
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL_SURE": "Διαγραφή όλων των προσαρμοσμένων σανίδων;\nΑυτό δεν μπορεί να αναιρεθεί.",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL": "Διαγραφή όλων των προσαρμοσμένων σανίδων",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL_SURE": "Διαγραφή όλων των προσαρμοσμένων σανίδων;\nΑυτό δεν μπορεί να αναιρεθεί.",
 	"EDITOR_TITLE": "Επεξεργαστής Mah",
 	"EDITOR_NEW": "Νέο",
 	"EDITOR_NEW_LONG": "Νέα σανίδα",
@@ -53,6 +53,6 @@
 	"EDITOR_TEST_CANCEL": "Ακύρωση",
 	"EDITOR_TEST_SOLVED": "Επιλύθηκε",
 	"EDITOR_TEST_FAILED": "Απέτυχε",
-	"EDITOR_NO_BOARDS": "Δεν υπάρχουν σανίδες για εμφάνιση",
-	"EDITOR_NO_BOARDS_HINT": "Δημιουργήστε μια νέα σανίδα ή εισαγάγετε μία από αρχείο για να ξεκινήσετε."
+	"EDITOR_NO_LAYOUTS": "Δεν υπάρχουν σανίδες για εμφάνιση",
+	"EDITOR_NO_LAYOUTS_HINT": "Δημιουργήστε μια νέα σανίδα ή εισαγάγετε μία από αρχείο για να ξεκινήσετε."
 }

@@ -1,6 +1,6 @@
 {
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL": "Poista kaikki mukautetut laudat",
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL_SURE": "Poista kaikki mukautetut laudat?\nTätä ei voi kumota.",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL": "Poista kaikki mukautetut laudat",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL_SURE": "Poista kaikki mukautetut laudat?\nTätä ei voi kumota.",
 	"EDITOR_TITLE": "Mah-editori",
 	"EDITOR_NEW": "Uusi",
 	"EDITOR_NEW_LONG": "Uusi lauta",
@@ -53,6 +53,6 @@
 	"EDITOR_TEST_CANCEL": "Peruuta",
 	"EDITOR_TEST_SOLVED": "Ratkaistu",
 	"EDITOR_TEST_FAILED": "Epäonnistui",
-	"EDITOR_NO_BOARDS": "Ei näytettäviä lautoja",
-	"EDITOR_NO_BOARDS_HINT": "Luo uusi lauta tai tuo sellainen tiedostosta aloittaaksesi."
+	"EDITOR_NO_LAYOUTS": "Ei näytettäviä lautoja",
+	"EDITOR_NO_LAYOUTS_HINT": "Luo uusi lauta tai tuo sellainen tiedostosta aloittaaksesi."
 }

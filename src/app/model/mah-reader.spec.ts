@@ -1,5 +1,5 @@
-import { isValidLoadLayout, MAX_IMPORT_BOARDS, parseMahFormat } from './mah-reader';
-import { makeBoard, makeMah, VALID_MAP } from './import.spec-helpers';
+import { isValidLoadLayout, MAX_IMPORT_LAYOUTS, parseMahFormat } from './mah-reader';
+import { makeLayout, makeMah, VALID_MAP } from './import.spec-helpers';
 import { describe, it, expect } from 'vitest';
 
 describe('isValidLoadLayout', () => {
@@ -153,18 +153,21 @@ describe('parseMahFormat', () => {
 		const mah = parseMahFormat(JSON.stringify(makeMah()));
 		expect(mah.mah).toBe('1.0');
 		expect(mah.boards).toHaveLength(1);
-		expect(mah.boards[0].name).toBe('Test Board');
+		expect(mah.boards[0].name).toBe('Test Layout');
 	});
 
-	it('returns every board of a multi board import', () => {
-		const boards = [makeBoard({ id: 'id-1', name: 'Board 1' }), makeBoard({ id: 'id-2', name: 'Board 2' })];
-		const mah = parseMahFormat(JSON.stringify(makeMah(boards)));
-		expect(mah.boards.map(board => board.id)).toEqual(['id-1', 'id-2']);
+	it('returns every board of a multi layout import', () => {
+		const layouts = [makeLayout({ id: 'id-1', name: 'Layout 1' }), makeLayout({ id: 'id-2', name: 'Layout 2' })];
+		const mah = parseMahFormat(JSON.stringify(makeMah(layouts)));
+		expect(mah.boards.map(layout => layout.id)).toEqual(['id-1', 'id-2']);
 	});
 
-	it('accepts exactly MAX_IMPORT_BOARDS boards', () => {
-		const boards = Array.from({ length: MAX_IMPORT_BOARDS }, (_, index) => makeBoard({ id: `id-${index}` }));
-		expect(parseMahFormat(JSON.stringify(makeMah(boards))).boards).toHaveLength(MAX_IMPORT_BOARDS);
+	it('accepts exactly MAX_IMPORT_LAYOUTS layouts', () => {
+		const layouts = Array.from(
+			{ length: MAX_IMPORT_LAYOUTS },
+			(_, index) => makeLayout({ id: `id-${index}` })
+		);
+		expect(parseMahFormat(JSON.stringify(makeMah(layouts))).boards).toHaveLength(MAX_IMPORT_LAYOUTS);
 	});
 
 	it('throws for malformed JSON', () => {
@@ -198,43 +201,46 @@ describe('parseMahFormat', () => {
 	});
 
 	it('throws when the mah version is missing', () => {
-		expect(() => parseMahFormat(JSON.stringify({ boards: [makeBoard()] })))
+		expect(() => parseMahFormat(JSON.stringify({ boards: [makeLayout()] })))
 			.toThrow('Import failed: Invalid or unsupported MAH format version');
 	});
 
 	it('throws when the mah version is unsupported', () => {
-		expect(() => parseMahFormat(JSON.stringify({ mah: '2.0', boards: [makeBoard()] })))
+		expect(() => parseMahFormat(JSON.stringify({ mah: '2.0', boards: [makeLayout()] })))
 			.toThrow('Import failed: Invalid or unsupported MAH format version');
 	});
 
-	it('throws a TypeError when boards is not an array', () => {
+	it('throws a TypeError when layouts is not an array', () => {
 		expect(() => parseMahFormat(JSON.stringify({ mah: '1.0', boards: 'oops' }))).toThrow(TypeError);
 		expect(() => parseMahFormat(JSON.stringify({ mah: '1.0', boards: {} }))).toThrow(TypeError);
 	});
 
-	it('throws when boards is missing', () => {
+	it('throws when layouts is missing', () => {
 		expect(() => parseMahFormat(JSON.stringify({ mah: '1.0' })))
 			.toThrow('Import failed: Missing or invalid boards array');
 	});
 
-	it('throws when boards is empty', () => {
-		expect(() => parseMahFormat(JSON.stringify(makeMah([])))).toThrow('Import failed: No boards found in import data');
+	it('throws when layouts are empty', () => {
+		expect(() => parseMahFormat(JSON.stringify(makeMah([])))).toThrow('Import failed: No layouts found in import data');
 	});
 
-	it('throws when boards exceed MAX_IMPORT_BOARDS', () => {
-		const boards = Array.from({ length: MAX_IMPORT_BOARDS + 1 }, (_, index) => makeBoard({ id: `id-${index}` }));
-		expect(() => parseMahFormat(JSON.stringify(makeMah(boards))))
-			.toThrow(`Import failed: Too many boards (${MAX_IMPORT_BOARDS + 1}), maximum is ${MAX_IMPORT_BOARDS}`);
+	it('throws when layouts exceed MAX_IMPORT_LAYOUTS', () => {
+		const layouts = Array.from(
+			{ length: MAX_IMPORT_LAYOUTS + 1 },
+			(_, index) => makeLayout({ id: `id-${index}` })
+		);
+		expect(() => parseMahFormat(JSON.stringify(makeMah(layouts))))
+			.toThrow(`Import failed: Too many layouts (${MAX_IMPORT_LAYOUTS + 1}), maximum is ${MAX_IMPORT_LAYOUTS}`);
 	});
 
-	it('throws on a board whose tiles collide', () => {
-		expect(() => parseMahFormat(JSON.stringify(makeMah([makeBoard({ map: [[0, [[0, [4, 5]]]]] })]))))
-			.toThrow('Import failed: Board entry has invalid structure');
+	it('throws on a layout whose tiles collide', () => {
+		expect(() => parseMahFormat(JSON.stringify(makeMah([makeLayout({ map: [[0, [[0, [4, 5]]]]] })]))))
+			.toThrow('Import failed: Layout entry has invalid structure');
 	});
 
-	it('throws on an invalid board instead of skipping it', () => {
-		expect(() => parseMahFormat(JSON.stringify(makeMah([makeBoard(), { name: 123 }]))))
-			.toThrow('Import failed: Board entry has invalid structure');
+	it('throws on an invalid layout instead of skipping it', () => {
+		expect(() => parseMahFormat(JSON.stringify(makeMah([makeLayout(), { name: 123 }]))))
+			.toThrow('Import failed: Layout entry has invalid structure');
 	});
 
 	it('does not pollute Object.prototype through a __proto__ payload', () => {

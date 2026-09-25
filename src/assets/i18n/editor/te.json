@@ -1,6 +1,6 @@
 {
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL": "అన్ని అనుకూల బోర్డ్‌లు తొలగించు",
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL_SURE": "అన్ని అనుకూల బోర్డ్‌లు తొలగించు?\nదీనిని రద్దు చేయలేరు.",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL": "అన్ని అనుకూల బోర్డ్‌లు తొలగించు",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL_SURE": "అన్ని అనుకూల బోర్డ్‌లు తొలగించు?\nదీనిని రద్దు చేయలేరు.",
 	"EDITOR_TITLE": "Mah ఎడిటర్",
 	"EDITOR_NEW": "కొత్త",
 	"EDITOR_NEW_LONG": "కొత్త బోర్డ్",
@@ -53,6 +53,6 @@
 	"EDITOR_TEST_CANCEL": "రద్దు",
 	"EDITOR_TEST_SOLVED": "పరిష్కరించబడింది",
 	"EDITOR_TEST_FAILED": "విఫలమైంది",
-	"EDITOR_NO_BOARDS": "చూపించడానికి బోర్డ్‌లు లేవు",
-	"EDITOR_NO_BOARDS_HINT": "ప్రారంభించడానికి కొత్త బోర్డ్ సృష్టించండి లేదా ఫైల్ నుండి దిగుమతి చేయండి."
+	"EDITOR_NO_LAYOUTS": "చూపించడానికి బోర్డ్‌లు లేవు",
+	"EDITOR_NO_LAYOUTS_HINT": "ప్రారంభించడానికి కొత్త బోర్డ్ సృష్టించండి లేదా ఫైల్ నుండి దిగుమతి చేయండి."
 }

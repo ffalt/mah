@@ -65,7 +65,7 @@ describe('LayoutService', () => {
 		it('should initialize with empty layouts', () => {
 			expect(service.layouts).toEqual({ items: [] });
 			expect(service.loaded).toBe(false);
-			expect(service.selectBoardID).toBeUndefined();
+			expect(service.selectLayoutID).toBeUndefined();
 		});
 	});
 
@@ -384,7 +384,7 @@ describe('LayoutService', () => {
 		});
 	});
 
-	describe('storeCustomBoards', () => {
+	describe('storeCustomLayouts', () => {
 		it('should store custom boards and update layouts', () => {
 			// Arrange
 			service.layouts = { items: [{ id: 'server1', name: 'Server 1', category: 'Category 1', mapping: [] }] };
@@ -406,7 +406,7 @@ describe('LayoutService', () => {
 			vi.spyOn(service, 'expandLayout').mockReturnValue(expandedLayout);
 
 			// Act
-			const count = service.storeCustomBoards(newCustomLayouts);
+			const count = service.storeCustomLayouts(newCustomLayouts);
 
 			// Assert
 			expect(count).toBe(1);
@@ -423,7 +423,7 @@ describe('LayoutService', () => {
 			const stored: Array<LoadLayout> = [{ id: 'dup', name: 'Dup', map: [[0, [[0, 0]]]] }];
 			mockLocalstorageService.getCustomLayouts.mockReturnValue(stored);
 
-			const count = service.storeCustomBoards([{ id: 'dup', name: 'Dup', map: [[0, [[0, 0]]]] }]);
+			const count = service.storeCustomLayouts([{ id: 'dup', name: 'Dup', map: [[0, [[0, 0]]]] }]);
 
 			expect(count).toBe(0);
 			expect(mockLocalstorageService.storeCustomLayouts).not.toHaveBeenCalled();
@@ -436,7 +436,7 @@ describe('LayoutService', () => {
 				{ id: 'broken', name: 'Broken', map: ['junk'] as unknown as CompactMapping }
 			]);
 
-			const count = service.storeCustomBoards([{ id: 'fresh', name: 'Fresh', map: [[0, [[0, 0]]]] }]);
+			const count = service.storeCustomLayouts([{ id: 'fresh', name: 'Fresh', map: [[0, [[0, 0]]]] }]);
 
 			expect(count).toBe(1);
 			expect(service.layouts.items.map(layout => layout.id)).toEqual(['fresh']);
@@ -446,7 +446,7 @@ describe('LayoutService', () => {
 			service.layouts = { items: [] };
 			mockLocalstorageService.getCustomLayouts.mockReturnValue([]);
 
-			const count = service.storeCustomBoards([
+			const count = service.storeCustomLayouts([
 				{ id: 'twin', name: 'One', map: [[0, [[0, 0]]]] },
 				{ id: 'twin', name: 'Two', map: [[0, [[0, 0]]]] },
 				{ id: 'other', name: 'Other', map: [[0, [[2, 0]]]] }
@@ -462,7 +462,7 @@ describe('LayoutService', () => {
 			service.layouts = { items: [] };
 			mockLocalstorageService.getCustomLayouts.mockReturnValue([{ id: 'a', name: 'A', map: [[0, [[0, 0]]]] }]);
 
-			service.storeCustomBoards([{ id: 'b', name: 'B', map: [[0, [[2, 0]]]] }]);
+			service.storeCustomLayouts([{ id: 'b', name: 'B', map: [[0, [[2, 0]]]] }]);
 
 			const written = mockLocalstorageService.storeCustomLayouts.mock.calls[0][0] as Array<LoadLayout>;
 			expect(written.map(layout => layout.id)).toEqual(['a', 'b']);

@@ -1,6 +1,6 @@
 {
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL": "Verwijder alle eigen borden",
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL_SURE": "Verwijder alle eigen borden?\nDit kan niet ongedaan worden gemaakt.",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL": "Verwijder alle eigen borden",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL_SURE": "Verwijder alle eigen borden?\nDit kan niet ongedaan worden gemaakt.",
 	"EDITOR_TITLE": "Mah Editor",
 	"EDITOR_NEW": "Nieuw",
 	"EDITOR_NEW_LONG": "Nieuw bord",
@@ -53,6 +53,6 @@
 	"EDITOR_TEST_CANCEL": "Annuleren",
 	"EDITOR_TEST_SOLVED": "Opgelost",
 	"EDITOR_TEST_FAILED": "Mislukt",
-	"EDITOR_NO_BOARDS": "Geen borden om te tonen",
-	"EDITOR_NO_BOARDS_HINT": "Maak een nieuw bord of importeer er een uit een bestand om te beginnen."
+	"EDITOR_NO_LAYOUTS": "Geen borden om te tonen",
+	"EDITOR_NO_LAYOUTS_HINT": "Maak een nieuw bord of importeer er een uit een bestand om te beginnen."
 }

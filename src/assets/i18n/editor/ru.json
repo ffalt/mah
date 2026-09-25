@@ -1,6 +1,6 @@
 {
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL": "Удалить все пользовательские доски",
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL_SURE": "Удалить все пользовательские доски?\nЭто действие не может быть отменено.",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL": "Удалить все пользовательские доски",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL_SURE": "Удалить все пользовательские доски?\nЭто действие не может быть отменено.",
 	"EDITOR_TITLE": "Редактор Mah",
 	"EDITOR_NEW": "Новый",
 	"EDITOR_NEW_LONG": "Новая доска",
@@ -53,6 +53,6 @@
 	"EDITOR_TEST_CANCEL": "Отмена",
 	"EDITOR_TEST_SOLVED": "Разрешено",
 	"EDITOR_TEST_FAILED": "Провален",
-	"EDITOR_NO_BOARDS": "Нет досок для отображения",
-	"EDITOR_NO_BOARDS_HINT": "Создайте новую доску или импортируйте её из файла, чтобы начать."
+	"EDITOR_NO_LAYOUTS": "Нет досок для отображения",
+	"EDITOR_NO_LAYOUTS_HINT": "Создайте новую доску или импортируйте её из файла, чтобы начать."
 }

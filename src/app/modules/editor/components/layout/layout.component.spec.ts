@@ -8,7 +8,7 @@ import type { EditLayout } from '../../model/edit-layout';
 import type { Cell } from '../../model/cell';
 import type { Stone } from '../../../../model/stone';
 import type { Mapping, Place } from '../../../../model/types';
-import { MAX_BOARD_TILES, MIN_BOARD_TILES } from '../../../../model/consts';
+import { MAX_LAYOUT_TILES, MIN_LAYOUT_TILES } from '../../../../model/consts';
 import { describe, it, beforeEach, expect, vi } from 'vitest';
 
 const mockWorkerService = {
@@ -17,7 +17,7 @@ const mockWorkerService = {
 
 const mockLayoutService = {
 	generatePreview: vi.fn(),
-	storeCustomBoards: vi.fn(),
+	storeCustomLayouts: vi.fn(),
 	layouts: { items: [] }
 };
 
@@ -95,11 +95,11 @@ describe('LayoutComponent', () => {
 		const mappingOf = (count: number): Mapping => Array.from({ length: count }, (_value, index): Place => [0, index * 2, 0]);
 
 		it.each([
-			['the smallest playable board', MIN_BOARD_TILES, false],
-			['a board the game still has artwork for', MAX_BOARD_TILES, false],
-			['a board between the old 144 limit and the real one', 200, false],
-			['one tile more than the game can build', MAX_BOARD_TILES + 2, true],
-			['an empty board', 0, true]
+			['the smallest playable layout', MIN_LAYOUT_TILES, false],
+			['a layout the game still has artwork for', MAX_LAYOUT_TILES, false],
+			['a layout between the old 144 limit and the real one', 200, false],
+			['one tile more than the game can build', MAX_LAYOUT_TILES + 2, true],
+			['an empty layout', 0, true]
 		])('uses the same tile count rule as the game for %s', (_reason, count, invalid) => {
 			init();
 

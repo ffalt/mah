@@ -1,6 +1,6 @@
 {
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL": "حذف همه صفحات سفارشی",
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL_SURE": "حذف همه صفحات سفارشی?\nاین قابل بازگشت نیست.",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL": "حذف همه صفحات سفارشی",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL_SURE": "حذف همه صفحات سفارشی?\nاین قابل بازگشت نیست.",
 	"EDITOR_TITLE": "ویرایشگر ماه",
 	"EDITOR_NEW": "جدید",
 	"EDITOR_NEW_LONG": "صفحه جدید",
@@ -53,6 +53,6 @@
 	"EDITOR_TEST_CANCEL": "لغو",
 	"EDITOR_TEST_SOLVED": "حل شد",
 	"EDITOR_TEST_FAILED": "شکست خورد",
-	"EDITOR_NO_BOARDS": "صفحه‌ای برای نمایش وجود ندارد",
-	"EDITOR_NO_BOARDS_HINT": "برای شروع یک صفحه جدید بسازید یا یکی را از فایل وارد کنید."
+	"EDITOR_NO_LAYOUTS": "صفحه‌ای برای نمایش وجود ندارد",
+	"EDITOR_NO_LAYOUTS_HINT": "برای شروع یک صفحه جدید بسازید یا یکی را از فایل وارد کنید."
 }

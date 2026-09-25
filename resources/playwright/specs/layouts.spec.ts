@@ -1,5 +1,5 @@
 import { test } from '@playwright/test';
-import { loadBoards, ensureOrientation, startLayout, startGame, screenshot, ORIENTATIONS } from './common';
+import { loadLayouts, ensureOrientation, startLayout, startGame, screenshot, ORIENTATIONS } from './common';
 
 test.describe('layout', () => {
 	test.beforeEach(async ({ page, baseURL }, testInfo) => {
@@ -11,12 +11,12 @@ test.describe('layout', () => {
 		await startGame(page, baseURL);
 	});
 
-	const boards = loadBoards();
-	for (const board of boards) {
+	const layouts = loadLayouts();
+	for (const layout of layouts) {
 		for (const orientation of ORIENTATIONS) {
-			test(`${board.name.toLowerCase()}-${orientation}`, async ({ page }) => {
+			test(`${layout.name.toLowerCase()}-${orientation}`, async ({ page }) => {
 				await ensureOrientation(page, orientation);
-				await startLayout(page, board.id);
+				await startLayout(page, layout.id);
 				await screenshot(page, orientation);
 			});
 		}

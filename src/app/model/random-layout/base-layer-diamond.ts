@@ -17,10 +17,11 @@ function diamondOutlineCells(x0: number, y0: number, w: number, h: number): Arra
 
 	const add = (x: number, y: number) => {
 		const k = `${x}|${y}`;
-		if (!seen.has(k)) {
-			seen.add(k);
-			cells.push([x, y]);
+		if (seen.has(k)) {
+			return;
 		}
+		seen.add(k);
+		cells.push([x, y]);
 	};
 
 	for (let dyStep = -ry; dyStep <= ry; dyStep++) {

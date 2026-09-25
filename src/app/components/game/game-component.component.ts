@@ -529,20 +529,21 @@ export class GameComponent {
 				((s.z === t1[0]) && (s.x === t1[1]) && (s.y === t1[2])) ||
 				((s.z === t2[0]) && (s.x === t2[1]) && (s.y === t2[2])))
 			);
-			if (stones.length > 1) {
-				for (const stone of stones) {
-					stone.selected.set(true);
-				}
-				setTimeout(() => {
-					this.game.board.pick(stones[0], stones[1]);
-					this.game.challenge()?.pick(stones[0], stones[1]);
-					for (const stone of stones) {
-						stone.selected.set(false);
-					}
-					this.game.checkGameState();
-					play(index + 2, list);
-				}, 300);
+			if (!(stones.length > 1)) {
+				return;
 			}
+			for (const stone of stones) {
+				stone.selected.set(true);
+			}
+			setTimeout(() => {
+				this.game.board.pick(stones[0], stones[1]);
+				this.game.challenge()?.pick(stones[0], stones[1]);
+				for (const stone of stones) {
+					stone.selected.set(false);
+				}
+				this.game.checkGameState();
+				play(index + 2, list);
+			}, 300);
 		};
 
 		workerService.solveGame(this.game.board.stones().filter(s => !s.picked()).map(s => s.toPosition()), data => {

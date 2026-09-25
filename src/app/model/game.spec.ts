@@ -4,7 +4,7 @@ import type { Board } from './board';
 import type { Clock } from './clock';
 import { type Sound, SOUNDS } from './sound';
 import type { Music } from './music';
-import { STATES, GAME_MODE_STANDARD, GAME_MODE_EASY, GAME_MODE_EXPERT, MAX_BOARD_TILES, RESCUE_SHUFFLE_ATTEMPTS } from './consts';
+import { STATES, GAME_MODE_STANDARD, GAME_MODE_EASY, GAME_MODE_EXPERT, MAX_LAYOUT_TILES, RESCUE_SHUFFLE_ATTEMPTS } from './consts';
 import { Stone } from './stone';
 import type { GameStateStore, Layout, Place, StonePlace, StorageProvider } from './types';
 import { type Mock, describe, beforeEach, it, expect, vi } from 'vitest';
@@ -279,7 +279,7 @@ describe('Game', () => {
 		});
 
 		it.each([
-			['more tiles than there is artwork for', MAX_BOARD_TILES + 2],
+			['more tiles than there is artwork for', MAX_LAYOUT_TILES + 2],
 			['an odd tile count, which would lose a tile to pairedMapping()', 11],
 			['no tiles at all, which could never be played to an end', 0]
 		])('refuses a board with %s', (_reason, count) => {

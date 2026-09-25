@@ -56,16 +56,13 @@ export class AppComponent implements OnInit {
 	}
 
 	handleEditorKeyDown(event: KeyboardEvent): boolean {
-		if (!environment.editor || event.key !== 'e') {
-			return false;
-		}
-		if (this.editorVisible()) {
-			return false;
-		}
-		if (isFormControlTarget(event.target)) {
-			return false;
-		}
-		if (this.gameComponent().isDialogVisible()) {
+		if (
+			!environment.editor ||
+			event.key !== 'e' ||
+			this.editorVisible() ||
+			isFormControlTarget(event.target) ||
+			this.gameComponent().isDialogVisible()
+		) {
 			return false;
 		}
 		this.toggleEditor();
@@ -133,11 +130,11 @@ export class AppComponent implements OnInit {
 			await this.layoutService.get();
 			const parameters = new URLSearchParams(window.location.search);
 			const layoutIDs = await this.checkImport(parameters.get('mah'));
-			this.layoutService.selectBoardID = parameters.get('board') ?? layoutIDs[0];
+			this.layoutService.selectLayoutID = parameters.get('board') ?? layoutIDs[0];
 			if (window.location.search) {
 				this.clearSearchParameters();
 			}
-			if (this.app.game.isIdle() || this.layoutService.selectBoardID) {
+			if (this.app.game.isIdle() || this.layoutService.selectLayoutID) {
 				this.gameComponent().start();
 			}
 		} finally {
@@ -154,10 +151,10 @@ export class AppComponent implements OnInit {
 	}
 
 	private async checkImport(base64jsonString: string | null): Promise<Array<string>> {
-		const boards = parseImportString(base64jsonString);
+		const layouts = parseImportString(base64jsonString);
 		const result: Array<string> = [];
 		const imported: Array<LoadLayout> = [];
-		for (const custom of boards) {
+		for (const custom of layouts) {
 			try {
 				const layout = this.layoutService.expandLayout(custom, true);
 				result.push(layout.id);
@@ -168,14 +165,14 @@ export class AppComponent implements OnInit {
 					imported.push(LayoutService.layout2loadLayout(layout, custom.map));
 				}
 			} catch (error) {
-				log.warn('Failed to import individual board:', error);
+				log.warn('Failed to import custom layout:', error);
 			}
 		}
 		if (imported.length > 0) {
-			this.layoutService.storeCustomBoards(imported);
+			this.layoutService.storeCustomLayouts(imported);
 		}
-		if (boards.length > 0 && result.length === 0) {
-			log.warn('Import completed but no valid boards were imported');
+		if (layouts.length > 0 && result.length === 0) {
+			log.warn('Import completed but no valid layouts were imported');
 		}
 		return result;
 	}

@@ -1,6 +1,6 @@
 {
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL": "Excluir todas as boards personalizadas",
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL_SURE": "Excluir todas as boards personalizadas?\nEsta ação não pode ser anulada.",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL": "Excluir todas as boards personalizadas",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL_SURE": "Excluir todas as boards personalizadas?\nEsta ação não pode ser anulada.",
 	"EDITOR_TITLE": "Editor de Mah",
 	"EDITOR_NEW": "Novo",
 	"EDITOR_NEW_LONG": "Novo board",
@@ -53,6 +53,6 @@
 	"EDITOR_TEST_CANCEL": "Cancelar",
 	"EDITOR_TEST_SOLVED": "Resolvido",
 	"EDITOR_TEST_FAILED": "Falhou",
-	"EDITOR_NO_BOARDS": "Nenhum board para mostrar",
-	"EDITOR_NO_BOARDS_HINT": "Crie um novo board ou importe um de um arquivo para começar."
+	"EDITOR_NO_LAYOUTS": "Nenhum board para mostrar",
+	"EDITOR_NO_LAYOUTS_HINT": "Crie um novo board ou importe um de um arquivo para começar."
 }

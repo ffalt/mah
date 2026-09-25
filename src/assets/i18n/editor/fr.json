@@ -1,6 +1,6 @@
 {
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL": "Supprimer tous les plateaux personnalisés",
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL_SURE": "Supprimer tous les plateaux personnalisés ?\nCette action est irréversible.",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL": "Supprimer tous les plateaux personnalisés",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL_SURE": "Supprimer tous les plateaux personnalisés ?\nCette action est irréversible.",
 	"EDITOR_TITLE": "Éditeur Mah",
 	"EDITOR_NEW": "Nouveau",
 	"EDITOR_NEW_LONG": "Nouveau plateau",
@@ -53,6 +53,6 @@
 	"EDITOR_TEST_CANCEL": "Annuler",
 	"EDITOR_TEST_SOLVED": "Résolu",
 	"EDITOR_TEST_FAILED": "Échec",
-	"EDITOR_NO_BOARDS": "Aucun plateau à afficher",
-	"EDITOR_NO_BOARDS_HINT": "Créez un nouveau plateau ou importez-en un depuis un fichier pour commencer."
+	"EDITOR_NO_LAYOUTS": "Aucun plateau à afficher",
+	"EDITOR_NO_LAYOUTS_HINT": "Créez un nouveau plateau ou importez-en un depuis un fichier pour commencer."
 }

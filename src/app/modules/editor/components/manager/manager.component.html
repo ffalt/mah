@@ -8,9 +8,9 @@
 			<app-icon-execute />
 			<span>{{ 'EDITOR_TEST_RUN_ALL' | translate }}</span>
 		</button>
-		<button type="button" class="action action-danger" (click)="removeCustomLayouts($event)" title="{{ 'EDITOR_CUSTOM_BOARD_DELETE_ALL' | translate }}">
+		<button type="button" class="action action-danger" (click)="removeCustomLayouts($event)" title="{{ 'EDITOR_CUSTOM_LAYOUT_DELETE_ALL' | translate }}">
 			<app-icon-delete />
-			<span>{{ 'EDITOR_CUSTOM_BOARD_DELETE_ALL' | translate }}</span>
+			<span>{{ 'EDITOR_CUSTOM_LAYOUT_DELETE_ALL' | translate }}</span>
 		</button>
 	</div>
 </div>
@@ -38,7 +38,7 @@
 						(click)="clickSortBy($event,4)">{{ 'EDITOR_LAYOUT_NR_OF_STONES' | translate }} <span class="arrow"></span></button>
 				</th>
 				<th scope="col" class="col-test">{{ 'EDITOR_COLUMN_TEST' | translate }}</th>
-				<th scope="col" class="col-delete"><span class="sr-only">{{ 'CUSTOM_BOARD_DELETE' | translate }}</span></th>
+				<th scope="col" class="col-delete"><span class="sr-only">{{ 'CUSTOM_LAYOUT_DELETE' | translate }}</span></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -51,7 +51,7 @@
 				(keydown.space)="$event.preventDefault(); editLayout(layout)">
 				<td class="col-image">
 					<div class="preview">
-						<app-layout-preview class="svg-board" [layout]="layout"></app-layout-preview>
+						<app-layout-preview [layout]="layout"></app-layout-preview>
 					</div>
 				</td>
 				<td class="col-name">{{ layout.name }}</td>
@@ -76,7 +76,7 @@
 				</td>
 				<td class="col-delete">
 					@if (layout.custom) {
-						<button type="button" class="icon-button icon-button-danger" (click)="removeCustomBoard($event, layout)" title="{{'CUSTOM_BOARD_DELETE' | translate}}" [attr.aria-label]="'CUSTOM_BOARD_DELETE' | translate">
+						<button type="button" class="icon-button icon-button-danger" (click)="removeCustomLayout($event, layout)" title="{{'CUSTOM_LAYOUT_DELETE' | translate}}" [attr.aria-label]="'CUSTOM_LAYOUT_DELETE' | translate">
 							<app-icon-delete />
 						</button>
 					}
@@ -87,8 +87,8 @@
 	</table>
 	@if (layouts().length === 0) {
 		<div class="empty-state">
-			<p class="empty-title">{{ 'EDITOR_NO_BOARDS' | translate }}</p>
-			<p class="empty-hint">{{ 'EDITOR_NO_BOARDS_HINT' | translate }}</p>
+			<p class="empty-title">{{ 'EDITOR_NO_LAYOUTS' | translate }}</p>
+			<p class="empty-hint">{{ 'EDITOR_NO_LAYOUTS_HINT' | translate }}</p>
 		</div>
 	}
 </div>

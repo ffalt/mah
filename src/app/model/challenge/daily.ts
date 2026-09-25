@@ -45,11 +45,12 @@ export function pickDailyItem<T>(dayKey: string, salt: string, items: ReadonlyAr
 	for (const item of items) {
 		const id = identity(item);
 		const weight = stringToSeed(`${dailySeed(dayKey)}-${salt}-${id}`);
-		if (best === undefined || weight > bestWeight || (weight === bestWeight && id < bestId)) {
-			best = item;
-			bestId = id;
-			bestWeight = weight;
+		if (!(best === undefined || weight > bestWeight || (weight === bestWeight && id < bestId))) {
+			continue;
 		}
+		best = item;
+		bestId = id;
+		bestWeight = weight;
 	}
 	return best;
 }
