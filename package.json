@@ -65,7 +65,7 @@
     "@mah/builders": "file:tools/builders",
     "@stylistic/eslint-plugin": "5.10.0",
     "@types/canvas-confetti": "1.9.0",
-    "@types/node": "26.4.1",
+    "@types/node": "26.5.1",
     "@vitest/coverage-v8": "4.1.11",
     "@vitest/eslint-plugin": "1.6.27",
     "angular-eslint": "22.5.0",
