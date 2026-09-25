@@ -31,13 +31,13 @@
 	#newgame
 	(clickEvent)="onNewGameDialogToggle($event)"
 	className="overlay-newgame overlay-size-large"
-	[title]="(dailyEnabled() ? 'RESTART' : 'SELECT_BOARD') | translate"
+	[title]="(dailyEnabled() ? 'RESTART' : 'SELECT_LAYOUT') | translate"
 >
 	@if (newgame.visible()) {
 		@if (dailyEnabled()) {
 			<div class="newgame-tabs" role="tablist">
 				<button type="button" role="tab" class="newgame-tab" [class.active]="!dailyView()" [attr.aria-selected]="!dailyView()" (click)="showLayoutList()">
-					{{ 'SELECT_BOARD' | translate }}
+					{{ 'SELECT_LAYOUT' | translate }}
 				</button>
 				<button type="button" role="tab" class="newgame-tab" [class.active]="dailyView()" [attr.aria-selected]="dailyView()" (click)="showDailyChallenge()">
 					{{ 'DAILY_CHALLENGE' | translate }}

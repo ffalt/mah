@@ -1,6 +1,6 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideTranslateService } from '@ngx-translate/core';
+import { TranslateService, provideTranslateService } from '@ngx-translate/core';
 import { LayoutService } from '../../../../service/layout.service';
 import * as exportModule from '../../model/export';
 import { EditorComponent } from './editor.component';
@@ -123,7 +123,7 @@ describe('EditorComponent', () => {
 		it('should set mode to edit and populate layout from a custom layout', () => {
 			const layout: Layout = {
 				id: 'abc',
-				name: 'My Board',
+				name: 'My Layout',
 				by: 'Author',
 				category: 'Classic',
 				custom: true,
@@ -133,7 +133,7 @@ describe('EditorComponent', () => {
 			expect(component.mode()).toBe('edit');
 			expect(component.layout()).toBeDefined();
 			expect(component.layout()?.originalId).toBe('abc');
-			expect(component.layout()?.name).toBe('My Board');
+			expect(component.layout()?.name).toBe('My Layout');
 			expect(component.layout()?.by).toBe('Author');
 			expect(component.layout()?.category).toBe('Classic');
 			expect(component.layout()?.mapping).toHaveLength(1);
@@ -142,7 +142,7 @@ describe('EditorComponent', () => {
 		it('should default category to Custom for non-custom layout', () => {
 			const layout: Layout = {
 				id: 'xyz',
-				name: 'Board',
+				name: 'Layout',
 				by: '',
 				category: 'Classic',
 				custom: false,
@@ -155,6 +155,9 @@ describe('EditorComponent', () => {
 
 	describe('newLayout', () => {
 		it('should create an empty edit layout', () => {
+			const translate = TestBed.inject(TranslateService);
+			translate.setTranslation('en', { EDITOR_LAYOUT_NEW_NAME: 'New Board' });
+			translate.use('en');
 			component.newLayout();
 			expect(component.mode()).toBe('edit');
 			expect(component.layout()?.name).toBe('New Board');

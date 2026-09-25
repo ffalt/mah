@@ -27,7 +27,7 @@
 }
 <div class="export">
 	<fieldset>
-		<legend>Format</legend>
+		<legend>{{ 'EDITOR_EXPORT_FORMAT' | translate }}</legend>
 		<ul>
 			@for (ef of exportFormats; track ef) {
 				<li>
@@ -38,7 +38,7 @@
 						[checked]="( format() === ef )"
 						(change)="chooseFormat(ef);"
 					>
-					<label [for]="'format_'+ef.name">{{ ef.name }}</label>
+					<label [for]="'format_'+ef.name">{{ ef.label | translate }}</label>
 				</li>
 			}
 		</ul>

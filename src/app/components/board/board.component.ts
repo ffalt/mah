@@ -436,7 +436,6 @@ export class BoardComponent implements OnInit, OnChanges, AfterViewInit {
 	}
 
 	private resize(element: { innerHeight: number; innerWidth: number }): void {
-		// eslint-disable-next-line unicorn/prefer-logical-operator-over-ternary
 		const r = this.noRotate() ? false : element.innerHeight > element.innerWidth;
 		if (r === this.rotate()) {
 			this.panZoom.clampPan();

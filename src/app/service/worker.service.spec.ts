@@ -329,7 +329,7 @@ describe('WorkerService', () => {
 			expect(finish).toHaveBeenCalledWith([0, 0]);
 		});
 
-		// the board tester chains the next run off finish, so a second call used to start a
+		// the layout tester chains the next run off finish, so a second call used to start a
 		// parallel chain and overwrite the numbers it had just reported with [0, 0]
 		it('should report only the first outcome when an error follows the result', () => {
 			const mapping: Mapping = [[0, 0, 0], [2, 2, 2]];

@@ -12,7 +12,7 @@
 					@if (preview(); as previewSVG) {
 						<img [src]="previewSVG" alt="" aria-hidden="true"/>
 					}
-					<span class="preview-name" [attr.title]="'DAILY_BOARD' | translate">{{ today.layout.name }}</span>
+					<span class="preview-name" [attr.title]="'DAILY_LAYOUT' | translate">{{ today.layout.name }}</span>
 				</div>
 				<div class="daily-info">
 					<p class="daily-date">{{ dateLabel() }}</p>

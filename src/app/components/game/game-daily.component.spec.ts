@@ -26,7 +26,7 @@ function stackedMapping(): Mapping {
 }
 
 function layout(): Layout {
-	return { id: 'daily-board', name: 'Daily Board', category: 'Test', mapping: stackedMapping() };
+	return { id: 'daily-layout', name: 'Daily Layout', category: 'Test', mapping: stackedMapping() };
 }
 
 function entryFor(challenge: CHALLENGE_ID): DailyEntry {
@@ -77,7 +77,7 @@ describe('GameComponent daily challenge flow', () => {
 		app.game.destroy();
 	});
 
-	it('reuses the board picker dialog rather than adding a second one', () => {
+	it('reuses the layout picker dialog rather than adding a second one', () => {
 		component.showDailyChallenge();
 		detectChanges();
 		expect(component.newgame().visible()).toBe(true);
@@ -109,7 +109,7 @@ describe('GameComponent daily challenge flow', () => {
 		expect(component.newgame().visible()).toBe(true);
 	});
 
-	it('switches back to the board list from the tabs', () => {
+	it('switches back to the layout list from the tabs', () => {
 		component.showDailyChallenge();
 		detectChanges();
 		fixture.debugElement.queryAll(By.css('.newgame-tab'))[0].nativeElement.click();
@@ -425,7 +425,7 @@ describe('GameComponent daily challenge flow', () => {
 		expect(record.mock.calls[0][2]).toBe(false);
 	});
 
-	it('records a loss when another board is picked mid-run', () => {
+	it('records a loss when another layout is picked mid-run', () => {
 		component.startDailyChallenge(entryFor(CHALLENGE_CODES.CHALLENGE_SPARKSTONE));
 		const record = vi.spyOn(daily, 'record');
 
@@ -480,7 +480,7 @@ describe('GameComponent daily challenge flow', () => {
 		expect(record).not.toHaveBeenCalled();
 	});
 
-	it('leaves the board picker on the settings the player chose', () => {
+	it('leaves the layout picker on the settings the player chose', () => {
 		component.startGame({ layout: layout(), buildMode: 'MODE_RANDOM', gameMode: 'GAME_MODE_EXPERT' });
 		// a daily run is always solvable and plays by the challenge rules, and used to write both back onto the picker
 		component.startDailyChallenge(entryFor(CHALLENGE_CODES.CHALLENGE_MIDAS_MATCH));
@@ -504,7 +504,7 @@ describe('GameComponent daily challenge flow', () => {
 			undo: [],
 			elapsed: 42_000,
 			state: 1,
-			layout: 'daily-board',
+			layout: 'daily-layout',
 			gameMode: 'GAME_MODE_STANDARD',
 			buildMode: 'MODE_SOLVABLE',
 			challenge: { code: CHALLENGE_CODES.CHALLENGE_MIDAS_MATCH, seed: 'daily-2026-07-30', dayKey: '2026-07-30', score: 900 }

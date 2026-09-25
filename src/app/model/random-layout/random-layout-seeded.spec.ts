@@ -4,7 +4,7 @@ import { mulberry32, rng, stringToSeed } from '../rng';
 import { generateSeededRandomMapping, maxSeedAttempts, retrySeeded } from './random-layout';
 
 // 144 places over two levels, the shape generateRandomMapping is contracted to return
-function boardMapping(): Mapping {
+function layoutMapping(): Mapping {
 	return Array.from({ length: 144 }, (_value, index): Place => [index < 72 ? 0 : 1, (index % 72) * 2, 0]);
 }
 
@@ -18,7 +18,7 @@ describe('retrySeeded', () => {
 		const draws: Array<number> = [];
 		const mapping = retrySeeded('daily-2026-08-06', () => {
 			draws.push(rng());
-			return boardMapping();
+			return layoutMapping();
 		});
 		expect(mapping).toHaveLength(144);
 		expect(draws).toEqual([firstDrawOf('daily-2026-08-06')]);
@@ -31,7 +31,7 @@ describe('retrySeeded', () => {
 			draws.push(rng());
 			attempts++;
 			// the bare seed and the first two suffixes come up empty
-			return attempts > 3 ? boardMapping() : [];
+			return attempts > 3 ? layoutMapping() : [];
 		});
 		expect(mapping).toHaveLength(144);
 		expect(draws).toEqual(['seed', 'seed-1', 'seed-2', 'seed-3'].map(seed => firstDrawOf(seed)));
@@ -53,29 +53,29 @@ describe('retrySeeded', () => {
 	});
 
 	it('hands the RNG back once it is done', () => {
-		retrySeeded('seed', () => boardMapping());
+		retrySeeded('seed', () => layoutMapping());
 		// a seeded generator repeats, the restored Math.random one does not
 		expect(rng()).not.toBe(rng());
 	});
 });
 
 describe('generateSeededRandomMapping', () => {
-	it('never returns an empty board', () => {
+	it('never returns an empty layout', () => {
 		expect(generateSeededRandomMapping('daily-2026-08-06', 'random', 'random', 'random')).toHaveLength(144);
 	});
 
 	// the combination the layout list can pin, and the one the unmirrored fallback exists for
-	it('never returns an empty board with symmetry pinned on both axes', () => {
+	it('never returns an empty layout with symmetry pinned on both axes', () => {
 		expect(generateSeededRandomMapping('daily-2026-08-06', 'true', 'true', 'random')).toHaveLength(144);
 	});
 
-	it('returns the same board for the same seed', () => {
+	it('returns the same layout for the same seed', () => {
 		const first = generateSeededRandomMapping('daily-2026-08-06', 'random', 'random', 'random');
 		const second = generateSeededRandomMapping('daily-2026-08-06', 'random', 'random', 'random');
 		expect(second).toEqual(first);
 	});
 
-	it('returns a different board for a different seed', () => {
+	it('returns a different layout for a different seed', () => {
 		const first = generateSeededRandomMapping('daily-2026-08-06', 'random', 'random', 'random');
 		const other = generateSeededRandomMapping('daily-2026-08-07', 'random', 'random', 'random');
 		expect(other).not.toEqual(first);

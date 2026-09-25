@@ -9,7 +9,7 @@ import { describe, it, beforeEach, expect, vi } from 'vitest';
 
 const editLayout: EditLayout = {
 	id: '',
-	name: 'Test Board',
+	name: 'Test Layout',
 	by: 'Author',
 	category: 'Custom',
 	mapping: [[0, 0, 0], [0, 2, 0], [0, 4, 0], [0, 6, 0]]
@@ -57,7 +57,7 @@ describe('ExportComponent', () => {
 	describe('update()', () => {
 		it('sets filename with current format extension', () => {
 			init();
-			expect(component.filename()).toBe('test_board.mah');
+			expect(component.filename()).toBe('test_layout.mah');
 		});
 
 		it('sets result as non-empty string', () => {
@@ -69,7 +69,7 @@ describe('ExportComponent', () => {
 		it('sets exportLayout with id and name', () => {
 			init();
 			expect(component.exportLayout()).toBeDefined();
-			expect(component.exportLayout()?.name).toBe('Test Board');
+			expect(component.exportLayout()?.name).toBe('Test Layout');
 		});
 	});
 
@@ -79,7 +79,7 @@ describe('ExportComponent', () => {
 			const kyodaiFormat = component.exportFormats[1];
 			component.chooseFormat(kyodaiFormat);
 			expect(component.format()).toBe(kyodaiFormat);
-			expect(component.filename()).toBe('test_board.lay');
+			expect(component.filename()).toBe('test_layout.lay');
 		});
 
 		it('switches to kmahjongg format', () => {
@@ -145,7 +145,7 @@ describe('ExportComponent', () => {
 			expect(savedEvents).toHaveLength(0);
 		});
 
-		it('shows alert and reports no success when the board was rejected as a duplicate', () => {
+		it('shows alert and reports no success when the layout was rejected as a duplicate', () => {
 			const layout = { ...editLayout };
 			mockLayoutService.layouts = { items: [] };
 			init(layout);

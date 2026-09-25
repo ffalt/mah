@@ -155,12 +155,12 @@ function runGrowthPass(mapping: Mapping, mirrorX: boolean, mirrorY: boolean): Ma
 function makeMirrorFns(mapping: Mapping): { mirX: (x: number) => number; mirY: (y: number) => number } {
 	const xs = mapping.map(p => p[1]);
 	const ys = mapping.map(p => p[2]);
-	const minBoardX = xs.length > 0 ? Math.min(...xs) : 0;
-	const maxBoardX = xs.length > 0 ? Math.max(...xs) : X_MAX;
-	const minBoardY = ys.length > 0 ? Math.min(...ys) : 0;
-	const maxBoardY = ys.length > 0 ? Math.max(...ys) : Y_MAX;
-	const midX = (minBoardX + maxBoardX) / 2;
-	const midY = (minBoardY + maxBoardY) / 2;
+	const minX = xs.length > 0 ? Math.min(...xs) : 0;
+	const maxX = xs.length > 0 ? Math.max(...xs) : X_MAX;
+	const minY = ys.length > 0 ? Math.min(...ys) : 0;
+	const maxY = ys.length > 0 ? Math.max(...ys) : Y_MAX;
+	const midX = (minX + maxX) / 2;
+	const midY = (minY + maxY) / 2;
 	return {
 		mirX: (x: number) => Math.round(2 * midX - x),
 		mirY: (y: number) => Math.round(2 * midY - y)

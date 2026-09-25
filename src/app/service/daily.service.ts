@@ -344,7 +344,7 @@ export class DailyService {
 			category: 'DAILY_CHALLENGE',
 			mapping: generateSeededRandomMapping(dailySeed(key), 'random', 'random', 'random')
 		};
-		layout.name = this.translate.instant('DAILY_GENERATED_BOARD');
+		layout.name = this.translate.instant('DAILY_GENERATED_LAYOUT');
 		this.generatedLayouts.set(key, layout);
 		return layout;
 	}

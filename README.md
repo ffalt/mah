@@ -21,9 +21,9 @@ The original open-source Mahjong Solitaire game powering many Mahjong experience
 
 ## ✨ Features
 
-🧩 **84 built-in boards** - from classic layouts like Turtle and Dragon to unique custom designs
+🧩 **84 built-in layouts** - from classic layouts like Turtle and Dragon to unique custom designs
 
-🌱 **Random seed based board generator** - enter or generate a custom seed to share or replay a specific randomly generated board for endless replayability
+🌱 **Random seed based layout generator** - enter or generate a custom seed to share or replay a specific randomly generated board for endless replayability
 
 🎨 **13 tile image sets** - switch between beautiful tile designs in light and dark styles
 
@@ -70,11 +70,11 @@ Your streak, your best streak, a won/played count and a calendar of past results
 
 ---
 
-## 🏛️ Explore More Boards
+## 🏛️ Explore More Layouts
 
 ### [Mahjong Solitaire Layout Museum](https://ffalt.github.io/mahseum/)
 
-Browse a curated archive of custom board layouts created by the Kyodai Mahjongg community.
+Browse a curated archive of custom layouts created by the Kyodai Mahjongg community.
 Click any layout and select **"Play it with Mah"** to import it directly into your game.
 
 ---

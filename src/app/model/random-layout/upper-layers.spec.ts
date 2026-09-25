@@ -107,7 +107,7 @@ describe('fillLayout', () => {
 
 	describe('empty base layer', () => {
 		// Exercises computeBelowWindow returning null (z=1 scan with no z=0 tiles initially)
-		// and makeMirrorFns with an empty mapping (defaults to full-board extents)
+		// and makeMirrorFns with an empty mapping (defaults to full-layout extents)
 		it('fills from an empty base with mirrorX=false mirrorY=false', () => {
 			const result = fillLayout([], false, false);
 			assertValidLayout(result);
@@ -225,7 +225,7 @@ describe('fillLayout', () => {
 	});
 
 	describe('tryPlaceOrbit rejection paths', () => {
-		// With both mirrors and a near-full board, size-4 orbits are rejected
+		// With both mirrors and a near-full layout, size-4 orbits are rejected
 		// because they would push mapping.length over TARGET_COUNT
 		it('rejects orbits that would exceed TARGET_COUNT', () => {
 			seedRNG('orbit-reject-test');
@@ -240,7 +240,7 @@ describe('fillLayout', () => {
 		});
 
 		it('orbit rejected when out of bounds for mirror position', () => {
-			// A base near a board edge forces mirror positions outside the board.
+			// A base near a layout edge forces mirror positions outside the layout.
 			// fillLayout is best-effort; the result may be < 144 for tiny constrained bases.
 			seedRNG('edge-mirror');
 			const edgeBase: Mapping = [[0, 2, 2], [0, 4, 2]];

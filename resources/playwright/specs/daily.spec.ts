@@ -12,7 +12,7 @@ interface SeedDay {
 	score?: number;
 }
 
-// a fixed day keeps the calendar, the board of the day and the challenge rotation identical on every run
+// a fixed day keeps the calendar, the layout of the day and the challenge rotation identical on every run
 const TODAY = new Date(2026, 5, 15, 10, 0, 0);
 const SCROLL_TARGET = 'app-daily-challenge';
 

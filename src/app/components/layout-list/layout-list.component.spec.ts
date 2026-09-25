@@ -44,7 +44,7 @@ describe('LayoutListComponent', () => {
 		expect(component.groups().at(-1)?.isRandom).toBe(true);
 	});
 
-	it('removes a custom board through the service and rebuilds from the input binding', () => {
+	it('removes a custom layout through the service and rebuilds from the input binding', () => {
 		const layoutService = TestBed.inject(LayoutService);
 		const removeSpy = vi.spyOn(layoutService, 'removeCustomLayout').mockImplementation(() => undefined);
 		vi.spyOn(window, 'confirm').mockReturnValue(true);
@@ -64,7 +64,7 @@ describe('LayoutListComponent', () => {
 		expect(component.groups()[0].layouts.map(item => item.layout.id)).toEqual(['B']);
 	});
 
-	it('keeps the board when the delete confirmation is declined', () => {
+	it('keeps the layout when the delete confirmation is declined', () => {
 		const layoutService = TestBed.inject(LayoutService);
 		const removeSpy = vi.spyOn(layoutService, 'removeCustomLayout').mockImplementation(() => undefined);
 		vi.spyOn(window, 'confirm').mockReturnValue(false);
@@ -118,7 +118,7 @@ describe('LayoutListComponent', () => {
 
 	it('relabels the random group and its cards when the language changes', () => {
 		const translate = TestBed.inject(TranslateService);
-		translate.setTranslation('en', { RANDOM_GROUP: 'Random', RANDOM_LAYOUT: 'Board' });
+		translate.setTranslation('en', { RANDOM_GROUP: 'Random', RANDOM_LAYOUT: 'Layout' });
 		translate.setTranslation('de', { RANDOM_GROUP: 'Zufällig', RANDOM_LAYOUT: 'Brett' });
 		fixture.componentRef.setInput('layouts', [makeLayout('A', 'Cat1')]);
 
@@ -129,7 +129,7 @@ describe('LayoutListComponent', () => {
 			.map(element => element.getAttribute('aria-label'));
 
 		expect(text()).toContain('Random');
-		expect(labels()).toContain('Board 1');
+		expect(labels()).toContain('Layout 1');
 
 		translate.use('de');
 		fixture.detectChanges();
@@ -139,7 +139,7 @@ describe('LayoutListComponent', () => {
 		expect(labels()).toContain('Brett 1');
 	});
 
-	it('relabels a board category when the language changes without recreating the component', () => {
+	it('relabels a layout category when the language changes without recreating the component', () => {
 		const translate = TestBed.inject(TranslateService);
 		translate.setTranslation('en', { CAT_CAT1: 'Animals' });
 		translate.setTranslation('de', { CAT_CAT1: 'Tiere' });
@@ -162,7 +162,7 @@ describe('LayoutListComponent', () => {
 			fixture.detectChanges();
 		});
 
-		it('keeps a single tab stop for the whole gallery and prefers the selected board', () => {
+		it('keeps a single tab stop for the whole gallery and prefers the selected layout', () => {
 			expect(fixture.nativeElement.querySelectorAll('[tabindex="0"]').length).toBe(1);
 			expect(component.stopId()).toBe('group-name-0');
 

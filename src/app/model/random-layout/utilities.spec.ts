@@ -167,7 +167,7 @@ const rectCells: CellsFunction = (x0, y0, w, h) => {
 };
 
 describe('canPlace', () => {
-	it('accepts an unused size on an empty board', () => {
+	it('accepts an unused size on an empty layout', () => {
 		expect(canPlace(0, 0, 3, 3, new Set(), new Set(), new Set(), rectCells(0, 0, 3, 3))).toBe(true);
 	});
 

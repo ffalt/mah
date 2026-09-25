@@ -34,17 +34,18 @@ export function parseMahFormat(jsonString: string): MahFormat {
 	if (!mah.mah || mah.mah !== '1.0') {
 		throw new Error('Import failed: Invalid or unsupported MAH format version');
 	}
-	if (!Array.isArray(mah.boards)) {
+	const layouts = mah.boards;
+	if (!Array.isArray(layouts)) {
 		throw new TypeError('Import failed: Missing or invalid boards array');
 	}
-	if (mah.boards.length === 0) {
+	if (layouts.length === 0) {
 		throw new Error('Import failed: No layouts found in import data');
 	}
-	if (mah.boards.length > MAX_IMPORT_LAYOUTS) {
-		throw new Error(`Import failed: Too many layouts (${mah.boards.length}), maximum is ${MAX_IMPORT_LAYOUTS}`);
+	if (layouts.length > MAX_IMPORT_LAYOUTS) {
+		throw new Error(`Import failed: Too many layouts (${layouts.length}), maximum is ${MAX_IMPORT_LAYOUTS}`);
 	}
-	for (const board of mah.boards) {
-		if (!isValidLoadLayout(board)) {
+	for (const layout of layouts) {
+		if (!isValidLoadLayout(layout)) {
 			throw new Error('Import failed: Layout entry has invalid structure');
 		}
 	}

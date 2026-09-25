@@ -214,7 +214,7 @@ describe('Game with a challenge', () => {
 		game.start(layout(), MODE_SOLVABLE, GAME_MODE_EASY, { id: CHALLENGE_CODES.CHALLENGE_MIDAS_MATCH, seed: 'seed' });
 		game.save();
 
-		// the stored mode seeds the board picker on the next launch, and GAME_MODE_CHALLENGE is not selectable
+		// the stored mode seeds the layout picker on the next launch, and GAME_MODE_CHALLENGE is not selectable
 		expect(stored?.gameMode).toBe(GAME_MODE_EASY);
 
 		const restoredGame = new Game(storage);

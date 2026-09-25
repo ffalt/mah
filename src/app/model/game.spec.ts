@@ -282,7 +282,7 @@ describe('Game', () => {
 			['more tiles than there is artwork for', MAX_LAYOUT_TILES + 2],
 			['an odd tile count, which would lose a tile to pairedMapping()', 11],
 			['no tiles at all, which could never be played to an end', 0]
-		])('refuses a board with %s', (_reason, count) => {
+		])('refuses a layout with %s', (_reason, count) => {
 			const layout: Layout = {
 				id: 'unplayable',
 				name: 'Unplayable Layout',
@@ -299,7 +299,7 @@ describe('Game', () => {
 			expect(game.message()?.messageParams).toEqual({ count });
 		});
 
-		it('clears the unplayable message once a playable board starts', () => {
+		it('clears the unplayable message once a playable layout starts', () => {
 			const unplayable: Layout = { id: 'bad', name: 'Bad', category: 'Test', mapping: [[0, 0, 0]] };
 			const playable: Layout = { id: 'good', name: 'Good', category: 'Test', mapping: [[0, 0, 0], [0, 2, 0]] };
 

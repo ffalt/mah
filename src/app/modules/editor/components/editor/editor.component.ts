@@ -75,7 +75,7 @@ export class EditorComponent {
 	newLayout() {
 		this.editLayout({
 			id: '',
-			name: 'New Board',
+			name: this.translate.instant('EDITOR_LAYOUT_NEW_NAME'),
 			category: 'Custom',
 			by: '',
 			mapping: []

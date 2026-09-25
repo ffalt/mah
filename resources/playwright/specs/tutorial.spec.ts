@@ -43,11 +43,13 @@ test.describe('tutorial', () => {
 					await screenshot(page, `tutorial-${index + 1}`);
 
 					// Click next button if not the last step
-					if (index < TUTORIAL_STEPS) {
-						await nextButton.evaluate(element => element.setAttribute('style', 'display: block'));
-						await nextButton.click();
-						await page.waitForTimeout(500);
+					if (!(index < TUTORIAL_STEPS)) {
+						continue;
 					}
+
+					await nextButton.evaluate(element => element.setAttribute('style', 'display: block'));
+					await nextButton.click();
+					await page.waitForTimeout(500);
 				}
 			});
 		}

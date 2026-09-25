@@ -1,4 +1,4 @@
-<button type="button" class="drag-handle" aria-label="Drag controls" title="Drag controls" (pointerdown)="startDrag($event)" (keydown)="onHandleKeyDown($event)">
+<button type="button" class="drag-handle" [attr.aria-label]="'ZEN_DRAG_CONTROLS' | translate" title="{{'ZEN_DRAG_CONTROLS' | translate}}" (pointerdown)="startDrag($event)" (keydown)="onHandleKeyDown($event)">
 	<app-icon-drag-handle/>
 </button>
 <button type="button" class="button" (click)="app.game.toggle()" title="{{'PAUSE_LONG' | translate}}" [attr.aria-label]="'PAUSE' | translate" [attr.aria-pressed]="app.game.isPaused()">

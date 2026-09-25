@@ -47,11 +47,12 @@ function parseArguments(argv) {
 	const arguments_ = {};
 	for (let index = 2; index < argv.length; index++) {
 		const a = argv[index];
-		if (a.startsWith("--")) {
-			const key = a.slice(2);
-			const next = argv[index + 1];
-			arguments_[key] = (next && !next.startsWith("--")) ? next : true;
+		if (!a.startsWith("--")) {
+			continue;
 		}
+		const key = a.slice(2);
+		const next = argv[index + 1];
+		arguments_[key] = (next && !next.startsWith("--")) ? next : true;
 	}
 	return arguments_;
 }
@@ -409,11 +410,12 @@ async function main() {
 	if (missing) {
 		console.warn(`Missing/Skipped: ${missing}`);
 	}
-	if (config.wantOxipng) {
-		const ok = await runOxipng(config.outPath, config.oxiArguments);
-		if (ok) {
-			console.log("oxipng optimization completed");
-		}
+	if (!config.wantOxipng) {
+		return;
+	}
+	const ok = await runOxipng(config.outPath, config.oxiArguments);
+	if (ok) {
+		console.log("oxipng optimization completed");
 	}
 }
 
@@ -550,21 +552,13 @@ function buildLuminanceMaps(out, width, height) {
 		for (let x = 0; x < width; x++) {
 			let lo = 1;
 			let hi = 0;
-			for (let dy = -1; dy <= 1; dy++) {
-				const yy = y + dy;
-				if (yy >= 0 && yy < height) {
-					for (let dx = -1; dx <= 1; dx++) {
-						const xx = x + dx;
-						if (xx >= 0 && xx < width) {
-							const v = lumArray[yy * width + xx];
-							if (v < lo) {
-								lo = v;
-							}
-							if (v > hi) {
-								hi = v;
-							}
-						}
-					}
+			const yEnd = Math.min(height - 1, y + 1);
+			const xEnd = Math.min(width - 1, x + 1);
+			for (let yy = Math.max(0, y - 1); yy <= yEnd; yy++) {
+				for (let xx = Math.max(0, x - 1); xx <= xEnd; xx++) {
+					const v = lumArray[yy * width + xx];
+					lo = Math.min(lo, v);
+					hi = Math.max(hi, v);
 				}
 			}
 			rangeArray[y * width + x] = hi - lo;

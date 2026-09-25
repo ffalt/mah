@@ -4,7 +4,7 @@ export function optimizeMapping(mapping: Mapping): Mapping {
 	if (mapping.length === 0) {
 		return [];
 	}
-	// move board to left/top/min z-index
+	// move layout to left/top/min z-index
 	let minZ: number = mapping[0][0];
 	let minX: number = mapping[0][1];
 	let minY: number = mapping[0][2];

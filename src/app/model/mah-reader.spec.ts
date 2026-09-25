@@ -131,7 +131,7 @@ describe('isValidLoadLayout', () => {
 		});
 	});
 
-	it('returns true for a valid minimal board (name + map)', () => {
+	it('returns true for a valid minimal layout (name + map)', () => {
 		expect(isValidLoadLayout({ name: 'Test', map: VALID_MAP })).toBe(true);
 	});
 
@@ -139,8 +139,8 @@ describe('isValidLoadLayout', () => {
 		expect(isValidLoadLayout({ name: 'Test', map: VALID_MAP, id: 'a'.repeat(200) })).toBe(true);
 	});
 
-	it('returns true for a fully specified valid board', () => {
-		expect(isValidLoadLayout({ id: 'my-id', name: 'Test Board', map: VALID_MAP, by: 'Author', cat: 'Classic' })).toBe(true);
+	it('returns true for a fully specified valid layout', () => {
+		expect(isValidLoadLayout({ id: 'my-id', name: 'Test Layout', map: VALID_MAP, by: 'Author', cat: 'Classic' })).toBe(true);
 	});
 
 	it('returns true when optional fields are undefined', () => {
@@ -156,7 +156,7 @@ describe('parseMahFormat', () => {
 		expect(mah.boards[0].name).toBe('Test Layout');
 	});
 
-	it('returns every board of a multi layout import', () => {
+	it('returns every layout of a multi layout import', () => {
 		const layouts = [makeLayout({ id: 'id-1', name: 'Layout 1' }), makeLayout({ id: 'id-2', name: 'Layout 2' })];
 		const mah = parseMahFormat(JSON.stringify(makeMah(layouts)));
 		expect(mah.boards.map(layout => layout.id)).toEqual(['id-1', 'id-2']);

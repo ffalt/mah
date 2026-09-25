@@ -151,7 +151,7 @@ describe('ManagerComponent', () => {
 
 	describe('update', () => {
 		it('should populate layouts from inputLayouts input', () => {
-			const layouts: Array<Layout> = [makeLayout('BoardA'), makeLayout('BoardB')];
+			const layouts: Array<Layout> = [makeLayout('LayoutA'), makeLayout('LayoutB')];
 			fixture.componentRef.setInput('inputLayouts', layouts);
 			fixture.detectChanges();
 			expect(component.layouts()).toHaveLength(2);

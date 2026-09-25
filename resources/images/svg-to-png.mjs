@@ -46,11 +46,12 @@ function parseArguments(argv) {
 	const arguments_ = {};
 	for (let index = 2; index < argv.length; index++) {
 		const a = argv[index];
-		if (a.startsWith("--")) {
-			const key = a.slice(2);
-			const next = argv[index + 1];
-			arguments_[key] = (next && !next.startsWith("--")) ? next : true;
+		if (!a.startsWith("--")) {
+			continue;
 		}
+		const key = a.slice(2);
+		const next = argv[index + 1];
+		arguments_[key] = (next && !next.startsWith("--")) ? next : true;
 	}
 	return arguments_;
 }
@@ -245,40 +246,41 @@ function extractTPPreviewEntries(svgText) {
 		}
 
 		// Handle use elements within t_preview (common in spritesheets)
-		if (tag === "use" || tag.endsWith(":use")) {
-			const w = parseNum(getAttribute(attributes, "width"));
-			const h = parseNum(getAttribute(attributes, "height"));
-			if (!(w > 0 && h > 0)) {
-				continue;
-			}
-			const ux = parseNum(getAttribute(attributes, "x"));
-			const uy = parseNum(getAttribute(attributes, "y"));
-
-			// accumulate transforms from ancestor groups and the element itself
-			let tx = 0;
-			let ty = 0;
-			for (const g of stack) {
-				const t = parseTransform(g.attrs);
-				tx += t.x;
-				ty += t.y;
-			}
-			const selfT = parseTransform(attributes);
-			tx += selfT.x;
-			ty += selfT.y;
-
-			// determine name from href or id attributes
-			let href = getAttribute(attributes, "xlink:href") || getAttribute(attributes, "href") || "";
-			href = href.replace(/^#/, "");
-			const name = href || getAttribute(attributes, "id") || getAttribute(attributes, "data-name") || getAttribute(attributes, "name") || getAttribute(attributes, "aria-label") || "";
-
-			entries.push({
-				name: sanitizeName(name),
-				x: tx + ux,
-				y: ty + uy,
-				width: w,
-				height: h
-			});
+		if (tag !== "use" && !tag.endsWith(":use")) {
+			continue;
 		}
+		const w = parseNum(getAttribute(attributes, "width"));
+		const h = parseNum(getAttribute(attributes, "height"));
+		if (!(w > 0 && h > 0)) {
+			continue;
+		}
+		const ux = parseNum(getAttribute(attributes, "x"));
+		const uy = parseNum(getAttribute(attributes, "y"));
+
+		// accumulate transforms from ancestor groups and the element itself
+		let tx = 0;
+		let ty = 0;
+		for (const g of stack) {
+			const t = parseTransform(g.attrs);
+			tx += t.x;
+			ty += t.y;
+		}
+		const selfT = parseTransform(attributes);
+		tx += selfT.x;
+		ty += selfT.y;
+
+		// determine name from href or id attributes
+		let href = getAttribute(attributes, "xlink:href") || getAttribute(attributes, "href") || "";
+		href = href.replace(/^#/, "");
+		const name = href || getAttribute(attributes, "id") || getAttribute(attributes, "data-name") || getAttribute(attributes, "name") || getAttribute(attributes, "aria-label") || "";
+
+		entries.push({
+			name: sanitizeName(name),
+			x: tx + ux,
+			y: ty + uy,
+			width: w,
+			height: h
+		});
 	}
 
 	if (entries.length === 0) {
@@ -318,10 +320,11 @@ function assignGridIndices(entries) {
 		let bestDistance = Number.POSITIVE_INFINITY;
 		for (const [index, band] of bands.entries()) {
 			const d = Math.abs(value - band);
-			if (d < bestDistance) {
-				bestDistance = d;
-				bestIndex = index;
+			if (d >= bestDistance) {
+				continue;
 			}
+			bestDistance = d;
+			bestIndex = index;
 		}
 		return bestIndex;
 	}
@@ -464,108 +467,110 @@ async function main() {
 	}
 
 	const outDirectory = arguments_.out;
-	if (outDirectory) {
-		const outTilesPath = path.resolve(rootDirectory, outDirectory);
-		await ensureDirectory(outTilesPath);
-		// Determine slicing grid if still missing
-		if ((!cols || !rows) && (tileWidth || tileHeight)) {
-			if (!cols && tileWidth) {
-				cols = Math.max(1, Math.round(imgW / tileWidth));
+	if (!outDirectory) {
+		return;
+	}
+
+	const outTilesPath = path.resolve(rootDirectory, outDirectory);
+	await ensureDirectory(outTilesPath);
+	// Determine slicing grid if still missing
+	if ((!cols || !rows) && (tileWidth || tileHeight)) {
+		if (!cols && tileWidth) {
+			cols = Math.max(1, Math.round(imgW / tileWidth));
+		}
+		if (!rows && tileHeight) {
+			rows = Math.max(1, Math.round(imgH / tileHeight));
+		}
+	}
+	if (!cols) {
+		cols = 12;
+	}
+	if (!rows) {
+		rows = 7;
+	}
+
+	const cellW = Math.floor(imgW / cols);
+	const cellH = Math.floor(imgH / rows);
+
+	// Build naming map: either from t_preview order or numeric
+	let nameGrid = null;
+	if (detected?.entries) {
+		// Prepare a cols x rows name grid
+		nameGrid = Array.from({ length: rows }, () => Array.from({ length: cols }, () => null));
+		for (const entry of detected.entries) {
+			const r = Math.min(rows - 1, Math.max(0, entry.row));
+			const c = Math.min(cols - 1, Math.max(0, entry.col));
+			const nm = entry.name || `tile-${r}-${c}`;
+			nameGrid[r][c] = sanitizeName(nm);
+		}
+	}
+
+	// Apply start row constraint (skip rows before this)
+	const startRow = Math.max(0, Math.min(startRow0 || 0, rows));
+	if (startRow > 0) {
+		console.log(`[split] start-row=${startRow + 1} (1-based): skipping rows 1..${startRow}`);
+	}
+
+	// Slice into tiles
+	let exported = 0;
+	const promises = [];
+	for (let r = startRow; r < rows; r++) {
+		for (let c = 0; c < cols; c++) {
+			// compute crop box for this tile
+			const left = Math.floor((imgW * c) / cols);
+			const top = Math.floor((imgH * r) / rows);
+			const right = (c === cols - 1) ? imgW : Math.floor((imgW * (c + 1)) / cols);
+			const bottom = (r === rows - 1) ? imgH : Math.floor((imgH * (r + 1)) / rows);
+			let w = right - left;
+			let h = bottom - top;
+			// Clamp to image bounds to avoid sharp extract_area errors
+			if (left + w > imgW) {
+				w = imgW - left;
 			}
-			if (!rows && tileHeight) {
-				rows = Math.max(1, Math.round(imgH / tileHeight));
+			if (top + h > imgH) {
+				h = imgH - top;
 			}
-		}
-		if (!cols) {
-			cols = 12;
-		}
-		if (!rows) {
-			rows = 7;
-		}
-
-		const cellW = Math.floor(imgW / cols);
-		const cellH = Math.floor(imgH / rows);
-
-		// Build naming map: either from t_preview order or numeric
-		let nameGrid = null;
-		if (detected?.entries) {
-			// Prepare a cols x rows name grid
-			nameGrid = Array.from({ length: rows }, () => Array.from({ length: cols }, () => null));
-			for (const entry of detected.entries) {
-				const r = Math.min(rows - 1, Math.max(0, entry.row));
-				const c = Math.min(cols - 1, Math.max(0, entry.col));
-				const nm = entry.name || `tile-${r}-${c}`;
-				nameGrid[r][c] = sanitizeName(nm);
-			}
-		}
-
-		// Apply start row constraint (skip rows before this)
-		const startRow = Math.max(0, Math.min(startRow0 || 0, rows));
-		if (startRow > 0) {
-			console.log(`[split] start-row=${startRow + 1} (1-based): skipping rows 1..${startRow}`);
-		}
-
-		// Slice into tiles
-		let exported = 0;
-		const promises = [];
-		for (let r = startRow; r < rows; r++) {
-			for (let c = 0; c < cols; c++) {
-				// compute crop box for this tile
-				const left = Math.floor((imgW * c) / cols);
-				const top = Math.floor((imgH * r) / rows);
-				const right = (c === cols - 1) ? imgW : Math.floor((imgW * (c + 1)) / cols);
-				const bottom = (r === rows - 1) ? imgH : Math.floor((imgH * (r + 1)) / rows);
-				let w = right - left;
-				let h = bottom - top;
-				// Clamp to image bounds to avoid sharp extract_area errors
-				if (left + w > imgW) {
-					w = imgW - left;
+			w = Math.max(1, w);
+			h = Math.max(1, h);
+			const seq = ++exported; // exported index (1-based)
+			const baseName = nameGrid?.[r]?.[c] || `tile-${pad(seq, 2)}`;
+			const fileName = `${baseName}.png`;
+			const filePath = path.join(outTilesPath, fileName);
+			let tilePipeline = sharp(pngBuffer).extract({ left, top, width: w, height: h });
+			// Optionally upscale tiles to meet minimum output size while preserving aspect ratio
+			if (tileOutWidth || tileOutHeight) {
+				const sw = tileOutWidth ? (tileOutWidth / w) : 0;
+				const sh = tileOutHeight ? (tileOutHeight / h) : 0;
+				let scale = Math.max(sw || 0, sh || 0);
+				if (scale <= 0) {
+					scale = 1;
+				} // no constraints
+				if (scale > 1) {
+					const targetW = Math.max(w, Math.round(w * scale));
+					// Provide only width to preserve aspect ratio without cropping/distortion
+					tilePipeline = tilePipeline.resize({ width: targetW, withoutEnlargement: false });
 				}
-				if (top + h > imgH) {
-					h = imgH - top;
-				}
-				w = Math.max(1, w);
-				h = Math.max(1, h);
-				const seq = ++exported; // exported index (1-based)
-				const baseName = nameGrid?.[r]?.[c] || `tile-${pad(seq, 2)}`;
-				const fileName = `${baseName}.png`;
-				const filePath = path.join(outTilesPath, fileName);
-				let tilePipeline = sharp(pngBuffer).extract({ left, top, width: w, height: h });
-				// Optionally upscale tiles to meet minimum output size while preserving aspect ratio
-				if (tileOutWidth || tileOutHeight) {
-					const sw = tileOutWidth ? (tileOutWidth / w) : 0;
-					const sh = tileOutHeight ? (tileOutHeight / h) : 0;
-					let scale = Math.max(sw || 0, sh || 0);
-					if (scale <= 0) {
-						scale = 1;
-					} // no constraints
-					if (scale > 1) {
-						const targetW = Math.max(w, Math.round(w * scale));
-						// Provide only width to preserve aspect ratio without cropping/distortion
-						tilePipeline = tilePipeline.resize({ width: targetW, withoutEnlargement: false });
-					}
-				}
-				tilePipeline = tilePipeline.png(pngOptions);
-				promises.push(tilePipeline.toFile(filePath));
 			}
+			tilePipeline = tilePipeline.png(pngOptions);
+			promises.push(tilePipeline.toFile(filePath));
 		}
+	}
 
-		await Promise.all(promises);
+	await Promise.all(promises);
 
-		// Optionally run oxipng on tiles directory (optimize all PNGs)
-		if (useOxipng) {
-			console.log("[oxipng] Optimizing tiles ...");
-			await runOxipng(outTilesPath, ["-r", ...oxipngArguments]);
-		}
+	// Optionally run oxipng on tiles directory (optimize all PNGs)
+	if (useOxipng) {
+		console.log("[oxipng] Optimizing tiles ...");
+		await runOxipng(outTilesPath, ["-r", ...oxipngArguments]);
+	}
 
-		const effRows = Math.max(0, rows - startRow);
-		console.log(`Exported ${exported} tiles to: ${path.relative(rootDirectory, outTilesPath)} (${cols}x${effRows}, ${cellW}x${cellH} each)`);
-		if (nameGrid) {
-			const sample = nameGrid.flat().filter(Boolean).slice(0, 5).join(", ");
-			console.log(`[t_preview] Detected layout ${cols}x${rows}; sample names: ${sample}`);
-		} else {
-			console.log("[t_preview] Not found or unparsable - used fallback grid.");
-		}
+	const exportedRows = Math.max(0, rows - startRow);
+	console.log(`Exported ${exported} tiles to: ${path.relative(rootDirectory, outTilesPath)} (${cols}x${exportedRows}, ${cellW}x${cellH} each)`);
+	if (nameGrid) {
+		const sample = nameGrid.flat().filter(Boolean).slice(0, 5).join(", ");
+		console.log(`[t_preview] Detected layout ${cols}x${rows}; sample names: ${sample}`);
+	} else {
+		console.log("[t_preview] Not found or unparsable - used fallback grid.");
 	}
 }
 

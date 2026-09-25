@@ -13,7 +13,7 @@
 				>
 					<div class="level-title">{{ 'EDITOR_LAYER' | translate }} {{ i }}</div>
 					<div class="matrix-level">
-						<app-editor-board [level]="{z:i,rows:z,showStones:true}" [matrix]="this.matrix" (clickBoardEvent)="this.selectLevel(i)"></app-editor-board>
+						<app-layout-matrix [level]="{z:i,rows:z,showStones:true}" [matrix]="this.matrix" (clickMatrixEvent)="this.selectLevel(i)"></app-layout-matrix>
 					</div>
 				</li>
 			}
@@ -75,8 +75,8 @@
 						</div>
 					</div>
 				</div>
-				<div class="matrix-board">
-					<app-editor-board [level]="this.level()" (clickDrawEvent)="this.onCellClick($event)" (clickStoneEvent)="this.onStoneClick($event)" [isBoard]="true" [matrix]="this.matrix"></app-editor-board>
+				<div class="matrix-canvas">
+					<app-layout-matrix [level]="this.level()" (clickDrawEvent)="this.onCellClick($event)" (clickStoneEvent)="this.onStoneClick($event)" [isEditable]="true" [matrix]="this.matrix"></app-layout-matrix>
 				</div>
 			</div>
 			<div class="matrix-edit-bottom">

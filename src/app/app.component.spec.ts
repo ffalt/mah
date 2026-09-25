@@ -14,7 +14,7 @@ import { type Mock, describe, beforeEach, it, expect, vi } from 'vitest';
 
 const MOCK_LAYOUT: Layout = {
 	id: 'test-id',
-	name: 'Test Board',
+	name: 'Test Layout',
 	category: 'Classic',
 	mapping: [],
 	custom: true
@@ -136,13 +136,13 @@ describe('AppComponent', () => {
 			expect(layoutService.storeCustomLayouts).not.toHaveBeenCalled();
 		});
 
-		it('imports a valid board and returns its id', async () => {
+		it('imports a valid layout and returns its id', async () => {
 			const result = await checkImport(app, b64(makeMah()));
 			expect(result).toEqual(['test-id']);
 			expect(layoutService.storeCustomLayouts).toHaveBeenCalledTimes(1);
 		});
 
-		it('does not re-import a board already in layouts', async () => {
+		it('does not re-import a layout already in layouts', async () => {
 			layoutService.layouts.items = [MOCK_LAYOUT];
 			const result = await checkImport(app, b64(makeMah()));
 			expect(result).toEqual(['test-id']);
@@ -150,12 +150,12 @@ describe('AppComponent', () => {
 		});
 
 		it('imports multiple valid layouts', async () => {
-			const board2 = makeLayout({ id: 'id-2', name: 'Board 2' });
-			const layout2: Layout = { ...MOCK_LAYOUT, id: 'id-2', name: 'Board 2' };
+			const loadLayout2 = makeLayout({ id: 'id-2', name: 'Layout 2' });
+			const layout2: Layout = { ...MOCK_LAYOUT, id: 'id-2', name: 'Layout 2' };
 			(layoutService.expandLayout as Mock)
 				.mockReturnValueOnce(MOCK_LAYOUT)
 				.mockReturnValueOnce(layout2);
-			const result = await checkImport(app, b64(makeMah([makeLayout(), board2])));
+			const result = await checkImport(app, b64(makeMah([makeLayout(), loadLayout2])));
 			expect(result).toEqual(['test-id', 'id-2']);
 			expect(layoutService.storeCustomLayouts).toHaveBeenCalledTimes(1);
 		});

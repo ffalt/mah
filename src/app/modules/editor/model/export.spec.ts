@@ -27,8 +27,8 @@ describe('generateExportKmahjongg', () => {
 	});
 
 	it('should contain the layout name', () => {
-		const result = generateExportKmahjongg(makeLayout({ name: 'My Board' }));
-		expect(result).toContain('# name: My Board');
+		const result = generateExportKmahjongg(makeLayout({ name: 'My Layout' }));
+		expect(result).toContain('# name: My Layout');
 	});
 
 	it('should contain the by line', () => {
@@ -36,7 +36,7 @@ describe('generateExportKmahjongg', () => {
 		expect(result).toContain('# by: Some Author');
 	});
 
-	it('leaves out the by line when the board has no author', () => {
+	it('leaves out the by line when the layout has no author', () => {
 		const result = generateExportKmahjongg(makeLayout({ by: undefined }));
 
 		expect(result).not.toContain('# by:');
@@ -60,17 +60,17 @@ describe('generateExportKmahjongg', () => {
 	it('carries the name, author and tiles back through an import', async () => {
 		const layout = makeLayout({ name: 'Round Trip', by: 'Some Author' });
 
-		const reimported = await convertKmahjongg(generateExportKmahjongg(layout), 'board.layout');
+		const reimported = await convertKmahjongg(generateExportKmahjongg(layout), 'test.layout');
 
 		expect(reimported.name).toBe('Round Trip');
 		expect(reimported.by).toBe('Some Author');
 		expect(reimported.mapping).toEqual(layout.mapping);
 	});
 
-	it('does not invent an author when the board had none', async () => {
+	it('does not invent an author when the layout had none', async () => {
 		const exported = generateExportKmahjongg(makeLayout({ by: undefined }));
 
-		const reimported = await convertKmahjongg(exported, 'board.layout');
+		const reimported = await convertKmahjongg(exported, 'test.layout');
 
 		expect(reimported.by).toBeUndefined();
 	});

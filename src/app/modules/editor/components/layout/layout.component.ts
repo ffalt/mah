@@ -10,7 +10,7 @@ import type { EditLayout } from '../../model/edit-layout';
 import { ExportComponent } from '../export/export.component';
 import { TranslatePipe } from '@ngx-translate/core';
 import { LayoutPreviewComponent } from '../../../../components/layout-preview/layout-preview.component';
-import { BoardComponent } from '../board/board.component';
+import { LayoutMatrixComponent } from '../layout-matrix/layout-matrix.component';
 import { DialogComponent } from '../../../../components/dialog/dialog.component';
 import { CommonModule } from '@angular/common';
 import { optimizeMapping } from '../../model/optimize';
@@ -59,7 +59,7 @@ interface EditLevel {
 	selector: 'app-editor-layout-component',
 	templateUrl: './layout.component.html',
 	styleUrls: ['./layout.component.scss'],
-	imports: [CommonModule, BoardComponent, LayoutPreviewComponent, ExportComponent, TranslatePipe, DialogComponent,
+	imports: [CommonModule, LayoutMatrixComponent, LayoutPreviewComponent, ExportComponent, TranslatePipe, DialogComponent,
 		IconLayerAddAboveComponent, IconLayerAddBelowComponent, IconUpComponent, IconDownComponent, IconDuplicateComponent,
 		IconClearComponent, IconDeleteComponent, IconLeftComponent, IconRightComponent,
 		IconExecuteComponent, IconMirrorHorizontalComponent, IconMirrorVerticalComponent]

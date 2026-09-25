@@ -1,27 +1,27 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
-import { BoardComponent } from './board.component';
+import { LayoutMatrixComponent } from './layout-matrix.component';
 import { Matrix } from '../../model/matrix';
 import { Stone } from '../../../../model/stone';
 import type { Draw } from '../../../../model/draw';
 import { type Mock, describe, beforeEach, it, expect, vi } from 'vitest';
 
-describe('BoardComponent', () => {
-	let component: BoardComponent;
-	let fixture: ComponentFixture<BoardComponent>;
+describe('LayoutMatrixComponent', () => {
+	let component: LayoutMatrixComponent;
+	let fixture: ComponentFixture<LayoutMatrixComponent>;
 	let matrix: Matrix;
 
 	beforeEach(async () => {
 		matrix = new Matrix();
 		matrix.init(10, 10, 3);
 		await TestBed.configureTestingModule({
-			imports: [BoardComponent],
+			imports: [LayoutMatrixComponent],
 			schemas: [NO_ERRORS_SCHEMA]
 		}).compileComponents();
 	});
 
 	beforeEach(() => {
-		fixture = TestBed.createComponent(BoardComponent);
+		fixture = TestBed.createComponent(LayoutMatrixComponent);
 		fixture.componentRef.setInput('matrix', matrix);
 		fixture.detectChanges();
 		component = fixture.componentInstance;
@@ -103,12 +103,12 @@ describe('BoardComponent', () => {
 		});
 	});
 
-	describe('onClickBoard', () => {
-		it('should emit clickBoardEvent', () => {
+	describe('onClickMatrix', () => {
+		it('should emit clickMatrixEvent', () => {
 			const listener = vi.fn();
-			component.clickBoardEvent.subscribe(listener);
+			component.clickMatrixEvent.subscribe(listener);
 			const event = {} as MouseEvent;
-			component.onClickBoard(event);
+			component.onClickMatrix(event);
 			expect(listener).toHaveBeenCalledTimes(1);
 		});
 	});

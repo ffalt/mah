@@ -68,10 +68,12 @@ export async function startLayout(page: Page, layoutID: string) {
 async function openMenuIfClosed(page: Page) {
 	const menu = page.locator('.menu');
 	const isVisible = await menu.isVisible();
-	if (!isVisible) {
-		await page.locator('button.menu-button').click();
-		await menu.waitFor({ state: 'visible', timeout: 1000 });
+	if (isVisible) {
+		return;
 	}
+
+	await page.locator('button.menu-button').click();
+	await menu.waitFor({ state: 'visible', timeout: 1000 });
 }
 
 export async function openSettingsDialog(page: Page) {
@@ -99,7 +101,7 @@ export async function openGameDialog(page: Page) {
 	return openDialog(page, '.ctrl-game button:has(app-icon-restart)', 'overlay-newgame');
 }
 
-// the daily challenge is a view inside the board picker, not a dialog of its own
+// the daily challenge is a view inside the layout picker, not a dialog of its own
 export async function openDailyChallenge(page: Page) {
 	const overlay = page.locator('.overlay.overlay-newgame');
 	// the picker is already open on the start screen; wait for it before deciding to open it,

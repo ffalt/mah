@@ -1,4 +1,4 @@
-// btoa/atob only speak Latin-1, so both directions go through UTF-8 bytes to keep non-ASCII board names intact
+// btoa/atob only speak Latin-1, so both directions go through UTF-8 bytes to keep non-ASCII layout names intact
 export function toBase64(value: string): string {
 	const bytes = new TextEncoder().encode(value);
 	let binary = '';

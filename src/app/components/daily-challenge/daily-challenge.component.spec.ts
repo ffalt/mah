@@ -19,7 +19,7 @@ import { SCORE_BASE_POINTS, SCORE_COMBO_STEPS, SCORE_COMBO_WINDOW, SCORE_LAYER_B
 import type { Layout, Mapping } from '../../model/types';
 
 function layout(): Layout {
-	return { id: 'daily-board', name: 'Daily Board', category: 'Test', mapping: [[0, 0, 0], [0, 2, 0]] };
+	return { id: 'daily-layout', name: 'Daily Layout', category: 'Test', mapping: [[0, 0, 0], [0, 2, 0]] };
 }
 
 function fullMapping(): Mapping {
@@ -98,7 +98,7 @@ describe('DailyChallengeComponent', () => {
 		expect(component.challengeDetails()?.timeLimit).toEqual(span);
 	});
 
-	it('renders the board preview', async () => {
+	it('renders the layout preview', async () => {
 		fixture.detectChanges();
 		await fixture.whenStable();
 		expect(component.preview()).toBe('preview-url');
@@ -354,7 +354,7 @@ describe('DailyChallengeComponent', () => {
 
 		expect(emitted?.challenge).toBe(CHALLENGE_CODES.CHALLENGE_BLACKOUT);
 		expect(emitted?.dayKey).toBe('2026-07-30');
-		expect(emitted?.layout.id).toBe('daily-board');
+		expect(emitted?.layout.id).toBe('daily-layout');
 		expect(component.challengeInfoId()).toBeUndefined();
 	});
 

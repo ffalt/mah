@@ -170,15 +170,15 @@ describe('LayoutService', () => {
 			expect(consoleErrorSpy).toHaveBeenCalled();
 			expect(mockLocalstorageService.getCustomLayouts).toHaveBeenCalled();
 
-			// Retry: the built-in boards become available once the request succeeds
+			// Retry: the built-in layouts become available once the request succeeds
 			mockHttpClient.get.mockReturnValue(of([{ id: 'server1', name: 'Server 1', cat: 'Category 1', map: [[0, [[0, 0]]]] }]));
 			const retry = await service.get();
 			expect(retry.items.some(l => l.id === 'server1')).toBe(true);
 			expect(service.loaded).toBe(true);
 		});
 
-		// a stored board whose mapping cannot be expanded used to reject get(), which left the app on its splash screen
-		it('should skip a board that cannot be expanded and keep the rest of the list', async () => {
+		// a stored layout whose mapping cannot be expanded used to reject get(), which left the app on its splash screen
+		it('should skip a layout that cannot be expanded and keep the rest of the list', async () => {
 			mockHttpClient.get.mockReturnValue(of([
 				{ id: 'server1', name: 'Server 1', cat: 'Category 1', map: [[0, [[0, 0]]]] }
 			]));
@@ -385,7 +385,7 @@ describe('LayoutService', () => {
 	});
 
 	describe('storeCustomLayouts', () => {
-		it('should store custom boards and update layouts', () => {
+		it('should store custom layouts and update layouts', () => {
 			// Arrange
 			service.layouts = { items: [{ id: 'server1', name: 'Server 1', category: 'Category 1', mapping: [] }] };
 			const customLayouts: Array<LoadLayout> = [];
@@ -417,8 +417,8 @@ describe('LayoutService', () => {
 		});
 
 		// "save as copy" is wired to its own button and can be pressed repeatedly; without
-		// a check the same board lands in storage and in the picker twice under one id
-		it('should skip a board whose id is already stored', () => {
+		// a check the same layout lands in storage and in the picker twice under one id
+		it('should skip a layout whose id is already stored', () => {
 			service.layouts = { items: [] };
 			const stored: Array<LoadLayout> = [{ id: 'dup', name: 'Dup', map: [[0, [[0, 0]]]] }];
 			mockLocalstorageService.getCustomLayouts.mockReturnValue(stored);
@@ -430,7 +430,7 @@ describe('LayoutService', () => {
 			expect(service.layouts.items).toHaveLength(0);
 		});
 
-		it('should still import when a board already in storage cannot be expanded', () => {
+		it('should still import when a layout already in storage cannot be expanded', () => {
 			service.layouts = { items: [] };
 			mockLocalstorageService.getCustomLayouts.mockReturnValue([
 				{ id: 'broken', name: 'Broken', map: ['junk'] as unknown as CompactMapping }
@@ -442,7 +442,7 @@ describe('LayoutService', () => {
 			expect(service.layouts.items.map(layout => layout.id)).toEqual(['fresh']);
 		});
 
-		it('should keep only the first of several incoming boards sharing an id', () => {
+		it('should keep only the first of several incoming layouts sharing an id', () => {
 			service.layouts = { items: [] };
 			mockLocalstorageService.getCustomLayouts.mockReturnValue([]);
 
@@ -458,7 +458,7 @@ describe('LayoutService', () => {
 			expect(service.layouts.items).toHaveLength(2);
 		});
 
-		it('should still append boards with new ids', () => {
+		it('should still append layouts with new ids', () => {
 			service.layouts = { items: [] };
 			mockLocalstorageService.getCustomLayouts.mockReturnValue([{ id: 'a', name: 'A', map: [[0, [[0, 0]]]] }]);
 

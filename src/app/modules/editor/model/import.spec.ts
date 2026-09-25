@@ -53,46 +53,46 @@ describe('sortMapping', () => {
 });
 
 describe('convertMatrix', () => {
-	it('should reject when board length does not match dimensions', async () => {
+	it('should reject when the matrix length does not match dimensions', async () => {
 		await expect(convertMatrix(5, 20, 34, 'Test', 'short')).rejects.toThrow('Invalid Matrix Pattern length');
 	});
 
 	it('should parse cells with value 1 into mapping entries', async () => {
-		const board = `1${'0'.repeat(5 * 20 * 34 - 1)}`;
-		const result = await convertMatrix(5, 20, 34, 'Test', board);
+		const kyodai = `1${'0'.repeat(5 * 20 * 34 - 1)}`;
+		const result = await convertMatrix(5, 20, 34, 'Test', kyodai);
 		expect(result.mapping).toHaveLength(1);
 		expect(result.mapping[0]).toEqual([0, 0, 0]);
 	});
 
 	it('should set the name on the layout', async () => {
-		const board = '0'.repeat(5 * 20 * 34);
-		const result = await convertMatrix(5, 20, 34, 'MyName', board);
+		const kyodai = '0'.repeat(5 * 20 * 34);
+		const result = await convertMatrix(5, 20, 34, 'MyName', kyodai);
 		expect(result.name).toBe('MyName');
 	});
 
 	it('should set cat to Kyodai', async () => {
-		const board = '0'.repeat(5 * 20 * 34);
-		const result = await convertMatrix(5, 20, 34, 'Test', board);
+		const kyodai = '0'.repeat(5 * 20 * 34);
+		const result = await convertMatrix(5, 20, 34, 'Test', kyodai);
 		expect(result.cat).toBe('Kyodai');
 	});
 
 	it('should map a cell in level 1 correctly', async () => {
 		const cellsPerMatrix = 20 * 34;
-		const board = `${'0'.repeat(cellsPerMatrix)}1${'0'.repeat(cellsPerMatrix * 4 - 1)}`;
-		const result = await convertMatrix(5, 20, 34, 'Test', board);
+		const kyodai = `${'0'.repeat(cellsPerMatrix)}1${'0'.repeat(cellsPerMatrix * 4 - 1)}`;
+		const result = await convertMatrix(5, 20, 34, 'Test', kyodai);
 		const isFound = result.mapping.some(place => place[0] === 1 && place[1] === 0 && place[2] === 0);
 		expect(isFound).toBe(true);
 	});
 });
 
 describe('convert3400Matrix', () => {
-	it('should reject when board length is not 3400', async () => {
+	it('should reject when the matrix length is not 3400', async () => {
 		await expect(convert3400Matrix('Test', '0'.repeat(100))).rejects.toThrow();
 	});
 
-	it('should parse a 3400-char board', async () => {
-		const board = '0'.repeat(3400);
-		const result = await convert3400Matrix('Test', board);
+	it('should parse a 3400-char matrix', async () => {
+		const kyodai = '0'.repeat(3400);
+		const result = await convert3400Matrix('Test', kyodai);
 		expect(result.mapping).toHaveLength(0);
 	});
 });
@@ -132,7 +132,7 @@ describe('convertKmahjongg', () => {
 	it('should parse v1.1 format and extract name', async () => {
 		const data = [
 			'kmahjongg-layout-v1.1',
-			'# name: MyBoard',
+			'# name: MyLayout',
 			'# by: TestAuthor',
 			'w5',
 			'h4',
@@ -141,13 +141,13 @@ describe('convertKmahjongg', () => {
 			'0100'
 		].join('\n');
 		const result = await convertKmahjongg(data, 'test.layout');
-		expect(result.name).toBe('MyBoard');
+		expect(result.name).toBe('MyLayout');
 	});
 
 	it('should parse v1.1 format and extract by', async () => {
 		const data = [
 			'kmahjongg-layout-v1.1',
-			'# name: MyBoard',
+			'# name: MyLayout',
 			'# by: TestAuthor',
 			'w5',
 			'h4',
@@ -179,8 +179,8 @@ describe('convertKmahjongg', () => {
 			'd1',
 			'1000'
 		].join('\n');
-		const result = await convertKmahjongg(data, 'my_cool_board.layout');
-		expect(result.name).toBe('my cool board');
+		const result = await convertKmahjongg(data, 'my_cool_layout.layout');
+		expect(result.name).toBe('my cool layout');
 	});
 
 	// a v1.1 file is a stack of levels, each one h rows tall
@@ -209,7 +209,7 @@ describe('convertKmahjongg', () => {
 		expect(result.mapping).toEqual([[0, 0, 0], [1, 0, 0]]);
 	});
 
-	// the boards in the wild and this app's own exporter write the header without the leading k
+	// the layouts in the wild and this app's own exporter write the header without the leading k
 	it('accepts the v1.1 header without the leading k', async () => {
 		const data = ['mahjongg-layout-v1.1', '# name: Probe', 'w4', 'h2', 'd1', '1...', '..1.'].join('\n');
 
@@ -239,7 +239,7 @@ describe('convertKmahjongg', () => {
 });
 
 describe('convertKyodai', () => {
-	function make3400Board(overrides: Record<number, string> = {}): string {
+	function make3400Kyodai(overrides: Record<number, string> = {}): string {
 		const chars = Array.from({ length: 3400 }, () => '0');
 		for (const [index, value] of Object.entries(overrides)) {
 			chars[Number(index)] = value;
@@ -248,34 +248,34 @@ describe('convertKyodai', () => {
 	}
 
 	it('should parse Kyodai 6.0 format', async () => {
-		const board = make3400Board();
-		const data = `Kyodai 6.0\nTestName\n${board}\n`;
+		const kyodai = make3400Kyodai();
+		const data = `Kyodai 6.0\nTestName\n${kyodai}\n`;
 		const result = await convertKyodai(data, 'test.lay');
 		expect(result.name).toBe('TestName');
 	});
 
 	it('should parse Kyodai 3.0 format', async () => {
-		const board = make3400Board();
-		const data = `Kyodai 3.0\nTestName\n${board}\n`;
+		const kyodai = make3400Kyodai();
+		const data = `Kyodai 3.0\nTestName\n${kyodai}\n`;
 		const result = await convertKyodai(data, 'test.lay');
 		expect(result.name).toBe('TestName');
 	});
 
 	it('should extract category from name line', async () => {
-		const board = make3400Board();
-		const data = `Kyodai 6.0\nName :: MyCat\n${board}\n`;
+		const kyodai = make3400Kyodai();
+		const data = `Kyodai 6.0\nName :: MyCat\n${kyodai}\n`;
 		const result = await convertKyodai(data, 'test.lay');
 		expect(result.cat).toBe(' MyCat');
 	});
 
 	it('should reject unknown version', async () => {
-		const board = make3400Board();
-		await expect(convertKyodai(`Unknown 1.0\nName\n${board}\n`, 'test.lay')).rejects.toThrow('Unknown .lay format');
+		const kyodai = make3400Kyodai();
+		await expect(convertKyodai(`Unknown 1.0\nName\n${kyodai}\n`, 'test.lay')).rejects.toThrow('Unknown .lay format');
 	});
 
 	it('should use filename when name line is empty', async () => {
-		const board = make3400Board();
-		const data = `Kyodai 6.0\n\n${board}\n`;
+		const kyodai = make3400Kyodai();
+		const data = `Kyodai 6.0\n\n${kyodai}\n`;
 		const result = await convertKyodai(data, 'fallback.lay');
 		expect(result.name).toBe('fallback');
 	});
@@ -283,29 +283,29 @@ describe('convertKyodai', () => {
 
 describe('compactY', () => {
 	it('should return a single x value directly when there is one tile', () => {
-		const board = { 0: { 0: [4] } };
-		const result: CompactMappingY = compactY(0, 0, board);
+		const layout = { 0: { 0: [4] } };
+		const result: CompactMappingY = compactY(0, 0, layout);
 		expect(result[0]).toBe(0);
 		expect(result[1]).toBe(4);
 	});
 
 	it('should run-length encode consecutive x values stepping by 2', () => {
-		const board = { 0: { 0: [0, 2, 4] } };
-		const result: CompactMappingY = compactY(0, 0, board);
+		const layout = { 0: { 0: [0, 2, 4] } };
+		const result: CompactMappingY = compactY(0, 0, layout);
 		expect(result[0]).toBe(0);
 		expect(result[1]).toEqual([[0, 3]]);
 	});
 
 	it('should return array of values for non-consecutive x values', () => {
-		const board = { 0: { 0: [0, 6] } };
-		const result: CompactMappingY = compactY(0, 0, board);
+		const layout = { 0: { 0: [0, 6] } };
+		const result: CompactMappingY = compactY(0, 0, layout);
 		expect(result[0]).toBe(0);
 		expect(result[1]).toEqual([0, 6]);
 	});
 
 	it('should handle multiple runs', () => {
-		const board = { 0: { 0: [0, 2, 10, 12] } };
-		const result: CompactMappingY = compactY(0, 0, board);
+		const layout = { 0: { 0: [0, 2, 10, 12] } };
+		const result: CompactMappingY = compactY(0, 0, layout);
 		expect(Array.isArray(result[1])).toBe(true);
 	});
 });
@@ -355,21 +355,21 @@ describe('cleanNameCapitalized', () => {
 describe('cleanImportLayout', () => {
 	it('should split name by by and assign author', () => {
 		const result = cleanImportLayout({
-			name: 'MyBoard by Some Author',
+			name: 'MyLayout by Some Author',
 			cat: 'test',
 			mapping: []
 		});
-		expect(result.name).toBe('MyBoard');
+		expect(result.name).toBe('MyLayout');
 		expect(result.by).toBe('Some Author');
 	});
 
 	it('should capitalize the name', () => {
 		const result = cleanImportLayout({
-			name: 'my board',
+			name: 'my layout',
 			cat: 'test',
 			mapping: []
 		});
-		expect(result.name).toBe('My Board');
+		expect(result.name).toBe('My Layout');
 	});
 
 	it('should trim the cat field', () => {
@@ -472,7 +472,7 @@ describe('importLayouts', () => {
 		await expect(importLayouts(file)).rejects.toThrow('Import failed: Invalid or unsupported MAH format version');
 	});
 
-	it('should accept a .mah board without an id', async () => {
+	it('should accept a .mah layout without an id', async () => {
 		const payload = JSON.stringify({ mah: '1.0', boards: [{ name: 'Test', map: [] }] });
 		const result = await importLayouts(makeFile(payload, 'boards.mah'));
 		expect(result).toHaveLength(1);
@@ -496,8 +496,8 @@ describe('importLayouts', () => {
 	});
 
 	it('should parse a .lay (Kyodai 6.0) file', async () => {
-		const board = '0'.repeat(3400);
-		const data = `Kyodai 6.0\nDragon\n${board}\n`;
+		const kyodai = '0'.repeat(3400);
+		const data = `Kyodai 6.0\nDragon\n${kyodai}\n`;
 		const file = makeFile(data, 'dragon.lay');
 		const result = await importLayouts(file);
 		expect(result).toHaveLength(1);

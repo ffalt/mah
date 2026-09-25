@@ -112,7 +112,7 @@ export function generateBaseLayerMode(mirrorX: boolean, mirrorY: boolean, mode: 
 			const xRangeMax = mirrorX ? Math.floor(X_MAX / 2) : X_MAX;
 			const yRangeMin = mirrorY ? 6 : 12;
 			const yRangeMax = mirrorY ? Math.floor(Y_MAX / 2) : Y_MAX;
-			// choose extents favoring mid-size boards
+			// choose extents favoring mid-size layouts
 			const xMax = randInt(xRangeMin, xRangeMax);
 			const yMax = randInt(yRangeMin, yRangeMax);
 			return generateBaseLayerChecker({ minTarget, maxTarget, xMax, yMax });

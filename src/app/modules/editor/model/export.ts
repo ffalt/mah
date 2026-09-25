@@ -44,7 +44,7 @@ export function generateExportKmahjongg(layout: Layout): string {
 	const result: Array<string> = [
 		'kmahjongg-layout-v1.1',
 		`# name: ${layout.name}`,
-		// an author-less board leaves the line out entirely, the way the other two exporters do
+		// an author-less layout leaves the line out entirely, the way the other two exporters do
 		...(layout.by ? [`# by: ${layout.by}`] : []),
 		`# category: ${layout.category}`,
 		'# Board size in quarter tiles',

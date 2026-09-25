@@ -8,7 +8,7 @@ import type { DailyMetaStore, DailyMonthStore, Layout, Layouts, Place } from '..
 import { CHALLENGE_CODES, CHALLENGE_IDS, CHALLENGE_MAX_TILE_COUNT, CHALLENGE_MIN_TILE_COUNT, challengeInfo, minimumTileCount } from '../model/challenge/consts';
 import { dailyKey } from '../model/challenge/daily';
 
-// full-size by default, since a match target rules out boards too small to hold it
+// full-size by default, since a match target rules out layouts too small to hold it
 function layout(id: string, custom?: boolean, tiles = 144): Layout {
 	return { id, name: id, category: 'Test', mapping: Array.from({ length: tiles }, (_value, index): Place => [0, index * 2, 0]), custom };
 }
@@ -71,7 +71,7 @@ describe('DailyService', () => {
 
 	describe('resolve', () => {
 		it('resolves the same challenge and layout for the same day', async () => {
-			// 2026-07-30 is a Thursday, so a built-in board
+			// 2026-07-30 is a Thursday, so a built-in layout
 			const date = new Date(2026, 6, 30);
 			const first = await service.resolve(date);
 			const second = await service.resolve(date);
@@ -88,7 +88,7 @@ describe('DailyService', () => {
 			expect(second.seed).not.toBe(first.seed);
 		});
 
-		it('generates a board on the generated weekday', async () => {
+		it('generates a layout on the generated weekday', async () => {
 			// 2026-08-02 is a Sunday
 			const entry = await service.resolve(new Date(2026, 7, 2));
 			expect(entry.generated).toBe(true);
@@ -96,15 +96,15 @@ describe('DailyService', () => {
 			expect(entry.layout.mapping.length).toBe(144);
 		});
 
-		it('generates the identical board for the same generated day', async () => {
+		it('generates the identical layout for the same generated day', async () => {
 			const first = await service.resolve(new Date(2026, 7, 2));
 			const second = await service.resolve(new Date(2026, 7, 2));
 			expect(second.layout.mapping).toEqual(first.layout.mapping);
-			// the very same object, so the board is generated once however often the dialog opens
+			// the very same object, so the layout is generated once however often the dialog opens
 			expect(second.layout).toBe(first.layout);
 		});
 
-		it('keeps the rendered preview of a generated board across dialog opens', async () => {
+		it('keeps the rendered preview of a generated layout across dialog opens', async () => {
 			const first = await service.resolve(new Date(2026, 7, 2));
 			// LayoutService.getPreview caches the rendered svg onto the layout it is handed
 			first.layout.previewSVG = 'rendered-once';
@@ -114,7 +114,7 @@ describe('DailyService', () => {
 			expect(second.layout.previewSVG).toBe('rendered-once');
 		});
 
-		it('generates the identical board for two players on the same day', async () => {
+		it('generates the identical layout for two players on the same day', async () => {
 			// two fresh services stand in for two devices - the memo is per instance, so both really generate
 			const playerA = await createService().resolve(new Date(2026, 7, 2));
 			const playerB = await createService().resolve(new Date(2026, 7, 2));
@@ -125,7 +125,7 @@ describe('DailyService', () => {
 			expect(playerB.seed).toBe(playerA.seed);
 		});
 
-		it('generates a separate board per generated day', async () => {
+		it('generates a separate layout per generated day', async () => {
 			const first = await service.resolve(new Date(2026, 7, 2));
 			// 2026-08-09 is the next Sunday
 			const second = await service.resolve(new Date(2026, 7, 9));
@@ -135,19 +135,19 @@ describe('DailyService', () => {
 			expect(second.layout.mapping).not.toEqual(first.layout.mapping);
 		});
 
-		it('relabels a cached generated board when the language changes', async () => {
+		it('relabels a cached generated layout when the language changes', async () => {
 			const first = await service.resolve(new Date(2026, 7, 2));
-			expect(first.layout.name).toBe('DAILY_GENERATED_BOARD');
+			expect(first.layout.name).toBe('DAILY_GENERATED_LAYOUT');
 			vi.spyOn(TestBed.inject(TranslateService), 'instant').mockReturnValue('Zufallsbrett');
 
 			const second = await service.resolve(new Date(2026, 7, 2));
 
-			// the board survives, its name does not
+			// the layout survives, its name does not
 			expect(second.layout).toBe(first.layout);
 			expect(second.layout.name).toBe('Zufallsbrett');
 		});
 
-		it('never picks a custom board', async () => {
+		it('never picks a custom layout', async () => {
 			items = [layout('custom-1', true), layout('built-in')];
 			const picked: Array<string> = [];
 			for (let day = 1; day <= 20; day++) {
@@ -160,8 +160,8 @@ describe('DailyService', () => {
 			expect([...new Set(picked)]).toEqual(['built-in']);
 		});
 
-		// a match target on a board that barely holds it would demand near-total clearance against the clock
-		it('never hands a match target a board too small for it', async () => {
+		// a match target on a layout that barely holds it would demand near-total clearance against the clock
+		it('never hands a match target a layout too small for it', async () => {
 			items = [layout('small', false, 80), layout('big')];
 			const picks: Array<{ needsRoom: boolean; id: string }> = [];
 			for (let day = 1; day <= 60; day++) {
@@ -173,12 +173,12 @@ describe('DailyService', () => {
 			const targeted = picks.filter(pick => pick.needsRoom);
 			expect(targeted.length).toBeGreaterThan(0);
 			expect([...new Set(targeted.map(pick => pick.id))]).toEqual(['big']);
-			// the small board clears the global floor, so it is only ruled out where a target needs more
+			// the small layout clears the global floor, so it is only ruled out where a target needs more
 			expect(picks.some(pick => !pick.needsRoom && pick.id === 'small')).toBe(true);
 		});
 
-		// above a full mahjong set the board fills up with jokers and extras, which no suit can claim
-		it('drops a board over the tile-set ceiling from every challenge', async () => {
+		// above a full mahjong set the layout fills up with jokers and extras, which no suit can claim
+		it('drops a layout over the tile-set ceiling from every challenge', async () => {
 			items = [layout('huge', false, CHALLENGE_MAX_TILE_COUNT + 4), layout('big')];
 			const picked: Array<string> = [];
 			for (let day = 1; day <= 60; day++) {
@@ -191,14 +191,14 @@ describe('DailyService', () => {
 			expect([...new Set(picked)]).toEqual(['big']);
 		});
 
-		it('keeps a board of exactly a full tile set', async () => {
+		it('keeps a layout of exactly a full tile set', async () => {
 			items = [layout('full', false, CHALLENGE_MAX_TILE_COUNT)];
 			const entry = await service.resolve(new Date(2026, 6, 30));
 			expect(entry.layout.id).toBe('full');
 		});
 
 		// below the global floor a daily is over before it starts, whatever the challenge asks for
-		it('drops a board under the global floor from every challenge', async () => {
+		it('drops a layout under the global floor from every challenge', async () => {
 			items = [layout('tiny', false, CHALLENGE_MIN_TILE_COUNT - 2), layout('big')];
 			const picked: Array<string> = [];
 			for (let day = 1; day <= 60; day++) {
@@ -211,7 +211,7 @@ describe('DailyService', () => {
 			expect([...new Set(picked)]).toEqual(['big']);
 		});
 
-		it('falls back to a generated board when no built-in board exists', async () => {
+		it('falls back to a generated layout when no built-in layout exists', async () => {
 			items = [];
 			const entry = await service.resolve(new Date(2026, 6, 30));
 			expect(entry.layout.mapping.length).toBe(144);

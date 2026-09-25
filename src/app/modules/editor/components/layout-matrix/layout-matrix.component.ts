@@ -10,16 +10,16 @@ interface Level {
 }
 
 @Component({
-	selector: 'app-editor-board',
-	templateUrl: './board.component.html',
-	styleUrls: ['./board.component.scss']
+	selector: 'app-layout-matrix',
+	templateUrl: './layout-matrix.component.html',
+	styleUrls: ['./layout-matrix.component.scss']
 })
-export class BoardComponent implements OnInit, OnChanges {
+export class LayoutMatrixComponent implements OnInit, OnChanges {
 	readonly imageSet = input<string>();
 	readonly level = input<Level>();
 	readonly matrix = input.required<Matrix>();
-	readonly isBoard = input<boolean>();
-	readonly clickBoardEvent = output();
+	readonly isEditable = input<boolean>();
+	readonly clickMatrixEvent = output();
 	readonly clickDrawEvent = output<Draw>();
 	readonly clickStoneEvent = output<Stone | undefined>();
 	drawStones: Array<Draw> = [];
@@ -69,8 +69,8 @@ export class BoardComponent implements OnInit, OnChanges {
 		event.stopPropagation();
 	}
 
-	onClickBoard(_event: MouseEvent): void {
-		this.clickBoardEvent.emit();
+	onClickMatrix(_event: MouseEvent): void {
+		this.clickMatrixEvent.emit();
 	}
 
 	onClickDraw(event: MouseEvent, draw: Draw): void {

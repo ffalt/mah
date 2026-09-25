@@ -244,14 +244,14 @@ describe('GameComponent', () => {
 		expect(showNewGameSpy).toHaveBeenCalled();
 	});
 
-	it('leaves a finished game finished when the board picker is opened and closed again', () => {
+	it('leaves a finished game finished when the layout picker is opened and closed again', () => {
 		component.game.state.set(STATES.idle);
 		component.game.message.set({ messageID: 'MSG_BEST', playTime: 1000 });
 
 		component.newGame();
 		expect(component.game.isPaused()).toBe(false);
 
-		// closing the picker without choosing a board must not put the finished board back into play
+		// closing the picker without choosing a layout must not put the finished board back into play
 		component.toggleDialogState(false);
 		expect(component.game.isRunning()).toBe(false);
 		expect(component.game.state()).toBe(STATES.idle);
@@ -304,7 +304,7 @@ describe('GameComponent', () => {
 		expect(restored.buildMode()).toBe(MODE_RANDOM);
 	});
 
-	describe('unplayable board', () => {
+	describe('unplayable layout', () => {
 		const unplayable = { layout: { id: 'bad', name: 'Bad', category: 'Test', mapping: [] }, buildMode: MODE_SOLVABLE as BUILD_MODE_ID, gameMode: GAME_MODE_STANDARD };
 
 		it('tells the player instead of silently doing nothing', () => {
@@ -319,7 +319,7 @@ describe('GameComponent', () => {
 			expect(fixture.debugElement.query(By.css('app-game-start'))).toBeNull();
 		});
 
-		it('names the tile count that made the board unplayable', () => {
+		it('names the tile count that made the layout unplayable', () => {
 			const translate = TestBed.inject(TranslateService);
 			translate.setTranslation('en', { MSG_LAYOUT_UNPLAYABLE: 'not playable (tiles: {{count}})' });
 			translate.use('en');
@@ -332,7 +332,7 @@ describe('GameComponent', () => {
 			expect(message.nativeElement.textContent).toContain('not playable (tiles: 3)');
 		});
 
-		it('returns to the board picker when the message is dismissed', () => {
+		it('returns to the layout picker when the message is dismissed', () => {
 			component.startGame(unplayable);
 			detectChanges();
 
@@ -345,7 +345,7 @@ describe('GameComponent', () => {
 	});
 
 	describe('start screen', () => {
-		it('shows on an empty board without message and dialog and opens the board picker', () => {
+		it('shows on an empty layout without message and dialog and opens the layout picker', () => {
 			component.game.state.set(STATES.idle);
 			component.game.message.set(undefined);
 			detectChanges();

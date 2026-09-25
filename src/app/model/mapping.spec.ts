@@ -112,7 +112,7 @@ describe('Mapping', () => {
 
 	describe('isValidCompactMapping', () => {
 		// the validator guards imports, so it must not be stricter than the format the app itself ships and exports
-		test.each(loadLayouts)('accepts built-in board $name', ({ map }) => {
+		test.each(loadLayouts)('accepts built-in layout $name', ({ map }) => {
 			expect(isValidCompactMapping(map)).toBe(true);
 		});
 

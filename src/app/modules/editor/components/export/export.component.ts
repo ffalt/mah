@@ -8,6 +8,7 @@ import { LayoutPreviewComponent } from '../../../../components/layout-preview/la
 
 interface Format {
 	name: string;
+	label: string;
 	ext: string;
 	func: (layout: Layout) => string;
 	type: string;
@@ -16,18 +17,21 @@ interface Format {
 const EXPORT_FORMATS = [
 	{
 		name: 'Mah',
+		label: 'EDITOR_FORMAT_MAH',
 		ext: 'mah',
 		func: generateExportMah,
 		type: 'text/json'
 	},
 	{
 		name: 'Kyodai',
+		label: 'EDITOR_FORMAT_KYODAI',
 		ext: 'lay',
 		func: generateExportKyodai,
 		type: 'text/lay'
 	},
 	{
 		name: 'Kmahjongg',
+		label: 'EDITOR_FORMAT_KMAHJONGG',
 		ext: 'layout',
 		func: generateExportKmahjongg,
 		type: 'text/layout'
