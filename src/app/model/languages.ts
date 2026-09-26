@@ -30,6 +30,7 @@ export const LANGUAGES: { [name: string]: string } = {
 	hi: 'हिन्दी',
 	hu: 'Magyar',
 	id: 'Bahasa Indonesia',
+	is: 'Íslenska',
 	it: 'Italiano',
 	ja: '日本語',
 	ko: '한국어',
