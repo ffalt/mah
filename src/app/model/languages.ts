@@ -26,6 +26,7 @@ export const LANGUAGES: { [name: string]: string } = {
 	fi: 'Suomi',
 	fil: 'Filipino',
 	fr: 'Français',
+	ga: 'Gaeilge',
 	hi: 'हिन्दी',
 	hu: 'Magyar',
 	id: 'Bahasa Indonesia',
