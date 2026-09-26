@@ -34,6 +34,7 @@ export const LANGUAGES: { [name: string]: string } = {
 	it: 'Italiano',
 	ja: '日本語',
 	ko: '한국어',
+	mn: 'Монгол',
 	ms: 'Bahasa Melayu',
 	nl: 'Nederlands',
 	no: 'Norsk',
