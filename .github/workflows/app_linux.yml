@@ -57,6 +57,7 @@ jobs:
             resources/apps/tauri/target/release/bundle/**/*.rpm
             resources/apps/tauri/target/release/bundle/**/*.deb
             resources/apps/tauri/target/release/bundle/**/*.AppImage
+            resources/apps/tauri/target/release/bundle/**/*.AppImage.zsync
 
       - name: Wait for release
         if: github.ref_type == 'tag'
@@ -79,4 +80,5 @@ jobs:
           gh release upload "$GITHUB_REF_NAME" \
             resources/apps/tauri/target/release/bundle/**/*.rpm \
             resources/apps/tauri/target/release/bundle/**/*.deb \
-            resources/apps/tauri/target/release/bundle/**/*.AppImage
+            resources/apps/tauri/target/release/bundle/**/*.AppImage \
+            resources/apps/tauri/target/release/bundle/**/*.AppImage.zsync

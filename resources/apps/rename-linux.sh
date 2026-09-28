@@ -86,12 +86,26 @@ find "$LINUX_BASE_DIR" -name "mah_*.AppImage" -type f | while read -r appimage_f
         # Create new filename
         new_filename="linux-mah-${version_underscores}-${architecture}.AppImage"
         new_filepath="$dir_path/$new_filename"
+        zsync_file="$appimage_file.zsync"
+        new_zsync_file="$new_filepath.zsync"
 
         # Rename the file
         if mv "$appimage_file" "$new_filepath"; then
             echo "Successfully renamed AppImage: $filename -> $new_filename"
         else
             echo "Error: Failed to rename AppImage file $filename"
+            exit 1
+        fi
+
+        if [ -f "$zsync_file" ]; then
+            if mv "$zsync_file" "$new_zsync_file"; then
+                echo "Successfully renamed zsync file: $(basename "$zsync_file") -> $(basename "$new_zsync_file")"
+            else
+                echo "Error: Failed to rename zsync file $(basename "$zsync_file")"
+                exit 1
+            fi
+        else
+            echo "Error: Missing zsync file for $filename"
             exit 1
         fi
     else
