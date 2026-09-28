@@ -4,7 +4,7 @@
   "scripts": {
     "build": "tauri build",
     "windows": "tauri build --target x86_64-pc-windows-msvc && npm run rename-windows",
-    "linux": "LDAI_UPDATE_INFORMATION='gh-releases-zsync|ffalt|mah|latest|linux-mah-*.AppImage.zsync' tauri build && npm run rename-linux",
+    "linux": "tauri build && npm run rename-linux",
     "macos": "tauri build --bundles dmg --target aarch64-apple-darwin && npm run rename-macos",
     "android:aab": "tauri android build --aab",
     "android:apk": "tauri android build --apk --split-per-abi",

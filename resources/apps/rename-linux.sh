@@ -70,6 +70,8 @@ find "$LINUX_BASE_DIR" -name "mah-*.rpm" -type f | while read -r rpm_file; do
 done
 
 # Find and process AppImage files
+APPIMAGE_PLUGIN=$(find "$HOME/.cache/tauri" -type f -name "linuxdeploy-plugin-appimage.AppImage" -print -quit 2>/dev/null)
+
 find "$LINUX_BASE_DIR" -name "mah_*.AppImage" -type f | while read -r appimage_file; do
     # Extract the filename from the full path
     filename=$(basename "$appimage_file")
@@ -86,28 +88,33 @@ find "$LINUX_BASE_DIR" -name "mah_*.AppImage" -type f | while read -r appimage_f
         # Create new filename
         new_filename="linux-mah-${version_underscores}-${architecture}.AppImage"
         new_filepath="$dir_path/$new_filename"
-        zsync_file="$appimage_file.zsync"
-        new_zsync_file="$new_filepath.zsync"
+        app_dir_path="$dir_path/mah.AppDir"
 
-        # Rename the file
-        if mv "$appimage_file" "$new_filepath"; then
-            echo "Successfully renamed AppImage: $filename -> $new_filename"
-        else
-            echo "Error: Failed to rename AppImage file $filename"
+        if [ -z "$APPIMAGE_PLUGIN" ]; then
+            echo "Error: Tauri's linuxdeploy AppImage plugin was not found"
             exit 1
         fi
 
-        if [ -f "$zsync_file" ]; then
-            if mv "$zsync_file" "$new_zsync_file"; then
-                echo "Successfully renamed zsync file: $(basename "$zsync_file") -> $(basename "$new_zsync_file")"
-            else
-                echo "Error: Failed to rename zsync file $(basename "$zsync_file")"
-                exit 1
-            fi
-        else
-            echo "Error: Missing zsync file for $filename"
+        if [ ! -d "$app_dir_path" ]; then
+            echo "Error: Tauri AppDir was not found: $app_dir_path"
             exit 1
         fi
+
+        rm -f "$appimage_file"
+        if ! APPIMAGE_EXTRACT_AND_RUN=1 \
+            LDAI_UPDATE_INFORMATION='gh-releases-zsync|ffalt|mah|latest|linux-mah-*.AppImage.zsync' \
+            LDAI_OUTPUT="$new_filepath" \
+            "$APPIMAGE_PLUGIN" --appdir "$app_dir_path"; then
+            echo "Error: Failed to rebuild AppImage with update information"
+            exit 1
+        fi
+
+        if [ ! -f "$new_filepath" ] || [ ! -f "$new_filepath.zsync" ]; then
+            echo "Error: AppImage plugin did not create the AppImage and zsync files"
+            exit 1
+        fi
+
+        echo "Created AppImage with update information: $new_filename"
     else
         echo "Warning: Skipping AppImage file that doesn't match expected pattern: $filename"
     fi
