@@ -1,6 +1,6 @@
 {
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL": "Elimina tots els taulers personalitzats",
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL_SURE": "Elimina tots els taulers personalitzats?\nAixò no es pot desfer.",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL": "Elimina tots els taulers personalitzats",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL_SURE": "Elimina tots els taulers personalitzats?\nAixò no es pot desfer.",
 	"EDITOR_TITLE": "Editor de Mah",
 	"EDITOR_NEW": "Nou",
 	"EDITOR_NEW_LONG": "Tauler nou",
@@ -27,6 +27,7 @@
 	"EDITOR_MOVE_ALL_TILES_LEFT_LONG": "Moure totes les fitxes cap a l'esquerra",
 	"EDITOR_MOVE_ALL_TILES_RIGHT_LONG": "Moure totes les fitxes cap a la dreta",
 	"EDITOR_LAYOUT_NAME": "Nom",
+	"EDITOR_LAYOUT_NEW_NAME": "Tauler nou",
 	"EDITOR_LAYOUT_BY": "Per",
 	"EDITOR_LAYOUT_CATEGORY": "Categoria",
 	"EDITOR_LAYOUT_DOWNLOAD": "Descarregar",
@@ -40,6 +41,7 @@
 	"EDITOR_IMPORT_DONE": "\"{{file}}\" importat",
 	"EDITOR_IMPORT_DUPLICATE": "Ja hi ha un tauler com \"{{name}}\". Importació rebutjada.",
 	"EDITOR_IMPORT_INVALID": "Error en importar \"{{file}}\". Fitxer no vàlid.",
+	"EDITOR_EXPORT_FORMAT": "Format",
 	"EDITOR_FORMAT_MAH": "*.mah (format Mah json)",
 	"EDITOR_FORMAT_KMAHJONGG": "*.layout (format de text kmahjongg)",
 	"EDITOR_FORMAT_KYODAI": "*.lay (format de text Kyodai)",
@@ -53,6 +55,6 @@
 	"EDITOR_TEST_CANCEL": "Cancel·lar",
 	"EDITOR_TEST_SOLVED": "Resolt",
 	"EDITOR_TEST_FAILED": "Va fallar",
-	"EDITOR_NO_BOARDS": "No hi ha taulers per mostrar",
-	"EDITOR_NO_BOARDS_HINT": "Crea un tauler nou o importa'n un d'un fitxer per començar."
+	"EDITOR_NO_LAYOUTS": "No hi ha taulers per mostrar",
+	"EDITOR_NO_LAYOUTS_HINT": "Crea un tauler nou o importa'n un d'un fitxer per començar."
 }

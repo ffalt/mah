@@ -1,6 +1,6 @@
 {
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL": "ลบกระดานที่กำหนดเองทั้งหมด",
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL_SURE": "ลบกระดานที่กำหนดเองทั้งหมด?\nการกระทำนี้ไม่สามารถเลิกทำได้",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL": "ลบกระดานที่กำหนดเองทั้งหมด",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL_SURE": "ลบกระดานที่กำหนดเองทั้งหมด?\nการกระทำนี้ไม่สามารถเลิกทำได้",
 	"EDITOR_TITLE": "ตัวแก้ไข Mah",
 	"EDITOR_NEW": "ใหม่",
 	"EDITOR_NEW_LONG": "กระดานใหม่",
@@ -27,6 +27,7 @@
 	"EDITOR_MOVE_ALL_TILES_LEFT_LONG": "เลื่อนไพ่ทั้งหมดไปทางซ้าย",
 	"EDITOR_MOVE_ALL_TILES_RIGHT_LONG": "เลื่อนไพ่ทั้งหมดไปทางขวา",
 	"EDITOR_LAYOUT_NAME": "ชื่อ",
+	"EDITOR_LAYOUT_NEW_NAME": "กระดานใหม่",
 	"EDITOR_LAYOUT_BY": "โดย",
 	"EDITOR_LAYOUT_CATEGORY": "หมวดหมู่",
 	"EDITOR_LAYOUT_DOWNLOAD": "ดาวน์โหลด",
@@ -40,6 +41,7 @@
 	"EDITOR_IMPORT_DONE": "นำเข้า \"{{file}}\" แล้ว",
 	"EDITOR_IMPORT_DUPLICATE": "มีกระดานอย่าง \"{{name}}\" อยู่แล้ว ปฏิเสธการนำเข้า",
 	"EDITOR_IMPORT_INVALID": "เกิดข้อผิดพลาดในการนำเข้า \"{{file}}\" ไฟล์ไม่ถูกต้อง",
+	"EDITOR_EXPORT_FORMAT": "รูปแบบ",
 	"EDITOR_FORMAT_MAH": "*.mah (รูปแบบ Mah json)",
 	"EDITOR_FORMAT_KMAHJONGG": "*.layout (รูปแบบข้อความ kmahjongg)",
 	"EDITOR_FORMAT_KYODAI": "*.lay (รูปแบบข้อความ Kyodai)",
@@ -53,6 +55,6 @@
 	"EDITOR_TEST_CANCEL": "ยกเลิก",
 	"EDITOR_TEST_SOLVED": "แก้ได้",
 	"EDITOR_TEST_FAILED": "ล้มเหลว",
-	"EDITOR_NO_BOARDS": "ไม่มีกระดานให้แสดง",
-	"EDITOR_NO_BOARDS_HINT": "สร้างกระดานใหม่หรือนำเข้าจากไฟล์เพื่อเริ่มต้น"
+	"EDITOR_NO_LAYOUTS": "ไม่มีกระดานให้แสดง",
+	"EDITOR_NO_LAYOUTS_HINT": "สร้างกระดานใหม่หรือนำเข้าจากไฟล์เพื่อเริ่มต้น"
 }

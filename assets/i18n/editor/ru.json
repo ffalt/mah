@@ -1,6 +1,6 @@
 {
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL": "Удалить все пользовательские доски",
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL_SURE": "Удалить все пользовательские доски?\nЭто действие не может быть отменено.",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL": "Удалить все пользовательские доски",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL_SURE": "Удалить все пользовательские доски?\nЭто действие не может быть отменено.",
 	"EDITOR_TITLE": "Редактор Mah",
 	"EDITOR_NEW": "Новый",
 	"EDITOR_NEW_LONG": "Новая доска",
@@ -27,6 +27,7 @@
 	"EDITOR_MOVE_ALL_TILES_LEFT_LONG": "Переместить все фишки влево",
 	"EDITOR_MOVE_ALL_TILES_RIGHT_LONG": "Переместить все фишки вправо",
 	"EDITOR_LAYOUT_NAME": "Имя",
+	"EDITOR_LAYOUT_NEW_NAME": "Новая доска",
 	"EDITOR_LAYOUT_BY": "От",
 	"EDITOR_LAYOUT_CATEGORY": "Категория",
 	"EDITOR_LAYOUT_DOWNLOAD": "Скачать",
@@ -40,6 +41,7 @@
 	"EDITOR_IMPORT_DONE": "\"{{file}}\" импортирован",
 	"EDITOR_IMPORT_DUPLICATE": "Доска, подобная \"{{name}}\", уже доступна. Импорт отклонён.",
 	"EDITOR_IMPORT_INVALID": "Ошибка при импорте \"{{file}}\". Недопустимый файл.",
+	"EDITOR_EXPORT_FORMAT": "Формат",
 	"EDITOR_FORMAT_MAH": "*.mah (формат Mah json)",
 	"EDITOR_FORMAT_KMAHJONGG": "*.layout (текстовый формат kmahjongg)",
 	"EDITOR_FORMAT_KYODAI": "*.lay (формат текста Kyodai)",
@@ -53,6 +55,6 @@
 	"EDITOR_TEST_CANCEL": "Отмена",
 	"EDITOR_TEST_SOLVED": "Разрешено",
 	"EDITOR_TEST_FAILED": "Провален",
-	"EDITOR_NO_BOARDS": "Нет досок для отображения",
-	"EDITOR_NO_BOARDS_HINT": "Создайте новую доску или импортируйте её из файла, чтобы начать."
+	"EDITOR_NO_LAYOUTS": "Нет досок для отображения",
+	"EDITOR_NO_LAYOUTS_HINT": "Создайте новую доску или импортируйте её из файла, чтобы начать."
 }

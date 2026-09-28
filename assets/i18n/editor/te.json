@@ -1,6 +1,6 @@
 {
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL": "అన్ని అనుకూల బోర్డ్‌లు తొలగించు",
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL_SURE": "అన్ని అనుకూల బోర్డ్‌లు తొలగించు?\nదీనిని రద్దు చేయలేరు.",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL": "అన్ని అనుకూల బోర్డ్‌లు తొలగించు",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL_SURE": "అన్ని అనుకూల బోర్డ్‌లు తొలగించు?\nదీనిని రద్దు చేయలేరు.",
 	"EDITOR_TITLE": "Mah ఎడిటర్",
 	"EDITOR_NEW": "కొత్త",
 	"EDITOR_NEW_LONG": "కొత్త బోర్డ్",
@@ -27,6 +27,7 @@
 	"EDITOR_MOVE_ALL_TILES_LEFT_LONG": "అన్ని టైల్స్ ఎడమకు జరుపు",
 	"EDITOR_MOVE_ALL_TILES_RIGHT_LONG": "అన్ని టైల్స్ కుడికి జరుపు",
 	"EDITOR_LAYOUT_NAME": "పేరు",
+	"EDITOR_LAYOUT_NEW_NAME": "కొత్త బోర్డ్",
 	"EDITOR_LAYOUT_BY": "రచన",
 	"EDITOR_LAYOUT_CATEGORY": "వర్గం",
 	"EDITOR_LAYOUT_DOWNLOAD": "డౌన్‌లోడ్",
@@ -40,6 +41,7 @@
 	"EDITOR_IMPORT_DONE": "\"{{file}}\" దిగుమతి చేయబడింది",
 	"EDITOR_IMPORT_DUPLICATE": "\"{{name}}\" వంటి బోర్డు ఇప్పటికే అందుబాటులో ఉంది. దిగుమతి తిరస్కరించబడింది.",
 	"EDITOR_IMPORT_INVALID": "\"{{file}}\" దిగుమతిలో లోపం. చెల్లని ఫైల్.",
+	"EDITOR_EXPORT_FORMAT": "ఫార్మాట్",
 	"EDITOR_FORMAT_MAH": "*.mah (Mah json ఫార్మాట్)",
 	"EDITOR_FORMAT_KMAHJONGG": "*.layout (kmahjongg టెక్స్ట్ ఫార్మాట్)",
 	"EDITOR_FORMAT_KYODAI": "*.lay (Kyodai టెక్స్ట్ ఫార్మాట్)",
@@ -53,6 +55,6 @@
 	"EDITOR_TEST_CANCEL": "రద్దు",
 	"EDITOR_TEST_SOLVED": "పరిష్కరించబడింది",
 	"EDITOR_TEST_FAILED": "విఫలమైంది",
-	"EDITOR_NO_BOARDS": "చూపించడానికి బోర్డ్‌లు లేవు",
-	"EDITOR_NO_BOARDS_HINT": "ప్రారంభించడానికి కొత్త బోర్డ్ సృష్టించండి లేదా ఫైల్ నుండి దిగుమతి చేయండి."
+	"EDITOR_NO_LAYOUTS": "చూపించడానికి బోర్డ్‌లు లేవు",
+	"EDITOR_NO_LAYOUTS_HINT": "ప్రారంభించడానికి కొత్త బోర్డ్ సృష్టించండి లేదా ఫైల్ నుండి దిగుమతి చేయండి."
 }

@@ -1,6 +1,6 @@
 {
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL": "حذف جميع الألواح المخصصة",
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL_SURE": "حذف جميع الألواح المخصصة؟\nلا يمكن التراجع عن هذا.",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL": "حذف جميع الألواح المخصصة",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL_SURE": "حذف جميع الألواح المخصصة؟\nلا يمكن التراجع عن هذا.",
 	"EDITOR_TITLE": "محرر ماه",
 	"EDITOR_NEW": "جديد",
 	"EDITOR_NEW_LONG": "لوح جديد",
@@ -27,6 +27,7 @@
 	"EDITOR_MOVE_ALL_TILES_LEFT_LONG": "نقل جميع البلاط إلى اليسار",
 	"EDITOR_MOVE_ALL_TILES_RIGHT_LONG": "نقل جميع البلاط إلى اليمين",
 	"EDITOR_LAYOUT_NAME": "الاسم",
+	"EDITOR_LAYOUT_NEW_NAME": "لوح جديد",
 	"EDITOR_LAYOUT_BY": "بواسطة",
 	"EDITOR_LAYOUT_CATEGORY": "الفئة",
 	"EDITOR_LAYOUT_DOWNLOAD": "تحميل",
@@ -40,6 +41,7 @@
 	"EDITOR_IMPORT_DONE": "تم استيراد \"{{file}}\"",
 	"EDITOR_IMPORT_DUPLICATE": "يوجد بالفعل لوح مثل \"{{name}}\". تم رفض الاستيراد.",
 	"EDITOR_IMPORT_INVALID": "خطأ في استيراد \"{{file}}\". ملف غير صالح.",
+	"EDITOR_EXPORT_FORMAT": "الصيغة",
 	"EDITOR_FORMAT_MAH": "*.mah (تنسيق Mah json)",
 	"EDITOR_FORMAT_KMAHJONGG": "*.layout (تنسيق نص kmahjongg)",
 	"EDITOR_FORMAT_KYODAI": "*.lay (تنسيق نص Kyodai)",
@@ -53,6 +55,6 @@
 	"EDITOR_TEST_CANCEL": "إلغاء",
 	"EDITOR_TEST_SOLVED": "تم حله",
 	"EDITOR_TEST_FAILED": "فشل",
-	"EDITOR_NO_BOARDS": "لا توجد ألواح لعرضها",
-	"EDITOR_NO_BOARDS_HINT": "أنشئ لوحًا جديدًا أو استورد لوحًا من ملف للبدء."
+	"EDITOR_NO_LAYOUTS": "لا توجد ألواح لعرضها",
+	"EDITOR_NO_LAYOUTS_HINT": "أنشئ لوحًا جديدًا أو استورد لوحًا من ملف للبدء."
 }

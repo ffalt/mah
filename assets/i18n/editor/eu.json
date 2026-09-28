@@ -1,6 +1,6 @@
 {
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL": "Ezabatu neurrira egindako taula guztiak",
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL_SURE": "Ezabatu neurrira egindako taula guztiak?\nHau ezin da desegin.",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL": "Ezabatu neurrira egindako taula guztiak",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL_SURE": "Ezabatu neurrira egindako taula guztiak?\nHau ezin da desegin.",
 	"EDITOR_TITLE": "Mah editorea",
 	"EDITOR_NEW": "Berria",
 	"EDITOR_NEW_LONG": "Taula berria",
@@ -27,6 +27,7 @@
 	"EDITOR_MOVE_ALL_TILES_LEFT_LONG": "Mugitu fitxa guztiak ezkerrera",
 	"EDITOR_MOVE_ALL_TILES_RIGHT_LONG": "Mugitu fitxa guztiak eskuinera",
 	"EDITOR_LAYOUT_NAME": "Izena",
+	"EDITOR_LAYOUT_NEW_NAME": "Taula berria",
 	"EDITOR_LAYOUT_BY": "Nork egina",
 	"EDITOR_LAYOUT_CATEGORY": "Kategoria",
 	"EDITOR_LAYOUT_DOWNLOAD": "Deskargatu",
@@ -40,6 +41,7 @@
 	"EDITOR_IMPORT_DONE": "\"{{file}}\" inportatuta",
 	"EDITOR_IMPORT_DUPLICATE": "\"{{name}}\" bezalako taula bat jada eskuragarri dago. Inportazioa baztertu da.",
 	"EDITOR_IMPORT_INVALID": "Errorea \"{{file}}\" inportatzean. Fitxategi baliogabea.",
+	"EDITOR_EXPORT_FORMAT": "Formatua",
 	"EDITOR_FORMAT_MAH": "*.mah (Mah JSON formatua)",
 	"EDITOR_FORMAT_KMAHJONGG": "*.layout (kmahjongg testu formatua)",
 	"EDITOR_FORMAT_KYODAI": "*.lay (Kyodai testu formatua)",
@@ -53,6 +55,6 @@
 	"EDITOR_TEST_CANCEL": "Ezeztatu",
 	"EDITOR_TEST_SOLVED": "Ebatzita",
 	"EDITOR_TEST_FAILED": "Huts egin du",
-	"EDITOR_NO_BOARDS": "Ez dago taularik erakusteko",
-	"EDITOR_NO_BOARDS_HINT": "Sortu taula berri bat edo inportatu bat fitxategi batetik hasteko."
+	"EDITOR_NO_LAYOUTS": "Ez dago taularik erakusteko",
+	"EDITOR_NO_LAYOUTS_HINT": "Sortu taula berri bat edo inportatu bat fitxategi batetik hasteko."
 }

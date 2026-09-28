@@ -1,6 +1,6 @@
 {
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL": "Șterge toate tablele personalizate",
-	"EDITOR_CUSTOM_BOARD_DELETE_ALL_SURE": "Șterge toate tablele personalizate?\nAceastă acțiune nu poate fi anulată.",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL": "Șterge toate tablele personalizate",
+	"EDITOR_CUSTOM_LAYOUT_DELETE_ALL_SURE": "Șterge toate tablele personalizate?\nAceastă acțiune nu poate fi anulată.",
 	"EDITOR_TITLE": "Editor Mah",
 	"EDITOR_NEW": "Nou",
 	"EDITOR_NEW_LONG": "Tablă nouă",
@@ -27,6 +27,7 @@
 	"EDITOR_MOVE_ALL_TILES_LEFT_LONG": "Mută toate pietrele la stânga",
 	"EDITOR_MOVE_ALL_TILES_RIGHT_LONG": "Mută toate pietrele la dreapta",
 	"EDITOR_LAYOUT_NAME": "Nume",
+	"EDITOR_LAYOUT_NEW_NAME": "Tablă nouă",
 	"EDITOR_LAYOUT_BY": "De",
 	"EDITOR_LAYOUT_CATEGORY": "Categorie",
 	"EDITOR_LAYOUT_DOWNLOAD": "Descarcă",
@@ -40,6 +41,7 @@
 	"EDITOR_IMPORT_DONE": "\"{{file}}\" importat",
 	"EDITOR_IMPORT_DUPLICATE": "O tablă precum \"{{name}}\" este deja disponibilă. Import respins.",
 	"EDITOR_IMPORT_INVALID": "Eroare la importarea \"{{file}}\". Fișier nevalid.",
+	"EDITOR_EXPORT_FORMAT": "Format",
 	"EDITOR_FORMAT_MAH": "*.mah (Format Mah json)",
 	"EDITOR_FORMAT_KMAHJONGG": "*.layout (Format text kmahjongg)",
 	"EDITOR_FORMAT_KYODAI": "*.lay (Format text Kyodai)",
@@ -53,6 +55,6 @@
 	"EDITOR_TEST_CANCEL": "Anulează",
 	"EDITOR_TEST_SOLVED": "Rezolvat",
 	"EDITOR_TEST_FAILED": "Eșuat",
-	"EDITOR_NO_BOARDS": "Nicio tablă de afișat",
-	"EDITOR_NO_BOARDS_HINT": "Creează o tablă nouă sau importă una dintr-un fișier pentru a începe."
+	"EDITOR_NO_LAYOUTS": "Nicio tablă de afișat",
+	"EDITOR_NO_LAYOUTS_HINT": "Creează o tablă nouă sau importă una dintr-un fișier pentru a începe."
 }
