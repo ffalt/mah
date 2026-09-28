@@ -2,19 +2,6 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
-## [2.1.0](https://github.com/ffalt/mah/compare/v2.0.0...v2.1.0) (2026-09-28)
-
-### Features
-
-* **categories:** limit the categories nav bar to 1 line, show on all screen sizes, allow expanding/collapsing and panning/scrolling ([18c2528](https://github.com/ffalt/mah/commit/18c25284f66c6ac60a5b5a0c6fa76ec5c3186a59))
-* **i18n:** add Icelandic language ([737669d](https://github.com/ffalt/mah/commit/737669d181abea8a84f8f9b555522e9a02bd279f))
-* **i18n:** add Irish language ([1d6f7cc](https://github.com/ffalt/mah/commit/1d6f7ccf62079a30f793fac7073dc3d20260a790))
-* **i18n:** add Mongolian language ([0ee80fc](https://github.com/ffalt/mah/commit/0ee80fc20044263e4ae45844ccd5ae12ab883afe))
-
-### Bug Fixes
-
-* **tauri:** update to fix AppImage issue https://github.com/tauri-apps/tauri/issues/16155 ([9f31b2b](https://github.com/ffalt/mah/commit/9f31b2b947c72efa8b7c64671958d18a6eec802f))
-
 ## [2.0.0](https://github.com/ffalt/mah/compare/v1.21.0...v2.0.0) (2026-09-12)
 
 ### Features
