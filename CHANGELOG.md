@@ -2,12 +2,6 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
-## [2.1.1](https://github.com/ffalt/mah/compare/v2.1.0...v2.1.1) (2026-09-28)
-
-### Features
-
-* **tauri:** add zsync and metadata support for linux builds ([3154810](https://github.com/ffalt/mah/commit/3154810c8cbd8272ac02fdfc8974cbc5a96b10fb))
-
 ## [2.1.0](https://github.com/ffalt/mah/compare/v2.0.0...v2.1.0) (2026-09-28)
 
 ### Features
