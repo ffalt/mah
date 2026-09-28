@@ -27,6 +27,11 @@
   "bundle": {
     "active": true,
     "targets": "all",
+    "publisher": "ffalt",
+    "category": "Game",
+    "shortDescription": "A Mahjong Solitaire game with customizable layouts, tile sets, and difficulty modes",
+    "longDescription": "Mah - Mahjong Solitaire is a relaxing single-player puzzle game where you clear a board by matching pairs of identical, free tiles. Choose from many layouts, customize your game with tile sets and light or dark variants, and play in three difficulty modes",
+    "homepage": "https://github.com/ffalt/mah",
     "icon": [
       "icons/32x32.png",
       "icons/128x128.png",
@@ -36,6 +41,23 @@
     ],
     "macOS": {
       "signingIdentity": "-"
+    },
+    "linux": {
+      "appimage": {
+        "files": {
+          "/usr/share/metainfo/mah.appdata.xml": "assets/mah.appdata.xml"
+        }
+      },
+      "deb": {
+        "files": {
+          "/usr/share/metainfo/mah.appdata.xml": "assets/mah.appdata.xml"
+        }
+      },
+      "rpm": {
+        "files": {
+          "/usr/share/metainfo/mah.appdata.xml": "assets/mah.appdata.xml"
+        }
+      }
     },
     "windows": {
       "certificateThumbprint": null,
