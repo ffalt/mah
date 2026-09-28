@@ -79,6 +79,14 @@ Click any layout and select **"Play it with Mah"** to import it directly into yo
 
 ---
 
+## 📷 Screenshot
+
+<div align="center">
+ <img width="500" src="screenshot.jpg" alt="Screenshot of Mah">
+</div>
+
+---
+
 ## 📥 Download
 
 Play instantly in the browser, or grab a native build for your platform:
