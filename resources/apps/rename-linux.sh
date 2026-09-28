@@ -109,8 +109,14 @@ find "$LINUX_BASE_DIR" -name "mah_*.AppImage" -type f | while read -r appimage_f
             exit 1
         fi
 
-        if [ ! -f "$new_filepath" ] || [ ! -f "$new_filepath.zsync" ]; then
-            echo "Error: AppImage plugin did not create the AppImage and zsync files"
+        if [ ! -f "$new_filepath" ]; then
+            echo "Error: AppImage plugin did not create the AppImage file"
+            exit 1
+        fi
+
+        if ! zsyncmake -u 'gh-releases-zsync|ffalt|mah|latest|linux-mah-*.AppImage.zsync' \
+            -o "$new_filepath.zsync" "$new_filepath"; then
+            echo "Error: Failed to generate zsync file for $new_filename"
             exit 1
         fi
 
