@@ -1,8 +1,8 @@
 import { hashCode } from './hash';
 import { log } from './log';
 
-export function isKyodaiImageSet(name?: string): boolean {
-	return ['kyodai', 'kyodai-black'].includes(name ?? '');
+export function isKyodaiImageSet(name: string = ''): boolean {
+	return ['kyodai', 'kyodai-black'].includes(name);
 }
 
 // a kyodai tile is a photo slice that fills the whole face, the svg sets are drawn inset
@@ -272,21 +272,21 @@ export async function buildKyodaiSVG(tileSetUrl?: string): Promise<string> {
 	if (!tileSetUrl) {
 		throw new Error('Kyodai tileset has no image url.');
 	}
-
-	const range = (start: number, end: number) => Array.from({ length: end }, (_, index) => index + start);
+	const end = 9;
+	const range = (start: number) => Array.from({ length: end }, (_, index) => index + start);
 
 	const kyodai = [
-		range(1, 9).map(nr => `do${nr}`),
-		range(1, 9).map(nr => `ba${nr}`),
-		range(1, 9).map(nr => `ch${nr}`),
+		range(1).map(nr => `do${nr}`),
+		range(1).map(nr => `ba${nr}`),
+		range(1).map(nr => `ch${nr}`),
 		['se_winter', 'se_spring', 'se_summer', 'se_fall', 'wi_north', 'wi_south', 'wi_east', 'wi_west'],
 		['fl_bamboo', 'fl_plum', 'fl_orchid', 'fl_chrysanthemum', 'dr_green', 'dr_white', 'dr_red']
 	].map(row => row.map(id => `t_${id}`));
 
 	const kyodaiExtra = [
-		range(1, 9).map(nr => `g${nr}`),
-		range(10, 9).map(nr => `g${nr}`),
-		range(1, 9).map(nr => `e${nr}`)
+		range(1).map(nr => `g${nr}`),
+		range(10).map(nr => `g${nr}`),
+		range(1).map(nr => `e${nr}`)
 	].map(row => row.map(id => `t_${id}`));
 
 	const image = await loadImage(tileSetUrl);

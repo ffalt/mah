@@ -277,7 +277,8 @@ export default ts.config(
 			...commonRules,
 			...commonStylisticRules,
 			...commonUnicornRules,
-			"@stylistic/quotes": ["error", "double"]
+			"@stylistic/quotes": ["error", "double"],
+			"unicorn/no-top-level-side-effects": "off"
 		}
 	}
 );

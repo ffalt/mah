@@ -239,6 +239,7 @@ describe('convertKmahjongg', () => {
 });
 
 describe('convertKyodai', () => {
+	// eslint-disable-next-line unicorn/no-unnecessary-parameters
 	function make3400Kyodai(overrides: Record<number, string> = {}): string {
 		const chars = Array.from({ length: 3400 }, () => '0');
 		for (const [index, value] of Object.entries(overrides)) {

@@ -84,11 +84,6 @@ export const TUTORIAL_STEPS: ReadonlyArray<TutorialStep> = [
 	}
 ];
 
-/**
- * Creates a Board with predefined stones from a StoneMapping.
- * Uses Tiles(144) to ensure all tile groups (including flowers/seasons)
- * are available regardless of the small number of tiles in the tutorial.
- */
 export function createTutorialBoard(mapping: StoneMapping): Board {
 	const board = new Board();
 	const tiles = new Tiles(144);

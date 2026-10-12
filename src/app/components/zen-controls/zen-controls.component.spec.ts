@@ -132,7 +132,8 @@ describe('ZenControlsComponent', () => {
 		expect(releasePointerCaptureSpy).toHaveBeenCalledWith(5);
 	});
 
-	function startDragWithPointer(pointerId: number): { releasePointerCapture: ReturnType<typeof vi.fn> } {
+	function startDragWithPointer(): { releasePointerCapture: ReturnType<typeof vi.fn> } {
+		const pointerId: number = 5;
 		const handle = getHandle();
 		Object.defineProperty(handle, 'setPointerCapture', { value: vi.fn(), configurable: true });
 		const releasePointerCapture = vi.fn();
@@ -150,7 +151,7 @@ describe('ZenControlsComponent', () => {
 	}
 
 	it('should end the drag when the dragging pointer is released', () => {
-		const { releasePointerCapture } = startDragWithPointer(5);
+		const { releasePointerCapture } = startDragWithPointer();
 
 		component.onDragEnd({ pointerId: 5 });
 
@@ -158,7 +159,7 @@ describe('ZenControlsComponent', () => {
 	});
 
 	it('should ignore a release from a pointer that is not dragging', () => {
-		const { releasePointerCapture } = startDragWithPointer(5);
+		const { releasePointerCapture } = startDragWithPointer();
 
 		// a second finger touches down elsewhere and lifts again mid-drag
 		component.onDragEnd({ pointerId: 9 });
@@ -172,7 +173,7 @@ describe('ZenControlsComponent', () => {
 	});
 
 	it('should ignore movement from a pointer that is not dragging', () => {
-		startDragWithPointer(5);
+		startDragWithPointer();
 
 		const preventDefault = vi.fn();
 		component.onDrag({ clientX: 400, clientY: 400, pointerId: 9, preventDefault });

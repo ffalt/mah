@@ -10,6 +10,7 @@ function hasFloatingTiles(mapping: Array<[number, number, number]>): Array<[numb
 		if (z === 0) {
 			continue;
 		}
+		// eslint-disable-next-line unicorn/no-unnecessary-parameters
 		const k = (zz: number, xx: number, yy: number) => `${zz}|${xx}|${yy}`;
 		const z1 = z - 1;
 		const direct = set.has(k(z1, x, y));

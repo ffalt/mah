@@ -47,6 +47,7 @@ describe('PanZoom', () => {
 		vi.unstubAllGlobals();
 	});
 
+	// eslint-disable-next-line unicorn/no-unnecessary-parameters
 	function zoomTo(scale: number): void {
 		panZoom.zoomSVGValue(scale, WIDTH / 2, HEIGHT / 2);
 		// zooming is anchored on that point and so leaves a pan behind - start the pan assertions from the origin

@@ -26,6 +26,7 @@ function getStableRunDirectory(): string {
 
 const outputDirectory = path.join(process.cwd(), 'results', getStableRunDirectory());
 
+// eslint-disable-next-line unicorn/no-top-level-side-effects
 export default defineConfig({
 	testDir: 'specs',
 	retries: 1,

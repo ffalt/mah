@@ -1,36 +1,36 @@
 #!/usr/bin/env node
 /**
- * Convert an SVG spritesheet into a single PNG and optionally split it into tile PNGs.
- *
- * Improvements:
- * - If the SVG contains a <g id="t_preview"> grid, we use it to determine:
- *   - the number of rows/columns (layout)
- *   - the export order
- *   - the tile names (from child group ids or attributes)
- *   - optionally the tile cell width/height (scaled to the full sheet)
- * - Falls back to a simple grid (defaults 12x7) if t_preview is missing or unparsable.
- *
- * Usage examples:
- *   node svg-to-png.mjs \
- *     --src animals.svg \
- *     --out ../../src/assets/svg/animals \
- *     --png ../../src/assets/svg/animals/animals.png \
- *     --cols 12 --rows 7
- *
- * Options:
- * - --cols/--rows: override detected layout
- * - --tileWidth/--tileHeight: grid inference when no t_preview is available
- * - --density: SVG rasterization density (default 384)
- * - --maxWidth: max width of the exported full PNG (default 1080)
- * - --colors256: quantize full PNG and tiles to a 256-color palette (optional)
- * - --split: export each tile into own image (optional)
- * - --oxipng: run oxipng on the exported PNGs to reduce file size (optional)
- * - --oxipngArgs: custom arguments passed to oxipng (optional)
- * - --tileOutWidth/--tileOutHeight: optional minimum output size for each tile (preserve aspect ratio; tiles are only scaled up if smaller)
- * - --start-row N: skip the first N-1 rows (1-based) in BOTH the full PNG and the per-tile export.
- *   - Example: --start-row 3 removes the first two rows from the full sheet and exports tiles starting at row 3.
- *   - Accepts --startRow as alias. 0 is treated like 1. (optional)
- */
+Convert an SVG spritesheet into a single PNG and optionally split it into tile PNGs.
+
+Improvements:
+- If the SVG contains a <g id="t_preview"> grid, we use it to determine:
+  - the number of rows/columns (layout)
+  - the export order
+  - the tile names (from child group ids or attributes)
+  - optionally the tile cell width/height (scaled to the full sheet)
+- Falls back to a simple grid (defaults 12x7) if t_preview is missing or unparsable.
+
+Usage examples:
+  node svg-to-png.mjs \
+    --src animals.svg \
+    --out ../../src/assets/svg/animals \
+    --png ../../src/assets/svg/animals/animals.png \
+    --cols 12 --rows 7
+
+Options:
+- --cols/--rows: override detected layout
+- --tileWidth/--tileHeight: grid inference when no t_preview is available
+- --density: SVG rasterization density (default 384)
+- --maxWidth: max width of the exported full PNG (default 1080)
+- --colors256: quantize full PNG and tiles to a 256-color palette (optional)
+- --split: export each tile into own image (optional)
+- --oxipng: run oxipng on the exported PNGs to reduce file size (optional)
+- --oxipngArgs: custom arguments passed to oxipng (optional)
+- --tileOutWidth/--tileOutHeight: optional minimum output size for each tile (preserve aspect ratio; tiles are only scaled up if smaller)
+- --start-row N: skip the first N-1 rows (1-based) in BOTH the full PNG and the per-tile export.
+  - Example: --start-row 3 removes the first two rows from the full sheet and exports tiles starting at row 3.
+  - Accepts --startRow as alias. 0 is treated like 1. (optional)
+*/
 
 import fs from "node:fs/promises";
 import path from "node:path";
@@ -92,8 +92,8 @@ async function runOxipng(targetPath, extraArguments = []) {
 	});
 }
 
-function sanitizeName(name) {
-	return String(name || "tile")
+function sanitizeName(name = "tile") {
+	return String(name)
 		.trim()
 		.replace(/^t[_-]/i, "")
 		.replace(/\s+/g, "-")
@@ -289,13 +289,13 @@ function extractTPPreviewEntries(svgText) {
 	return entries;
 }
 
-function clusterValues(values, tolerance = 1e-3) {
+function clusterValues(values) {
 	// Group nearly-equal numbers into buckets; returns sorted representative values
 	const sorted = [...values].sort((a, b) => a - b);
 	const clusters = [];
 	for (const v of sorted) {
 		const last = clusters.at(-1);
-		if (!last || Math.abs(v - last.at(-1)) > tolerance) {
+		if (!last || Math.abs(v - last.at(-1)) > 0.5) {
 			clusters.push([v]);
 		} else {
 			last.push(v);
@@ -308,8 +308,8 @@ function assignGridIndices(entries) {
 	// Compute distinct x,y bands to define columns/rows
 	const xCenters = entries.map(entry => entry.x + entry.width / 2);
 	const yCenters = entries.map(entry => entry.y + entry.height / 2);
-	const xBands = clusterValues(xCenters, 0.5); // SVG units; small tolerance
-	const yBands = clusterValues(yCenters, 0.5);
+	const xBands = clusterValues(xCenters); // SVG units; small tolerance
+	const yBands = clusterValues(yCenters);
 
 	// Sort bands top-to-bottom, left-to-right
 	yBands.sort((a, b) => a - b);

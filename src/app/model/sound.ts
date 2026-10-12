@@ -1,4 +1,4 @@
-/* eslint-disable no-sparse-arrays, @stylistic/no-floating-decimal */
+/* eslint-disable no-sparse-arrays, @stylistic/no-floating-decimal, unicorn/no-zero-fractions */
 
 import { zzfx } from 'zzfx';
 

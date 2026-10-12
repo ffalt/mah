@@ -54,6 +54,7 @@ describe('seeded board generation', () => {
 	});
 
 	it('reproduces layout shape and tile assignment together', () => {
+		// eslint-disable-next-line unicorn/no-unnecessary-parameters
 		const build = (seed: string) => {
 			seedRNG(seed);
 			try {

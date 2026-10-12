@@ -1,35 +1,35 @@
 #!/usr/bin/env node
 /**
- * Stitch all PNG tile images referenced by a svg into one large PNG,
- * honoring the layout positions given by the <use> elements in the SVG.
- *
- * The SVG defines symbols via <image id="..." xlink:href="./picasso/*.png" width/height>
- * and then positions them via <use xlink:href="#..." x="..." y="..." width/height>.
- * We parse those and composite all source PNGs into a single canvas using Sharp.
- *
- * Usage (required):
- *   node stitch-pngs.mjs \
- *     --svg picasso.svg \
- *     --dir ./picasso \
- *     --out ../../src/assets/svg/picasso/picasso.png \
- *     [--bg #00000000] [--scale 1] [--cellWidth 160] [--cellHeight 198]
- *     [--scale-tile true|false]
- *     [--colors256] [--oxipng] [--oxipngArgs "-o 4"]
- *
- * Notes:
- * - The flags --svg, --dir and --out are mandatory (no defaults).
- * - Also accepted aliases: --cellW/--cellH or simply --width/--height for cell size.
- *
- * Notes:
- * - If a referenced image file cannot be found, it will be skipped with a warning.
- * - Fallback: If no corresponding <image id="..."> exists for a <use xlink:href="#name">,
- *   the script will try to load an image file named "name.png" from the --dir folder.
- *   If that is missing and the name begins with "t_", it will also try without the
- *   leading "t_" (i.e., lookup "nameWithoutPrefix.png").
- * - Images are placed centered inside the cell defined by the corresponding <use>
- *   width/height. If the source is larger than the cell, it will be scaled down
- *   to fit while maintaining aspect ratio.
- */
+Stitch all PNG tile images referenced by a svg into one large PNG,
+honoring the layout positions given by the <use> elements in the SVG.
+
+The SVG defines symbols via <image id="..." xlink:href="./picasso/*.png" width/height>
+and then positions them via <use xlink:href="#..." x="..." y="..." width/height>.
+We parse those and composite all source PNGs into a single canvas using Sharp.
+
+Usage (required):
+  node stitch-pngs.mjs \
+    --svg picasso.svg \
+    --dir ./picasso \
+    --out ../../src/assets/svg/picasso/picasso.png \
+    [--bg #00000000] [--scale 1] [--cellWidth 160] [--cellHeight 198]
+    [--scale-tile true|false]
+    [--colors256] [--oxipng] [--oxipngArgs "-o 4"]
+
+Notes:
+- The flags --svg, --dir and --out are mandatory (no defaults).
+- Also accepted aliases: --cellW/--cellH or simply --width/--height for cell size.
+
+Notes:
+- If a referenced image file cannot be found, it will be skipped with a warning.
+- Fallback: If no corresponding <image id="..."> exists for a <use xlink:href="#name">,
+  the script will try to load an image file named "name.png" from the --dir folder.
+  If that is missing and the name begins with "t_", it will also try without the
+  leading "t_" (i.e., lookup "nameWithoutPrefix.png").
+- Images are placed centered inside the cell defined by the corresponding <use>
+  width/height. If the source is larger than the cell, it will be scaled down
+  to fit while maintaining aspect ratio.
+*/
 
 import fs from "node:fs/promises";
 import path from "node:path";
