@@ -67,7 +67,7 @@
     "@types/canvas-confetti": "1.9.0",
     "@types/node": "26.6.5",
     "@vitest/coverage-v8": "5.0.5",
-    "@vitest/eslint-plugin": "1.6.27",
+    "@vitest/eslint-plugin": "1.6.28",
     "angular-eslint": "22.6.0",
     "baseline-browser-mapping": "2.11.29",
     "eslint": "10.12.0",
