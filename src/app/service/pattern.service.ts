@@ -8,10 +8,7 @@ function expandSuffix(prefix: string, suffix: number | string | Array<number>): 
 			return [];
 		}
 		const [start, end] = suffix;
-		if (typeof start !== 'number' || typeof end !== 'number') {
-			return [];
-		}
-		if (start > end) {
+		if (typeof start !== 'number' || typeof end !== 'number' || start > end) {
 			return [];
 		}
 		const ids: Array<{ id: string }> = [];

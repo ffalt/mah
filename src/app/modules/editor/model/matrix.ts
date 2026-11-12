@@ -66,10 +66,7 @@ export class Matrix {
 		const currentLevel = this.levels[z];
 
 		// Check if position is out of bounds
-		if (!currentLevel[x + 1]) {
-			return true;
-		}
-		if (currentLevel[x].length - 1 === y) {
+		if (!currentLevel[x + 1] || currentLevel[x].length - 1 === y) {
 			return true;
 		}
 

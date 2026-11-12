@@ -1,8 +1,6 @@
 import { environment } from '../../environments/environment';
 import { log } from './log';
 
-type openExternal = (href: string) => void;
-
 export function clickExternalHref(event: MouseEvent): void {
 	if (!environment.openExternal) {
 		return;
@@ -15,7 +13,7 @@ export function clickExternalHref(event: MouseEvent): void {
 		}
 		if (element && element instanceof HTMLAnchorElement) {
 			const href = element.getAttribute('href') ?? '';
-			(environment.openExternal as openExternal)(href);
+			(environment.openExternal as (href: string) => void)(href);
 		}
 	} catch (error) {
 		log.error(error);

@@ -60,7 +60,7 @@ export class DialogComponent {
 			return;
 		}
 		const focusable = focusableElements(popup);
-		const target = leading ? focusable.at(-1) : focusable.at(0);
+		const target = focusable.at(leading ? -1 : 0);
 		(target ?? popup).focus();
 	}
 

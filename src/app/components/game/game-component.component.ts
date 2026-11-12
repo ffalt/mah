@@ -405,12 +405,8 @@ export class GameComponent {
 
 	isFullscreenEnabled(): boolean {
 		const doc = window.document as DocumentExtended;
-		// Check standard property first
-		if (doc.fullscreenEnabled) {
-			return true;
-		}
-		// Check vendor-specific enabled properties
-		if (doc.webkitFullscreenEnabled || doc.mozFullscreenEnabled) {
+		// Check standard property first, then vendor-specific enabled properties
+		if (doc.fullscreenEnabled || doc.webkitFullscreenEnabled || doc.mozFullscreenEnabled) {
 			return true;
 		}
 		// Fallback: detect support via requestFullscreen on the document element or vendor-prefixed methods

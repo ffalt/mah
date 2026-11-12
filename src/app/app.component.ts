@@ -11,8 +11,6 @@ import { parseImportString } from './model/import';
 import { GameComponent } from './components/game/game-component.component';
 import { isFormControlTarget } from './model/dom-utilities';
 
-type onWindowBlur = (callback: () => void) => void;
-
 @Component({
 	selector: 'app-root',
 	templateUrl: './app.component.html',
@@ -199,7 +197,7 @@ export class AppComponent implements OnInit {
 			document.removeEventListener('visibilitychange', onVisibilityChange);
 		});
 		if (environment.onWindowBlur) {
-			(environment.onWindowBlur as onWindowBlur)(pause);
+			(environment.onWindowBlur as (callback: () => void) => void)(pause);
 		}
 	}
 
