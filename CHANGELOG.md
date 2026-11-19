@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file. See [commit
 
 ## [2.1.2](https://github.com/ffalt/mah/compare/v2.1.1...v2.1.2) (2026-11-19)
 
+### Bug Fixes
+
+* **board:** stop hidden removed tiles from catching pointer events ([112dac9](https://github.com/ffalt/mah/commit/112dac9e11dd4e714249756aaf7755494036b7dc))
+* **board:** treat three-finger taps as multi touch ([4f56494](https://github.com/ffalt/mah/commit/4f564944ec588e469fc440740843134dece7f401))
+
 ## [2.1.1](https://github.com/ffalt/mah/compare/v2.1.0...v2.1.1) (2026-09-28)
 
 ### Features
@@ -181,12 +186,11 @@ All notable changes to this project will be documented in this file. See [commit
 
 * **style:** overlay message element shows focus ring on tab navigation only ([45e2d2a](https://github.com/ffalt/mah/commit/45e2d2a62c9dd6263e973fb0ce48bd438c0069c8))
 
-## [1.19.2](https://github.com/ffalt/mah/compare/v1.19.0...v1.19.2) (2026-06-02)
+## [1.19.2](https://github.com/ffalt/mah/compare/v1.19.1...v1.19.2) (2026-06-02)
 
 ### Features
 
 * **accessibility:** add hidden page title for screen readers ([3e5f3a5](https://github.com/ffalt/mah/commit/3e5f3a558392082e613d2f5d962f4c41e7f91b1e))
-* **i18n:** add missing translations ([fcb1adb](https://github.com/ffalt/mah/commit/fcb1adbbf4212abff323f14961c199a159ffc79b))
 
 ### Bug Fixes
 
@@ -196,7 +200,8 @@ All notable changes to this project will be documented in this file. See [commit
 
 ### Features
 
-* **i18n:** add missing translations ([9912bd2](https://github.com/ffalt/mah/commit/9912bd29109e75c218d2d49f545df2a374353508))
+* **i18n:** add missing translations ([fcb1adb](https://github.com/ffalt/mah/commit/fcb1adbbf4212abff323f14961c199a159ffc79b))
+* **i18n:** complete Swedish (sv) translation with missing accessibility keys ([61a0d36](https://github.com/ffalt/mah/commit/61a0d369003bac8fbe11c9a46e999bfea1677cdd))
 
 ## [1.19.0](https://github.com/ffalt/mah/compare/v1.18.3...v1.19.0) (2026-05-24)
 
