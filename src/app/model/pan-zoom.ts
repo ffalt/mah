@@ -145,6 +145,7 @@ export class PanZoom {
 	onTouchStart(event: TouchEvent): void {
 		event.preventDefault();
 		this.touchPoints = this.extractTouchPoints(event.touches);
+		this.hasMultiTouch ||= this.touchPoints.length > 1;
 		this.hasTouchPanMoved = false;
 		this.hasPinchChanged = false;
 
