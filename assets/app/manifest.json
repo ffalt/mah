@@ -1,15 +1,24 @@
 {
-    "name": "Mah",
+    "id": "https://ffalt.github.io/mah/",
+    "name": "Mah - Mahjong",
     "short_name": "Mah",
+    "description": "The original open source version of many Mahjong games out there. Completely free, no ads, no tracking.",
+    "categories": ["games"],
     "icons": [
         {
             "src": "android-chrome-192x192.png",
             "sizes": "192x192",
             "type": "image/png"
+        },
+        {
+            "src": "android-chrome-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
         }
     ],
-    "theme_color": "#ffffff",
-    "background_color": "#ffffff",
-    "start_url": "https://ffalt.github.io/mah/",
+    "theme_color": "#2b424f",
+    "background_color": "#2b424f",
+    "start_url": "../../",
+    "scope": "../../",
     "display": "standalone"
 }
