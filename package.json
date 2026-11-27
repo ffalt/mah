@@ -66,7 +66,7 @@
     "@stylistic/eslint-plugin": "5.10.0",
     "@types/canvas-confetti": "1.9.0",
     "@types/node": "26.6.6",
-    "@vitest/coverage-v8": "5.1.0",
+    "@vitest/coverage-v8": "5.1.1",
     "@vitest/eslint-plugin": "1.6.28",
     "angular-eslint": "22.6.0",
     "baseline-browser-mapping": "2.11.37",
@@ -84,7 +84,7 @@
     "typescript": "6.0.3",
     "typescript-eslint": "8.72.2",
     "vite": "8.3.8",
-    "vitest": "5.1.0"
+    "vitest": "5.1.1"
   },
   "engines": {
     "node": ">=26"
